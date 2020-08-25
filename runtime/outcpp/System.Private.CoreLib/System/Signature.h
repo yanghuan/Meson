@@ -17,7 +17,7 @@ FORWARD(RuntimeType)
 FORWARD(Type)
 namespace SignatureNamespace {
 using namespace System::Reflection;
-CLASS(Signature) : public Object::in {
+CLASS(Signature) : public object {
   public: CallingConventions get_CallingConvention();
   public: Array<RuntimeType> get_Arguments();
   public: RuntimeType get_ReturnType();

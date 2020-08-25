@@ -12,7 +12,7 @@ FORWARD(IOCompletionCallback)
 FORWARDS(NativeOverlapped)
 FORWARD(OverlappedData)
 namespace OverlappedNamespace {
-CLASS(Overlapped) : public Object::in {
+CLASS(Overlapped) : public object {
   public: IAsyncResult get_AsyncResult();
   public: void set_AsyncResult(IAsyncResult value);
   public: Int32 get_OffsetLow();

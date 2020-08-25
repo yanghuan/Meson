@@ -68,7 +68,7 @@ namespace EventSourceNamespace {
 using namespace System::Collections::Generic;
 using namespace System::Reflection;
 using namespace System::Runtime::InteropServices;
-CLASS(EventSource) : public Object::in {
+CLASS(EventSource) : public object {
   public: using interface = rt::TypeList<IDisposable>;
   public: struct EventData : public valueType<EventData> {
     public: IntPtr get_DataPointer();

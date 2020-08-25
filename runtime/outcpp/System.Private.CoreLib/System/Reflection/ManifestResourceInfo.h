@@ -9,7 +9,7 @@ namespace System::Private::CoreLib::System::Reflection {
 enum class ResourceLocation : int32_t;
 FORWARD(Assembly)
 namespace ManifestResourceInfoNamespace {
-CLASS(ManifestResourceInfo) : public Object::in {
+CLASS(ManifestResourceInfo) : public object {
   public: Assembly get_ReferencedAssembly();
   public: String get_FileName();
   public: ResourceLocation get_ResourceLocation();

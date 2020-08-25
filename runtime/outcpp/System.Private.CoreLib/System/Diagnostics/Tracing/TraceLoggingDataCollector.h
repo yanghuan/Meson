@@ -12,7 +12,7 @@ FORWARD(String)
 namespace System::Private::CoreLib::System::Diagnostics::Tracing {
 FORWARDS(PropertyValue)
 namespace TraceLoggingDataCollectorNamespace {
-CLASS(TraceLoggingDataCollector) : public Object::in {
+CLASS(TraceLoggingDataCollector) : public object {
   private: void ctor();
   public: Int32 BeginBufferedArray();
   public: void EndBufferedArray(Int32 bookmark, Int32 count);

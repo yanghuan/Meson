@@ -17,6 +17,7 @@ CLASS(IOCompletionCallback) : public MulticastDelegate::in {
   public: void Invoke(UInt32 errorCode, UInt32 numBytes, NativeOverlapped* pOVERLAP);
   public: IAsyncResult BeginInvoke(UInt32 errorCode, UInt32 numBytes, NativeOverlapped* pOVERLAP, AsyncCallback callback, Object object);
   public: void EndInvoke(IAsyncResult result);
+  public: static constexpr rt::TypeCode code = rt::TypeCode::Delegate;
 };
 } // namespace IOCompletionCallbackNamespace
 using IOCompletionCallback = IOCompletionCallbackNamespace::IOCompletionCallback;

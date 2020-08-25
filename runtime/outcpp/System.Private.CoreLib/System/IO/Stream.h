@@ -73,7 +73,7 @@ CLASS(Stream) : public MarshalByRefObject::in {
     private: static ContextCallback<> s_invokeAsyncCallback;
   };
   private: FRIENDN(NullStream)
-  private: CLASS(SynchronousAsyncResult) : public Object::in {
+  private: CLASS(SynchronousAsyncResult) : public object {
     public: using interface = rt::TypeList<IAsyncResult>;
     public: Boolean get_IsCompleted();
     public: WaitHandle get_AsyncWaitHandle();

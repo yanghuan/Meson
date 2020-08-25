@@ -16,7 +16,7 @@ namespace ICollectionNamespace {
 template <class T>
 using IEnumerable = Generic::IEnumerable<T>;
 using IEnumerable_ = Collections::IEnumerable;
-CLASS(ICollection, T) : public Object::in {
+CLASS(ICollection, T) : public object {
   public: using interface = rt::TypeList<IEnumerable<T>, IEnumerable_>;
   public: Int32 get_Count();
   public: Boolean get_IsReadOnly();

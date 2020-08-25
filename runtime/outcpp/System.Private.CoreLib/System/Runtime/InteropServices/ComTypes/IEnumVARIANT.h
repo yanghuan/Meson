@@ -9,7 +9,7 @@ FORWARDS(IntPtr)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Runtime::InteropServices::ComTypes {
 namespace IEnumVARIANTNamespace {
-CLASS(IEnumVARIANT) : public Object::in {
+CLASS(IEnumVARIANT) : public object {
   public: Int32 Next(Int32 celt, Array<Object> rgVar, IntPtr pceltFetched);
   public: Int32 Skip(Int32 celt);
   public: Int32 Reset();

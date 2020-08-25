@@ -7,7 +7,7 @@ namespace System::Private::CoreLib::System {
 FORWARDS(IntPtr)
 FORWARD(IRuntimeMethodInfo)
 namespace RuntimeMethodInfoStubNamespace {
-CLASS(RuntimeMethodInfoStub) : public Object::in {
+CLASS(RuntimeMethodInfoStub) : public object {
   public: using interface = rt::TypeList<IRuntimeMethodInfo>;
   private: RuntimeMethodHandleInternal get_ValueOfIRuntimeMethodInfo();
   public: void ctor(RuntimeMethodHandleInternal methodHandleValue, Object keepalive);

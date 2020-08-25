@@ -8,7 +8,7 @@ FORWARDS(Guid)
 namespace System::Private::CoreLib::System::Runtime::InteropServices {
 FORWARD(ComEventsSink)
 namespace ComEventsInfoNamespace {
-CLASS(ComEventsInfo) : public Object::in {
+CLASS(ComEventsInfo) : public object {
   private: void ctor(Object rcw);
   protected: void Finalize();
   public: static ComEventsInfo Find(Object rcw);

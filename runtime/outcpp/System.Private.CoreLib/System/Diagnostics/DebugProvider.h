@@ -11,7 +11,7 @@ FORWARD(String)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Diagnostics {
 namespace DebugProviderNamespace {
-CLASS(DebugProvider) : public Object::in {
+CLASS(DebugProvider) : public object {
   private: CLASS(DebugAssertException) : public Exception::in {
     public: void ctor(String message, String detailMessage, String stackTrace);
     private: static String Terminate(String s);

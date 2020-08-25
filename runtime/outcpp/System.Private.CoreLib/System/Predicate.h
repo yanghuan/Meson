@@ -14,6 +14,7 @@ CLASS(Predicate, T) : public MulticastDelegate::in {
   public: Boolean Invoke(T obj);
   public: IAsyncResult BeginInvoke(T obj, AsyncCallback callback, Object object);
   public: Boolean EndInvoke(IAsyncResult result);
+  public: static constexpr rt::TypeCode code = rt::TypeCode::Delegate;
 };
 } // namespace PredicateNamespace
 template <class T>

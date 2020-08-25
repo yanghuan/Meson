@@ -23,7 +23,7 @@ FORWARDS(UInt64)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Runtime::Serialization {
 namespace IFormatterConverterNamespace {
-CLASS(IFormatterConverter) : public Object::in {
+CLASS(IFormatterConverter) : public object {
   public: Object Convert(Object value, Type type);
   public: Object Convert(Object value, TypeCode typeCode);
   public: Boolean ToBoolean(Object value);

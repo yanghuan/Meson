@@ -16,6 +16,7 @@ CLASS(SpanFunc, TSpan, T1, T2, T3, TResult) : public MulticastDelegate::in {
   public: TResult Invoke(Span<TSpan> span, T1 arg1, T2 arg2, T3 arg3);
   public: IAsyncResult BeginInvoke(Span<TSpan> span, T1 arg1, T2 arg2, T3 arg3, AsyncCallback callback, Object object);
   public: TResult EndInvoke(IAsyncResult result);
+  public: static constexpr rt::TypeCode code = rt::TypeCode::Delegate;
 };
 } // namespace SpanFuncNamespace
 template <class TSpan, class T1, class T2, class T3, class TResult>

@@ -4,7 +4,7 @@
 
 namespace System::Private::CoreLib::System::Runtime::InteropServices {
 namespace ICustomAdapterNamespace {
-CLASS(ICustomAdapter) : public Object::in {
+CLASS(ICustomAdapter) : public object {
   public: Object GetUnderlyingObject();
   public: static constexpr rt::TypeCode code = rt::TypeCode::Interface;
 };

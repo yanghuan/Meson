@@ -41,9 +41,9 @@ using namespace System::IO;
 using namespace System::Reflection;
 using IEnumerable = Collections::IEnumerable;
 using IEnumerator = Collections::IEnumerator;
-CLASS(ResourceReader) : public Object::in {
+CLASS(ResourceReader) : public object {
   public: using interface = rt::TypeList<IResourceReader, IEnumerable, IDisposable>;
-  public: CLASS(ResourceEnumerator) : public Object::in {
+  public: CLASS(ResourceEnumerator) : public object {
     public: using interface = rt::TypeList<IDictionaryEnumerator, IEnumerator>;
     public: Object get_Key();
     public: Object get_Current();

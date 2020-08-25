@@ -12,7 +12,7 @@ namespace System::Private::CoreLib::System::StubHelpers {
 FORWARD(CleanupWorkListElement)
 namespace HandleMarshalerNamespace {
 using namespace System::Runtime::InteropServices;
-CLASS(HandleMarshaler) : public Object::in {
+CLASS(HandleMarshaler) : public object {
   public: static IntPtr ConvertSafeHandleToNative(SafeHandle handle, CleanupWorkListElement& cleanupWorkList);
   public: static void ThrowSafeHandleFieldChanged();
   public: static void ThrowCriticalHandleFieldChanged();

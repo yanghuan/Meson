@@ -15,9 +15,9 @@ FORWARD(IDictionaryEnumerator)
 FORWARD(IEnumerable)
 FORWARD(IEnumerator)
 namespace EmptyReadOnlyDictionaryInternalNamespace {
-CLASS(EmptyReadOnlyDictionaryInternal) : public Object::in {
+CLASS(EmptyReadOnlyDictionaryInternal) : public object {
   public: using interface = rt::TypeList<IDictionary, ICollection, IEnumerable>;
-  private: CLASS(NodeEnumerator) : public Object::in {
+  private: CLASS(NodeEnumerator) : public object {
     public: using interface = rt::TypeList<IDictionaryEnumerator, IEnumerator>;
     public: Object get_Current();
     public: Object get_Key();

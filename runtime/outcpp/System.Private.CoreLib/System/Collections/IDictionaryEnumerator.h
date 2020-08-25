@@ -6,7 +6,7 @@ namespace System::Private::CoreLib::System::Collections {
 FORWARDS(DictionaryEntry)
 FORWARD(IEnumerator)
 namespace IDictionaryEnumeratorNamespace {
-CLASS(IDictionaryEnumerator) : public Object::in {
+CLASS(IDictionaryEnumerator) : public object {
   public: using interface = rt::TypeList<IEnumerator>;
   public: Object get_Key();
   public: Object get_Value();

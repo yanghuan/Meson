@@ -18,7 +18,7 @@ FORWARD(StackFrameHelper)
 namespace StackFrameNamespace {
 using namespace System::Reflection;
 using namespace System::Text;
-CLASS(StackFrame) : public Object::in {
+CLASS(StackFrame) : public object {
   public: Boolean get_IsLastFrameFromForeignExceptionStackTrace();
   public: void ctor(StackFrameHelper stackFrameHelper, Int32 skipFrames, Boolean needFileInfo);
   private: void BuildStackFrame(Int32 skipFrames, Boolean needFileInfo);

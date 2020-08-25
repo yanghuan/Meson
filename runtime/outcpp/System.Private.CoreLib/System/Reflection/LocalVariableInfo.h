@@ -10,7 +10,7 @@ FORWARD(Type)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Reflection {
 namespace LocalVariableInfoNamespace {
-CLASS(LocalVariableInfo) : public Object::in {
+CLASS(LocalVariableInfo) : public object {
   public: Type get_LocalType();
   public: Int32 get_LocalIndex();
   public: Boolean get_IsPinned();

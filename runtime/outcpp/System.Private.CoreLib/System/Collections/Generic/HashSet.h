@@ -42,7 +42,7 @@ using IEnumerator = Generic::IEnumerator<T>;
 using IEnumerator_ = Collections::IEnumerator;
 template <class T>
 using IEqualityComparer = Generic::IEqualityComparer<T>;
-CLASS(HashSet, T) : public Object::in {
+CLASS(HashSet, T) : public object {
   public: using interface = rt::TypeList<ICollection<T>, IEnumerable<T>, IEnumerable_, ISet<T>, IReadOnlyCollection<T>, IReadOnlySet<T>, ISerializable, IDeserializationCallback>;
   private: struct Entry : public valueType<Entry> {
     public: Int32 HashCode;

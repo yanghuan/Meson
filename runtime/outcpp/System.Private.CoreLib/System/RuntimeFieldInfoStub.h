@@ -7,7 +7,7 @@
 namespace System::Private::CoreLib::System {
 FORWARD(IRuntimeFieldInfo)
 namespace RuntimeFieldInfoStubNamespace {
-CLASS(RuntimeFieldInfoStub) : public Object::in {
+CLASS(RuntimeFieldInfoStub) : public object {
   public: using interface = rt::TypeList<IRuntimeFieldInfo>;
   private: RuntimeFieldHandleInternal get_ValueOfIRuntimeFieldInfo();
   public: void ctor();

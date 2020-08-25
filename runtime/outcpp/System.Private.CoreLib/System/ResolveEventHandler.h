@@ -18,6 +18,7 @@ CLASS(ResolveEventHandler) : public MulticastDelegate::in {
   public: Assembly Invoke(Object sender, ResolveEventArgs args);
   public: IAsyncResult BeginInvoke(Object sender, ResolveEventArgs args, AsyncCallback callback, Object object);
   public: Assembly EndInvoke(IAsyncResult result);
+  public: static constexpr rt::TypeCode code = rt::TypeCode::Delegate;
 };
 } // namespace ResolveEventHandlerNamespace
 using ResolveEventHandler = ResolveEventHandlerNamespace::ResolveEventHandler;

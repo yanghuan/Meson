@@ -22,7 +22,7 @@ FORWARD(TraceLoggingTypeInfo)
 namespace TraceLoggingEventTypesNamespace {
 using namespace System::Collections::Generic;
 using namespace System::Reflection;
-CLASS(TraceLoggingEventTypes) : public Object::in {
+CLASS(TraceLoggingEventTypes) : public object {
   public: String get_Name();
   public: EventTags get_Tags();
   public: void ctor(String name, EventTags tags, Array<Type> types);

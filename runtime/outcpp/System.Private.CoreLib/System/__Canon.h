@@ -4,7 +4,7 @@
 
 namespace System::Private::CoreLib::System {
 namespace __CanonNamespace {
-CLASS(__Canon) : public Object::in {
+CLASS(__Canon) : public object {
 };
 } // namespace __CanonNamespace
 using __Canon = __CanonNamespace::__Canon;

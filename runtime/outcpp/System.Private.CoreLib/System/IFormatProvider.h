@@ -5,7 +5,7 @@
 namespace System::Private::CoreLib::System {
 FORWARD(Type)
 namespace IFormatProviderNamespace {
-CLASS(IFormatProvider) : public Object::in {
+CLASS(IFormatProvider) : public object {
   public: Object GetFormat(Type formatType);
   public: static constexpr rt::TypeCode code = rt::TypeCode::Interface;
 };

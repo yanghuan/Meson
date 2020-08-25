@@ -15,8 +15,8 @@ FORWARD(List, T)
 namespace System::Private::CoreLib::System::Runtime::InteropServices {
 namespace ComEventsMethodNamespace {
 using namespace System::Collections::Generic;
-CLASS(ComEventsMethod) : public Object::in {
-  public: CLASS(DelegateWrapper) : public Object::in {
+CLASS(ComEventsMethod) : public object {
+  public: CLASS(DelegateWrapper) : public object {
     public: Delegate get_Delegate() { return Delegate; }
     public: void set_Delegate(Delegate value) { Delegate = value; }
     public: Boolean get_WrapArgs() { return WrapArgs; }

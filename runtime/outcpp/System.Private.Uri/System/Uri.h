@@ -30,7 +30,7 @@ FORWARD(UriParser)
 namespace UriNamespace {
 using namespace ::System::Private::CoreLib::System;
 using namespace ::System::Private::CoreLib::System::Runtime::Serialization;
-CLASS(Uri) : public Object::in {
+CLASS(Uri) : public object {
   public: using interface = rt::TypeList<ISerializable>;
   public: enum class Flags : uint64_t {
     Zero = 0,
@@ -111,7 +111,7 @@ CLASS(Uri) : public Object::in {
     public: UInt16 Fragment;
     public: UInt16 End;
   };
-  private: CLASS(MoreInfo) : public Object::in {
+  private: CLASS(MoreInfo) : public object {
     public: void ctor();
     public: String Path;
     public: String Query;
@@ -119,7 +119,7 @@ CLASS(Uri) : public Object::in {
     public: String AbsoluteUri;
     public: String RemoteUrl;
   };
-  private: CLASS(UriInfo) : public Object::in {
+  private: CLASS(UriInfo) : public object {
     public: MoreInfo get_MoreInfo();
     public: void ctor();
     public: Offset Offset;

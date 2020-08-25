@@ -4,7 +4,7 @@
 
 namespace System::Private::CoreLib::System {
 namespace ICloneableNamespace {
-CLASS(ICloneable) : public Object::in {
+CLASS(ICloneable) : public object {
   public: Object Clone();
   public: static constexpr rt::TypeCode code = rt::TypeCode::Interface;
 };

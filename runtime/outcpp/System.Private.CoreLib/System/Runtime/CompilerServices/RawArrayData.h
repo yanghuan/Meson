@@ -6,7 +6,7 @@
 
 namespace System::Private::CoreLib::System::Runtime::CompilerServices {
 namespace RawArrayDataNamespace {
-CLASS(RawArrayData) : public Object::in {
+CLASS(RawArrayData) : public object {
   public: UInt32 Length;
   public: UInt32 Padding;
   public: Byte Data;

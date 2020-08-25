@@ -14,7 +14,7 @@ FORWARD(String)
 namespace LazyNamespace {
 using namespace System::Threading;
 CLASS_FORWARD(Lazy, T1, T2, T3)
-CLASS_(Lazy, T) : public Object::in {
+CLASS_(Lazy, T) : public object {
   public: T get_ValueForDebugDisplay();
   public: Nullable<LazyThreadSafetyMode> get_Mode();
   public: Boolean get_IsValueFaulted();

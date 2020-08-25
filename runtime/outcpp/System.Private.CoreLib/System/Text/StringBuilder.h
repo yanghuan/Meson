@@ -38,10 +38,10 @@ namespace System::Private::CoreLib::System::Text {
 namespace StringBuilderNamespace {
 using namespace System::Collections::Generic;
 using namespace System::Runtime::Serialization;
-CLASS(StringBuilder) : public Object::in {
+CLASS(StringBuilder) : public object {
   public: using interface = rt::TypeList<ISerializable>;
   public: struct ChunkEnumerator : public valueType<ChunkEnumerator> {
-    private: CLASS(ManyChunkInfo) : public Object::in {
+    private: CLASS(ManyChunkInfo) : public object {
       public: Boolean MoveNext(StringBuilder& current);
       public: void ctor(StringBuilder stringBuilder, Int32 chunkCount);
       private: Array<StringBuilder> _chunks;

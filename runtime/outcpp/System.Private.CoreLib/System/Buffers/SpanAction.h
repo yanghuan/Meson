@@ -16,6 +16,7 @@ CLASS(SpanAction, T, TArg) : public MulticastDelegate::in {
   public: void Invoke(Span<T> span, TArg arg);
   public: IAsyncResult BeginInvoke(Span<T> span, TArg arg, AsyncCallback callback, Object object);
   public: void EndInvoke(IAsyncResult result);
+  public: static constexpr rt::TypeCode code = rt::TypeCode::Delegate;
 };
 } // namespace SpanActionNamespace
 template <class T, class TArg>

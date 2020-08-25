@@ -15,7 +15,7 @@ namespace System::Private::CoreLib::System::Text {
 FORWARD(EncoderFallback)
 FORWARD(EncoderFallbackBuffer)
 namespace EncoderNamespace {
-CLASS(Encoder) : public Object::in {
+CLASS(Encoder) : public object {
   public: EncoderFallback get_Fallback();
   public: void set_Fallback(EncoderFallback value);
   public: EncoderFallbackBuffer get_FallbackBuffer();

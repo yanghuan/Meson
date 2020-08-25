@@ -12,7 +12,7 @@ FORWARD(IDeferredDisposable)
 FORWARD(IOCompletionCallback)
 FORWARD(ThreadPoolBoundHandleOverlapped)
 namespace PreAllocatedOverlappedNamespace {
-CLASS(PreAllocatedOverlapped) : public Object::in {
+CLASS(PreAllocatedOverlapped) : public object {
   public: using interface = rt::TypeList<IDisposable, IDeferredDisposable>;
   public: void ctor(IOCompletionCallback callback, Object state, Object pinData);
   public: Boolean AddRef();

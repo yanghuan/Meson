@@ -15,7 +15,7 @@ namespace ArraySortHelperNamespace {
 template <class T>
 using IComparer = Generic::IComparer<T>;
 CLASS_FORWARD(ArraySortHelper, T1, T2, T3)
-CLASS_(ArraySortHelper, T) : public Object::in {
+CLASS_(ArraySortHelper, T) : public object {
   public: using interface = rt::TypeList<IArraySortHelper<T>>;
   public: static IArraySortHelper<T> get_Default();
   private: static IArraySortHelper<T> CreateArraySortHelper();
@@ -35,7 +35,7 @@ CLASS_(ArraySortHelper, T) : public Object::in {
   private: static void cctor();
   private: static IArraySortHelper<T> s_defaultArraySortHelper;
 };
-CLASS_(ArraySortHelper, TKey, TValue) : public Object::in {
+CLASS_(ArraySortHelper, TKey, TValue) : public object {
   public: using interface = rt::TypeList<IArraySortHelper<TKey, TValue>>;
   public: static IArraySortHelper<TKey, TValue> get_Default();
   private: static IArraySortHelper<TKey, TValue> CreateArraySortHelper();

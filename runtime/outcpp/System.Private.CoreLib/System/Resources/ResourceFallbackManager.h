@@ -23,7 +23,7 @@ using IEnumerable = Collections::Generic::IEnumerable<T>;
 using IEnumerable_ = Collections::IEnumerable;
 template <class T>
 using IEnumerator = Collections::Generic::IEnumerator<T>;
-CLASS(ResourceFallbackManager) : public Object::in {
+CLASS(ResourceFallbackManager) : public object {
   public: using interface = rt::TypeList<IEnumerable<CultureInfo>, IEnumerable_>;
   public: void ctor(CultureInfo startingCulture, CultureInfo neutralResourcesCulture, Boolean useParents);
   public: IEnumerator<CultureInfo> GetEnumerator();

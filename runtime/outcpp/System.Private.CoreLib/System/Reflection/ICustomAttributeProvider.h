@@ -9,7 +9,7 @@ FORWARD(Type)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Reflection {
 namespace ICustomAttributeProviderNamespace {
-CLASS(ICustomAttributeProvider) : public Object::in {
+CLASS(ICustomAttributeProvider) : public object {
   public: Array<Object> GetCustomAttributes(Boolean inherit);
   public: Array<Object> GetCustomAttributes(Type attributeType, Boolean inherit);
   public: Boolean IsDefined(Type attributeType, Boolean inherit);

@@ -11,7 +11,7 @@ namespace System::Private::CoreLib::System::Reflection {
 namespace CerHashtableNamespace {
 template <class K, class V>
 struct CerHashtable : public valueType<CerHashtable<K, V>> {
-  private: CLASS(Table) : public Object::in {
+  private: CLASS(Table) : public object {
     public: void ctor(Int32 size);
     public: void Insert(K key, V value);
     public: Array<K> m_keys;

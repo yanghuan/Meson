@@ -14,7 +14,7 @@ namespace System::Private::CoreLib::System::Reflection::Emit {
 FORWARD(REDocument)
 namespace LineNumberInfoNamespace {
 using namespace System::Diagnostics::SymbolStore;
-CLASS(LineNumberInfo) : public Object::in {
+CLASS(LineNumberInfo) : public object {
   public: void ctor();
   public: void AddLineNumberInfo(ISymbolDocumentWriter document, Int32 iOffset, Int32 iStartLine, Int32 iStartColumn, Int32 iEndLine, Int32 iEndColumn);
   private: Int32 FindDocument(ISymbolDocumentWriter document);

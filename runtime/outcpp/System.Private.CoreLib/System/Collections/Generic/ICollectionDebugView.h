@@ -10,7 +10,7 @@ FORWARD(ICollection, T)
 namespace ICollectionDebugViewNamespace {
 template <class T>
 using ICollection = Generic::ICollection<T>;
-CLASS(ICollectionDebugView, T) : public Object::in {
+CLASS(ICollectionDebugView, T) : public object {
   public: Array<T> get_Items();
   public: void ctor(ICollection<T> collection);
   private: ICollection<T> _collection;

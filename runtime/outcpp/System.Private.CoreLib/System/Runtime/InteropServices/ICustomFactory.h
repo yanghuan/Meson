@@ -8,7 +8,7 @@ FORWARD(Type)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Runtime::InteropServices {
 namespace ICustomFactoryNamespace {
-CLASS(ICustomFactory) : public Object::in {
+CLASS(ICustomFactory) : public object {
   public: MarshalByRefObject CreateInstance(Type serverType);
   public: static constexpr rt::TypeCode code = rt::TypeCode::Interface;
 };

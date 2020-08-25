@@ -18,7 +18,7 @@ FORWARD(ISymbolDocumentWriter)
 FORWARDS(SymbolToken)
 namespace ISymbolWriterNamespace {
 using namespace System::Reflection;
-CLASS(ISymbolWriter) : public Object::in {
+CLASS(ISymbolWriter) : public object {
   public: ISymbolDocumentWriter DefineDocument(String url, Guid language, Guid languageVendor, Guid documentType);
   public: void OpenMethod(SymbolToken method);
   public: void CloseMethod();

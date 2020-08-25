@@ -14,7 +14,7 @@ namespace System::Private::CoreLib::System::Diagnostics::Tracing {
 enum class EventFieldTags : int32_t;
 enum class TraceLoggingDataType : int32_t;
 namespace FieldMetadataNamespace {
-CLASS(FieldMetadata) : public Object::in {
+CLASS(FieldMetadata) : public object {
   public: void ctor(String name, TraceLoggingDataType type, EventFieldTags tags, Boolean variableCount);
   private: void ctor(String name, TraceLoggingDataType dataType, EventFieldTags tags, Byte countFlags, UInt16 fixedCount = 0, Array<Byte> custom = nullptr);
   public: void IncrementStructFieldCount();

@@ -15,7 +15,7 @@ FORWARDS(Variant)
 namespace ComEventsSinkNamespace {
 using namespace System::Runtime::InteropServices::ComTypes;
 using Variant = InteropServices::Variant;
-CLASS(ComEventsSink) : public Object::in {
+CLASS(ComEventsSink) : public object {
   public: using interface = rt::TypeList<IDispatch, ICustomQueryInterface>;
   public: void ctor(Object rcw, Guid iid);
   public: static ComEventsSink Find(ComEventsSink sinks, Guid& iid);

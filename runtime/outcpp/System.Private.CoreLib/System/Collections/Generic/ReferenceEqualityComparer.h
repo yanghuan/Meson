@@ -15,7 +15,7 @@ namespace ReferenceEqualityComparerNamespace {
 template <class T>
 using IEqualityComparer = Generic::IEqualityComparer<T>;
 using IEqualityComparer_ = Collections::IEqualityComparer;
-CLASS(ReferenceEqualityComparer) : public Object::in {
+CLASS(ReferenceEqualityComparer) : public object {
   public: using interface = rt::TypeList<IEqualityComparer<Object>, IEqualityComparer_>;
   public: static ReferenceEqualityComparer get_Instance() { return Instance; }
   private: void ctor();

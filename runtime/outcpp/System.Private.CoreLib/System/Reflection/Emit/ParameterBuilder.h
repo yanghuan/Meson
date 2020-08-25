@@ -18,7 +18,7 @@ namespace System::Private::CoreLib::System::Reflection::Emit {
 FORWARD(CustomAttributeBuilder)
 FORWARD(MethodBuilder)
 namespace ParameterBuilderNamespace {
-CLASS(ParameterBuilder) : public Object::in {
+CLASS(ParameterBuilder) : public object {
   public: String get_Name();
   public: Int32 get_Position();
   public: Int32 get_Attributes();

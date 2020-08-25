@@ -11,13 +11,13 @@ enum class ValueTaskSourceOnCompletedFlags : int32_t;
 enum class ValueTaskSourceStatus : int32_t;
 namespace IValueTaskSourceNamespace {
 CLASS_FORWARD(IValueTaskSource, T1, T2)
-CLASS_(IValueTaskSource) : public Object::in {
+CLASS_(IValueTaskSource) : public object {
   public: ValueTaskSourceStatus GetStatus(Int16 token);
   public: void OnCompleted(Action<Object> continuation, Object state, Int16 token, ValueTaskSourceOnCompletedFlags flags);
   public: void GetResult(Int16 token);
   public: static constexpr rt::TypeCode code = rt::TypeCode::Interface;
 };
-CLASS_(IValueTaskSource, TResult) : public Object::in {
+CLASS_(IValueTaskSource, TResult) : public object {
   public: ValueTaskSourceStatus GetStatus(Int16 token);
   public: void OnCompleted(Action<Object> continuation, Object state, Int16 token, ValueTaskSourceOnCompletedFlags flags);
   public: TResult GetResult(Int16 token);

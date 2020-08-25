@@ -14,7 +14,7 @@ FORWARDS(CancellationToken)
 FORWARD(ManualResetEvent)
 FORWARD(WaitHandle)
 namespace ManualResetEventSlimNamespace {
-CLASS(ManualResetEventSlim) : public Object::in {
+CLASS(ManualResetEventSlim) : public object {
   public: using interface = rt::TypeList<IDisposable>;
   public: WaitHandle get_WaitHandle();
   public: Boolean get_IsSet();

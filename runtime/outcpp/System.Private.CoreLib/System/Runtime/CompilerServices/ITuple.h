@@ -7,7 +7,7 @@ FORWARDS(Int32)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Runtime::CompilerServices {
 namespace ITupleNamespace {
-CLASS(ITuple) : public Object::in {
+CLASS(ITuple) : public object {
   public: Int32 get_Length();
   public: Object get_Item(Int32 index);
   public: static constexpr rt::TypeCode code = rt::TypeCode::Interface;

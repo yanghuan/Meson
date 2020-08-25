@@ -11,7 +11,7 @@ FORWARD_(Array, T1, T2)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Collections::Concurrent {
 namespace ConcurrentQueueSegmentNamespace {
-CLASS(ConcurrentQueueSegment, T) : public Object::in {
+CLASS(ConcurrentQueueSegment, T) : public object {
   public: struct Slot : public valueType<Slot> {
     public: T Item;
     public: Int32 SequenceNumber;

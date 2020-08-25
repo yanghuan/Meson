@@ -22,7 +22,7 @@ namespace System::Private::CoreLib::System::Reflection::Emit {
 FORWARD(ModuleBuilder)
 namespace CustomAttributeBuilderNamespace {
 using namespace System::IO;
-CLASS(CustomAttributeBuilder) : public Object::in {
+CLASS(CustomAttributeBuilder) : public object {
   public: void ctor(ConstructorInfo con, Array<Object> constructorArgs);
   public: void ctor(ConstructorInfo con, Array<Object> constructorArgs, Array<PropertyInfo> namedProperties, Array<Object> propertyValues);
   public: void ctor(ConstructorInfo con, Array<Object> constructorArgs, Array<FieldInfo> namedFields, Array<Object> fieldValues);

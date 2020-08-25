@@ -13,7 +13,7 @@ namespace System::Private::CoreLib::System::Globalization {
 enum class CompareOptions : int32_t;
 FORWARD(CompareInfo)
 namespace SortKeyNamespace {
-CLASS(SortKey) : public Object::in {
+CLASS(SortKey) : public object {
   public: String get_OriginalString();
   public: Array<Byte> get_KeyData();
   public: void ctor(CompareInfo compareInfo, String str, CompareOptions options, Array<Byte> keyData);

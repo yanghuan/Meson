@@ -5,7 +5,7 @@
 
 namespace System::Private::CoreLib::System::Runtime::InteropServices {
 namespace CurrencyWrapperNamespace {
-CLASS(CurrencyWrapper) : public Object::in {
+CLASS(CurrencyWrapper) : public object {
   public: Decimal get_WrappedObject() { return WrappedObject; }
   public: void ctor(Decimal obj);
   public: void ctor(Object obj);

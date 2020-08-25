@@ -5,7 +5,7 @@
 namespace System::Private::CoreLib::System::Diagnostics::Tracing {
 FORWARD(IEventProvider)
 namespace NoOpEventProviderNamespace {
-CLASS(NoOpEventProvider) : public Object::in {
+CLASS(NoOpEventProvider) : public object {
   public: using interface = rt::TypeList<IEventProvider>;
   public: void ctor();
 };

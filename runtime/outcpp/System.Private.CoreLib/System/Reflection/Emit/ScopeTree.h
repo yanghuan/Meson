@@ -16,7 +16,7 @@ enum class ScopeAction : int8_t;
 FORWARD(LocalSymInfo)
 namespace ScopeTreeNamespace {
 using namespace System::Diagnostics::SymbolStore;
-CLASS(ScopeTree) : public Object::in {
+CLASS(ScopeTree) : public object {
   public: void ctor();
   public: Int32 GetCurrentActiveScopeIndex();
   public: void AddLocalSymInfoToCurrentScope(String strName, Array<Byte> signature, Int32 slot, Int32 startOffset, Int32 endOffset);

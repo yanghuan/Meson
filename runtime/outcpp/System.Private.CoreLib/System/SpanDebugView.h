@@ -7,7 +7,7 @@ FORWARD_(Array, T1, T2)
 FORWARDS(ReadOnlySpan, T)
 FORWARDS(Span, T)
 namespace SpanDebugViewNamespace {
-CLASS(SpanDebugView, T) : public Object::in {
+CLASS(SpanDebugView, T) : public object {
   public: Array<T> get_Items();
   public: void ctor(Span<T> span);
   public: void ctor(ReadOnlySpan<T> span);

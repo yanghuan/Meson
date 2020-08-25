@@ -11,7 +11,7 @@ FORWARDS(IntPtr)
 namespace System::Private::CoreLib::System::Threading {
 FORWARD(SendOrPostCallback)
 namespace SynchronizationContextNamespace {
-CLASS(SynchronizationContext) : public Object::in {
+CLASS(SynchronizationContext) : public object {
   public: static SynchronizationContext get_Current();
   private: static Int32 InvokeWaitMethodHelper(SynchronizationContext syncContext, Array<IntPtr> waitHandles, Boolean waitAll, Int32 millisecondsTimeout);
   public: void ctor();

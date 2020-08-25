@@ -17,7 +17,7 @@ enum class EventPipeSerializationFormat : int32_t;
 FORWARDS(EventPipeProviderConfiguration)
 namespace EventPipeConfigurationNamespace {
 using namespace System::Collections::Generic;
-CLASS(EventPipeConfiguration) : public Object::in {
+CLASS(EventPipeConfiguration) : public object {
   public: String get_OutputFile();
   public: EventPipeSerializationFormat get_Format();
   public: UInt32 get_CircularBufferSizeInMB();

@@ -11,7 +11,7 @@ namespace System::Private::CoreLib::System::Reflection {
 FORWARD(LoaderAllocatorScout)
 FORWARD(RuntimeMethodInfo)
 namespace LoaderAllocatorNamespace {
-CLASS(LoaderAllocator) : public Object::in {
+CLASS(LoaderAllocator) : public object {
   private: void ctor();
   private: LoaderAllocatorScout m_scout;
   private: Array<Object> m_slots;

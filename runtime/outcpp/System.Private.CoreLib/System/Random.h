@@ -9,7 +9,7 @@ FORWARDS(Byte)
 FORWARDS(Double)
 FORWARDS(Span, T)
 namespace RandomNamespace {
-CLASS(Random) : public Object::in {
+CLASS(Random) : public object {
   public: void ctor();
   public: void ctor(Int32 Seed);
   protected: Double Sample();

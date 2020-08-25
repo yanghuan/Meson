@@ -10,7 +10,7 @@ FORWARD(String)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Runtime::InteropServices::ComTypes {
 namespace IEnumStringNamespace {
-CLASS(IEnumString) : public Object::in {
+CLASS(IEnumString) : public object {
   public: Int32 Next(Int32 celt, Array<String> rgelt, IntPtr pceltFetched);
   public: Int32 Skip(Int32 celt);
   public: void Reset();

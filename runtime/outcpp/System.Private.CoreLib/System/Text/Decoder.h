@@ -15,7 +15,7 @@ namespace System::Private::CoreLib::System::Text {
 FORWARD(DecoderFallback)
 FORWARD(DecoderFallbackBuffer)
 namespace DecoderNamespace {
-CLASS(Decoder) : public Object::in {
+CLASS(Decoder) : public object {
   public: DecoderFallback get_Fallback();
   public: void set_Fallback(DecoderFallback value);
   public: DecoderFallbackBuffer get_FallbackBuffer();

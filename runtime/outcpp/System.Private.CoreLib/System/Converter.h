@@ -13,6 +13,7 @@ CLASS(Converter, TInput, TOutput) : public MulticastDelegate::in {
   public: TOutput Invoke(TInput input);
   public: IAsyncResult BeginInvoke(TInput input, AsyncCallback callback, Object object);
   public: TOutput EndInvoke(IAsyncResult result);
+  public: static constexpr rt::TypeCode code = rt::TypeCode::Delegate;
 };
 } // namespace ConverterNamespace
 template <class TInput, class TOutput>

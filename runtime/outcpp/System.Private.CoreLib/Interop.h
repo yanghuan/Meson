@@ -151,18 +151,21 @@ class Interop {
       public: BOOL Invoke(Char* lpLocaleString, UInt32 dwFlags, void* lParam);
       public: IAsyncResult BeginInvoke(Char* lpLocaleString, UInt32 dwFlags, void* lParam, AsyncCallback callback, Object object);
       public: BOOL EndInvoke(IAsyncResult result);
+      public: static constexpr rt::TypeCode code = rt::TypeCode::Delegate;
     };
     public: CLASS(EnumTimeFormatsProcEx) : public MulticastDelegate::in {
       public: void ctor(Object object, IntPtr method);
       public: BOOL Invoke(Char* lpTimeFormatString, void* lParam);
       public: IAsyncResult BeginInvoke(Char* lpTimeFormatString, void* lParam, AsyncCallback callback, Object object);
       public: BOOL EndInvoke(IAsyncResult result);
+      public: static constexpr rt::TypeCode code = rt::TypeCode::Delegate;
     };
     public: CLASS(EnumCalendarInfoProcExEx) : public MulticastDelegate::in {
       public: void ctor(Object object, IntPtr method);
       public: BOOL Invoke(Char* lpCalendarInfoString, UInt32 Calendar, IntPtr lpReserved, void* lParam);
       public: IAsyncResult BeginInvoke(Char* lpCalendarInfoString, UInt32 Calendar, IntPtr lpReserved, void* lParam, AsyncCallback callback, Object object);
       public: BOOL EndInvoke(IAsyncResult result);
+      public: static constexpr rt::TypeCode code = rt::TypeCode::Delegate;
     };
     public: struct NlsVersionInfoEx : public valueType<NlsVersionInfoEx> {
       public: Int32 dwNLSVersionInfoSize;
@@ -388,6 +391,7 @@ class Interop {
       public: void Invoke(String calendarString, IntPtr context);
       public: IAsyncResult BeginInvoke(String calendarString, IntPtr context, AsyncCallback callback, Object object);
       public: void EndInvoke(IAsyncResult result);
+      public: static constexpr rt::TypeCode code = rt::TypeCode::Delegate;
     };
     public: static Int32 GetCalendars(String localeName, Array<CalendarId> calendars, Int32 calendarsCapacity);
     public: static ResultCode GetCalendarInfo(String localeName, CalendarId calendarId, CalendarDataType calendarDataType, Char* result, Int32 resultCapacity);
@@ -459,6 +463,7 @@ class Interop {
       public: void Invoke(Guid& sourceId, Int32 isEnabled, Byte level, Int64 matchAnyKeywords, Int64 matchAllKeywords, EVENT_FILTER_DESCRIPTOR* filterData, void* callbackContext);
       public: IAsyncResult BeginInvoke(Guid& sourceId, Int32 isEnabled, Byte level, Int64 matchAnyKeywords, Int64 matchAllKeywords, EVENT_FILTER_DESCRIPTOR* filterData, void* callbackContext, AsyncCallback callback, Object object);
       public: void EndInvoke(Guid& sourceId, IAsyncResult result);
+      public: static constexpr rt::TypeCode code = rt::TypeCode::Delegate;
     };
     public: struct TRACE_GUID_INFO : public valueType<TRACE_GUID_INFO> {
       public: Int32 InstanceCount;
@@ -505,12 +510,14 @@ class Interop {
       public: void Invoke(String assemblyPaths, String nativeSearchPaths, String resourceSearchPaths);
       public: IAsyncResult BeginInvoke(String assemblyPaths, String nativeSearchPaths, String resourceSearchPaths, AsyncCallback callback, Object object);
       public: void EndInvoke(IAsyncResult result);
+      public: static constexpr rt::TypeCode code = rt::TypeCode::Delegate;
     };
     public: CLASS(corehost_error_writer_fn) : public MulticastDelegate::in {
       public: void ctor(Object object, IntPtr method);
       public: void Invoke(String message);
       public: IAsyncResult BeginInvoke(String message, AsyncCallback callback, Object object);
       public: void EndInvoke(IAsyncResult result);
+      public: static constexpr rt::TypeCode code = rt::TypeCode::Delegate;
     };
     public: static Int32 corehost_resolve_component_dependencies(String componentMainAssemblyPath, corehost_resolve_component_dependencies_result_fn result);
     public: static IntPtr corehost_set_error_writer(IntPtr errorWriter);

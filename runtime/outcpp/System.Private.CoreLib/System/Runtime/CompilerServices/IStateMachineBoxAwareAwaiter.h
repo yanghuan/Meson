@@ -5,7 +5,7 @@
 namespace System::Private::CoreLib::System::Runtime::CompilerServices {
 FORWARD(IAsyncStateMachineBox)
 namespace IStateMachineBoxAwareAwaiterNamespace {
-CLASS(IStateMachineBoxAwareAwaiter) : public Object::in {
+CLASS(IStateMachineBoxAwareAwaiter) : public object {
   public: void AwaitUnsafeOnCompleted(IAsyncStateMachineBox box);
   public: static constexpr rt::TypeCode code = rt::TypeCode::Interface;
 };

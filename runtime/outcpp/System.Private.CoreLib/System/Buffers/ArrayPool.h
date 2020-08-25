@@ -10,7 +10,7 @@ FORWARDS(Int32)
 namespace System::Private::CoreLib::System::Buffers {
 FORWARD(TlsOverPerCoreLockedStacksArrayPool, T)
 namespace ArrayPoolNamespace {
-CLASS(ArrayPool, T) : public Object::in {
+CLASS(ArrayPool, T) : public object {
   public: static ArrayPool<T> get_Shared();
   public: static ArrayPool<T> Create();
   public: static ArrayPool<T> Create(Int32 maxArrayLength, Int32 maxArraysPerBucket);

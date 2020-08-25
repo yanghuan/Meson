@@ -27,7 +27,7 @@ using IEnumerable = Collections::Generic::IEnumerable<T>;
 using IEnumerable_ = Collections::IEnumerable;
 template <class T>
 using IEnumerator = Collections::Generic::IEnumerator<T>;
-CLASS(SingleProducerSingleConsumerQueue, T) : public Object::in {
+CLASS(SingleProducerSingleConsumerQueue, T) : public object {
   public: using interface = rt::TypeList<IProducerConsumerQueue<T>, IEnumerable<T>, IEnumerable_>;
   private: struct SegmentState : public valueType<SegmentState> {
     public: PaddingFor32 m_pad0;
@@ -38,13 +38,13 @@ CLASS(SingleProducerSingleConsumerQueue, T) : public Object::in {
     public: Int32 m_last;
     public: PaddingFor32 m_pad2;
   };
-  private: CLASS(Segment) : public Object::in {
+  private: CLASS(Segment) : public object {
     public: void ctor(Int32 size);
     public: Segment m_next;
     public: Array<T> m_array;
     public: SegmentState m_state;
   };
-  private: CLASS(SingleProducerSingleConsumerQueue_DebugView) : public Object::in {
+  private: CLASS(SingleProducerSingleConsumerQueue_DebugView) : public object {
     public: void ctor(SingleProducerSingleConsumerQueue<T> queue);
     private: SingleProducerSingleConsumerQueue<T> m_queue;
   };

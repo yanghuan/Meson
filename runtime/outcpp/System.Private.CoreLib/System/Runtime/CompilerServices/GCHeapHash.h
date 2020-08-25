@@ -8,7 +8,7 @@ FORWARD_(Array, T1, T2)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Runtime::CompilerServices {
 namespace GCHeapHashNamespace {
-CLASS(GCHeapHash) : public Object::in {
+CLASS(GCHeapHash) : public object {
   private: Array<> _data;
   private: Int32 _count;
   private: Int32 _deletedCount;

@@ -10,7 +10,7 @@ FORWARD(String)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Runtime::InteropServices::ComTypes {
 namespace IPersistFileNamespace {
-CLASS(IPersistFile) : public Object::in {
+CLASS(IPersistFile) : public object {
   public: void GetClassID(Guid& pClassID);
   public: Int32 IsDirty();
   public: void Load(String pszFileName, Int32 dwMode);

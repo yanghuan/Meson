@@ -10,7 +10,7 @@ FORWARDS(TimeSpan)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Diagnostics {
 namespace StopwatchNamespace {
-CLASS(Stopwatch) : public Object::in {
+CLASS(Stopwatch) : public object {
   public: Boolean get_IsRunning();
   public: TimeSpan get_Elapsed();
   public: Int64 get_ElapsedMilliseconds();

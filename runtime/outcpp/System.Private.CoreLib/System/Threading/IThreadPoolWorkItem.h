@@ -4,7 +4,7 @@
 
 namespace System::Private::CoreLib::System::Threading {
 namespace IThreadPoolWorkItemNamespace {
-CLASS(IThreadPoolWorkItem) : public Object::in {
+CLASS(IThreadPoolWorkItem) : public object {
   public: void Execute();
   public: static constexpr rt::TypeCode code = rt::TypeCode::Interface;
 };

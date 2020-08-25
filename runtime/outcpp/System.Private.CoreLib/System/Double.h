@@ -71,7 +71,6 @@ struct Double : public valueType<Double, rt::TypeCode::Double> {
   public: static constexpr double NegativeInfinity = rt::NegativeInfinity<double>;
   public: static constexpr double PositiveInfinity = rt::PositiveInfinity<double>;
   public: static constexpr double NaN = rt::NaN<double>;
-  public: static constexpr rt::TypeCode code = rt::TypeCode::Double;
   public: constexpr Double() noexcept : m_value(0) {}
   public: constexpr Double(double value) noexcept : m_value(value) {}
   public: template <class T> requires(std::is_enum_v<T>)

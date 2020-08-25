@@ -20,7 +20,7 @@ FORWARDS(UInt64)
 namespace System::Private::CoreLib::System::Diagnostics::Tracing {
 namespace NativeRuntimeEventSourceNamespace {
 CLASS(NativeRuntimeEventSource) : public EventSource::in {
-  public: CLASS(Keywords) : public Object::in {
+  public: CLASS(Keywords) : public object {
   };
   private: void ctor();
   public: void ProcessEvent(UInt32 eventID, UInt32 osThreadID, DateTime timeStamp, Guid activityId, Guid childActivityId, ReadOnlySpan<Byte> payload);

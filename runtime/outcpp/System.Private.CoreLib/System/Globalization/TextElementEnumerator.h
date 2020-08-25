@@ -13,7 +13,7 @@ FORWARD(String)
 namespace System::Private::CoreLib::System::Globalization {
 namespace TextElementEnumeratorNamespace {
 using namespace System::Collections;
-CLASS(TextElementEnumerator) : public Object::in {
+CLASS(TextElementEnumerator) : public object {
   public: using interface = rt::TypeList<IEnumerator>;
   public: Object get_Current();
   public: Int32 get_ElementIndex();

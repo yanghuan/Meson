@@ -10,7 +10,7 @@ FORWARD(ICollection, T)
 namespace DictionaryKeyCollectionDebugViewNamespace {
 template <class T>
 using ICollection = Generic::ICollection<T>;
-CLASS(DictionaryKeyCollectionDebugView, TKey, TValue) : public Object::in {
+CLASS(DictionaryKeyCollectionDebugView, TKey, TValue) : public object {
   public: Array<TKey> get_Items();
   public: void ctor(ICollection<TKey> collection);
   private: ICollection<TKey> _collection;

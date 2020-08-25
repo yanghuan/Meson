@@ -5,7 +5,7 @@
 namespace System::Private::CoreLib::System::Diagnostics::Tracing {
 FORWARD(CounterPayload)
 namespace CounterPayloadTypeNamespace {
-CLASS(CounterPayloadType) : public Object::in {
+CLASS(CounterPayloadType) : public object {
   public: CounterPayload get_Payload() { return Payload; }
   public: void set_Payload(CounterPayload value) { Payload = value; }
   public: void ctor(CounterPayload payload);

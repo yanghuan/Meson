@@ -21,7 +21,7 @@ using namespace System::Collections::Generic;
 using IEnumerator = Collections::IEnumerator;
 template <class T>
 using IEnumerator_ = Collections::Generic::IEnumerator<T>;
-CLASS(CharEnumerator) : public Object::in {
+CLASS(CharEnumerator) : public object {
   public: using interface = rt::TypeList<IEnumerator, IEnumerator_<Char>, IDisposable, ICloneable>;
   private: Object get_CurrentOfIEnumerator();
   public: Char get_Current();

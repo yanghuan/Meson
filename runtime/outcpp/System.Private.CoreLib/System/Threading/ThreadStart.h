@@ -15,6 +15,7 @@ CLASS(ThreadStart) : public MulticastDelegate::in {
   public: void Invoke();
   public: IAsyncResult BeginInvoke(AsyncCallback callback, Object object);
   public: void EndInvoke(IAsyncResult result);
+  public: static constexpr rt::TypeCode code = rt::TypeCode::Delegate;
 };
 } // namespace ThreadStartNamespace
 using ThreadStart = ThreadStartNamespace::ThreadStart;

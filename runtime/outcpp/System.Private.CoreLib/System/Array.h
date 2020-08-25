@@ -46,7 +46,7 @@ using IComparer_ = Collections::Generic::IComparer<T>;
 using IEnumerator = Collections::IEnumerator;
 CLASS_FORWARD(Array, T1, T2)
 CLASS_(Array, T1);
-CLASS_(Array) : public Object::in {
+CLASS_(Array) : public object {
   public: using interface = rt::TypeList<ICloneable, IList, ICollection, IEnumerable, IStructuralComparable, IStructuralEquatable>;
   private: template <class T>
   class EmptyArray {

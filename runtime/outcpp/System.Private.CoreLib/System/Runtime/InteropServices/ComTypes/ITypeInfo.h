@@ -17,7 +17,7 @@ FORWARDS(DISPPARAMS)
 FORWARD(ITypeComp)
 FORWARD(ITypeLib)
 namespace ITypeInfoNamespace {
-CLASS(ITypeInfo) : public Object::in {
+CLASS(ITypeInfo) : public object {
   public: void GetTypeAttr(IntPtr& ppTypeAttr);
   public: void GetTypeComp(ITypeComp& ppTComp);
   public: void GetFuncDesc(Int32 index, IntPtr& ppFuncDesc);

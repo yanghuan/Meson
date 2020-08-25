@@ -17,7 +17,7 @@ using ICollection = Generic::ICollection<T>;
 template <class T>
 using IEnumerable = Generic::IEnumerable<T>;
 using IEnumerable_ = Collections::IEnumerable;
-CLASS(IList, T) : public Object::in {
+CLASS(IList, T) : public object {
   public: using interface = rt::TypeList<ICollection<T>, IEnumerable<T>, IEnumerable_>;
   public: T get_Item(Int32 index);
   public: void set_Item(Int32 index, T value);

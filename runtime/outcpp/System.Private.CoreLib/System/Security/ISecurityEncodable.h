@@ -5,7 +5,7 @@
 namespace System::Private::CoreLib::System::Security {
 FORWARD(SecurityElement)
 namespace ISecurityEncodableNamespace {
-CLASS(ISecurityEncodable) : public Object::in {
+CLASS(ISecurityEncodable) : public object {
   public: void FromXml(SecurityElement e);
   public: SecurityElement ToXml();
   public: static constexpr rt::TypeCode code = rt::TypeCode::Interface;

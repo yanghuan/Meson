@@ -5,7 +5,7 @@
 
 namespace System::Private::CoreLib::System::Runtime::Serialization {
 namespace DeserializationTrackerNamespace {
-CLASS(DeserializationTracker) : public Object::in {
+CLASS(DeserializationTracker) : public object {
   public: Boolean get_DeserializationInProgress() { return DeserializationInProgress; }
   public: void set_DeserializationInProgress(Boolean value) { DeserializationInProgress = value; }
   public: void ctor();

@@ -16,6 +16,7 @@ CLASS(ThreadExceptionEventHandler) : public MulticastDelegate::in {
   public: void Invoke(Object sender, ThreadExceptionEventArgs e);
   public: IAsyncResult BeginInvoke(Object sender, ThreadExceptionEventArgs e, AsyncCallback callback, Object object);
   public: void EndInvoke(IAsyncResult result);
+  public: static constexpr rt::TypeCode code = rt::TypeCode::Delegate;
 };
 } // namespace ThreadExceptionEventHandlerNamespace
 using ThreadExceptionEventHandler = ThreadExceptionEventHandlerNamespace::ThreadExceptionEventHandler;

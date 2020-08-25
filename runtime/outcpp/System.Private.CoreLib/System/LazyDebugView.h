@@ -11,7 +11,7 @@ FORWARD_(Lazy, T1, T2, T3)
 FORWARDS_(Nullable, T1, T2)
 namespace LazyDebugViewNamespace {
 using namespace System::Threading;
-CLASS(LazyDebugView, T) : public Object::in {
+CLASS(LazyDebugView, T) : public object {
   public: Boolean get_IsValueCreated();
   public: T get_Value();
   public: Nullable<LazyThreadSafetyMode> get_Mode();

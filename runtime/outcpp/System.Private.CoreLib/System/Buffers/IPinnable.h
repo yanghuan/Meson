@@ -8,7 +8,7 @@ FORWARDS(Int32)
 namespace System::Private::CoreLib::System::Buffers {
 FORWARDS(MemoryHandle)
 namespace IPinnableNamespace {
-CLASS(IPinnable) : public Object::in {
+CLASS(IPinnable) : public object {
   public: MemoryHandle Pin(Int32 elementIndex);
   public: void Unpin();
   public: static constexpr rt::TypeCode code = rt::TypeCode::Interface;

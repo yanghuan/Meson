@@ -40,7 +40,7 @@ FORWARD(SignatureHelper)
 namespace ILGeneratorNamespace {
 using namespace System::Diagnostics::SymbolStore;
 using namespace System::Runtime::InteropServices;
-CLASS(ILGenerator) : public Object::in {
+CLASS(ILGenerator) : public object {
   public: Int32 get_CurrExcStackCount();
   public: Array<__ExceptionInfo> get_CurrExcStack();
   public: Int32 get_ILOffset();

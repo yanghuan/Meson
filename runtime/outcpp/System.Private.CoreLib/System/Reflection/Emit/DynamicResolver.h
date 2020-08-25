@@ -30,7 +30,7 @@ CLASS(DynamicResolver) : public Resolver::in {
     HasCreationContext = 4,
     CanSkipCSEvaluation = 8,
   };
-  private: CLASS(DestroyScout) : public Object::in {
+  private: CLASS(DestroyScout) : public object {
     protected: void Finalize();
     public: void ctor();
     public: RuntimeMethodHandleInternal m_methodHandle;

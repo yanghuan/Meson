@@ -74,7 +74,7 @@ CLASS(FileStream) : public Stream::in {
     private: NativeOverlapped* _overlapped;
     private: Int64 _result;
   };
-  private: CLASS(AsyncCopyToAwaitable) : public Object::in {
+  private: CLASS(AsyncCopyToAwaitable) : public object {
     public: using interface = rt::TypeList<ICriticalNotifyCompletion, INotifyCompletion>;
     public: Object get_CancellationLock();
     public: Boolean get_IsCompleted();

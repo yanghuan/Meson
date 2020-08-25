@@ -8,7 +8,7 @@ FORWARD(Exception)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Runtime::InteropServices {
 namespace ErrorWrapperNamespace {
-CLASS(ErrorWrapper) : public Object::in {
+CLASS(ErrorWrapper) : public object {
   public: Int32 get_ErrorCode() { return ErrorCode; }
   public: void ctor(Int32 errorCode);
   public: void ctor(Object errorCode);

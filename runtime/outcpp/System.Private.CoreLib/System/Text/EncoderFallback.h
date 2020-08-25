@@ -8,7 +8,7 @@ FORWARDS(Int32)
 namespace System::Private::CoreLib::System::Text {
 FORWARD(EncoderFallbackBuffer)
 namespace EncoderFallbackNamespace {
-CLASS(EncoderFallback) : public Object::in {
+CLASS(EncoderFallback) : public object {
   public: static EncoderFallback get_ReplacementFallback();
   public: static EncoderFallback get_ExceptionFallback();
   public: Int32 get_MaxCharCount();

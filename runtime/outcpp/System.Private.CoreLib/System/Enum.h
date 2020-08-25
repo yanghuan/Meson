@@ -37,7 +37,7 @@ using namespace System::Reflection;
 using namespace System::Runtime::CompilerServices;
 CLASS(Enum) : public ValueType::in {
   public: using interface = rt::TypeList<IComparable<>, IFormattable, IConvertible>;
-  private: CLASS(EnumInfo) : public Object::in {
+  private: CLASS(EnumInfo) : public object {
     public: void ctor(Boolean hasFlagsAttribute, Array<UInt64> values, Array<String> names);
     public: Boolean HasFlagsAttribute;
     public: Array<UInt64> Values;

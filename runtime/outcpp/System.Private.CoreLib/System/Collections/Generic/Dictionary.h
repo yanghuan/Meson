@@ -51,7 +51,7 @@ using IEnumerator = Generic::IEnumerator<T>;
 using IEnumerator_ = Collections::IEnumerator;
 template <class T>
 using IEqualityComparer = Generic::IEqualityComparer<T>;
-CLASS(Dictionary, TKey, TValue) : public Object::in {
+CLASS(Dictionary, TKey, TValue) : public object {
   public: using interface = rt::TypeList<IDictionary<TKey, TValue>, ICollection<KeyValuePair<TKey, TValue>>, IEnumerable<KeyValuePair<TKey, TValue>>, IEnumerable_, IDictionary_, ICollection_, IReadOnlyDictionary<TKey, TValue>, IReadOnlyCollection<KeyValuePair<TKey, TValue>>, ISerializable, IDeserializationCallback>;
   private: struct Entry : public valueType<Entry> {
     public: UInt32 hashCode;
@@ -76,7 +76,7 @@ CLASS(Dictionary, TKey, TValue) : public Object::in {
     private: KeyValuePair<TKey, TValue> _current;
     private: Int32 _getEnumeratorRetType;
   };
-  public: CLASS(KeyCollection) : public Object::in {
+  public: CLASS(KeyCollection) : public object {
     public: using interface = rt::TypeList<ICollection<TKey>, IEnumerable<TKey>, IEnumerable_, ICollection_, IReadOnlyCollection<TKey>>;
     public: struct Enumerator : public valueType<Enumerator> {
       public: using interface = rt::TypeList<IEnumerator<TKey>, IDisposable, IEnumerator_>;
@@ -100,7 +100,7 @@ CLASS(Dictionary, TKey, TValue) : public Object::in {
     public: void CopyTo(Array<TKey> array, Int32 index);
     private: Dictionary<TKey, TValue> _dictionary;
   };
-  public: CLASS(ValueCollection) : public Object::in {
+  public: CLASS(ValueCollection) : public object {
     public: using interface = rt::TypeList<ICollection<TValue>, IEnumerable<TValue>, IEnumerable_, ICollection_, IReadOnlyCollection<TValue>>;
     public: struct Enumerator : public valueType<Enumerator> {
       public: using interface = rt::TypeList<IEnumerator<TValue>, IDisposable, IEnumerator_>;

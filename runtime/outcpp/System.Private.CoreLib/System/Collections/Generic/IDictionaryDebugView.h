@@ -11,7 +11,7 @@ FORWARDS_(KeyValuePair, T1, T2, T3)
 namespace IDictionaryDebugViewNamespace {
 template <class TKey, class TValue>
 using IDictionary = Generic::IDictionary<TKey, TValue>;
-CLASS(IDictionaryDebugView, K, V) : public Object::in {
+CLASS(IDictionaryDebugView, K, V) : public object {
   public: Array<KeyValuePair<K, V>> get_Items();
   public: void ctor(IDictionary<K, V> dictionary);
   private: IDictionary<K, V> _dict;

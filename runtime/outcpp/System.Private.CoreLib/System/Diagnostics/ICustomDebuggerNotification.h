@@ -4,7 +4,7 @@
 
 namespace System::Private::CoreLib::System::Diagnostics {
 namespace ICustomDebuggerNotificationNamespace {
-CLASS(ICustomDebuggerNotification) : public Object::in {
+CLASS(ICustomDebuggerNotification) : public object {
   public: static constexpr rt::TypeCode code = rt::TypeCode::Interface;
 };
 } // namespace ICustomDebuggerNotificationNamespace

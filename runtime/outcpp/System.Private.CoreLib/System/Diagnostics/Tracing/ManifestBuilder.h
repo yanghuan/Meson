@@ -40,8 +40,8 @@ using namespace System::Collections::Generic;
 using namespace System::Globalization;
 using namespace System::Resources;
 using namespace System::Text;
-CLASS(ManifestBuilder) : public Object::in {
-  private: CLASS(ChannelInfo) : public Object::in {
+CLASS(ManifestBuilder) : public object {
+  private: CLASS(ChannelInfo) : public object {
     public: void ctor();
     public: String Name;
     public: UInt64 Keywords;

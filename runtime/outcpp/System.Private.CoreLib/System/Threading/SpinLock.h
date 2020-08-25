@@ -32,7 +32,7 @@ struct SpinLock : public valueType<SpinLock> {
   public: explicit SpinLock() {}
   private: Int32 _owner;
 };
-CLASS(SystemThreading_SpinLockDebugView) : public Object::in {
+CLASS(SystemThreading_SpinLockDebugView) : public object {
   public: Nullable<Boolean> get_IsHeldByCurrentThread();
   public: Nullable<Int32> get_OwnerThreadID();
   public: Boolean get_IsHeld();

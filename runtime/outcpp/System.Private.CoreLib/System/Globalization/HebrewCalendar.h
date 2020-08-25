@@ -19,7 +19,7 @@ enum class CalendarAlgorithmType : int32_t;
 enum class CalendarId : uint16_t;
 namespace HebrewCalendarNamespace {
 CLASS(HebrewCalendar) : public Calendar::in {
-  public: CLASS(DateBuffer) : public Object::in {
+  public: CLASS(DateBuffer) : public object {
     public: void ctor();
     public: Int32 year;
     public: Int32 month;

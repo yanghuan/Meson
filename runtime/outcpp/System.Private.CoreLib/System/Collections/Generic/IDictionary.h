@@ -18,7 +18,7 @@ using ICollection = Generic::ICollection<T>;
 template <class T>
 using IEnumerable = Generic::IEnumerable<T>;
 using IEnumerable_ = Collections::IEnumerable;
-CLASS(IDictionary, TKey, TValue) : public Object::in {
+CLASS(IDictionary, TKey, TValue) : public object {
   public: using interface = rt::TypeList<ICollection<KeyValuePair<TKey, TValue>>, IEnumerable<KeyValuePair<TKey, TValue>>, IEnumerable_>;
   public: TValue get_Item(TKey key);
   public: void set_Item(TKey key, TValue value);

@@ -21,7 +21,7 @@ template <class T>
 using IEnumerable = Generic::IEnumerable<T>;
 using IEnumerable_ = Collections::IEnumerable;
 using ICollection = Collections::ICollection;
-CLASS(IProducerConsumerCollection, T) : public Object::in {
+CLASS(IProducerConsumerCollection, T) : public object {
   public: using interface = rt::TypeList<IEnumerable<T>, IEnumerable_, ICollection>;
   public: void CopyTo(Array<T> array, Int32 index);
   public: Boolean TryAdd(T item);

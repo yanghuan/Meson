@@ -15,7 +15,7 @@ enum class CalendarWeekRule : int32_t;
 FORWARD(Calendar)
 FORWARD(EraInfo)
 namespace GregorianCalendarHelperNamespace {
-CLASS(GregorianCalendarHelper) : public Object::in {
+CLASS(GregorianCalendarHelper) : public object {
   public: Int32 get_MaxYear();
   public: Array<Int32> get_Eras();
   public: void ctor(Calendar cal, Array<EraInfo> eraInfo);

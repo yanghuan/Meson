@@ -5,7 +5,7 @@
 
 namespace System::Private::CoreLib::System::Runtime::CompilerServices {
 namespace RawDataNamespace {
-CLASS(RawData) : public Object::in {
+CLASS(RawData) : public object {
   public: Byte Data;
 };
 } // namespace RawDataNamespace

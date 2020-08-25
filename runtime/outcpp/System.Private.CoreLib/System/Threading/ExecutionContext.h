@@ -21,7 +21,7 @@ FORWARD(IAsyncLocalValueMap)
 FORWARD(Thread)
 namespace ExecutionContextNamespace {
 using namespace System::Runtime::Serialization;
-CLASS(ExecutionContext) : public Object::in {
+CLASS(ExecutionContext) : public object {
   public: using interface = rt::TypeList<IDisposable, ISerializable>;
   public: Boolean get_HasChangeNotifications();
   public: Boolean get_IsDefault();

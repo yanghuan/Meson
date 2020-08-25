@@ -12,7 +12,7 @@ FORWARD(Type)
 namespace System::Private::CoreLib::System::Reflection {
 namespace PointerNamespace {
 using namespace System::Runtime::Serialization;
-CLASS(Pointer) : public Object::in {
+CLASS(Pointer) : public object {
   public: using interface = rt::TypeList<ISerializable>;
   private: void ctor(void* ptr, Type ptrType);
   public: static Object Box(void* ptr, Type type);

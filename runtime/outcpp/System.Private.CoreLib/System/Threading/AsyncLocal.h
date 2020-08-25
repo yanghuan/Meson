@@ -9,7 +9,7 @@ namespace System::Private::CoreLib::System::Threading {
 FORWARDS(AsyncLocalValueChangedArgs, T)
 FORWARD(IAsyncLocal)
 namespace AsyncLocalNamespace {
-CLASS(AsyncLocal, T) : public Object::in {
+CLASS(AsyncLocal, T) : public object {
   public: using interface = rt::TypeList<IAsyncLocal>;
   public: T get_Value();
   public: void set_Value(T value);

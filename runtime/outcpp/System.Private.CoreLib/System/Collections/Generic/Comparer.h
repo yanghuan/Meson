@@ -15,7 +15,7 @@ namespace ComparerNamespace {
 using IComparer = Collections::IComparer;
 template <class T>
 using IComparer_ = Generic::IComparer<T>;
-CLASS(Comparer, T) : public Object::in {
+CLASS(Comparer, T) : public object {
   public: using interface = rt::TypeList<IComparer, IComparer_<T>>;
   public: static Comparer<T> get_Default() { return Default; }
   public: static Comparer<T> Create(Comparison<T> comparison);

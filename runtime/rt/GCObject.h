@@ -29,7 +29,10 @@ namespace rt {
     UInt64,
     Single,
     Double,
+    Class,
+    Struct,
     Interface,
+    Delegate,
   };
 
   template <class... Args>
@@ -108,6 +111,12 @@ namespace rt {
   static constexpr bool IsArray = CodeOf<T> == TypeCode::Array;
 
   template <class T>
+  static constexpr bool IsDelegate = CodeOf<T> == TypeCode::Delegate;
+
+  template <class T>
+  static constexpr bool IsInterface = CodeOf<T> == TypeCode::Interface;
+
+  template <class T>
   static constexpr bool IsObject = CodeOf<T> == TypeCode::Object;
 
   template <class T>
@@ -145,7 +154,7 @@ namespace rt {
   };
 
   template <class T, class T1>
-  static constexpr bool IsEquatable = IsDerived<T, T1> || IsDerived<T1, T> || CodeOf<T> == TypeCode::Interface || CodeOf<T1> == TypeCode::Interface;
+  static constexpr bool IsEquatable = IsDerived<T, T1> || IsDerived<T1, T> || IsInterface<T> || IsInterface<T1>;
 
   template <class T>
   struct RefElementType {
@@ -211,9 +220,9 @@ namespace rt {
       copyOf(other);
     }
   
-    template <class T1 = T> requires(IsString<T1>)
-    ref(const char* str) {
-      moveOf(string::load(str));
+    template <int N> requires(IsString<T>)
+    ref(const char (&str)[N]) {
+      moveOf(string::load(str, N));
     }
 
     template <class... _Types, class T1 = T> requires(IsString<T1>)
@@ -249,6 +258,12 @@ namespace rt {
     ref& operator =(const ref<T1>& right) noexcept {
       ref(p_);
       copyOf(right);
+      return *this;
+    }
+
+    template <class T1, class T2 = T> requires(std::is_pointer_v<T1> && IsDelegate<T2>)
+    ref& operator =(const T1& right) noexcept {
+      //TODO
       return *this;
     }
 
@@ -298,7 +313,7 @@ namespace rt {
     }
 
     template <class... Args>
-    auto operator ()(Args&&... args) requires(AlwaysTrue<decltype(ref().get()->Invoke(std::forward<Args>(args)...))>) {
+    auto operator ()(Args&&... args) requires(IsDelegate<T>) {
       return get()->Invoke(std::forward<Args>(args)...);
     }
 
@@ -384,6 +399,8 @@ namespace rt {
       return GetAllocSize(length());
     }
 
+    static ref<string> load(const char* str, size_t n);
+
     static ref<string> load(const char* str) {
       return load(str, std::char_traits<char>::length(str));
     }
@@ -412,7 +429,6 @@ namespace rt {
       auto p = reinterpret_cast<const str*>(this);
       return p->length;
     }
-    static ref<string> load(const char* str, size_t n);
     static ref<string> cat(string** being, size_t n);
     static GCObject<string>* alloc(size_t n);
   };
@@ -652,7 +668,7 @@ namespace rt {
   };
 
   template <class T, class Base>
-  struct ValueOperator<T, Base, TypeCode::None> : public Base  {
+  struct ValueOperator<T, Base, TypeCode::Struct> : public Base  {
     template <class T1> requires(AlwaysTrue<decltype(T::op_Equality(T(), T1()))>) 
     auto operator ==(const T1& other) {
       return T::op_Equality(*static_cast<T*>(this), other);

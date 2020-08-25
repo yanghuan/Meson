@@ -33,7 +33,7 @@ using namespace System::Collections;
 using namespace System::Reflection;
 using namespace System::Runtime::CompilerServices;
 using namespace System::Runtime::Serialization;
-CLASS(Exception) : public Object::in {
+CLASS(Exception) : public object {
   public: using interface = rt::TypeList<ISerializable>;
   public: enum class ExceptionMessageKind : int32_t {
     ThreadAbort = 1,

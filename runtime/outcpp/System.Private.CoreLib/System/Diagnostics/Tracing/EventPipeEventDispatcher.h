@@ -23,8 +23,8 @@ FORWARD(EventPipeWaitHandle)
 namespace EventPipeEventDispatcherNamespace {
 using namespace System::Collections::Generic;
 using namespace System::Threading::Tasks;
-CLASS(EventPipeEventDispatcher) : public Object::in {
-  public: CLASS(EventListenerSubscription) : public Object::in {
+CLASS(EventPipeEventDispatcher) : public object {
+  public: CLASS(EventListenerSubscription) : public object {
     public: EventKeywords get_MatchAnyKeywords() { return MatchAnyKeywords; }
     private: void set_MatchAnyKeywords(EventKeywords value) { MatchAnyKeywords = value; }
     public: EventLevel get_Level() { return Level; }

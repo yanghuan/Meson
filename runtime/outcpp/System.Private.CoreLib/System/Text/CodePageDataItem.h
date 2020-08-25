@@ -9,7 +9,7 @@ FORWARD(String)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Text {
 namespace CodePageDataItemNamespace {
-CLASS(CodePageDataItem) : public Object::in {
+CLASS(CodePageDataItem) : public object {
   public: Int32 get_UIFamilyCodePage() { return UIFamilyCodePage; }
   public: String get_WebName() { return WebName; }
   public: String get_HeaderName() { return HeaderName; }

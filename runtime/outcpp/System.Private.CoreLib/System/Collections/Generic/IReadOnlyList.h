@@ -15,7 +15,7 @@ namespace IReadOnlyListNamespace {
 template <class T>
 using IEnumerable = Generic::IEnumerable<T>;
 using IEnumerable_ = Collections::IEnumerable;
-CLASS(IReadOnlyList, T) : public Object::in {
+CLASS(IReadOnlyList, T) : public object {
   public: using interface = rt::TypeList<IReadOnlyCollection<T>, IEnumerable<T>, IEnumerable_>;
   public: T get_Item(Int32 index);
   public: static constexpr rt::TypeCode code = rt::TypeCode::Interface;

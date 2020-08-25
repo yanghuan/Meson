@@ -16,7 +16,7 @@ FORWARD(DecoderNLS)
 FORWARD(Encoding)
 FORWARDS(Rune)
 namespace DecoderFallbackBufferNamespace {
-CLASS(DecoderFallbackBuffer) : public Object::in {
+CLASS(DecoderFallbackBuffer) : public object {
   public: Int32 get_Remaining();
   public: Boolean Fallback(Array<Byte> bytesUnknown, Int32 index);
   public: Char GetNextChar();

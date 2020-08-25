@@ -30,7 +30,7 @@ namespace PermissionSetNamespace {
 using namespace System::Collections;
 using namespace System::Runtime::Serialization;
 using namespace System::Security::Permissions;
-CLASS(PermissionSet) : public Object::in {
+CLASS(PermissionSet) : public object {
   public: using interface = rt::TypeList<ICollection, IEnumerable, IDeserializationCallback, ISecurityEncodable, IStackWalk>;
   public: Int32 get_Count();
   public: Boolean get_IsReadOnly();

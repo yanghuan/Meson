@@ -65,7 +65,7 @@ using namespace System::Runtime::CompilerServices;
 using namespace System::Runtime::Serialization;
 using namespace System::Security;
 using namespace System::Threading;
-CLASS(Assembly) : public Object::in {
+CLASS(Assembly) : public object {
   public: using interface = rt::TypeList<ICustomAttributeProvider, ISerializable>;
   public: IEnumerable<TypeInfo> get_DefinedTypes();
   public: IEnumerable<Type> get_ExportedTypes();

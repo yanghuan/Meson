@@ -19,7 +19,7 @@ FORWARD(ResourceSet)
 namespace FileBasedResourceGrovelerNamespace {
 using namespace System::Collections::Generic;
 using namespace System::Globalization;
-CLASS(FileBasedResourceGroveler) : public Object::in {
+CLASS(FileBasedResourceGroveler) : public object {
   public: using interface = rt::TypeList<IResourceGroveler>;
   public: void ctor(ResourceManager::in::ResourceManagerMediator mediator);
   public: ResourceSet GrovelForResourceSet(CultureInfo culture, Dictionary<String, ResourceSet> localResourceSets, Boolean tryParents, Boolean createIfNotExists);

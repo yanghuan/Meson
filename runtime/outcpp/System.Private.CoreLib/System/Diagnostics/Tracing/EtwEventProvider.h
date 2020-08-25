@@ -5,7 +5,7 @@
 namespace System::Private::CoreLib::System::Diagnostics::Tracing {
 FORWARD(IEventProvider)
 namespace EtwEventProviderNamespace {
-CLASS(EtwEventProvider) : public Object::in {
+CLASS(EtwEventProvider) : public object {
   public: using interface = rt::TypeList<IEventProvider>;
   public: void ctor();
 };

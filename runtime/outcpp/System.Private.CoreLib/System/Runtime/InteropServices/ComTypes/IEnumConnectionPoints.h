@@ -10,7 +10,7 @@ FORWARDS(IntPtr)
 namespace System::Private::CoreLib::System::Runtime::InteropServices::ComTypes {
 FORWARD(IConnectionPoint)
 namespace IEnumConnectionPointsNamespace {
-CLASS(IEnumConnectionPoints) : public Object::in {
+CLASS(IEnumConnectionPoints) : public object {
   public: Int32 Next(Int32 celt, Array<IConnectionPoint> rgelt, IntPtr pceltFetched);
   public: Int32 Skip(Int32 celt);
   public: void Reset();

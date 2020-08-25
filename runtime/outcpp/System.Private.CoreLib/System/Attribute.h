@@ -23,7 +23,7 @@ FORWARD(Type)
 namespace AttributeNamespace {
 using namespace System::Collections::Generic;
 using namespace System::Reflection;
-CLASS(Attribute) : public Object::in {
+CLASS(Attribute) : public object {
   public: Object get_TypeId();
   private: static Array<Attribute> InternalGetCustomAttributes(PropertyInfo element, Type type, Boolean inherit);
   private: static Boolean InternalIsDefined(PropertyInfo element, Type attributeType, Boolean inherit);

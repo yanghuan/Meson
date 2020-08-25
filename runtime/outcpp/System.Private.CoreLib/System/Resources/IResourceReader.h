@@ -12,7 +12,7 @@ FORWARD(IDisposable)
 namespace System::Private::CoreLib::System::Resources {
 namespace IResourceReaderNamespace {
 using namespace System::Collections;
-CLASS(IResourceReader) : public Object::in {
+CLASS(IResourceReader) : public object {
   public: using interface = rt::TypeList<IEnumerable, IDisposable>;
   public: void Close();
   public: IDictionaryEnumerator GetEnumerator();

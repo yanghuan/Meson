@@ -8,7 +8,7 @@ FORWARDS(Boolean)
 namespace System::Private::CoreLib::System::Threading::Tasks {
 FORWARD_(Task, T1, T2)
 namespace ITaskCompletionActionNamespace {
-CLASS(ITaskCompletionAction) : public Object::in {
+CLASS(ITaskCompletionAction) : public object {
   public: Boolean get_InvokeMayRunArbitraryCode();
   public: void Invoke(Task<> completingTask);
   public: static constexpr rt::TypeCode code = rt::TypeCode::Interface;

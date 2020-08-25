@@ -8,7 +8,7 @@ FORWARDS(Int32)
 namespace System::Private::CoreLib::System::Collections {
 FORWARD(IComparer)
 namespace IStructuralComparableNamespace {
-CLASS(IStructuralComparable) : public Object::in {
+CLASS(IStructuralComparable) : public object {
   public: Int32 CompareTo(Object other, IComparer comparer);
   public: static constexpr rt::TypeCode code = rt::TypeCode::Interface;
 };

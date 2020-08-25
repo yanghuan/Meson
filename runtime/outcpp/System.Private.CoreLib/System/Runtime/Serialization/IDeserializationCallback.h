@@ -4,7 +4,7 @@
 
 namespace System::Private::CoreLib::System::Runtime::Serialization {
 namespace IDeserializationCallbackNamespace {
-CLASS(IDeserializationCallback) : public Object::in {
+CLASS(IDeserializationCallback) : public object {
   public: void OnDeserialization(Object sender);
   public: static constexpr rt::TypeCode code = rt::TypeCode::Interface;
 };

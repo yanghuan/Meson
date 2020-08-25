@@ -9,7 +9,7 @@ namespace System::Private::CoreLib::System::Reflection::Emit {
 FORWARD(DynamicMethod)
 FORWARD(SignatureHelper)
 namespace VarArgMethodNamespace {
-CLASS(VarArgMethod) : public Object::in {
+CLASS(VarArgMethod) : public object {
   public: void ctor(DynamicMethod dm, SignatureHelper signature);
   public: void ctor(RuntimeMethodInfo method, SignatureHelper signature);
   public: RuntimeMethodInfo m_method;

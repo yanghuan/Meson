@@ -17,7 +17,7 @@ using ICollection = Generic::ICollection<T>;
 template <class T>
 using IEnumerable = Generic::IEnumerable<T>;
 using IEnumerable_ = Collections::IEnumerable;
-CLASS(ISet, T) : public Object::in {
+CLASS(ISet, T) : public object {
   public: using interface = rt::TypeList<ICollection<T>, IEnumerable<T>, IEnumerable_>;
   public: Boolean Add(T item);
   public: void UnionWith(IEnumerable<T> other);

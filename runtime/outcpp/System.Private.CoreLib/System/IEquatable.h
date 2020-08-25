@@ -5,7 +5,7 @@
 namespace System::Private::CoreLib::System {
 FORWARDS(Boolean)
 namespace IEquatableNamespace {
-CLASS(IEquatable, T) : public Object::in {
+CLASS(IEquatable, T) : public object {
   public: Boolean Equals(T other);
   public: static constexpr rt::TypeCode code = rt::TypeCode::Interface;
 };

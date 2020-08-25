@@ -10,7 +10,7 @@ FORWARD(Type)
 namespace System::Private::CoreLib::System::Reflection {
 enum class ExceptionHandlingClauseOptions : int32_t;
 namespace ExceptionHandlingClauseNamespace {
-CLASS(ExceptionHandlingClause) : public Object::in {
+CLASS(ExceptionHandlingClause) : public object {
   public: ExceptionHandlingClauseOptions get_Flags();
   public: Int32 get_TryOffset();
   public: Int32 get_TryLength();

@@ -46,7 +46,6 @@ struct Int64 : public valueType<Int64, rt::TypeCode::Int64> {
   private: int64_t m_value;
   public: static constexpr int64_t MaxValue = 9223372036854775807;
   public: static constexpr int64_t MinValue = -9223372036854775808;
-  public: static constexpr rt::TypeCode code = rt::TypeCode::Int64;
   public: constexpr Int64() noexcept : m_value(0) {}
   public: constexpr Int64(int64_t value) noexcept : m_value(value) {}
   public: template <class T> requires(std::is_enum_v<T>)

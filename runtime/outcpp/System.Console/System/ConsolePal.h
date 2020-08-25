@@ -53,7 +53,7 @@ class ConsolePal {
     private: IntPtr _handle;
     private: Boolean _useFileAPIs;
   };
-  public: CLASS(ControlCHandlerRegistrar) : public Object::in {
+  public: CLASS(ControlCHandlerRegistrar) : public object {
     public: void ctor();
     public: void Register();
     public: void Unregister();

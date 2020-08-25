@@ -42,12 +42,14 @@ class RuntimeHelpers {
     public: void Invoke(Object userData);
     public: IAsyncResult BeginInvoke(Object userData, AsyncCallback callback, Object object);
     public: void EndInvoke(IAsyncResult result);
+    public: static constexpr rt::TypeCode code = rt::TypeCode::Delegate;
   };
   public: CLASS(CleanupCode) : public MulticastDelegate::in {
     public: void ctor(Object object, IntPtr method);
     public: void Invoke(Object userData, Boolean exceptionThrown);
     public: IAsyncResult BeginInvoke(Object userData, Boolean exceptionThrown, AsyncCallback callback, Object object);
     public: void EndInvoke(IAsyncResult result);
+    public: static constexpr rt::TypeCode code = rt::TypeCode::Delegate;
   };
   public: static Int32 get_OffsetToStringData();
   public: static void InitializeArray(Array<> array, RuntimeFieldHandle fldHandle);

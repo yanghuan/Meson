@@ -5,7 +5,7 @@
 namespace System::Private::CoreLib::System {
 FORWARDS(RuntimeMethodHandleInternal)
 namespace IRuntimeMethodInfoNamespace {
-CLASS(IRuntimeMethodInfo) : public Object::in {
+CLASS(IRuntimeMethodInfo) : public object {
   public: RuntimeMethodHandleInternal get_Value();
   public: static constexpr rt::TypeCode code = rt::TypeCode::Interface;
 };

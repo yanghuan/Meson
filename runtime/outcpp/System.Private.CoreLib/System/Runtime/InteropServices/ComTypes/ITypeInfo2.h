@@ -19,7 +19,7 @@ FORWARD(ITypeComp)
 FORWARD(ITypeInfo)
 FORWARD(ITypeLib)
 namespace ITypeInfo2Namespace {
-CLASS(ITypeInfo2) : public Object::in {
+CLASS(ITypeInfo2) : public object {
   public: using interface = rt::TypeList<ITypeInfo>;
   public: void GetTypeAttr(IntPtr& ppTypeAttr);
   public: void GetTypeComp(ITypeComp& ppTComp);

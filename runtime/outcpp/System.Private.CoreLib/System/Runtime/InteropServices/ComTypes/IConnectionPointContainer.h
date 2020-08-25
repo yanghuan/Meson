@@ -9,7 +9,7 @@ namespace System::Private::CoreLib::System::Runtime::InteropServices::ComTypes {
 FORWARD(IConnectionPoint)
 FORWARD(IEnumConnectionPoints)
 namespace IConnectionPointContainerNamespace {
-CLASS(IConnectionPointContainer) : public Object::in {
+CLASS(IConnectionPointContainer) : public object {
   public: void EnumConnectionPoints(IEnumConnectionPoints& ppEnum);
   public: void FindConnectionPoint(Guid& riid, IConnectionPoint& ppCP);
   public: static constexpr rt::TypeCode code = rt::TypeCode::Interface;

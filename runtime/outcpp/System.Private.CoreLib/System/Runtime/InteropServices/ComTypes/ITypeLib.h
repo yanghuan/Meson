@@ -16,7 +16,7 @@ enum class TYPEKIND : int32_t;
 FORWARD(ITypeComp)
 FORWARD(ITypeInfo)
 namespace ITypeLibNamespace {
-CLASS(ITypeLib) : public Object::in {
+CLASS(ITypeLib) : public object {
   public: Int32 GetTypeInfoCount();
   public: void GetTypeInfo(Int32 index, ITypeInfo& ppTI);
   public: void GetTypeInfoType(Int32 index, TYPEKIND& pTKind);

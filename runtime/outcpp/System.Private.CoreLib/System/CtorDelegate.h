@@ -13,6 +13,7 @@ CLASS(CtorDelegate) : public MulticastDelegate::in {
   public: void Invoke(Object instance);
   public: IAsyncResult BeginInvoke(Object instance, AsyncCallback callback, Object object);
   public: void EndInvoke(IAsyncResult result);
+  public: static constexpr rt::TypeCode code = rt::TypeCode::Delegate;
 };
 } // namespace CtorDelegateNamespace
 using CtorDelegate = CtorDelegateNamespace::CtorDelegate;

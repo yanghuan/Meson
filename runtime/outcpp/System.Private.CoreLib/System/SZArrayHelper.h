@@ -11,7 +11,7 @@ FORWARDS(Boolean)
 FORWARDS(Int32)
 namespace SZArrayHelperNamespace {
 using namespace System::Collections::Generic;
-CLASS(SZArrayHelper) : public Object::in {
+CLASS(SZArrayHelper) : public object {
   public: template <class T>
   IEnumerator<T> GetEnumerator();
   private: template <class T>

@@ -37,7 +37,6 @@ struct Boolean : public valueType<Boolean, rt::TypeCode::Boolean> {
   private: bool m_value;
   public: static String TrueString;
   public: static String FalseString;
-  public: static constexpr rt::TypeCode code = rt::TypeCode::Boolean;
   public: constexpr Boolean() noexcept : m_value(false) {}
   public: constexpr Boolean(bool value) noexcept : m_value(value) {}
   public: constexpr bool& get() noexcept { return m_value; }

@@ -33,7 +33,7 @@ using IEnumerable_ = Collections::IEnumerable;
 template <class T>
 using IEnumerator = Collections::Generic::IEnumerator<T>;
 using IEnumerator_ = Collections::IEnumerator;
-CLASS(ConditionalWeakTable, TKey, TValue) : public Object::in {
+CLASS(ConditionalWeakTable, TKey, TValue) : public object {
   public: using interface = rt::TypeList<IEnumerable<KeyValuePair<TKey, TValue>>, IEnumerable_>;
   private: struct Entry : public valueType<Entry> {
     public: DependentHandle depHnd;
@@ -45,8 +45,9 @@ CLASS(ConditionalWeakTable, TKey, TValue) : public Object::in {
     public: TValue Invoke(TKey key);
     public: IAsyncResult BeginInvoke(TKey key, AsyncCallback callback, Object object);
     public: TValue EndInvoke(IAsyncResult result);
+    public: static constexpr rt::TypeCode code = rt::TypeCode::Delegate;
   };
-  private: CLASS(Enumerator) : public Object::in {
+  private: CLASS(Enumerator) : public object {
     public: using interface = rt::TypeList<IEnumerator<KeyValuePair<TKey, TValue>>, IDisposable, IEnumerator_>;
     public: KeyValuePair<TKey, TValue> get_Current();
     private: Object get_CurrentOfIEnumerator();
@@ -60,7 +61,7 @@ CLASS(ConditionalWeakTable, TKey, TValue) : public Object::in {
     private: Int32 _currentIndex;
     private: KeyValuePair<TKey, TValue> _current;
   };
-  private: CLASS(Container) : public Object::in {
+  private: CLASS(Container) : public object {
     public: Boolean get_HasCapacity();
     public: Int32 get_FirstFreeEntry();
     public: void ctor(ConditionalWeakTable<TKey, TValue> parent);

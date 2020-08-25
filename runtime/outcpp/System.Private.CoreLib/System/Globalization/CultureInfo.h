@@ -30,7 +30,7 @@ FORWARD(TextInfo)
 namespace CultureInfoNamespace {
 using namespace System::Collections::Generic;
 using namespace System::Threading;
-CLASS(CultureInfo) : public Object::in {
+CLASS(CultureInfo) : public object {
   public: using interface = rt::TypeList<IFormatProvider, ICloneable>;
   public: static CultureInfo get_CurrentCulture();
   public: static void set_CurrentCulture(CultureInfo value);

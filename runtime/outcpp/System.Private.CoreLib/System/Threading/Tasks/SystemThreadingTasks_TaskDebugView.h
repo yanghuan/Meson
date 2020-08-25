@@ -12,7 +12,7 @@ enum class TaskCreationOptions : int32_t;
 enum class TaskStatus : int32_t;
 FORWARD_(Task, T1, T2)
 namespace SystemThreadingTasks_TaskDebugViewNamespace {
-CLASS(SystemThreadingTasks_TaskDebugView) : public Object::in {
+CLASS(SystemThreadingTasks_TaskDebugView) : public object {
   public: Object get_AsyncState();
   public: TaskCreationOptions get_CreationOptions();
   public: Exception get_Exception();

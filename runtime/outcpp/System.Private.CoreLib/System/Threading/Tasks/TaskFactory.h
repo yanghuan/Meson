@@ -24,7 +24,7 @@ FORWARD(TaskScheduler)
 namespace TaskFactoryNamespace {
 using namespace System::Collections::Generic;
 CLASS_FORWARD(TaskFactory, T1, T2)
-CLASS_(TaskFactory) : public Object::in {
+CLASS_(TaskFactory) : public object {
   CLASS_FORWARD(CompleteOnCountdownPromise, T1, T2)
   private: CLASS_(CompleteOnCountdownPromise) : public Task<Array<Task<>>>::in {
     public: using interface = rt::TypeList<ITaskCompletionAction>;
@@ -198,7 +198,7 @@ CLASS_(TaskFactory) : public Object::in {
   private: TaskCreationOptions m_defaultCreationOptions;
   private: TaskContinuationOptions m_defaultContinuationOptions;
 };
-CLASS_(TaskFactory, TResult) : public Object::in {
+CLASS_(TaskFactory, TResult) : public object {
   private: CLASS(FromAsyncTrimPromise, TInstance) : public Task<TResult>::in {
     public: void ctor(TInstance thisRef, Func<TInstance, IAsyncResult, TResult> endMethod);
     public: static void CompleteFromAsyncResult(IAsyncResult asyncResult);

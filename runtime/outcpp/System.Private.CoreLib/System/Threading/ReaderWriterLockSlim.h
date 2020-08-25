@@ -17,7 +17,7 @@ enum class LockRecursionPolicy : int32_t;
 FORWARD(EventWaitHandle)
 FORWARD(ReaderWriterCount)
 namespace ReaderWriterLockSlimNamespace {
-CLASS(ReaderWriterLockSlim) : public Object::in {
+CLASS(ReaderWriterLockSlim) : public object {
   public: using interface = rt::TypeList<IDisposable>;
   private: enum class WaiterStates : uint8_t {
     None = 0,

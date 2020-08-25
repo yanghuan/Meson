@@ -13,7 +13,7 @@ namespace System::Private::CoreLib::System {
 FORWARD(String)
 namespace UnitySerializationHolderNamespace {
 using namespace System::Runtime::Serialization;
-CLASS(UnitySerializationHolder) : public Object::in {
+CLASS(UnitySerializationHolder) : public object {
   public: using interface = rt::TypeList<ISerializable, IObjectReference>;
   public: static void GetUnitySerializationInfo(SerializationInfo info, Int32 unityType);
   public: void ctor(SerializationInfo info, StreamingContext context);

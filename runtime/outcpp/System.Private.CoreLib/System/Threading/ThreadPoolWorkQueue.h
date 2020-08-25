@@ -18,8 +18,8 @@ FORWARD(ThreadPoolWorkQueueThreadLocals)
 namespace ThreadPoolWorkQueueNamespace {
 using namespace Internal;
 using namespace System::Collections::Concurrent;
-CLASS(ThreadPoolWorkQueue) : public Object::in {
-  public: CLASS(WorkStealingQueue) : public Object::in {
+CLASS(ThreadPoolWorkQueue) : public object {
+  public: CLASS(WorkStealingQueue) : public object {
     public: Boolean get_CanSteal();
     public: Int32 get_Count();
     public: void LocalPush(Object obj);

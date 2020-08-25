@@ -4,7 +4,7 @@
 
 namespace System::Private::CoreLib::System::Security {
 namespace IStackWalkNamespace {
-CLASS(IStackWalk) : public Object::in {
+CLASS(IStackWalk) : public object {
   public: void Assert();
   public: void Demand();
   public: void Deny();

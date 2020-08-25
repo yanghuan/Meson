@@ -9,7 +9,7 @@ FORWARD(IFormattable)
 FORWARDS(Int32)
 FORWARD(String)
 namespace FormattableStringNamespace {
-CLASS(FormattableString) : public Object::in {
+CLASS(FormattableString) : public object {
   public: using interface = rt::TypeList<IFormattable>;
   public: String get_Format();
   public: Int32 get_ArgumentCount();

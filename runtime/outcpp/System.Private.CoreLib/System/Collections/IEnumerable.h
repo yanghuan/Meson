@@ -5,7 +5,7 @@
 namespace System::Private::CoreLib::System::Collections {
 FORWARD(IEnumerator)
 namespace IEnumerableNamespace {
-CLASS(IEnumerable) : public Object::in {
+CLASS(IEnumerable) : public object {
   public: IEnumerator GetEnumerator();
   public: static constexpr rt::TypeCode code = rt::TypeCode::Interface;
 };

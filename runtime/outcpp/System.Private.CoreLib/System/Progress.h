@@ -12,7 +12,7 @@ FORWARD_(EventHandler, T1, T2)
 FORWARD(IProgress, T)
 namespace ProgressNamespace {
 using namespace System::Threading;
-CLASS(Progress, T) : public Object::in {
+CLASS(Progress, T) : public object {
   public: using interface = rt::TypeList<IProgress<T>>;
   public: void ctor();
   public: void ctor(Action<T> handler);

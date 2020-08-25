@@ -35,7 +35,7 @@ FORWARD(EventSource)
 FORWARD(IEventProvider)
 namespace EventProviderNamespace {
 using namespace System::Collections::Generic;
-CLASS(EventProvider) : public Object::in {
+CLASS(EventProvider) : public object {
   public: using interface = rt::TypeList<IDisposable>;
   public: enum class WriteEventErrorCode : int32_t {
     NoError = 0,
@@ -56,6 +56,7 @@ CLASS(EventProvider) : public Object::in {
     public: void Invoke(Int32 etwSessionId, Int64 matchAllKeywords, List<SessionInfo>& sessionList);
     public: IAsyncResult BeginInvoke(Int32 etwSessionId, Int64 matchAllKeywords, List<SessionInfo>& sessionList, AsyncCallback callback, Object object);
     public: void EndInvoke(List<SessionInfo>& sessionList, IAsyncResult result);
+    public: static constexpr rt::TypeCode code = rt::TypeCode::Delegate;
   };
   public: struct EventData : public valueType<EventData> {
     public: UInt64 Ptr;

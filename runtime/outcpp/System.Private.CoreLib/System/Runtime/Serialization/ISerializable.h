@@ -6,7 +6,7 @@ namespace System::Private::CoreLib::System::Runtime::Serialization {
 FORWARD(SerializationInfo)
 FORWARDS(StreamingContext)
 namespace ISerializableNamespace {
-CLASS(ISerializable) : public Object::in {
+CLASS(ISerializable) : public object {
   public: void GetObjectData(SerializationInfo info, StreamingContext context);
   public: static constexpr rt::TypeCode code = rt::TypeCode::Interface;
 };

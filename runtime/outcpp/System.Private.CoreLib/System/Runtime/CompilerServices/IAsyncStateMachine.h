@@ -4,7 +4,7 @@
 
 namespace System::Private::CoreLib::System::Runtime::CompilerServices {
 namespace IAsyncStateMachineNamespace {
-CLASS(IAsyncStateMachine) : public Object::in {
+CLASS(IAsyncStateMachine) : public object {
   public: void MoveNext();
   public: void SetStateMachine(IAsyncStateMachine stateMachine);
   public: static constexpr rt::TypeCode code = rt::TypeCode::Interface;

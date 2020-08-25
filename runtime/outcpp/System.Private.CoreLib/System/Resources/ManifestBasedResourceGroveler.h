@@ -29,7 +29,7 @@ using namespace System::Collections::Generic;
 using namespace System::Globalization;
 using namespace System::IO;
 using namespace System::Reflection;
-CLASS(ManifestBasedResourceGroveler) : public Object::in {
+CLASS(ManifestBasedResourceGroveler) : public object {
   public: using interface = rt::TypeList<IResourceGroveler>;
   private: static Assembly InternalGetSatelliteAssembly(Assembly mainAssembly, CultureInfo culture, Version version);
   public: void ctor(ResourceManager::in::ResourceManagerMediator mediator);

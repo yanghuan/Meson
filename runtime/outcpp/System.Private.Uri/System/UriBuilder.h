@@ -11,7 +11,7 @@ namespace System::Private::Uri::System {
 FORWARD(Uri)
 namespace UriBuilderNamespace {
 using namespace ::System::Private::CoreLib::System;
-CLASS(UriBuilder) : public Object::in {
+CLASS(UriBuilder) : public object {
   private: void set_Extra(String value);
   public: String get_Fragment();
   public: void set_Fragment(String value);

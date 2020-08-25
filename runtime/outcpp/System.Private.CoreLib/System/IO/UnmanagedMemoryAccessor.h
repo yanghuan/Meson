@@ -26,7 +26,7 @@ namespace System::Private::CoreLib::System::IO {
 enum class FileAccess : int32_t;
 namespace UnmanagedMemoryAccessorNamespace {
 using namespace System::Runtime::InteropServices;
-CLASS(UnmanagedMemoryAccessor) : public Object::in {
+CLASS(UnmanagedMemoryAccessor) : public object {
   public: using interface = rt::TypeList<IDisposable>;
   public: Int64 get_Capacity();
   public: Boolean get_CanRead();

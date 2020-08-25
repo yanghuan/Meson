@@ -34,7 +34,7 @@ namespace System::Private::CoreLib::System::Diagnostics::Tracing {
 namespace PropertyValueNamespace {
 using namespace System::Reflection;
 struct PropertyValue : public valueType<PropertyValue> {
-  private: CLASS(TypeHelper) : public Object::in {
+  private: CLASS(TypeHelper) : public object {
     public: Func<PropertyValue, PropertyValue> GetPropertyGetter(PropertyInfo property);
     protected: Delegate GetGetMethod(PropertyInfo property, Type propertyType);
     protected: void ctor();

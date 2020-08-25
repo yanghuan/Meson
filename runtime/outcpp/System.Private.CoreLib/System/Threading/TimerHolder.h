@@ -13,7 +13,7 @@ FORWARD(TimerQueueTimer)
 FORWARD(WaitHandle)
 namespace TimerHolderNamespace {
 using namespace System::Threading::Tasks;
-CLASS(TimerHolder) : public Object::in {
+CLASS(TimerHolder) : public object {
   public: void ctor(TimerQueueTimer timer);
   protected: void Finalize();
   public: void Close();

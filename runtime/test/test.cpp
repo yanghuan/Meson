@@ -82,41 +82,15 @@ void TestStrDefault(String s, String ss = nullptr) {
   a.f();
 }
 
-struct TObj {
-  static constexpr int code = 0;
+enum class EnumA {
+  A, B, C
 };
-
-struct TA : public TObj {
-};
-
-struct TB : public TA {
-};
-
-String get_Arg_InvalidConsoleColor() {
-  return "ddd";
-}
-
-void Throw() {
-  auto i = TA::code;
-  Exception e = "dddd";
-  //rt::throw_exception<ArgumentException>(get_Arg_InvalidConsoleColor(), "sourceForeColor");
-}
 
 int main() {
   TestTry();
-  Int32 a = 0;
-  Boolean b = a >= 2;
-  TestStrDefault("ddd");
-  
-  /*
-  if (b.GetBoolean()) {
-  }
-  */
+  constexpr rt::TypeCode a = rt::CodeOf<String::in>;
+  std::printf("aaaa-> %d%\n", a);
 
-  /*
-  int cc =  (!b) ?  1 : 2;
-  */
-  std::printf("aa:%d, bb:%d \n", aa, bb);
   return 0;
 }
 

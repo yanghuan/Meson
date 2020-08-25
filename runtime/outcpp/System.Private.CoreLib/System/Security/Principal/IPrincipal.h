@@ -9,7 +9,7 @@ FORWARD(String)
 namespace System::Private::CoreLib::System::Security::Principal {
 FORWARD(IIdentity)
 namespace IPrincipalNamespace {
-CLASS(IPrincipal) : public Object::in {
+CLASS(IPrincipal) : public object {
   public: IIdentity get_Identity();
   public: Boolean IsInRole(String role);
   public: static constexpr rt::TypeCode code = rt::TypeCode::Interface;

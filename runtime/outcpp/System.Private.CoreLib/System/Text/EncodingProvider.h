@@ -12,7 +12,7 @@ FORWARD(DecoderFallback)
 FORWARD(EncoderFallback)
 FORWARD(Encoding)
 namespace EncodingProviderNamespace {
-CLASS(EncodingProvider) : public Object::in {
+CLASS(EncodingProvider) : public object {
   public: void ctor();
   public: Encoding GetEncoding(String name);
   public: Encoding GetEncoding(Int32 codepage);

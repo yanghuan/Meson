@@ -11,7 +11,7 @@ FORWARD(Version)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Runtime::Versioning {
 namespace FrameworkNameNamespace {
-CLASS(FrameworkName) : public Object::in {
+CLASS(FrameworkName) : public object {
   public: using interface = rt::TypeList<IEquatable<FrameworkName>>;
   public: String get_Identifier();
   public: Version get_Version();

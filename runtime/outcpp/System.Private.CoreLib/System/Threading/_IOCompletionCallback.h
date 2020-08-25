@@ -9,7 +9,7 @@ FORWARD(ExecutionContext)
 FORWARD(IOCompletionCallback)
 FORWARDS(NativeOverlapped)
 namespace _IOCompletionCallbackNamespace {
-CLASS(_IOCompletionCallback) : public Object::in {
+CLASS(_IOCompletionCallback) : public object {
   public: void ctor(IOCompletionCallback ioCompletionCallback, ExecutionContext executionContext);
   public: static void IOCompletionCallback_Context(Object state);
   public: static void PerformIOCompletionCallback(UInt32 errorCode, UInt32 numBytes, NativeOverlapped* pNativeOverlapped);

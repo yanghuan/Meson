@@ -16,7 +16,7 @@ FORWARDS_(Nullable, T1, T2)
 namespace LazyHelperNamespace {
 using namespace System::Runtime::ExceptionServices;
 using namespace System::Threading;
-CLASS(LazyHelper) : public Object::in {
+CLASS(LazyHelper) : public object {
   public: LazyState get_State() { return State; }
   public: void ctor(LazyState state);
   public: void ctor(LazyThreadSafetyMode mode, Exception exception);

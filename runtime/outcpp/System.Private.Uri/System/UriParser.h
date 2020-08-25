@@ -19,7 +19,7 @@ FORWARD(UriFormatException)
 namespace UriParserNamespace {
 using namespace ::System::Private::CoreLib::System;
 using namespace ::System::Private::CoreLib::System::Collections;
-CLASS(UriParser) : public Object::in {
+CLASS(UriParser) : public object {
   private: FRIENDN(BuiltInUriParser)
   public: String get_SchemeName();
   public: Int32 get_DefaultPort();

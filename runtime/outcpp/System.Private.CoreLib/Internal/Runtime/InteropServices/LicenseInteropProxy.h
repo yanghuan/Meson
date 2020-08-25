@@ -16,7 +16,7 @@ namespace System::Private::CoreLib::Internal::Runtime::InteropServices {
 namespace LicenseInteropProxyNamespace {
 using namespace System;
 using namespace System::Reflection;
-CLASS(LicenseInteropProxy) : public Object::in {
+CLASS(LicenseInteropProxy) : public object {
   public: void ctor();
   public: static Object Create();
   public: static Boolean HasLicense(Type type);

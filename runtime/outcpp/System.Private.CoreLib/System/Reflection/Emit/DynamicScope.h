@@ -19,7 +19,7 @@ FORWARD(DynamicMethod)
 FORWARD(VarArgMethod)
 namespace DynamicScopeNamespace {
 using namespace System::Collections::Generic;
-CLASS(DynamicScope) : public Object::in {
+CLASS(DynamicScope) : public object {
   public: Object get_Item(Int32 token);
   public: Int32 GetTokenFor(VarArgMethod varArgMethod);
   public: String GetString(Int32 token);

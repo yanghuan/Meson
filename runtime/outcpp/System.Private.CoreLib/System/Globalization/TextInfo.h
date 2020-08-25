@@ -25,7 +25,7 @@ FORWARD(CultureData)
 namespace TextInfoNamespace {
 using namespace System::Runtime::Serialization;
 using namespace System::Text;
-CLASS(TextInfo) : public Object::in {
+CLASS(TextInfo) : public object {
   public: using interface = rt::TypeList<ICloneable, IDeserializationCallback>;
   private: enum class Tristate : uint8_t {
     NotInitialized = 0,

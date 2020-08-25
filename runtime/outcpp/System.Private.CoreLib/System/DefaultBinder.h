@@ -41,7 +41,7 @@ CLASS(DefaultBinder) : public Binder::in {
     DateTime = 65536,
     String = 262144,
   };
-  public: CLASS(BinderState) : public Object::in {
+  public: CLASS(BinderState) : public object {
     public: void ctor(Array<Int32> argsMap, Int32 originalSize, Boolean isParamArray);
     public: Array<Int32> _argsMap;
     public: Int32 _originalSize;

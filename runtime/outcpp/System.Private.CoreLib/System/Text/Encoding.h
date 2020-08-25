@@ -41,7 +41,7 @@ namespace EncodingNamespace {
 using namespace System::Buffers;
 using namespace System::IO;
 using namespace System::Runtime::Serialization;
-CLASS(Encoding) : public Object::in {
+CLASS(Encoding) : public object {
   public: using interface = rt::TypeList<ICloneable>;
   public: CLASS(DefaultEncoder) : public Encoder::in {
     public: using interface = rt::TypeList<IObjectReference>;
@@ -65,7 +65,7 @@ CLASS(Encoding) : public Object::in {
     public: Int32 GetChars(Byte* bytes, Int32 byteCount, Char* chars, Int32 charCount, Boolean flush);
     private: Encoding _encoding;
   };
-  public: CLASS(EncodingCharBuffer) : public Object::in {
+  public: CLASS(EncodingCharBuffer) : public object {
     public: Boolean get_MoreData();
     public: Int32 get_BytesUsed();
     public: Int32 get_Count();
@@ -87,7 +87,7 @@ CLASS(Encoding) : public Object::in {
     private: Byte* _bytes;
     private: DecoderFallbackBuffer _fallbackBuffer;
   };
-  public: CLASS(EncodingByteBuffer) : public Object::in {
+  public: CLASS(EncodingByteBuffer) : public object {
     public: Boolean get_MoreData();
     public: Int32 get_CharsUsed();
     public: Int32 get_Count();

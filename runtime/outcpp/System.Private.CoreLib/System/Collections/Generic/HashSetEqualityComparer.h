@@ -12,7 +12,7 @@ FORWARD(IEqualityComparer, T)
 namespace HashSetEqualityComparerNamespace {
 template <class T>
 using IEqualityComparer = Generic::IEqualityComparer<T>;
-CLASS(HashSetEqualityComparer, T) : public Object::in {
+CLASS(HashSetEqualityComparer, T) : public object {
   public: using interface = rt::TypeList<IEqualityComparer<HashSet<T>>>;
   public: Boolean Equals(HashSet<T> x, HashSet<T> y);
   public: Int32 GetHashCode(HashSet<T> obj);

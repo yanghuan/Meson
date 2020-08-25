@@ -7,7 +7,7 @@ FORWARDS(Boolean)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Threading {
 namespace IDeferredDisposableNamespace {
-CLASS(IDeferredDisposable) : public Object::in {
+CLASS(IDeferredDisposable) : public object {
   public: void OnFinalRelease(Boolean disposed);
   public: static constexpr rt::TypeCode code = rt::TypeCode::Interface;
 };

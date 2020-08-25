@@ -19,7 +19,7 @@ FORWARD(IComparer)
 namespace ComparerNamespace {
 using namespace System::Globalization;
 using namespace System::Runtime::Serialization;
-CLASS(Comparer) : public Object::in {
+CLASS(Comparer) : public object {
   public: using interface = rt::TypeList<IComparer, ISerializable>;
   public: void ctor(CultureInfo culture);
   private: void ctor(SerializationInfo info, StreamingContext context);

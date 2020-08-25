@@ -4,7 +4,7 @@
 
 namespace System::Private::CoreLib::System::Runtime::CompilerServices {
 namespace IConfiguredTaskAwaiterNamespace {
-CLASS(IConfiguredTaskAwaiter) : public Object::in {
+CLASS(IConfiguredTaskAwaiter) : public object {
   public: static constexpr rt::TypeCode code = rt::TypeCode::Interface;
 };
 } // namespace IConfiguredTaskAwaiterNamespace

@@ -17,7 +17,7 @@ FORWARD(Hashtable)
 namespace System::Private::CoreLib::System::Security {
 namespace SecurityElementNamespace {
 using namespace System::Collections;
-CLASS(SecurityElement) : public Object::in {
+CLASS(SecurityElement) : public object {
   public: String get_Tag();
   public: void set_Tag(String value);
   public: Hashtable get_Attributes();

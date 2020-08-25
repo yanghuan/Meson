@@ -51,7 +51,6 @@ struct SByte : public valueType<SByte, rt::TypeCode::SByte> {
   private: int8_t m_value;
   public: static constexpr int8_t MaxValue = 127;
   public: static constexpr int8_t MinValue = -128;
-  public: static constexpr rt::TypeCode code = rt::TypeCode::SByte;
   public: constexpr SByte() noexcept : m_value(0) {}
   public: constexpr SByte(int8_t value) noexcept : m_value(value) {}
   public: template <class T> requires(std::is_enum_v<T>)

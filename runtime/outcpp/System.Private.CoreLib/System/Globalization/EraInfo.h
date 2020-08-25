@@ -9,7 +9,7 @@ FORWARD(String)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Globalization {
 namespace EraInfoNamespace {
-CLASS(EraInfo) : public Object::in {
+CLASS(EraInfo) : public object {
   public: void ctor(Int32 era, Int32 startYear, Int32 startMonth, Int32 startDay, Int32 yearOffset, Int32 minEraYear, Int32 maxEraYear);
   public: void ctor(Int32 era, Int32 startYear, Int32 startMonth, Int32 startDay, Int32 yearOffset, Int32 minEraYear, Int32 maxEraYear, String eraName, String abbrevEraName, String englishEraName);
   public: Int32 era;

@@ -10,7 +10,7 @@ FORWARDS(Int32)
 FORWARDS(ReadOnlySpan, T)
 FORWARDS(Span, T)
 namespace ISpanFormattableNamespace {
-CLASS(ISpanFormattable) : public Object::in {
+CLASS(ISpanFormattable) : public object {
   public: Boolean TryFormat(Span<Char> destination, Int32& charsWritten, ReadOnlySpan<Char> format, IFormatProvider provider);
   public: static constexpr rt::TypeCode code = rt::TypeCode::Interface;
 };

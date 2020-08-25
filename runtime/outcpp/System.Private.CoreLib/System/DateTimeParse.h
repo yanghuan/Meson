@@ -108,6 +108,7 @@ class DateTimeParse {
     public: Boolean Invoke(__DTString& str, Int32 digitLen, Int32& result);
     public: IAsyncResult BeginInvoke(__DTString& str, Int32 digitLen, Int32& result, AsyncCallback callback, Object object);
     public: Boolean EndInvoke(__DTString& str, Int32& result, IAsyncResult __result);
+    public: static constexpr rt::TypeCode code = rt::TypeCode::Delegate;
   };
   public: static DateTime ParseExact(ReadOnlySpan<Char> s, ReadOnlySpan<Char> format, DateTimeFormatInfo dtfi, DateTimeStyles style);
   public: static DateTime ParseExact(ReadOnlySpan<Char> s, ReadOnlySpan<Char> format, DateTimeFormatInfo dtfi, DateTimeStyles style, TimeSpan& offset);

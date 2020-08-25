@@ -15,7 +15,7 @@ FORWARD(IAsyncStateMachine)
 namespace AsyncMethodBuilderCoreNamespace {
 using namespace System::Threading::Tasks;
 class AsyncMethodBuilderCore {
-  private: CLASS(ContinuationWrapper) : public Object::in {
+  private: CLASS(ContinuationWrapper) : public object {
     public: void ctor(Action<> continuation, Action<Action<>, Task<>> invokeAction, Task<> innerTask);
     public: void Invoke();
     private: Action<Action<>, Task<>> _invokeAction;

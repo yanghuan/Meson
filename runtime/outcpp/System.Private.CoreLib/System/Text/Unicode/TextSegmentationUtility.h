@@ -28,6 +28,7 @@ class TextSegmentationUtility {
     public: OperationStatus Invoke(ReadOnlySpan<T> input, Rune& rune, Int32& elementsConsumed);
     public: IAsyncResult BeginInvoke(ReadOnlySpan<T> input, Rune& rune, Int32& elementsConsumed, AsyncCallback callback, Object object);
     public: OperationStatus EndInvoke(Rune& rune, Int32& elementsConsumed, IAsyncResult result);
+    public: static constexpr rt::TypeCode code = rt::TypeCode::Delegate;
   };
   private: template <class T>
   struct Processor : public valueType<Processor<T>> {

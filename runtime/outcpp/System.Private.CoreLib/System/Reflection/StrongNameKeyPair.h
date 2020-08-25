@@ -20,7 +20,7 @@ namespace System::Private::CoreLib::System::Reflection {
 namespace StrongNameKeyPairNamespace {
 using namespace System::IO;
 using namespace System::Runtime::Serialization;
-CLASS(StrongNameKeyPair) : public Object::in {
+CLASS(StrongNameKeyPair) : public object {
   public: using interface = rt::TypeList<IDeserializationCallback, ISerializable>;
   public: Array<Byte> get_PublicKey();
   public: void ctor(FileStream keyPairFile);

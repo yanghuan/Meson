@@ -9,7 +9,7 @@ FORWARDS(IntPtr)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Diagnostics::Tracing {
 namespace TraceLoggingEventHandleTableNamespace {
-CLASS(TraceLoggingEventHandleTable) : public Object::in {
+CLASS(TraceLoggingEventHandleTable) : public object {
   public: IntPtr get_Item(Int32 eventID);
   public: void ctor();
   public: void SetEventHandle(Int32 eventID, IntPtr eventHandle);

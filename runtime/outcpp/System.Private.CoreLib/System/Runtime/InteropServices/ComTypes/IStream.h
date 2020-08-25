@@ -12,7 +12,7 @@ FORWARDS(IntPtr)
 namespace System::Private::CoreLib::System::Runtime::InteropServices::ComTypes {
 FORWARDS(STATSTG)
 namespace IStreamNamespace {
-CLASS(IStream) : public Object::in {
+CLASS(IStream) : public object {
   public: void Read(Array<Byte> pv, Int32 cb, IntPtr pcbRead);
   public: void Write(Array<Byte> pv, Int32 cb, IntPtr pcbWritten);
   public: void Seek(Int64 dlibMove, Int32 dwOrigin, IntPtr plibNewPosition);

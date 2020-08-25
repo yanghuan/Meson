@@ -10,7 +10,7 @@ FORWARDS(FILETIME)
 FORWARD(IEnumMoniker)
 FORWARD(IMoniker)
 namespace IRunningObjectTableNamespace {
-CLASS(IRunningObjectTable) : public Object::in {
+CLASS(IRunningObjectTable) : public object {
   public: Int32 Register(Int32 grfFlags, Object punkObject, IMoniker pmkObjectName);
   public: void Revoke(Int32 dwRegister);
   public: Int32 IsRunning(IMoniker pmkObjectName);

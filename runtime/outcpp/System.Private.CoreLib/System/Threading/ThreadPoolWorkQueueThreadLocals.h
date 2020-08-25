@@ -7,7 +7,7 @@
 namespace System::Private::CoreLib::System::Threading {
 FORWARD(Thread)
 namespace ThreadPoolWorkQueueThreadLocalsNamespace {
-CLASS(ThreadPoolWorkQueueThreadLocals) : public Object::in {
+CLASS(ThreadPoolWorkQueueThreadLocals) : public object {
   public: void ctor(ThreadPoolWorkQueue tpq);
   protected: void Finalize();
   public: static ThreadPoolWorkQueueThreadLocals threadLocals;

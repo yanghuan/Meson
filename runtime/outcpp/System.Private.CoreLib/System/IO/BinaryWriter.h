@@ -35,7 +35,7 @@ FORWARD(Stream)
 namespace BinaryWriterNamespace {
 using namespace System::Text;
 using namespace System::Threading::Tasks;
-CLASS(BinaryWriter) : public Object::in {
+CLASS(BinaryWriter) : public object {
   public: using interface = rt::TypeList<IDisposable, IAsyncDisposable>;
   public: Stream get_BaseStream();
   protected: void ctor();

@@ -13,7 +13,7 @@ FORWARD(IClassFactory)
 FORWARDS(LICINFO)
 namespace IClassFactory2Namespace {
 using namespace System;
-CLASS(IClassFactory2) : public Object::in {
+CLASS(IClassFactory2) : public object {
   public: using interface = rt::TypeList<IClassFactory>;
   public: void CreateInstance(Object pUnkOuter, Guid& riid, Object& ppvObject);
   public: void LockServer(Boolean fLock);

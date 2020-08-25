@@ -7,7 +7,7 @@ FORWARD(String)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Runtime::InteropServices {
 namespace BStrWrapperNamespace {
-CLASS(BStrWrapper) : public Object::in {
+CLASS(BStrWrapper) : public object {
   public: String get_WrappedObject() { return WrappedObject; }
   public: void ctor(String value);
   public: void ctor(Object value);

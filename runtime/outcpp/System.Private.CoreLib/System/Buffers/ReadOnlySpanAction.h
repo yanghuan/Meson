@@ -16,6 +16,7 @@ CLASS(ReadOnlySpanAction, T, TArg) : public MulticastDelegate::in {
   public: void Invoke(ReadOnlySpan<T> span, TArg arg);
   public: IAsyncResult BeginInvoke(ReadOnlySpan<T> span, TArg arg, AsyncCallback callback, Object object);
   public: void EndInvoke(IAsyncResult result);
+  public: static constexpr rt::TypeCode code = rt::TypeCode::Delegate;
 };
 } // namespace ReadOnlySpanActionNamespace
 template <class T, class TArg>

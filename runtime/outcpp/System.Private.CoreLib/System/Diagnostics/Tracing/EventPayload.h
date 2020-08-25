@@ -32,7 +32,7 @@ using IEnumerable = Collections::Generic::IEnumerable<T>;
 using IEnumerable_ = Collections::IEnumerable;
 template <class T>
 using IEnumerator = Collections::Generic::IEnumerator<T>;
-CLASS(EventPayload) : public Object::in {
+CLASS(EventPayload) : public object {
   public: using interface = rt::TypeList<IDictionary<String, Object>, ICollection<KeyValuePair<String, Object>>, IEnumerable<KeyValuePair<String, Object>>, IEnumerable_>;
   public: ICollection<String> get_Keys();
   public: ICollection<Object> get_Values();

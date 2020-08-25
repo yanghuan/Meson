@@ -15,7 +15,7 @@ FORWARD(EncoderNLS)
 FORWARD(Encoding)
 FORWARDS(Rune)
 namespace EncoderFallbackBufferNamespace {
-CLASS(EncoderFallbackBuffer) : public Object::in {
+CLASS(EncoderFallbackBuffer) : public object {
   public: Int32 get_Remaining();
   public: Boolean Fallback(Char charUnknown, Int32 index);
   public: Boolean Fallback(Char charUnknownHigh, Char charUnknownLow, Int32 index);

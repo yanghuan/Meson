@@ -14,7 +14,7 @@ FORWARD(IEnumerator)
 namespace System::Private::CoreLib::System::Runtime::InteropServices::CustomMarshalers {
 namespace EnumerableViewOfDispatchNamespace {
 using namespace System::Collections;
-CLASS(EnumerableViewOfDispatch) : public Object::in {
+CLASS(EnumerableViewOfDispatch) : public object {
   public: using interface = rt::TypeList<ICustomAdapter, IEnumerable>;
   private: IDispatch get_Dispatch();
   public: void ctor(Object dispatch);

@@ -17,7 +17,7 @@ enum class TaskCreationOptions : int32_t;
 FORWARD_(Task, T1, T2)
 namespace TaskCompletionSourceNamespace {
 using namespace System::Collections::Generic;
-CLASS(TaskCompletionSource, TResult) : public Object::in {
+CLASS(TaskCompletionSource, TResult) : public object {
   public: Task<TResult> get_Task();
   public: void ctor();
   public: void ctor(TaskCreationOptions creationOptions);

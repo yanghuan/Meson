@@ -17,7 +17,7 @@ namespace System::Private::CoreLib::Internal::Win32 {
 namespace RegistryKeyNamespace {
 using namespace Internal::Win32::SafeHandles;
 using namespace System;
-CLASS(RegistryKey) : public Object::in {
+CLASS(RegistryKey) : public object {
   public: using interface = rt::TypeList<IDisposable>;
   private: void ctor(SafeRegistryHandle hkey);
   public: void DeleteValue(String name, Boolean throwOnMissingValue);

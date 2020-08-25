@@ -6,7 +6,7 @@ namespace System::Private::CoreLib::System {
 FORWARD(IFormatProvider)
 FORWARD(String)
 namespace IFormattableNamespace {
-CLASS(IFormattable) : public Object::in {
+CLASS(IFormattable) : public object {
   public: String ToString(String format, IFormatProvider formatProvider);
   public: static constexpr rt::TypeCode code = rt::TypeCode::Interface;
 };

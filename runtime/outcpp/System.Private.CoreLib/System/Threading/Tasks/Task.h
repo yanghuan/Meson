@@ -64,10 +64,10 @@ using namespace System::Collections::ObjectModel;
 using namespace System::Runtime::CompilerServices;
 using namespace System::Runtime::ExceptionServices;
 CLASS_FORWARD(Task, T1, T2)
-CLASS_(Task) : public Object::in {
+CLASS_(Task) : public object {
   public: using interface = rt::TypeList<IAsyncResult, IDisposable>;
   private: FRIENDN(DelayPromise)
-  public: CLASS(ContingentProperties) : public Object::in {
+  public: CLASS(ContingentProperties) : public object {
     public: void SetCompleted();
     public: void UnregisterCancellationCallback();
     public: void ctor();

@@ -10,7 +10,7 @@ FORWARDS(Int32)
 namespace System::Private::CoreLib::System::Collections {
 FORWARD(IEnumerable)
 namespace ICollectionNamespace {
-CLASS(ICollection) : public Object::in {
+CLASS(ICollection) : public object {
   public: using interface = rt::TypeList<IEnumerable>;
   public: Int32 get_Count();
   public: Object get_SyncRoot();

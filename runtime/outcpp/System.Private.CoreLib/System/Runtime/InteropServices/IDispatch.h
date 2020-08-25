@@ -17,7 +17,7 @@ namespace System::Private::CoreLib::System::Runtime::InteropServices {
 enum class InvokeFlags : int16_t;
 namespace IDispatchNamespace {
 using namespace System::Runtime::InteropServices::ComTypes;
-CLASS(IDispatch) : public Object::in {
+CLASS(IDispatch) : public object {
   public: Int32 GetTypeInfoCount();
   public: ITypeInfo GetTypeInfo(Int32 iTInfo, Int32 lcid);
   public: void GetIDsOfNames(Guid& riid, Array<String> rgszNames, Int32 cNames, Int32 lcid, Array<Int32> rgDispId);

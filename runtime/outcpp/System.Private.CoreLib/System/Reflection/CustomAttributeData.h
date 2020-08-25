@@ -49,7 +49,7 @@ namespace CustomAttributeDataNamespace {
 using namespace System::Collections::Generic;
 using namespace System::Runtime::CompilerServices;
 using namespace System::Runtime::InteropServices;
-CLASS(CustomAttributeData) : public Object::in {
+CLASS(CustomAttributeData) : public object {
   public: Type get_AttributeType();
   public: ConstructorInfo get_Constructor();
   public: IList<CustomAttributeTypedArgument> get_ConstructorArguments();

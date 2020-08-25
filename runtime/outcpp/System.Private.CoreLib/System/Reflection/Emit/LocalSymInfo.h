@@ -14,7 +14,7 @@ FORWARD(ISymbolWriter)
 namespace System::Private::CoreLib::System::Reflection::Emit {
 namespace LocalSymInfoNamespace {
 using namespace System::Diagnostics::SymbolStore;
-CLASS(LocalSymInfo) : public Object::in {
+CLASS(LocalSymInfo) : public object {
   public: void ctor();
   private: void EnsureCapacityNamespace();
   private: void EnsureCapacity();

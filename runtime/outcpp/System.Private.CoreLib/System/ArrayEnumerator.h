@@ -12,7 +12,7 @@ FORWARD_(Array, T1, T2)
 FORWARD(ICloneable)
 namespace ArrayEnumeratorNamespace {
 using namespace System::Collections;
-CLASS(ArrayEnumerator) : public Object::in {
+CLASS(ArrayEnumerator) : public object {
   public: using interface = rt::TypeList<IEnumerator, ICloneable>;
   public: Object get_Current();
   public: void ctor(Array<> array, Int32 index, Int32 count);

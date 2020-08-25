@@ -9,7 +9,7 @@ FORWARDS(Guid)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Diagnostics::SymbolStore {
 namespace ISymbolDocumentWriterNamespace {
-CLASS(ISymbolDocumentWriter) : public Object::in {
+CLASS(ISymbolDocumentWriter) : public object {
   public: void SetCheckSum(Guid algorithmId, Array<Byte> checkSum);
   public: void SetSource(Array<Byte> source);
   public: static constexpr rt::TypeCode code = rt::TypeCode::Interface;

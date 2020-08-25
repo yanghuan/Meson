@@ -6,7 +6,7 @@ namespace System::Private::CoreLib::System::Reflection {
 FORWARD(Assembly)
 FORWARD(TypeInfo)
 namespace ReflectionContextNamespace {
-CLASS(ReflectionContext) : public Object::in {
+CLASS(ReflectionContext) : public object {
   protected: void ctor();
   public: Assembly MapAssembly(Assembly assembly);
   public: TypeInfo MapType(TypeInfo type);

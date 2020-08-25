@@ -10,7 +10,7 @@ FORWARD(String)
 namespace System::Private::CoreLib::System::Text {
 FORWARD(Encoding)
 namespace EncodingInfoNamespace {
-CLASS(EncodingInfo) : public Object::in {
+CLASS(EncodingInfo) : public object {
   public: Int32 get_CodePage() { return CodePage; }
   public: String get_Name() { return Name; }
   public: String get_DisplayName() { return DisplayName; }

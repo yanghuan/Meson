@@ -51,7 +51,6 @@ struct Int16 : public valueType<Int16, rt::TypeCode::Int16> {
   private: int16_t m_value;
   public: static constexpr int16_t MaxValue = 32767;
   public: static constexpr int16_t MinValue = -32768;
-  public: static constexpr rt::TypeCode code = rt::TypeCode::Int16;
   public: constexpr Int16() noexcept : m_value(0) {}
   public: constexpr Int16(int16_t value) noexcept : m_value(value) {}
   public: template <class T> requires(std::is_enum_v<T>)

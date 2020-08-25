@@ -5,7 +5,7 @@
 namespace System::Private::CoreLib::System::Reflection {
 FORWARD(TypeInfo)
 namespace IReflectableTypeNamespace {
-CLASS(IReflectableType) : public Object::in {
+CLASS(IReflectableType) : public object {
   public: TypeInfo GetTypeInfo();
   public: static constexpr rt::TypeCode code = rt::TypeCode::Interface;
 };

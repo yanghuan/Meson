@@ -12,7 +12,7 @@ FORWARDS_(ValueTask, T1, T2)
 namespace System::Private::CoreLib::System::Collections::Generic {
 namespace IAsyncEnumeratorNamespace {
 using namespace System::Threading::Tasks;
-CLASS(IAsyncEnumerator, T) : public Object::in {
+CLASS(IAsyncEnumerator, T) : public object {
   public: using interface = rt::TypeList<IAsyncDisposable>;
   public: T get_Current();
   public: ValueTask<Boolean> MoveNextAsync();

@@ -19,8 +19,8 @@ namespace System::Private::CoreLib::System::Diagnostics::Tracing {
 enum class EventActivityOptions : int32_t;
 namespace ActivityTrackerNamespace {
 using namespace System::Threading;
-CLASS(ActivityTracker) : public Object::in {
-  private: CLASS(ActivityInfo) : public Object::in {
+CLASS(ActivityTracker) : public object {
+  private: CLASS(ActivityInfo) : public object {
     public: Guid get_ActivityId();
     public: void ctor(String name, Int64 uniqueId, ActivityInfo creator, Guid activityIDToRestore, EventActivityOptions options);
     public: static String Path(ActivityInfo activityInfo);

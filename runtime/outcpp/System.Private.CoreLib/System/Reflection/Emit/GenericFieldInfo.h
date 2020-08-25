@@ -6,7 +6,7 @@
 
 namespace System::Private::CoreLib::System::Reflection::Emit {
 namespace GenericFieldInfoNamespace {
-CLASS(GenericFieldInfo) : public Object::in {
+CLASS(GenericFieldInfo) : public object {
   public: void ctor(RuntimeFieldHandle fieldHandle, RuntimeTypeHandle context);
   public: RuntimeFieldHandle m_fieldHandle;
   public: RuntimeTypeHandle m_context;

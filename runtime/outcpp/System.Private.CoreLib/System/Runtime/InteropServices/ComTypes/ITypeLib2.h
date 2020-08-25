@@ -17,7 +17,7 @@ FORWARD(ITypeComp)
 FORWARD(ITypeInfo)
 FORWARD(ITypeLib)
 namespace ITypeLib2Namespace {
-CLASS(ITypeLib2) : public Object::in {
+CLASS(ITypeLib2) : public object {
   public: using interface = rt::TypeList<ITypeLib>;
   public: Int32 GetTypeInfoCount();
   public: void GetTypeInfo(Int32 index, ITypeInfo& ppTI);

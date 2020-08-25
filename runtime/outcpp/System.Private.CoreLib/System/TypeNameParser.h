@@ -27,7 +27,7 @@ namespace TypeNameParserNamespace {
 using namespace System::Reflection;
 using namespace System::Runtime::CompilerServices;
 using namespace System::Threading;
-CLASS(TypeNameParser) : public Object::in {
+CLASS(TypeNameParser) : public object {
   public: using interface = rt::TypeList<IDisposable>;
   private: static void _CreateTypeNameParser(String typeName, ObjectHandleOnStack retHandle, Boolean throwOnError);
   private: static void _GetNames(SafeTypeNameParserHandle pTypeNameParser, ObjectHandleOnStack retArray);

@@ -49,7 +49,7 @@ using namespace System::Collections::ObjectModel;
 using namespace System::Globalization;
 using namespace System::Runtime::Serialization;
 using namespace System::Text;
-CLASS(TimeZoneInfo) : public Object::in {
+CLASS(TimeZoneInfo) : public object {
   public: using interface = rt::TypeList<IEquatable<TimeZoneInfo>, ISerializable, IDeserializationCallback>;
   private: enum class TimeZoneInfoResult : int32_t {
     Success = 0,
@@ -83,7 +83,7 @@ CLASS(TimeZoneInfo) : public Object::in {
     private: DayOfWeek _dayOfWeek;
     private: Boolean _isFixedDateRule;
   };
-  public: CLASS(AdjustmentRule) : public Object::in {
+  public: CLASS(AdjustmentRule) : public object {
     public: using interface = rt::TypeList<IEquatable<AdjustmentRule>, ISerializable, IDeserializationCallback>;
     public: DateTime get_DateStart();
     public: DateTime get_DateEnd();
@@ -114,13 +114,13 @@ CLASS(TimeZoneInfo) : public Object::in {
     private: TimeSpan _baseUtcOffsetDelta;
     private: Boolean _noDaylightTransitions;
   };
-  private: CLASS(OffsetAndRule) : public Object::in {
+  private: CLASS(OffsetAndRule) : public object {
     public: void ctor(Int32 year, TimeSpan offset, AdjustmentRule rule);
     public: Int32 Year;
     public: TimeSpan Offset;
     public: AdjustmentRule Rule;
   };
-  private: CLASS(CachedData) : public Object::in {
+  private: CLASS(CachedData) : public object {
     public: TimeZoneInfo get_Local();
     private: TimeZoneInfo CreateLocal();
     public: DateTimeKind GetCorrespondingKind(TimeZoneInfo timeZone);

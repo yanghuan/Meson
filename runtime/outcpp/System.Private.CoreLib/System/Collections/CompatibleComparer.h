@@ -11,7 +11,7 @@ FORWARD(IComparer)
 FORWARD(IEqualityComparer)
 FORWARD(IHashCodeProvider)
 namespace CompatibleComparerNamespace {
-CLASS(CompatibleComparer) : public Object::in {
+CLASS(CompatibleComparer) : public object {
   public: using interface = rt::TypeList<IEqualityComparer>;
   public: IHashCodeProvider get_HashCodeProvider();
   public: IComparer get_Comparer();

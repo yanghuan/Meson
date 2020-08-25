@@ -10,7 +10,7 @@ namespace System::Private::CoreLib::System::Collections {
 FORWARD(ICollection)
 FORWARD(IEnumerable)
 namespace IListNamespace {
-CLASS(IList) : public Object::in {
+CLASS(IList) : public object {
   public: using interface = rt::TypeList<ICollection, IEnumerable>;
   public: Object get_Item(Int32 index);
   public: void set_Item(Int32 index, Object value);

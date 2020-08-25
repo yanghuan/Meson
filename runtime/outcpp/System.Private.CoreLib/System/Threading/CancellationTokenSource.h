@@ -26,10 +26,10 @@ FORWARD(TimerQueueTimer)
 FORWARD(WaitHandle)
 namespace CancellationTokenSourceNamespace {
 using namespace System::Threading::Tasks;
-CLASS(CancellationTokenSource) : public Object::in {
+CLASS(CancellationTokenSource) : public object {
   public: using interface = rt::TypeList<IDisposable>;
   public: FORWARDN(CallbackPartition)
-  public: CLASS(CallbackNode) : public Object::in {
+  public: CLASS(CallbackNode) : public object {
     public: void ctor(CallbackPartition partition);
     public: void ExecuteCallback();
     public: CallbackPartition Partition;
@@ -44,7 +44,7 @@ CLASS(CancellationTokenSource) : public Object::in {
   private: FRIENDN(Linked1CancellationTokenSource)
   private: FRIENDN(Linked2CancellationTokenSource)
   private: FRIENDN(LinkedNCancellationTokenSource)
-  public: CLASS(CallbackPartition) : public Object::in {
+  public: CLASS(CallbackPartition) : public object {
     public: void ctor(CancellationTokenSource source);
     public: Boolean Unregister(Int64 id, CallbackNode node);
     public: CancellationTokenSource Source;

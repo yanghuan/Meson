@@ -9,7 +9,7 @@ FORWARDS(Boolean)
 namespace System::Private::CoreLib::System::Diagnostics::Tracing {
 FORWARD(EventListener)
 namespace EventDispatcherNamespace {
-CLASS(EventDispatcher) : public Object::in {
+CLASS(EventDispatcher) : public object {
   public: void ctor(EventDispatcher next, Array<Boolean> eventEnabled, EventListener listener);
   public: EventListener m_Listener;
   public: Array<Boolean> m_EventEnabled;

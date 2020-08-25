@@ -30,13 +30,13 @@ using namespace System::Collections::Generic;
 using namespace System::Globalization;
 using namespace System::IO;
 using namespace System::Reflection;
-CLASS(ResourceManager) : public Object::in {
-  public: CLASS(CultureNameResourceSetPair) : public Object::in {
+CLASS(ResourceManager) : public object {
+  public: CLASS(CultureNameResourceSetPair) : public object {
     public: void ctor();
     public: String lastCultureName;
     public: ResourceSet lastResourceSet;
   };
-  public: CLASS(ResourceManagerMediator) : public Object::in {
+  public: CLASS(ResourceManagerMediator) : public object {
     public: String get_ModuleDir();
     public: Type get_LocationInfo();
     public: Type get_UserResourceSet();

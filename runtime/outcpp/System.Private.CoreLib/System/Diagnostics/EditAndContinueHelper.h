@@ -4,7 +4,7 @@
 
 namespace System::Private::CoreLib::System::Diagnostics {
 namespace EditAndContinueHelperNamespace {
-CLASS(EditAndContinueHelper) : public Object::in {
+CLASS(EditAndContinueHelper) : public object {
   private: Object _objectReference;
 };
 } // namespace EditAndContinueHelperNamespace

@@ -9,7 +9,7 @@ FORWARDS(IntPtr)
 namespace System::Private::CoreLib::System::Runtime::InteropServices {
 enum class CustomQueryInterfaceResult : int32_t;
 namespace ICustomQueryInterfaceNamespace {
-CLASS(ICustomQueryInterface) : public Object::in {
+CLASS(ICustomQueryInterface) : public object {
   public: CustomQueryInterfaceResult GetInterface(Guid& iid, IntPtr& ppv);
   public: static constexpr rt::TypeCode code = rt::TypeCode::Interface;
 };

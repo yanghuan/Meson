@@ -6,7 +6,7 @@
 namespace System::Private::CoreLib::System::Diagnostics::Tracing {
 FORWARD(IEventProvider)
 namespace EventPipeEventProviderNamespace {
-CLASS(EventPipeEventProvider) : public Object::in {
+CLASS(EventPipeEventProvider) : public object {
   public: using interface = rt::TypeList<IEventProvider>;
   public: void ctor();
   private: IntPtr m_provHandle;

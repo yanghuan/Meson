@@ -18,7 +18,7 @@ namespace ITupleInternalNamespace {
 using namespace System::Collections;
 using namespace System::Runtime::CompilerServices;
 using namespace System::Text;
-CLASS(ITupleInternal) : public Object::in {
+CLASS(ITupleInternal) : public object {
   public: using interface = rt::TypeList<ITuple>;
   public: String ToString(StringBuilder sb);
   public: Int32 GetHashCode(IEqualityComparer comparer);

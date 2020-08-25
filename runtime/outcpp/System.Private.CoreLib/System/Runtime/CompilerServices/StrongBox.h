@@ -5,7 +5,7 @@
 namespace System::Private::CoreLib::System::Runtime::CompilerServices {
 FORWARD(IStrongBox)
 namespace StrongBoxNamespace {
-CLASS(StrongBox, T) : public Object::in {
+CLASS(StrongBox, T) : public object {
   public: using interface = rt::TypeList<IStrongBox>;
   private: Object get_ValueOfIStrongBox();
   private: void set_ValueOfIStrongBox(Object value);

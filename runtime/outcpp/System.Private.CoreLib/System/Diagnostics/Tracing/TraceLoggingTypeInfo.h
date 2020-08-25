@@ -22,7 +22,7 @@ FORWARD(TraceLoggingDataCollector)
 FORWARD(TraceLoggingMetadataCollector)
 namespace TraceLoggingTypeInfoNamespace {
 using namespace System::Collections::Generic;
-CLASS(TraceLoggingTypeInfo) : public Object::in {
+CLASS(TraceLoggingTypeInfo) : public object {
   public: String get_Name();
   public: EventLevel get_Level();
   public: EventOpcode get_Opcode();

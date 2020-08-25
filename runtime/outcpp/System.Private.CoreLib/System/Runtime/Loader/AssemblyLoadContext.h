@@ -46,7 +46,7 @@ using namespace System::IO;
 using namespace System::Reflection;
 using namespace System::Runtime::CompilerServices;
 using namespace System::Threading;
-CLASS(AssemblyLoadContext) : public Object::in {
+CLASS(AssemblyLoadContext) : public object {
   private: enum class InternalState : int32_t {
     Alive = 0,
     Unloading = 1,

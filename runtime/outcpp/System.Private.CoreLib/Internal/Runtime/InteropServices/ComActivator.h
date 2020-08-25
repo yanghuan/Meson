@@ -27,7 +27,7 @@ using namespace System;
 using namespace System::Collections::Generic;
 using namespace System::Runtime::Loader;
 class ComActivator {
-  private: CLASS(BasicClassFactory) : public Object::in {
+  private: CLASS(BasicClassFactory) : public object {
     public: using interface = rt::TypeList<IClassFactory>;
     public: void ctor(Guid clsid, Type classType);
     public: static Type GetValidatedInterfaceType(Type classType, Guid& riid, Object outer);
@@ -38,7 +38,7 @@ class ComActivator {
     private: Guid _classId;
     private: Type _classType;
   };
-  private: CLASS(LicenseClassFactory) : public Object::in {
+  private: CLASS(LicenseClassFactory) : public object {
     public: using interface = rt::TypeList<IClassFactory2, IClassFactory>;
     public: void ctor(Guid clsid, Type classType);
     public: void CreateInstance(Object pUnkOuter, Guid& riid, Object& ppvObject);

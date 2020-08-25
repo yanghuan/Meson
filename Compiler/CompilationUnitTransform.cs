@@ -5,7 +5,6 @@ using System.Linq;
 
 using ICSharpCode.Decompiler.TypeSystem;
 using Meson.Compiler.CppAst;
-using Microsoft.VisualBasic;
 
 namespace Meson.Compiler {
   internal sealed class ReferencePackage {
@@ -118,14 +117,24 @@ namespace Meson.Compiler {
       if (root_.KnownTypeCode == KnownTypeCode.ValueType) {
         var valueType = new ClassSyntax(root_.Name.FirstCharLow(), true) { 
           Template = new TemplateSyntax(
-            TemplateTypenameSyntax.T, 
-            new TemplateTypenameSyntax("code", IdentifierSyntax.TypeCode.TwoColon("None")) { 
-              ClassToken = IdentifierSyntax.TypeCode
-            }) 
+            TemplateTypenameSyntax.T,
+            new TemplateTypenameSyntax(IdentifierSyntax.N, IdentifierSyntax.TypeCode.TwoColon(TypeKind.Struct.ToString())) {  ClassToken = IdentifierSyntax.TypeCode })
         };
-        var baseType = IdentifierSyntax.Meson.TwoColon(root_.Name).Generic(IdentifierSyntax.T, name.WithIn(), "code");
+        var baseType = IdentifierSyntax.Meson.TwoColon(root_.Name).Generic(IdentifierSyntax.T, name.WithIn(), IdentifierSyntax.N);
         valueType.Bases.Add(new BaseSyntax(baseType));
+        valueType.Add(new FieldDefinitionSyntax(IdentifierSyntax.TypeCode, IdentifierSyntax.code, true, Accessibility.Public.ToTokenString()) {
+          IsConstexpr = true,
+          ConstantValue = IdentifierSyntax.N,
+        });
         rootNamespace.Add(valueType);
+      } else if (root_.KnownTypeCode == KnownTypeCode.Object) {
+        var objectType = new ClassSyntax(root_.Name.FirstCharLow(), true);
+        objectType.Bases.Add(new BaseSyntax(root_.Name.AsIdentifier().WithIn()));
+        objectType.Add(new FieldDefinitionSyntax(IdentifierSyntax.TypeCode, IdentifierSyntax.code, true, Accessibility.Public.ToTokenString()) {
+          IsConstexpr = true,
+          ConstantValue = IdentifierSyntax.TypeCode.TwoColon(root_.Kind.ToString()),
+        });
+        rootNamespace.Add(objectType);
       }
     }
 

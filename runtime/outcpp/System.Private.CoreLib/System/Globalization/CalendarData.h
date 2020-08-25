@@ -25,7 +25,7 @@ enum class CalendarId : uint16_t;
 namespace CalendarDataNamespace {
 using namespace System::Collections::Generic;
 using namespace System::Text;
-CLASS(CalendarData) : public Object::in {
+CLASS(CalendarData) : public object {
   private: struct IcuEnumCalendarsData : public valueType<IcuEnumCalendarsData> {
     public: List<String> Results;
     public: Boolean DisallowDuplicates;

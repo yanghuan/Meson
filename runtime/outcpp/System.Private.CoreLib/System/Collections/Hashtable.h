@@ -30,14 +30,14 @@ FORWARD(IHashCodeProvider)
 FORWARD(KeyValuePairs)
 namespace HashtableNamespace {
 using namespace System::Runtime::Serialization;
-CLASS(Hashtable) : public Object::in {
+CLASS(Hashtable) : public object {
   public: using interface = rt::TypeList<IDictionary, ICollection, IEnumerable, ISerializable, IDeserializationCallback, ICloneable>;
   private: struct bucket : public valueType<bucket> {
     public: Object key;
     public: Object val;
     public: Int32 hash_coll;
   };
-  private: CLASS(KeyCollection) : public Object::in {
+  private: CLASS(KeyCollection) : public object {
     public: using interface = rt::TypeList<ICollection, IEnumerable>;
     public: Boolean get_IsSynchronized();
     public: Object get_SyncRoot();
@@ -47,7 +47,7 @@ CLASS(Hashtable) : public Object::in {
     public: IEnumerator GetEnumerator();
     private: Hashtable _hashtable;
   };
-  private: CLASS(ValueCollection) : public Object::in {
+  private: CLASS(ValueCollection) : public object {
     public: using interface = rt::TypeList<ICollection, IEnumerable>;
     public: Boolean get_IsSynchronized();
     public: Object get_SyncRoot();
@@ -58,7 +58,7 @@ CLASS(Hashtable) : public Object::in {
     private: Hashtable _hashtable;
   };
   private: FRIENDN(SyncHashtable)
-  private: CLASS(HashtableEnumerator) : public Object::in {
+  private: CLASS(HashtableEnumerator) : public object {
     public: using interface = rt::TypeList<IDictionaryEnumerator, IEnumerator, ICloneable>;
     public: Object get_Key();
     public: DictionaryEntry get_Entry();
@@ -76,7 +76,7 @@ CLASS(Hashtable) : public Object::in {
     private: Object _currentKey;
     private: Object _currentValue;
   };
-  public: CLASS(HashtableDebugView) : public Object::in {
+  public: CLASS(HashtableDebugView) : public object {
     public: Array<KeyValuePairs> get_Items();
     public: void ctor(Hashtable hashtable);
     private: Hashtable _hashtable;

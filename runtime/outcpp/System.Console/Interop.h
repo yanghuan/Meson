@@ -94,6 +94,7 @@ class Interop {
       public: Boolean Invoke(Int32 controlType);
       public: IAsyncResult BeginInvoke(Int32 controlType, AsyncCallback callback, Object object);
       public: Boolean EndInvoke(IAsyncResult result);
+      public: static constexpr rt::TypeCode code = rt::TypeCode::Delegate;
     };
     private: static BOOL GetCPInfoExW(UInt32 CodePage, UInt32 dwFlags, CPINFOEXW* lpCPInfoEx);
     public: static Int32 GetLeadByteRanges(Int32 codePage, Array<Byte> leadByteRanges);
@@ -135,7 +136,7 @@ class Interop {
     public: static Boolean WriteConsole(IntPtr hConsoleOutput, Byte* lpBuffer, Int32 nNumberOfCharsToWrite, Int32& lpNumberOfCharsWritten, IntPtr lpReservedMustBeNull);
     public: static Boolean WriteConsoleOutput(IntPtr hConsoleOutput, CHAR_INFO* buffer, COORD bufferSize, COORD bufferCoord, SMALL_RECT& writeRegion);
   };
-  public: CLASS(User32) : public Object::in {
+  public: CLASS(User32) : public object {
     public: static Int16 GetKeyState(Int32 virtualKeyCode);
   };
 };

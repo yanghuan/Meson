@@ -15,6 +15,7 @@ CLASS(SendOrPostCallback) : public MulticastDelegate::in {
   public: void Invoke(Object state);
   public: IAsyncResult BeginInvoke(Object state, AsyncCallback callback, Object object);
   public: void EndInvoke(IAsyncResult result);
+  public: static constexpr rt::TypeCode code = rt::TypeCode::Delegate;
 };
 } // namespace SendOrPostCallbackNamespace
 using SendOrPostCallback = SendOrPostCallbackNamespace::SendOrPostCallback;

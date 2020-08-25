@@ -11,7 +11,7 @@ FORWARD(String)
 namespace System::Private::CoreLib::System::Globalization {
 FORWARD(TextElementEnumerator)
 namespace StringInfoNamespace {
-CLASS(StringInfo) : public Object::in {
+CLASS(StringInfo) : public object {
   private: Array<Int32> get_Indexes();
   public: String get_String();
   public: void set_String(String value);

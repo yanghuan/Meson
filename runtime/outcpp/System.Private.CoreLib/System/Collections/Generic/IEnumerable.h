@@ -11,7 +11,7 @@ namespace IEnumerableNamespace {
 using IEnumerable_ = Collections::IEnumerable;
 template <class T>
 using IEnumerator = Generic::IEnumerator<T>;
-CLASS(IEnumerable, T) : public Object::in {
+CLASS(IEnumerable, T) : public object {
   public: using interface = rt::TypeList<IEnumerable_>;
   public: IEnumerator<T> GetEnumerator();
   public: static constexpr rt::TypeCode code = rt::TypeCode::Interface;

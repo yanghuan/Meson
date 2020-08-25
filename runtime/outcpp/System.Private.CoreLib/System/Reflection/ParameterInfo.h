@@ -25,7 +25,7 @@ FORWARD(MemberInfo)
 namespace ParameterInfoNamespace {
 using namespace System::Collections::Generic;
 using namespace System::Runtime::Serialization;
-CLASS(ParameterInfo) : public Object::in {
+CLASS(ParameterInfo) : public object {
   public: using interface = rt::TypeList<ICustomAttributeProvider, IObjectReference>;
   public: ParameterAttributes get_Attributes();
   public: MemberInfo get_Member();

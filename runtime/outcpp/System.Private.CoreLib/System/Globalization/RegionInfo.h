@@ -10,7 +10,7 @@ FORWARD(String)
 namespace System::Private::CoreLib::System::Globalization {
 FORWARD(CultureData)
 namespace RegionInfoNamespace {
-CLASS(RegionInfo) : public Object::in {
+CLASS(RegionInfo) : public object {
   public: static RegionInfo get_CurrentRegion();
   public: String get_Name();
   public: String get_EnglishName();

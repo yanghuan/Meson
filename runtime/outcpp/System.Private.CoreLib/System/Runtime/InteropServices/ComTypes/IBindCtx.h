@@ -11,7 +11,7 @@ FORWARDS(BIND_OPTS)
 FORWARD(IEnumString)
 FORWARD(IRunningObjectTable)
 namespace IBindCtxNamespace {
-CLASS(IBindCtx) : public Object::in {
+CLASS(IBindCtx) : public object {
   public: void RegisterObjectBound(Object punk);
   public: void RevokeObjectBound(Object punk);
   public: void ReleaseBoundObjects();

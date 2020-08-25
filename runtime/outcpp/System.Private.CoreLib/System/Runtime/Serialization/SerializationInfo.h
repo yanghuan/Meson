@@ -34,7 +34,7 @@ FORWARD(SerializationInfoEnumerator)
 namespace SerializationInfoNamespace {
 using namespace System::Collections::Generic;
 using namespace System::Threading;
-CLASS(SerializationInfo) : public Object::in {
+CLASS(SerializationInfo) : public object {
   public: static AsyncLocal<Boolean> get_AsyncDeserializationInProgress() { return AsyncDeserializationInProgress; }
   public: static Boolean get_DeserializationInProgress();
   public: String get_FullTypeName();

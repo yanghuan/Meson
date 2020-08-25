@@ -12,6 +12,7 @@ CLASS(AsyncCallback) : public MulticastDelegate::in {
   public: void Invoke(IAsyncResult ar);
   public: IAsyncResult BeginInvoke(IAsyncResult ar, AsyncCallback callback, Object object);
   public: void EndInvoke(IAsyncResult result);
+  public: static constexpr rt::TypeCode code = rt::TypeCode::Delegate;
 };
 } // namespace AsyncCallbackNamespace
 using AsyncCallback = AsyncCallbackNamespace::AsyncCallback;

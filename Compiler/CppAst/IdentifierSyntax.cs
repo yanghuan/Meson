@@ -11,11 +11,13 @@ namespace Meson.Compiler.CppAst {
 
     public static readonly IdentifierSyntax Meson = "rt";
     public static readonly IdentifierSyntax FixedBuffer = "rt::FixedBuffer";
+    public static readonly IdentifierSyntax code = "code";
     public static readonly IdentifierSyntax TypeCode = "rt::TypeCode";
     public static readonly IdentifierSyntax TypeList = "rt::TypeList";
     public static readonly IdentifierSyntax Void = "void";
     public static readonly IdentifierSyntax Object = "Object";
     public static readonly IdentifierSyntax T = "T";
+    public static readonly IdentifierSyntax N = "N";
     public static readonly IdentifierSyntax In = "in";
     public static readonly IdentifierSyntax Class = "class";
     public static readonly IdentifierSyntax Is = "rt::is";

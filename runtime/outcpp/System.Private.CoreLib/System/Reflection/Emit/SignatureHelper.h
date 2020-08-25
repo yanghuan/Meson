@@ -24,7 +24,7 @@ FORWARD(ModuleBuilder)
 FORWARDS(TypeToken)
 namespace SignatureHelperNamespace {
 using namespace System::Runtime::InteropServices;
-CLASS(SignatureHelper) : public Object::in {
+CLASS(SignatureHelper) : public object {
   public: Int32 get_ArgumentCount();
   public: static SignatureHelper GetMethodSigHelper(Module mod, Type returnType, Array<Type> parameterTypes);
   public: static SignatureHelper GetMethodSigHelper(Module mod, CallingConventions callingConvention, Type returnType, Int32 cGenericParam);

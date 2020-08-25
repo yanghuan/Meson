@@ -10,7 +10,7 @@ FORWARDS(IntPtr)
 namespace System::Private::CoreLib::System::Runtime::InteropServices::ComTypes {
 FORWARD(IMoniker)
 namespace IEnumMonikerNamespace {
-CLASS(IEnumMoniker) : public Object::in {
+CLASS(IEnumMoniker) : public object {
   public: Int32 Next(Int32 celt, Array<IMoniker> rgelt, IntPtr pceltFetched);
   public: Int32 Skip(Int32 celt);
   public: void Reset();

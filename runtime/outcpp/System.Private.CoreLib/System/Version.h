@@ -19,7 +19,7 @@ FORWARDS(Span, T)
 FORWARD(String)
 namespace VersionNamespace {
 using namespace System::Text;
-CLASS(Version) : public Object::in {
+CLASS(Version) : public object {
   public: using interface = rt::TypeList<ICloneable, IComparable<>, IComparable<Version>, IEquatable<Version>, ISpanFormattable>;
   public: Int32 get_Major();
   public: Int32 get_Minor();

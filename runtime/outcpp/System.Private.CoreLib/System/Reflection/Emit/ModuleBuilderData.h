@@ -10,7 +10,7 @@ namespace System::Private::CoreLib::System::Reflection::Emit {
 FORWARD(ModuleBuilder)
 FORWARD(TypeBuilder)
 namespace ModuleBuilderDataNamespace {
-CLASS(ModuleBuilderData) : public Object::in {
+CLASS(ModuleBuilderData) : public object {
   public: void ctor(ModuleBuilder module, String moduleName);
   public: TypeBuilder _globalTypeBuilder;
   public: String _moduleName;

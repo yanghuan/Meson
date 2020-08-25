@@ -12,7 +12,7 @@ FORWARD(String)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Runtime::InteropServices::CustomMarshalers {
 namespace EnumeratorToEnumVariantMarshalerNamespace {
-CLASS(EnumeratorToEnumVariantMarshaler) : public Object::in {
+CLASS(EnumeratorToEnumVariantMarshaler) : public object {
   public: using interface = rt::TypeList<ICustomMarshaler>;
   public: static ICustomMarshaler GetInstance(String cookie);
   private: void ctor();

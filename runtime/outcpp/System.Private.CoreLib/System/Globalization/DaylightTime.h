@@ -6,7 +6,7 @@
 
 namespace System::Private::CoreLib::System::Globalization {
 namespace DaylightTimeNamespace {
-CLASS(DaylightTime) : public Object::in {
+CLASS(DaylightTime) : public object {
   public: DateTime get_Start();
   public: DateTime get_End();
   public: TimeSpan get_Delta();

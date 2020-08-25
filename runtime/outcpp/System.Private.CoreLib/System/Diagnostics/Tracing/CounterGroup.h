@@ -23,7 +23,7 @@ FORWARD(EventSource)
 namespace CounterGroupNamespace {
 using namespace System::Collections::Generic;
 using namespace System::Threading;
-CLASS(CounterGroup) : public Object::in {
+CLASS(CounterGroup) : public object {
   public: void ctor(EventSource eventSource);
   public: void Add(DiagnosticCounter eventCounter);
   public: void Remove(DiagnosticCounter eventCounter);

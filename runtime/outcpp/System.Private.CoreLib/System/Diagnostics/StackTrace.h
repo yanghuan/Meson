@@ -22,7 +22,7 @@ FORWARD(StackFrameHelper)
 namespace StackTraceNamespace {
 using namespace System::Reflection;
 using namespace System::Text;
-CLASS(StackTrace) : public Object::in {
+CLASS(StackTrace) : public object {
   public: enum class TraceFormat : int32_t {
     Normal = 0,
     TrailingNewLine = 1,

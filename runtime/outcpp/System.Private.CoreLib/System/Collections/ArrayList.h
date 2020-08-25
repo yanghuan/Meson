@@ -16,11 +16,11 @@ FORWARD(IEnumerable)
 FORWARD(IEnumerator)
 FORWARD(IList)
 namespace ArrayListNamespace {
-CLASS(ArrayList) : public Object::in {
+CLASS(ArrayList) : public object {
   public: using interface = rt::TypeList<IList, ICollection, IEnumerable, ICloneable>;
   private: FRIENDN(IListWrapper)
   private: FRIENDN(SyncArrayList)
-  private: CLASS(SyncIList) : public Object::in {
+  private: CLASS(SyncIList) : public object {
     public: using interface = rt::TypeList<IList, ICollection, IEnumerable>;
     public: Int32 get_Count();
     public: Boolean get_IsReadOnly();
@@ -42,7 +42,7 @@ CLASS(ArrayList) : public Object::in {
     private: IList _list;
     private: Object _root;
   };
-  private: CLASS(FixedSizeList) : public Object::in {
+  private: CLASS(FixedSizeList) : public object {
     public: using interface = rt::TypeList<IList, ICollection, IEnumerable>;
     public: Int32 get_Count();
     public: Boolean get_IsReadOnly();
@@ -64,7 +64,7 @@ CLASS(ArrayList) : public Object::in {
     private: IList _list;
   };
   private: FRIENDN(FixedSizeArrayList)
-  private: CLASS(ReadOnlyList) : public Object::in {
+  private: CLASS(ReadOnlyList) : public object {
     public: using interface = rt::TypeList<IList, ICollection, IEnumerable>;
     public: Int32 get_Count();
     public: Boolean get_IsReadOnly();
@@ -86,7 +86,7 @@ CLASS(ArrayList) : public Object::in {
     private: IList _list;
   };
   private: FRIENDN(ReadOnlyArrayList)
-  private: CLASS(ArrayListEnumerator) : public Object::in {
+  private: CLASS(ArrayListEnumerator) : public object {
     public: using interface = rt::TypeList<IEnumerator, ICloneable>;
     public: Object get_Current();
     public: void ctor(ArrayList list, Int32 index, Int32 count);
@@ -101,7 +101,7 @@ CLASS(ArrayList) : public Object::in {
     private: Int32 _startIndex;
   };
   private: FRIENDN(Range)
-  private: CLASS(ArrayListEnumeratorSimple) : public Object::in {
+  private: CLASS(ArrayListEnumeratorSimple) : public object {
     public: using interface = rt::TypeList<IEnumerator, ICloneable>;
     public: Object get_Current();
     public: void ctor(ArrayList list);
@@ -116,7 +116,7 @@ CLASS(ArrayList) : public Object::in {
     private: Boolean _isArrayList;
     private: static Object s_dummyObject;
   };
-  public: CLASS(ArrayListDebugView) : public Object::in {
+  public: CLASS(ArrayListDebugView) : public object {
     public: Array<Object> get_Items();
     public: void ctor(ArrayList arrayList);
     private: ArrayList _arrayList;
@@ -181,7 +181,7 @@ CLASS(ArrayList) : public Object::in {
   private: Int32 _version;
 };
 CLASS(IListWrapper) : public ArrayList::in {
-  private: CLASS(IListWrapperEnumWrapper) : public Object::in {
+  private: CLASS(IListWrapperEnumWrapper) : public object {
     public: using interface = rt::TypeList<IEnumerator, ICloneable>;
     public: Object get_Current();
     public: void ctor(IListWrapper listWrapper, Int32 startIndex, Int32 count);

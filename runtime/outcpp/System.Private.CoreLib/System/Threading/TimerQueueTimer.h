@@ -18,7 +18,7 @@ FORWARD(TimerQueue)
 FORWARD(WaitHandle)
 namespace TimerQueueTimerNamespace {
 using namespace System::Threading::Tasks;
-CLASS(TimerQueueTimer) : public Object::in {
+CLASS(TimerQueueTimer) : public object {
   public: using interface = rt::TypeList<IThreadPoolWorkItem>;
   public: void ctor(TimerCallback timerCallback, Object state, UInt32 dueTime, UInt32 period, Boolean flowExecutionContext);
   public: Boolean Change(UInt32 dueTime, UInt32 period);

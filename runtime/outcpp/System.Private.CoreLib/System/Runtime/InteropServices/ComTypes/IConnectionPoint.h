@@ -10,7 +10,7 @@ namespace System::Private::CoreLib::System::Runtime::InteropServices::ComTypes {
 FORWARD(IConnectionPointContainer)
 FORWARD(IEnumConnections)
 namespace IConnectionPointNamespace {
-CLASS(IConnectionPoint) : public Object::in {
+CLASS(IConnectionPoint) : public object {
   public: void GetConnectionInterface(Guid& pIID);
   public: void GetConnectionPointContainer(IConnectionPointContainer& ppCPC);
   public: void Advise(Object pUnkSink, Int32& pdwCookie);

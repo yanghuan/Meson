@@ -12,7 +12,7 @@ FORWARDS(Boolean)
 FORWARD(ICloneable)
 namespace SZArrayEnumeratorNamespace {
 using namespace System::Collections;
-CLASS(SZArrayEnumerator) : public Object::in {
+CLASS(SZArrayEnumerator) : public object {
   public: using interface = rt::TypeList<IEnumerator, ICloneable>;
   public: Object get_Current();
   public: void ctor(Array<> array);

@@ -13,7 +13,7 @@ FORWARD(String)
 namespace System::Private::CoreLib::System::Runtime::InteropServices::Expando {
 namespace IExpandoNamespace {
 using namespace System::Reflection;
-CLASS(IExpando) : public Object::in {
+CLASS(IExpando) : public object {
   public: using interface = rt::TypeList<IReflect>;
   public: FieldInfo AddField(String name);
   public: void RemoveMember(MemberInfo m);

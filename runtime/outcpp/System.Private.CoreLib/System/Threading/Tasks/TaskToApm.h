@@ -14,7 +14,7 @@ namespace System::Private::CoreLib::System::Threading::Tasks {
 FORWARD_(Task, T1, T2)
 namespace TaskToApmNamespace {
 class TaskToApm {
-  public: CLASS(TaskAsyncResult) : public Object::in {
+  public: CLASS(TaskAsyncResult) : public object {
     public: using interface = rt::TypeList<IAsyncResult>;
     public: Object get_AsyncState() { return AsyncState; }
     public: Boolean get_CompletedSynchronously() { return CompletedSynchronously; }

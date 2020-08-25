@@ -27,7 +27,7 @@ FORWARD(Type)
 namespace DelegateNamespace {
 using namespace System::Reflection;
 using namespace System::Runtime::Serialization;
-CLASS(Delegate) : public Object::in {
+CLASS(Delegate) : public object {
   public: using interface = rt::TypeList<ICloneable, ISerializable>;
   public: Object get_Target();
   public: MethodInfo get_Method();

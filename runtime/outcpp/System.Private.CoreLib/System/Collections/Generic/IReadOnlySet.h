@@ -15,7 +15,7 @@ namespace IReadOnlySetNamespace {
 template <class T>
 using IEnumerable = Generic::IEnumerable<T>;
 using IEnumerable_ = Collections::IEnumerable;
-CLASS(IReadOnlySet, T) : public Object::in {
+CLASS(IReadOnlySet, T) : public object {
   public: using interface = rt::TypeList<IReadOnlyCollection<T>, IEnumerable<T>, IEnumerable_>;
   public: Boolean Contains(T item);
   public: Boolean IsProperSubsetOf(IEnumerable<T> other);

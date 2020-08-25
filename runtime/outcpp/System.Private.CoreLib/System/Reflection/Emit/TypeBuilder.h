@@ -72,7 +72,7 @@ using namespace System::Globalization;
 using namespace System::Runtime::CompilerServices;
 using namespace System::Runtime::InteropServices;
 CLASS(TypeBuilder) : public TypeInfo::in {
-  private: CLASS(CustAttr) : public Object::in {
+  private: CLASS(CustAttr) : public object {
     public: void ctor(ConstructorInfo con, Array<Byte> binaryAttribute);
     public: void ctor(CustomAttributeBuilder customBuilder);
     public: void Bake(ModuleBuilder module, Int32 token);

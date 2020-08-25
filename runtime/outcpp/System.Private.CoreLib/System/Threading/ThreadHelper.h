@@ -13,7 +13,7 @@ FORWARD_(ContextCallback, T1, T2)
 FORWARD(ExecutionContext)
 namespace ThreadHelperNamespace {
 using namespace System::Globalization;
-CLASS(ThreadHelper) : public Object::in {
+CLASS(ThreadHelper) : public object {
   public: void ctor(Delegate start);
   public: void SetExecutionContextHelper(ExecutionContext ec);
   private: static void ThreadStart_Context(Object state);

@@ -16,7 +16,7 @@ namespace EqualityComparerNamespace {
 using IEqualityComparer = Collections::IEqualityComparer;
 template <class T>
 using IEqualityComparer_ = Generic::IEqualityComparer<T>;
-CLASS(EqualityComparer, T) : public Object::in {
+CLASS(EqualityComparer, T) : public object {
   public: using interface = rt::TypeList<IEqualityComparer, IEqualityComparer_<T>>;
   public: static EqualityComparer<T> get_Default() { return Default; }
   public: Int32 IndexOf(Array<T> array, T value, Int32 startIndex, Int32 count);

@@ -22,4 +22,7 @@ CLASS(Object) {
 };
 } // namespace ObjectNamespace
 using Object = ObjectNamespace::Object;
+struct object : public Object::in {
+  public: static constexpr rt::TypeCode code = rt::TypeCode::Class;
+};
 } // namespace System::Private::CoreLib::System

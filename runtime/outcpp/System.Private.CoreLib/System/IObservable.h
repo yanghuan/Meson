@@ -6,7 +6,7 @@ namespace System::Private::CoreLib::System {
 FORWARD(IDisposable)
 FORWARD(IObserver, T)
 namespace IObservableNamespace {
-CLASS(IObservable, T) : public Object::in {
+CLASS(IObservable, T) : public object {
   public: IDisposable Subscribe(IObserver<T> observer);
   public: static constexpr rt::TypeCode code = rt::TypeCode::Interface;
 };

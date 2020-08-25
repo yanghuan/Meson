@@ -13,7 +13,7 @@ FORWARD(IOCompletionCallback)
 FORWARDS(NativeOverlapped)
 FORWARD(Overlapped)
 namespace OverlappedDataNamespace {
-CLASS(OverlappedData) : public Object::in {
+CLASS(OverlappedData) : public object {
   public: Int32& get_OffsetLow();
   public: Int32& get_OffsetHigh();
   public: IntPtr& get_EventHandle();

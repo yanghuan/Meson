@@ -20,8 +20,8 @@ enum class TraceLoggingDataType : int32_t;
 FORWARD(FieldMetadata)
 namespace TraceLoggingMetadataCollectorNamespace {
 using namespace System::Collections::Generic;
-CLASS(TraceLoggingMetadataCollector) : public Object::in {
-  private: CLASS(Impl) : public Object::in {
+CLASS(TraceLoggingMetadataCollector) : public object {
+  private: CLASS(Impl) : public object {
     public: void AddScalar(Int32 size);
     public: void AddNonscalar();
     public: void BeginBuffered();

@@ -15,7 +15,7 @@ FORWARD(IBindCtx)
 FORWARD(IEnumMoniker)
 FORWARD(IStream)
 namespace IMonikerNamespace {
-CLASS(IMoniker) : public Object::in {
+CLASS(IMoniker) : public object {
   public: void GetClassID(Guid& pClassID);
   public: Int32 IsDirty();
   public: void Load(IStream pStm);

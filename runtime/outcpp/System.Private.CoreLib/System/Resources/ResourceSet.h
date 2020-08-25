@@ -21,7 +21,7 @@ FORWARD(IResourceReader)
 namespace ResourceSetNamespace {
 using namespace System::Collections;
 using namespace System::IO;
-CLASS(ResourceSet) : public Object::in {
+CLASS(ResourceSet) : public object {
   public: using interface = rt::TypeList<IDisposable, IEnumerable>;
   protected: void ctor();
   public: void ctor(Boolean junk);

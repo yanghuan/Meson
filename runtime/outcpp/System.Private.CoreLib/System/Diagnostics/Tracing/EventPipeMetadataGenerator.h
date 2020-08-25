@@ -18,7 +18,7 @@ enum class EventOpcode : int32_t;
 FORWARDS(EventParameterInfo)
 FORWARD(TraceLoggingEventTypes)
 namespace EventPipeMetadataGeneratorNamespace {
-CLASS(EventPipeMetadataGenerator) : public Object::in {
+CLASS(EventPipeMetadataGenerator) : public object {
   private: enum class MetadataTag : int32_t {
     Opcode = 1,
     ParameterPayload = 2,

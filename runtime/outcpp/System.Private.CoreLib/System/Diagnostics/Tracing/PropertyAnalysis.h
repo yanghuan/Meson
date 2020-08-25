@@ -15,7 +15,7 @@ FORWARDS(PropertyValue)
 FORWARD(TraceLoggingTypeInfo)
 namespace PropertyAnalysisNamespace {
 using namespace System::Reflection;
-CLASS(PropertyAnalysis) : public Object::in {
+CLASS(PropertyAnalysis) : public object {
   public: void ctor(String name, PropertyInfo propertyInfo, TraceLoggingTypeInfo typeInfo, EventFieldAttribute fieldAttribute);
   public: String name;
   public: PropertyInfo propertyInfo;

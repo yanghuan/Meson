@@ -18,7 +18,7 @@ namespace System::Private::CoreLib::System::Reflection::Emit {
 FORWARD(DynamicMethod)
 FORWARD(DynamicScope)
 namespace DynamicILInfoNamespace {
-CLASS(DynamicILInfo) : public Object::in {
+CLASS(DynamicILInfo) : public object {
   public: Array<Byte> get_LocalSignature();
   public: Array<Byte> get_Exceptions();
   public: Array<Byte> get_Code();

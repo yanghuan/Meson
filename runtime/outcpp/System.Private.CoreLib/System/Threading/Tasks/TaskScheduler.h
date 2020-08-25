@@ -20,8 +20,8 @@ FORWARD(UnobservedTaskExceptionEventArgs)
 namespace TaskSchedulerNamespace {
 using namespace System::Collections::Generic;
 using namespace System::Runtime::CompilerServices;
-CLASS(TaskScheduler) : public Object::in {
-  public: CLASS(SystemThreadingTasks_TaskSchedulerDebugView) : public Object::in {
+CLASS(TaskScheduler) : public object {
+  public: CLASS(SystemThreadingTasks_TaskSchedulerDebugView) : public object {
     public: Int32 get_Id();
     public: IEnumerable<Task<>> get_ScheduledTasks();
     public: void ctor(TaskScheduler scheduler);

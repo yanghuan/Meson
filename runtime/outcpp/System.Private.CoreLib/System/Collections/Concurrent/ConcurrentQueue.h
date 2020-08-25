@@ -28,7 +28,7 @@ using IEnumerable_ = Collections::IEnumerable;
 using ICollection = Collections::ICollection;
 template <class T>
 using IEnumerator = Generic::IEnumerator<T>;
-CLASS(ConcurrentQueue, T) : public Object::in {
+CLASS(ConcurrentQueue, T) : public object {
   public: using interface = rt::TypeList<IProducerConsumerCollection<T>, IEnumerable<T>, IEnumerable_, ICollection, IReadOnlyCollection<T>>;
   private: Boolean get_IsSynchronizedOfICollection();
   private: Object get_SyncRootOfICollection();

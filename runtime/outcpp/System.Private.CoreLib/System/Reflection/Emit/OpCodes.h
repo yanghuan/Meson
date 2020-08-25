@@ -8,7 +8,7 @@ FORWARDS(Boolean)
 namespace System::Private::CoreLib::System::Reflection::Emit {
 FORWARDS(OpCode)
 namespace OpCodesNamespace {
-CLASS(OpCodes) : public Object::in {
+CLASS(OpCodes) : public object {
   public: static Boolean TakesSingleByteArgument(OpCode inst);
   private: static void cctor();
   public: static OpCode Nop;

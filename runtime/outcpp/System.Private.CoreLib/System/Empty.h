@@ -5,7 +5,7 @@
 namespace System::Private::CoreLib::System {
 FORWARD(String)
 namespace EmptyNamespace {
-CLASS(Empty) : public Object::in {
+CLASS(Empty) : public object {
   private: void ctor();
   public: String ToString();
   private: static void cctor();

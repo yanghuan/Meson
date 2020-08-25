@@ -18,27 +18,27 @@ FORWARD(List, T)
 namespace System::Private::CoreLib::System::Threading {
 namespace ThreadLocalNamespace {
 using namespace System::Collections::Generic;
-CLASS(ThreadLocal, T) : public Object::in {
+CLASS(ThreadLocal, T) : public object {
   public: using interface = rt::TypeList<IDisposable>;
   private: FORWARDN(LinkedSlot)
   private: struct LinkedSlotVolatile : public valueType<LinkedSlotVolatile> {
     public: LinkedSlot Value;
   };
-  private: CLASS(LinkedSlot) : public Object::in {
+  private: CLASS(LinkedSlot) : public object {
     public: void ctor(Array<LinkedSlotVolatile> slotArray);
     public: LinkedSlot _next;
     public: LinkedSlot _previous;
     public: Array<LinkedSlotVolatile> _slotArray;
     public: T _value;
   };
-  private: CLASS(IdManager) : public Object::in {
+  private: CLASS(IdManager) : public object {
     public: Int32 GetId();
     public: void ReturnId(Int32 id);
     public: void ctor();
     private: Int32 _nextIdToTry;
     private: List<Boolean> _freeIds;
   };
-  private: CLASS(FinalizationHelper) : public Object::in {
+  private: CLASS(FinalizationHelper) : public object {
     public: void ctor(Array<LinkedSlotVolatile> slotArray, Boolean trackAllValues);
     protected: void Finalize();
     public: Array<LinkedSlotVolatile> SlotArray;

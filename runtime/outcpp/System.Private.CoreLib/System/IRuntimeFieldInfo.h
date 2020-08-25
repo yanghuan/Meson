@@ -5,7 +5,7 @@
 namespace System::Private::CoreLib::System {
 FORWARDS(RuntimeFieldHandleInternal)
 namespace IRuntimeFieldInfoNamespace {
-CLASS(IRuntimeFieldInfo) : public Object::in {
+CLASS(IRuntimeFieldInfo) : public object {
   public: RuntimeFieldHandleInternal get_Value();
   public: static constexpr rt::TypeCode code = rt::TypeCode::Interface;
 };

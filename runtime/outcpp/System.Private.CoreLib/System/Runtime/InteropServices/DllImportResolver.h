@@ -22,6 +22,7 @@ CLASS(DllImportResolver) : public MulticastDelegate::in {
   public: IntPtr Invoke(String libraryName, Assembly assembly, Nullable<DllImportSearchPath> searchPath);
   public: IAsyncResult BeginInvoke(String libraryName, Assembly assembly, Nullable<DllImportSearchPath> searchPath, AsyncCallback callback, Object object);
   public: IntPtr EndInvoke(IAsyncResult result);
+  public: static constexpr rt::TypeCode code = rt::TypeCode::Delegate;
 };
 } // namespace DllImportResolverNamespace
 using DllImportResolver = DllImportResolverNamespace::DllImportResolver;

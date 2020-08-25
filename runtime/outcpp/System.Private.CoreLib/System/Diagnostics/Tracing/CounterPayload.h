@@ -25,7 +25,7 @@ using IEnumerable = Collections::Generic::IEnumerable<T>;
 using IEnumerable_ = Collections::IEnumerable;
 template <class T>
 using IEnumerator = Collections::Generic::IEnumerator<T>;
-CLASS(CounterPayload) : public Object::in {
+CLASS(CounterPayload) : public object {
   public: using interface = rt::TypeList<IEnumerable<KeyValuePair<String, Object>>, IEnumerable_>;
   public: String get_Name() { return Name; }
   public: void set_Name(String value) { Name = value; }

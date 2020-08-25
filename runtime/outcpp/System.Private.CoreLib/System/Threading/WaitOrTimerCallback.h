@@ -16,6 +16,7 @@ CLASS(WaitOrTimerCallback) : public MulticastDelegate::in {
   public: void Invoke(Object state, Boolean timedOut);
   public: IAsyncResult BeginInvoke(Object state, Boolean timedOut, AsyncCallback callback, Object object);
   public: void EndInvoke(IAsyncResult result);
+  public: static constexpr rt::TypeCode code = rt::TypeCode::Delegate;
 };
 } // namespace WaitOrTimerCallbackNamespace
 using WaitOrTimerCallback = WaitOrTimerCallbackNamespace::WaitOrTimerCallback;

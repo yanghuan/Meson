@@ -4,7 +4,7 @@
 
 namespace System::Private::CoreLib::System {
 namespace IDisposableNamespace {
-CLASS(IDisposable) : public Object::in {
+CLASS(IDisposable) : public object {
   public: void Dispose();
   public: static constexpr rt::TypeCode code = rt::TypeCode::Interface;
 };

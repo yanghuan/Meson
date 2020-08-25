@@ -24,12 +24,13 @@ namespace System::Private::CoreLib::System::Diagnostics {
 namespace StackFrameHelperNamespace {
 using namespace System::Reflection;
 using namespace System::Threading;
-CLASS(StackFrameHelper) : public Object::in {
+CLASS(StackFrameHelper) : public object {
   private: CLASS(GetSourceLineInfoDelegate) : public MulticastDelegate::in {
     public: void ctor(Object object, IntPtr method);
     public: void Invoke(Assembly assembly, String assemblyPath, IntPtr loadedPeAddress, Int32 loadedPeSize, IntPtr inMemoryPdbAddress, Int32 inMemoryPdbSize, Int32 methodToken, Int32 ilOffset, String& sourceFile, Int32& sourceLine, Int32& sourceColumn);
     public: IAsyncResult BeginInvoke(Assembly assembly, String assemblyPath, IntPtr loadedPeAddress, Int32 loadedPeSize, IntPtr inMemoryPdbAddress, Int32 inMemoryPdbSize, Int32 methodToken, Int32 ilOffset, String& sourceFile, Int32& sourceLine, Int32& sourceColumn, AsyncCallback callback, Object object);
     public: void EndInvoke(String& sourceFile, Int32& sourceLine, Int32& sourceColumn, IAsyncResult result);
+    public: static constexpr rt::TypeCode code = rt::TypeCode::Delegate;
   };
   public: void ctor(Thread target);
   public: void InitializeSourceInfo(Int32 iSkip, Boolean fNeedFileInfo, Exception exception);

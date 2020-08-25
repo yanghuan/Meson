@@ -13,7 +13,7 @@ FORWARDS(Boolean)
 namespace WeakReferenceNamespace {
 using namespace System::Runtime::Serialization;
 CLASS_FORWARD(WeakReference, T1, T2)
-CLASS_(WeakReference) : public Object::in {
+CLASS_(WeakReference) : public object {
   public: using interface = rt::TypeList<ISerializable>;
   public: Boolean get_IsAlive();
   public: Boolean get_TrackResurrection();
@@ -29,7 +29,7 @@ CLASS_(WeakReference) : public Object::in {
   public: void GetObjectData(SerializationInfo info, StreamingContext context);
   public: IntPtr m_handle;
 };
-CLASS_(WeakReference, T) : public Object::in {
+CLASS_(WeakReference, T) : public object {
   public: using interface = rt::TypeList<ISerializable>;
   private: T get_Target();
   private: void set_Target(T value);

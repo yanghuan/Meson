@@ -10,7 +10,7 @@ FORWARD(String)
 namespace Test::Test {
 namespace ProgramNamespace {
 using namespace ::System::Private::CoreLib::System;
-CLASS(Program) : public Object::in {
+CLASS(Program) : public object {
   private: static Int32 get_A();
   private: static void set_A(Int32 value);
   public: static void Main(Array<String> args);

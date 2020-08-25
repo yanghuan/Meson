@@ -4,7 +4,7 @@
 
 namespace System::Private::CoreLib::System::Runtime::InteropServices {
 namespace VariantWrapperNamespace {
-CLASS(VariantWrapper) : public Object::in {
+CLASS(VariantWrapper) : public object {
   public: Object get_WrappedObject() { return WrappedObject; }
   public: void ctor(Object obj);
   private: Object WrappedObject;

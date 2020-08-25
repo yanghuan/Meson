@@ -6,7 +6,7 @@
 
 namespace System::Private::CoreLib::System::Reflection::Emit {
 namespace GenericMethodInfoNamespace {
-CLASS(GenericMethodInfo) : public Object::in {
+CLASS(GenericMethodInfo) : public object {
   public: void ctor(RuntimeMethodHandle methodHandle, RuntimeTypeHandle context);
   public: RuntimeMethodHandle m_methodHandle;
   public: RuntimeTypeHandle m_context;

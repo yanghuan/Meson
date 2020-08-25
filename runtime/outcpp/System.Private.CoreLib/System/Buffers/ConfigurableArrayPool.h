@@ -13,7 +13,7 @@ namespace System::Private::CoreLib::System::Buffers {
 namespace ConfigurableArrayPoolNamespace {
 using namespace System::Threading;
 CLASS(ConfigurableArrayPool, T) : public ArrayPool<T>::in {
-  private: CLASS(Bucket) : public Object::in {
+  private: CLASS(Bucket) : public object {
     public: Int32 get_Id();
     public: void ctor(Int32 bufferLength, Int32 numberOfBuffers, Int32 poolId);
     public: Array<T> Rent();

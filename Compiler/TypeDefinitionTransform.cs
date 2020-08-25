@@ -165,11 +165,14 @@ namespace Meson.Compiler {
         if (firstBaseType != null) {
           IEnumerable<IType> interfaces;
           if (firstBaseType.Kind == TypeKind.Class) {
-            var baseType = CompilationUnit.GetTypeName(new TypeNameArgs() {
+            ExpressionSyntax baseType = CompilationUnit.GetTypeName(new TypeNameArgs() {
               Type = firstBaseType,
               Definition = type,
               IsInHead = true,
             }).WithIn();
+            if (firstBaseType.IsKnownType(KnownTypeCode.Object)) {
+              baseType = firstBaseType.Name.FirstCharLow().AsIdentifier();
+            }
             node.Bases.Add(new BaseSyntax(baseType));
             interfaces = type.DirectBaseTypes.Skip(1);
           } else {
@@ -613,7 +616,6 @@ namespace Meson.Compiler {
     }
 
     private void AddTypeExtra(ITypeDefinition type, ClassSyntax node) {
-      const string code = nameof(code);
       switch (type.KnownTypeCode) {
         case KnownTypeCode.Object:
         case KnownTypeCode.Boolean:
@@ -629,10 +631,12 @@ namespace Meson.Compiler {
         case KnownTypeCode.Single:
         case KnownTypeCode.Double:
         case KnownTypeCode.String: {
-            node.Add(new FieldDefinitionSyntax(IdentifierSyntax.TypeCode, code, true, Accessibility.Public.ToTokenString()) {
-              IsConstexpr = true,
-              ConstantValue = IdentifierSyntax.TypeCode.TwoColon(type.Name),
-            });
+            if (type.IsReferenceType == true) {
+              node.Add(new FieldDefinitionSyntax(IdentifierSyntax.TypeCode, IdentifierSyntax.code, true, Accessibility.Public.ToTokenString()) {
+                IsConstexpr = true,
+                ConstantValue = IdentifierSyntax.TypeCode.TwoColon(type.Name),
+              });
+            }
             if (type.Kind == TypeKind.Struct) {
               var field = type.Fields.Single(i => !i.IsStatic);
               var fieldName = GetMemberName(field);
@@ -703,19 +707,19 @@ namespace Meson.Compiler {
         case KnownTypeCode.SpanOfT:
         case KnownTypeCode.ReadOnlySpanOfT: {
             var method = new MethodDefinitionSyntax(type.Name, new ParameterSyntax(IdentifierSyntax.T, "(&array)[N]").ArrayOf()) { 
-              Template = new TemplateSyntax(new TemplateTypenameSyntax("N") { ClassToken = "int" }),
+              Template = new TemplateSyntax(new TemplateTypenameSyntax(IdentifierSyntax.N) { ClassToken = "int" }),
               AccessibilityToken = Accessibility.Public.ToTokenString(),
               Body = new BlockSyntax() { IsSingleLine = true },
             };
-            method.AddInitializationList(type.Name, "array", "N");
+            method.AddInitializationList(type.Name, "array", IdentifierSyntax.N);
             node.Add(method);
             break;
           }
         default: {
-            if (type.Kind == TypeKind.Interface) {
-              node.Add(new FieldDefinitionSyntax(IdentifierSyntax.TypeCode, code, true, Accessibility.Public.ToTokenString()) {
+            if (type.Kind == TypeKind.Interface || type.Kind == TypeKind.Delegate) {
+              node.Add(new FieldDefinitionSyntax(IdentifierSyntax.TypeCode, IdentifierSyntax.code, true, Accessibility.Public.ToTokenString()) {
                 IsConstexpr = true,
-                ConstantValue = IdentifierSyntax.TypeCode.TwoColon(TypeKind.Interface.ToString()),
+                ConstantValue = IdentifierSyntax.TypeCode.TwoColon(type.Kind.ToString()),
               });
             }
             break;

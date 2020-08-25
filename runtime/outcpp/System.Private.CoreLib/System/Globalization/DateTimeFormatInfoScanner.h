@@ -17,7 +17,7 @@ enum class FORMATFLAGS : int32_t;
 FORWARD(DateTimeFormatInfo)
 namespace DateTimeFormatInfoScannerNamespace {
 using namespace System::Collections::Generic;
-CLASS(DateTimeFormatInfoScanner) : public Object::in {
+CLASS(DateTimeFormatInfoScanner) : public object {
   private: enum class FoundDatePattern : int32_t {
     None = 0,
     FoundYearPatternFlag = 1,

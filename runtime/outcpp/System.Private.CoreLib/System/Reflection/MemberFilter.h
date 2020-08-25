@@ -17,6 +17,7 @@ CLASS(MemberFilter) : public MulticastDelegate::in {
   public: Boolean Invoke(MemberInfo m, Object filterCriteria);
   public: IAsyncResult BeginInvoke(MemberInfo m, Object filterCriteria, AsyncCallback callback, Object object);
   public: Boolean EndInvoke(IAsyncResult result);
+  public: static constexpr rt::TypeCode code = rt::TypeCode::Delegate;
 };
 } // namespace MemberFilterNamespace
 using MemberFilter = MemberFilterNamespace::MemberFilter;

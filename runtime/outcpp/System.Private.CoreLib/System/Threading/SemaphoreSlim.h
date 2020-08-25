@@ -21,7 +21,7 @@ FORWARD(WaitHandle)
 namespace SemaphoreSlimNamespace {
 using namespace System::Runtime::CompilerServices;
 using namespace System::Threading::Tasks;
-CLASS(SemaphoreSlim) : public Object::in {
+CLASS(SemaphoreSlim) : public object {
   public: using interface = rt::TypeList<IDisposable>;
   private: CLASS(TaskNode) : public Task<Boolean>::in {
     public: void ctor();

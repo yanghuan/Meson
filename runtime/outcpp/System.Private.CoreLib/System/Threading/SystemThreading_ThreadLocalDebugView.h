@@ -12,7 +12,7 @@ namespace System::Private::CoreLib::System::Threading {
 FORWARD(ThreadLocal, T)
 namespace SystemThreading_ThreadLocalDebugViewNamespace {
 using namespace System::Collections::Generic;
-CLASS(SystemThreading_ThreadLocalDebugView, T) : public Object::in {
+CLASS(SystemThreading_ThreadLocalDebugView, T) : public object {
   public: Boolean get_IsValueCreated();
   public: T get_Value();
   public: List<T> get_Values();

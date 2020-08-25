@@ -107,7 +107,7 @@ CLASS(RuntimeType) : public TypeInfo::in {
     private: Int32 _count;
     private: Int32 _capacity;
   };
-  public: CLASS(RuntimeTypeCache) : public Object::in {
+  public: CLASS(RuntimeTypeCache) : public object {
     public: enum class CacheType : int32_t {
       Method = 0,
       Constructor = 1,
@@ -128,7 +128,7 @@ CLASS(RuntimeType) : public TypeInfo::in {
       private: MemberListType m_listType;
       private: UInt32 m_nameHash;
     };
-    private: CLASS(MemberInfoCache, T) : public Object::in {
+    private: CLASS(MemberInfoCache, T) : public object {
       public: RuntimeType get_ReflectedType();
       public: void ctor(RuntimeTypeCache runtimeTypeCache);
       public: MethodBase AddMethod(RuntimeType declaringType, RuntimeMethodHandleInternal method, CacheType cacheType);
@@ -210,7 +210,7 @@ CLASS(RuntimeType) : public TypeInfo::in {
     private: Object m_genericCache;
     private: Array<Object> _emptyArray;
   };
-  private: CLASS(ActivatorCache) : public Object::in {
+  private: CLASS(ActivatorCache) : public object {
     public: void ctor(RuntimeMethodHandleInternal rmh);
     private: void Initialize();
     public: void EnsureInitialized();

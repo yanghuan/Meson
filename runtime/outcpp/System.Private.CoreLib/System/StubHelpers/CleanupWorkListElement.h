@@ -4,7 +4,7 @@
 
 namespace System::Private::CoreLib::System::StubHelpers {
 namespace CleanupWorkListElementNamespace {
-CLASS(CleanupWorkListElement) : public Object::in {
+CLASS(CleanupWorkListElement) : public object {
   protected: void DestroyCore();
   public: void Destroy();
   public: static void AddToCleanupList(CleanupWorkListElement& list, CleanupWorkListElement newElement);

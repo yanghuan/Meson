@@ -8,7 +8,7 @@ FORWARDS(Boolean)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Reflection {
 namespace LoaderAllocatorScoutNamespace {
-CLASS(LoaderAllocatorScout) : public Object::in {
+CLASS(LoaderAllocatorScout) : public object {
   private: static Boolean Destroy(IntPtr nativeLoaderAllocator);
   protected: void Finalize();
   public: void ctor();

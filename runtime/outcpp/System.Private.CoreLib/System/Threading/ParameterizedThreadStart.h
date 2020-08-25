@@ -15,6 +15,7 @@ CLASS(ParameterizedThreadStart) : public MulticastDelegate::in {
   public: void Invoke(Object obj);
   public: IAsyncResult BeginInvoke(Object obj, AsyncCallback callback, Object object);
   public: void EndInvoke(IAsyncResult result);
+  public: static constexpr rt::TypeCode code = rt::TypeCode::Delegate;
 };
 } // namespace ParameterizedThreadStartNamespace
 using ParameterizedThreadStart = ParameterizedThreadStartNamespace::ParameterizedThreadStart;

@@ -22,7 +22,7 @@ namespace TaskExceptionHolderNamespace {
 using namespace System::Collections::Generic;
 using namespace System::Collections::ObjectModel;
 using namespace System::Runtime::ExceptionServices;
-CLASS(TaskExceptionHolder) : public Object::in {
+CLASS(TaskExceptionHolder) : public object {
   public: Boolean get_ContainsFaultList();
   public: void ctor(Task<> task);
   protected: void Finalize();

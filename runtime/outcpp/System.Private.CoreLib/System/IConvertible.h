@@ -22,7 +22,7 @@ FORWARDS(UInt16)
 FORWARDS(UInt32)
 FORWARDS(UInt64)
 namespace IConvertibleNamespace {
-CLASS(IConvertible) : public Object::in {
+CLASS(IConvertible) : public object {
   public: TypeCode GetTypeCode();
   public: Boolean ToBoolean(IFormatProvider provider);
   public: Char ToChar(IFormatProvider provider);

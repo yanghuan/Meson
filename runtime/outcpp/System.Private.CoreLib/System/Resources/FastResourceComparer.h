@@ -27,7 +27,7 @@ template <class T>
 using IComparer_ = Collections::Generic::IComparer<T>;
 template <class T>
 using IEqualityComparer_ = Collections::Generic::IEqualityComparer<T>;
-CLASS(FastResourceComparer) : public Object::in {
+CLASS(FastResourceComparer) : public object {
   public: using interface = rt::TypeList<IComparer, IEqualityComparer, IComparer_<String>, IEqualityComparer_<String>>;
   public: Int32 GetHashCode(Object key);
   public: Int32 GetHashCode(String key);

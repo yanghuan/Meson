@@ -19,7 +19,7 @@ namespace System::Private::CoreLib::System::Reflection::Emit {
 namespace TypeNameBuilderNamespace {
 using namespace System::Collections::Generic;
 using namespace System::Text;
-CLASS(TypeNameBuilder) : public Object::in {
+CLASS(TypeNameBuilder) : public object {
   public: enum class Format : int32_t {
     ToString = 0,
     FullName = 1,

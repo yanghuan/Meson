@@ -14,7 +14,7 @@ FORWARD(String)
 FORWARD(Version)
 namespace ApplicationIdNamespace {
 using namespace System::Text;
-CLASS(ApplicationId) : public Object::in {
+CLASS(ApplicationId) : public object {
   public: String get_Culture() { return Culture; }
   public: String get_Name() { return Name; }
   public: String get_ProcessorArchitecture() { return ProcessorArchitecture; }

@@ -14,7 +14,7 @@ namespace GenericArraySortHelperNamespace {
 template <class T>
 using IComparer = Generic::IComparer<T>;
 CLASS_FORWARD(GenericArraySortHelper, T1, T2, T3)
-CLASS_(GenericArraySortHelper, T) : public Object::in {
+CLASS_(GenericArraySortHelper, T) : public object {
   public: using interface = rt::TypeList<IArraySortHelper<T>>;
   public: void Sort(Span<T> keys, IComparer<T> comparer);
   public: Int32 BinarySearch(Array<T> array, Int32 index, Int32 length, T value, IComparer<T> comparer);
@@ -28,7 +28,7 @@ CLASS_(GenericArraySortHelper, T) : public Object::in {
   private: static void InsertionSort(Span<T> keys);
   public: void ctor();
 };
-CLASS_(GenericArraySortHelper, TKey, TValue) : public Object::in {
+CLASS_(GenericArraySortHelper, TKey, TValue) : public object {
   public: using interface = rt::TypeList<IArraySortHelper<TKey, TValue>>;
   public: void Sort(Span<TKey> keys, Span<TValue> values, IComparer<TKey> comparer);
   private: static void SwapIfGreaterWithValues(Span<TKey> keys, Span<TValue> values, Int32 i, Int32 j);

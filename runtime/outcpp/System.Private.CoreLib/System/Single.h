@@ -71,7 +71,6 @@ struct Single : public valueType<Single, rt::TypeCode::Single> {
   public: static constexpr float PositiveInfinity = rt::PositiveInfinity<float>;
   public: static constexpr float NegativeInfinity = rt::NegativeInfinity<float>;
   public: static constexpr float NaN = rt::NaN<float>;
-  public: static constexpr rt::TypeCode code = rt::TypeCode::Single;
   public: constexpr Single() noexcept : m_value(0) {}
   public: constexpr Single(float value) noexcept : m_value(value) {}
   public: template <class T> requires(std::is_enum_v<T>)

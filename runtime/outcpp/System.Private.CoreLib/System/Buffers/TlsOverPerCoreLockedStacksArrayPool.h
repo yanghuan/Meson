@@ -21,7 +21,7 @@ CLASS(TlsOverPerCoreLockedStacksArrayPool, T) : public ArrayPool<T>::in {
     Medium = 1,
     High = 2,
   };
-  private: CLASS(LockedStack) : public Object::in {
+  private: CLASS(LockedStack) : public object {
     public: Boolean TryPush(Array<T> array);
     public: Array<T> TryPop();
     public: void Trim(UInt32 tickCount, Int32 id, MemoryPressure pressure, Int32 bucketSize);
@@ -30,7 +30,7 @@ CLASS(TlsOverPerCoreLockedStacksArrayPool, T) : public ArrayPool<T>::in {
     private: Int32 _count;
     private: UInt32 _firstStackItemMS;
   };
-  private: CLASS(PerCoreLockedStacks) : public Object::in {
+  private: CLASS(PerCoreLockedStacks) : public object {
     public: void ctor();
     public: void TryPush(Array<T> array);
     public: Array<T> TryPop();

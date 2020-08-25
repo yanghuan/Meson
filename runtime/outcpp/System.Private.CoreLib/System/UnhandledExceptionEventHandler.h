@@ -14,6 +14,7 @@ CLASS(UnhandledExceptionEventHandler) : public MulticastDelegate::in {
   public: void Invoke(Object sender, UnhandledExceptionEventArgs e);
   public: IAsyncResult BeginInvoke(Object sender, UnhandledExceptionEventArgs e, AsyncCallback callback, Object object);
   public: void EndInvoke(IAsyncResult result);
+  public: static constexpr rt::TypeCode code = rt::TypeCode::Delegate;
 };
 } // namespace UnhandledExceptionEventHandlerNamespace
 using UnhandledExceptionEventHandler = UnhandledExceptionEventHandlerNamespace::UnhandledExceptionEventHandler;

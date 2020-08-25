@@ -53,7 +53,7 @@ struct AsyncValueTaskMethodBuilder<> : public valueType<AsyncValueTaskMethodBuil
 template <class TResult>
 struct AsyncValueTaskMethodBuilder<TResult> : public valueType<AsyncValueTaskMethodBuilder<TResult>> {
   CLASS_FORWARD(StateMachineBox, T1, T2, T3)
-  public: CLASS_(StateMachineBox) : public Object::in {
+  public: CLASS_(StateMachineBox) : public object {
     public: using interface = rt::TypeList<IValueTaskSource<TResult>, IValueTaskSource<>>;
     public: Int16 get_Version();
     public: void SetResult(TResult result);

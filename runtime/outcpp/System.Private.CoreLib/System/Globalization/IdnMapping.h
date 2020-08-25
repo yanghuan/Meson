@@ -12,7 +12,7 @@ FORWARDS(UInt32)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Globalization {
 namespace IdnMappingNamespace {
-CLASS(IdnMapping) : public Object::in {
+CLASS(IdnMapping) : public object {
   public: Boolean get_AllowUnassigned();
   public: void set_AllowUnassigned(Boolean value);
   public: Boolean get_UseStd3AsciiRules();

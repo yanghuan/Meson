@@ -16,7 +16,7 @@ namespace System::Private::CoreLib::System::Runtime::Loader {
 namespace AssemblyDependencyResolverNamespace {
 using namespace System::Collections::Generic;
 using namespace System::Reflection;
-CLASS(AssemblyDependencyResolver) : public Object::in {
+CLASS(AssemblyDependencyResolver) : public object {
   public: void ctor(String componentAssemblyPath);
   public: String ResolveAssemblyToPath(AssemblyName assemblyName);
   public: String ResolveUnmanagedDllToPath(String unmanagedDllName);

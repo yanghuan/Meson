@@ -5,7 +5,7 @@
 namespace System::Private::CoreLib::System {
 FORWARDS(Boolean)
 namespace MarshalByRefObjectNamespace {
-CLASS(MarshalByRefObject) : public Object::in {
+CLASS(MarshalByRefObject) : public object {
   protected: void ctor();
   public: Object GetLifetimeService();
   public: Object InitializeLifetimeService();

@@ -14,6 +14,7 @@ CLASS(AssemblyLoadEventHandler) : public MulticastDelegate::in {
   public: void Invoke(Object sender, AssemblyLoadEventArgs args);
   public: IAsyncResult BeginInvoke(Object sender, AssemblyLoadEventArgs args, AsyncCallback callback, Object object);
   public: void EndInvoke(IAsyncResult result);
+  public: static constexpr rt::TypeCode code = rt::TypeCode::Delegate;
 };
 } // namespace AssemblyLoadEventHandlerNamespace
 using AssemblyLoadEventHandler = AssemblyLoadEventHandlerNamespace::AssemblyLoadEventHandler;

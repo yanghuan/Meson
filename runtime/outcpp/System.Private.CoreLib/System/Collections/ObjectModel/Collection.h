@@ -34,7 +34,7 @@ using IList_ = Collections::IList;
 using ICollection_ = Collections::ICollection;
 template <class T>
 using IEnumerator = Generic::IEnumerator<T>;
-CLASS(Collection, T) : public Object::in {
+CLASS(Collection, T) : public object {
   public: using interface = rt::TypeList<IList<T>, ICollection<T>, IEnumerable<T>, IEnumerable_, IList_, ICollection_, IReadOnlyList<T>, IReadOnlyCollection<T>>;
   public: Int32 get_Count();
   protected: IList<T> get_Items();

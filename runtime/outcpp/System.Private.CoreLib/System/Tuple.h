@@ -44,7 +44,7 @@ CLASS_(Tuple) {
   public: static Int32 CombineHashCodes(Int32 h1, Int32 h2, Int32 h3, Int32 h4, Int32 h5, Int32 h6, Int32 h7);
   public: static Int32 CombineHashCodes(Int32 h1, Int32 h2, Int32 h3, Int32 h4, Int32 h5, Int32 h6, Int32 h7, Int32 h8);
 };
-CLASS_(Tuple, T1) : public Object::in {
+CLASS_(Tuple, T1) : public object {
   public: using interface = rt::TypeList<IStructuralEquatable, IStructuralComparable, IComparable<>, ITupleInternal, ITuple>;
   public: T1 get_Item1();
   private: Int32 get_LengthOfITuple();
@@ -55,7 +55,7 @@ CLASS_(Tuple, T1) : public Object::in {
   public: String ToString();
   private: T1 m_Item1;
 };
-CLASS_(Tuple, T1, T2) : public Object::in {
+CLASS_(Tuple, T1, T2) : public object {
   public: using interface = rt::TypeList<IStructuralEquatable, IStructuralComparable, IComparable<>, ITupleInternal, ITuple>;
   public: T1 get_Item1();
   public: T2 get_Item2();
@@ -68,7 +68,7 @@ CLASS_(Tuple, T1, T2) : public Object::in {
   private: T1 m_Item1;
   private: T2 m_Item2;
 };
-CLASS_(Tuple, T1, T2, T3) : public Object::in {
+CLASS_(Tuple, T1, T2, T3) : public object {
   public: using interface = rt::TypeList<IStructuralEquatable, IStructuralComparable, IComparable<>, ITupleInternal, ITuple>;
   public: T1 get_Item1();
   public: T2 get_Item2();
@@ -83,7 +83,7 @@ CLASS_(Tuple, T1, T2, T3) : public Object::in {
   private: T2 m_Item2;
   private: T3 m_Item3;
 };
-CLASS_(Tuple, T1, T2, T3, T4) : public Object::in {
+CLASS_(Tuple, T1, T2, T3, T4) : public object {
   public: using interface = rt::TypeList<IStructuralEquatable, IStructuralComparable, IComparable<>, ITupleInternal, ITuple>;
   public: T1 get_Item1();
   public: T2 get_Item2();
@@ -100,7 +100,7 @@ CLASS_(Tuple, T1, T2, T3, T4) : public Object::in {
   private: T3 m_Item3;
   private: T4 m_Item4;
 };
-CLASS_(Tuple, T1, T2, T3, T4, T5) : public Object::in {
+CLASS_(Tuple, T1, T2, T3, T4, T5) : public object {
   public: using interface = rt::TypeList<IStructuralEquatable, IStructuralComparable, IComparable<>, ITupleInternal, ITuple>;
   public: T1 get_Item1();
   public: T2 get_Item2();
@@ -119,7 +119,7 @@ CLASS_(Tuple, T1, T2, T3, T4, T5) : public Object::in {
   private: T4 m_Item4;
   private: T5 m_Item5;
 };
-CLASS_(Tuple, T1, T2, T3, T4, T5, T6) : public Object::in {
+CLASS_(Tuple, T1, T2, T3, T4, T5, T6) : public object {
   public: using interface = rt::TypeList<IStructuralEquatable, IStructuralComparable, IComparable<>, ITupleInternal, ITuple>;
   public: T1 get_Item1();
   public: T2 get_Item2();
@@ -140,7 +140,7 @@ CLASS_(Tuple, T1, T2, T3, T4, T5, T6) : public Object::in {
   private: T5 m_Item5;
   private: T6 m_Item6;
 };
-CLASS_(Tuple, T1, T2, T3, T4, T5, T6, T7) : public Object::in {
+CLASS_(Tuple, T1, T2, T3, T4, T5, T6, T7) : public object {
   public: using interface = rt::TypeList<IStructuralEquatable, IStructuralComparable, IComparable<>, ITupleInternal, ITuple>;
   public: T1 get_Item1();
   public: T2 get_Item2();
@@ -163,7 +163,7 @@ CLASS_(Tuple, T1, T2, T3, T4, T5, T6, T7) : public Object::in {
   private: T6 m_Item6;
   private: T7 m_Item7;
 };
-CLASS_(Tuple, T1, T2, T3, T4, T5, T6, T7, TRest) : public Object::in {
+CLASS_(Tuple, T1, T2, T3, T4, T5, T6, T7, TRest) : public object {
   public: using interface = rt::TypeList<IStructuralEquatable, IStructuralComparable, IComparable<>, ITupleInternal, ITuple>;
   public: T1 get_Item1();
   public: T2 get_Item2();

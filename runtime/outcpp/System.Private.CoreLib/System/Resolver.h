@@ -15,7 +15,7 @@ FORWARD(RuntimeType)
 FORWARD(String)
 namespace ResolverNamespace {
 using namespace System::Reflection;
-CLASS(Resolver) : public Object::in {
+CLASS(Resolver) : public object {
   public: struct CORINFO_EH_CLAUSE : public valueType<CORINFO_EH_CLAUSE> {
     public: Int32 Flags;
     public: Int32 TryOffset;

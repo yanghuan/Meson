@@ -46,7 +46,7 @@ using IEnumerator = Generic::IEnumerator<T>;
 using IEnumerator_ = Collections::IEnumerator;
 template <class T>
 using IComparer = Generic::IComparer<T>;
-CLASS(List, T) : public Object::in {
+CLASS(List, T) : public object {
   public: using interface = rt::TypeList<IList<T>, ICollection<T>, IEnumerable<T>, IEnumerable_, IList_, ICollection_, IReadOnlyList<T>, IReadOnlyCollection<T>>;
   public: struct Enumerator : public valueType<Enumerator> {
     public: using interface = rt::TypeList<IEnumerator<T>, IDisposable, IEnumerator_>;

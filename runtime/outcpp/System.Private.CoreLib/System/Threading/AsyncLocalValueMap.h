@@ -17,13 +17,13 @@ FORWARD(IAsyncLocalValueMap)
 namespace AsyncLocalValueMapNamespace {
 using namespace System::Collections::Generic;
 class AsyncLocalValueMap {
-  private: CLASS(EmptyAsyncLocalValueMap) : public Object::in {
+  private: CLASS(EmptyAsyncLocalValueMap) : public object {
     public: using interface = rt::TypeList<IAsyncLocalValueMap>;
     public: IAsyncLocalValueMap Set(IAsyncLocal key, Object value, Boolean treatNullValueAsNonexistent);
     public: Boolean TryGetValue(IAsyncLocal key, Object& value);
     public: void ctor();
   };
-  private: CLASS(OneElementAsyncLocalValueMap) : public Object::in {
+  private: CLASS(OneElementAsyncLocalValueMap) : public object {
     public: using interface = rt::TypeList<IAsyncLocalValueMap>;
     public: void ctor(IAsyncLocal key, Object value);
     public: IAsyncLocalValueMap Set(IAsyncLocal key, Object value, Boolean treatNullValueAsNonexistent);
@@ -31,7 +31,7 @@ class AsyncLocalValueMap {
     private: IAsyncLocal _key1;
     private: Object _value1;
   };
-  private: CLASS(TwoElementAsyncLocalValueMap) : public Object::in {
+  private: CLASS(TwoElementAsyncLocalValueMap) : public object {
     public: using interface = rt::TypeList<IAsyncLocalValueMap>;
     public: void ctor(IAsyncLocal key1, Object value1, IAsyncLocal key2, Object value2);
     public: IAsyncLocalValueMap Set(IAsyncLocal key, Object value, Boolean treatNullValueAsNonexistent);
@@ -41,7 +41,7 @@ class AsyncLocalValueMap {
     private: Object _value1;
     private: Object _value2;
   };
-  private: CLASS(ThreeElementAsyncLocalValueMap) : public Object::in {
+  private: CLASS(ThreeElementAsyncLocalValueMap) : public object {
     public: using interface = rt::TypeList<IAsyncLocalValueMap>;
     public: void ctor(IAsyncLocal key1, Object value1, IAsyncLocal key2, Object value2, IAsyncLocal key3, Object value3);
     public: IAsyncLocalValueMap Set(IAsyncLocal key, Object value, Boolean treatNullValueAsNonexistent);
@@ -53,7 +53,7 @@ class AsyncLocalValueMap {
     private: Object _value2;
     private: Object _value3;
   };
-  private: CLASS(MultiElementAsyncLocalValueMap) : public Object::in {
+  private: CLASS(MultiElementAsyncLocalValueMap) : public object {
     public: using interface = rt::TypeList<IAsyncLocalValueMap>;
     public: void ctor(Int32 count);
     public: void UnsafeStore(Int32 index, IAsyncLocal key, Object value);

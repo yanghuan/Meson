@@ -17,7 +17,7 @@ namespace System::Private::CoreLib::System::Diagnostics::Tracing {
 FORWARDS(EventDescriptor)
 FORWARD(EventSource)
 namespace IEventProviderNamespace {
-CLASS(IEventProvider) : public Object::in {
+CLASS(IEventProvider) : public object {
   public: UInt32 EventRegister(EventSource eventSource, Interop::Advapi32::EtwEnableCallback enableCallback, void* callbackContext, Int64& registrationHandle);
   public: UInt32 EventUnregister(Int64 registrationHandle);
   public: EventProvider::in::WriteEventErrorCode EventWriteTransfer(Int64 registrationHandle, EventDescriptor& eventDescriptor, IntPtr eventHandle, Guid* activityId, Guid* relatedActivityId, Int32 userDataCount, void/*EventProvider.EventData*/* userData);

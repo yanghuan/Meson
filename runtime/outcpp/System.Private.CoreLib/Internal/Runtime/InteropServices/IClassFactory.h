@@ -9,7 +9,7 @@ FORWARDS(Guid)
 namespace System::Private::CoreLib::Internal::Runtime::InteropServices {
 namespace IClassFactoryNamespace {
 using namespace System;
-CLASS(IClassFactory) : public Object::in {
+CLASS(IClassFactory) : public object {
   public: void CreateInstance(Object pUnkOuter, Guid& riid, Object& ppvObject);
   public: void LockServer(Boolean fLock);
   public: static constexpr rt::TypeCode code = rt::TypeCode::Interface;

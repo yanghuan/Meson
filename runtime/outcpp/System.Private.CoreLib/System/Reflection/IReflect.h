@@ -20,7 +20,7 @@ FORWARDS(ParameterModifier)
 FORWARD(PropertyInfo)
 namespace IReflectNamespace {
 using namespace System::Globalization;
-CLASS(IReflect) : public Object::in {
+CLASS(IReflect) : public object {
   public: Type get_UnderlyingSystemType();
   public: MethodInfo GetMethod(String name, BindingFlags bindingAttr, Binder binder, Array<Type> types, Array<ParameterModifier> modifiers);
   public: MethodInfo GetMethod(String name, BindingFlags bindingAttr);

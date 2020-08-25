@@ -11,7 +11,7 @@ namespace System::Private::CoreLib::System::Diagnostics {
 FORWARD(ICustomDebuggerNotification)
 namespace DebuggerNamespace {
 class Debugger {
-  private: CLASS(CrossThreadDependencyNotification) : public Object::in {
+  private: CLASS(CrossThreadDependencyNotification) : public object {
     public: using interface = rt::TypeList<ICustomDebuggerNotification>;
     public: void ctor();
   };

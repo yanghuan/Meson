@@ -14,6 +14,7 @@ CLASS(Comparison, T) : public MulticastDelegate::in {
   public: Int32 Invoke(T x, T y);
   public: IAsyncResult BeginInvoke(T x, T y, AsyncCallback callback, Object object);
   public: Int32 EndInvoke(IAsyncResult result);
+  public: static constexpr rt::TypeCode code = rt::TypeCode::Delegate;
 };
 } // namespace ComparisonNamespace
 template <class T>

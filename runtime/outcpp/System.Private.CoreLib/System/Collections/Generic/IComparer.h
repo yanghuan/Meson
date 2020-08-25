@@ -7,7 +7,7 @@ FORWARDS(Int32)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Collections::Generic {
 namespace IComparerNamespace {
-CLASS(IComparer, T) : public Object::in {
+CLASS(IComparer, T) : public object {
   public: Int32 Compare(T x, T y);
   public: static constexpr rt::TypeCode code = rt::TypeCode::Interface;
 };

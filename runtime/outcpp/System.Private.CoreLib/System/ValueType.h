@@ -8,7 +8,7 @@ FORWARDS(Int32)
 FORWARDS(IntPtr)
 FORWARD(String)
 namespace ValueTypeNamespace {
-CLASS(ValueType) : public Object::in {
+CLASS(ValueType) : public object {
   public: Boolean Equals(Object obj);
   private: static Boolean CanCompareBits(Object obj);
   private: static Boolean FastEqualsCheck(Object a, Object b);
@@ -19,7 +19,8 @@ CLASS(ValueType) : public Object::in {
 };
 } // namespace ValueTypeNamespace
 using ValueType = ValueTypeNamespace::ValueType;
-template <class T, rt::TypeCode code = rt::TypeCode::None>
-struct valueType : public rt::ValueType<T, ValueType::in, code> {
+template <class T, rt::TypeCode N = rt::TypeCode::Struct>
+struct valueType : public rt::ValueType<T, ValueType::in, N> {
+  public: static constexpr rt::TypeCode code = N;
 };
 } // namespace System::Private::CoreLib::System

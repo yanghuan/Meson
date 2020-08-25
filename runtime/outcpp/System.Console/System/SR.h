@@ -1,7 +1,6 @@
 #pragma once
 
 #include <rt/GCObject.h>
-//#include <System.Private.CoreLib/System/String.h>
 
 namespace System::Private::CoreLib::System::Resources {
 FORWARD(ResourceManager)

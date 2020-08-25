@@ -8,7 +8,7 @@ FORWARDS(Boolean)
 namespace System::Private::CoreLib::System::Security {
 FORWARD(ISecurityEncodable)
 namespace IPermissionNamespace {
-CLASS(IPermission) : public Object::in {
+CLASS(IPermission) : public object {
   public: using interface = rt::TypeList<ISecurityEncodable>;
   public: IPermission Copy();
   public: void Demand();

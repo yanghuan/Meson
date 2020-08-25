@@ -8,7 +8,7 @@ FORWARDS(IntPtr)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Runtime::InteropServices {
 namespace ICustomMarshalerNamespace {
-CLASS(ICustomMarshaler) : public Object::in {
+CLASS(ICustomMarshaler) : public object {
   public: Object MarshalNativeToManaged(IntPtr pNativeData);
   public: IntPtr MarshalManagedToNative(Object ManagedObj);
   public: void CleanUpNativeData(IntPtr pNativeData);

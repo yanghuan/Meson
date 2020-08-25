@@ -4,7 +4,7 @@
 
 namespace System::Private::CoreLib::System::Runtime::CompilerServices {
 namespace LAHashKeyToTrackersNamespace {
-CLASS(LAHashKeyToTrackers) : public Object::in {
+CLASS(LAHashKeyToTrackers) : public object {
   private: Object _trackerOrTrackerSet;
   private: Object _laLocalKeyValueStore;
 };

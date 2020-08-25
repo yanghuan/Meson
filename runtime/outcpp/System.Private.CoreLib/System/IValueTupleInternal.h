@@ -14,7 +14,7 @@ FORWARD(String)
 namespace IValueTupleInternalNamespace {
 using namespace System::Collections;
 using namespace System::Runtime::CompilerServices;
-CLASS(IValueTupleInternal) : public Object::in {
+CLASS(IValueTupleInternal) : public object {
   public: using interface = rt::TypeList<ITuple>;
   public: Int32 GetHashCode(IEqualityComparer comparer);
   public: String ToStringEnd();

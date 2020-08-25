@@ -30,7 +30,7 @@ namespace System::Private::CoreLib::System::IO {
 FORWARD(Stream)
 namespace BinaryReaderNamespace {
 using namespace System::Text;
-CLASS(BinaryReader) : public Object::in {
+CLASS(BinaryReader) : public object {
   public: using interface = rt::TypeList<IDisposable>;
   public: Stream get_BaseStream();
   public: void ctor(Stream input);

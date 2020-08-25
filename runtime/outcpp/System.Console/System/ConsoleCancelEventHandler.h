@@ -17,6 +17,7 @@ CLASS(ConsoleCancelEventHandler) : public MulticastDelegate::in {
   public: void Invoke(Object sender, ConsoleCancelEventArgs e);
   public: IAsyncResult BeginInvoke(Object sender, ConsoleCancelEventArgs e, AsyncCallback callback, Object object);
   public: void EndInvoke(IAsyncResult result);
+  public: static constexpr rt::TypeCode code = rt::TypeCode::Delegate;
 };
 } // namespace ConsoleCancelEventHandlerNamespace
 using ConsoleCancelEventHandler = ConsoleCancelEventHandlerNamespace::ConsoleCancelEventHandler;

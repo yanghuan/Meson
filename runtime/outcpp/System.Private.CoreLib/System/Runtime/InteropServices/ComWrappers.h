@@ -22,7 +22,7 @@ enum class CreateObjectFlags : int32_t;
 namespace ComWrappersNamespace {
 using namespace System::Collections;
 using namespace System::Runtime::CompilerServices;
-CLASS(ComWrappers) : public Object::in {
+CLASS(ComWrappers) : public object {
   public: struct ComInterfaceEntry : public valueType<ComInterfaceEntry> {
     public: Guid IID;
     public: IntPtr Vtable;

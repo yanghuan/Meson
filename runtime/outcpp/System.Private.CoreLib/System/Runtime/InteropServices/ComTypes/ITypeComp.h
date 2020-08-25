@@ -12,7 +12,7 @@ enum class DESCKIND : int32_t;
 FORWARDS(BINDPTR)
 FORWARD(ITypeInfo)
 namespace ITypeCompNamespace {
-CLASS(ITypeComp) : public Object::in {
+CLASS(ITypeComp) : public object {
   public: void Bind(String szName, Int32 lHashVal, Int16 wFlags, ITypeInfo& ppTInfo, DESCKIND& pDescKind, BINDPTR& pBindPtr);
   public: void BindType(String szName, Int32 lHashVal, ITypeInfo& ppTInfo, ITypeComp& ppTComp);
   public: static constexpr rt::TypeCode code = rt::TypeCode::Interface;
