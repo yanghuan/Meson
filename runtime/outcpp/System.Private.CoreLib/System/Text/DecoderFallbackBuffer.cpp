@@ -54,9 +54,9 @@ Boolean DecoderFallbackBuffer___::InternalFallback(Array<Byte> bytes, Byte* pByt
       if (ptr >= charEnd) {
         return false;
       }
-      Char* num = ptr;
-      ptr = num + 1;
-      *num = nextChar;
+      Char* intPtr = ptr;
+      ptr = intPtr + 1;
+      *intPtr = nextChar;
     }
     if (flag) {
       rt::throw_exception<ArgumentException>(SR::get_Argument_InvalidCharSequenceNoIndex());

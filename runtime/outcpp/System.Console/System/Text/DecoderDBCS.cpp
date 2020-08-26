@@ -7,6 +7,7 @@
 #include <System.Private.CoreLib/System/ArgumentOutOfRangeException-dep.h>
 #include <System.Private.CoreLib/System/Byte-dep.h>
 #include <System.Private.CoreLib/System/Int32-dep.h>
+#include <System.Private.CoreLib/System/Int64-dep.h>
 #include <System.Private.CoreLib/System/IntPtr-dep.h>
 
 namespace System::Console::System::Text::DecoderDBCSNamespace {
@@ -72,7 +73,7 @@ Int32 DecoderDBCS___::ConvertWithLeftOverByte(Byte* bytes, Int32 count, Char* ch
   }
   Int32 num2 = OSEncoding::in::MultiByteToWideChar(_encoding->get_CodePage(), ptr, num + 1, chars, charCount);
   if (count - num > 0) {
-    num2 += OSEncoding::in::MultiByteToWideChar(_encoding->get_CodePage(), bytes + num, count - num, (Char*)(IntPtr)((chars == nullptr) ? ((IntPtr)(?)0) : ((IntPtr)(IntPtr)(chars + num2))), (chars != nullptr) ? (charCount - num2) : 0);
+    num2 += OSEncoding::in::MultiByteToWideChar(_encoding->get_CodePage(), bytes + num, count - num, (Char*)(Int64)((chars == nullptr) ? ((IntPtr)(void*)nullptr) : ((IntPtr)(chars + num2))), (chars != nullptr) ? (charCount - num2) : 0);
   }
   return num2;
 }

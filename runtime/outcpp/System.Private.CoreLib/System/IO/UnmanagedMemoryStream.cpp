@@ -169,7 +169,7 @@ void UnmanagedMemoryStream___::Initialize(Byte* pointer, Int64 length, Int64 cap
   if (length > capacity) {
     rt::throw_exception<ArgumentOutOfRangeException>("length", SR::get_ArgumentOutOfRange_LengthGreaterThanCapacity());
   }
-  if ((UIntPtr)((Int64)pointer + capacity) < (UIntPtr)pointer) {
+  if ((UInt64)(UIntPtr)(void*)((Int64)pointer + capacity) < (UInt64)pointer) {
     rt::throw_exception<ArgumentOutOfRangeException>("capacity", SR::get_ArgumentOutOfRange_UnmanagedMemStreamWrapAround());
   }
   if (access < FileAccess::Read || access > FileAccess::ReadWrite) {

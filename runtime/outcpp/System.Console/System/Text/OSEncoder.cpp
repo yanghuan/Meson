@@ -4,6 +4,7 @@
 #include <System.Console/System/Text/OSEncoding-dep.h>
 #include <System.Private.CoreLib/System/ArgumentNullException-dep.h>
 #include <System.Private.CoreLib/System/ArgumentOutOfRangeException-dep.h>
+#include <System.Private.CoreLib/System/Int64-dep.h>
 #include <System.Private.CoreLib/System/IntPtr-dep.h>
 
 namespace System::Console::System::Text::OSEncoderNamespace {
@@ -50,7 +51,7 @@ Int32 OSEncoder___::ConvertWithLeftOverChar(Char* chars, Int32 count, Byte* byte
   }
   Int32 num2 = OSEncoding::in::WideCharToMultiByte(_encoding->get_CodePage(), ptr, num + 1, bytes, byteCount);
   if (count - num > 0) {
-    num2 += OSEncoding::in::WideCharToMultiByte(_encoding->get_CodePage(), chars + num, count - num, (Byte*)(IntPtr)((bytes == nullptr) ? ((IntPtr)(?)0) : ((IntPtr)(IntPtr)(bytes + num2))), (bytes != nullptr) ? (byteCount - num2) : 0);
+    num2 += OSEncoding::in::WideCharToMultiByte(_encoding->get_CodePage(), chars + num, count - num, (Byte*)(Int64)((bytes == nullptr) ? ((IntPtr)(void*)nullptr) : ((IntPtr)(bytes + num2))), (bytes != nullptr) ? (byteCount - num2) : 0);
   }
   return num2;
 }

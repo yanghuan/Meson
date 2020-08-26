@@ -114,11 +114,11 @@ Char* Utf16Utility::GetPointerToFirstInvalidChar(Char* pInputBuffer, Int32 input
             pInputBuffer--;
             inputLength++;
           }
-          UIntPtr num8 = (UInt32)BitOperations::PopCount(num7);
-          num3 -= (Int32)num8;
+          UIntPtr uIntPtr = (UIntPtr)(UInt32)BitOperations::PopCount(num7);
+          num3 -= (Int32)(UInt64)uIntPtr;
           Int32 size = IntPtr::get_Size();
-          num2 -= (Int64)num8;
-          num2 -= (Int64)num8;
+          num2 -= (Int64)(UInt64)uIntPtr;
+          num2 -= (Int64)(UInt64)uIntPtr;
         }
         num2 += num4;
         pInputBuffer += Vector128<UInt16>::get_Count();
@@ -135,14 +135,14 @@ Char* Utf16Utility::GetPointerToFirstInvalidChar(Char* pInputBuffer, Int32 input
       Vector<UInt16> right7 = Vector<>::GreaterThanOrEqual(left2, right4);
       Vector<UInt16> right8 = Vector<>::GreaterThanOrEqual(left2, right6);
       Vector<UInt64> vector4 = (Vector<UInt64>)(Vector<UInt16>::get_Zero() - right7 - right8);
-      UIntPtr num9 = 0u;
+      UIntPtr uIntPtr2 = (UIntPtr)(void*)nullptr;
       for (Int32 i = 0; i < Vector<UInt64>::get_Count(); i++) {
-        num9 += (UIntPtr)(IntPtr)vector4[i];
+        uIntPtr2 = (UIntPtr)(void*)((UInt64)(Int64)(UInt64)uIntPtr2 + (UInt64)(Int64)(IntPtr)(void*)vector4[i]);
       }
-      UInt32 num10 = (UInt32)num9;
+      UInt32 num8 = (UInt32)(UInt64)uIntPtr2;
       Int32 size2 = IntPtr::get_Size();
-      num10 += (UInt32)(Int32)(num9 >> 32);
-      num10 = (UInt16)num10 + (num10 >> 16);
+      num8 += (UInt32)(Int32)((UInt64)uIntPtr2 >> 32);
+      num8 = (UInt16)num8 + (num8 >> 16);
       left2 -= vector3;
       Vector<UInt16> left3 = Vector<>::LessThan(left2, right6);
       if (left3 != Vector<UInt16>::get_Zero()) {
@@ -151,12 +151,12 @@ Char* Utf16Utility::GetPointerToFirstInvalidChar(Char* pInputBuffer, Int32 input
         if (vector5[0] != 0) {
           break;
         }
-        UInt16 num11 = 0;
-        Int32 num12 = 0;
-        while (num12 < Vector<UInt16>::get_Count() - 1) {
-          num11 = (UInt16)(num11 - right9[num12]);
-          if (right9[num12] == vector5[num12 + 1]) {
-            num12++;
+        UInt16 num9 = 0;
+        Int32 num10 = 0;
+        while (num10 < Vector<UInt16>::get_Count() - 1) {
+          num9 = (UInt16)(num9 - right9[num10]);
+          if (right9[num10] == vector5[num10 + 1]) {
+            num10++;
             continue;
           }
           goto IL_03c1;
@@ -164,14 +164,14 @@ Char* Utf16Utility::GetPointerToFirstInvalidChar(Char* pInputBuffer, Int32 input
         if (right9[Vector<UInt16>::get_Count() - 1] != 0) {
           pInputBuffer--;
           inputLength++;
-          num10 -= 2;
+          num8 -= 2;
         }
-        IntPtr num13 = num11;
-        num3 -= (Int32)num13;
-        num2 -= num13;
-        num2 -= num13;
+        IntPtr intPtr = (IntPtr)(void*)num9;
+        num3 -= (Int32)(Int64)intPtr;
+        num2 -= (Int64)intPtr;
+        num2 -= (Int64)intPtr;
       }
-      num2 += num10;
+      num2 += num8;
       pInputBuffer += Vector<UInt16>::get_Count();
       inputLength -= Vector<UInt16>::get_Count();
       if (inputLength >= Vector<UInt16>::get_Count()) {
@@ -186,16 +186,16 @@ Char* Utf16Utility::GetPointerToFirstInvalidChar(Char* pInputBuffer, Int32 input
 
 IL_03c1:
   while (inputLength > 0) {
-    UInt32 num14 = *pInputBuffer;
-    if (num14 > 127) {
-      num2 += num14 + 129024 >> 16;
-      if (UnicodeUtility::IsSurrogateCodePoint(num14)) {
+    UInt32 num11 = *pInputBuffer;
+    if (num11 > 127) {
+      num2 += num11 + 129024 >> 16;
+      if (UnicodeUtility::IsSurrogateCodePoint(num11)) {
         num2 -= 2;
         if (inputLength == 1) {
           break;
         }
-        num14 = Unsafe::ReadUnaligned<UInt32>(pInputBuffer);
-        if ((((Int32)num14 - (BitConverter::IsLittleEndian ? (-603924480) : (-671032320))) & -67044352) != 0) {
+        num11 = Unsafe::ReadUnaligned<UInt32>(pInputBuffer);
+        if ((((Int32)num11 - (BitConverter::IsLittleEndian ? (-603924480) : (-671032320))) & -67044352) != 0) {
           break;
         }
         num3--;

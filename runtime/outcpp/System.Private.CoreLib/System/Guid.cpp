@@ -779,95 +779,95 @@ Boolean Guid::TryFormat(Span<Char> destination, Int32& charsWritten, ReadOnlySpa
     Char* ptr = &MemoryMarshal::GetReference(destination);
     Char* ptr2 = ptr;
     if (num != 0) {
-      Char* num3 = ptr2;
-      ptr2 = num3 + 1;
-      *num3 = (Char)num;
+      Char* intPtr = ptr2;
+      ptr2 = intPtr + 1;
+      *intPtr = (Char)num;
     }
     if (flag2) {
-      Char* num4 = ptr2;
-      ptr2 = num4 + 1;
-      *num4 = 48;
-      Char* num5 = ptr2;
-      ptr2 = num5 + 1;
-      *num5 = 120;
+      Char* intPtr2 = ptr2;
+      ptr2 = intPtr2 + 1;
+      *intPtr2 = 48;
+      Char* intPtr3 = ptr2;
+      ptr2 = intPtr3 + 1;
+      *intPtr3 = 120;
       ptr2 += HexsToChars(ptr2, _a >> 24, _a >> 16);
       ptr2 += HexsToChars(ptr2, _a >> 8, _a);
-      Char* num6 = ptr2;
-      ptr2 = num6 + 1;
-      *num6 = 44;
-      Char* num7 = ptr2;
-      ptr2 = num7 + 1;
-      *num7 = 48;
-      Char* num8 = ptr2;
-      ptr2 = num8 + 1;
-      *num8 = 120;
+      Char* intPtr4 = ptr2;
+      ptr2 = intPtr4 + 1;
+      *intPtr4 = 44;
+      Char* intPtr5 = ptr2;
+      ptr2 = intPtr5 + 1;
+      *intPtr5 = 48;
+      Char* intPtr6 = ptr2;
+      ptr2 = intPtr6 + 1;
+      *intPtr6 = 120;
       ptr2 += HexsToChars(ptr2, _b >> 8, _b);
-      Char* num9 = ptr2;
-      ptr2 = num9 + 1;
-      *num9 = 44;
-      Char* num10 = ptr2;
-      ptr2 = num10 + 1;
-      *num10 = 48;
-      Char* num11 = ptr2;
-      ptr2 = num11 + 1;
-      *num11 = 120;
+      Char* intPtr7 = ptr2;
+      ptr2 = intPtr7 + 1;
+      *intPtr7 = 44;
+      Char* intPtr8 = ptr2;
+      ptr2 = intPtr8 + 1;
+      *intPtr8 = 48;
+      Char* intPtr9 = ptr2;
+      ptr2 = intPtr9 + 1;
+      *intPtr9 = 120;
       ptr2 += HexsToChars(ptr2, _c >> 8, _c);
-      Char* num12 = ptr2;
-      ptr2 = num12 + 1;
-      *num12 = 44;
-      Char* num13 = ptr2;
-      ptr2 = num13 + 1;
-      *num13 = 123;
+      Char* intPtr10 = ptr2;
+      ptr2 = intPtr10 + 1;
+      *intPtr10 = 44;
+      Char* intPtr11 = ptr2;
+      ptr2 = intPtr11 + 1;
+      *intPtr11 = 123;
       ptr2 += HexsToCharsHexOutput(ptr2, _d, _e);
-      Char* num14 = ptr2;
-      ptr2 = num14 + 1;
-      *num14 = 44;
+      Char* intPtr12 = ptr2;
+      ptr2 = intPtr12 + 1;
+      *intPtr12 = 44;
       ptr2 += HexsToCharsHexOutput(ptr2, _f, _g);
-      Char* num15 = ptr2;
-      ptr2 = num15 + 1;
-      *num15 = 44;
+      Char* intPtr13 = ptr2;
+      ptr2 = intPtr13 + 1;
+      *intPtr13 = 44;
       ptr2 += HexsToCharsHexOutput(ptr2, _h, _i);
-      Char* num16 = ptr2;
-      ptr2 = num16 + 1;
-      *num16 = 44;
+      Char* intPtr14 = ptr2;
+      ptr2 = intPtr14 + 1;
+      *intPtr14 = 44;
       ptr2 += HexsToCharsHexOutput(ptr2, _j, _k);
-      Char* num17 = ptr2;
-      ptr2 = num17 + 1;
-      *num17 = 125;
+      Char* intPtr15 = ptr2;
+      ptr2 = intPtr15 + 1;
+      *intPtr15 = 125;
     } else {
       ptr2 += HexsToChars(ptr2, _a >> 24, _a >> 16);
       ptr2 += HexsToChars(ptr2, _a >> 8, _a);
       if (flag) {
-        Char* num18 = ptr2;
-        ptr2 = num18 + 1;
-        *num18 = 45;
+        Char* intPtr16 = ptr2;
+        ptr2 = intPtr16 + 1;
+        *intPtr16 = 45;
       }
       ptr2 += HexsToChars(ptr2, _b >> 8, _b);
       if (flag) {
-        Char* num19 = ptr2;
-        ptr2 = num19 + 1;
-        *num19 = 45;
+        Char* intPtr17 = ptr2;
+        ptr2 = intPtr17 + 1;
+        *intPtr17 = 45;
       }
       ptr2 += HexsToChars(ptr2, _c >> 8, _c);
       if (flag) {
-        Char* num20 = ptr2;
-        ptr2 = num20 + 1;
-        *num20 = 45;
+        Char* intPtr18 = ptr2;
+        ptr2 = intPtr18 + 1;
+        *intPtr18 = 45;
       }
       ptr2 += HexsToChars(ptr2, _d, _e);
       if (flag) {
-        Char* num21 = ptr2;
-        ptr2 = num21 + 1;
-        *num21 = 45;
+        Char* intPtr19 = ptr2;
+        ptr2 = intPtr19 + 1;
+        *intPtr19 = 45;
       }
       ptr2 += HexsToChars(ptr2, _f, _g);
       ptr2 += HexsToChars(ptr2, _h, _i);
       ptr2 += HexsToChars(ptr2, _j, _k);
     }
     if (num != 0) {
-      Char* num22 = ptr2;
-      ptr2 = num22 + 1;
-      *num22 = (Char)(num >> 16);
+      Char* intPtr20 = ptr2;
+      ptr2 = intPtr20 + 1;
+      *intPtr20 = (Char)(num >> 16);
     }
   }
   charsWritten = num2;

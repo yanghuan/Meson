@@ -89,9 +89,9 @@ Int32 Latin1Encoding___::GetBytes(Char* chars, Int32 charCount, Byte* bytes, Int
         ptr = chars + byteCount;
       }
       while (chars < ptr) {
-        Char* num = chars;
-        chars = num + 1;
-        Char c3 = *num;
+        Char* intPtr = chars;
+        chars = intPtr + 1;
+        Char c3 = *intPtr;
         if (c3 > 255) {
           *(bytes++) = (Byte)c2;
         } else {

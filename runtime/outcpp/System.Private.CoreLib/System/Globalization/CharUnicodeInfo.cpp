@@ -4,6 +4,7 @@
 #include <System.Private.CoreLib/System/BitConverter-dep.h>
 #include <System.Private.CoreLib/System/Buffers/Binary/BinaryPrimitives-dep.h>
 #include <System.Private.CoreLib/System/ExceptionArgument.h>
+#include <System.Private.CoreLib/System/Int64-dep.h>
 #include <System.Private.CoreLib/System/Runtime/InteropServices/MemoryMarshal-dep.h>
 #include <System.Private.CoreLib/System/SByte-dep.h>
 #include <System.Private.CoreLib/System/Text/UnicodeUtility-dep.h>
@@ -161,7 +162,7 @@ Double CharUnicodeInfo::GetNumericValue(String s, Int32 index) {
 
 Double CharUnicodeInfo::GetNumericValueNoBoundsCheck(UInt32 codePoint) {
   UIntPtr numericGraphemeTableOffsetNoBoundsChecks = GetNumericGraphemeTableOffsetNoBoundsChecks(codePoint);
-  Byte& source = Unsafe::AddByteOffset(MemoryMarshal::GetReference(get_NumericValues()), numericGraphemeTableOffsetNoBoundsChecks * 8);
+  Byte& source = Unsafe::AddByteOffset(MemoryMarshal::GetReference(get_NumericValues()), (UIntPtr)((UInt64)(Int64)(UInt64)numericGraphemeTableOffsetNoBoundsChecks * 8));
   if (BitConverter::IsLittleEndian) {
     return Unsafe::ReadUnaligned<Double>(source);
   }

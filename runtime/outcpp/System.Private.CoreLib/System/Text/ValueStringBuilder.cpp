@@ -346,9 +346,9 @@ void ValueStringBuilder::Append(Char* value, Int32 length) {
   Span<Char> span = _chars.Slice(_pos, length);
   for (Int32 i = 0; i < span.get_Length(); i++) {
     Char& reference = span[i];
-    Char* num = value;
-    value = num + 1;
-    reference = *num;
+    Char* intPtr = value;
+    value = intPtr + 1;
+    reference = *intPtr;
   }
   _pos += length;
 }

@@ -7,6 +7,7 @@
 #include <System.Private.CoreLib/System/Buffer-dep.h>
 #include <System.Private.CoreLib/System/ExceptionArgument.h>
 #include <System.Private.CoreLib/System/Int16-dep.h>
+#include <System.Private.CoreLib/System/Int64-dep.h>
 #include <System.Private.CoreLib/System/IntPtr-dep.h>
 #include <System.Private.CoreLib/System/Runtime/CompilerServices/RuntimeHelpers-dep.h>
 #include <System.Private.CoreLib/System/SpanHelpers-dep.h>
@@ -14,6 +15,7 @@
 #include <System.Private.CoreLib/System/ThrowHelper-dep.h>
 #include <System.Private.CoreLib/System/Type-dep.h>
 #include <System.Private.CoreLib/System/UInt32-dep.h>
+#include <System.Private.CoreLib/System/UInt64-dep.h>
 
 namespace System::Private::CoreLib::System::BufferNamespace {
 using namespace Internal::Runtime::CompilerServices;
@@ -38,7 +40,7 @@ void Buffer::_BulkMoveWithWriteBarrier(Byte& destination, Byte& source, UIntPtr 
   if (Unsafe::AreSame(source, destination)) {
     return;
   }
-  if ((UIntPtr)(IntPtr)Unsafe::ByteOffset(source, destination) >= byteCount) {
+  if ((UInt64)(Int64)Unsafe::ByteOffset(source, destination) >= (UInt64)byteCount) {
     do {
       byteCount -= 16384;
       __BulkMoveWithWriteBarrier(destination, source, 16384u);
@@ -74,21 +76,21 @@ void Buffer::BlockCopy(Array<> src, Int32 srcOffset, Array<> dst, Int32 dstOffse
   if (dst == nullptr) {
     rt::throw_exception<ArgumentNullException>("dst");
   }
-  UIntPtr num = (UIntPtr)src->get_LongLength();
+  UIntPtr uIntPtr = (UIntPtr)(void*)src->get_LongLength();
   if (src->GetType() != typeof<Array<Byte>>()) {
     if (!RuntimeHelpers::IsPrimitiveType(src->GetCorElementTypeOfElementType())) {
       rt::throw_exception<ArgumentException>(SR::get_Arg_MustBePrimArray(), "src");
     }
-    num *= RuntimeHelpers::GetElementSize(src);
+    uIntPtr = (UIntPtr)(void*)((UInt64)(Int64)(UInt64)uIntPtr * (UInt64)RuntimeHelpers::GetElementSize(src));
   }
-  UIntPtr num2 = num;
+  UIntPtr uIntPtr2 = uIntPtr;
   if (src != dst) {
-    num2 = (UIntPtr)dst->get_LongLength();
+    uIntPtr2 = (UIntPtr)(void*)dst->get_LongLength();
     if (dst->GetType() != typeof<Array<Byte>>()) {
       if (!RuntimeHelpers::IsPrimitiveType(dst->GetCorElementTypeOfElementType())) {
         rt::throw_exception<ArgumentException>(SR::get_Arg_MustBePrimArray(), "dst");
       }
-      num2 *= RuntimeHelpers::GetElementSize(dst);
+      uIntPtr2 = (UIntPtr)(void*)((UInt64)(Int64)(UInt64)uIntPtr2 * (UInt64)RuntimeHelpers::GetElementSize(dst));
     }
   }
   if (srcOffset < 0) {
@@ -100,13 +102,13 @@ void Buffer::BlockCopy(Array<> src, Int32 srcOffset, Array<> dst, Int32 dstOffse
   if (count < 0) {
     rt::throw_exception<ArgumentOutOfRangeException>("count", SR::get_ArgumentOutOfRange_MustBeNonNegInt32());
   }
-  UIntPtr num3 = (UIntPtr)count;
-  UIntPtr num4 = (UIntPtr)srcOffset;
-  UIntPtr num5 = (UIntPtr)dstOffset;
-  if (num < num4 + num3 || num2 < num5 + num3) {
+  UIntPtr uIntPtr3 = (UIntPtr)(void*)count;
+  UIntPtr uIntPtr4 = (UIntPtr)(void*)srcOffset;
+  UIntPtr uIntPtr5 = (UIntPtr)(void*)dstOffset;
+  if ((UInt64)uIntPtr < (UInt64)(UIntPtr)(void*)((Int64)(UInt64)uIntPtr4 + (Int64)(UInt64)uIntPtr3) || (UInt64)uIntPtr2 < (UInt64)(UIntPtr)(void*)((Int64)(UInt64)uIntPtr5 + (Int64)(UInt64)uIntPtr3)) {
     rt::throw_exception<ArgumentException>(SR::get_Argument_InvalidOffLen());
   }
-  Memmove(Unsafe::AddByteOffset(RuntimeHelpers::GetRawArrayData(dst), num5), Unsafe::AddByteOffset(RuntimeHelpers::GetRawArrayData(src), num4), num3);
+  Memmove(Unsafe::AddByteOffset(RuntimeHelpers::GetRawArrayData(dst), uIntPtr5), Unsafe::AddByteOffset(RuntimeHelpers::GetRawArrayData(src), uIntPtr4), uIntPtr3);
 }
 
 Int32 Buffer::ByteLength(Array<> array) {
@@ -116,8 +118,8 @@ Int32 Buffer::ByteLength(Array<> array) {
   if (!RuntimeHelpers::IsPrimitiveType(array->GetCorElementTypeOfElementType())) {
     rt::throw_exception<ArgumentException>(SR::get_Arg_MustBePrimArray(), "array");
   }
-  UIntPtr num = (UIntPtr)((IntPtr)array->get_LongLength() * RuntimeHelpers::GetElementSize(array));
-  return (Int32)num;
+  UIntPtr uIntPtr = (UIntPtr)(void*)((UInt64)(Int64)(IntPtr)(void*)array->get_LongLength() * (UInt64)RuntimeHelpers::GetElementSize(array));
+  return (Int32)(UInt64)uIntPtr;
 }
 
 Byte Buffer::GetByte(Array<> array, Int32 index) {
@@ -142,7 +144,7 @@ void Buffer::MemoryCopy(void* source, void* destination, Int64 destinationSizeIn
   if (sourceBytesToCopy > destinationSizeInBytes) {
     ThrowHelper::ThrowArgumentOutOfRangeException(ExceptionArgument::sourceBytesToCopy);
   }
-  Memmove((Byte*)destination, (Byte*)source, (UIntPtr)sourceBytesToCopy);
+  Memmove((Byte*)destination, (Byte*)source, (UIntPtr)(UInt64)sourceBytesToCopy);
 }
 
 void Buffer::MemoryCopy(void* source, void* destination, UInt64 destinationSizeInBytes, UInt64 sourceBytesToCopy) {
@@ -153,7 +155,7 @@ void Buffer::MemoryCopy(void* source, void* destination, UInt64 destinationSizeI
 }
 
 void Buffer::Memmove(Byte* dest, Byte* src, UIntPtr len) {
-  if ((UIntPtr)((IntPtr)(UIntPtr)(UIntPtr)(void*)dest - (IntPtr)(UIntPtr)(UIntPtr)(void*)src) >= len && (UIntPtr)((IntPtr)(UIntPtr)(UIntPtr)(void*)src - (IntPtr)(UIntPtr)(UIntPtr)(void*)dest) >= len) {
+  if ((UInt64)(UIntPtr)(void*)((Int64)(UInt64)(UIntPtr)(void*)dest - (Int64)(UInt64)(UIntPtr)(void*)src) >= (UInt64)len && (UInt64)(UIntPtr)(void*)((Int64)(UInt64)(UIntPtr)(void*)src - (Int64)(UInt64)(UIntPtr)(void*)dest) >= (UInt64)len) {
     Byte* ptr = src + len;
     Byte* ptr2 = dest + len;
     if (len > 16) {
@@ -161,14 +163,14 @@ void Buffer::Memmove(Byte* dest, Byte* src, UIntPtr len) {
         if (len > 2048) {
           goto IL_011e;
         }
-        UIntPtr num = len >> 6;
+        UIntPtr uIntPtr = (UIntPtr)(void*)((UInt64)len >> 6);
         do {
           *(Block64*)dest = *(Block64*)src;
           dest += 64;
           src += 64;
-          num--;
-        } while (num != 0)
-        len %= (?)64u;
+          uIntPtr = (UIntPtr)(void*)((UInt64)(Int64)(UInt64)uIntPtr - 1);
+        } while (uIntPtr != (UIntPtr)(void*)nullptr)
+        len = (UIntPtr)((UInt64)len % 64);
         if (len <= 16) {
           *(Block16*)(ptr2 - 16) = *(Block16*)(ptr - 16);
           return;
@@ -206,22 +208,22 @@ IL_011e:
 }
 
 void Buffer::Memmove(Byte& dest, Byte& src, UIntPtr len) {
-  if ((UIntPtr)(IntPtr)Unsafe::ByteOffset(src, dest) >= len && (UIntPtr)(IntPtr)Unsafe::ByteOffset(dest, src) >= len) {
-    Byte& source = Unsafe::Add(src, (IntPtr)len);
-    Byte& source2 = Unsafe::Add(dest, (IntPtr)len);
+  if ((UInt64)(Int64)Unsafe::ByteOffset(src, dest) >= (UInt64)len && (UInt64)(Int64)Unsafe::ByteOffset(dest, src) >= (UInt64)len) {
+    Byte& source = Unsafe::Add(src, (IntPtr)(void*)len);
+    Byte& source2 = Unsafe::Add(dest, (IntPtr)(void*)len);
     if (len > 16) {
       if (len > 64) {
         if (len > 2048) {
           goto IL_01db;
         }
-        UIntPtr num = len >> 6;
+        UIntPtr uIntPtr = (UIntPtr)(void*)((UInt64)len >> 6);
         do {
           Unsafe::As<Byte, Block64>(dest) = Unsafe::As<Byte, Block64>(src);
           dest = Unsafe::Add(dest, 64);
           src = Unsafe::Add(src, 64);
-          num--;
-        } while (num != 0)
-        len %= (?)64u;
+          uIntPtr = (UIntPtr)(void*)((UInt64)(Int64)(UInt64)uIntPtr - 1);
+        } while (uIntPtr != (UIntPtr)(void*)nullptr)
+        len = (UIntPtr)((UInt64)len % 64);
         if (len <= 16) {
           Unsafe::As<Byte, Block16>(Unsafe::Add(source2, -16)) = Unsafe::As<Byte, Block16>(Unsafe::Add(source, -16));
           return;

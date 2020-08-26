@@ -4,6 +4,7 @@
 #include <System.Private.CoreLib/System/ArgumentException-dep.h>
 #include <System.Private.CoreLib/System/ArgumentOutOfRangeException-dep.h>
 #include <System.Private.CoreLib/System/Array-dep.h>
+#include <System.Private.CoreLib/System/Int64-dep.h>
 #include <System.Private.CoreLib/System/IntPtr-dep.h>
 #include <System.Private.CoreLib/System/Runtime/CompilerServices/RuntimeHelpers-dep.h>
 #include <System.Private.CoreLib/System/Runtime/InteropServices/GCHandle-dep.h>
@@ -56,11 +57,11 @@ GCHandle::GCHandle(Object value, GCHandleType type) {
     case GCHandleType::Normal:
       break;
   }
-  IntPtr num = InternalAlloc(value, type);
+  IntPtr intPtr = InternalAlloc(value, type);
   if (type == GCHandleType::Pinned) {
-    num |= 1;
+    intPtr = (IntPtr)(void*)((Int64)intPtr | 1);
   }
-  _handle = num;
+  _handle = intPtr;
 }
 
 GCHandle::GCHandle(IntPtr handle) {
@@ -137,11 +138,11 @@ Boolean GCHandle::op_Inequality(GCHandle a, GCHandle b) {
 }
 
 IntPtr GCHandle::GetHandleValue(IntPtr handle) {
-  return IntPtr((IntPtr)handle & ~(?)1);
+  return IntPtr((Int64)(IntPtr)(void*)((Int64)handle & (Int64)(IntPtr)(void*)(~1)));
 }
 
 Boolean GCHandle::IsPinned(IntPtr handle) {
-  return ((IntPtr)handle & 1) != 0;
+  return (IntPtr)(void*)((Int64)handle & 1) != (IntPtr)0;
 }
 
 void GCHandle::ThrowIfInvalid(IntPtr handle) {

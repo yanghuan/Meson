@@ -748,4 +748,22 @@ namespace Meson.Compiler.CppAst {
       renderer.Render(this);
     }
   }
+
+  sealed class ForeachStatementSyntax : StatementSyntax {
+    public ExpressionSyntax VariableType { get; }
+    public IdentifierSyntax VariableName { get; }
+    public ExpressionSyntax Expression { get; }
+    public StatementSyntax EmbeddedStatement { get; }
+
+    public ForeachStatementSyntax(ExpressionSyntax variableType, IdentifierSyntax variableName, ExpressionSyntax expression, StatementSyntax embeddedStatement) {
+      VariableType = variableType;
+      VariableName = variableName;
+      Expression = expression;
+      EmbeddedStatement = embeddedStatement;
+    }
+
+    internal override void Render(CppRenderer renderer) {
+      renderer.Render(this);
+    }
+  }
 }

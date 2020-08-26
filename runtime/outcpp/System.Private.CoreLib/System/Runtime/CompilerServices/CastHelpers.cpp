@@ -49,15 +49,15 @@ CastHelpers::CastResult CastHelpers::TryGet(UIntPtr source, UIntPtr target) {
     Int32 num3 = Volatile::Read(reference._version);
     UIntPtr source2 = reference._source;
     num3 &= -2;
-    if (source2 == source) {
+    if (source2 == (UIntPtr)source) {
       UIntPtr targetAndResult = reference._targetAndResult;
-      targetAndResult ^= target;
-      if (targetAndResult <= 1) {
+      targetAndResult = (UIntPtr)(void*)((UInt64)(Int64)(UInt64)targetAndResult ^ (UInt64)target);
+      if ((UInt64)targetAndResult <= 1) {
         Interlocked::ReadMemoryBarrier();
         if (num3 != reference._version) {
           break;
         }
-        return (CastResult)(UInt32)(UIntPtr)targetAndResult;
+        return (CastResult)(UInt32)targetAndResult;
       }
     }
     if (num3 == 0) {
@@ -89,27 +89,27 @@ Object CastHelpers::IsInstanceOfInterface(void* toTypeHnd, Object obj) {
   MethodTable* methodTable;
   if (obj != nullptr) {
     methodTable = RuntimeHelpers::GetMethodTable(obj);
-    UIntPtr num = methodTable->InterfaceCount;
-    if (num == 0) {
+    UIntPtr uIntPtr = (UIntPtr)(void*)methodTable->InterfaceCount;
+    if (uIntPtr == (UIntPtr)(void*)nullptr) {
       goto IL_0095;
     }
     MethodTable* interfaceMap = methodTable->InterfaceMap;
-    UIntPtr num2 = 0u;
-    while (interfaceMap[num2 + 0] != toTypeHnd) {
-      if (--num != 0) {
-        if (interfaceMap[num2 + 1] == toTypeHnd) {
+    UIntPtr uIntPtr2 = (UIntPtr)(void*)nullptr;
+    while (interfaceMap[(UInt64)(UIntPtr)(void*)((Int64)(UInt64)uIntPtr2 + 0)] != toTypeHnd) {
+      if ((uIntPtr = (UIntPtr)(void*)((UInt64)(Int64)(UInt64)uIntPtr - 1)) != (UIntPtr)(void*)nullptr) {
+        if (interfaceMap[(UInt64)(UIntPtr)(void*)((Int64)(UInt64)uIntPtr2 + 1)] == toTypeHnd) {
           break;
         }
-        if (--num != 0) {
-          if (interfaceMap[num2 + 2] == toTypeHnd) {
+        if ((uIntPtr = (UIntPtr)(void*)((UInt64)(Int64)(UInt64)uIntPtr - 1)) != (UIntPtr)(void*)nullptr) {
+          if (interfaceMap[(UInt64)(UIntPtr)(void*)((Int64)(UInt64)uIntPtr2 + 2)] == toTypeHnd) {
             break;
           }
-          if (--num != 0) {
-            if (interfaceMap[num2 + 3] == toTypeHnd) {
+          if ((uIntPtr = (UIntPtr)(void*)((UInt64)(Int64)(UInt64)uIntPtr - 1)) != (UIntPtr)(void*)nullptr) {
+            if (interfaceMap[(UInt64)(UIntPtr)(void*)((Int64)(UInt64)uIntPtr2 + 3)] == toTypeHnd) {
               break;
             }
-            if (--num != 0) {
-              num2 += 4;
+            if ((uIntPtr = (UIntPtr)(void*)((UInt64)(Int64)(UInt64)uIntPtr - 1)) != (UIntPtr)(void*)nullptr) {
+              uIntPtr2 = (UIntPtr)(void*)((UInt64)(Int64)(UInt64)uIntPtr2 + 4);
               continue;
             }
           }
@@ -208,27 +208,27 @@ Object CastHelpers::ChkCast_Helper(void* toTypeHnd, Object obj) {
 Object CastHelpers::ChkCastInterface(void* toTypeHnd, Object obj) {
   if (obj != nullptr) {
     MethodTable* methodTable = RuntimeHelpers::GetMethodTable(obj);
-    UIntPtr num = methodTable->InterfaceCount;
-    if (num == 0) {
+    UIntPtr uIntPtr = (UIntPtr)(void*)methodTable->InterfaceCount;
+    if (uIntPtr == (UIntPtr)(void*)nullptr) {
       goto IL_0097;
     }
     MethodTable* interfaceMap = methodTable->InterfaceMap;
-    UIntPtr num2 = 0u;
-    while (interfaceMap[num2 + 0] != toTypeHnd) {
-      if (--num != 0) {
-        if (interfaceMap[num2 + 1] == toTypeHnd) {
+    UIntPtr uIntPtr2 = (UIntPtr)(void*)nullptr;
+    while (interfaceMap[(UInt64)(UIntPtr)(void*)((Int64)(UInt64)uIntPtr2 + 0)] != toTypeHnd) {
+      if ((uIntPtr = (UIntPtr)(void*)((UInt64)(Int64)(UInt64)uIntPtr - 1)) != (UIntPtr)(void*)nullptr) {
+        if (interfaceMap[(UInt64)(UIntPtr)(void*)((Int64)(UInt64)uIntPtr2 + 1)] == toTypeHnd) {
           break;
         }
-        if (--num != 0) {
-          if (interfaceMap[num2 + 2] == toTypeHnd) {
+        if ((uIntPtr = (UIntPtr)(void*)((UInt64)(Int64)(UInt64)uIntPtr - 1)) != (UIntPtr)(void*)nullptr) {
+          if (interfaceMap[(UInt64)(UIntPtr)(void*)((Int64)(UInt64)uIntPtr2 + 2)] == toTypeHnd) {
             break;
           }
-          if (--num != 0) {
-            if (interfaceMap[num2 + 3] == toTypeHnd) {
+          if ((uIntPtr = (UIntPtr)(void*)((UInt64)(Int64)(UInt64)uIntPtr - 1)) != (UIntPtr)(void*)nullptr) {
+            if (interfaceMap[(UInt64)(UIntPtr)(void*)((Int64)(UInt64)uIntPtr2 + 3)] == toTypeHnd) {
               break;
             }
-            if (--num != 0) {
-              num2 += 4;
+            if ((uIntPtr = (UIntPtr)(void*)((UInt64)(Int64)(UInt64)uIntPtr - 1)) != (UIntPtr)(void*)nullptr) {
+              uIntPtr2 = (UIntPtr)(void*)((UInt64)(Int64)(UInt64)uIntPtr2 + 4);
               continue;
             }
           }

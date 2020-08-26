@@ -31,6 +31,7 @@ namespace Meson.Compiler {
       QueryExpressions = false,
       ExtensionMethods = false,
       SwitchStatementOnString = false,
+      NativeIntegers = false,
     };
     private List<ITypeDefinition> knownTypes_ = new List<ITypeDefinition>();
 

@@ -100,7 +100,7 @@ IntPtr IntPtr::Add(IntPtr pointer, Int32 offset) {
 }
 
 IntPtr IntPtr::op_Addition(IntPtr pointer, Int32 offset) {
-  return IntPtr((IntPtr)(IntPtr)pointer._value + offset);
+  return IntPtr((Int64)(IntPtr)(void*)((Int64)(IntPtr)pointer._value + (Int64)offset));
 }
 
 IntPtr IntPtr::Subtract(IntPtr pointer, Int32 offset) {
@@ -108,7 +108,7 @@ IntPtr IntPtr::Subtract(IntPtr pointer, Int32 offset) {
 }
 
 IntPtr IntPtr::op_Subtraction(IntPtr pointer, Int32 offset) {
-  return IntPtr((IntPtr)(IntPtr)pointer._value - offset);
+  return IntPtr((Int64)(IntPtr)(void*)((Int64)(IntPtr)pointer._value - (Int64)offset));
 }
 
 void* IntPtr::ToPointer() {
@@ -121,10 +121,10 @@ Int32 IntPtr::CompareTo(Object value) {
   }
   if (rt::is<IntPtr>(value)) {
     IntPtr intPtr = (IntPtr)value;
-    if ((IntPtr)(IntPtr)_value < (IntPtr)intPtr) {
+    if ((Int64)(IntPtr)_value < (Int64)intPtr) {
       return -1;
     }
-    if ((IntPtr)(IntPtr)_value > (IntPtr)intPtr) {
+    if ((Int64)(IntPtr)_value > (Int64)intPtr) {
       return 1;
     }
     return 0;

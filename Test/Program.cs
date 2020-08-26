@@ -21,9 +21,8 @@ namespace Test {
     private static int A { get; set; }
 
     private static void Main(string[] args) {
-      Console.WriteLine(args);
-      E.A.F(c: true);
-      
+      foreach (string i in args) {
+      }
     }
   }
 }

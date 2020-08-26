@@ -203,25 +203,25 @@ String ParseNumbers::IntToString(Int32 n, Int32 radix, Int32 width, Char padding
     Int32 num5 = text->get_Length() - num2;
     if ((flags & 1) != 0) {
       for (Int32 j = 0; j < num5; j++) {
-        Char* num6 = ptr3;
-        ptr3 = num6 + 1;
-        *num6 = paddingChar;
+        Char* intPtr = ptr3;
+        ptr3 = intPtr + 1;
+        *intPtr = paddingChar;
       }
       for (Int32 k = 0; k < num2; k++) {
-        Char* num7 = ptr3;
-        ptr3 = num7 + 1;
-        *num7 = span[num2 - k - 1];
+        Char* intPtr2 = ptr3;
+        ptr3 = intPtr2 + 1;
+        *intPtr2 = span[num2 - k - 1];
       }
     } else {
       for (Int32 l = 0; l < num2; l++) {
-        Char* num8 = ptr3;
-        ptr3 = num8 + 1;
-        *num8 = span[num2 - l - 1];
+        Char* intPtr3 = ptr3;
+        ptr3 = intPtr3 + 1;
+        *intPtr3 = span[num2 - l - 1];
       }
       for (Int32 m = 0; m < num5; m++) {
-        Char* num9 = ptr3;
-        ptr3 = num9 + 1;
-        *num9 = paddingChar;
+        Char* intPtr4 = ptr3;
+        ptr3 = intPtr4 + 1;
+        *intPtr4 = paddingChar;
       }
     }
   }
@@ -301,25 +301,25 @@ String ParseNumbers::LongToString(Int64 n, Int32 radix, Int32 width, Char paddin
     Int32 num5 = text->get_Length() - num2;
     if ((flags & 1) != 0) {
       for (Int32 j = 0; j < num5; j++) {
-        Char* num6 = ptr3;
-        ptr3 = num6 + 1;
-        *num6 = paddingChar;
+        Char* intPtr = ptr3;
+        ptr3 = intPtr + 1;
+        *intPtr = paddingChar;
       }
       for (Int32 k = 0; k < num2; k++) {
-        Char* num7 = ptr3;
-        ptr3 = num7 + 1;
-        *num7 = span[num2 - k - 1];
+        Char* intPtr2 = ptr3;
+        ptr3 = intPtr2 + 1;
+        *intPtr2 = span[num2 - k - 1];
       }
     } else {
       for (Int32 l = 0; l < num2; l++) {
-        Char* num8 = ptr3;
-        ptr3 = num8 + 1;
-        *num8 = span[num2 - l - 1];
+        Char* intPtr3 = ptr3;
+        ptr3 = intPtr3 + 1;
+        *intPtr3 = span[num2 - l - 1];
       }
       for (Int32 m = 0; m < num5; m++) {
-        Char* num9 = ptr3;
-        ptr3 = num9 + 1;
-        *num9 = paddingChar;
+        Char* intPtr4 = ptr3;
+        ptr3 = intPtr4 + 1;
+        *intPtr4 = paddingChar;
       }
     }
   }

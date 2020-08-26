@@ -4,6 +4,7 @@
 #include <System.Private.CoreLib/System/Char-dep.h>
 #include <System.Private.CoreLib/System/Diagnostics/Tracing/FrameworkEventSource-dep.h>
 #include <System.Private.CoreLib/System/IntPtr-dep.h>
+#include <System.Private.CoreLib/System/UInt64-dep.h>
 #include <System.Private.CoreLib/System/UIntPtr-dep.h>
 
 namespace System::Private::CoreLib::System::Diagnostics::Tracing::FrameworkEventSourceNamespace {
@@ -74,7 +75,7 @@ void FrameworkEventSource___::ThreadPoolEnqueueWork(Int64 workID) {
 }
 
 void FrameworkEventSource___::ThreadPoolEnqueueWorkObject(Object workID) {
-  ThreadPoolEnqueueWork((Int64)(UIntPtr)(IntPtr)(*(IntPtr*)Unsafe::AsPointer(workID)));
+  ThreadPoolEnqueueWork((Int64)(UInt64)(UIntPtr)(void*)(Int64)(*(IntPtr*)Unsafe::AsPointer(workID)));
 }
 
 void FrameworkEventSource___::ThreadPoolDequeueWork(Int64 workID) {
@@ -82,7 +83,7 @@ void FrameworkEventSource___::ThreadPoolDequeueWork(Int64 workID) {
 }
 
 void FrameworkEventSource___::ThreadPoolDequeueWorkObject(Object workID) {
-  ThreadPoolDequeueWork((Int64)(UIntPtr)(IntPtr)(*(IntPtr*)Unsafe::AsPointer(workID)));
+  ThreadPoolDequeueWork((Int64)(UInt64)(UIntPtr)(void*)(Int64)(*(IntPtr*)Unsafe::AsPointer(workID)));
 }
 
 void FrameworkEventSource___::ThreadTransferSend(Int64 id, Int32 kind, String info, Boolean multiDequeues, Int32 intInfo1, Int32 intInfo2) {
@@ -90,7 +91,7 @@ void FrameworkEventSource___::ThreadTransferSend(Int64 id, Int32 kind, String in
 }
 
 void FrameworkEventSource___::ThreadTransferSendObj(Object id, Int32 kind, String info, Boolean multiDequeues, Int32 intInfo1, Int32 intInfo2) {
-  ThreadTransferSend((Int64)(UIntPtr)(IntPtr)(*(IntPtr*)Unsafe::AsPointer(id)), kind, info, multiDequeues, intInfo1, intInfo2);
+  ThreadTransferSend((Int64)(UInt64)(UIntPtr)(void*)(Int64)(*(IntPtr*)Unsafe::AsPointer(id)), kind, info, multiDequeues, intInfo1, intInfo2);
 }
 
 void FrameworkEventSource___::ThreadTransferReceive(Int64 id, Int32 kind, String info) {
@@ -98,7 +99,7 @@ void FrameworkEventSource___::ThreadTransferReceive(Int64 id, Int32 kind, String
 }
 
 void FrameworkEventSource___::ThreadTransferReceiveObj(Object id, Int32 kind, String info) {
-  ThreadTransferReceive((Int64)(UIntPtr)(IntPtr)(*(IntPtr*)Unsafe::AsPointer(id)), kind, info);
+  ThreadTransferReceive((Int64)(UInt64)(UIntPtr)(void*)(Int64)(*(IntPtr*)Unsafe::AsPointer(id)), kind, info);
 }
 
 void FrameworkEventSource___::cctor() {

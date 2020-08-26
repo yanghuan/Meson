@@ -5,6 +5,7 @@
 #include <System.Private.CoreLib/System/ArgumentNullException-dep.h>
 #include <System.Private.CoreLib/System/ArgumentOutOfRangeException-dep.h>
 #include <System.Private.CoreLib/System/GC-dep.h>
+#include <System.Private.CoreLib/System/Int64-dep.h>
 #include <System.Private.CoreLib/System/Runtime/CompilerServices/MethodTable-dep.h>
 #include <System.Private.CoreLib/System/Runtime/CompilerServices/QCallTypeHandle-dep.h>
 #include <System.Private.CoreLib/System/Runtime/CompilerServices/RawArrayData-dep.h>
@@ -13,6 +14,7 @@
 #include <System.Private.CoreLib/System/Runtime/Serialization/SerializationException-dep.h>
 #include <System.Private.CoreLib/System/SR-dep.h>
 #include <System.Private.CoreLib/System/UInt32-dep.h>
+#include <System.Private.CoreLib/System/UInt64-dep.h>
 
 namespace System::Private::CoreLib::System::Runtime::CompilerServices::RuntimeHelpersNamespace {
 using namespace Internal::Runtime::CompilerServices;
@@ -49,16 +51,16 @@ Byte& RuntimeHelpers::GetRawData(Object obj) {
 
 UIntPtr RuntimeHelpers::GetRawObjectDataSize(Object obj) {
   MethodTable* methodTable = GetMethodTable(obj);
-  UIntPtr num = (UIntPtr)methodTable->BaseSize - (UIntPtr)(2 * sizeof(IntPtr));
+  UIntPtr uIntPtr = (UIntPtr)(void*)((UInt64)methodTable->BaseSize - (UInt64)(2 * sizeof(IntPtr)));
   if (methodTable->get_HasComponentSize()) {
-    num += (UIntPtr)((IntPtr)Unsafe::As<RawArrayData>(obj)->Length * (IntPtr)methodTable->ComponentSize);
+    uIntPtr = (UIntPtr)(void*)((UInt64)(Int64)(UInt64)uIntPtr + (UInt64)(Int64)(IntPtr)(void*)((Int64)Unsafe::As<RawArrayData>(obj)->Length * (Int64)methodTable->ComponentSize));
   }
   GC::KeepAlive(obj);
-  return num;
+  return uIntPtr;
 }
 
 Byte& RuntimeHelpers::GetRawArrayData(Array<> array) {
-  return Unsafe::AddByteOffset(Unsafe::As<RawData>(array)->Data, (UIntPtr)GetMethodTable(array)->BaseSize - (UIntPtr)(2 * sizeof(IntPtr)));
+  return Unsafe::AddByteOffset(Unsafe::As<RawData>(array)->Data, (UIntPtr)((UInt64)GetMethodTable(array)->BaseSize - (UInt64)(2 * sizeof(IntPtr))));
 }
 
 UInt16 RuntimeHelpers::GetElementSize(Array<> array) {

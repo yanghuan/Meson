@@ -3,12 +3,14 @@
 #include <System.Private.CoreLib/System/ArgumentException-dep.h>
 #include <System.Private.CoreLib/System/Array-dep.h>
 #include <System.Private.CoreLib/System/IndexOutOfRangeException-dep.h>
+#include <System.Private.CoreLib/System/Int64-dep.h>
 #include <System.Private.CoreLib/System/IntPtr-dep.h>
 #include <System.Private.CoreLib/System/Runtime/CompilerServices/RuntimeHelpers-dep.h>
 #include <System.Private.CoreLib/System/Runtime/InteropServices/ArrayWithOffset-dep.h>
 #include <System.Private.CoreLib/System/Runtime/InteropServices/Marshal-dep.h>
 #include <System.Private.CoreLib/System/SR-dep.h>
 #include <System.Private.CoreLib/System/UInt32-dep.h>
+#include <System.Private.CoreLib/System/UInt64-dep.h>
 #include <System.Private.CoreLib/System/UIntPtr-dep.h>
 
 namespace System::Private::CoreLib::System::Runtime::InteropServices::ArrayWithOffsetNamespace {
@@ -21,11 +23,11 @@ ArrayWithOffset::ArrayWithOffset(Object array, Int32 offset) {
     if (array2 == nullptr || array2->get_Rank() != 1 || !Marshal::IsPinnable(array2)) {
       rt::throw_exception<ArgumentException>(SR::get_ArgumentException_NotIsomorphic());
     }
-    UIntPtr num2 = (UIntPtr)((IntPtr)array2->get_LongLength() * RuntimeHelpers::GetElementSize(array2));
-    if (num2 > 2147483632) {
+    UIntPtr uIntPtr = (UIntPtr)(void*)((UInt64)(Int64)(IntPtr)(void*)array2->get_LongLength() * (UInt64)RuntimeHelpers::GetElementSize(array2));
+    if ((UInt64)uIntPtr > 2147483632) {
       rt::throw_exception<ArgumentException>(SR::get_Argument_StructArrayTooLarge());
     }
-    num = (Int32)num2;
+    num = (Int32)(UInt64)uIntPtr;
   }
   if ((UInt32)offset > (UInt32)num) {
     rt::throw_exception<IndexOutOfRangeException>(SR::get_IndexOutOfRange_ArrayWithOffset());

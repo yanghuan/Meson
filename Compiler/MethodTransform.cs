@@ -665,17 +665,6 @@ namespace Meson.Compiler {
 
     public SyntaxNode VisitUnaryOperatorExpression(UnaryOperatorExpression unaryOperatorExpression) {
       var expression = unaryOperatorExpression.Expression.AcceptExpression(this);
-      /*
-      if (unaryOperatorExpression.Operator == UnaryOperatorType.NullConditionalRewrap) {
-        return expression;
-      }
-
-      if (unaryOperatorExpression.Operator == UnaryOperatorType.NullConditional) {
-        var temp = GetTempIdentifier();
-        Block.Add(new VariableDeclarationStatementSyntax(new RefExpressionSyntax(IdentifierSyntax.Auto), temp, expression));
-        return new ConditionalExpressionSyntax(temp.Binary(Tokens.EqualsEquals, IdentifierSyntax.Nullptr), IdentifierSyntax.Nullptr, temp);
-      }*/
-
       string operatorToken = unaryOperatorToknes_[(int)unaryOperatorExpression.Operator];
       if (operatorToken == null) {
         throw new NotImplementedException();
@@ -826,6 +815,13 @@ namespace Meson.Compiler {
     }
 
     public SyntaxNode VisitForeachStatement(ForeachStatement foreachStatement) {
+      /*
+      var variableType = foreachStatement.VariableType.AcceptExpression(this);
+      var variableName = foreachStatement.VariableNameToken.Accept<IdentifierSyntax>(this);
+      var expression = foreachStatement.InExpression.AcceptExpression(this);
+      var embeddedStatement = foreachStatement.EmbeddedStatement.AcceptStatement(this);
+      return new ForeachStatementSyntax(new RefExpressionSyntax(variableType), variableName, expression, embeddedStatement);
+      */
       throw new NotImplementedException();
     }
 

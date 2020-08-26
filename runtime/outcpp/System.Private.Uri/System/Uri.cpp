@@ -2377,41 +2377,41 @@ void Uri___::UnescapeOnly(Char* pch, Int32 start, Int32& end, Char ch1, Char ch2
   pch += start;
   Char* ptr2 = nullptr;
   while (pch < ptr) {
-    Char* num = pch;
-    pch = num + 1;
-    if (*num != 37) {
+    Char* intPtr = pch;
+    pch = intPtr + 1;
+    if (*intPtr != 37) {
       continue;
     }
-    Char* num2 = pch;
-    pch = num2 + 1;
-    Char first = *num2;
-    Char* num3 = pch;
-    pch = num3 + 1;
-    Char c = UriHelper::DecodeHexChars(first, *num3);
+    Char* intPtr2 = pch;
+    pch = intPtr2 + 1;
+    Char first = *intPtr2;
+    Char* intPtr3 = pch;
+    pch = intPtr3 + 1;
+    Char c = UriHelper::DecodeHexChars(first, *intPtr3);
     if (c != ch1 && c != ch2 && c != ch3) {
       continue;
     }
     ptr2 = pch - 2;
     *(ptr2 - 1) = c;
     while (pch < ptr) {
-      Char* num4 = ptr2;
-      ptr2 = num4 + 1;
-      Char* num5 = pch;
-      pch = num5 + 1;
+      Char* intPtr4 = ptr2;
+      ptr2 = intPtr4 + 1;
+      Char* intPtr5 = pch;
+      pch = intPtr5 + 1;
       Char c2;
-      *num4 = (c2 = *num5);
+      *intPtr4 = (c2 = *intPtr5);
       if (c2 == 37) {
-        Char* num6 = ptr2;
-        ptr2 = num6 + 1;
-        Char* num7 = pch;
-        pch = num7 + 1;
-        *num6 = (c2 = *num7);
+        Char* intPtr6 = ptr2;
+        ptr2 = intPtr6 + 1;
+        Char* intPtr7 = pch;
+        pch = intPtr7 + 1;
+        *intPtr6 = (c2 = *intPtr7);
         Char first2 = c2;
-        Char* num8 = ptr2;
-        ptr2 = num8 + 1;
-        Char* num9 = pch;
-        pch = num9 + 1;
-        *num8 = (c2 = *num9);
+        Char* intPtr8 = ptr2;
+        ptr2 = intPtr8 + 1;
+        Char* intPtr9 = pch;
+        pch = intPtr9 + 1;
+        *intPtr8 = (c2 = *intPtr9);
         c = UriHelper::DecodeHexChars(first2, c2);
         if (c == ch1 || c == ch2 || c == ch3) {
           ptr2 -= 2;
@@ -2429,20 +2429,20 @@ void Uri___::UnescapeOnly(Char* pch, Int32 start, Int32& end, Char ch1, Char ch2
     end -= (Int32)(pch - ptr2);
     return;
   }
-  Char* num10 = ptr2;
-  ptr2 = num10 + 1;
-  Char* num11 = pch;
-  pch = num11 + 1;
-  *num10 = *num11;
+  Char* intPtr10 = ptr2;
+  ptr2 = intPtr10 + 1;
+  Char* intPtr11 = pch;
+  pch = intPtr11 + 1;
+  *intPtr10 = *intPtr11;
   if (pch == ptr) {
     end -= (Int32)(pch - ptr2);
     return;
   }
-  Char* num12 = ptr2;
-  ptr2 = num12 + 1;
-  Char* num13 = pch;
-  pch = num13 + 1;
-  *num12 = *num13;
+  Char* intPtr12 = ptr2;
+  ptr2 = intPtr12 + 1;
+  Char* intPtr13 = pch;
+  pch = intPtr13 + 1;
+  *intPtr12 = *intPtr13;
   end -= (Int32)(pch - ptr2);
 }
 

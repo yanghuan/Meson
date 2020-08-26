@@ -544,9 +544,9 @@ Int32 UTF32Encoding___::GetChars(Byte* bytes, Int32 byteCount, Char* chars, Int3
         ThrowCharsOverflow(uTF32Decoder, chars == ptr);
         break;
       }
-      Char* num3 = chars;
-      chars = num3 + 1;
-      *num3 = GetHighSurrogate(num2);
+      Char* intPtr = chars;
+      chars = intPtr + 1;
+      *intPtr = GetHighSurrogate(num2);
       num2 = GetLowSurrogate(num2);
     } else if (chars >= ptr2) {
       bytes -= 4;
@@ -555,22 +555,22 @@ Int32 UTF32Encoding___::GetChars(Byte* bytes, Int32 byteCount, Char* chars, Int3
       break;
     }
 
-    Char* num4 = chars;
-    chars = num4 + 1;
-    *num4 = (Char)num2;
+    Char* intPtr2 = chars;
+    chars = intPtr2 + 1;
+    *intPtr2 = (Char)num2;
     num2 = 0u;
   }
   if (num > 0 && (uTF32Decoder == nullptr || uTF32Decoder->get_MustFlush())) {
     Array<Byte> array = rt::newarr<Array<Byte>>(num);
-    Int32 num5 = num;
+    Int32 num3 = num;
     if (_bigEndian) {
-      while (num5 > 0) {
-        array[--num5] = (Byte)num2;
+      while (num3 > 0) {
+        array[--num3] = (Byte)num2;
         num2 >>= 8;
       }
     } else {
-      while (num5 > 0) {
-        array[--num5] = (Byte)(num2 >> 24);
+      while (num3 > 0) {
+        array[--num3] = (Byte)(num2 >> 24);
         num2 <<= 8;
       }
     }

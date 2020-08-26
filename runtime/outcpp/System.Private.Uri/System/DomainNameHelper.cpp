@@ -51,13 +51,13 @@ Boolean DomainNameHelper::IsValid(Char* name, Int32 pos, Int32& returnedEnd, Boo
     for (ptr2 = ptr; ptr2 < ptr3 && *ptr2 != 46; ptr2++) {
     }
     if (ptr != ptr2 && ptr2 - ptr <= 63) {
-      Char* num = ptr;
-      ptr = num + 1;
-      if (IsASCIILetterOrDigit(*num, notCanonical)) {
+      Char* intPtr = ptr;
+      ptr = intPtr + 1;
+      if (IsASCIILetterOrDigit(*intPtr, notCanonical)) {
         while (ptr < ptr2) {
-          Char* num2 = ptr;
-          ptr = num2 + 1;
-          if (!IsValidDomainLabelCharacter(*num2, notCanonical)) {
+          Char* intPtr2 = ptr;
+          ptr = intPtr2 + 1;
+          if (!IsValidDomainLabelCharacter(*intPtr2, notCanonical)) {
             return false;
           }
         }
@@ -103,13 +103,13 @@ Boolean DomainNameHelper::IsValidByIri(Char* name, Int32 pos, Int32& returnedEnd
       }
     }
     if (ptr != ptr2 && (flag ? (num + 4) : num) <= 63) {
-      Char* num2 = ptr;
-      ptr = num2 + 1;
-      if (*num2 >= 160 || IsASCIILetterOrDigit(*(ptr - 1), notCanonical)) {
+      Char* intPtr = ptr;
+      ptr = intPtr + 1;
+      if (*intPtr >= 160 || IsASCIILetterOrDigit(*(ptr - 1), notCanonical)) {
         while (ptr < ptr2) {
-          Char* num3 = ptr;
-          ptr = num3 + 1;
-          if (*num3 < 160 && !IsValidDomainLabelCharacter(*(ptr - 1), notCanonical)) {
+          Char* intPtr2 = ptr;
+          ptr = intPtr2 + 1;
+          if (*intPtr2 < 160 && !IsValidDomainLabelCharacter(*(ptr - 1), notCanonical)) {
             return false;
           }
         }

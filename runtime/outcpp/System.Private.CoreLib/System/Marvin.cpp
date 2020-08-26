@@ -4,6 +4,7 @@
 #include <System.Private.CoreLib/Interop-dep.h>
 #include <System.Private.CoreLib/System/BitConverter-dep.h>
 #include <System.Private.CoreLib/System/Buffers/ArrayPool-dep.h>
+#include <System.Private.CoreLib/System/Int64-dep.h>
 #include <System.Private.CoreLib/System/MemoryExtensions-dep.h>
 #include <System.Private.CoreLib/System/Numerics/BitOperations-dep.h>
 #include <System.Private.CoreLib/System/Runtime/InteropServices/MemoryMarshal-dep.h>
@@ -34,7 +35,7 @@ Int32 Marvin::ComputeHash32(Byte& data, UInt32 count, UInt32 p0, UInt32 p1) {
     if (count < 4) {
       num = ((!BitConverter::IsLittleEndian) ? 2147483648u : 128u);
       if ((count & 1) != 0) {
-        num = Unsafe::AddByteOffset(data, (UIntPtr)count & (?)2u);
+        num = Unsafe::AddByteOffset(data, (UIntPtr)((UInt64)count & 2));
         if (BitConverter::IsLittleEndian) {
           num |= 32768;
         } else {
@@ -72,7 +73,7 @@ Int32 Marvin::ComputeHash32(Byte& data, UInt32 count, UInt32 p0, UInt32 p1) {
   goto IL_006a;
 
 IL_006a:
-  num = Unsafe::ReadUnaligned<UInt32>(Unsafe::Add(Unsafe::AddByteOffset(data, (UIntPtr)count & (?)7u), -4));
+  num = Unsafe::ReadUnaligned<UInt32>(Unsafe::Add(Unsafe::AddByteOffset(data, (UIntPtr)((UInt64)count & 7)), -4));
   count = ~count << 3;
   if (BitConverter::IsLittleEndian) {
     num >>= 8;
@@ -115,21 +116,21 @@ UInt64 Marvin::GenerateSeed() {
 
 Int32 Marvin::ComputeHash32OrdinalIgnoreCase(Char& data, Int32 count, UInt32 p0, UInt32 p1) {
   UInt32 num = (UInt32)count;
-  UIntPtr num2 = 0u;
+  UIntPtr uIntPtr = (UIntPtr)(void*)nullptr;
   while (true) {
     if (num >= 2) {
-      UInt32 value = Unsafe::ReadUnaligned<UInt32>(Unsafe::As<Char, Byte>(Unsafe::AddByteOffset(data, num2)));
+      UInt32 value = Unsafe::ReadUnaligned<UInt32>(Unsafe::As<Char, Byte>(Unsafe::AddByteOffset(data, uIntPtr)));
       if (!Utf16Utility::AllCharsInUInt32AreAscii(value)) {
         break;
       }
       p0 += Utf16Utility::ConvertAllAsciiCharsInUInt32ToUppercase(value);
       Block(p0, p1);
-      num2 += 4;
+      uIntPtr = (UIntPtr)(void*)((UInt64)(Int64)(UInt64)uIntPtr + 4);
       num -= 2;
       continue;
     }
     if (num != 0) {
-      UInt32 value = Unsafe::AddByteOffset(data, num2);
+      UInt32 value = Unsafe::AddByteOffset(data, uIntPtr);
       if (value > 127) {
         break;
       }
@@ -140,7 +141,7 @@ Int32 Marvin::ComputeHash32OrdinalIgnoreCase(Char& data, Int32 count, UInt32 p0,
     Block(p0, p1);
     return (Int32)(p1 ^ p0);
   }
-  return ComputeHash32OrdinalIgnoreCaseSlow(Unsafe::AddByteOffset(data, num2), (Int32)num, p0, p1);
+  return ComputeHash32OrdinalIgnoreCaseSlow(Unsafe::AddByteOffset(data, uIntPtr), (Int32)num, p0, p1);
 }
 
 Int32 Marvin::ComputeHash32OrdinalIgnoreCaseSlow(Char& data, Int32 count, UInt32 p0, UInt32 p1) {

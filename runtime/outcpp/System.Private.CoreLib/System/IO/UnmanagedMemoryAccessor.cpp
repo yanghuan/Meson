@@ -75,7 +75,7 @@ void UnmanagedMemoryAccessor___::Initialize(SafeBuffer buffer, Int64 offset, Int
   Byte* pointer = nullptr;
   try {
     buffer->AcquirePointer(pointer);
-    if ((UIntPtr)((Int64)pointer + offset + capacity) < (UIntPtr)pointer) {
+    if ((UInt64)(UIntPtr)(void*)((Int64)pointer + offset + capacity) < (UInt64)pointer) {
       rt::throw_exception<ArgumentException>(SR::get_Argument_UnmanagedMemAccessorWrapAround());
     }
   } catch (...) {

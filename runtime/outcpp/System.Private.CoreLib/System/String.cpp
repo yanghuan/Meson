@@ -81,7 +81,7 @@ Int32 String___::GetBytesFromEncoding(Byte* pbNativeBuffer, Int32 cbNativeBuffer
 }
 
 Boolean String___::EqualsHelper(String strA, String strB) {
-  return SpanHelpers::SequenceEqual(Unsafe::As<Char, Byte>(strA->GetRawStringData()), Unsafe::As<Char, Byte>(strB->GetRawStringData()), (UIntPtr)strA->get_Length() * (?)2u);
+  return SpanHelpers::SequenceEqual(Unsafe::As<Char, Byte>(strA->GetRawStringData()), Unsafe::As<Char, Byte>(strB->GetRawStringData()), (UIntPtr)((UInt64)strA->get_Length() * 2));
 }
 
 Int32 String___::CompareOrdinalHelper(String strA, Int32 indexA, Int32 countA, String strB, Int32 indexB, Int32 countB) {
@@ -602,7 +602,7 @@ Boolean String___::StartsWith(String value, StringComparison comparisonType) {
         return false;
       }
       if (value->get_Length() != 1) {
-        return SpanHelpers::SequenceEqual(Unsafe::As<Char, Byte>(GetRawStringData()), Unsafe::As<Char, Byte>(value->GetRawStringData()), (UIntPtr)value->get_Length() * (?)2u);
+        return SpanHelpers::SequenceEqual(Unsafe::As<Char, Byte>(GetRawStringData()), Unsafe::As<Char, Byte>(value->GetRawStringData()), (UIntPtr)((UInt64)value->get_Length() * 2));
       }
       return true;
     case StringComparison::OrdinalIgnoreCase:
@@ -653,7 +653,7 @@ String String___::Ctor(Array<Char> value) {
     return Empty;
   }
   String text = FastAllocateString(value->get_Length());
-  UIntPtr elementCount = (UInt32)text->get_Length();
+  UIntPtr elementCount = (UIntPtr)(UInt32)text->get_Length();
   Buffer::Memmove(text->_firstChar, MemoryMarshal::GetArrayDataReference(value), elementCount);
   return text;
 }
@@ -675,7 +675,7 @@ String String___::Ctor(Array<Char> value, Int32 startIndex, Int32 length) {
     return Empty;
   }
   String text = FastAllocateString(length);
-  UIntPtr elementCount = (UInt32)text->get_Length();
+  UIntPtr elementCount = (UIntPtr)(UInt32)text->get_Length();
   Buffer::Memmove(text->_firstChar, Unsafe::Add(MemoryMarshal::GetArrayDataReference(value), startIndex), elementCount);
   return text;
 }
@@ -689,7 +689,7 @@ String String___::Ctor(Char* ptr) {
     return Empty;
   }
   String text = FastAllocateString(num);
-  UIntPtr elementCount = (UInt32)text->get_Length();
+  UIntPtr elementCount = (UIntPtr)(UInt32)text->get_Length();
   Buffer::Memmove(text->_firstChar, *ptr, elementCount);
   return text;
 }
@@ -712,7 +712,7 @@ String String___::Ctor(Char* ptr, Int32 startIndex, Int32 length) {
     rt::throw_exception<ArgumentOutOfRangeException>("ptr", SR::get_ArgumentOutOfRange_PartialWCHAR());
   }
   String text = FastAllocateString(length);
-  UIntPtr elementCount = (UInt32)text->get_Length();
+  UIntPtr elementCount = (UIntPtr)(UInt32)text->get_Length();
   Buffer::Memmove(text->_firstChar, *ptr2, elementCount);
   return text;
 }
@@ -855,7 +855,7 @@ String String___::Copy(String str) {
     rt::throw_exception<ArgumentNullException>("str");
   }
   String text = FastAllocateString(str->get_Length());
-  UIntPtr elementCount = (UInt32)text->get_Length();
+  UIntPtr elementCount = (UIntPtr)(UInt32)text->get_Length();
   Buffer::Memmove(text->_firstChar, str->_firstChar, elementCount);
   return text;
 }
@@ -2015,7 +2015,7 @@ String String___::Substring(Int32 startIndex, Int32 length) {
 
 String String___::InternalSubString(Int32 startIndex, Int32 length) {
   String text = FastAllocateString(length);
-  UIntPtr elementCount = (UInt32)text->get_Length();
+  UIntPtr elementCount = (UIntPtr)(UInt32)text->get_Length();
   Buffer::Memmove(text->_firstChar, Unsafe::Add(_firstChar, startIndex), elementCount);
   return text;
 }

@@ -2438,16 +2438,16 @@ void Number::FormatFixed(ValueStringBuilder& sb, NumberBuffer& number, Int32 nMa
         Char* ptr2 = &MemoryMarshal::GetReference(sb.AppendSpan(num3));
         Char* ptr3 = ptr2 + num3 - 1;
         for (Int32 num8 = num - 1; num8 >= 0; num8--) {
-          Char* num9 = ptr3;
-          ptr3 = num9 - 1;
-          *num9 = (Char)((num8 < num7) ? ptr[num8] : 48);
+          Char* intPtr = ptr3;
+          ptr3 = intPtr - 1;
+          *intPtr = (Char)((num8 < num7) ? ptr[num8] : 48);
           if (num4 > 0) {
             num6++;
             if (num6 == num4 && num8 != 0) {
-              for (Int32 num10 = sGroup->get_Length() - 1; num10 >= 0; num10--) {
-                Char* num11 = ptr3;
-                ptr3 = num11 - 1;
-                *num11 = sGroup[num10];
+              for (Int32 num9 = sGroup->get_Length() - 1; num9 >= 0; num9--) {
+                Char* intPtr2 = ptr3;
+                ptr3 = intPtr2 - 1;
+                *intPtr2 = sGroup[num9];
               }
               if (num2 < groupDigits->get_Length() - 1) {
                 num2++;
@@ -2470,10 +2470,10 @@ void Number::FormatFixed(ValueStringBuilder& sb, NumberBuffer& number, Int32 nMa
   if (nMaxDigits > 0) {
     sb.Append(sDecimal);
     if (num < 0 && nMaxDigits > 0) {
-      Int32 num12 = Math::Min(-num, nMaxDigits);
-      sb.Append(48, num12);
-      num += num12;
-      nMaxDigits -= num12;
+      Int32 num10 = Math::Min(-num, nMaxDigits);
+      sb.Append(48, num10);
+      num += num10;
+      nMaxDigits -= num10;
     }
     while (nMaxDigits > 0) {
       sb.Append((Char)((*ptr != 0) ? (*(ptr++)) : 48));
@@ -2566,8 +2566,8 @@ void Number::RoundNumber(NumberBuffer& number, Int32 pos, Boolean isCorrectlyRou
       j--;
     }
     if (j > 0) {
-      Byte* num = digitsPointer + (j - 1);
-      *num = (Byte)(*num + 1);
+      Byte* intPtr = digitsPointer + (j - 1);
+      *intPtr = (Byte)(*intPtr + 1);
     } else {
       number.Scale++;
       *digitsPointer = 49;

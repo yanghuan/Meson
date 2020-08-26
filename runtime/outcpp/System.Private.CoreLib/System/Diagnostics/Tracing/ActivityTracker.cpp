@@ -135,7 +135,7 @@ Int32 ActivityTracker___::ActivityInfo___::AddIdToGuid(Guid* outPtr, Int32 where
       num--;
     }
   }
-  *(UInt32*)((Byte*)outPtr + (?)3 * (?)4) = ((*(UInt32*)outPtr + *(UInt32*)((Byte*)outPtr + 4) + *(UInt32*)((Byte*)outPtr + (?)2 * (?)4) + 1503500717) ^ EventSource::in::s_currentPid);
+  *(UInt32*)((Byte*)outPtr + 3 * 4) = ((*(UInt32*)outPtr + *(UInt32*)((Byte*)outPtr + 4) + *(UInt32*)((Byte*)outPtr + 2 * 4) + 1503500717) ^ EventSource::in::s_currentPid);
   return (Int32)(ptr - (Byte*)outPtr);
 }
 

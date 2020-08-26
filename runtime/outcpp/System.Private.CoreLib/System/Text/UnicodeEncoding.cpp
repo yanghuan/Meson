@@ -733,9 +733,9 @@ Int32 UnicodeEncoding___::GetChars(Byte* bytes, Int32 byteCount, Char* chars, In
         ThrowCharsOverflow(decoder, chars == ptr4);
         break;
       }
-      Char* num3 = chars;
-      chars = num3 + 1;
-      *num3 = c;
+      Char* intPtr = chars;
+      chars = intPtr + 1;
+      *intPtr = c;
       c = 0;
     } else if (c > 0) {
       Array<Byte> array3 = nullptr;
@@ -761,9 +761,9 @@ Int32 UnicodeEncoding___::GetChars(Byte* bytes, Int32 byteCount, Char* chars, In
       ThrowCharsOverflow(decoder, chars == ptr4);
       break;
     }
-    Char* num4 = chars;
-    chars = num4 + 1;
-    *num4 = c2;
+    Char* intPtr2 = chars;
+    chars = intPtr2 + 1;
+    *intPtr2 = c2;
   }
   if (decoder == nullptr || decoder->get_MustFlush()) {
     if (c > 0) {

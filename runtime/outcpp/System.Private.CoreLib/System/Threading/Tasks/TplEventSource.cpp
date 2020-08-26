@@ -14,6 +14,7 @@
 #include <System.Private.CoreLib/System/Runtime/CompilerServices/IAsyncStateMachine.h>
 #include <System.Private.CoreLib/System/Threading/Tasks/TplEventSource-dep.h>
 #include <System.Private.CoreLib/System/UInt32-dep.h>
+#include <System.Private.CoreLib/System/UInt64-dep.h>
 #include <System.Private.CoreLib/System/UIntPtr-dep.h>
 
 namespace System::Private::CoreLib::System::Threading::Tasks::TplEventSourceNamespace {
@@ -165,7 +166,7 @@ void TplEventSource___::AwaitTaskContinuationScheduled(Int32 OriginatingTaskSche
 }
 
 void TplEventSource___::RunningContinuationList(Int32 TaskID, Int32 Index, Object Object) {
-  RunningContinuationList(TaskID, Index, (Int64)(UIntPtr)(IntPtr)(*(IntPtr*)Unsafe::AsPointer(Object)));
+  RunningContinuationList(TaskID, Index, (Int64)(UInt64)(UIntPtr)(void*)(Int64)(*(IntPtr*)Unsafe::AsPointer(Object)));
 }
 
 void TplEventSource___::RunningContinuationList(Int32 TaskID, Int32 Index, Int64 Object) {

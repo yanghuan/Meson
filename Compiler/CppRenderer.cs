@@ -4,7 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
-
+using System.Xml;
 using ICSharpCode.Decompiler.TypeSystem;
 using Meson.Compiler.CppAst;
 
@@ -925,6 +925,22 @@ namespace Meson.Compiler {
       WriteColon();
       ++indentLevel_;
       WriteNewLine();
+    }
+
+    internal void Render(ForeachStatementSyntax node) {
+      Write(Tokens.For);
+      WriteSpace();
+      Write(Tokens.OpenParentheses);
+      node.VariableType.Render(this);
+      WriteSpace();
+      node.VariableName.Render(this);
+      WriteSpace();
+      WriteColon();
+      WriteSpace();
+      node.Expression.Render(this);
+      Write(Tokens.CloseParentheses);
+      WriteSpace();
+      node.EmbeddedStatement.Render(this);
     }
   }
 }
