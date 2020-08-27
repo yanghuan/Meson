@@ -1096,6 +1096,11 @@ String String___::Concat(Array<Object> args) {
   }
   String text = FastAllocateString(num);
   Int32 num2 = 0;
+  for (String& text2 : array) {
+    FillStringChecked(text, num2, text2);
+    num2 += text2->get_Length();
+  }
+  return text;
 }
 
 String String___::Concat(IEnumerable_<String> values) {
@@ -1242,6 +1247,35 @@ String String___::Concat(Array<String> values) {
     return (String)obj;
   }
   Int64 num = 0;
+  for (String& text : values) {
+    if (text != nullptr) {
+      num += text->get_Length();
+    }
+  }
+  if (num > Int32::MaxValue) {
+    rt::throw_exception<OutOfMemoryException>();
+  }
+  Int32 num2 = (Int32)num;
+  if (num2 == 0) {
+    return Empty;
+  }
+  String text2 = FastAllocateString(num2);
+  Int32 num3 = 0;
+  for (String& text3 : values) {
+    if (!IsNullOrEmpty(text3)) {
+      Int32 length = text3->get_Length();
+      if (length > num2 - num3) {
+        num3 = -1;
+        break;
+      }
+      FillStringChecked(text2, num3, text3);
+      num3 += length;
+    }
+  }
+  if (num3 != num2) {
+    return Concat((Array<String>)values->Clone());
+  }
+  return text2;
 }
 
 String String___::Format(String format, Object arg0) {
@@ -1738,6 +1772,18 @@ String String___::ReplaceHelper(Int32 oldValueLength, String newValue, ReadOnlyS
   Span<Char> span = Span<Char>(text->GetRawStringData(), text->get_Length());
   Int32 num2 = 0;
   Int32 num3 = 0;
+  for (Int32& num4 : indices) {
+    Int32 num5 = num4 - num2;
+    if (num5 != 0) {
+      MemoryExtensions::AsSpan((String)this, num2, num5).CopyTo(span.Slice(num3));
+      num3 += num5;
+    }
+    num2 = num4 + oldValueLength;
+    MemoryExtensions::AsSpan(newValue).CopyTo(span.Slice(num3));
+    num3 += newValue->get_Length();
+  }
+  MemoryExtensions::AsSpan((String)this, num2).CopyTo(span.Slice(num3));
+  return text;
 }
 
 Array<String> String___::Split(Char separator, StringSplitOptions options) {
@@ -1984,6 +2030,17 @@ void String___::MakeSeparatorList(String separator, ValueListBuilder<Int32>& sep
 
 void String___::MakeSeparatorList(Array<String> separators, ValueListBuilder<Int32>& sepListBuilder, ValueListBuilder<Int32>& lengthListBuilder) {
   for (Int32 i = 0; i < get_Length(); i++) {
+    for (String& text : separators) {
+      if (!IsNullOrEmpty(text)) {
+        Int32 length = text->get_Length();
+        if ((String)this[i] == text[0] && length <= get_Length() - i && (length == 1 || MemoryExtensions::SequenceEqual(MemoryExtensions::AsSpan((String)this, i, length), text))) {
+          sepListBuilder.Append(i);
+          lengthListBuilder.Append(length);
+          i += length - 1;
+          break;
+        }
+      }
+    }
   }
 }
 

@@ -14,6 +14,7 @@
 #include <System.Private.CoreLib/System/IntPtr-dep.h>
 #include <System.Private.CoreLib/System/Math-dep.h>
 #include <System.Private.CoreLib/System/Span-dep.h>
+#include <System.Private.CoreLib/System/StringComparison.h>
 #include <System.Private.CoreLib/System/Text/StringBuilder-dep.h>
 #include <System.Private.CoreLib/System/Text/StringBuilderCache-dep.h>
 #include <System.Private.CoreLib/System/UInt32-dep.h>
@@ -493,6 +494,11 @@ void CalendarData___::EnumCalendarInfoCallback(String calendarString, IntPtr con
   try {
     IcuEnumCalendarsData& reference = Unsafe::As<Byte, IcuEnumCalendarsData>(*(Byte*)(void*)context);
     if (reference.DisallowDuplicates) {
+      for (String& result : reference.Results) {
+        if (String::in::Equals(calendarString, result, StringComparison::Ordinal)) {
+          return;
+        }
+      }
     }
     reference.Results->Add(calendarString);
   } catch (Exception) {

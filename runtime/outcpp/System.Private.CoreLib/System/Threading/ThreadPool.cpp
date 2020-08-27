@@ -214,6 +214,19 @@ Boolean ThreadPool::TryPopCustomWorkItem(Object workItem) {
 }
 
 IEnumerable<Object> ThreadPool::GetQueuedWorkItems() {
+  for (Object& workItem : s_workQueue->workItems) {
+  }
+  Array<ThreadPoolWorkQueue::in::WorkStealingQueue> queues = ThreadPoolWorkQueue::in::WorkStealingQueueList::get_Queues();
+  for (ThreadPoolWorkQueue::in::WorkStealingQueue& workStealingQueue : queues) {
+    if (workStealingQueue == nullptr || workStealingQueue->m_array == nullptr) {
+      continue;
+    }
+    Array<Object> items = workStealingQueue->m_array;
+    for (Object& obj : items) {
+      if (obj != nullptr) {
+      }
+    }
+  }
 }
 
 IEnumerable<Object> ThreadPool::GetLocallyQueuedWorkItems() {
@@ -222,6 +235,10 @@ IEnumerable<Object> ThreadPool::GetLocallyQueuedWorkItems() {
   if (workStealingQueue == nullptr || workStealingQueue->m_array == nullptr) {
   }
   Array<Object> items = workStealingQueue->m_array;
+  for (Object& obj : items) {
+    if (obj != nullptr) {
+    }
+  }
 }
 
 IEnumerable<Object> ThreadPool::GetGloballyQueuedWorkItems() {
@@ -230,6 +247,18 @@ IEnumerable<Object> ThreadPool::GetGloballyQueuedWorkItems() {
 
 Array<Object> ThreadPool::ToObjectArray(IEnumerable<Object> workitems) {
   Int32 num = 0;
+  for (Object& workitem : workitems) {
+    num++;
+  }
+  Array<Object> array = rt::newarr<Array<Object>>(num);
+  num = 0;
+  for (Object& workitem2 : workitems) {
+    if (num < array->get_Length()) {
+      array[num] = workitem2;
+    }
+    num++;
+  }
+  return array;
 }
 
 Array<Object> ThreadPool::GetQueuedWorkItemsForDebugger() {

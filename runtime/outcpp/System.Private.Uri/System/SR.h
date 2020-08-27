@@ -1,6 +1,6 @@
 #pragma once
 
-#include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/String.h>
 
 namespace System::Private::CoreLib::System::Resources {
 FORWARD(ResourceManager)
@@ -8,7 +8,6 @@ FORWARD(ResourceManager)
 namespace System::Private::CoreLib::System {
 FORWARDS(Boolean)
 FORWARD(Object)
-FORWARD(String)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::Uri::System {
 namespace SRNamespace {

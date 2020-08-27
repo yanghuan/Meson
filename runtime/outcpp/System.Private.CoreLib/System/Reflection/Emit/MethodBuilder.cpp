@@ -138,6 +138,11 @@ void MethodBuilder___::ctor(String name, MethodAttributes attributes, CallingCon
     rt::throw_exception<ArgumentNullException>("mod");
   }
   if (parameterTypes != nullptr) {
+    for (Type& left : parameterTypes) {
+      if (left == nullptr) {
+        rt::throw_exception<ArgumentNullException>("parameterTypes");
+      }
+    }
   }
   m_strName = name;
   m_module = mod;
@@ -482,6 +487,11 @@ MethodToken MethodBuilder___::GetTokenNoLock() {
   m_tkMethod = MethodToken(num);
   if (m_inst != nullptr) {
     Array<GenericTypeParameterBuilder> inst = m_inst;
+    for (GenericTypeParameterBuilder& genericTypeParameterBuilder : inst) {
+      if (!genericTypeParameterBuilder->m_type->IsCreated()) {
+        genericTypeParameterBuilder->m_type->CreateType();
+      }
+    }
   }
   TypeBuilder::in::SetMethodImpl(QCallModule(module), num, m_dwMethodImplFlags);
   return m_tkMethod;

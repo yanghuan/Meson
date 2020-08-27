@@ -2,18 +2,24 @@
 
 #include <System.Private.CoreLib/System/ArgumentNullException-dep.h>
 #include <System.Private.CoreLib/System/ArgumentOutOfRangeException-dep.h>
+#include <System.Private.CoreLib/System/Char-dep.h>
+#include <System.Private.CoreLib/System/Collections/Generic/IEnumerable.h>
 #include <System.Private.CoreLib/System/Collections/IEnumerator.h>
 #include <System.Private.CoreLib/System/Diagnostics/StackFrame-dep.h>
 #include <System.Private.CoreLib/System/Diagnostics/StackTrace-dep.h>
 #include <System.Private.CoreLib/System/Diagnostics/StackTraceHiddenAttribute-dep.h>
 #include <System.Private.CoreLib/System/Globalization/CultureInfo-dep.h>
 #include <System.Private.CoreLib/System/Reflection/BindingFlags.h>
+#include <System.Private.CoreLib/System/Reflection/CustomAttributeExtensions-dep.h>
 #include <System.Private.CoreLib/System/Reflection/MethodBase-dep.h>
 #include <System.Private.CoreLib/System/Reflection/MethodImplAttributes.h>
 #include <System.Private.CoreLib/System/Reflection/MethodInfo-dep.h>
 #include <System.Private.CoreLib/System/Reflection/ParameterInfo-dep.h>
+#include <System.Private.CoreLib/System/Runtime/CompilerServices/AsyncIteratorStateMachineAttribute-dep.h>
 #include <System.Private.CoreLib/System/Runtime/CompilerServices/CompilerGeneratedAttribute-dep.h>
 #include <System.Private.CoreLib/System/Runtime/CompilerServices/IAsyncStateMachine.h>
+#include <System.Private.CoreLib/System/Runtime/CompilerServices/IteratorStateMachineAttribute-dep.h>
+#include <System.Private.CoreLib/System/Runtime/CompilerServices/StateMachineAttribute-dep.h>
 #include <System.Private.CoreLib/System/SR-dep.h>
 #include <System.Private.CoreLib/System/String-dep.h>
 #include <System.Private.CoreLib/System/StringComparison.h>
@@ -22,6 +28,7 @@
 
 namespace System::Private::CoreLib::System::Diagnostics::StackTraceNamespace {
 using namespace System::Collections;
+using namespace System::Collections::Generic;
 using namespace System::Globalization;
 using namespace System::Reflection;
 using namespace System::Runtime::CompilerServices;
@@ -196,6 +203,10 @@ void StackTrace___::ToString(TraceFormat traceFormat, StringBuilder sb) {
     }
     if (declaringType != nullptr) {
       String fullName = declaringType->get_FullName();
+      for (Char& c : fullName) {
+        sb->Append((c == 43) ? 46 : c);
+      }
+      sb->Append(46);
     }
     sb->Append(method->get_Name());
     MethodInfo methodInfo = rt::as<MethodInfo>(method);
@@ -285,6 +296,26 @@ Boolean StackTrace___::TryResolveStateMachineMethod(MethodBase& method, Type& de
     return false;
   }
   Array<MethodInfo> array = methods;
+  for (MethodInfo& methodInfo : array) {
+    IEnumerable<StateMachineAttribute> customAttributes = CustomAttributeExtensions::GetCustomAttributes(methodInfo, false);
+    if (customAttributes == nullptr) {
+      continue;
+    }
+    Boolean flag = false;
+    Boolean flag2 = false;
+    for (StateMachineAttribute& item : customAttributes) {
+      if (item->get_StateMachineType() == declaringType) {
+        flag = true;
+        flag2 = (flag2 || rt::is<IteratorStateMachineAttribute>(item) || rt::is<AsyncIteratorStateMachineAttribute>(item));
+      }
+    }
+    if (flag) {
+      method = methodInfo;
+      declaringType = methodInfo->get_DeclaringType();
+      return flag2;
+    }
+  }
+  return false;
 }
 
 } // namespace System::Private::CoreLib::System::Diagnostics::StackTraceNamespace

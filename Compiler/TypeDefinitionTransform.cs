@@ -352,7 +352,7 @@ namespace Meson.Compiler {
     }
 
     private ParameterSyntax GetParameterSyntax(IParameter parameter, IMethod method, ITypeDefinition typeDefinition) {
-      bool isConstValueImport = parameter.HasConstantValueInSignature && (parameter.Type.Kind == TypeKind.Enum || parameter.GetConstantValue() is string);
+      bool isConstValueImport = parameter.HasConstantValueInSignature && (parameter.Type.Kind == TypeKind.Enum || parameter.Type.IsKnownType(KnownTypeCode.String));
       var type = CompilationUnit.GetTypeName(new TypeNameArgs {
         Type = parameter.Type,
         Definition = typeDefinition,

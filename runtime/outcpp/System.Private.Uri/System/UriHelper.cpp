@@ -3,6 +3,7 @@
 #include <System.Private.CoreLib/System/ArgumentNullException-dep.h>
 #include <System.Private.CoreLib/System/Byte-dep.h>
 #include <System.Private.CoreLib/System/MemoryExtensions-dep.h>
+#include <System.Private.CoreLib/System/Runtime/InteropServices/MemoryMarshal-dep.h>
 #include <System.Private.CoreLib/System/Span-dep.h>
 #include <System.Private.CoreLib/System/Text/DecoderReplacementFallback-dep.h>
 #include <System.Private.CoreLib/System/Text/EncoderReplacementFallback-dep.h>
@@ -18,6 +19,7 @@
 
 namespace System::Private::Uri::System::UriHelperNamespace {
 using namespace ::System::Private::CoreLib::System;
+using namespace ::System::Private::CoreLib::System::Runtime::InteropServices;
 using namespace ::System::Private::CoreLib::System::Text;
 using namespace System::Text;
 
@@ -180,6 +182,11 @@ void UriHelper::EscapeStringToBuilder(ReadOnlySpan<Char> stringToEscape, ValueSt
       Int32 bytesWritten;
       current.TryEncodeToUtf8(destination, bytesWritten);
       Span<Byte> span2 = destination.Slice(0, bytesWritten);
+      for (Byte& value : span2) {
+        vsb.Append(37);
+        HexConverter::ToCharsBuffer(value, vsb.AppendSpan(2));
+      }
+      continue;
     }
     Byte b = (Byte)current.get_Value();
     if (noEscape[b]) {
@@ -456,6 +463,21 @@ Boolean UriHelper::IsBidiControlCharacter(Char ch) {
 String UriHelper::StripBidiControlCharacters(ReadOnlySpan<Char> strToClean, String backingString) {
   Int32 num = 0;
   ReadOnlySpan<Char> readOnlySpan = strToClean;
+  for (Char& c : readOnlySpan) {
+    if ((UInt32)(c - 8206) <= 32u && IsBidiControlCharacter(c)) {
+      num++;
+    }
+  }
+  if (num == 0) {
+    String as = backingString;
+    return as != nullptr ? as : rt::newobj<String>(strToClean);
+  }
+  if (num == strToClean.get_Length()) {
+    return String::in::Empty;
+  }
+  {
+    Char* value = &MemoryMarshal::GetReference(strToClean);
+  }
 }
 
 void UriHelper::cctor() {

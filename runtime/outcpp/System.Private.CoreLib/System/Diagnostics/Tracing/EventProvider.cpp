@@ -5,6 +5,7 @@
 #include <System.Private.CoreLib/Interop-dep.h>
 #include <System.Private.CoreLib/System/ArgumentException-dep.h>
 #include <System.Private.CoreLib/System/Char-dep.h>
+#include <System.Private.CoreLib/System/Collections/Generic/Dictionary-dep.h>
 #include <System.Private.CoreLib/System/Collections/Generic/IDictionary.h>
 #include <System.Private.CoreLib/System/Convert-dep.h>
 #include <System.Private.CoreLib/System/DateTime-dep.h>
@@ -29,6 +30,7 @@
 #include <System.Private.CoreLib/System/SByte-dep.h>
 #include <System.Private.CoreLib/System/Single-dep.h>
 #include <System.Private.CoreLib/System/String-dep.h>
+#include <System.Private.CoreLib/System/Text/Encoding-dep.h>
 #include <System.Private.CoreLib/System/Tuple-dep.h>
 #include <System.Private.CoreLib/System/Type-dep.h>
 #include <System.Private.CoreLib/System/TypeLoadException-dep.h>
@@ -40,6 +42,7 @@ using namespace System::Collections::Generic;
 using namespace System::Globalization;
 using namespace System::Numerics;
 using namespace System::Runtime::InteropServices;
+using namespace System::Text;
 
 EventProvider___::SessionInfo::SessionInfo(Int32 sessionIdBit_, Int32 etwSessionId_) {
   sessionIdBit = sessionIdBit_;
@@ -125,6 +128,35 @@ void EventProvider___::EtwEnableCallBack(Guid& sourceId, Int32 controlCode, Byte
           if (sessions->get_Count() == 0) {
             sessions->Add(rt::newobj<Tuple<SessionInfo, Boolean>>(SessionInfo(0, 0), true));
           }
+          for (Tuple<SessionInfo, Boolean>& item2 : sessions) {
+            Int32 sessionIdBit = item2->get_Item1().sessionIdBit;
+            Int32 etwSessionId = item2->get_Item1().etwSessionId;
+            Boolean item = item2->get_Item2();
+            flag = true;
+            dictionary = nullptr;
+            if (sessions->get_Count() > 1) {
+              filterData = nullptr;
+            }
+            Array<Byte> data;
+            Int32 dataStart;
+            if (item && GetDataFromController(etwSessionId, filterData, command, data, dataStart)) {
+              dictionary = rt::newobj<Dictionary<String, String>>(4);
+              if (data != nullptr) {
+                while (dataStart < data->get_Length()) {
+                  Int32 num = FindNull(data, dataStart);
+                  Int32 num2 = num + 1;
+                  Int32 num3 = FindNull(data, num2);
+                  if (num3 < data->get_Length()) {
+                    String string = Encoding::in::get_UTF8()->GetString(data, dataStart, num - dataStart);
+                    String text = dictionary[string] = Encoding::in::get_UTF8()->GetString(data, num2, num3 - num2);
+                  }
+                  dataStart = num3 + 1;
+                }
+              }
+            }
+            OnControllerCommand(command, dictionary, item ? sessionIdBit : (-sessionIdBit), etwSessionId);
+          }
+          break;
         }case 0:
         m_enabled = false;
         m_level = 0;

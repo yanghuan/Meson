@@ -50,6 +50,13 @@ Encoding EncodingProvider___::GetEncodingFromProvider(Int32 codepage) {
   }
   Array<EncodingProvider> array = s_providers;
   Array<EncodingProvider> array2 = array;
+  for (EncodingProvider& encodingProvider : array2) {
+    Encoding encoding = encodingProvider->GetEncoding(codepage);
+    if (encoding != nullptr) {
+      return encoding;
+    }
+  }
+  return nullptr;
 }
 
 Encoding EncodingProvider___::GetEncodingFromProvider(String encodingName) {
@@ -58,6 +65,13 @@ Encoding EncodingProvider___::GetEncodingFromProvider(String encodingName) {
   }
   Array<EncodingProvider> array = s_providers;
   Array<EncodingProvider> array2 = array;
+  for (EncodingProvider& encodingProvider : array2) {
+    Encoding encoding = encodingProvider->GetEncoding(encodingName);
+    if (encoding != nullptr) {
+      return encoding;
+    }
+  }
+  return nullptr;
 }
 
 Encoding EncodingProvider___::GetEncodingFromProvider(Int32 codepage, EncoderFallback enc, DecoderFallback dec) {
@@ -66,6 +80,13 @@ Encoding EncodingProvider___::GetEncodingFromProvider(Int32 codepage, EncoderFal
   }
   Array<EncodingProvider> array = s_providers;
   Array<EncodingProvider> array2 = array;
+  for (EncodingProvider& encodingProvider : array2) {
+    Encoding encoding = encodingProvider->GetEncoding(codepage, enc, dec);
+    if (encoding != nullptr) {
+      return encoding;
+    }
+  }
+  return nullptr;
 }
 
 Encoding EncodingProvider___::GetEncodingFromProvider(String encodingName, EncoderFallback enc, DecoderFallback dec) {
@@ -74,6 +95,13 @@ Encoding EncodingProvider___::GetEncodingFromProvider(String encodingName, Encod
   }
   Array<EncodingProvider> array = s_providers;
   Array<EncodingProvider> array2 = array;
+  for (EncodingProvider& encodingProvider : array2) {
+    Encoding encoding = encodingProvider->GetEncoding(encodingName, enc, dec);
+    if (encoding != nullptr) {
+      return encoding;
+    }
+  }
+  return nullptr;
 }
 
 void EncodingProvider___::cctor() {

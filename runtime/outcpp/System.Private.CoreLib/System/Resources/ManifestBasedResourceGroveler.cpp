@@ -28,6 +28,7 @@
 #include <System.Private.CoreLib/System/Resources/RuntimeResourceSet-dep.h>
 #include <System.Private.CoreLib/System/Resources/UltimateResourceFallbackLocation.h>
 #include <System.Private.CoreLib/System/SR-dep.h>
+#include <System.Private.CoreLib/System/StringComparison.h>
 #include <System.Private.CoreLib/System/Text/StringBuilder-dep.h>
 #include <System.Private.CoreLib/System/Type-dep.h>
 
@@ -168,6 +169,18 @@ Stream ManifestBasedResourceGroveler___::CaseInsensitiveManifestResourceStreamLo
   String text2 = (text != nullptr && name != nullptr) ? String::in::Concat(text, ReadOnlySpan<Char>(ptr, 1), name) : (text + name);
   String text3 = nullptr;
   Array<String> manifestResourceNames = satellite->GetManifestResourceNames();
+  for (String& text4 : manifestResourceNames) {
+    if (String::in::Equals(text4, text2, StringComparison::InvariantCultureIgnoreCase)) {
+      if (text3 != nullptr) {
+        rt::throw_exception<MissingManifestResourceException>(SR::Format(SR::get_MissingManifestResource_MultipleBlobs(), text2, satellite->ToString()));
+      }
+      text3 = text4;
+    }
+  }
+  if (text3 == nullptr) {
+    return nullptr;
+  }
+  return satellite->GetManifestResourceStream(text3);
 }
 
 Assembly ManifestBasedResourceGroveler___::GetSatelliteAssembly(CultureInfo lookForCulture) {

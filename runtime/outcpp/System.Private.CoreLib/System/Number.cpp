@@ -2406,6 +2406,22 @@ void Number::NumberToStringFormat(ValueStringBuilder& sb, NumberBuffer& number, 
 void Number::FormatCurrency(ValueStringBuilder& sb, NumberBuffer& number, Int32 nMaxDigits, NumberFormatInfo info) {
   String text = number.IsNegative ? s_negCurrencyFormats[info->get_CurrencyNegativePattern()] : s_posCurrencyFormats[info->get_CurrencyPositivePattern()];
   String text2 = text;
+  for (Char& c : text2) {
+    switch (c.get()) {
+      case 35:
+        FormatFixed(sb, number, nMaxDigits, info->_currencyGroupSizes, info->get_CurrencyDecimalSeparator(), info->get_CurrencyGroupSeparator());
+        break;
+      case 45:
+        sb.Append(info->get_NegativeSign());
+        break;
+      case 36:
+        sb.Append(info->get_CurrencySymbol());
+        break;
+      default:
+        sb.Append(c);
+        break;
+    }
+  }
 }
 
 void Number::FormatFixed(ValueStringBuilder& sb, NumberBuffer& number, Int32 nMaxDigits, Array<Int32> groupDigits, String sDecimal, String sGroup) {
@@ -2485,6 +2501,19 @@ void Number::FormatFixed(ValueStringBuilder& sb, NumberBuffer& number, Int32 nMa
 void Number::FormatNumber(ValueStringBuilder& sb, NumberBuffer& number, Int32 nMaxDigits, NumberFormatInfo info) {
   String text = number.IsNegative ? s_negNumberFormats[info->get_NumberNegativePattern()] : "#";
   String text2 = text;
+  for (Char& c : text2) {
+    switch (c.get()) {
+      case 35:
+        FormatFixed(sb, number, nMaxDigits, info->_numberGroupSizes, info->get_NumberDecimalSeparator(), info->get_NumberGroupSeparator());
+        break;
+      case 45:
+        sb.Append(info->get_NegativeSign());
+        break;
+      default:
+        sb.Append(c);
+        break;
+    }
+  }
 }
 
 void Number::FormatScientific(ValueStringBuilder& sb, NumberBuffer& number, Int32 nMaxDigits, NumberFormatInfo info, Char expChar) {
@@ -2547,6 +2576,22 @@ void Number::FormatGeneral(ValueStringBuilder& sb, NumberBuffer& number, Int32 n
 void Number::FormatPercent(ValueStringBuilder& sb, NumberBuffer& number, Int32 nMaxDigits, NumberFormatInfo info) {
   String text = number.IsNegative ? s_negPercentFormats[info->get_PercentNegativePattern()] : s_posPercentFormats[info->get_PercentPositivePattern()];
   String text2 = text;
+  for (Char& c : text2) {
+    switch (c.get()) {
+      case 35:
+        FormatFixed(sb, number, nMaxDigits, info->_percentGroupSizes, info->get_PercentDecimalSeparator(), info->get_PercentGroupSeparator());
+        break;
+      case 45:
+        sb.Append(info->get_NegativeSign());
+        break;
+      case 37:
+        sb.Append(info->get_PercentSymbol());
+        break;
+      default:
+        sb.Append(c);
+        break;
+    }
+  }
 }
 
 void Number::RoundNumber(NumberBuffer& number, Int32 pos, Boolean isCorrectlyRounded) {

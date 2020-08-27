@@ -396,6 +396,15 @@ CultureInfo CultureInfo___::CreateSpecificCulture(String name) {
 }
 
 Boolean CultureInfo___::VerifyCultureName(String cultureName, Boolean throwException) {
+  for (Char& c : cultureName) {
+    if (!Char::IsLetterOrDigit(c) && c != 45 && c != 95) {
+      if (throwException) {
+        rt::throw_exception<ArgumentException>(SR::Format(SR::get_Argument_InvalidResourceCultureName(), cultureName));
+      }
+      return false;
+    }
+  }
+  return true;
 }
 
 Boolean CultureInfo___::VerifyCultureName(CultureInfo culture, Boolean throwException) {

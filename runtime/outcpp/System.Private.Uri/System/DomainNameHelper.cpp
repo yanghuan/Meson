@@ -3,6 +3,8 @@
 #include <System.Private.CoreLib/System/ArgumentException-dep.h>
 #include <System.Private.CoreLib/System/Globalization/IdnMapping-dep.h>
 #include <System.Private.CoreLib/System/ReadOnlySpan-dep.h>
+#include <System.Private.Uri/System/SR-dep.h>
+#include <System.Private.Uri/System/UriFormatException-dep.h>
 #include <System.Private.Uri/System/UriHelper-dep.h>
 
 namespace System::Private::Uri::System::DomainNameHelperNamespace {
@@ -131,6 +133,24 @@ String DomainNameHelper::IdnEquivalent(String hostname) {
     return hostname;
   }
   Boolean flag = true;
+  for (Char& c : hostname) {
+    if (c > 127) {
+      flag = false;
+      break;
+    }
+  }
+  if (flag) {
+    return hostname->ToLowerInvariant();
+  }
+  String unicode = UriHelper::StripBidiControlCharacters(hostname, hostname);
+  try {
+    String ascii = s_idnMapping->GetAscii(unicode);
+    if (ContainsCharactersUnsafeForNormalizedHost(ascii)) {
+      rt::throw_exception<UriFormatException>(SR::get_net_uri_BadUnicodeHostForIdn());
+    }
+    return ascii;
+  } catch (ArgumentException) {
+  }
 }
 
 Boolean DomainNameHelper::IsIdnAce(String input, Int32 index) {

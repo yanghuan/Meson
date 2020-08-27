@@ -318,9 +318,15 @@ Int32 DynamicILGenerator___::GetMemberRefToken(MethodBase methodInfo, Array<Type
 SignatureHelper DynamicILGenerator___::GetMemberRefSignature(CallingConventions call, Type returnType, Array<Type> parameterTypes, Array<Type> optionalParameterTypes) {
   SignatureHelper methodSigHelper = SignatureHelper::in::GetMethodSigHelper(call, returnType);
   if (parameterTypes != nullptr) {
+    for (Type& clsArgument : parameterTypes) {
+      methodSigHelper->AddArgument(clsArgument);
+    }
   }
   if (optionalParameterTypes != nullptr && optionalParameterTypes->get_Length() != 0) {
     methodSigHelper->AddSentinel();
+    for (Type& clsArgument2 : optionalParameterTypes) {
+      methodSigHelper->AddArgument(clsArgument2);
+    }
   }
   return methodSigHelper;
 }

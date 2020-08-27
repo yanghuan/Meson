@@ -1,5 +1,6 @@
 #include "TaskScheduler-dep.h"
 
+#include <System.Private.CoreLib/System/Collections/Generic/KeyValuePair-dep.h>
 #include <System.Private.CoreLib/System/Collections/Generic/List-dep.h>
 #include <System.Private.CoreLib/System/Diagnostics/Debugger-dep.h>
 #include <System.Private.CoreLib/System/EventHandler-dep.h>
@@ -134,6 +135,10 @@ Array<Task<>> TaskScheduler___::GetScheduledTasksForDebugger() {
     array = rt::newobj<List<Task<>>>(scheduledTasks)->ToArray();
   }
   Array<Task<>> array2 = array;
+  for (Task<>& task : array2) {
+    Int32 id = task->get_Id();
+  }
+  return array;
 }
 
 Array<TaskScheduler> TaskScheduler___::GetTaskSchedulersForDebugger() {
@@ -141,6 +146,18 @@ Array<TaskScheduler> TaskScheduler___::GetTaskSchedulersForDebugger() {
     return rt::newarr<Array<TaskScheduler>>(1);
   }
   List<TaskScheduler> list = rt::newobj<List<TaskScheduler>>();
+  for (KeyValuePair<TaskScheduler, Object>& item : (IEnumerable<KeyValuePair<TaskScheduler, Object>>)s_activeTaskSchedulers) {
+    list->Add(item.get_Key());
+  }
+  if (!list->Contains(s_defaultTaskScheduler)) {
+    list->Add(s_defaultTaskScheduler);
+  }
+  Array<TaskScheduler> array = list->ToArray();
+  Array<TaskScheduler> array2 = array;
+  for (TaskScheduler& taskScheduler : array2) {
+    Int32 id = taskScheduler->get_Id();
+  }
+  return array;
 }
 
 void TaskScheduler___::cctor() {

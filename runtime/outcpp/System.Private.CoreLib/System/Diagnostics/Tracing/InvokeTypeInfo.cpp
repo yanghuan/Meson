@@ -1,6 +1,7 @@
 #include "InvokeTypeInfo-dep.h"
 
 #include <System.Private.CoreLib/System/Collections/Generic/List-dep.h>
+#include <System.Private.CoreLib/System/Diagnostics/Tracing/EventFieldAttribute-dep.h>
 #include <System.Private.CoreLib/System/Diagnostics/Tracing/EventPayload-dep.h>
 #include <System.Private.CoreLib/System/Diagnostics/Tracing/PropertyAnalysis-dep.h>
 #include <System.Private.CoreLib/System/Int32-dep.h>
@@ -20,11 +21,23 @@ void InvokeTypeInfo___::WriteMetadata(TraceLoggingMetadataCollector collector, S
     return;
   }
   Array<PropertyAnalysis> array = properties;
+  for (PropertyAnalysis& propertyAnalysis : array) {
+    EventFieldFormat format2 = EventFieldFormat::Default;
+    EventFieldAttribute fieldAttribute = propertyAnalysis->fieldAttribute;
+    if (fieldAttribute != nullptr) {
+      traceLoggingMetadataCollector->set_Tags(fieldAttribute->set_Tags());
+      format2 = fieldAttribute->set_Format();
+    }
+    propertyAnalysis->typeInfo->WriteMetadata(traceLoggingMetadataCollector, propertyAnalysis->name, format2);
+  }
 }
 
 void InvokeTypeInfo___::WriteData(TraceLoggingDataCollector collector, PropertyValue value) {
   if (properties != nullptr) {
     Array<PropertyAnalysis> array = properties;
+    for (PropertyAnalysis& propertyAnalysis : array) {
+      propertyAnalysis->typeInfo->WriteData(collector, propertyAnalysis->getter(value));
+    }
   }
 }
 

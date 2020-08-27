@@ -37,6 +37,8 @@ IEnumerable<MethodInfo> TypeInfo___::get_DeclaredMethods() {
 
 IEnumerable<TypeInfo> TypeInfo___::get_DeclaredNestedTypes() {
   Array<Type> nestedTypes = GetNestedTypes(BindingFlags::DeclaredOnly | BindingFlags::Instance | BindingFlags::Static | BindingFlags::Public | BindingFlags::NonPublic);
+  for (Type& type : nestedTypes) {
+  }
 }
 
 IEnumerable<PropertyInfo> TypeInfo___::get_DeclaredProperties() {
@@ -80,6 +82,10 @@ PropertyInfo TypeInfo___::GetDeclaredProperty(String name) {
 
 IEnumerable<MethodInfo> TypeInfo___::GetDeclaredMethods(String name) {
   Array<MethodInfo> methods = GetMethods(BindingFlags::DeclaredOnly | BindingFlags::Instance | BindingFlags::Static | BindingFlags::Public | BindingFlags::NonPublic);
+  for (MethodInfo& methodInfo : methods) {
+    if (methodInfo->get_Name() == name) {
+    }
+  }
 }
 
 Boolean TypeInfo___::IsAssignableFrom(TypeInfo typeInfo) {

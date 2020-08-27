@@ -3,12 +3,15 @@
 #include <System.Private.CoreLib/System/ArgumentException-dep.h>
 #include <System.Private.CoreLib/System/ArgumentNullException-dep.h>
 #include <System.Private.CoreLib/System/BadImageFormatException-dep.h>
+#include <System.Private.CoreLib/System/Byte-dep.h>
+#include <System.Private.CoreLib/System/Collections/Generic/IList.h>
 #include <System.Private.CoreLib/System/DateTime-dep.h>
 #include <System.Private.CoreLib/System/DBNull-dep.h>
 #include <System.Private.CoreLib/System/Int64-dep.h>
 #include <System.Private.CoreLib/System/Object-dep.h>
 #include <System.Private.CoreLib/System/Reflection/CustomAttribute-dep.h>
 #include <System.Private.CoreLib/System/Reflection/CustomAttributeData-dep.h>
+#include <System.Private.CoreLib/System/Reflection/CustomAttributeNamedArgument-dep.h>
 #include <System.Private.CoreLib/System/Reflection/CustomAttributeTypedArgument-dep.h>
 #include <System.Private.CoreLib/System/Reflection/MdConstant-dep.h>
 #include <System.Private.CoreLib/System/Reflection/MetadataEnumResult-dep.h>
@@ -26,8 +29,10 @@
 #include <System.Private.CoreLib/System/RuntimeType-dep.h>
 #include <System.Private.CoreLib/System/RuntimeTypeHandle-dep.h>
 #include <System.Private.CoreLib/System/SR-dep.h>
+#include <System.Private.CoreLib/System/UInt32-dep.h>
 
 namespace System::Private::CoreLib::System::Reflection::RuntimeParameterInfoNamespace {
+using namespace System::Collections::Generic;
 using namespace System::Runtime::CompilerServices;
 
 Type RuntimeParameterInfo___::get_ParameterType() {
@@ -208,6 +213,18 @@ Object RuntimeParameterInfo___::GetDefaultValueInternal(Boolean raw) {
   }
   if (obj == DBNull::in::Value) {
     if (raw) {
+      for (CustomAttributeData& customAttribute : CustomAttributeData::in::GetCustomAttributes((RuntimeParameterInfo)this)) {
+        Type declaringType = customAttribute->get_Constructor()->get_DeclaringType();
+        if (declaringType == typeof<DateTimeConstantAttribute>()) {
+          obj = GetRawDateTimeConstant(customAttribute);
+        } else if (declaringType == typeof<DecimalConstantAttribute>()) {
+          obj = GetRawDecimalConstant(customAttribute);
+        } else if (declaringType->IsSubclassOf(s_CustomConstantAttributeType)) {
+          obj = GetRawConstant(customAttribute);
+        }
+
+
+      }
     } else {
       Array<Object> customAttributes2 = GetCustomAttributes(s_CustomConstantAttributeType, false);
       if (customAttributes2->get_Length() != 0) {
@@ -227,12 +244,45 @@ Object RuntimeParameterInfo___::GetDefaultValueInternal(Boolean raw) {
 }
 
 Decimal RuntimeParameterInfo___::GetRawDecimalConstant(CustomAttributeData attr) {
+  for (CustomAttributeNamedArgument& namedArgument : attr->get_NamedArguments()) {
+    if (namedArgument.get_MemberInfo()->get_Name()->Equals("Value")) {
+      return (Decimal)namedArgument.get_TypedValue().get_Value();
+    }
+  }
+  Array<ParameterInfo> parameters = attr->get_Constructor()->GetParameters();
+  IList<CustomAttributeTypedArgument> constructorArguments = attr->get_ConstructorArguments();
+  if (parameters[2]->get_ParameterType() == typeof<UInt32>()) {
+    Int32 lo = (Int32)(UInt32)constructorArguments[4].get_Value();
+    Int32 mid = (Int32)(UInt32)constructorArguments[3].get_Value();
+    Int32 hi = (Int32)(UInt32)constructorArguments[2].get_Value();
+    Byte b = (Byte)constructorArguments[1].get_Value();
+    Byte scale = (Byte)constructorArguments[0].get_Value();
+    return Decimal(lo, mid, hi, b != 0, scale);
+  }
+  Int32 lo2 = (Int32)constructorArguments[4].get_Value();
+  Int32 mid2 = (Int32)constructorArguments[3].get_Value();
+  Int32 hi2 = (Int32)constructorArguments[2].get_Value();
+  Byte b2 = (Byte)constructorArguments[1].get_Value();
+  Byte scale2 = (Byte)constructorArguments[0].get_Value();
+  return Decimal(lo2, mid2, hi2, b2 != 0, scale2);
 }
 
 DateTime RuntimeParameterInfo___::GetRawDateTimeConstant(CustomAttributeData attr) {
+  for (CustomAttributeNamedArgument& namedArgument : attr->get_NamedArguments()) {
+    if (namedArgument.get_MemberInfo()->get_Name()->Equals("Value")) {
+      return DateTime((Int64)namedArgument.get_TypedValue().get_Value());
+    }
+  }
+  return DateTime((Int64)attr->get_ConstructorArguments()[0].get_Value());
 }
 
 Object RuntimeParameterInfo___::GetRawConstant(CustomAttributeData attr) {
+  for (CustomAttributeNamedArgument& namedArgument : attr->get_NamedArguments()) {
+    if (namedArgument.get_MemberInfo()->get_Name()->Equals("Value")) {
+      return namedArgument.get_TypedValue().get_Value();
+    }
+  }
+  return DBNull::in::Value;
 }
 
 RuntimeModule RuntimeParameterInfo___::GetRuntimeModule() {

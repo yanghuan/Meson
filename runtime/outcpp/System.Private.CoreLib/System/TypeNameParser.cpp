@@ -149,6 +149,13 @@ String TypeNameParser___::EscapeTypeName(String name) {
   Char as[64] = {};
   Span<Char> initialBuffer = as;
   ValueStringBuilder valueStringBuilder = ValueStringBuilder(initialBuffer);
+  for (Char& c : name) {
+    if (Array<>::in::IndexOf(SPECIAL_CHARS, c) >= 0) {
+      valueStringBuilder.Append(92);
+    }
+    valueStringBuilder.Append(c);
+  }
+  return valueStringBuilder.ToString();
 }
 
 SafeTypeNameParserHandle TypeNameParser___::CreateTypeNameParser(String typeName, Boolean throwOnError) {

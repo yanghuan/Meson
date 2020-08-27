@@ -1,5 +1,6 @@
 #include "PasteArguments-dep.h"
 
+#include <System.Private.CoreLib/System/ApplicationException-dep.h>
 #include <System.Private.CoreLib/System/Char-dep.h>
 #include <System.Private.CoreLib/System/Int32-dep.h>
 
@@ -48,10 +49,41 @@ void PasteArguments::AppendArgument(StringBuilder stringBuilder, String argument
 }
 
 Boolean PasteArguments::ContainsNoWhitespaceOrQuotes(String s) {
+  for (Char& c : s) {
+    if (Char::IsWhiteSpace(c) || c == 34) {
+      return false;
+    }
+  }
+  return true;
 }
 
 String PasteArguments::Paste(IEnumerable<String> arguments, Boolean pasteFirstArgumentUsingArgV0Rules) {
   StringBuilder stringBuilder = rt::newobj<StringBuilder>();
+  for (String& argument : arguments) {
+    if (pasteFirstArgumentUsingArgV0Rules) {
+      pasteFirstArgumentUsingArgV0Rules = false;
+      Boolean flag = false;
+      String text = argument;
+      for (Char& c : text) {
+        if (c == 34) {
+          rt::throw_exception<ApplicationException>("The argv[0] argument cannot include a double quote.");
+        }
+        if (Char::IsWhiteSpace(c)) {
+          flag = true;
+        }
+      }
+      if (argument->get_Length() == 0 || flag) {
+        stringBuilder->Append(34);
+        stringBuilder->Append(argument);
+        stringBuilder->Append(34);
+      } else {
+        stringBuilder->Append(argument);
+      }
+    } else {
+      AppendArgument(stringBuilder, argument);
+    }
+  }
+  return stringBuilder->ToString();
 }
 
 } // namespace System::Private::CoreLib::System::PasteArgumentsNamespace

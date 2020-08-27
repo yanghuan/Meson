@@ -62,6 +62,16 @@ void TraceLoggingEventTypes___::ctor(EventTags tags, String defaultName, Array<T
   this->tags = tags;
   level = 5;
   TraceLoggingMetadataCollector traceLoggingMetadataCollector = rt::newobj<TraceLoggingMetadataCollector>();
+  for (TraceLoggingTypeInfo& traceLoggingTypeInfo : typeInfos) {
+    level = Statics::Combine((Int32)traceLoggingTypeInfo->get_Level(), level);
+    opcode = Statics::Combine((Int32)traceLoggingTypeInfo->get_Opcode(), opcode);
+    keywords |= traceLoggingTypeInfo->get_Keywords();
+    traceLoggingTypeInfo->WriteMetadata(traceLoggingMetadataCollector, nullptr, EventFieldFormat::Default);
+  }
+  typeMetadata = traceLoggingMetadataCollector->GetMetadata();
+  scratchSize = traceLoggingMetadataCollector->get_ScratchSize();
+  dataCount = traceLoggingMetadataCollector->get_DataCount();
+  pinCount = traceLoggingMetadataCollector->get_PinCount();
 }
 
 NameInfo TraceLoggingEventTypes___::GetNameInfo(String name, EventTags tags) {

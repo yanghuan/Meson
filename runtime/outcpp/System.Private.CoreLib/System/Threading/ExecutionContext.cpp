@@ -173,11 +173,50 @@ void ExecutionContext___::OnValuesChanged(ExecutionContext previousExecutionCtx,
   try {
     if (array != nullptr && array2 != nullptr) {
       Array<IAsyncLocal> array3 = array;
+      for (IAsyncLocal& asyncLocal : array3) {
+        Object value;
+        previousExecutionCtx->m_localValues->TryGetValue(asyncLocal, value);
+        Object value2;
+        nextExecutionCtx->m_localValues->TryGetValue(asyncLocal, value2);
+        if (value != value2) {
+          asyncLocal->OnValueChanged(value, value2, true);
+        }
+      }
+      if (array2 == array) {
+        return;
+      }
+      Array<IAsyncLocal> array4 = array2;
+      for (IAsyncLocal& asyncLocal2 : array4) {
+        Object value3;
+        if (!previousExecutionCtx->m_localValues->TryGetValue(asyncLocal2, value3)) {
+          Object value4;
+          nextExecutionCtx->m_localValues->TryGetValue(asyncLocal2, value4);
+          if (value3 != value4) {
+            asyncLocal2->OnValueChanged(value3, value4, true);
+          }
+        }
+      }
+      return;
     }
     if (array != nullptr) {
       Array<IAsyncLocal> array5 = array;
+      for (IAsyncLocal& asyncLocal3 : array5) {
+        Object value5;
+        previousExecutionCtx->m_localValues->TryGetValue(asyncLocal3, value5);
+        if (value5 != nullptr) {
+          asyncLocal3->OnValueChanged(value5, nullptr, true);
+        }
+      }
+      return;
     }
     Array<IAsyncLocal> array6 = array2;
+    for (IAsyncLocal& asyncLocal4 : array6) {
+      Object value6;
+      nextExecutionCtx->m_localValues->TryGetValue(asyncLocal4, value6);
+      if (value6 != nullptr) {
+        asyncLocal4->OnValueChanged(nullptr, value6, true);
+      }
+    }
   } catch (Exception exception) {
   }
 }

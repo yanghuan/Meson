@@ -37,6 +37,10 @@ ReadOnlyCollection<String> EventWrittenEventArgs___::get_PayloadNames() {
   if (EventId >= 0 && m_payloadNames == nullptr) {
     List<String> list = rt::newobj<List<String>>();
     Array<ParameterInfo> parameters = m_eventSource->m_eventData[EventId].Parameters;
+    for (ParameterInfo& parameterInfo : parameters) {
+      list->Add(parameterInfo->get_Name());
+    }
+    m_payloadNames = rt::newobj<ReadOnlyCollection<String>>(list);
   }
   return m_payloadNames;
 }

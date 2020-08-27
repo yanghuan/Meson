@@ -14,6 +14,7 @@
 #include <System.Private.CoreLib/System/Reflection/CallingConventions.h>
 #include <System.Private.CoreLib/System/Reflection/Emit/ConstructorBuilder-dep.h>
 #include <System.Private.CoreLib/System/Reflection/Emit/ConstructorOnTypeBuilderInstantiation-dep.h>
+#include <System.Private.CoreLib/System/Reflection/Emit/EnumBuilder-dep.h>
 #include <System.Private.CoreLib/System/Reflection/Emit/FieldOnTypeBuilderInstantiation-dep.h>
 #include <System.Private.CoreLib/System/Reflection/Emit/GenericTypeParameterBuilder-dep.h>
 #include <System.Private.CoreLib/System/Reflection/Emit/MethodBuilder-dep.h>
@@ -24,11 +25,13 @@
 #include <System.Private.CoreLib/System/Reflection/Emit/SignatureHelper-dep.h>
 #include <System.Private.CoreLib/System/Reflection/Emit/SymbolMethod-dep.h>
 #include <System.Private.CoreLib/System/Reflection/Emit/SymbolType-dep.h>
+#include <System.Private.CoreLib/System/Reflection/Emit/TypeBuilder-dep.h>
 #include <System.Private.CoreLib/System/Reflection/MethodInfo-dep.h>
 #include <System.Private.CoreLib/System/Reflection/ParameterInfo-dep.h>
 #include <System.Private.CoreLib/System/Reflection/RuntimeModule-dep.h>
 #include <System.Private.CoreLib/System/Reflection/TypeAttributes.h>
 #include <System.Private.CoreLib/System/SR-dep.h>
+#include <System.Private.CoreLib/System/StringComparison.h>
 
 namespace System::Private::CoreLib::System::Reflection::Emit::ModuleBuilderNamespace {
 using namespace System::Collections::Generic;
@@ -162,6 +165,11 @@ Int32 ModuleBuilder___::GetTokenFromTypeSpec(Array<Byte> signature, Int32 length
 Type ModuleBuilder___::FindTypeBuilderWithName(String strTypeName, Boolean ignoreCase) {
   Type value;
   if (ignoreCase) {
+    for (String& key : _typeBuilderDict->get_Keys()) {
+      if (String::in::Equals(key, strTypeName, StringComparison::OrdinalIgnoreCase)) {
+        return _typeBuilderDict[key];
+      }
+    }
   } else if (_typeBuilderDict->TryGetValue(strTypeName, value)) {
     return value;
   }
@@ -321,10 +329,21 @@ Int32 ModuleBuilder___::GetMemberRefToken(MethodBase method, IEnumerable<Type> o
 SignatureHelper ModuleBuilder___::GetMemberRefSignature(CallingConventions call, Type returnType, Array<Type> parameterTypes, IEnumerable<Type> optionalParameterTypes, Int32 cGenericParameters) {
   SignatureHelper methodSigHelper = SignatureHelper::in::GetMethodSigHelper((ModuleBuilder)this, call, returnType, cGenericParameters);
   if (parameterTypes != nullptr) {
+    for (Type& clsArgument : parameterTypes) {
+      methodSigHelper->AddArgument(clsArgument);
+    }
   }
   if (optionalParameterTypes != nullptr) {
     Int32 num = 0;
     {
+      for (Type& optionalParameterType : optionalParameterTypes) {
+        if (num == 0) {
+          methodSigHelper->AddSentinel();
+        }
+        methodSigHelper->AddArgument(optionalParameterType);
+        num++;
+      }
+      return methodSigHelper;
     }}
   return methodSigHelper;
 }
@@ -363,6 +382,16 @@ Array<Type> ModuleBuilder___::GetTypes() {
 Array<Type> ModuleBuilder___::GetTypesNoLock() {
   Array<Type> array = rt::newarr<Array<Type>>(_typeBuilderDict->get_Count());
   Int32 num = 0;
+  for (Type& value : _typeBuilderDict->get_Values()) {
+    EnumBuilder enumBuilder = rt::as<EnumBuilder>(value);
+    TypeBuilder typeBuilder = (!(enumBuilder != nullptr)) ? ((TypeBuilder)value) : enumBuilder->m_typeBuilder;
+    if (typeBuilder->IsCreated()) {
+      array[num++] = typeBuilder->get_UnderlyingSystemType();
+    } else {
+      array[num++] = value;
+    }
+  }
+  return array;
 }
 
 Type ModuleBuilder___::GetType(String className) {

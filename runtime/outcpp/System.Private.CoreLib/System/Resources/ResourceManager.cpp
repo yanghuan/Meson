@@ -4,6 +4,7 @@
 #include <System.Private.CoreLib/System/ArgumentNullException-dep.h>
 #include <System.Private.CoreLib/System/Char-dep.h>
 #include <System.Private.CoreLib/System/Collections/Generic/Dictionary-dep.h>
+#include <System.Private.CoreLib/System/Collections/Generic/KeyValuePair-dep.h>
 #include <System.Private.CoreLib/System/Int32-dep.h>
 #include <System.Private.CoreLib/System/InvalidOperationException-dep.h>
 #include <System.Private.CoreLib/System/IO/Stream-dep.h>
@@ -202,6 +203,13 @@ void ResourceManager___::ReleaseAllResources() {
   _lastUsedResourceCache = rt::newobj<CultureNameResourceSetPair>();
   {
     rt::lock(resourceSets);
+    for (KeyValuePair<String, ResourceSet>& item : resourceSets) {
+      String key;
+      ResourceSet value;
+      item.Deconstruct(key, value);
+      ResourceSet resourceSet = value;
+      resourceSet->Close();
+    }
   }
 }
 
@@ -288,6 +296,35 @@ ResourceSet ResourceManager___::InternalGetResourceSet(CultureInfo culture, Bool
     }
   }
   ResourceFallbackManager resourceFallbackManager = rt::newobj<ResourceFallbackManager>(culture, _neutralResourcesCulture, tryParents);
+  for (CultureInfo& item : resourceFallbackManager) {
+    {
+      rt::lock(resourceSets);
+      if (resourceSets->TryGetValue(item->get_Name(), value)) {
+        if (culture != item) {
+          cultureInfo = item;
+        }
+        goto IL_00c9;
+      }
+    }
+    value = _resourceGroveler->GrovelForResourceSet(item, resourceSets, tryParents, createIfNotExists);
+    if (value != nullptr) {
+      cultureInfo = item;
+      break;
+    }
+  }
+  goto IL_00c9;
+
+IL_00c9:
+  if (value != nullptr && cultureInfo != nullptr) {
+    for (CultureInfo& item2 : resourceFallbackManager) {
+      AddResourceSet(resourceSets, item2->get_Name(), value);
+      if (item2 == cultureInfo) {
+        return value;
+      }
+    }
+    return value;
+  }
+  return value;
 }
 
 void ResourceManager___::AddResourceSet(Dictionary<String, ResourceSet> localResourceSets, String cultureName, ResourceSet& rs) {
@@ -364,6 +401,28 @@ String ResourceManager___::GetString(String name, CultureInfo culture) {
     }
   }
   ResourceFallbackManager resourceFallbackManager = rt::newobj<ResourceFallbackManager>(culture, _neutralResourcesCulture, true);
+  for (CultureInfo& item : resourceFallbackManager) {
+    ResourceSet resourceSet2 = InternalGetResourceSet(item, true, true);
+    if (resourceSet2 == nullptr) {
+      break;
+    }
+    if (resourceSet2 == resourceSet) {
+      continue;
+    }
+    String string2 = resourceSet2->GetString(name, _ignoreCase);
+    if (string2 != nullptr) {
+      if (_lastUsedResourceCache != nullptr) {
+        {
+          rt::lock(_lastUsedResourceCache);
+          _lastUsedResourceCache->lastCultureName = item->get_Name();
+          _lastUsedResourceCache->lastResourceSet = resourceSet2;
+        }
+      }
+      return string2;
+    }
+    resourceSet = resourceSet2;
+  }
+  return nullptr;
 }
 
 Object ResourceManager___::GetObject(String name) {
@@ -393,6 +452,32 @@ Object ResourceManager___::GetObject(String name, CultureInfo culture, Boolean w
     }
   }
   ResourceFallbackManager resourceFallbackManager = rt::newobj<ResourceFallbackManager>(culture, _neutralResourcesCulture, true);
+  for (CultureInfo& item : resourceFallbackManager) {
+    ResourceSet resourceSet2 = InternalGetResourceSet(item, true, true);
+    if (resourceSet2 == nullptr) {
+      break;
+    }
+    if (resourceSet2 == resourceSet) {
+      continue;
+    }
+    Object object2 = resourceSet2->GetObject(name, _ignoreCase);
+    if (object2 != nullptr) {
+      if (_lastUsedResourceCache != nullptr) {
+        {
+          rt::lock(_lastUsedResourceCache);
+          _lastUsedResourceCache->lastCultureName = item->get_Name();
+          _lastUsedResourceCache->lastResourceSet = resourceSet2;
+        }
+      }
+      UnmanagedMemoryStream unmanagedMemoryStream2 = rt::as<UnmanagedMemoryStream>(object2);
+      if (unmanagedMemoryStream2 != nullptr && wrapUnmanagedMemStream) {
+        return rt::newobj<UnmanagedMemoryStreamWrapper>(unmanagedMemoryStream2);
+      }
+      return object2;
+    }
+    resourceSet = resourceSet2;
+  }
+  return nullptr;
 }
 
 UnmanagedMemoryStream ResourceManager___::GetStream(String name) {

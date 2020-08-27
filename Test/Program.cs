@@ -22,6 +22,7 @@ namespace Test {
 
     private static void Main(string[] args) {
       foreach (string i in args) {
+        Console.WriteLine(i);
       }
     }
   }

@@ -206,6 +206,13 @@ Type Statics::FindEnumerableElementType(Type type) {
   } else {
     Array<Type> array = type->FindInterfaces(rt::newobj<TypeFilter>(&IsGenericMatch), typeof<IEnumerable<T>>());
     Array<Type> array2 = array;
+    for (Type& type3 : array2) {
+      if (type2 != nullptr) {
+        type2 = nullptr;
+        break;
+      }
+      type2 = GetGenericArguments(type3)[0];
+    }
   }
   return type2;
 }

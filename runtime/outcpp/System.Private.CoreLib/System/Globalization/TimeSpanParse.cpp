@@ -1111,6 +1111,17 @@ Boolean TimeSpanParse::TryParseExactMultipleTimeSpan(ReadOnlySpan<Char> input, A
   if (formats->get_Length() == 0) {
     return result.SetNoFormatSpecifierFailure();
   }
+  for (String& value : formats) {
+    if (String::in::IsNullOrEmpty(value)) {
+      return result.SetBadFormatSpecifierFailure();
+    }
+    TimeSpanResult result2 = TimeSpanResult(false, input);
+    if (TryParseExactTimeSpan(input, value, formatProvider, styles, result2)) {
+      result.parsedTimeSpan = result2.parsedTimeSpan;
+      return true;
+    }
+  }
+  return result.SetBadTimeSpanFailure();
 }
 
 } // namespace System::Private::CoreLib::System::Globalization::TimeSpanParseNamespace

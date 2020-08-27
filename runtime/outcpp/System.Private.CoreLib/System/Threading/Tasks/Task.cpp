@@ -156,6 +156,13 @@ void WhenAllPromise___<>::ctor(Array<Task<>> tasks) {
   }
   m_tasks = tasks;
   m_count = tasks->get_Length();
+  for (Task<>& task : tasks) {
+    if (task->get_IsCompleted()) {
+      Invoke(task);
+    } else {
+      task->AddCompletionAction((WhenAllPromise<>)this);
+    }
+  }
 }
 
 void WhenAllPromise___<>::Invoke(Task<> completedTask) {
@@ -573,6 +580,12 @@ Boolean Task___<>::NotifyDebuggerOfWaitCompletionIfNecessary() {
 }
 
 Boolean Task___<>::AnyTaskRequiresNotifyDebuggerOfWaitCompletion(Array<Task<>> tasks) {
+  for (Task<>& task : tasks) {
+    if (task != nullptr && task->get_IsWaitNotificationEnabled() && task->get_ShouldNotifyDebuggerOfWaitCompletion()) {
+      return true;
+    }
+  }
+  return false;
 }
 
 void Task___<>::NotifyDebuggerOfWaitCompletion() {
@@ -942,6 +955,12 @@ void Task___<>::AddExceptionsFromChildren(ContingentProperties props) {
   }
   {
     rt::lock(exceptionalChildren);
+    for (Task<>& item : exceptionalChildren) {
+      if (item->get_IsFaulted() && !item->get_IsExceptionObservedByParent()) {
+        TaskExceptionHolder exceptionsHolder = Volatile::Read(item->m_contingentProperties)->m_exceptionsHolder;
+        AddException(exceptionsHolder->CreateExceptionObject(false, nullptr));
+      }
+    }
   }
   props->m_exceptionalChildren = nullptr;
 }
@@ -1702,15 +1721,35 @@ Boolean Task___<>::WaitAllCore(Array<Task<>> tasks, Int32 millisecondsTimeout, C
   if (list != nullptr) {
     flag3 = WaitAllBlockingCore(list, millisecondsTimeout, cancellationToken);
     if (flag3) {
+      for (Task<>& item : list) {
+        if (item->get_IsFaulted()) {
+          flag = true;
+        } else if (item->get_IsCanceled()) {
+          flag2 = true;
+        }
+
+        if (item->get_IsWaitNotificationEnabled()) {
+          AddToList(item, list2, 1);
+        }
+      }
     }
     GC::KeepAlive(tasks);
   }
   if (flag3 && list2 != nullptr) {
+    for (Task<>& item2 : list2) {
+      if (item2->NotifyDebuggerOfWaitCompletionIfNecessary()) {
+        break;
+      }
+    }
   }
   if (flag3 && (flag || flag2)) {
     if (!flag) {
       cancellationToken.ThrowIfCancellationRequested();
     }
+    for (Task<>& t : tasks) {
+      AddExceptionsForCompletedTask(exceptions, t);
+    }
+    ThrowHelper::ThrowAggregateException(exceptions);
   }
   return flag3;
 }
@@ -1719,9 +1758,18 @@ Boolean Task___<>::WaitAllBlockingCore(List<Task<>> tasks, Int32 millisecondsTim
   Boolean flag = false;
   SetOnCountdownMres setOnCountdownMres = rt::newobj<SetOnCountdownMres>(tasks->get_Count());
   try {
+    for (Task<>& task : tasks) {
+      task->AddCompletionAction(setOnCountdownMres, true);
+    }
+    flag = setOnCountdownMres->Wait(millisecondsTimeout, cancellationToken);
   } catch (...) {
   } finally: {
     if (!flag) {
+      for (Task<>& task2 : tasks) {
+        if (!task2->get_IsCompleted()) {
+          task2->RemoveContinuation(setOnCountdownMres);
+        }
+      }
     }
   }
   return flag;
@@ -1878,11 +1926,25 @@ Task<> Task___<>::WhenAll(IEnumerable<Task<>> tasks) {
   if (collection != nullptr) {
     Int32 num = 0;
     array = rt::newarr<Array<Task<>>>(collection->get_Count());
+    for (Task<>& task : tasks) {
+      if (task == nullptr) {
+        ThrowHelper::ThrowArgumentException(ExceptionResource::Task_MultiTaskContinuation_NullTask, ExceptionArgument::tasks);
+      }
+      array[num++] = task;
+    }
+    return InternalWhenAll(array);
   }
   if (tasks == nullptr) {
     ThrowHelper::ThrowArgumentNullException(ExceptionArgument::tasks);
   }
   List<Task<>> list = rt::newobj<List<Task<>>>();
+  for (Task<>& task2 : tasks) {
+    if (task2 == nullptr) {
+      ThrowHelper::ThrowArgumentException(ExceptionResource::Task_MultiTaskContinuation_NullTask, ExceptionArgument::tasks);
+    }
+    list->Add(task2);
+  }
+  return InternalWhenAll(list->ToArray());
 }
 
 Task<> Task___<>::WhenAll(Array<Task<>> tasks) {
@@ -1951,6 +2013,16 @@ Task<Task<>> Task___<>::WhenAny(IEnumerable<Task<>> tasks) {
     ThrowHelper::ThrowArgumentNullException(ExceptionArgument::tasks);
   }
   List<Task<>> list = rt::newobj<List<Task<>>>();
+  for (Task<>& task : tasks) {
+    if (task == nullptr) {
+      ThrowHelper::ThrowArgumentException(ExceptionResource::Task_MultiTaskContinuation_NullTask, ExceptionArgument::tasks);
+    }
+    list->Add(task);
+  }
+  if (list->get_Count() == 0) {
+    ThrowHelper::ThrowArgumentException(ExceptionResource::Task_MultiTaskContinuation_EmptyTaskList, ExceptionArgument::tasks);
+  }
+  return TaskFactory<>::in::CommonCWAnyLogic(list);
 }
 
 Array<Delegate> Task___<>::GetDelegateContinuationsForDebugger() {
@@ -1984,6 +2056,19 @@ Array<Delegate> Task___<>::GetDelegatesFromContinuationObject(Object continuatio
     List<Object> list = rt::as<List<Object>>(continuationObject);
     if (list != nullptr) {
       List<Delegate> list2 = rt::newobj<List<Delegate>>();
+      for (Object& item : list) {
+        Array<Delegate> delegatesFromContinuationObject = GetDelegatesFromContinuationObject(item);
+        if (delegatesFromContinuationObject == nullptr) {
+          continue;
+        }
+        Array<Delegate> array = delegatesFromContinuationObject;
+        for (Delegate& delegate : array) {
+          if ((Object)delegate != nullptr) {
+            list2->Add(delegate);
+          }
+        }
+      }
+      return list2->ToArray();
     }
   }
   return nullptr;

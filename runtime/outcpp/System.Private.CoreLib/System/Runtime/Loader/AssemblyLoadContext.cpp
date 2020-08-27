@@ -8,6 +8,7 @@
 #include <System.Private.CoreLib/System/AssemblyLoadEventHandler-dep.h>
 #include <System.Private.CoreLib/System/BadImageFormatException-dep.h>
 #include <System.Private.CoreLib/System/Collections/Generic/Dictionary-dep.h>
+#include <System.Private.CoreLib/System/Collections/Generic/KeyValuePair-dep.h>
 #include <System.Private.CoreLib/System/Collections/Generic/List-dep.h>
 #include <System.Private.CoreLib/System/Delegate-dep.h>
 #include <System.Private.CoreLib/System/Diagnostics/Tracing/ActivityTracker-dep.h>
@@ -59,6 +60,11 @@ void AssemblyLoadContext___::ContextualReflectionScope::Dispose() {
 
 IEnumerable<Assembly> AssemblyLoadContext___::get_Assemblies() {
   Array<Assembly> loadedAssemblies = GetLoadedAssemblies();
+  for (Assembly& assembly : loadedAssemblies) {
+    AssemblyLoadContext loadContext = GetLoadContext(assembly);
+    if (loadContext == (AssemblyLoadContext)this) {
+    }
+  }
 }
 
 AssemblyLoadContext AssemblyLoadContext___::get_Default() {
@@ -79,6 +85,11 @@ IEnumerable<AssemblyLoadContext> AssemblyLoadContext___::get_All() {
   {
     rt::lock(s_allContexts);
     list = rt::newobj<List<WeakReference<AssemblyLoadContext>>>(s_allContexts->get_Values());
+  }
+  for (WeakReference<AssemblyLoadContext>& item : list) {
+    AssemblyLoadContext target;
+    if (item->TryGetTarget(target)) {
+    }
   }
 }
 
@@ -350,6 +361,12 @@ void AssemblyLoadContext___::Unload() {
 void AssemblyLoadContext___::OnProcessExit() {
   {
     rt::lock(s_allContexts);
+    for (KeyValuePair<Int64, WeakReference<AssemblyLoadContext>>& s_allContext : s_allContexts) {
+      AssemblyLoadContext target;
+      if (s_allContext.get_Value()->TryGetTarget(target)) {
+        target->RaiseUnloadEvent();
+      }
+    }
   }
 }
 

@@ -4,6 +4,7 @@
 #include <System.Private.CoreLib/System/Collections/IEnumerable.h>
 #include <System.Private.CoreLib/System/Diagnostics/Tracing/EnumerableTypeInfo-dep.h>
 #include <System.Private.CoreLib/System/Int32-dep.h>
+#include <System.Private.CoreLib/System/Object-dep.h>
 
 namespace System::Private::CoreLib::System::Diagnostics::Tracing::EnumerableTypeInfoNamespace {
 using namespace System::Collections;
@@ -28,6 +29,10 @@ void EnumerableTypeInfo___::WriteData(TraceLoggingDataCollector collector, Prope
   Int32 num = 0;
   IEnumerable enumerable = (IEnumerable)value.get_ReferenceValue();
   if (enumerable != nullptr) {
+    for (Object& item : enumerable) {
+      elementInfo->WriteData(collector, elementInfo->get_PropertyValueFactory()(item));
+      num++;
+    }
   }
   collector->EndBufferedArray(bookmark, num);
 }
@@ -35,6 +40,10 @@ void EnumerableTypeInfo___::WriteData(TraceLoggingDataCollector collector, Prope
 Object EnumerableTypeInfo___::GetData(Object value) {
   IEnumerable enumerable = (IEnumerable)value;
   List<Object> list = rt::newobj<List<Object>>();
+  for (Object& item : enumerable) {
+    list->Add(elementInfo->GetData(item));
+  }
+  return list->ToArray();
 }
 
 } // namespace System::Private::CoreLib::System::Diagnostics::Tracing::EnumerableTypeInfoNamespace

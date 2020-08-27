@@ -317,6 +317,12 @@ Boolean PathInternal::IsEffectivelyEmpty(ReadOnlySpan<Char> path) {
     return true;
   }
   ReadOnlySpan<Char> readOnlySpan = path;
+  for (Char& c : readOnlySpan) {
+    if (c != 32) {
+      return false;
+    }
+  }
+  return true;
 }
 
 } // namespace System::Private::CoreLib::System::IO::PathInternalNamespace

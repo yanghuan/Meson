@@ -454,6 +454,14 @@ IDictionary Environment::GetEnvironmentVariablesFromRegistry(Boolean fromMachine
     rt::Using(registryKey);
     if (registryKey != nullptr) {
       Array<String> valueNames = registryKey->GetValueNames();
+      for (String& text : valueNames) {
+        String value = registryKey->GetValue(text, "")->ToString();
+        try {
+          hashtable->Add(text, value);
+        } catch (ArgumentException) {
+        }
+      }
+      return hashtable;
     }
     return hashtable;
   }

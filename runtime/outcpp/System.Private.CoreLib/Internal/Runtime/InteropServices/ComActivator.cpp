@@ -8,16 +8,20 @@
 #include <System.Private.CoreLib/System/Collections/Generic/Dictionary-dep.h>
 #include <System.Private.CoreLib/System/Exception-dep.h>
 #include <System.Private.CoreLib/System/IntPtr-dep.h>
+#include <System.Private.CoreLib/System/InvalidCastException-dep.h>
+#include <System.Private.CoreLib/System/InvalidOperationException-dep.h>
 #include <System.Private.CoreLib/System/IO/Path-dep.h>
 #include <System.Private.CoreLib/System/NotSupportedException-dep.h>
 #include <System.Private.CoreLib/System/Reflection/Assembly-dep.h>
 #include <System.Private.CoreLib/System/Reflection/AssemblyName-dep.h>
 #include <System.Private.CoreLib/System/Reflection/BindingFlags.h>
 #include <System.Private.CoreLib/System/Reflection/MethodInfo-dep.h>
+#include <System.Private.CoreLib/System/Reflection/ParameterInfo-dep.h>
 #include <System.Private.CoreLib/System/Runtime/InteropServices/COMException-dep.h>
 #include <System.Private.CoreLib/System/Runtime/InteropServices/CustomQueryInterfaceMode.h>
 #include <System.Private.CoreLib/System/Runtime/InteropServices/Marshal-dep.h>
 #include <System.Private.CoreLib/System/Runtime/Loader/AssemblyLoadContext-dep.h>
+#include <System.Private.CoreLib/System/SR-dep.h>
 #include <System.Private.CoreLib/System/String-dep.h>
 #include <System.Private.CoreLib/System/StringComparer-dep.h>
 
@@ -42,6 +46,12 @@ Type ComActivator::BasicClassFactory___::GetValidatedInterfaceType(Type classTyp
     rt::throw_exception<COMException>(String::in::Empty, -2147221232);
   }
   Array<Type> interfaces = classType->GetInterfaces();
+  for (Type& type : interfaces) {
+    if (type->get_GUID() == riid) {
+      return type;
+    }
+  }
+  rt::throw_exception<InvalidCastException>();
 }
 
 void ComActivator::BasicClassFactory___::ValidateObjectIsMarshallableAsInterface(Object obj, Type interfaceType) {
@@ -143,6 +153,32 @@ void ComActivator::ClassRegistrationScenarioForType(ComActivationContext cxt, Bo
   while (type3 != nullptr && !flag) {
     Array<MethodInfo> methods = type3->GetMethods(BindingFlags::Instance | BindingFlags::Static | BindingFlags::Public | BindingFlags::NonPublic);
     Array<MethodInfo> array = methods;
+    for (MethodInfo& methodInfo : array) {
+      if (methodInfo->GetCustomAttributes(type, true)->get_Length() != 0) {
+        if (!methodInfo->get_IsStatic()) {
+          String resourceFormat = register ? SR::get_InvalidOperation_NonStaticComRegFunction() : SR::get_InvalidOperation_NonStaticComUnRegFunction();
+          rt::throw_exception<InvalidOperationException>(SR::Format(resourceFormat));
+        }
+        Array<ParameterInfo> parameters = methodInfo->GetParameters();
+        if (methodInfo->get_ReturnType() != typeof<void>() || parameters == nullptr || parameters->get_Length() != 1 || (parameters[0]->get_ParameterType() != typeof<String>() && parameters[0]->get_ParameterType() != typeof<Type>())) {
+          String resourceFormat2 = register ? SR::get_InvalidOperation_InvalidComRegFunctionSig() : SR::get_InvalidOperation_InvalidComUnRegFunctionSig();
+          rt::throw_exception<InvalidOperationException>(SR::Format(resourceFormat2));
+        }
+        if (flag) {
+          String resourceFormat3 = register ? SR::get_InvalidOperation_MultipleComRegFunctions() : SR::get_InvalidOperation_MultipleComUnRegFunctions();
+          rt::throw_exception<InvalidOperationException>(SR::Format(resourceFormat3));
+        }
+        Array<Object> array2 = rt::newarr<Array<Object>>(1);
+        if (parameters[0]->get_ParameterType() == typeof<String>()) {
+          array2[0] = "HKEY_LOCAL_MACHINE\SOFTWARE\Classes\CLSID\" + cxt.ClassId.ToString("B");
+        } else {
+          array2[0] = type2;
+        }
+        methodInfo->Invoke(nullptr, array2);
+        flag = true;
+      }
+    }
+    type3 = type3->get_BaseType();
   }
 }
 

@@ -1,10 +1,14 @@
 #include "EventPayload-dep.h"
 
 #include <System.Private.CoreLib/System/ArgumentNullException-dep.h>
+#include <System.Private.CoreLib/System/Collections/Generic/KeyNotFoundException-dep.h>
 #include <System.Private.CoreLib/System/Int32-dep.h>
 #include <System.Private.CoreLib/System/NotSupportedException-dep.h>
+#include <System.Private.CoreLib/System/SR-dep.h>
 
 namespace System::Private::CoreLib::System::Diagnostics::Tracing::EventPayloadNamespace {
+using namespace System::Collections::Generic;
+
 ICollection<String> EventPayload___::get_Keys() {
   return m_names;
 }
@@ -18,6 +22,13 @@ Object EventPayload___::get_Item(String key) {
     rt::throw_exception<ArgumentNullException>("key");
   }
   Int32 num = 0;
+  for (String& name : m_names) {
+    if (name == key) {
+      return m_values[num];
+    }
+    num++;
+  }
+  rt::throw_exception<KeyNotFoundException>(SR::Format(SR::get_Arg_KeyNotFoundWithKey(), key));
 }
 
 void EventPayload___::set_Item(String key, Object value) {
@@ -57,6 +68,12 @@ Boolean EventPayload___::ContainsKey(String key) {
   if (key == nullptr) {
     rt::throw_exception<ArgumentNullException>("key");
   }
+  for (String& name : m_names) {
+    if (name == key) {
+      return true;
+    }
+  }
+  return false;
 }
 
 IEnumerator<KeyValuePair<String, Object>> EventPayload___::GetEnumerator() {
@@ -81,6 +98,15 @@ Boolean EventPayload___::TryGetValue(String key, Object& value) {
     rt::throw_exception<ArgumentNullException>("key");
   }
   Int32 num = 0;
+  for (String& name : m_names) {
+    if (name == key) {
+      value = m_values[num];
+      return true;
+    }
+    num++;
+  }
+  value = nullptr;
+  return false;
 }
 
 } // namespace System::Private::CoreLib::System::Diagnostics::Tracing::EventPayloadNamespace

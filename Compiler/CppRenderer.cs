@@ -941,6 +941,7 @@ namespace Meson.Compiler {
       Write(Tokens.CloseParentheses);
       WriteSpace();
       node.EmbeddedStatement.Render(this);
+      WriteNewLine();
     }
   }
 }

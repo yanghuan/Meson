@@ -2,6 +2,7 @@
 
 #include <System.Private.CoreLib/Interop-dep.h>
 #include <System.Private.CoreLib/Microsoft/Reflection/ReflectionExtensions-dep.h>
+#include <System.Private.CoreLib/System/Activator-dep.h>
 #include <System.Private.CoreLib/System/ArgumentException-dep.h>
 #include <System.Private.CoreLib/System/ArgumentNullException-dep.h>
 #include <System.Private.CoreLib/System/Char-dep.h>
@@ -34,6 +35,7 @@
 #include <System.Private.CoreLib/System/Diagnostics/Tracing/ManifestBuilder-dep.h>
 #include <System.Private.CoreLib/System/Diagnostics/Tracing/ManifestEnvelope-dep.h>
 #include <System.Private.CoreLib/System/Diagnostics/Tracing/NameInfo-dep.h>
+#include <System.Private.CoreLib/System/Diagnostics/Tracing/NonEventAttribute-dep.h>
 #include <System.Private.CoreLib/System/Diagnostics/Tracing/SessionMask-dep.h>
 #include <System.Private.CoreLib/System/Diagnostics/Tracing/SimpleEventTypes-dep.h>
 #include <System.Private.CoreLib/System/Diagnostics/Tracing/Statics-dep.h>
@@ -45,6 +47,7 @@
 #include <System.Private.CoreLib/System/Environment-dep.h>
 #include <System.Private.CoreLib/System/EventHandler-dep.h>
 #include <System.Private.CoreLib/System/GC-dep.h>
+#include <System.Private.CoreLib/System/Globalization/CultureInfo-dep.h>
 #include <System.Private.CoreLib/System/Int16-dep.h>
 #include <System.Private.CoreLib/System/Int64-dep.h>
 #include <System.Private.CoreLib/System/LocalAppContextSwitches-dep.h>
@@ -52,7 +55,11 @@
 #include <System.Private.CoreLib/System/Nullable-dep.h>
 #include <System.Private.CoreLib/System/Numerics/BitOperations-dep.h>
 #include <System.Private.CoreLib/System/Reflection/BindingFlags.h>
+#include <System.Private.CoreLib/System/Reflection/CustomAttributeData-dep.h>
+#include <System.Private.CoreLib/System/Reflection/CustomAttributeNamedArgument-dep.h>
+#include <System.Private.CoreLib/System/Reflection/FieldInfo-dep.h>
 #include <System.Private.CoreLib/System/Reflection/MethodInfo-dep.h>
+#include <System.Private.CoreLib/System/Reflection/PropertyInfo-dep.h>
 #include <System.Private.CoreLib/System/Resources/ResourceManager-dep.h>
 #include <System.Private.CoreLib/System/Runtime/CompilerServices/RuntimeHelpers-dep.h>
 #include <System.Private.CoreLib/System/Runtime/InteropServices/GCHandle-dep.h>
@@ -69,11 +76,13 @@
 #include <System.Private.CoreLib/System/UInt16-dep.h>
 #include <System.Private.CoreLib/System/UInt32-dep.h>
 #include <System.Private.CoreLib/System/UInt64-dep.h>
+#include <System.Private.CoreLib/System/WeakReference-dep.h>
 
 namespace System::Private::CoreLib::System::Diagnostics::Tracing::EventSourceNamespace {
 using namespace Microsoft::Reflection;
 using namespace System::Collections::Generic;
 using namespace System::Collections::ObjectModel;
+using namespace System::Globalization;
 using namespace System::Numerics;
 using namespace System::Reflection;
 using namespace System::Resources;
@@ -131,6 +140,9 @@ void EventSource___::Sha1ForNonSecretPurposes::Append(Byte input) {
 
 void EventSource___::Sha1ForNonSecretPurposes::Append(ReadOnlySpan<Byte> input) {
   ReadOnlySpan<Byte> readOnlySpan = input;
+  for (Byte& input2 : readOnlySpan) {
+    Append(input2);
+  }
 }
 
 void EventSource___::Sha1ForNonSecretPurposes::Finish(Array<Byte> output) {
@@ -315,6 +327,13 @@ IEnumerable<EventSource> EventSource___::GetSources() {
   List<EventSource> list = rt::newobj<List<EventSource>>();
   {
     rt::lock(EventListener::in::get_EventListenersLock());
+    for (WeakReference<EventSource>& s_EventSource : EventListener::in::s_EventSources) {
+      EventSource target;
+      if (s_EventSource->TryGetTarget(target) && !target->get_IsDisposed()) {
+        list->Add(target);
+      }
+    }
+    return list;
   }
 }
 
@@ -1567,6 +1586,19 @@ void EventSource___::EnsureDescriptorsInitialized() {
       m_eventData = eventData;
       m_rawManifest = manifestBytes;
     }
+    for (WeakReference<EventSource>& s_EventSource : EventListener::in::s_EventSources) {
+      EventSource target;
+      if (s_EventSource->TryGetTarget(target) && target->get_Guid() == m_guid && !target->get_IsDisposed() && target != (EventSource)this) {
+        rt::throw_exception<ArgumentException>(SR::Format(SR::get_EventSource_EventSourceGuidInUse(), m_guid));
+      }
+    }
+    for (EventDispatcher eventDispatcher = m_Dispatchers; eventDispatcher != nullptr; eventDispatcher = eventDispatcher->m_Next) {
+      EventDispatcher eventDispatcher2 = eventDispatcher;
+      if (eventDispatcher2->m_EventEnabled == nullptr) {
+        eventDispatcher2->m_EventEnabled = rt::newarr<Array<Boolean>>(m_eventData->get_Length());
+      }
+    }
+    DefineEventPipeEvents();
   }
   if (s_currentPid == 0) {
     s_currentPid = Interop::GetCurrentProcessId();
@@ -1634,6 +1666,33 @@ Attribute EventSource___::GetCustomAttributeHelper(MemberInfo member, Type attri
     }
     return result;
   }
+  for (CustomAttributeData& customAttribute : CustomAttributeData::in::GetCustomAttributes(member)) {
+    if (!AttributeTypeNamesMatch(attributeType, customAttribute->get_Constructor()->get_ReflectedType())) {
+      continue;
+    }
+    Attribute attribute = nullptr;
+    if (customAttribute->get_ConstructorArguments()->get_Count() == 1) {
+      attribute = (Attribute)Activator::CreateInstance(attributeType, customAttribute->get_ConstructorArguments()[0].get_Value());
+    } else if (customAttribute->get_ConstructorArguments()->get_Count() == 0) {
+      attribute = (Attribute)Activator::CreateInstance(attributeType);
+    }
+
+    if (attribute == nullptr) {
+      continue;
+    }
+    Type type = attribute->GetType();
+    for (CustomAttributeNamedArgument& namedArgument : customAttribute->get_NamedArguments()) {
+      PropertyInfo property = type->GetProperty(namedArgument.get_MemberInfo()->get_Name(), BindingFlags::Instance | BindingFlags::Public);
+      Object obj2 = namedArgument.get_TypedValue().get_Value();
+      if (property->get_PropertyType()->get_IsEnum()) {
+        String value = obj2->ToString();
+        obj2 = Enum::in::Parse(property->get_PropertyType(), value);
+      }
+      property->SetValue(attribute, obj2, nullptr);
+    }
+    return attribute;
+  }
+  return nullptr;
 }
 
 Boolean EventSource___::AttributeTypeNamesMatch(Type attributeType, Type reflectedAttributeType) {
@@ -1702,12 +1761,132 @@ Array<Byte> EventSource___::CreateManifestAndDescriptors(Type eventSourceType, S
       }
     }
     Array<String> array = rt::newarr<Array<String>>(3);
+    for (String& text : array) {
+      Type nestedType = eventSourceType->GetNestedType(text);
+      if (!(nestedType != nullptr)) {
+        continue;
+      }
+      if (ReflectionExtensions::IsAbstract(eventSourceType)) {
+        manifestBuilder->ManifestError(SR::Format(SR::get_EventSource_AbstractMustNotDeclareKTOC(), nestedType->get_Name()));
+        continue;
+      }
+      Array<FieldInfo> fields = nestedType->GetFields(BindingFlags::DeclaredOnly | BindingFlags::Static | BindingFlags::Public | BindingFlags::NonPublic);
+      for (FieldInfo& staticField : fields) {
+        AddProviderEnumKind(manifestBuilder, staticField, text);
+      }
+    }
+    manifestBuilder->AddKeyword("Session3", 17592186044416);
+    manifestBuilder->AddKeyword("Session2", 35184372088832);
+    manifestBuilder->AddKeyword("Session1", 70368744177664);
+    manifestBuilder->AddKeyword("Session0", 140737488355328);
+    if (eventSourceType != typeof<EventSource>()) {
+      for (MethodInfo& methodInfo : methods) {
+        Array<ParameterInfo> args = methodInfo->GetParameters();
+        EventAttribute eventAttribute = (EventAttribute)GetCustomAttributeHelper(methodInfo, typeof<EventAttribute>(), flags);
+        if (methodInfo->get_IsStatic()) {
+          continue;
+        }
+        if (ReflectionExtensions::IsAbstract(eventSourceType)) {
+          if (eventAttribute != nullptr) {
+            manifestBuilder->ManifestError(SR::Format(SR::get_EventSource_AbstractMustNotDeclareEventMethods(), methodInfo->get_Name(), eventAttribute->get_EventId()));
+          }
+          continue;
+        }
+        if (eventAttribute == nullptr) {
+          if (methodInfo->get_ReturnType() != typeof<void>() || methodInfo->get_IsVirtual() || GetCustomAttributeHelper(methodInfo, typeof<NonEventAttribute>(), flags) != nullptr) {
+            continue;
+          }
+          EventAttribute eventAttribute2 = rt::newobj<EventAttribute>(num);
+          eventAttribute = eventAttribute2;
+        } else if (eventAttribute->get_EventId() <= 0) {
+          manifestBuilder->ManifestError(SR::Format(SR::get_EventSource_NeedPositiveId(), methodInfo->get_Name()), true);
+          continue;
+        }
+
+        if (methodInfo->get_Name()->LastIndexOf(46) >= 0) {
+          manifestBuilder->ManifestError(SR::Format(SR::get_EventSource_EventMustNotBeExplicitImplementation(), methodInfo->get_Name(), eventAttribute->get_EventId()));
+        }
+        num++;
+        String name = methodInfo->get_Name();
+        if (eventAttribute->get_Opcode() == EventOpcode::Info) {
+          Boolean flag2 = eventAttribute->get_Task() == EventTask::None;
+          if (flag2) {
+            eventAttribute->set_Task((EventTask)(65534 - eventAttribute->get_EventId()));
+          }
+          if (!eventAttribute->get_IsOpcodeSet()) {
+            eventAttribute->set_Opcode(GetOpcodeWithDefault(EventOpcode::Info, name));
+          }
+          if (flag2) {
+            if (eventAttribute->get_Opcode() == EventOpcode::Start) {
+              String text2 = name->Substring(0, name->get_Length() - "Start"->get_Length());
+              if (String::in::Compare(name, 0, text2, 0, text2->get_Length()) == 0 && String::in::Compare(name, text2->get_Length(), "Start", 0, Math::Max(name->get_Length() - text2->get_Length(), "Start"->get_Length())) == 0) {
+                manifestBuilder->AddTask(text2, (Int32)eventAttribute->get_Task());
+              }
+            } else if (eventAttribute->get_Opcode() == EventOpcode::Stop) {
+              Int32 num2 = eventAttribute->get_EventId() - 1;
+              if (eventData != nullptr && num2 < eventData->get_Length()) {
+                EventMetadata eventMetadata = eventData[num2];
+                String text3 = name->Substring(0, name->get_Length() - "Stop"->get_Length());
+                if (eventMetadata.Descriptor.get_Opcode() == 1 && String::in::Compare(eventMetadata.Name, 0, text3, 0, text3->get_Length()) == 0 && String::in::Compare(eventMetadata.Name, text3->get_Length(), "Start", 0, Math::Max(eventMetadata.Name->get_Length() - text3->get_Length(), "Start"->get_Length())) == 0) {
+                  eventAttribute->set_Task((EventTask)eventMetadata.Descriptor.get_Task());
+                  flag2 = false;
+                }
+              }
+              if (flag2 && (flags & EventManifestOptions::Strict) != 0) {
+                rt::throw_exception<ArgumentException>(SR::get_EventSource_StopsFollowStarts());
+              }
+            }
+
+          }
+        }
+        Boolean hasRelatedActivityID = RemoveFirstArgIfRelatedActivityId(args);
+        if (source == nullptr || !source->get_SelfDescribingEvents()) {
+          manifestBuilder->StartEvent(name, eventAttribute);
+          for (Int32 l = 0; l < args->get_Length(); l++) {
+            manifestBuilder->AddEventParameter(args[l]->get_ParameterType(), args[l]->get_Name());
+          }
+          manifestBuilder->EndEvent();
+        }
+        if (source != nullptr || (flags & EventManifestOptions::Strict) != 0) {
+          DebugCheckEvent(eventsByName, eventData, methodInfo, eventAttribute, manifestBuilder, flags);
+          if (eventAttribute->get_Channel() != 0) {
+            eventAttribute->set_Keywords((EventKeywords)manifestBuilder->GetChannelKeyword(eventAttribute->get_Channel(), (UInt64)eventAttribute->get_Keywords()));
+          }
+          String key = "event_" + name;
+          String localizedMessage = manifestBuilder->GetLocalizedMessage(key, CultureInfo::in::get_CurrentUICulture(), false);
+          if (localizedMessage != nullptr) {
+            eventAttribute->set_Message(localizedMessage);
+          }
+          AddEventDescriptor(eventData, name, eventAttribute, args, hasRelatedActivityID);
+        }
+      }
+    }
+    NameInfo::in::ReserveEventIDsBelow(num);
+    if (source != nullptr) {
+      TrimEventDescriptors(eventData);
+      source->m_eventData = eventData;
+      source->m_channelData = manifestBuilder->GetChannelData();
+    }
+    if (!ReflectionExtensions::IsAbstract(eventSourceType) && (source == nullptr || !source->get_SelfDescribingEvents())) {
+      flag = ((flags & EventManifestOptions::OnlyIfNeededForRegistration) == 0 || manifestBuilder->GetChannelData()->get_Length() != 0);
+      if (!flag && (flags & EventManifestOptions::Strict) == 0) {
+        return nullptr;
+      }
+      result = manifestBuilder->CreateManifest();
+    }
   } catch (Exception ex2) {
   }
   if ((flags & EventManifestOptions::Strict) != 0 && ((manifestBuilder != nullptr && manifestBuilder->get_Errors()->get_Count() > 0) || ex != nullptr)) {
     String text4 = String::in::Empty;
     if (manifestBuilder != nullptr && manifestBuilder->get_Errors()->get_Count() > 0) {
       Boolean flag3 = true;
+      for (String& error : manifestBuilder->get_Errors()) {
+        if (!flag3) {
+          text4 += Environment::get_NewLine();
+        }
+        flag3 = false;
+        text4 += error;
+      }
     } else {
       text4 = "Unexpected error: " + ex->get_Message();
     }
@@ -2238,6 +2417,9 @@ void EventSource___::InitializeProviderMetadata() {
     }
     providerMetadata = Statics::MetadataForString(get_Name(), 0, list->get_Count(), 0);
     Int32 num2 = providerMetadata->get_Length() - list->get_Count();
+    for (Byte& item : list) {
+      providerMetadata[num2++] = item;
+    }
   } else {
     providerMetadata = Statics::MetadataForString(get_Name(), 0, 0, 0);
   }

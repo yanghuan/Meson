@@ -47,6 +47,17 @@ void __ComObject___::ReleaseAllData() {
     if (m_ObjectToDataMap == nullptr) {
       return;
     }
+    for (Object& value : m_ObjectToDataMap->get_Values()) {
+      IDisposable disposable = rt::as<IDisposable>(value);
+      if (disposable != nullptr) {
+        disposable->Dispose();
+      }
+      __ComObject _ComObject = rt::as<__ComObject>(value);
+      if (_ComObject != nullptr) {
+        Marshal::ReleaseComObject(_ComObject);
+      }
+    }
+    m_ObjectToDataMap = nullptr;
   }
 }
 

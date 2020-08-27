@@ -10,6 +10,9 @@
 #include <System.Private.CoreLib/System/Diagnostics/Tracing/EventPipeEventDispatcher-dep.h>
 #include <System.Private.CoreLib/System/Diagnostics/Tracing/EventPipeEventInstanceData-dep.h>
 #include <System.Private.CoreLib/System/Diagnostics/Tracing/EventPipeInternal-dep.h>
+#include <System.Private.CoreLib/System/Diagnostics/Tracing/EventPipeProviderConfiguration-dep.h>
+#include <System.Private.CoreLib/System/Diagnostics/Tracing/EventPipeSerializationFormat.h>
+#include <System.Private.CoreLib/System/Diagnostics/Tracing/EventPipeSessionInfo-dep.h>
 #include <System.Private.CoreLib/System/Diagnostics/Tracing/EventPipeWaitHandle-dep.h>
 #include <System.Private.CoreLib/System/Diagnostics/Tracing/NativeRuntimeEventSource-dep.h>
 #include <System.Private.CoreLib/System/Double-dep.h>
@@ -74,6 +77,18 @@ void EventPipeEventDispatcher___::CommitDispatchConfiguration() {
   }
   EventKeywords eventKeywords = EventKeywords::None;
   EventLevel eventLevel = EventLevel::LogAlways;
+  for (EventListenerSubscription& value : m_subscriptions->get_Values()) {
+    eventKeywords |= value->set_MatchAnyKeywords();
+    eventLevel = ((value->get_Level() > eventLevel) ? value->get_Level() : eventLevel);
+  }
+  Array<EventPipeProviderConfiguration> providers = rt::newarr<Array<EventPipeProviderConfiguration>>(1);
+  m_sessionID = EventPipeInternal::Enable(nullptr, EventPipeSerializationFormat::NetTrace, 10u, providers);
+  EventPipeSessionInfo eventPipeSessionInfo;
+  EventPipeInternal::GetSessionInfo(m_sessionID, &eventPipeSessionInfo);
+  m_syncTimeUtc = DateTime::FromFileTimeUtc(eventPipeSessionInfo.StartTimeAsUTCFileTime);
+  m_syncTimeQPC = eventPipeSessionInfo.StartTimeStamp;
+  m_timeQPCFrequency = eventPipeSessionInfo.TimeStampFrequency;
+  StartDispatchTask();
 }
 
 void EventPipeEventDispatcher___::StartDispatchTask() {

@@ -326,6 +326,28 @@ String Path::Join(Array<String> paths) {
     return String::in::Empty;
   }
   Int32 num = 0;
+  for (String& text : paths) {
+    num += ((text != nullptr) ? text->get_Length() : 0);
+  }
+  num += paths->get_Length() - 1;
+  Char as[260] = {};
+  Span<Char> initialBuffer = as;
+  ValueStringBuilder valueStringBuilder = ValueStringBuilder(initialBuffer);
+  valueStringBuilder.EnsureCapacity(num);
+  for (String& text2 : paths) {
+    if (String::in::IsNullOrEmpty(text2)) {
+      continue;
+    }
+    if (valueStringBuilder.get_Length() == 0) {
+      valueStringBuilder.Append(text2);
+      continue;
+    }
+    if (!PathInternal::IsDirectorySeparator(valueStringBuilder[valueStringBuilder.get_Length() - 1]) && !PathInternal::IsDirectorySeparator(text2[0])) {
+      valueStringBuilder.Append(92);
+    }
+    valueStringBuilder.Append(text2);
+  }
+  return valueStringBuilder.ToString();
 }
 
 Boolean Path::TryJoin(ReadOnlySpan<Char> path1, ReadOnlySpan<Char> path2, Span<Char> destination, Int32& charsWritten) {

@@ -373,6 +373,30 @@ String TimeZoneInfo___::StringSerializer::GetSerializedString(TimeZoneInfo zone)
   serializedText.Append(59);
   Array<AdjustmentRule> adjustmentRules = zone->GetAdjustmentRules();
   Array<AdjustmentRule> array = adjustmentRules;
+  for (AdjustmentRule& adjustmentRule : array) {
+    serializedText.Append(91);
+    serializedText.AppendSpanFormattable(adjustmentRule->get_DateStart(), "MM:dd:yyyy", DateTimeFormatInfo::in::get_InvariantInfo());
+    serializedText.Append(59);
+    serializedText.AppendSpanFormattable(adjustmentRule->get_DateEnd(), "MM:dd:yyyy", DateTimeFormatInfo::in::get_InvariantInfo());
+    serializedText.Append(59);
+    serializedText.AppendSpanFormattable(adjustmentRule->get_DaylightDelta().get_TotalMinutes(), nullptr, CultureInfo::in::get_InvariantCulture());
+    serializedText.Append(59);
+    SerializeTransitionTime(adjustmentRule->get_DaylightTransitionStart(), serializedText);
+    serializedText.Append(59);
+    SerializeTransitionTime(adjustmentRule->get_DaylightTransitionEnd(), serializedText);
+    serializedText.Append(59);
+    if (adjustmentRule->get_BaseUtcOffsetDelta() != TimeSpan::Zero) {
+      serializedText.AppendSpanFormattable(adjustmentRule->get_BaseUtcOffsetDelta().get_TotalMinutes(), nullptr, CultureInfo::in::get_InvariantCulture());
+      serializedText.Append(59);
+    }
+    if (adjustmentRule->get_NoDaylightTransitions()) {
+      serializedText.Append(49);
+      serializedText.Append(59);
+    }
+    serializedText.Append(93);
+  }
+  serializedText.Append(59);
+  return serializedText.ToString();
 }
 
 TimeZoneInfo TimeZoneInfo___::StringSerializer::GetDeserializedTimeZoneInfo(String source) {
@@ -397,6 +421,12 @@ TimeZoneInfo___::StringSerializer::StringSerializer(String str) {
 }
 
 void TimeZoneInfo___::StringSerializer::SerializeSubstitute(String text, ValueStringBuilder& serializedText) {
+  for (Char& c : text) {
+    if (c == 92 || c == 91 || c == 93 || c == 59) {
+      serializedText.Append(92);
+    }
+    serializedText.Append(c);
+  }
 }
 
 void TimeZoneInfo___::StringSerializer::SerializeTransitionTime(TransitionTime time, ValueStringBuilder& serializedText) {
@@ -1660,6 +1690,11 @@ void TimeZoneInfo___::PopulateAllSystemTimeZones(CachedData cachedData) {
     rt::Using(registryKey);
     if (registryKey != nullptr) {
       Array<String> subKeyNames = registryKey->GetSubKeyNames();
+      for (String& id : subKeyNames) {
+        TimeZoneInfo value;
+        Exception e;
+        TryGetTimeZone(id, false, value, e, cachedData);
+      }
     }
   }
 }
@@ -1719,6 +1754,11 @@ String TimeZoneInfo___::FindIdFromTimeZoneInformation(Interop::Kernel32::TIME_ZO
       return nullptr;
     }
     Array<String> subKeyNames = registryKey->GetSubKeyNames();
+    for (String& text : subKeyNames) {
+      if (TryCompareTimeZoneInformationToRegistry(timeZone, text, dstDisabled)) {
+        return text;
+      }
+    }
   }
   return nullptr;
 }

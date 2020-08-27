@@ -1,6 +1,6 @@
 #pragma once
 
-#include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/String.h>
 
 namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)
@@ -10,7 +10,6 @@ FORWARDS(Char)
 FORWARDS(Int32)
 FORWARDS(ReadOnlySpan, T)
 FORWARDS(Span, T)
-FORWARD(String)
 FORWARDS(UInt32)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::Uri::System::Text {

@@ -10,6 +10,7 @@
 #include <System.Private.CoreLib/System/Int32-dep.h>
 #include <System.Private.CoreLib/System/InvalidOperationException-dep.h>
 #include <System.Private.CoreLib/System/IO/Path-dep.h>
+#include <System.Private.CoreLib/System/Runtime/Loader/LibraryNameVariation-dep.h>
 #include <System.Private.CoreLib/System/SR-dep.h>
 #include <System.Private.CoreLib/System/StringComparer-dep.h>
 #include <System.Private.CoreLib/System/StringComparison.h>
@@ -41,6 +42,12 @@ void AssemblyDependencyResolver___::ctor(String componentAssemblyPath) {
   Array<String> array = SplitPathsList(assemblyPathsList);
   _assemblyPaths = rt::newobj<Dictionary<String, String>>(StringComparer::in::get_OrdinalIgnoreCase());
   Array<String> array2 = array;
+  for (String& text : array2) {
+    _assemblyPaths->Add(Path::GetFileNameWithoutExtension(text), text);
+  }
+  _nativeSearchPaths = SplitPathsList(nativeSearchPathsList);
+  _resourceSearchPaths = SplitPathsList(resourceSearchPathsList);
+  _assemblyDirectorySearchPaths = rt::newarr<Array<String>>(1);
 }
 
 String AssemblyDependencyResolver___::ResolveAssemblyToPath(AssemblyName assemblyName) {
@@ -50,6 +57,12 @@ String AssemblyDependencyResolver___::ResolveAssemblyToPath(AssemblyName assembl
   String value;
   if (!String::in::IsNullOrEmpty(assemblyName->get_CultureName()) && !String::in::Equals(assemblyName->get_CultureName(), "neutral", StringComparison::OrdinalIgnoreCase)) {
     Array<String> resourceSearchPaths = _resourceSearchPaths;
+    for (String& path : resourceSearchPaths) {
+      String text = Path::Combine(path, assemblyName->get_CultureName(), assemblyName->get_Name() + ".dll");
+      if (File::Exists(text)) {
+        return text;
+      }
+    }
   } else if (assemblyName->get_Name() != nullptr && _assemblyPaths->TryGetValue(assemblyName->get_Name(), value) && File::Exists(value)) {
     return value;
   }
@@ -63,6 +76,17 @@ String AssemblyDependencyResolver___::ResolveUnmanagedDllToPath(String unmanaged
   }
   Array<String> array = (!unmanagedDllName->Contains(Path::DirectorySeparatorChar)) ? _nativeSearchPaths : _assemblyDirectorySearchPaths;
   Boolean isRelativePath = !Path::IsPathFullyQualified(unmanagedDllName);
+  for (LibraryNameVariation& item : LibraryNameVariation::DetermineLibraryNameVariations(unmanagedDllName, isRelativePath)) {
+    String path = item.Prefix + unmanagedDllName + item.Suffix;
+    Array<String> array2 = array;
+    for (String& path2 : array2) {
+      String text = Path::Combine(path2, path);
+      if (File::Exists(text)) {
+        return text;
+      }
+    }
+  }
+  return nullptr;
 }
 
 Array<String> AssemblyDependencyResolver___::SplitPathsList(String pathsList) {

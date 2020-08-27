@@ -44,6 +44,12 @@ String ReflectionTypeLoadException___::CreateString(Boolean isMessage) {
   }
   StringBuilder stringBuilder = rt::newobj<StringBuilder>(text);
   Array<Exception> array = loaderExceptions;
+  for (Exception& ex : array) {
+    if (ex != nullptr) {
+      stringBuilder->AppendLine()->Append(isMessage ? ex->get_Message() : ex->ToString());
+    }
+  }
+  return stringBuilder->ToString();
 }
 
 } // namespace System::Private::CoreLib::System::Reflection::ReflectionTypeLoadExceptionNamespace

@@ -1328,6 +1328,9 @@ TypeInfo TypeBuilder___::CreateTypeNoLock() {
     Int32 tkParent = (m_declMeth == nullptr) ? m_DeclaringType->m_tdType.get_Token() : m_declMeth->GetToken().get_Token();
     m_tdType = TypeToken(DefineGenericParam(QCallModule(module), m_strName, tkParent, m_genParamAttributes, m_genParamPos, array2));
     if (m_ca != nullptr) {
+      for (CustAttr& item : m_ca) {
+        item->Bake(m_module, get_MetadataTokenInternal());
+      }
     }
     m_hasBeenCreated = true;
     return (TypeBuilder)this;
@@ -1337,6 +1340,9 @@ TypeInfo TypeBuilder___::CreateTypeNoLock() {
   }
   if (m_inst != nullptr) {
     Array<GenericTypeParameterBuilder> inst = m_inst;
+    for (GenericTypeParameterBuilder& genericTypeParameterBuilder : inst) {
+      genericTypeParameterBuilder->m_type->CreateType();
+    }
   }
   if (!m_isHiddenGlobalType && m_constructorCount == 0 && (m_iAttr & TypeAttributes::ClassSemanticsMask) == 0 && !Type::in::get_IsValueType() && (m_iAttr & (TypeAttributes::Abstract | TypeAttributes::Sealed)) != (TypeAttributes::Abstract | TypeAttributes::Sealed)) {
     DefineDefaultConstructor(MethodAttributes::Public);

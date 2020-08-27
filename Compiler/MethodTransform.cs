@@ -815,14 +815,11 @@ namespace Meson.Compiler {
     }
 
     public SyntaxNode VisitForeachStatement(ForeachStatement foreachStatement) {
-      /*
       var variableType = foreachStatement.VariableType.AcceptExpression(this);
       var variableName = foreachStatement.VariableNameToken.Accept<IdentifierSyntax>(this);
       var expression = foreachStatement.InExpression.AcceptExpression(this);
       var embeddedStatement = foreachStatement.EmbeddedStatement.AcceptStatement(this);
       return new ForeachStatementSyntax(new RefExpressionSyntax(variableType), variableName, expression, embeddedStatement);
-      */
-      throw new NotImplementedException();
     }
 
     public SyntaxNode VisitForStatement(ForStatement forStatement) {

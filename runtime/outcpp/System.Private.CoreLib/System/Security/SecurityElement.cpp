@@ -386,6 +386,12 @@ SecurityElement SecurityElement___::SearchForChildByTag(String tag) {
   if (_children == nullptr) {
     return nullptr;
   }
+  for (SecurityElement& child : _children) {
+    if (child != nullptr && String::in::Equals(child->get_Tag(), tag)) {
+      return child;
+    }
+  }
+  return nullptr;
 }
 
 String SecurityElement___::SearchForTextOfTag(String tag) {
@@ -398,6 +404,13 @@ String SecurityElement___::SearchForTextOfTag(String tag) {
   if (_children == nullptr) {
     return nullptr;
   }
+  for (SecurityElement& item : get_Children()) {
+    String text = (item != nullptr) ? item->SearchForTextOfTag(tag) : nullptr;
+    if (text != nullptr) {
+      return text;
+    }
+  }
+  return nullptr;
 }
 
 SecurityElement SecurityElement___::FromString(String xml) {

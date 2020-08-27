@@ -1,5 +1,6 @@
 #include "TypeNameBuilder-dep.h"
 
+#include <System.Private.CoreLib/System/Char-dep.h>
 #include <System.Private.CoreLib/System/Collections/Generic/List-dep.h>
 #include <System.Private.CoreLib/System/Int32-dep.h>
 #include <System.Private.CoreLib/System/Reflection/Emit/TypeNameBuilder-dep.h>
@@ -103,6 +104,15 @@ String TypeNameBuilder___::ToString() {
 }
 
 Boolean TypeNameBuilder___::ContainsReservedChar(String name) {
+  for (Char& c : name) {
+    if (c == 0) {
+      break;
+    }
+    if (IsTypeNameReservedChar(c)) {
+      return true;
+    }
+  }
+  return false;
 }
 
 Boolean TypeNameBuilder___::IsTypeNameReservedChar(Char ch) {
@@ -122,6 +132,16 @@ Boolean TypeNameBuilder___::IsTypeNameReservedChar(Char ch) {
 
 void TypeNameBuilder___::EscapeName(String name) {
   if (ContainsReservedChar(name)) {
+    for (Char& c : name) {
+      if (c != 0) {
+        if (IsTypeNameReservedChar(c)) {
+          _str->Append(92);
+        }
+        _str->Append(c);
+        continue;
+      }
+      break;
+    }
   } else {
     Append(name);
   }
@@ -133,6 +153,12 @@ void TypeNameBuilder___::EscapeAssemblyName(String name) {
 
 void TypeNameBuilder___::EscapeEmbeddedAssemblyName(String name) {
   if (name->Contains(93)) {
+    for (Char& c : name) {
+      if (c == 93) {
+        Append(92);
+      }
+      Append(c);
+    }
   } else {
     Append(name);
   }
@@ -153,6 +179,13 @@ void TypeNameBuilder___::PopOpenGenericArgument() {
 }
 
 void TypeNameBuilder___::Append(String pStr) {
+  for (Char& c : pStr) {
+    if (c != 0) {
+      _str->Append(c);
+      continue;
+    }
+    break;
+  }
 }
 
 void TypeNameBuilder___::Append(Char c) {

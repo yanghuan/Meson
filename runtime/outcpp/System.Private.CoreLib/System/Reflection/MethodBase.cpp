@@ -4,6 +4,7 @@
 #include <System.Private.CoreLib/System/DBNull-dep.h>
 #include <System.Private.CoreLib/System/Int32-dep.h>
 #include <System.Private.CoreLib/System/InvalidOperationException-dep.h>
+#include <System.Private.CoreLib/System/MemoryExtensions-dep.h>
 #include <System.Private.CoreLib/System/NotImplemented-dep.h>
 #include <System.Private.CoreLib/System/NotSupportedException-dep.h>
 #include <System.Private.CoreLib/System/Object-dep.h>
@@ -219,6 +220,21 @@ Boolean MethodBase___::op_Inequality(MethodBase left, MethodBase right) {
 
 void MethodBase___::AppendParameters(ValueStringBuilder& sbParamList, Array<Type> parameterTypes, CallingConventions callingConvention) {
   String s = "";
+  for (Type& type : parameterTypes) {
+    sbParamList.Append(s);
+    String text = type->FormatTypeName();
+    if (type->get_IsByRef()) {
+      sbParamList.Append(MemoryExtensions::TrimEnd(MemoryExtensions::AsSpan(text), 38));
+      sbParamList.Append(" ByRef");
+    } else {
+      sbParamList.Append(text);
+    }
+    s = ", ";
+  }
+  if ((callingConvention & CallingConventions::VarArgs) == CallingConventions::VarArgs) {
+    sbParamList.Append(s);
+    sbParamList.Append("...");
+  }
 }
 
 } // namespace System::Private::CoreLib::System::Reflection::MethodBaseNamespace

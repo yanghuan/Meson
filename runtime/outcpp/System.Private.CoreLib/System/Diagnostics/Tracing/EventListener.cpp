@@ -4,6 +4,7 @@
 #include <System.Private.CoreLib/System/ArgumentNullException-dep.h>
 #include <System.Private.CoreLib/System/Collections/Generic/List-dep.h>
 #include <System.Private.CoreLib/System/Diagnostics/Tracing/EventCommand.h>
+#include <System.Private.CoreLib/System/Diagnostics/Tracing/EventDispatcher-dep.h>
 #include <System.Private.CoreLib/System/Diagnostics/Tracing/EventKeywords.h>
 #include <System.Private.CoreLib/System/Diagnostics/Tracing/EventListener-dep.h>
 #include <System.Private.CoreLib/System/Diagnostics/Tracing/EventPipeEventDispatcher-dep.h>
@@ -147,10 +148,39 @@ void EventListener___::AddEventSource(EventSource newEventSource) {
 void EventListener___::DisposeOnShutdown(Object sender, EventArgs e) {
   {
     rt::lock(get_EventListenersLock());
+    for (WeakReference<EventSource>& s_EventSource : s_EventSources) {
+      EventSource target;
+      if (s_EventSource->TryGetTarget(target)) {
+        target->Dispose();
+      }
+    }
   }
 }
 
 void EventListener___::RemoveReferencesToListenerInEventSources(EventListener listenerToRemove) {
+  for (WeakReference<EventSource>& s_EventSource : s_EventSources) {
+    EventSource target;
+    if (!s_EventSource->TryGetTarget(target)) {
+      continue;
+    }
+    if (target->m_Dispatchers->m_Listener == listenerToRemove) {
+      target->m_Dispatchers = target->m_Dispatchers->m_Next;
+      continue;
+    }
+    EventDispatcher eventDispatcher = target->m_Dispatchers;
+    while (true) {
+      EventDispatcher next = eventDispatcher->m_Next;
+      if (next == nullptr) {
+        break;
+      }
+      if (next->m_Listener == listenerToRemove) {
+        eventDispatcher->m_Next = next->m_Next;
+        break;
+      }
+      eventDispatcher = next;
+    }
+  }
+  EventPipeEventDispatcher::in::Instance->RemoveEventListener(listenerToRemove);
 }
 
 void EventListener___::CallBackForExistingEventSources(Boolean addToListenersList, EventHandler<EventSourceCreatedEventArgs> callback) {
@@ -169,6 +199,14 @@ void EventListener___::CallBackForExistingEventSources(Boolean addToListenersLis
         return;
       }
       Array<WeakReference<EventSource>> array = s_EventSources->ToArray();
+      for (WeakReference<EventSource>& weakReference : array) {
+        EventSource target;
+        if (weakReference->TryGetTarget(target)) {
+          EventSourceCreatedEventArgs eventSourceCreatedEventArgs = rt::newobj<EventSourceCreatedEventArgs>();
+          eventSourceCreatedEventArgs->set_EventSource(target);
+          callback((EventListener)this, eventSourceCreatedEventArgs);
+        }
+      }
     } catch (...) {
     } finally: {
       s_CreatingListener = false;

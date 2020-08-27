@@ -46,6 +46,10 @@ SignatureHelper SignatureHelper___::GetMethodSigHelper(Module mod, CallingConven
 SignatureHelper SignatureHelper___::GetMethodSpecSigHelper(Module scope, Array<Type> inst) {
   SignatureHelper signatureHelper = rt::newobj<SignatureHelper>(scope, MdSigCallingConvention::GenericInst);
   signatureHelper->AddData(inst->get_Length());
+  for (Type& clsArgument : inst) {
+    signatureHelper->AddArgument(clsArgument);
+  }
+  return signatureHelper;
 }
 
 SignatureHelper SignatureHelper___::GetMethodSigHelper(Module scope, CallingConventions callingConvention, Type returnType, Array<Type> requiredReturnTypeCustomModifiers, Array<Type> optionalReturnTypeCustomModifiers, Array<Type> parameterTypes, Array<Array<Type>> requiredParameterTypeCustomModifiers, Array<Array<Type>> optionalParameterTypeCustomModifiers) {
@@ -205,8 +209,36 @@ void SignatureHelper___::AddOneArgTypeHelper(Type argument, Boolean pinned) {
 
 void SignatureHelper___::AddOneArgTypeHelper(Type clsArgument, Array<Type> requiredCustomModifiers, Array<Type> optionalCustomModifiers) {
   if (optionalCustomModifiers != nullptr) {
+    for (Type& type : optionalCustomModifiers) {
+      if (type == nullptr) {
+        rt::throw_exception<ArgumentNullException>("optionalCustomModifiers");
+      }
+      if (type->get_HasElementType()) {
+        rt::throw_exception<ArgumentException>(SR::get_Argument_ArraysInvalid(), "optionalCustomModifiers");
+      }
+      if (type->get_ContainsGenericParameters()) {
+        rt::throw_exception<ArgumentException>(SR::get_Argument_GenericsInvalid(), "optionalCustomModifiers");
+      }
+      AddElementType(CorElementType::ELEMENT_TYPE_CMOD_OPT);
+      Int32 token = m_module->GetTypeToken(type).get_Token();
+      AddToken(token);
+    }
   }
   if (requiredCustomModifiers != nullptr) {
+    for (Type& type2 : requiredCustomModifiers) {
+      if (type2 == nullptr) {
+        rt::throw_exception<ArgumentNullException>("requiredCustomModifiers");
+      }
+      if (type2->get_HasElementType()) {
+        rt::throw_exception<ArgumentException>(SR::get_Argument_ArraysInvalid(), "requiredCustomModifiers");
+      }
+      if (type2->get_ContainsGenericParameters()) {
+        rt::throw_exception<ArgumentException>(SR::get_Argument_GenericsInvalid(), "requiredCustomModifiers");
+      }
+      AddElementType(CorElementType::ELEMENT_TYPE_CMOD_REQD);
+      Int32 token2 = m_module->GetTypeToken(type2).get_Token();
+      AddToken(token2);
+    }
   }
   AddOneArgTypeHelper(clsArgument);
 }
@@ -231,6 +263,10 @@ void SignatureHelper___::AddOneArgTypeHelperWorker(Type clsArgument, Boolean las
     Array<Type> genericArguments = clsArgument->GetGenericArguments();
     AddData(genericArguments->get_Length());
     Array<Type> array = genericArguments;
+    for (Type& clsArgument2 : array) {
+      AddOneArgTypeHelper(clsArgument2);
+    }
+    return;
   }
   if (rt::is<TypeBuilder>(clsArgument)) {
     TypeBuilder typeBuilder = (TypeBuilder)clsArgument;

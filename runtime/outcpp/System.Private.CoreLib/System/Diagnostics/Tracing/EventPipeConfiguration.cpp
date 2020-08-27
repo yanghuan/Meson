@@ -52,6 +52,9 @@ void EventPipeConfiguration___::EnableProviderConfiguration(EventPipeProviderCon
 }
 
 void EventPipeConfiguration___::EnableProviderRange(Array<EventPipeProviderConfiguration> providerConfigs) {
+  for (EventPipeProviderConfiguration& providerConfig : providerConfigs) {
+    EnableProviderConfiguration(providerConfig);
+  }
 }
 
 void EventPipeConfiguration___::SetProfilerSamplingRate(TimeSpan minTimeBetweenSamples) {

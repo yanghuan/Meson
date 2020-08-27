@@ -7,7 +7,11 @@
 #include <System.Private.CoreLib/System/Diagnostics/Tracing/CounterGroup-dep.h>
 #include <System.Private.CoreLib/System/Diagnostics/Tracing/DiagnosticCounter-dep.h>
 #include <System.Private.CoreLib/System/Diagnostics/Tracing/EventCommand.h>
+#include <System.Private.CoreLib/System/Diagnostics/Tracing/EventCounter-dep.h>
 #include <System.Private.CoreLib/System/Diagnostics/Tracing/EventListener-dep.h>
+#include <System.Private.CoreLib/System/Diagnostics/Tracing/IncrementingEventCounter-dep.h>
+#include <System.Private.CoreLib/System/Diagnostics/Tracing/IncrementingPollingCounter-dep.h>
+#include <System.Private.CoreLib/System/Math-dep.h>
 #include <System.Private.CoreLib/System/Single-dep.h>
 #include <System.Private.CoreLib/System/String-dep.h>
 #include <System.Private.CoreLib/System/Threading/AutoResetEvent-dep.h>
@@ -136,6 +140,22 @@ void CounterGroup___::DisableTimer() {
 void CounterGroup___::ResetCounters() {
   {
     rt::lock(s_counterGroupLock);
+    for (DiagnosticCounter& counter : _counters) {
+      IncrementingEventCounter incrementingEventCounter = rt::as<IncrementingEventCounter>(counter);
+      if (incrementingEventCounter != nullptr) {
+        incrementingEventCounter->UpdateMetric();
+        continue;
+      }
+      IncrementingPollingCounter incrementingPollingCounter = rt::as<IncrementingPollingCounter>(counter);
+      if (incrementingPollingCounter != nullptr) {
+        incrementingPollingCounter->UpdateMetric();
+        continue;
+      }
+      EventCounter eventCounter = rt::as<EventCounter>(counter);
+      if (eventCounter != nullptr) {
+        eventCounter->ResetStatistics();
+      }
+    }
   }
 }
 
@@ -145,6 +165,13 @@ void CounterGroup___::OnTimer() {
   }
   DateTime utcNow = DateTime::get_UtcNow();
   TimeSpan timeSpan = utcNow - _timeStampSinceCollectionStarted;
+  for (DiagnosticCounter& counter : _counters) {
+    counter->WritePayload((Single)timeSpan.get_TotalSeconds(), _pollingIntervalInMilliseconds);
+  }
+  _timeStampSinceCollectionStarted = utcNow;
+  do {
+    _nextPollingTimeStamp += TimeSpan(0, 0, 0, 0, _pollingIntervalInMilliseconds);
+  } while (_nextPollingTimeStamp <= utcNow)
 }
 
 void CounterGroup___::PollForValues() {
@@ -154,6 +181,15 @@ void CounterGroup___::PollForValues() {
     {
       rt::lock(s_counterGroupLock);
       autoResetEvent = s_pollingThreadSleepEvent;
+      for (CounterGroup& s_counterGroupEnabled : s_counterGroupEnabledList) {
+        DateTime utcNow = DateTime::get_UtcNow();
+        if (s_counterGroupEnabled->_nextPollingTimeStamp < utcNow + TimeSpan(0, 0, 0, 0, 1)) {
+          s_counterGroupEnabled->OnTimer();
+        }
+        Int32 val = (Int32)(s_counterGroupEnabled->_nextPollingTimeStamp - utcNow).get_TotalMilliseconds();
+        val = Math::Max(1, val);
+        num = Math::Min(num, val);
+      }
     }
     if (num == Int32::MaxValue) {
       num = -1;

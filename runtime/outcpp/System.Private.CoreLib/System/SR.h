@@ -1,6 +1,6 @@
 #pragma once
 
-#include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/String.h>
 
 namespace System::Private::CoreLib::System::Resources {
 FORWARD(ResourceManager)
@@ -14,7 +14,6 @@ FORWARDS(Boolean)
 FORWARD(IFormatProvider)
 FORWARDS(Int32)
 FORWARD(Object)
-FORWARD(String)
 namespace SRNamespace {
 using namespace System::Collections::Generic;
 using namespace System::Resources;

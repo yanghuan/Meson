@@ -47,6 +47,11 @@ IEnumerable<Task<>> ThreadPoolTaskScheduler___::GetScheduledTasks() {
 }
 
 IEnumerable<Task<>> ThreadPoolTaskScheduler___::FilterTasksFromWorkItems(IEnumerable<Object> tpwItems) {
+  for (Object& tpwItem : tpwItems) {
+    Task<> task = rt::as<Task<>>(tpwItem);
+    if (task != nullptr) {
+    }
+  }
 }
 
 void ThreadPoolTaskScheduler___::NotifyWorkItemProgress() {

@@ -13,6 +13,13 @@ namespace System::Private::CoreLib::System::Threading::TimerNamespace {
 Int64 Timer___::get_ActiveCount() {
   Int64 num = 0;
   Array<TimerQueue> instances = TimerQueue::in::get_Instances();
+  for (TimerQueue& timerQueue : instances) {
+    {
+      rt::lock(timerQueue);
+      num += timerQueue->set_ActiveCount();
+    }
+  }
+  return num;
 }
 
 void Timer___::ctor(TimerCallback callback, Object state, Int32 dueTime, Int32 period) {

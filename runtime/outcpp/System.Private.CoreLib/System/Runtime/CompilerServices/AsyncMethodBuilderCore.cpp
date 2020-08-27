@@ -48,6 +48,10 @@ String AsyncMethodBuilderCore::GetAsyncStateMachineDescription(IAsyncStateMachin
   StringBuilder stringBuilder = rt::newobj<StringBuilder>();
   stringBuilder->AppendLine(type->get_FullName());
   Array<FieldInfo> array = fields;
+  for (FieldInfo& fieldInfo : array) {
+    stringBuilder->Append("    ")->Append(fieldInfo->get_Name())->Append(": ")->Append(fieldInfo->GetValue(stateMachine))->AppendLine();
+  }
+  return stringBuilder->ToString();
 }
 
 Action<> AsyncMethodBuilderCore::CreateContinuationWrapper(Action<> continuation, Action<Action<>, Task<>> invokeAction, Task<> innerTask) {

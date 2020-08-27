@@ -7,10 +7,13 @@
 #include <System.Private.CoreLib/System/Collections/Generic/Dictionary-dep.h>
 #include <System.Private.CoreLib/System/Collections/Generic/KeyValuePair-dep.h>
 #include <System.Private.CoreLib/System/Collections/Generic/List-dep.h>
+#include <System.Private.CoreLib/System/Convert-dep.h>
 #include <System.Private.CoreLib/System/Diagnostics/Tracing/EventChannel.h>
 #include <System.Private.CoreLib/System/Diagnostics/Tracing/EventKeywords.h>
+#include <System.Private.CoreLib/System/Diagnostics/Tracing/EventSource-dep.h>
 #include <System.Private.CoreLib/System/Diagnostics/Tracing/ManifestBuilder-dep.h>
 #include <System.Private.CoreLib/System/Enum-dep.h>
+#include <System.Private.CoreLib/System/FlagsAttribute-dep.h>
 #include <System.Private.CoreLib/System/Globalization/CultureInfo-dep.h>
 #include <System.Private.CoreLib/System/Int32-dep.h>
 #include <System.Private.CoreLib/System/Int64-dep.h>
@@ -143,6 +146,16 @@ Array<UInt64> ManifestBuilder___::GetChannelData() {
     return Array<>::in::Empty<UInt64>();
   }
   Int32 num = -1;
+  for (Int32& key : channelTab->get_Keys()) {
+    if (key > num) {
+      num = key;
+    }
+  }
+  Array<UInt64> array = rt::newarr<Array<UInt64>>(num + 1);
+  for (KeyValuePair<Int32, ChannelInfo>& item : channelTab) {
+    array[item.get_Key()] = item.get_Value()->Keywords;
+  }
+  return array;
 }
 
 void ManifestBuilder___::StartEvent(String eventName, EventAttribute eventAttribute) {
@@ -251,18 +264,103 @@ String ManifestBuilder___::CreateManifestString() {
   if (channelTab != nullptr) {
     sb->AppendLine(" <channels>");
     List<KeyValuePair<Int32, ChannelInfo>> list = rt::newobj<List<KeyValuePair<Int32, ChannelInfo>>>();
+    for (KeyValuePair<Int32, ChannelInfo>& item : channelTab) {
+      list->Add(item);
+    }
   }
   if (taskTab != nullptr) {
     sb->AppendLine(" <tasks>");
     List<Int32> list2 = rt::newobj<List<Int32>>(taskTab->get_Keys());
     list2->Sort();
+    for (Int32& item3 : list2) {
+      sb->Append("  <task");
+      WriteNameAndMessageAttribs(sb, "task", taskTab[item3]);
+      sb->Append(" value="")->Append(item3)->AppendLine(""/>");
+    }
+    sb->AppendLine(" </tasks>");
   }
   if (mapsTab != nullptr) {
     sb->AppendLine(" <maps>");
+    for (Type& value3 : mapsTab->get_Values()) {
+      Boolean flag2 = EventSource::in::GetCustomAttributeHelper(value3, typeof<FlagsAttribute>(), flags) != nullptr;
+      String value2 = flag2 ? "bitMap" : "valueMap";
+      sb->Append("  <")->Append(value2)->Append(" name="")->Append(value3->get_Name())->AppendLine("">");
+      Array<FieldInfo> fields = value3->GetFields(BindingFlags::DeclaredOnly | BindingFlags::Static | BindingFlags::Public);
+      Boolean flag3 = false;
+      Array<FieldInfo> array = fields;
+      for (FieldInfo& fieldInfo : array) {
+        Object rawConstantValue = fieldInfo->GetRawConstantValue();
+        if (rawConstantValue != nullptr) {
+          UInt64 num = (UInt64)((!rt::is<UInt64>(rawConstantValue)) ? Convert::ToInt64(rawConstantValue) : ((Int64)(UInt64)rawConstantValue));
+          if (!flag2 || ((num & (num - 1)) == 0 && num != 0)) {
+            sb->Append("   <map value="0x")->Append(num.ToString("x", CultureInfo::in::get_InvariantCulture()))->Append(""");
+            WriteMessageAttrib(sb, "map", value3->get_Name() + "." + fieldInfo->get_Name(), fieldInfo->get_Name());
+            sb->AppendLine("/>");
+            flag3 = true;
+          }
+        }
+      }
+      if (!flag3) {
+        sb->Append("   <map value="0x0"");
+        WriteMessageAttrib(sb, "map", value3->get_Name() + ".None", "None");
+        sb->AppendLine("/>");
+      }
+      sb->Append("  </")->Append(value2)->AppendLine(">");
+    }
+    sb->AppendLine(" </maps>");
   }
   sb->AppendLine(" <opcodes>");
   List<Int32> list3 = rt::newobj<List<Int32>>(opcodeTab->get_Keys());
   list3->Sort();
+  for (Int32& item4 : list3) {
+    sb->Append("  <opcode");
+    WriteNameAndMessageAttribs(sb, "opcode", opcodeTab[item4]);
+    sb->Append(" value="")->Append(item4)->AppendLine(""/>");
+  }
+  sb->AppendLine(" </opcodes>");
+  if (keywordTab != nullptr) {
+    sb->AppendLine(" <keywords>");
+    List<UInt64> list4 = rt::newobj<List<UInt64>>(keywordTab->get_Keys());
+    list4->Sort();
+    for (UInt64& item5 : list4) {
+      sb->Append("  <keyword");
+      WriteNameAndMessageAttribs(sb, "keyword", keywordTab[item5]);
+      sb->Append(" mask="0x")->Append(item5.ToString("x", CultureInfo::in::get_InvariantCulture()))->AppendLine(""/>");
+    }
+    sb->AppendLine(" </keywords>");
+  }
+  sb->AppendLine(" <events>");
+  sb->Append(events);
+  sb->AppendLine(" </events>");
+  sb->AppendLine(" <templates>");
+  if (templates->get_Length() > 0) {
+    sb->Append(templates);
+  } else {
+    sb->AppendLine("    <template tid="_empty"></template>");
+  }
+  sb->AppendLine(" </templates>");
+  sb->AppendLine("</provider>");
+  sb->AppendLine("</events>");
+  sb->AppendLine("</instrumentation>");
+  sb->AppendLine("<localization>");
+  List<CultureInfo> list5 = (resources != nullptr && (flags & EventManifestOptions::AllCultures) != 0) ? GetSupportedCultures() : rt::newobj<List<CultureInfo>>();
+  Array<String> array2 = rt::newarr<Array<String>>(stringTab->get_Keys()->get_Count());
+  stringTab->get_Keys()->CopyTo(array2, 0);
+  Array<>::in::Sort(array2, 0, array2->get_Length());
+  for (CultureInfo& item6 : list5) {
+    sb->Append(" <resources culture="")->Append(item6->get_Name())->AppendLine("">");
+    sb->AppendLine("  <stringTable>");
+    Array<String> array3 = array2;
+    for (String& text3 : array3) {
+      String localizedMessage = GetLocalizedMessage(text3, item6, true);
+      sb->Append("   <string id="")->Append(text3)->Append("" value="")->Append(localizedMessage)->AppendLine(""/>");
+    }
+    sb->AppendLine("  </stringTable>");
+    sb->AppendLine(" </resources>");
+  }
+  sb->AppendLine("</localization>");
+  sb->AppendLine("</instrumentationManifest>");
+  return sb->ToString();
 }
 
 void ManifestBuilder___::WriteNameAndMessageAttribs(StringBuilder stringBuilder, String elementName, String name) {
@@ -533,6 +631,13 @@ String ManifestBuilder___::TranslateToManifestConvention(String eventMessage, St
 Int32 ManifestBuilder___::TranslateIndexToManifestConvention(Int32 idx, String evtName) {
   List<Int32> value;
   if (perEventByteArrayArgIndices->TryGetValue(evtName, value)) {
+    for (Int32& item : value) {
+      if (idx >= item) {
+        idx++;
+        continue;
+      }
+      break;
+    }
   }
   return idx + 1;
 }

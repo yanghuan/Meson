@@ -352,6 +352,41 @@ void CancellationTokenSource___::ExecuteCallbackHandlers(Boolean throwOnFirstExc
   List<Exception> list = nullptr;
   try {
     Array<CallbackPartition> array2 = array;
+    for (CallbackPartition& callbackPartition : array2) {
+      if (callbackPartition == nullptr) {
+        continue;
+      }
+      while (true) {
+        Boolean lockTaken = false;
+        callbackPartition->Lock.Enter(lockTaken);
+        CallbackNode callbacks;
+        try {
+          callbacks = callbackPartition->Callbacks;
+          if (callbacks == nullptr) {
+            break;
+          }
+          if (callbacks->Next != nullptr) {
+            callbacks->Next->Prev = nullptr;
+          }
+          callbackPartition->Callbacks = callbacks->Next;
+          _executingCallbackId = callbacks->Id;
+          callbacks->Id = 0;
+          goto IL_00ad;
+        } catch (...) {
+        } finally: {
+          callbackPartition->Lock.Exit(false);
+        }
+
+      IL_00ad:
+        try {
+          if (callbacks->SynchronizationContext != nullptr) {
+          } else {
+            callbacks->ExecuteCallback();
+          }
+        } catch (Exception item) {
+        }
+      }
+    }
   } catch (...) {
   } finally: {
     _state = 3;

@@ -21,8 +21,10 @@
 #include <System.Private.CoreLib/System/Reflection/CustomAttribute-dep.h>
 #include <System.Private.CoreLib/System/Reflection/ImageFileMachine.h>
 #include <System.Private.CoreLib/System/Reflection/MetadataEnumResult-dep.h>
+#include <System.Private.CoreLib/System/Reflection/MetadataToken-dep.h>
 #include <System.Private.CoreLib/System/Reflection/MetadataTokenType.h>
 #include <System.Private.CoreLib/System/Reflection/PortableExecutableKinds.h>
+#include <System.Private.CoreLib/System/Reflection/ReflectionTypeLoadException-dep.h>
 #include <System.Private.CoreLib/System/Reflection/ResourceLocation.h>
 #include <System.Private.CoreLib/System/Reflection/RuntimeAssembly-dep.h>
 #include <System.Private.CoreLib/System/Reflection/RuntimeModule-dep.h>
@@ -388,6 +390,32 @@ Array<Type> RuntimeAssembly___::GetForwardedTypes() {
   GetManifestModule(GetNativeHandle())->get_MetadataImport().Enum(MetadataTokenType::ExportedType, 0, result);
   RuntimeAssembly assembly = (RuntimeAssembly)this;
   QCallAssembly assembly2 = QCallAssembly(assembly);
+  for (MetadataToken& mdtExternalType : result) {
+    Type o = nullptr;
+    Exception item = nullptr;
+    ObjectHandleOnStack type = ObjectHandleOnStack::Create(o);
+    try {
+      GetForwardedType(assembly2, mdtExternalType, type);
+      if (o == nullptr) {
+        continue;
+      }
+    } catch (Exception ex) {
+    }
+    if (o != nullptr) {
+      list->Add(o);
+      AddPublicNestedTypes(o, list, list2);
+    } else {
+      list2->Add(item);
+    }
+  }
+  if (list2->get_Count() != 0) {
+    Int32 count = list->get_Count();
+    Int32 count2 = list2->get_Count();
+    list->AddRange(rt::newarr<Array<Type>>(count2));
+    list2->InsertRange(0, rt::newarr<Array<Exception>>(count));
+    rt::throw_exception<ReflectionTypeLoadException>(list->ToArray(), list2->ToArray());
+  }
+  return list->ToArray();
 }
 
 void RuntimeAssembly___::AddPublicNestedTypes(Type type, List<Type> types, List<Exception> exceptions) {
@@ -397,6 +425,10 @@ void RuntimeAssembly___::AddPublicNestedTypes(Type type, List<Type> types, List<
   } catch (Exception item) {
   }
   Array<Type> array = nestedTypes;
+  for (Type& type2 : array) {
+    types->Add(type2);
+    AddPublicNestedTypes(type2, types, exceptions);
+  }
 }
 
 } // namespace System::Private::CoreLib::System::Reflection::RuntimeAssemblyNamespace

@@ -57,6 +57,9 @@ void StartupHookProvider::ProcessStartupHooks() {
     }
   }
   Array<StartupHookNameOrPath> array4 = array3;
+  for (StartupHookNameOrPath& startupHook : array4) {
+    CallStartupHook(startupHook);
+  }
 }
 
 void StartupHookProvider::CallStartupHook(StartupHookNameOrPath startupHook) {
