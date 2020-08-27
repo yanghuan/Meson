@@ -796,7 +796,7 @@ IntPtr Marshal::StringToCoTaskMemUTF8(String s) {
     Char* chars = ptr2;
     bytes = Encoding::in::get_UTF8()->GetBytes(chars, s->get_Length(), ptr, maxByteCount);
   }
-  ptr[bytes] = 0;
+  *(ptr + bytes) = 0;
   return intPtr;
 }
 
@@ -961,7 +961,7 @@ Int32 Marshal::StringToAnsiString(String s, Byte* buffer, Int32 bufferLength, Bo
   if (num != 0) {
     rt::throw_exception<ArgumentException>(SR::get_Interop_Marshal_Unmappable_Char());
   }
-  buffer[num2] = 0;
+  *(buffer + num2) = 0;
   return num2;
 }
 

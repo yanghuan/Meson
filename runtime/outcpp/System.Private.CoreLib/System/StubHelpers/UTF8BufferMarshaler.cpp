@@ -16,7 +16,7 @@ IntPtr UTF8BufferMarshaler::ConvertToNative(StringBuilder sb, IntPtr pNativeBuff
   Int32 byteCount = Encoding::in::get_UTF8()->GetByteCount(text);
   Byte* ptr = (Byte*)(void*)pNativeBuffer;
   byteCount = text->GetBytesFromEncoding(ptr, byteCount, Encoding::in::get_UTF8());
-  ptr[byteCount] = 0;
+  *(ptr + byteCount) = 0;
   return (IntPtr)(void*)ptr;
 }
 

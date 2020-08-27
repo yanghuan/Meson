@@ -134,22 +134,22 @@ void Number::BigInteger::Add(BigInteger& lhs, BigInteger& rhs, BigInteger& resul
   Int32 num3 = 0;
   Int32 num4 = 0;
   while (num3 < length2) {
-    UInt64 num5 = num + reference._blocks[num2] + reference2._blocks[num3];
+    UInt64 num5 = num + *(reference._blocks + num2) + *(reference2._blocks + num3);
     num = num5 >> 32;
-    result._blocks[num4] = (UInt32)num5;
+    *(result._blocks + num4) = (UInt32)num5;
     num2++;
     num3++;
     num4++;
   }
   while (num2 < length) {
-    UInt64 num6 = num + reference._blocks[num2];
+    UInt64 num6 = num + *(reference._blocks + num2);
     num = num6 >> 32;
-    result._blocks[num4] = (UInt32)num6;
+    *(result._blocks + num4) = (UInt32)num6;
     num2++;
     num4++;
   }
   if (num != 0) {
-    result._blocks[num4] = 1u;
+    *(result._blocks + num4) = 1u;
     result._length++;
   }
 }
@@ -165,7 +165,7 @@ Int32 Number::BigInteger::Compare(BigInteger& lhs, BigInteger& rhs) {
     return 0;
   }
   for (Int32 num2 = length - 1; num2 >= 0; num2--) {
-    Int64 num3 = (Int64)lhs._blocks[num2] - (Int64)rhs._blocks[num2];
+    Int64 num3 = (Int64)*(lhs._blocks + num2) - (Int64)*(rhs._blocks + num2);
     if (num3 != 0) {
       if (num3 <= 0) {
         return -1;
@@ -189,7 +189,7 @@ UInt32 Number::BigInteger::CountSignificantBits(BigInteger& value) {
     return 0u;
   }
   UInt32 num = (UInt32)(value._length - 1);
-  return num * 32 + CountSignificantBits(value._blocks[num]);
+  return num * 32 + CountSignificantBits(*(value._blocks + num));
 }
 
 void Number::BigInteger::DivRem(BigInteger& lhs, BigInteger& rhs, BigInteger& quo, BigInteger& rem) {
@@ -212,12 +212,12 @@ void Number::BigInteger::DivRem(BigInteger& lhs, BigInteger& rhs, BigInteger& qu
     UInt64 b = *rhs._blocks;
     UInt64 result2 = 0;
     for (Int32 num2 = num - 1; num2 >= 0; num2--) {
-      UInt64 a = (result2 << 32) | lhs._blocks[num2];
+      UInt64 a = (result2 << 32) | *(lhs._blocks + num2);
       UInt64 num3 = Math::DivRem(a, b, result2);
       if (num3 == 0 && num2 == num - 1) {
         num--;
       } else {
-        quo._blocks[num2] = (UInt32)num3;
+        *(quo._blocks + num2) = (UInt32)num3;
       }
     }
     quo._length = num;
@@ -232,27 +232,27 @@ void Number::BigInteger::DivRem(BigInteger& lhs, BigInteger& rhs, BigInteger& qu
   Int32 num4 = length - length2 + 1;
   SetValue(rem, lhs);
   Int32 num5 = length;
-  UInt32 num6 = rhs._blocks[length2 - 1];
-  UInt32 num7 = rhs._blocks[length2 - 2];
+  UInt32 num6 = *(rhs._blocks + length2 - 1);
+  UInt32 num7 = *(rhs._blocks + length2 - 2);
   Int32 num8 = BitOperations::LeadingZeroCount(num6);
   Int32 num9 = 32 - num8;
   if (num8 > 0) {
     num6 = ((num6 << num8) | (num7 >> num9));
     num7 <<= num8;
     if (length2 > 2) {
-      num7 |= rhs._blocks[length2 - 3] >> num9;
+      num7 |= *(rhs._blocks + length2 - 3) >> num9;
     }
   }
   for (Int32 num10 = length; num10 >= length2; num10--) {
     Int32 num11 = num10 - length2;
-    UInt32 num12 = (num10 < length) ? rem._blocks[num10] : 0u;
-    UInt64 num13 = ((UInt64)num12 << 32) | rem._blocks[num10 - 1];
-    UInt32 num14 = (num10 > 1) ? rem._blocks[num10 - 2] : 0u;
+    UInt32 num12 = (num10 < length) ? *(rem._blocks + num10) : 0u;
+    UInt64 num13 = ((UInt64)num12 << 32) | *(rem._blocks + num10 - 1);
+    UInt32 num14 = (num10 > 1) ? *(rem._blocks + num10 - 2) : 0u;
     if (num8 > 0) {
       num13 = ((num13 << num8) | (num14 >> num9));
       num14 <<= num8;
       if (num10 > 2) {
-        num14 |= rem._blocks[num10 - 3] >> num9;
+        num14 |= *(rem._blocks + num10 - 3) >> num9;
       }
     }
     UInt64 num15 = num13 / num6;
@@ -273,7 +273,7 @@ void Number::BigInteger::DivRem(BigInteger& lhs, BigInteger& rhs, BigInteger& qu
       if (num15 == 0 && num11 == num4 - 1) {
         num4--;
       } else {
-        quo._blocks[num11] = (UInt32)num15;
+        *(quo._blocks + num11) = (UInt32)num15;
       }
     }
     if (num10 < num5) {
@@ -282,7 +282,7 @@ void Number::BigInteger::DivRem(BigInteger& lhs, BigInteger& rhs, BigInteger& qu
   }
   quo._length = num4;
   for (Int32 num17 = num5 - 1; num17 >= 0; num17--) {
-    if (rem._blocks[num17] == 0) {
+    if (*(rem._blocks + num17) == 0) {
       num5--;
     }
   }
@@ -295,20 +295,20 @@ UInt32 Number::BigInteger::HeuristicDivide(BigInteger& dividend, BigInteger& div
     return 0u;
   }
   Int32 num2 = num - 1;
-  UInt32 num3 = dividend._blocks[num2] / (divisor._blocks[num2] + 1);
+  UInt32 num3 = *(dividend._blocks + num2) / (*(divisor._blocks + num2) + 1);
   if (num3 != 0) {
     Int32 num4 = 0;
     UInt64 num5 = 0;
     UInt64 num6 = 0;
     do {
-      UInt64 num7 = (UInt64)((Int64)divisor._blocks[num4] * (Int64)num3) + num6;
+      UInt64 num7 = (UInt64)((Int64)*(divisor._blocks + num4) * (Int64)num3) + num6;
       num6 = num7 >> 32;
-      UInt64 num8 = (UInt64)((Int64)dividend._blocks[num4] - (Int64)(UInt32)num7) - num5;
+      UInt64 num8 = (UInt64)((Int64)*(dividend._blocks + num4) - (Int64)(UInt32)num7) - num5;
       num5 = ((num8 >> 32) & 1);
-      dividend._blocks[num4] = (UInt32)num8;
+      *(dividend._blocks + num4) = (UInt32)num8;
       num4++;
     } while (num4 < num)
-    while (num > 0 && dividend._blocks[num - 1] == 0) {
+    while (num > 0 && *(dividend._blocks + num - 1) == 0) {
       num--;
     }
     dividend._length = num;
@@ -318,12 +318,12 @@ UInt32 Number::BigInteger::HeuristicDivide(BigInteger& dividend, BigInteger& div
     Int32 num9 = 0;
     UInt64 num10 = 0;
     do {
-      UInt64 num11 = (UInt64)((Int64)dividend._blocks[num9] - (Int64)divisor._blocks[num9]) - num10;
+      UInt64 num11 = (UInt64)((Int64)*(dividend._blocks + num9) - (Int64)*(divisor._blocks + num9)) - num10;
       num10 = ((num11 >> 32) & 1);
-      dividend._blocks[num9] = (UInt32)num11;
+      *(dividend._blocks + num9) = (UInt32)num11;
       num9++;
     } while (num9 < num)
-    while (num > 0 && dividend._blocks[num - 1] == 0) {
+    while (num > 0 && *(dividend._blocks + num - 1) == 0) {
       num--;
     }
     dividend._length = num;
@@ -345,12 +345,12 @@ void Number::BigInteger::Multiply(BigInteger& lhs, UInt32 value, BigInteger& res
           Int32 i = 0;
           UInt32 num = 0u;
           for (; i < length; i++) {
-            UInt64 num2 = (UInt64)((Int64)lhs._blocks[i] * (Int64)value + num);
-            result._blocks[i] = (UInt32)num2;
+            UInt64 num2 = (UInt64)((Int64)*(lhs._blocks + i) * (Int64)value + num);
+            *(result._blocks + i) = (UInt32)num2;
             num = (UInt32)(num2 >> 32);
           }
           if (num != 0) {
-            result._blocks[i] = num;
+            *(result._blocks + i) = num;
             result._length = length + 1;
           } else {
             result._length = length;
@@ -385,23 +385,23 @@ void Number::BigInteger::Multiply(BigInteger& lhs, BigInteger& rhs, BigInteger& 
   Int32 num2 = 0;
   Int32 num3 = 0;
   while (num2 < length2) {
-    if (reference2._blocks[num2] != 0) {
+    if (*(reference2._blocks + num2) != 0) {
       Int32 num4 = 0;
       Int32 num5 = num3;
       UInt64 num6 = 0;
       do {
-        UInt64 num7 = (UInt64)(result._blocks[num5] + (Int64)reference2._blocks[num2] * (Int64)reference._blocks[num4]) + num6;
+        UInt64 num7 = (UInt64)(*(result._blocks + num5) + (Int64)*(reference2._blocks + num2) * (Int64)*(reference._blocks + num4)) + num6;
         num6 = num7 >> 32;
-        result._blocks[num5] = (UInt32)num7;
+        *(result._blocks + num5) = (UInt32)num7;
         num5++;
         num4++;
       } while (num4 < length)
-      result._blocks[num5] = (UInt32)num6;
+      *(result._blocks + num5) = (UInt32)num6;
     }
     num2++;
     num3++;
   }
-  if (num > 0 && result._blocks[num - 1] == 0) {
+  if (num > 0 && *(result._blocks + num - 1) == 0) {
     result._length--;
   }
 }
@@ -413,7 +413,7 @@ void Number::BigInteger::Pow2(UInt32 exponent, BigInteger& result) {
   if (num != 0) {
     Buffer::ZeroMemory((Byte*)result.GetBlocksPointer(), num * 4);
   }
-  result._blocks[num] = (UInt32)(1 << (Int32)remainder);
+  *(result._blocks + num) = (UInt32)(1 << (Int32)remainder);
 }
 
 void Number::BigInteger::Pow10(UInt32 exponent, BigInteger& result) {
@@ -446,8 +446,8 @@ UInt32 Number::BigInteger::AddDivisor(BigInteger& lhs, Int32 lhsStartIndex, BigI
   Int32 length2 = rhs._length;
   UInt64 num = 0;
   for (Int32 i = 0; i < length2; i++) {
-    UInt32& reference = lhs._blocks[lhsStartIndex + i];
-    UInt64 num2 = reference + num + rhs._blocks[i];
+    UInt32& reference = *(lhs._blocks + lhsStartIndex + i);
+    UInt64 num2 = reference + num + *(rhs._blocks + i);
     reference = (UInt32)num2;
     num = num2 >> 32;
   }
@@ -479,10 +479,10 @@ UInt32 Number::BigInteger::SubtractDivisor(BigInteger& lhs, Int32 lhsStartIndex,
   Int32 length = rhs._length;
   UInt64 num2 = 0;
   for (Int32 i = 0; i < length; i++) {
-    num2 += rhs._blocks[i] * q;
+    num2 += *(rhs._blocks + i) * q;
     UInt32 num3 = (UInt32)num2;
     num2 >>= 32;
-    UInt32& reference = lhs._blocks[lhsStartIndex + i];
+    UInt32& reference = *(lhs._blocks + lhsStartIndex + i);
     if (reference < num3) {
       num2++;
     }
@@ -502,17 +502,17 @@ void Number::BigInteger::Add(UInt32 value) {
     return;
   }
   for (Int32 i = 1; i < length; i++) {
-    _blocks[i]++;
-    if (_blocks[i] != 0) {
+    *(_blocks + i)++;
+    if (*(_blocks + i) != 0) {
       return;
     }
   }
-  _blocks[length] = 1u;
+  *(_blocks + length) = 1u;
   _length = length + 1;
 }
 
 UInt32 Number::BigInteger::GetBlock(UInt32 index) {
-  return _blocks[index];
+  return *(_blocks + index);
 }
 
 Int32 Number::BigInteger::GetLength() {
@@ -546,13 +546,13 @@ void Number::BigInteger::Multiply10() {
     Int32 length = _length;
     UInt64 num = 0;
     for (; i < length; i++) {
-      UInt64 num2 = _blocks[i];
+      UInt64 num2 = *(_blocks + i);
       UInt64 num3 = (num2 << 3) + (num2 << 1) + num;
       num = num3 >> 32;
-      _blocks[i] = (UInt32)num3;
+      *(_blocks + i) = (UInt32)num3;
     }
     if (num != 0) {
-      _blocks[i] = (UInt32)num;
+      *(_blocks + i) = (UInt32)num;
       _length++;
     }
   }
@@ -609,7 +609,7 @@ void Number::BigInteger::ShiftLeft(UInt32 shift) {
   Int32 num3 = num2 + (Int32)num;
   if (remainder == 0) {
     while (num2 >= 0) {
-      _blocks[num3] = _blocks[num2];
+      *(_blocks + num3) = *(_blocks + num2);
       num2--;
       num3--;
     }
@@ -621,20 +621,20 @@ void Number::BigInteger::ShiftLeft(UInt32 shift) {
   _length = num3 + 1;
   UInt32 num4 = 32 - remainder;
   UInt32 num5 = 0u;
-  UInt32 num6 = _blocks[num2];
+  UInt32 num6 = *(_blocks + num2);
   UInt32 num7 = num6 >> (Int32)num4;
   while (num2 > 0) {
-    _blocks[num3] = (num5 | num7);
+    *(_blocks + num3) = (num5 | num7);
     num5 = num6 << (Int32)remainder;
     num2--;
     num3--;
-    num6 = _blocks[num2];
+    num6 = *(_blocks + num2);
     num7 = num6 >> (Int32)num4;
   }
-  _blocks[num3] = (num5 | num7);
-  _blocks[num3 - 1] = num6 << (Int32)remainder;
+  *(_blocks + num3) = (num5 | num7);
+  *(_blocks + num3 - 1) = num6 << (Int32)remainder;
   Buffer::ZeroMemory((Byte*)GetBlocksPointer(), num * 4);
-  if (_blocks[_length - 1] == 0) {
+  if (*(_blocks + _length - 1) == 0) {
     _length--;
   }
 }
@@ -2154,7 +2154,7 @@ void Number::NumberToStringFormat(ValueStringBuilder& sb, NumberBuffer& number, 
     {
       Char* ptr = &MemoryMarshal::GetReference(format);
       Char c;
-      while (num9 < format.get_Length() && (c = ptr[num9++]) != 0) {
+      while (num9 < format.get_Length() && (c = *(ptr + num9++)) != 0) {
         switch (c.get()) {
           case 59:
             break;
@@ -2195,18 +2195,18 @@ void Number::NumberToStringFormat(ValueStringBuilder& sb, NumberBuffer& number, 
             continue;
           case 34:
           case 39:
-            while (num9 < format.get_Length() && ptr[num9] != 0 && ptr[num9++] != c) {
+            while (num9 < format.get_Length() && *(ptr + num9) != 0 && *(ptr + num9++) != c) {
             }
             continue;
           case 92:
-            if (num9 < format.get_Length() && ptr[num9] != 0) {
+            if (num9 < format.get_Length() && *(ptr + num9) != 0) {
               num9++;
             }
             continue;
           case 69:
           case 101:
-            if ((num9 < format.get_Length() && ptr[num9] == 48) || (num9 + 1 < format.get_Length() && (ptr[num9] == 43 || ptr[num9] == 45) && ptr[num9 + 1] == 48)) {
-              while (++num9 < format.get_Length() && ptr[num9] == 48) {
+            if ((num9 < format.get_Length() && *(ptr + num9) == 48) || (num9 + 1 < format.get_Length() && (*(ptr + num9) == 43 || *(ptr + num9) == 45) && *(ptr + num9 + 1) == 48)) {
+              while (++num9 < format.get_Length() && *(ptr + num9) == 48) {
               }
               flag = true;
             }
@@ -2297,7 +2297,7 @@ void Number::NumberToStringFormat(ValueStringBuilder& sb, NumberBuffer& number, 
     Char* ptr3 = &MemoryMarshal::GetReference(format);
     Byte* ptr2 = digitsPointer;
     Char c;
-    while (num9 < format.get_Length() && (c = ptr3[num9++]) != 0 && c != 59) {
+    while (num9 < format.get_Length() && (c = *(ptr3 + num9++)) != 0 && c != 59) {
       if (num11 > 0 && (c == 35 || c == 46 || c == 48)) {
         while (num11 > 0) {
           sb.Append((Char)((*ptr2 != 0) ? (*(ptr2++)) : 48));
@@ -2341,16 +2341,16 @@ void Number::NumberToStringFormat(ValueStringBuilder& sb, NumberBuffer& number, 
           break;
         case 34:
         case 39:
-          while (num9 < format.get_Length() && ptr3[num9] != 0 && ptr3[num9] != c) {
-            sb.Append(ptr3[num9++]);
+          while (num9 < format.get_Length() && *(ptr3 + num9) != 0 && *(ptr3 + num9) != c) {
+            sb.Append(*(ptr3 + num9++));
           }
-          if (num9 < format.get_Length() && ptr3[num9] != 0) {
+          if (num9 < format.get_Length() && *(ptr3 + num9) != 0) {
             num9++;
           }
           break;
         case 92:
-          if (num9 < format.get_Length() && ptr3[num9] != 0) {
-            sb.Append(ptr3[num9++]);
+          if (num9 < format.get_Length() && *(ptr3 + num9) != 0) {
+            sb.Append(*(ptr3 + num9++));
           }
           break;
         case 69:
@@ -2359,17 +2359,17 @@ void Number::NumberToStringFormat(ValueStringBuilder& sb, NumberBuffer& number, 
             Boolean positiveSign = false;
             Int32 num18 = 0;
             if (flag) {
-              if (num9 < format.get_Length() && ptr3[num9] == 48) {
+              if (num9 < format.get_Length() && *(ptr3 + num9) == 48) {
                 num18++;
-              } else if (num9 + 1 < format.get_Length() && ptr3[num9] == 43 && ptr3[num9 + 1] == 48) {
+              } else if (num9 + 1 < format.get_Length() && *(ptr3 + num9) == 43 && *(ptr3 + num9 + 1) == 48) {
                 positiveSign = true;
-              } else if (num9 + 1 >= format.get_Length() || ptr3[num9] != 45 || ptr3[num9 + 1] != 48) {
+              } else if (num9 + 1 >= format.get_Length() || *(ptr3 + num9) != 45 || *(ptr3 + num9 + 1) != 48) {
                 sb.Append(c);
                 break;
               }
 
 
-              while (++num9 < format.get_Length() && ptr3[num9] == 48) {
+              while (++num9 < format.get_Length() && *(ptr3 + num9) == 48) {
                 num18++;
               }
               if (num18 > 10) {
@@ -2382,11 +2382,11 @@ void Number::NumberToStringFormat(ValueStringBuilder& sb, NumberBuffer& number, 
             }
             sb.Append(c);
             if (num9 < format.get_Length()) {
-              if (ptr3[num9] == 43 || ptr3[num9] == 45) {
-                sb.Append(ptr3[num9++]);
+              if (*(ptr3 + num9) == 43 || *(ptr3 + num9) == 45) {
+                sb.Append(*(ptr3 + num9++));
               }
-              while (num9 < format.get_Length() && ptr3[num9] == 48) {
-                sb.Append(ptr3[num9++]);
+              while (num9 < format.get_Length() && *(ptr3 + num9) == 48) {
+                sb.Append(*(ptr3 + num9++));
               }
             }
             break;
@@ -2456,7 +2456,7 @@ void Number::FormatFixed(ValueStringBuilder& sb, NumberBuffer& number, Int32 nMa
         for (Int32 num8 = num - 1; num8 >= 0; num8--) {
           Char* intPtr = ptr3;
           ptr3 = intPtr - 1;
-          *intPtr = (Char)((num8 < num7) ? ptr[num8] : 48);
+          *intPtr = (Char)((num8 < num7) ? *(ptr + num8) : 48);
           if (num4 > 0) {
             num6++;
             if (num6 == num4 && num8 != 0) {
@@ -2596,7 +2596,7 @@ void Number::FormatPercent(ValueStringBuilder& sb, NumberBuffer& number, Int32 n
 
 void Number::RoundNumber(NumberBuffer& number, Int32 pos, Boolean isCorrectlyRounded) {
   auto ShouldRoundUp = [](Byte* dig, Int32 i, NumberBufferKind numberKind, Boolean isCorrectlyRounded) -> Boolean {
-    Byte b = dig[i];
+    Byte b = *(dig + i);
     if (b == 0 || isCorrectlyRounded) {
       return false;
     }
@@ -2604,10 +2604,10 @@ void Number::RoundNumber(NumberBuffer& number, Int32 pos, Boolean isCorrectlyRou
   };
   Byte* digitsPointer = number.GetDigitsPointer();
   Int32 j;
-  for (j = 0; j < pos && digitsPointer[j] != 0; j++) {
+  for (j = 0; j < pos && *(digitsPointer + j) != 0; j++) {
   }
   if (j == pos && ShouldRoundUp(digitsPointer, j, number.Kind, isCorrectlyRounded)) {
-    while (j > 0 && digitsPointer[j - 1] == 57) {
+    while (j > 0 && *(digitsPointer + j - 1) == 57) {
       j--;
     }
     if (j > 0) {
@@ -2619,7 +2619,7 @@ void Number::RoundNumber(NumberBuffer& number, Int32 pos, Boolean isCorrectlyRou
       j = 1;
     }
   } else {
-    while (j > 0 && digitsPointer[j - 1] == 48) {
+    while (j > 0 && *(digitsPointer + j - 1) == 48) {
       j--;
     }
   }
@@ -2629,7 +2629,7 @@ void Number::RoundNumber(NumberBuffer& number, Int32 pos, Boolean isCorrectlyRou
     }
     number.Scale = 0;
   }
-  digitsPointer[j] = 0;
+  *(digitsPointer + j) = 0;
   number.DigitsCount = j;
 }
 
@@ -2645,7 +2645,7 @@ Int32 Number::FindSection(ReadOnlySpan<Char> format, Int32 section) {
         return 0;
       }
       Char c;
-      Char c2 = c = ptr[num++];
+      Char c2 = c = *(ptr + num++);
       if ((UInt32)c2 <= 34u) {
         if (c2 == 0) {
           break;
@@ -2658,7 +2658,7 @@ Int32 Number::FindSection(ReadOnlySpan<Char> format, Int32 section) {
           default:
             continue;
           case 92:
-            if (num < format.get_Length() && ptr[num] != 0) {
+            if (num < format.get_Length() && *(ptr + num) != 0) {
               num++;
             }
             continue;
@@ -2666,7 +2666,7 @@ Int32 Number::FindSection(ReadOnlySpan<Char> format, Int32 section) {
             break;
         }
         if (--section == 0) {
-          if (num >= format.get_Length() || ptr[num] == 0 || ptr[num] == 59) {
+          if (num >= format.get_Length() || *(ptr + num) == 0 || *(ptr + num) == 59) {
             break;
           }
           return num;
@@ -2674,7 +2674,7 @@ Int32 Number::FindSection(ReadOnlySpan<Char> format, Int32 section) {
         continue;
       }
 
-      while (num < format.get_Length() && ptr[num] != 0 && ptr[num++] != c) {
+      while (num < format.get_Length() && *(ptr + num) != 0 && *(ptr + num++) != c) {
       }
     }
     return 0;

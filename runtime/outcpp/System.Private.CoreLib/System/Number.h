@@ -107,7 +107,7 @@ class Number {
     private: static Array<Int32> s_Pow10BigNumTableIndices;
     private: static Array<UInt32> s_Pow10BigNumTable;
     private: Int32 _length;
-    private: rt::FixedBuffer<UInt32, 115> _blocks;
+    private: UInt32 _blocks[115];
   };
   public: class Grisu3 {
     public: static Boolean TryRunDouble(Double value, Int32 requestedDigits, NumberBuffer& number);

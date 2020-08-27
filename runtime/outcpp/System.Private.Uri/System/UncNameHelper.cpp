@@ -15,17 +15,17 @@ Boolean UncNameHelper::IsValid(Char* name, Int32 start, Int32& returnedEnd, Bool
   Boolean flag = false;
   Int32 i;
   for (i = start; i < num; i++) {
-    if (name[i] == 47 || name[i] == 92 || (notImplicitFile && (name[i] == 58 || name[i] == 63 || name[i] == 35))) {
+    if (*(name + i) == 47 || *(name + i) == 92 || (notImplicitFile && (*(name + i) == 58 || *(name + i) == 63 || *(name + i) == 35))) {
       num = i;
       break;
     }
-    if (name[i] == 46) {
+    if (*(name + i) == 46) {
       i++;
       break;
     }
-    if (Char::IsLetter(name[i]) || name[i] == 45 || name[i] == 95) {
+    if (Char::IsLetter(*(name + i)) || *(name + i) == 45 || *(name + i) == 95) {
       flag = true;
-    } else if (name[i] < 48 || name[i] > 57) {
+    } else if (*(name + i) < 48 || *(name + i) > 57) {
       return false;
     }
 
@@ -34,24 +34,24 @@ Boolean UncNameHelper::IsValid(Char* name, Int32 start, Int32& returnedEnd, Bool
     return false;
   }
   for (; i < num; i++) {
-    if (name[i] == 47 || name[i] == 92 || (notImplicitFile && (name[i] == 58 || name[i] == 63 || name[i] == 35))) {
+    if (*(name + i) == 47 || *(name + i) == 92 || (notImplicitFile && (*(name + i) == 58 || *(name + i) == 63 || *(name + i) == 35))) {
       num = i;
       break;
     }
-    if (name[i] == 46) {
-      if (!flag || (i - 1 >= start && name[i - 1] == 46)) {
+    if (*(name + i) == 46) {
+      if (!flag || (i - 1 >= start && *(name + i - 1) == 46)) {
         return false;
       }
       flag = false;
       continue;
     }
-    if (name[i] == 45 || name[i] == 95) {
+    if (*(name + i) == 45 || *(name + i) == 95) {
       if (!flag) {
         return false;
       }
       continue;
     }
-    if (Char::IsLetter(name[i]) || (name[i] >= 48 && name[i] <= 57)) {
+    if (Char::IsLetter(*(name + i)) || (*(name + i) >= 48 && *(name + i) <= 57)) {
       if (!flag) {
         flag = true;
       }
@@ -59,7 +59,7 @@ Boolean UncNameHelper::IsValid(Char* name, Int32 start, Int32& returnedEnd, Bool
     }
     return false;
   }
-  if (i - 1 >= start && name[i - 1] == 46) {
+  if (i - 1 >= start && *(name + i - 1) == 46) {
     flag = true;
   }
   if (!flag) {

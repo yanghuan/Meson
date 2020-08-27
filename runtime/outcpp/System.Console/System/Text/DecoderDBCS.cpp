@@ -145,7 +145,7 @@ Int32 DecoderDBCS___::GetChars(Byte* bytes, Int32 byteCount, Char* chars, Int32 
   if (charCount == 0) {
     return 0;
   }
-  Byte b = (Byte)((byteCount > 0 && !flush && IsLastByteALeadByte(bytes, byteCount)) ? bytes[(byteCount - 1).get()] : 0);
+  Byte b = (Byte)((byteCount > 0 && !flush && IsLastByteALeadByte(bytes, byteCount)) ? *(bytes + byteCount - 1) : 0);
   if (b != 0) {
     byteCount--;
   }
@@ -225,7 +225,7 @@ void DecoderDBCS___::Convert(Byte* bytes, Int32 byteCount, Char* chars, Int32 ch
 }
 
 Boolean DecoderDBCS___::IsLastByteALeadByte(Byte* bytes, Int32 count) {
-  if (!IsLeadByte(bytes[count - 1])) {
+  if (!IsLeadByte(*(bytes + count - 1))) {
     return false;
   }
   Int32 i = 0;
@@ -233,7 +233,7 @@ Boolean DecoderDBCS___::IsLastByteALeadByte(Byte* bytes, Int32 count) {
     i++;
   }
   for (; i < count; i++) {
-    if (IsLeadByte(bytes[i])) {
+    if (IsLeadByte(*(bytes + i))) {
       i++;
       if (i >= count) {
         return true;

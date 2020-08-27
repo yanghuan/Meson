@@ -556,6 +556,13 @@ namespace Meson.Compiler {
       node.Expression.Render(this);
     }
 
+    internal void Render(ArrayIdentifierSyntax node) {
+      node.Name.Render(this);
+      Write(Tokens.OpenBracket);
+      Write(node.Count.ToString());
+      Write(Tokens.CloseBracket);
+    }
+
     internal void Render(MemberAccessExpressionSyntax node) {
       node.Expression.Render(this);
       Write(node.OperatorToken);

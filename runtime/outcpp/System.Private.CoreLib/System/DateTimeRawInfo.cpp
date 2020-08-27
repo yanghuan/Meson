@@ -14,11 +14,11 @@ void DateTimeRawInfo::Init(Int32* numberBuffer) {
 }
 
 void DateTimeRawInfo::AddNumber(Int32 value) {
-  num[numCount++] = value;
+  *(num + numCount++) = value;
 }
 
 Int32 DateTimeRawInfo::GetNumber(Int32 index) {
-  return num[index];
+  return *(num + index);
 }
 
 } // namespace System::Private::CoreLib::System::DateTimeRawInfoNamespace

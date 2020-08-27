@@ -35,8 +35,8 @@ Boolean UriHelper::TestForSubPath(Char* selfPtr, Int32 selfLength, Char* otherPt
   Int32 i = 0;
   Boolean flag = true;
   for (; i < selfLength && i < otherLength; i++) {
-    Char c = selfPtr[i];
-    Char c2 = otherPtr[i];
+    Char c = *(selfPtr + i);
+    Char c2 = *(otherPtr + i);
     switch (c.get()) {
       case 35:
       case 63:
@@ -68,7 +68,7 @@ Boolean UriHelper::TestForSubPath(Char* selfPtr, Int32 selfLength, Char* otherPt
   }
   for (; i < selfLength; i++) {
     Char c;
-    if ((c = selfPtr[i]) != 63) {
+    if ((c = *(selfPtr + i)) != 63) {
       switch (c.get()) {
         case 35:
           break;
@@ -252,7 +252,7 @@ void UriHelper::UnescapeString(Char* pStr, Int32 start, Int32 end, ValueStringBu
   Array<Char> array2 = nullptr;
   if ((unescapeMode & UnescapeMode::EscapeUnescape) == 0) {
     while (start < end) {
-      dest.Append(pStr[start++]);
+      dest.Append(*(pStr + start++));
     }
     return;
   }
@@ -261,13 +261,13 @@ void UriHelper::UnescapeString(Char* pStr, Int32 start, Int32 end, ValueStringBu
   IL_003c:
     Char c = 0;
     for (; i < end; i++) {
-      if ((c = pStr[i]) == 37) {
+      if ((c = *(pStr + i)) == 37) {
         if ((unescapeMode & UnescapeMode::Unescape) == 0) {
           flag = true;
           break;
         }
         if (i + 2 < end) {
-          c = DecodeHexChars(pStr[i + 1], pStr[i + 2]);
+          c = DecodeHexChars(*(pStr + i + 1), *(pStr + i + 2));
           if (unescapeMode < UnescapeMode::UnescapeAll) {
             switch (c.get()) {
               case 65535:
@@ -324,13 +324,13 @@ void UriHelper::UnescapeString(Char* pStr, Int32 start, Int32 end, ValueStringBu
 
     }
     while (start < i) {
-      dest.Append(pStr[start++]);
+      dest.Append(*(pStr + start++));
     }
     if (i == end) {
       continue;
     }
     if (flag) {
-      EscapeAsciiChar((Byte)pStr[i], dest);
+      EscapeAsciiChar((Byte)*(pStr + i), dest);
       flag = false;
       start = ++i;
       goto IL_003c;
@@ -347,13 +347,13 @@ void UriHelper::UnescapeString(Char* pStr, Int32 start, Int32 end, ValueStringBu
     }
     array[0] = (Byte)c;
     for (i += 3; i < end; i += 3) {
-      if ((c = pStr[i]) != 37) {
+      if ((c = *(pStr + i)) != 37) {
         break;
       }
       if (i + 2 >= end) {
         break;
       }
-      c = DecodeHexChars(pStr[i + 1], pStr[i + 2]);
+      c = DecodeHexChars(*(pStr + i + 1), *(pStr + i + 2));
       if (c == 65535 || c < 128) {
         break;
       }
@@ -376,7 +376,7 @@ void UriHelper::MatchUTF8Sequence(ValueStringBuilder& dest, Span<Char> unescaped
   {
     Char* ptr = unescapedChars;
     for (Int32 i = 0; i < charCount; i++) {
-      Boolean flag = Char::IsHighSurrogate(ptr[i]);
+      Boolean flag = Char::IsHighSurrogate(*(ptr + i));
       Span<Byte> bytes2 = span2;
     }
   }

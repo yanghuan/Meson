@@ -68,7 +68,7 @@ Int32 Decoder___::GetCharCount(Byte* bytes, Int32 count, Boolean flush) {
   }
   Array<Byte> array = rt::newarr<Array<Byte>>(count);
   for (Int32 i = 0; i < count; i++) {
-    array[i] = bytes[i];
+    array[i] = *(bytes + i);
   }
   return GetCharCount(array, 0, count);
 }
@@ -93,7 +93,7 @@ Int32 Decoder___::GetChars(Byte* bytes, Int32 byteCount, Char* chars, Int32 char
   }
   Array<Byte> array = rt::newarr<Array<Byte>>(byteCount);
   for (Int32 i = 0; i < byteCount; i++) {
-    array[i] = bytes[i];
+    array[i] = *(bytes + i);
   }
   Array<Char> array2 = rt::newarr<Array<Char>>(charCount);
   Int32 chars2 = GetChars(array, 0, byteCount, array2, 0, flush);
@@ -101,7 +101,7 @@ Int32 Decoder___::GetChars(Byte* bytes, Int32 byteCount, Char* chars, Int32 char
     charCount = chars2;
   }
   for (Int32 i = 0; i < charCount; i++) {
-    chars[i] = array2[i];
+    *(chars + i) = array2[i];
   }
   return charCount;
 }

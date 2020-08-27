@@ -23,7 +23,7 @@ IntPtr UTF8Marshaler::ConvertToNative(Int32 flags, String strManaged, IntPtr pNa
     ptr = (Byte*)(void*)Marshal::AllocCoTaskMem(cbNativeBuffer + 1);
     strManaged->GetBytesFromEncoding(ptr, cbNativeBuffer, Encoding::in::get_UTF8());
   }
-  ptr[cbNativeBuffer] = 0;
+  *(ptr + cbNativeBuffer) = 0;
   return (IntPtr)(void*)ptr;
 }
 

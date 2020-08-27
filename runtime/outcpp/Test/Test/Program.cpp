@@ -1,7 +1,6 @@
 #include "Program-dep.h"
 
 #include <System.Console/System/Console-dep.h>
-#include <System.Private.CoreLib/System/Int32-dep.h>
 #include <System.Private.CoreLib/System/Int64-dep.h>
 #include <Test/Test/A-dep.h>
 #include <Test/Test/Program-dep.h>
@@ -17,7 +16,6 @@ void Program___::Test() {
 
 void Program___::Main(Array<String> args) {
   Console::WriteLine(args);
-  Int32 num = 10;
 }
 
 void Program___::ctor() {

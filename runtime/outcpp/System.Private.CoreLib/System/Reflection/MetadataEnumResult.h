@@ -13,7 +13,7 @@ struct MetadataEnumResult : public valueType<MetadataEnumResult> {
   public: Int32 get_Item(Int32 index);
   private: Array<Int32> largeResult;
   private: Int32 length;
-  private: rt::FixedBuffer<Int32, 16> smallResult;
+  private: Int32 smallResult[16];
 };
 } // namespace MetadataEnumResultNamespace
 using MetadataEnumResult = MetadataEnumResultNamespace::MetadataEnumResult;

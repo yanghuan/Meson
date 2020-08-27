@@ -95,17 +95,17 @@ Object CastHelpers::IsInstanceOfInterface(void* toTypeHnd, Object obj) {
     }
     MethodTable* interfaceMap = methodTable->InterfaceMap;
     UIntPtr uIntPtr2 = (UIntPtr)(void*)nullptr;
-    while (interfaceMap[(UInt64)(UIntPtr)(void*)((Int64)(UInt64)uIntPtr2 + 0)] != toTypeHnd) {
+    while (*(interfaceMap + (UInt64)(UIntPtr)(void*)((Int64)(UInt64)uIntPtr2 + 0)) != toTypeHnd) {
       if ((uIntPtr = (UIntPtr)(void*)((UInt64)(Int64)(UInt64)uIntPtr - 1)) != (UIntPtr)(void*)nullptr) {
-        if (interfaceMap[(UInt64)(UIntPtr)(void*)((Int64)(UInt64)uIntPtr2 + 1)] == toTypeHnd) {
+        if (*(interfaceMap + (UInt64)(UIntPtr)(void*)((Int64)(UInt64)uIntPtr2 + 1)) == toTypeHnd) {
           break;
         }
         if ((uIntPtr = (UIntPtr)(void*)((UInt64)(Int64)(UInt64)uIntPtr - 1)) != (UIntPtr)(void*)nullptr) {
-          if (interfaceMap[(UInt64)(UIntPtr)(void*)((Int64)(UInt64)uIntPtr2 + 2)] == toTypeHnd) {
+          if (*(interfaceMap + (UInt64)(UIntPtr)(void*)((Int64)(UInt64)uIntPtr2 + 2)) == toTypeHnd) {
             break;
           }
           if ((uIntPtr = (UIntPtr)(void*)((UInt64)(Int64)(UInt64)uIntPtr - 1)) != (UIntPtr)(void*)nullptr) {
-            if (interfaceMap[(UInt64)(UIntPtr)(void*)((Int64)(UInt64)uIntPtr2 + 3)] == toTypeHnd) {
+            if (*(interfaceMap + (UInt64)(UIntPtr)(void*)((Int64)(UInt64)uIntPtr2 + 3)) == toTypeHnd) {
               break;
             }
             if ((uIntPtr = (UIntPtr)(void*)((UInt64)(Int64)(UInt64)uIntPtr - 1)) != (UIntPtr)(void*)nullptr) {
@@ -214,17 +214,17 @@ Object CastHelpers::ChkCastInterface(void* toTypeHnd, Object obj) {
     }
     MethodTable* interfaceMap = methodTable->InterfaceMap;
     UIntPtr uIntPtr2 = (UIntPtr)(void*)nullptr;
-    while (interfaceMap[(UInt64)(UIntPtr)(void*)((Int64)(UInt64)uIntPtr2 + 0)] != toTypeHnd) {
+    while (*(interfaceMap + (UInt64)(UIntPtr)(void*)((Int64)(UInt64)uIntPtr2 + 0)) != toTypeHnd) {
       if ((uIntPtr = (UIntPtr)(void*)((UInt64)(Int64)(UInt64)uIntPtr - 1)) != (UIntPtr)(void*)nullptr) {
-        if (interfaceMap[(UInt64)(UIntPtr)(void*)((Int64)(UInt64)uIntPtr2 + 1)] == toTypeHnd) {
+        if (*(interfaceMap + (UInt64)(UIntPtr)(void*)((Int64)(UInt64)uIntPtr2 + 1)) == toTypeHnd) {
           break;
         }
         if ((uIntPtr = (UIntPtr)(void*)((UInt64)(Int64)(UInt64)uIntPtr - 1)) != (UIntPtr)(void*)nullptr) {
-          if (interfaceMap[(UInt64)(UIntPtr)(void*)((Int64)(UInt64)uIntPtr2 + 2)] == toTypeHnd) {
+          if (*(interfaceMap + (UInt64)(UIntPtr)(void*)((Int64)(UInt64)uIntPtr2 + 2)) == toTypeHnd) {
             break;
           }
           if ((uIntPtr = (UIntPtr)(void*)((UInt64)(Int64)(UInt64)uIntPtr - 1)) != (UIntPtr)(void*)nullptr) {
-            if (interfaceMap[(UInt64)(UIntPtr)(void*)((Int64)(UInt64)uIntPtr2 + 3)] == toTypeHnd) {
+            if (*(interfaceMap + (UInt64)(UIntPtr)(void*)((Int64)(UInt64)uIntPtr2 + 3)) == toTypeHnd) {
               break;
             }
             if ((uIntPtr = (UIntPtr)(void*)((UInt64)(Int64)(UInt64)uIntPtr - 1)) != (UIntPtr)(void*)nullptr) {

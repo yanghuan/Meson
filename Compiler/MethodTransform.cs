@@ -305,6 +305,10 @@ namespace Meson.Compiler {
       var arguments = indexerExpression.Arguments.Select(i => i.AcceptExpression(this));
       var targetType = indexerExpression.Target.GetResolveResult().Type;
       if (targetType.Kind == TypeKind.Pointer) {
+        var index = arguments.First();
+        if (!(index is LiteralExpressionSyntax)) {
+          return new IndirectionExpressionSyntax(target.Binary(Tokens.Plus, index).Parenthesized());
+        }
       }
       return new IndexerExpressionSyntax(target, arguments);
     }

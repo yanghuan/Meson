@@ -40,7 +40,7 @@ IntPtr BSTRMarshaler::ConvertToNative(String strManaged, IntPtr pNativeBuffer) {
     Buffer::Memcpy(ptr, (Byte*)src, (strManaged->get_Length() + 1) * 2);
   }
   if (flag) {
-    ptr[num - 1] = data;
+    *(ptr + num - 1) = data;
   }
   return (IntPtr)(void*)ptr;
 }

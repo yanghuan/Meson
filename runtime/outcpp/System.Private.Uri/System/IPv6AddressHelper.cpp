@@ -41,12 +41,12 @@ Boolean IPv6AddressHelper::InternalIsValid(Char* name, Int32 start, Int32& end, 
   Boolean flag3 = false;
   Boolean flag4 = true;
   Int32 start2 = 1;
-  if (name[start] == 58 && (start + 1 >= end || name[start + 1] != 58)) {
+  if (*(name + start) == 58 && (start + 1 >= end || *(name + start + 1) != 58)) {
     return false;
   }
   Int32 i;
   for (i = start; i < end; i++) {
-    if ((!flag3) ? Uri::in::IsHexDigit(name[i]) : (Boolean)(name[i] >= 48 && name[i] <= 57)) {
+    if ((!flag3) ? Uri::in::IsHexDigit(*(name + i)) : (Boolean)(*(name + i) >= 48 && *(name + i) <= 57)) {
       num2++;
       flag4 = false;
       continue;
@@ -58,17 +58,17 @@ Boolean IPv6AddressHelper::InternalIsValid(Char* name, Int32 start, Int32& end, 
       num++;
       start2 = i - num2;
     }
-    Char c = name[i];
+    Char c = *(name + i);
     if ((UInt32)c <= 46u) {
       if (c == 37) {
         while (true) {
           if (++i == end) {
             return false;
           }
-          if (name[i] == 93) {
+          if (*(name + i) == 93) {
             break;
           }
-          if (name[i] != 47) {
+          if (*(name + i) != 47) {
             continue;
           }
           goto IL_011c;
@@ -98,7 +98,7 @@ Boolean IPv6AddressHelper::InternalIsValid(Char* name, Int32 start, Int32& end, 
         }
         goto IL_015c;
       }
-      if (i > 0 && name[i - 1] == 58) {
+      if (i > 0 && *(name + i - 1) == 58) {
         if (flag) {
           return false;
         }

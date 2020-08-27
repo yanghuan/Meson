@@ -167,7 +167,7 @@ String TextInfo___::ToLowerAsciiInvariant(String s) {
     Char* ptr = s;
     Char* ptr2 = ptr;
     Int32 i;
-    for (i = 0; i < s->get_Length() && (UInt32)(ptr2[i] - 65) > 25u; i++) {
+    for (i = 0; i < s->get_Length() && (UInt32)(*(ptr2 + i) - 65) > 25u; i++) {
     }
     if (i >= s->get_Length()) {
       return s;
@@ -177,11 +177,11 @@ String TextInfo___::ToLowerAsciiInvariant(String s) {
       Char* ptr3 = text;
       Char* ptr4 = ptr3;
       for (Int32 j = 0; j < i; j++) {
-        ptr4[j] = ptr2[j];
+        *(ptr4 + j) = *(ptr2 + j);
       }
-      ptr4[i] = (Char)(ptr2[i] | 32);
+      *(ptr4 + i) = (Char)(*(ptr2 + i) | 32);
       for (i++; i < s->get_Length(); i++) {
-        ptr4[i] = ToLowerAsciiInvariant(ptr2[i]);
+        *(ptr4 + i) = ToLowerAsciiInvariant(*(ptr2 + i));
       }
     }
     return text;
@@ -202,7 +202,7 @@ String TextInfo___::ToUpperAsciiInvariant(String s) {
     Char* ptr = s;
     Char* ptr2 = ptr;
     Int32 i;
-    for (i = 0; i < s->get_Length() && (UInt32)(ptr2[i] - 97) > 25u; i++) {
+    for (i = 0; i < s->get_Length() && (UInt32)(*(ptr2 + i) - 97) > 25u; i++) {
     }
     if (i >= s->get_Length()) {
       return s;
@@ -212,11 +212,11 @@ String TextInfo___::ToUpperAsciiInvariant(String s) {
       Char* ptr3 = text;
       Char* ptr4 = ptr3;
       for (Int32 j = 0; j < i; j++) {
-        ptr4[j] = ptr2[j];
+        *(ptr4 + j) = *(ptr2 + j);
       }
-      ptr4[i] = (Char)(ptr2[i] & -33);
+      *(ptr4 + i) = (Char)(*(ptr2 + i) & -33);
       for (i++; i < s->get_Length(); i++) {
-        ptr4[i] = ToUpperAsciiInvariant(ptr2[i]);
+        *(ptr4 + i) = ToUpperAsciiInvariant(*(ptr2 + i));
       }
     }
     return text;

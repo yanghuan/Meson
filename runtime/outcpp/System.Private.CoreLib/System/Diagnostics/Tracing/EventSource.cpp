@@ -2203,12 +2203,12 @@ void EventSource___::WriteMultiMergeInner(String eventName, EventSourceOptions& 
   EventData in[eventTypes->dataCount + 3] = {};
   EventData* ptr = in;
   for (Int32 i = 0; i < eventTypes->dataCount + 3; i++) {
-    ptr[i] = EventData();
+    *(ptr + i) = EventData();
   }
   GCHandle ref[pinCount] = {};
   GCHandle* ptr2 = ref;
   for (Int32 j = 0; j < pinCount; j++) {
-    ptr2[j] = GCHandle();
+    *(ptr2 + j) = GCHandle();
   }
   {
     Byte* pointer = providerMetadata;
@@ -2252,7 +2252,7 @@ void EventSource___::WriteMultiMerge(String eventName, EventSourceOptions& optio
     EventData as[num] = {};
     EventData* ptr = as;
     for (Int32 i = 0; i < num; i++) {
-      ptr[i] = EventData();
+      *(ptr + i) = EventData();
     }
     {
       Byte* pointer = providerMetadata;
@@ -2265,10 +2265,10 @@ void EventSource___::WriteMultiMerge(String eventName, EventSourceOptions& optio
           ptr[2].SetMetadata(pointer3, eventTypes->typeMetadata->get_Length(), 1);
           Int32 num2 = 3;
           for (Int32 j = 0; j < eventTypes->typeInfos->get_Length(); j++) {
-            ptr[num2].m_Ptr = data[j].m_Ptr;
-            ptr[num2].m_Size = data[j].m_Size;
-            if (data[j].m_Size == 4 && eventTypes->typeInfos[j]->get_DataType() == typeof<Boolean>()) {
-              ptr[num2].m_Size = 1;
+            *(ptr + num2).m_Ptr = *(data + j).m_Ptr;
+            *(ptr + num2).m_Size = *(data + j).m_Size;
+            if (*(data + j).m_Size == 4 && eventTypes->typeInfos[j]->get_DataType() == typeof<Boolean>()) {
+              *(ptr + num2).m_Size = 1;
             }
             num2++;
           }
@@ -2297,12 +2297,12 @@ void EventSource___::WriteImpl(String eventName, EventSourceOptions& options, Ob
         EventData is[eventTypes->dataCount + 3] = {};
         EventData* ptr = is;
         for (Int32 i = 0; i < eventTypes->dataCount + 3; i++) {
-          ptr[i] = EventData();
+          *(ptr + i) = EventData();
         }
         GCHandle in[pinCount] = {};
         GCHandle* ptr2 = in;
         for (Int32 j = 0; j < pinCount; j++) {
-          ptr2[j] = GCHandle();
+          *(ptr2 + j) = GCHandle();
         }
         try {
           {
@@ -2385,8 +2385,8 @@ void EventSource___::WriteToAllListeners(String eventName, EventDescriptor& even
 void EventSource___::WriteCleanup(GCHandle* pPins, Int32 cPins) {
   DataCollector::ThreadInstance.Disable();
   for (Int32 i = 0; i < cPins; i++) {
-    if (pPins[i].get_IsAllocated()) {
-      pPins[i].Free();
+    if (*(pPins + i).get_IsAllocated()) {
+      *(pPins + i).Free();
     }
   }
 }

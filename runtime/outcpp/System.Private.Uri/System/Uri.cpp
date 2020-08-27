@@ -990,9 +990,9 @@ ParsingError Uri___::PrivateParseMinimal() {
   {
     Char* ptr = ((_flags & Flags::HostUnicodeNormalized) == Flags::Zero) ? get_OriginalString() : _string;
     Char* ptr2 = ptr;
-    if (num2 > num && UriHelper::IsLWS(ptr2[num2 - 1])) {
+    if (num2 > num && UriHelper::IsLWS(*(ptr2 + num2 - 1))) {
       num2--;
-      while (num2 != num && UriHelper::IsLWS(ptr2[--num2])) {
+      while (num2 != num && UriHelper::IsLWS(*(ptr2 + --num2))) {
       }
       num2++;
     }
@@ -1000,7 +1000,7 @@ ParsingError Uri___::PrivateParseMinimal() {
       Int32 i;
       for (i = num; i < num2; i++) {
         Char c;
-        if ((c = ptr2[i]) != 92 && c != 47) {
+        if ((c = *(ptr2 + i)) != 92 && c != 47) {
           break;
         }
       }
@@ -1009,8 +1009,8 @@ ParsingError Uri___::PrivateParseMinimal() {
           _flags |= Flags::AuthorityFound;
         }
         Char c;
-        if (i + 1 < num2 && ((c = ptr2[i + 1]) == 58 || c == 124) && UriHelper::IsAsciiLetter(ptr2[i])) {
-          if (i + 2 >= num2 || ((c = ptr2[i + 2]) != 92 && c != 47)) {
+        if (i + 1 < num2 && ((c = *(ptr2 + i + 1)) == 58 || c == 124) && UriHelper::IsAsciiLetter(*(ptr2 + i))) {
+          if (i + 2 >= num2 || ((c = *(ptr2 + i + 2)) != 92 && c != 47)) {
             if (_syntax->InFact(UriSyntaxFlags::FileLikeUri)) {
               return ParsingError::MustRootedPath;
             }
@@ -1021,7 +1021,7 @@ ParsingError Uri___::PrivateParseMinimal() {
             }
             num = ((i == num || i - num == 2) ? i : (i - 1));
           }
-        } else if (_syntax->InFact(UriSyntaxFlags::FileLikeUri) && i - num >= 2 && i - num != 3 && i < num2 && ptr2[i] != 63 && ptr2[i] != 35) {
+        } else if (_syntax->InFact(UriSyntaxFlags::FileLikeUri) && i - num >= 2 && i - num != 3 && i < num2 && *(ptr2 + i) != 63 && *(ptr2 + i) != 35) {
           _flags |= Flags::UncPath;
           num = i;
         }
@@ -1030,8 +1030,8 @@ ParsingError Uri___::PrivateParseMinimal() {
     }
     if ((_flags & (Flags::DosPath | Flags::UncPath | Flags::UnixPath)) == Flags::Zero) {
       if (num + 2 <= num2) {
-        Char c2 = ptr2[num];
-        Char c3 = ptr2[num + 1];
+        Char c2 = *(ptr2 + num);
+        Char c3 = *(ptr2 + num + 1);
         if (_syntax->InFact(UriSyntaxFlags::MustHaveAuthority)) {
           if ((c2 != 47 && c2 != 92) || (c3 != 47 && c3 != 92)) {
             return ParsingError::BadAuthority;
@@ -1074,7 +1074,7 @@ ParsingError Uri___::PrivateParseMinimal() {
       return err;
     }
     if (num < num2) {
-      Char c4 = ptr2[num];
+      Char c4 = *(ptr2 + num);
       if (c4 == 92 && NotAny(Flags::ImplicitFile) && _syntax->NotAny(UriSyntaxFlags::AllowDOSPath)) {
         return ParsingError::BadAuthorityTerminator;
       }
@@ -1161,17 +1161,17 @@ void Uri___::CreateUriInfo(Flags cF) {
           {
             Char* ptr = get_OriginalString();
             Char* ptr2 = ptr;
-            if (ptr2[i] == 58) {
+            if (*(ptr2 + i) == 58) {
               Int32 num3 = 0;
               if (++i < uriInfo->Offset.End) {
-                num3 = ptr2[i] - 48;
+                num3 = *(ptr2 + i) - 48;
                 if ((UInt32)num3 <= 9u) {
                   flag2 = true;
                   if (num3 == 0) {
                     cF |= (Flags::PortNotCanonical | Flags::E_PortNotCanonical);
                   }
                   for (i++; i < uriInfo->Offset.End; i++) {
-                    Int32 num4 = ptr2[i] - 48;
+                    Int32 num4 = *(ptr2 + i) - 48;
                     if ((UInt32)num4 > 9u) {
                       break;
                     }
@@ -1592,11 +1592,11 @@ void Uri___::ParseRemaining() {
         String schemeName = _syntax->get_SchemeName();
         Int32 i;
         for (i = 0; i < schemeName->get_Length(); i++) {
-          if (schemeName[i] != ptr2[scheme + i]) {
+          if (schemeName[i] != *(ptr2 + scheme + i)) {
             flags |= Flags::SchemeNotCanonical;
           }
         }
-        if ((_flags & Flags::AuthorityFound) != Flags::Zero && (scheme + i + 3 >= length || ptr2[scheme + i + 1] != 47 || ptr2[scheme + i + 2] != 47)) {
+        if ((_flags & Flags::AuthorityFound) != Flags::Zero && (scheme + i + 3 >= length || *(ptr2 + scheme + i + 1) != 47 || *(ptr2 + scheme + i + 2) != 47)) {
           flags |= Flags::SchemeNotCanonical;
         }
       }
@@ -1648,7 +1648,7 @@ void Uri___::ParseRemaining() {
       Char* ptr3 = _string;
       Char* ptr4 = ptr3;
       check = ((!get_IsImplicitFile() && (flags2 & (UriSyntaxFlags::MayHaveQuery | UriSyntaxFlags::MayHaveFragment)) != 0) ? CheckCanonical(ptr4, scheme, length, ((flags2 & UriSyntaxFlags::MayHaveQuery) != 0) ? 63 : (_syntax->InFact(UriSyntaxFlags::MayHaveFragment) ? 35 : 65534)) : CheckCanonical(ptr4, scheme, length, 65535));
-      if ((_flags & Flags::AuthorityFound) != Flags::Zero && (flags2 & UriSyntaxFlags::PathIsRooted) != 0 && (_info->Offset.Path == length || (ptr4[(Int32)_info->Offset.Path] != 47 && ptr4[(Int32)_info->Offset.Path] != 92))) {
+      if ((_flags & Flags::AuthorityFound) != Flags::Zero && (flags2 & UriSyntaxFlags::PathIsRooted) != 0 && (_info->Offset.Path == length || (*(ptr4 + (Int32)_info->Offset.Path) != 47 && *(ptr4 + (Int32)_info->Offset.Path) != 92))) {
         flags |= Flags::FirstSlashAbsent;
       }
     }
@@ -1711,7 +1711,7 @@ void Uri___::ParseRemaining() {
     {
       Char* ptr5 = _string;
       Char* ptr6 = ptr5;
-      if (scheme < length && ptr6[scheme] == 63) {
+      if (scheme < length && *(ptr6 + scheme) == 63) {
         scheme++;
         check = CheckCanonical(ptr6, scheme, length, ((flags2 & UriSyntaxFlags::MayHaveFragment) != 0) ? 35 : 65534);
         if ((check & Check::DisplayCanonical) == 0) {
@@ -1742,7 +1742,7 @@ void Uri___::ParseRemaining() {
     {
       Char* ptr7 = _string;
       Char* ptr8 = ptr7;
-      if (scheme < length && ptr8[scheme] == 35) {
+      if (scheme < length && *(ptr8 + scheme) == 35) {
         scheme++;
         check = CheckCanonical(ptr8, scheme, length, 65534);
         if ((check & Check::DisplayCanonical) == 0) {
@@ -1764,10 +1764,10 @@ void Uri___::ParseRemaining() {
 
 Int32 Uri___::ParseSchemeCheckImplicitFile(Char* uriString, Int32 length, ParsingError& err, Flags& flags, UriParser& syntax) {
   Int32 i;
-  for (i = 0; i < length && UriHelper::IsLWS(uriString[i]); i++) {
+  for (i = 0; i < length && UriHelper::IsLWS(*(uriString + i)); i++) {
   }
   Int32 j;
-  for (j = i; j < length && uriString[j] != 58; j++) {
+  for (j = i; j < length && *(uriString + j) != 58; j++) {
   }
   if (IntPtr::get_Size() == 4) {
   }
@@ -1776,9 +1776,9 @@ Int32 Uri___::ParseSchemeCheckImplicitFile(Char* uriString, Int32 length, Parsin
     return 0;
   }
   Char c;
-  if ((c = uriString[i + 1]) == 58 || c == 124) {
-    if (UriHelper::IsAsciiLetter(uriString[i])) {
-      if ((c = uriString[i + 2]) == 92 || c == 47) {
+  if ((c = *(uriString + i + 1)) == 58 || c == 124) {
+    if (UriHelper::IsAsciiLetter(*(uriString + i))) {
+      if ((c = *(uriString + i + 2)) == 92 || c == 47) {
         flags |= (Flags::AuthorityFound | Flags::DosPath | Flags::ImplicitFile);
         syntax = UriParser::in::FileUri;
         return i;
@@ -1793,12 +1793,12 @@ Int32 Uri___::ParseSchemeCheckImplicitFile(Char* uriString, Int32 length, Parsin
     }
     return 0;
   }
-  if ((c = uriString[i]) == 47 || c == 92) {
-    if ((c = uriString[i + 1]) == 92 || c == 47) {
+  if ((c = *(uriString + i)) == 47 || c == 92) {
+    if ((c = *(uriString + i + 1)) == 92 || c == 47) {
       flags |= (Flags::AuthorityFound | Flags::UncPath | Flags::ImplicitFile);
       syntax = UriParser::in::FileUri;
       for (i += 2; i < length; i++) {
-        if ((c = uriString[i]) != 47 && c != 92) {
+        if ((c = *(uriString + i)) != 47 && c != 92) {
           break;
         }
       }
@@ -1956,7 +1956,7 @@ Int32 Uri___::CheckAuthorityHelper(Char* pString, Int32 idx, Int32 length, Parsi
   Boolean flag3 = flag2 && (flags & Flags::HostUnicodeNormalized) == 0;
   UriSyntaxFlags flags2 = syntax->get_Flags();
   Char c;
-  if (idx == length || (c = pString[idx]) == 47 || (c == 92 && StaticIsFile(syntax)) || c == 35 || c == 63) {
+  if (idx == length || (c = *(pString + idx)) == 47 || (c == 92 && StaticIsFile(syntax)) || c == 35 || c == 63) {
     if (syntax->InFact(UriSyntaxFlags::AllowEmptyHost)) {
       flags &= ~Flags::UncPath;
       if (StaticInFact(flags, Flags::ImplicitFile)) {
@@ -1978,11 +1978,11 @@ Int32 Uri___::CheckAuthorityHelper(Char* pString, Int32 idx, Int32 length, Parsi
   String text = nullptr;
   if ((flags2 & UriSyntaxFlags::MayHaveUserInfo) != 0) {
     for (; j < i; j++) {
-      if (j == i - 1 || pString[j] == 63 || pString[j] == 35 || pString[j] == 92 || pString[j] == 47) {
+      if (j == i - 1 || *(pString + j) == 63 || *(pString + j) == 35 || *(pString + j) == 92 || *(pString + j) == 47) {
         j = idx;
         break;
       }
-      if (pString[j] != 64) {
+      if (*(pString + j) != 64) {
         continue;
       }
       flags |= Flags::HasUserInfo;
@@ -1999,7 +1999,7 @@ Int32 Uri___::CheckAuthorityHelper(Char* pString, Int32 idx, Int32 length, Parsi
         }
       }
       j++;
-      c = pString[j];
+      c = *(pString + j);
       break;
     }
   }
@@ -2037,19 +2037,19 @@ Int32 Uri___::CheckAuthorityHelper(Char* pString, Int32 idx, Int32 length, Parsi
 
 
 
-  if (i < length && pString[i] == 92 && (flags & Flags::HostTypeMask) != Flags::Zero && !StaticIsFile(syntax)) {
+  if (i < length && *(pString + i) == 92 && (flags & Flags::HostTypeMask) != Flags::Zero && !StaticIsFile(syntax)) {
     if (syntax->InFact(UriSyntaxFlags::V1_UnknownUri)) {
       err = ParsingError::BadHostName;
       flags |= Flags::HostTypeMask;
       return i;
     }
     flags &= ~Flags::HostTypeMask;
-  } else if (i < length && pString[i] == 58) {
+  } else if (i < length && *(pString + i) == 58) {
     if (syntax->InFact(UriSyntaxFlags::MayHavePort)) {
       Int32 num2 = 0;
       Int32 num3 = i;
       for (idx = i + 1; idx < length; idx++) {
-        Int32 num4 = pString[idx] - 48;
+        Int32 num4 = *(pString + idx) - 48;
         switch (num4.get()) {
           case 0:
           case 1:
@@ -2098,7 +2098,7 @@ Int32 Uri___::CheckAuthorityHelper(Char* pString, Int32 idx, Int32 length, Parsi
     flags &= ~Flags::HasUserInfo;
     if (syntax->InFact(UriSyntaxFlags::AllowAnyOtherHost)) {
       flags |= Flags::BasicHostType;
-      for (i = idx; i < length && pString[i] != 47 && pString[i] != 63 && pString[i] != 35; i++) {
+      for (i = idx; i < length && *(pString + i) != 47 && *(pString + i) != 63 && *(pString + i) != 35; i++) {
       }
       if (flag3) {
         String text2 = rt::newobj<String>(pString, num, i - num);
@@ -2111,8 +2111,8 @@ Int32 Uri___::CheckAuthorityHelper(Char* pString, Int32 idx, Int32 length, Parsi
     } else if (syntax->InFact(UriSyntaxFlags::V1_UnknownUri)) {
       Boolean flag4 = false;
       Int32 num5 = idx;
-      for (i = idx; i < length && (!flag4 || (pString[i] != 47 && pString[i] != 63 && pString[i] != 35)); i++) {
-        if (i < idx + 2 && pString[i] == 46) {
+      for (i = idx; i < length && (!flag4 || (*(pString + i) != 47 && *(pString + i) != 63 && *(pString + i) != 35)); i++) {
+        if (i < idx + 2 && *(pString + i) == 46) {
           flag4 = true;
           continue;
         }
@@ -2160,7 +2160,7 @@ Uri::in::Check Uri___::CheckCanonical(Char* str, Int32& idx, Int32 end, Char del
   Boolean iriParsing = get_IriParsing();
   Int32 i;
   for (i = idx; i < end; i++) {
-    Char c = str[i];
+    Char c = *(str + i);
     if (c <= 31 || (c >= 127 && c <= 159)) {
       flag = true;
       flag2 = true;
@@ -2174,7 +2174,7 @@ Uri::in::Check Uri___::CheckCanonical(Char* str, Int32& idx, Int32 end, Char del
         if (Char::IsHighSurrogate(c)) {
           if (i + 1 < end) {
             Boolean isSurrogatePair;
-            flag3 = IriHelper::CheckIriUnicodeRange(c, str[i + 1], isSurrogatePair, true);
+            flag3 = IriHelper::CheckIriUnicodeRange(c, *(str + i + 1), isSurrogatePair, true);
           }
         } else {
           flag3 = IriHelper::CheckIriUnicodeRange(c, true);
@@ -2211,13 +2211,13 @@ Uri::in::Check Uri___::CheckCanonical(Char* str, Int32& idx, Int32 end, Char del
       if ((check & Check::BackslashInPath) == 0 && c == 92) {
         check |= Check::BackslashInPath;
       }
-      if ((check & Check::DotSlashAttn) == 0 && i + 1 != end && (str[i + 1] == 47 || str[i + 1] == 92)) {
+      if ((check & Check::DotSlashAttn) == 0 && i + 1 != end && (*(str + i + 1) == 47 || *(str + i + 1) == 92)) {
         check |= Check::DotSlashAttn;
       }
       continue;
     }
     if (c == 46) {
-      if (((check & Check::DotSlashAttn) == 0 && i + 1 == end) || str[i + 1] == 46 || str[i + 1] == 47 || str[i + 1] == 92 || str[i + 1] == 63 || str[i + 1] == 35) {
+      if (((check & Check::DotSlashAttn) == 0 && i + 1 == end) || *(str + i + 1) == 46 || *(str + i + 1) == 47 || *(str + i + 1) == 92 || *(str + i + 1) == 63 || *(str + i + 1) == 35) {
         check |= Check::DotSlashAttn;
       }
       continue;
@@ -2240,7 +2240,7 @@ Uri::in::Check Uri___::CheckCanonical(Char* str, Int32& idx, Int32 end, Char del
           if (!flag2) {
             flag2 = true;
           }
-          if (i + 2 < end && (c = UriHelper::DecodeHexChars(str[i + 1], str[i + 2])) != 65535) {
+          if (i + 2 < end && (c = UriHelper::DecodeHexChars(*(str + i + 1), *(str + i + 2))) != 65535) {
             if (c == 46 || c == 47 || c == 92) {
               check |= Check::DotSlashEscaped;
             }
@@ -2987,9 +2987,9 @@ Boolean Uri___::InternalIsWellFormedOriginalString() {
     }
     if ((_flags & (Flags::SchemeNotCanonical | Flags::AuthorityFound)) == (Flags::SchemeNotCanonical | Flags::AuthorityFound)) {
       idx = _syntax->get_SchemeName()->get_Length();
-      while (ptr2[idx++] != 58) {
+      while (*(ptr2 + idx++) != 58) {
       }
-      if (idx + 1 >= _string->get_Length() || ptr2[idx] != 47 || ptr2[idx + 1] != 47) {
+      if (idx + 1 >= _string->get_Length() || *(ptr2 + idx) != 47 || *(ptr2 + idx + 1) != 47) {
         return false;
       }
     }

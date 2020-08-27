@@ -4,8 +4,8 @@ using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 
 namespace Test {
-  struct A {
-
+  unsafe struct A {
+    public fixed char a[10];
   }
 
   class Program {
@@ -16,7 +16,7 @@ namespace Test {
 
     private static void Main(string[] args) {
       Console.WriteLine(args);
-      int b = 10;
+      A a;
     }
   }
 }

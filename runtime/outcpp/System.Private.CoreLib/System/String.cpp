@@ -1516,7 +1516,7 @@ String String___::JoinCore(Char* separator, Int32 separatorLength, Array<String>
     {
       Char* ptr = &text2->_firstChar;
       if (separatorLength == 1) {
-        ptr[num4] = *separator;
+        *(ptr + num4) = *separator;
       } else {
         wstrcpy(ptr + num4, separator, separatorLength);
       }
@@ -1546,7 +1546,7 @@ String String___::PadLeft(Int32 totalWidth, Char paddingChar) {
   {
     Char* ptr = &text->_firstChar;
     for (Int32 i = 0; i < num; i++) {
-      ptr[i] = paddingChar;
+      *(ptr + i) = paddingChar;
     }
     {
       Char* smem = &_firstChar;
@@ -1577,7 +1577,7 @@ String String___::PadRight(Int32 totalWidth, Char paddingChar) {
       wstrcpy(ptr, smem, length);
     }
     for (Int32 i = 0; i < num; i++) {
-      ptr[length + i] = paddingChar;
+      *(ptr + length + i) = paddingChar;
     }
   }
   return text;
@@ -1742,7 +1742,7 @@ String String___::Replace(String oldValue, String newValue) {
       Int32 num3 = 0;
       while (true) {
         if (num3 < oldValue->get_Length()) {
-          if (ptr2[num3] == oldValue[num3]) {
+          if (*(ptr2 + num3) == oldValue[num3]) {
             num3++;
             continue;
           }
@@ -2182,7 +2182,7 @@ String String___::TrimHelper(Char* trimChars, Int32 trimCharsLength, TrimType tr
     for (i = 0; i < get_Length(); i++) {
       Int32 num2 = 0;
       Char c = (String)this[i];
-      for (num2 = 0; num2 < trimCharsLength && trimChars[num2] != c; num2++) {
+      for (num2 = 0; num2 < trimCharsLength && *(trimChars + num2) != c; num2++) {
       }
       if (num2 == trimCharsLength) {
         break;
@@ -2193,7 +2193,7 @@ String String___::TrimHelper(Char* trimChars, Int32 trimCharsLength, TrimType tr
     for (num = get_Length() - 1; num >= i; num--) {
       Int32 num3 = 0;
       Char c2 = (String)this[num];
-      for (num3 = 0; num3 < trimCharsLength && trimChars[num3] != c2; num3++) {
+      for (num3 = 0; num3 < trimCharsLength && *(trimChars + num3) != c2; num3++) {
       }
       if (num3 == trimCharsLength) {
         break;
@@ -2349,11 +2349,11 @@ Boolean String___::ArrayContains(Char searchChar, Array<Char> anyOf) {
 }
 
 Boolean String___::IsCharBitSet(UInt32* charMap, Byte value) {
-  return ((Int32)charMap[value & 7] & (1 << (value >> 3))) != 0;
+  return ((Int32)*(charMap + value & 7) & (1 << (value >> 3))) != 0;
 }
 
 void String___::SetCharBit(UInt32* charMap, Byte value) {
-  charMap[value & 7] |= (UInt32)(1 << (value >> 3));
+  *(charMap + value & 7) |= (UInt32)(1 << (value >> 3));
 }
 
 Int32 String___::IndexOf(String value) {

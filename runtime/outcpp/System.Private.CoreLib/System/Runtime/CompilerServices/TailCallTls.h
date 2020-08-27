@@ -12,7 +12,7 @@ struct TailCallTls : public valueType<TailCallTls> {
   public: IntPtr ArgBuffer;
   private: IntPtr _argBufferSize;
   private: IntPtr _argBufferGCDesc;
-  private: rt::FixedBuffer<Byte, 64> _argBufferInline;
+  private: Byte _argBufferInline[64];
 };
 } // namespace TailCallTlsNamespace
 using TailCallTls = TailCallTlsNamespace::TailCallTls;

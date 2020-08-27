@@ -68,11 +68,11 @@ class Interop {
     };
     private: struct CPINFOEXW : public valueType<CPINFOEXW> {
       public: UInt32 MaxCharSize;
-      public: rt::FixedBuffer<Byte, 2> DefaultChar;
-      public: rt::FixedBuffer<Byte, 12> LeadByte;
+      public: Byte DefaultChar[2];
+      public: Byte LeadByte[12];
       public: Char UnicodeDefaultChar;
       public: UInt32 CodePage;
-      public: rt::FixedBuffer<Char, 260> CodePageName;
+      public: Char CodePageName[260];
     };
     public: struct CONSOLE_CURSOR_INFO : public valueType<CONSOLE_CURSOR_INFO> {
       public: Int32 dwSize;

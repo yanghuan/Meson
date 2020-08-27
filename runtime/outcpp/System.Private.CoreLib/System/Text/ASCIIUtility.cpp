@@ -500,7 +500,7 @@ UIntPtr ASCIIUtility::NarrowUtf16ToAscii(Char* pUtf16Buffer, Byte* pAsciiBuffer,
     if (!AllCharsInUInt64AreAscii(num3)) {
       break;
     }
-    NarrowFourUtf16CharsToAsciiAndWriteToBuffer(pAsciiBuffer[(UInt64)uIntPtr], num3);
+    NarrowFourUtf16CharsToAsciiAndWriteToBuffer(*(pAsciiBuffer + (UInt64)uIntPtr), num3);
     uIntPtr = (UIntPtr)(void*)((UInt64)(Int64)(UInt64)uIntPtr + 4);
     if ((UInt64)uIntPtr <= (UInt64)uIntPtr4) {
       continue;
@@ -513,7 +513,7 @@ IL_018b:
   Int32 size4 = IntPtr::get_Size();
   num = (UInt32)((!BitConverter::IsLittleEndian) ? (num3 >> 32) : num3);
   if (AllCharsInUInt32AreAscii(num)) {
-    NarrowTwoUtf16CharsToAsciiAndWriteToBuffer(pAsciiBuffer[(UInt64)uIntPtr], num);
+    NarrowTwoUtf16CharsToAsciiAndWriteToBuffer(*(pAsciiBuffer + (UInt64)uIntPtr), num);
     num = (UInt32)((!BitConverter::IsLittleEndian) ? num3 : (num3 >> 32));
     uIntPtr = (UIntPtr)(void*)((UInt64)(Int64)(UInt64)uIntPtr + 2);
   }
@@ -527,7 +527,7 @@ IL_01cf:
     if (!BitConverter::IsLittleEndian) {
       num >>= 16;
     }
-    pAsciiBuffer[(UInt64)uIntPtr] = (Byte)num;
+    *(pAsciiBuffer + (UInt64)uIntPtr) = (Byte)num;
     uIntPtr = (UIntPtr)(void*)((UInt64)(Int64)(UInt64)uIntPtr + 1);
   }
   goto IL_0189;
@@ -538,13 +538,13 @@ IL_0137:
     if (!AllCharsInUInt32AreAscii(num)) {
       goto IL_01cf;
     }
-    NarrowTwoUtf16CharsToAsciiAndWriteToBuffer(pAsciiBuffer[(UInt64)uIntPtr], num);
+    NarrowTwoUtf16CharsToAsciiAndWriteToBuffer(*(pAsciiBuffer + (UInt64)uIntPtr), num);
     uIntPtr = (UIntPtr)(void*)((UInt64)(Int64)(UInt64)uIntPtr + 2);
   }
   if (((Int32)(UInt64)uIntPtr3 & 1) != 0) {
-    num = pUtf16Buffer[(UInt64)uIntPtr];
+    num = *(pUtf16Buffer + (UInt64)uIntPtr);
     if (num <= 127) {
-      pAsciiBuffer[(UInt64)uIntPtr] = (Byte)num;
+      *(pAsciiBuffer + (UInt64)uIntPtr) = (Byte)num;
       uIntPtr = (UIntPtr)(void*)((UInt64)(Int64)(UInt64)uIntPtr + 1);
     }
   }
@@ -662,7 +662,7 @@ UIntPtr ASCIIUtility::WidenAsciiToUtf16(Byte* pAsciiBuffer, Char* pUtf16Buffer, 
     if (!AllBytesInUInt32AreAscii(num2)) {
       break;
     }
-    WidenFourAsciiBytesToUtf16AndWriteToBuffer(pUtf16Buffer[(UInt64)uIntPtr], num2);
+    WidenFourAsciiBytesToUtf16AndWriteToBuffer(*(pUtf16Buffer + (UInt64)uIntPtr), num2);
     uIntPtr = (UIntPtr)(void*)((UInt64)(Int64)(UInt64)uIntPtr + 4);
     if ((UInt64)uIntPtr <= (UInt64)uIntPtr4) {
       continue;
@@ -673,7 +673,7 @@ UIntPtr ASCIIUtility::WidenAsciiToUtf16(Byte* pAsciiBuffer, Char* pUtf16Buffer, 
 
 IL_016a:
   while (((Byte)num2 & 128) == 0) {
-    pUtf16Buffer[(UInt64)uIntPtr] = (Char)(Byte)num2;
+    *(pUtf16Buffer + (UInt64)uIntPtr) = (Char)(Byte)num2;
     uIntPtr = (UIntPtr)(void*)((UInt64)(Int64)(UInt64)uIntPtr + 1);
     num2 >>= 8;
   }
@@ -689,18 +689,18 @@ IL_00d2:
       goto IL_016a;
     }
     if (BitConverter::IsLittleEndian) {
-      pUtf16Buffer[(UInt64)uIntPtr] = (Char)(Byte)num2;
-      pUtf16Buffer[(UInt64)(UIntPtr)(void*)((Int64)(UInt64)uIntPtr + 1)] = (Char)(num2 >> 8);
+      *(pUtf16Buffer + (UInt64)uIntPtr) = (Char)(Byte)num2;
+      *(pUtf16Buffer + (UInt64)(UIntPtr)(void*)((Int64)(UInt64)uIntPtr + 1)) = (Char)(num2 >> 8);
     } else {
-      pUtf16Buffer[(UInt64)(UIntPtr)(void*)((Int64)(UInt64)uIntPtr + 1)] = (Char)(Byte)num2;
-      pUtf16Buffer[(UInt64)uIntPtr] = (Char)(num2 >> 8);
+      *(pUtf16Buffer + (UInt64)(UIntPtr)(void*)((Int64)(UInt64)uIntPtr + 1)) = (Char)(Byte)num2;
+      *(pUtf16Buffer + (UInt64)uIntPtr) = (Char)(num2 >> 8);
     }
     uIntPtr = (UIntPtr)(void*)((UInt64)(Int64)(UInt64)uIntPtr + 2);
   }
   if (((Int32)(UInt64)uIntPtr3 & 1) != 0) {
-    num2 = pAsciiBuffer[(UInt64)uIntPtr];
+    num2 = *(pAsciiBuffer + (UInt64)uIntPtr);
     if (((Byte)num2 & 128) == 0) {
-      pUtf16Buffer[(UInt64)uIntPtr] = (Char)num2;
+      *(pUtf16Buffer + (UInt64)uIntPtr) = (Char)num2;
       uIntPtr = (UIntPtr)(void*)((UInt64)(Int64)(UInt64)uIntPtr + 1);
     }
   }

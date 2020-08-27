@@ -10,7 +10,6 @@ namespace Meson.Compiler.CppAst {
     }
 
     public static readonly IdentifierSyntax Meson = "rt";
-    public static readonly IdentifierSyntax FixedBuffer = "rt::FixedBuffer";
     public static readonly IdentifierSyntax code = "code";
     public static readonly IdentifierSyntax TypeCode = "rt::TypeCode";
     public static readonly IdentifierSyntax TypeList = "rt::TypeList";
@@ -126,6 +125,20 @@ namespace Meson.Compiler.CppAst {
 
   internal sealed class IndirectionExpressionSyntax : PrefixUnaryExpressionSyntax {
     public IndirectionExpressionSyntax(ExpressionSyntax expression) : base(Tokens.Asterisk, expression) {
+    }
+  }
+
+  internal sealed class ArrayIdentifierSyntax : IdentifierSyntax {
+    public IdentifierSyntax Name { get; }
+    public int Count { get; }
+
+    public ArrayIdentifierSyntax(IdentifierSyntax name, int count) {
+      Name = name;
+      Count = count;
+    }
+
+    internal override void Render(CppRenderer renderer) {
+      renderer.Render(this);
     }
   }
 

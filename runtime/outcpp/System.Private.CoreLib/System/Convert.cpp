@@ -2132,36 +2132,36 @@ Int32 Convert::ConvertToBase64Array(Char* outChars, Byte* inData, Int32 offset, 
     for (i = offset; i < num2; i += 3) {
       if (insertLineBreaks) {
         if (num4 == 76) {
-          outChars[num3++] = 13;
-          outChars[num3++] = 10;
+          *(outChars + num3++) = 13;
+          *(outChars + num3++) = 10;
           num4 = 0;
         }
         num4 += 4;
       }
-      outChars[num3] = ptr[(inData[i] & 252) >> 2];
-      outChars[num3 + 1] = ptr[((inData[i] & 3) << 4) | ((inData[i + 1] & 240) >> 4)];
-      outChars[num3 + 2] = ptr[((inData[i + 1] & 15) << 2) | ((inData[i + 2] & 192) >> 6)];
-      outChars[num3 + 3] = ptr[inData[i + 2] & 63];
+      *(outChars + num3) = *(ptr + (*(inData + i) & 252) >> 2);
+      *(outChars + num3 + 1) = *(ptr + ((*(inData + i) & 3) << 4) | ((*(inData + i + 1) & 240) >> 4));
+      *(outChars + num3 + 2) = *(ptr + ((*(inData + i + 1) & 15) << 2) | ((*(inData + i + 2) & 192) >> 6));
+      *(outChars + num3 + 3) = *(ptr + *(inData + i + 2) & 63);
       num3 += 4;
     }
     i = num2;
     if (insertLineBreaks && num != 0 && num4 == 76) {
-      outChars[num3++] = 13;
-      outChars[num3++] = 10;
+      *(outChars + num3++) = 13;
+      *(outChars + num3++) = 10;
     }
     switch (num.get()) {
       case 2:
-        outChars[num3] = ptr[(inData[i] & 252) >> 2];
-        outChars[num3 + 1] = ptr[((inData[i] & 3) << 4) | ((inData[i + 1] & 240) >> 4)];
-        outChars[num3 + 2] = ptr[(inData[i + 1] & 15) << 2];
-        outChars[num3 + 3] = ptr[64];
+        *(outChars + num3) = *(ptr + (*(inData + i) & 252) >> 2);
+        *(outChars + num3 + 1) = *(ptr + ((*(inData + i) & 3) << 4) | ((*(inData + i + 1) & 240) >> 4));
+        *(outChars + num3 + 2) = *(ptr + (*(inData + i + 1) & 15) << 2);
+        *(outChars + num3 + 3) = ptr[64];
         num3 += 4;
         break;
       case 1:
-        outChars[num3] = ptr[(inData[i] & 252) >> 2];
-        outChars[num3 + 1] = ptr[(inData[i] & 3) << 4];
-        outChars[num3 + 2] = ptr[64];
-        outChars[num3 + 3] = ptr[64];
+        *(outChars + num3) = *(ptr + (*(inData + i) & 252) >> 2);
+        *(outChars + num3 + 1) = *(ptr + (*(inData + i) & 3) << 4);
+        *(outChars + num3 + 2) = ptr[64];
+        *(outChars + num3 + 3) = ptr[64];
         num3 += 4;
         break;
     }
@@ -2308,7 +2308,7 @@ Array<Byte> Convert::FromBase64CharArray(Array<Char> inArray, Int32 offset, Int3
 
 Array<Byte> Convert::FromBase64CharPtr(Char* inputPtr, Int32 inputLength) {
   while (inputLength > 0) {
-    Int32 num = inputPtr[inputLength - 1];
+    Int32 num = *(inputPtr + inputLength - 1);
     if (num != 32 && num != 10 && num != 13 && num != 9) {
       break;
     }

@@ -30,7 +30,7 @@ IntPtr VBByValStrMarshaler::ConvertToNative(String strManaged, Boolean fBestFit,
       Byte* src = &array[0];
       Buffer::Memcpy(ptr, src, cbLength);
     }
-    ptr[cbLength] = 0;
+    *(ptr + cbLength) = 0;
     *ptr2 = cbLength;
   }
   return IntPtr(ptr);

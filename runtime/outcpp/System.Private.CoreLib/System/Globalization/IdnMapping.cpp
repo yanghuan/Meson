@@ -476,7 +476,7 @@ void IdnMapping___::CheckInvalidIdnCharacters(Char* s, Int32 count, UInt32 flags
     return;
   }
   for (Int32 i = 0; i < count; i++) {
-    Char c = s[i];
+    Char c = *(s + i);
     if (c <= 31 || c == 127) {
       rt::throw_exception<ArgumentException>(SR::get_Argument_IdnIllegalName(), paramName);
     }

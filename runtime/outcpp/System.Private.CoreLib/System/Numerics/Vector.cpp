@@ -15,12 +15,12 @@ void Vector<>::Widen(Vector<Byte> source, Vector<UInt16>& low, Vector<UInt16>& h
   UInt16 as[count / 2] = {};
   UInt16* ptr = as;
   for (Int32 i = 0; i < count / 2; i++) {
-    ptr[i] = source[i];
+    *(ptr + i) = source[i];
   }
   UInt16 is[count / 2] = {};
   UInt16* ptr2 = is;
   for (Int32 j = 0; j < count / 2; j++) {
-    ptr2[j] = source[j + count / 2];
+    *(ptr2 + j) = source[j + count / 2];
   }
   low = Vector<UInt16>(ptr);
   high = Vector<UInt16>(ptr2);
@@ -31,12 +31,12 @@ void Vector<>::Widen(Vector<UInt16> source, Vector<UInt32>& low, Vector<UInt32>&
   UInt32 as[count / 2] = {};
   UInt32* ptr = as;
   for (Int32 i = 0; i < count / 2; i++) {
-    ptr[i] = source[i];
+    *(ptr + i) = source[i];
   }
   UInt32 is[count / 2] = {};
   UInt32* ptr2 = is;
   for (Int32 j = 0; j < count / 2; j++) {
-    ptr2[j] = source[j + count / 2];
+    *(ptr2 + j) = source[j + count / 2];
   }
   low = Vector<UInt32>(ptr);
   high = Vector<UInt32>(ptr2);
@@ -47,12 +47,12 @@ void Vector<>::Widen(Vector<UInt32> source, Vector<UInt64>& low, Vector<UInt64>&
   UInt64 as[count / 2] = {};
   UInt64* ptr = as;
   for (Int32 i = 0; i < count / 2; i++) {
-    ptr[i] = source[i];
+    *(ptr + i) = source[i];
   }
   UInt64 is[count / 2] = {};
   UInt64* ptr2 = is;
   for (Int32 j = 0; j < count / 2; j++) {
-    ptr2[j] = source[j + count / 2];
+    *(ptr2 + j) = source[j + count / 2];
   }
   low = Vector<UInt64>(ptr);
   high = Vector<UInt64>(ptr2);
@@ -63,12 +63,12 @@ void Vector<>::Widen(Vector<SByte> source, Vector<Int16>& low, Vector<Int16>& hi
   Int16 as[count / 2] = {};
   Int16* ptr = as;
   for (Int32 i = 0; i < count / 2; i++) {
-    ptr[i] = source[i];
+    *(ptr + i) = source[i];
   }
   Int16 is[count / 2] = {};
   Int16* ptr2 = is;
   for (Int32 j = 0; j < count / 2; j++) {
-    ptr2[j] = source[j + count / 2];
+    *(ptr2 + j) = source[j + count / 2];
   }
   low = Vector<Int16>(ptr);
   high = Vector<Int16>(ptr2);
@@ -79,12 +79,12 @@ void Vector<>::Widen(Vector<Int16> source, Vector<Int32>& low, Vector<Int32>& hi
   Int32 as[count / 2] = {};
   Int32* ptr = as;
   for (Int32 i = 0; i < count / 2; i++) {
-    ptr[i] = source[i];
+    *(ptr + i) = source[i];
   }
   Int32 is[count / 2] = {};
   Int32* ptr2 = is;
   for (Int32 j = 0; j < count / 2; j++) {
-    ptr2[j] = source[j + count / 2];
+    *(ptr2 + j) = source[j + count / 2];
   }
   low = Vector<Int32>(ptr);
   high = Vector<Int32>(ptr2);
@@ -95,12 +95,12 @@ void Vector<>::Widen(Vector<Int32> source, Vector<Int64>& low, Vector<Int64>& hi
   Int64 as[count / 2] = {};
   Int64* ptr = as;
   for (Int32 i = 0; i < count / 2; i++) {
-    ptr[i] = source[i];
+    *(ptr + i) = source[i];
   }
   Int64 is[count / 2] = {};
   Int64* ptr2 = is;
   for (Int32 j = 0; j < count / 2; j++) {
-    ptr2[j] = source[j + count / 2];
+    *(ptr2 + j) = source[j + count / 2];
   }
   low = Vector<Int64>(ptr);
   high = Vector<Int64>(ptr2);
@@ -111,12 +111,12 @@ void Vector<>::Widen(Vector<Single> source, Vector<Double>& low, Vector<Double>&
   Double as[count / 2] = {};
   Double* ptr = as;
   for (Int32 i = 0; i < count / 2; i++) {
-    ptr[i] = source[i];
+    *(ptr + i) = source[i];
   }
   Double is[count / 2] = {};
   Double* ptr2 = is;
   for (Int32 j = 0; j < count / 2; j++) {
-    ptr2[j] = source[j + count / 2];
+    *(ptr2 + j) = source[j + count / 2];
   }
   low = Vector<Double>(ptr);
   high = Vector<Double>(ptr2);
@@ -127,10 +127,10 @@ Vector<Byte> Vector<>::Narrow(Vector<UInt16> low, Vector<UInt16> high) {
   Byte as[(Int32)(UInt32)count] = {};
   Byte* ptr = as;
   for (Int32 i = 0; i < count / 2; i++) {
-    ptr[i] = (Byte)low[i];
+    *(ptr + i) = (Byte)low[i];
   }
   for (Int32 j = 0; j < count / 2; j++) {
-    ptr[j + count / 2] = (Byte)high[j];
+    *(ptr + j + count / 2) = (Byte)high[j];
   }
   return Vector<Byte>(ptr);
 }
@@ -140,10 +140,10 @@ Vector<UInt16> Vector<>::Narrow(Vector<UInt32> low, Vector<UInt32> high) {
   UInt16 as[count] = {};
   UInt16* ptr = as;
   for (Int32 i = 0; i < count / 2; i++) {
-    ptr[i] = (UInt16)low[i];
+    *(ptr + i) = (UInt16)low[i];
   }
   for (Int32 j = 0; j < count / 2; j++) {
-    ptr[j + count / 2] = (UInt16)high[j];
+    *(ptr + j + count / 2) = (UInt16)high[j];
   }
   return Vector<UInt16>(ptr);
 }
@@ -153,10 +153,10 @@ Vector<UInt32> Vector<>::Narrow(Vector<UInt64> low, Vector<UInt64> high) {
   UInt32 as[count] = {};
   UInt32* ptr = as;
   for (Int32 i = 0; i < count / 2; i++) {
-    ptr[i] = (UInt32)low[i];
+    *(ptr + i) = (UInt32)low[i];
   }
   for (Int32 j = 0; j < count / 2; j++) {
-    ptr[j + count / 2] = (UInt32)high[j];
+    *(ptr + j + count / 2) = (UInt32)high[j];
   }
   return Vector<UInt32>(ptr);
 }
@@ -166,10 +166,10 @@ Vector<SByte> Vector<>::Narrow(Vector<Int16> low, Vector<Int16> high) {
   SByte as[(Int32)(UInt32)count] = {};
   SByte* ptr = as;
   for (Int32 i = 0; i < count / 2; i++) {
-    ptr[i] = (SByte)low[i];
+    *(ptr + i) = (SByte)low[i];
   }
   for (Int32 j = 0; j < count / 2; j++) {
-    ptr[j + count / 2] = (SByte)high[j];
+    *(ptr + j + count / 2) = (SByte)high[j];
   }
   return Vector<SByte>(ptr);
 }
@@ -179,10 +179,10 @@ Vector<Int16> Vector<>::Narrow(Vector<Int32> low, Vector<Int32> high) {
   Int16 as[count] = {};
   Int16* ptr = as;
   for (Int32 i = 0; i < count / 2; i++) {
-    ptr[i] = (Int16)low[i];
+    *(ptr + i) = (Int16)low[i];
   }
   for (Int32 j = 0; j < count / 2; j++) {
-    ptr[j + count / 2] = (Int16)high[j];
+    *(ptr + j + count / 2) = (Int16)high[j];
   }
   return Vector<Int16>(ptr);
 }
@@ -192,10 +192,10 @@ Vector<Int32> Vector<>::Narrow(Vector<Int64> low, Vector<Int64> high) {
   Int32 as[count] = {};
   Int32* ptr = as;
   for (Int32 i = 0; i < count / 2; i++) {
-    ptr[i] = (Int32)low[i];
+    *(ptr + i) = (Int32)low[i];
   }
   for (Int32 j = 0; j < count / 2; j++) {
-    ptr[j + count / 2] = (Int32)high[j];
+    *(ptr + j + count / 2) = (Int32)high[j];
   }
   return Vector<Int32>(ptr);
 }
@@ -205,10 +205,10 @@ Vector<Single> Vector<>::Narrow(Vector<Double> low, Vector<Double> high) {
   Single as[count] = {};
   Single* ptr = as;
   for (Int32 i = 0; i < count / 2; i++) {
-    ptr[i] = (Single)low[i];
+    *(ptr + i) = (Single)low[i];
   }
   for (Int32 j = 0; j < count / 2; j++) {
-    ptr[j + count / 2] = (Single)high[j];
+    *(ptr + j + count / 2) = (Single)high[j];
   }
   return Vector<Single>(ptr);
 }
@@ -218,7 +218,7 @@ Vector<Single> Vector<>::ConvertToSingle(Vector<Int32> value) {
   Single as[count] = {};
   Single* ptr = as;
   for (Int32 i = 0; i < count; i++) {
-    ptr[i] = value[i];
+    *(ptr + i) = value[i];
   }
   return Vector<Single>(ptr);
 }
@@ -228,7 +228,7 @@ Vector<Single> Vector<>::ConvertToSingle(Vector<UInt32> value) {
   Single as[count] = {};
   Single* ptr = as;
   for (Int32 i = 0; i < count; i++) {
-    ptr[i] = value[i];
+    *(ptr + i) = value[i];
   }
   return Vector<Single>(ptr);
 }
@@ -238,7 +238,7 @@ Vector<Double> Vector<>::ConvertToDouble(Vector<Int64> value) {
   Double as[count] = {};
   Double* ptr = as;
   for (Int32 i = 0; i < count; i++) {
-    ptr[i] = value[i];
+    *(ptr + i) = value[i];
   }
   return Vector<Double>(ptr);
 }
@@ -248,7 +248,7 @@ Vector<Double> Vector<>::ConvertToDouble(Vector<UInt64> value) {
   Double as[count] = {};
   Double* ptr = as;
   for (Int32 i = 0; i < count; i++) {
-    ptr[i] = value[i];
+    *(ptr + i) = value[i];
   }
   return Vector<Double>(ptr);
 }
@@ -258,7 +258,7 @@ Vector<Int32> Vector<>::ConvertToInt32(Vector<Single> value) {
   Int32 as[count] = {};
   Int32* ptr = as;
   for (Int32 i = 0; i < count; i++) {
-    ptr[i] = (Int32)value[i];
+    *(ptr + i) = (Int32)value[i];
   }
   return Vector<Int32>(ptr);
 }
@@ -268,7 +268,7 @@ Vector<UInt32> Vector<>::ConvertToUInt32(Vector<Single> value) {
   UInt32 as[count] = {};
   UInt32* ptr = as;
   for (Int32 i = 0; i < count; i++) {
-    ptr[i] = (UInt32)value[i];
+    *(ptr + i) = (UInt32)value[i];
   }
   return Vector<UInt32>(ptr);
 }
@@ -278,7 +278,7 @@ Vector<Int64> Vector<>::ConvertToInt64(Vector<Double> value) {
   Int64 as[count] = {};
   Int64* ptr = as;
   for (Int32 i = 0; i < count; i++) {
-    ptr[i] = (Int64)value[i];
+    *(ptr + i) = (Int64)value[i];
   }
   return Vector<Int64>(ptr);
 }
@@ -288,7 +288,7 @@ Vector<UInt64> Vector<>::ConvertToUInt64(Vector<Double> value) {
   UInt64 as[count] = {};
   UInt64* ptr = as;
   for (Int32 i = 0; i < count; i++) {
-    ptr[i] = (UInt64)value[i];
+    *(ptr + i) = (UInt64)value[i];
   }
   return Vector<UInt64>(ptr);
 }

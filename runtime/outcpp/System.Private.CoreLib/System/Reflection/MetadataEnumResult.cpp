@@ -11,7 +11,7 @@ Int32 MetadataEnumResult::get_Item(Int32 index) {
   }
   {
     Int32* ptr = smallResult;
-    return ptr[index];
+    return *(ptr + index);
   }
 }
 

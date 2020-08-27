@@ -18,7 +18,7 @@ String IPv4AddressHelper::ParseCanonicalName(String str, Int32 start, Int32 end,
   Int32 num = 0;
   Int32 charsWritten;
   for (Int32 i = 0; i < 3; i++) {
-    ptr[i].TryFormat(span.Slice(num), charsWritten);
+    *(ptr + i).TryFormat(span.Slice(num), charsWritten);
     Int32 num2 = num + charsWritten;
     span[num2] = 46;
     num = num2 + 1;
@@ -63,7 +63,7 @@ Boolean IPv4AddressHelper::ParseCanonical(ReadOnlySpan<Char> name, Byte* numbers
       num = num * 10 + c - 48;
       start++;
     }
-    numbers[i] = (Byte)num;
+    *(numbers + i) = (Byte)num;
     start++;
   }
   return *numbers == 127;
@@ -75,7 +75,7 @@ Boolean IPv4AddressHelper::IsValidCanonical(Char* name, Int32 start, Int32& end,
   Boolean flag = false;
   Boolean flag2 = false;
   while (start < end) {
-    Char c = name[start];
+    Char c = *(name + start);
     if (allowIPv6) {
       if (c == 93 || c == 47 || c == 37) {
         break;
@@ -86,13 +86,13 @@ Boolean IPv4AddressHelper::IsValidCanonical(Char* name, Int32 start, Int32& end,
 
     if (c <= 57 && c >= 48) {
       if (!flag && c == 48) {
-        if (start + 1 < end && name[start + 1] == 48) {
+        if (start + 1 < end && *(name + start + 1) == 48) {
           return false;
         }
         flag2 = true;
       }
       flag = true;
-      num2 = num2 * 10 + (name[start] - 48);
+      num2 = num2 * 10 + (*(name + start) - 48);
       if (num2 > 255) {
         return false;
       }
@@ -126,7 +126,7 @@ Int64 IPv4AddressHelper::ParseNonCanonical(Char* name, Int32 start, Int32& end, 
   Int32 num3 = 0;
   Int32 i;
   for (i = start; i < end; i++) {
-    Char c = name[i];
+    Char c = *(name + i);
     num2 = 0;
     num = 10;
     if (c == 48) {
@@ -134,7 +134,7 @@ Int64 IPv4AddressHelper::ParseNonCanonical(Char* name, Int32 start, Int32& end, 
       i++;
       flag = true;
       if (i < end) {
-        c = name[i];
+        c = *(name + i);
         if (c == 120 || c == 88) {
           num = 16;
           i++;
@@ -143,7 +143,7 @@ Int64 IPv4AddressHelper::ParseNonCanonical(Char* name, Int32 start, Int32& end, 
       }
     }
     for (; i < end; i++) {
-      c = name[i];
+      c = *(name + i);
       Int32 num4;
       if ((num == 10 || num == 16) && 48 <= c && c <= 57) {
         num4 = c - 48;
@@ -165,13 +165,13 @@ Int64 IPv4AddressHelper::ParseNonCanonical(Char* name, Int32 start, Int32& end, 
       }
       flag = true;
     }
-    if (i >= end || name[i] != 46) {
+    if (i >= end || *(name + i) != 46) {
       break;
     }
     if (num3 >= 3 || !flag || num2 > 255) {
       return -1;
     }
-    ptr[num3] = num2;
+    *(ptr + num3) = num2;
     num3++;
     flag = false;
   }
@@ -180,12 +180,12 @@ Int64 IPv4AddressHelper::ParseNonCanonical(Char* name, Int32 start, Int32& end, 
   }
   if (i < end) {
     Char c;
-    if ((c = name[i]) != 47 && c != 92 && (!notImplicitFile || (c != 58 && c != 63 && c != 35))) {
+    if ((c = *(name + i)) != 47 && c != 92 && (!notImplicitFile || (c != 58 && c != 63 && c != 35))) {
       return -1;
     }
     end = i;
   }
-  ptr[num3] = num2;
+  *(ptr + num3) = num2;
   switch (num3.get()) {
     case 0:
       if (*ptr > UInt32::MaxValue) {

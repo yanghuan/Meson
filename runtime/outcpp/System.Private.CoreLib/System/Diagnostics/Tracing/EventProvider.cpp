@@ -236,7 +236,7 @@ void EventProvider___::GetSessionInfo(SessionInfoCallback action, List<SessionIn
               if (ptr4->Pid == currentProcessId) {
                 Interop::Advapi32::TRACE_ENABLE_INFO* ptr5 = (Interop::Advapi32::TRACE_ENABLE_INFO*)(ptr4 + 1);
                 for (Int32 j = 0; j < ptr4->EnableCount; j++) {
-                  action(ptr5[j].LoggerId, ptr5[j].MatchAllKeyword, sessionList);
+                  action(*(ptr5 + j).LoggerId, *(ptr5 + j).MatchAllKeyword, sessionList);
                 }
               }
               if (ptr4->NextOffset == 0) {
@@ -505,7 +505,7 @@ Boolean EventProvider___::WriteEvent(EventDescriptor& eventDescriptor, IntPtr ev
     EventData as[2 * num] = {};
     EventData* ptr = as;
     for (Int32 j = 0; j < 2 * num; j++) {
-      ptr[j] = EventData();
+      *(ptr + j) = EventData();
     }
     EventData* dataDescriptor = ptr;
     Byte is[(Int32)(UInt32)(32 * num)] = {};
@@ -569,28 +569,28 @@ Boolean EventProvider___::WriteEvent(EventDescriptor& eventDescriptor, IntPtr ev
                       Char* ptr18 = ptr17;
                       dataDescriptor = ptr;
                       if (list2[0] != nullptr) {
-                        dataDescriptor[list[0]].Ptr = (UInt64)ptr4;
+                        *(dataDescriptor + list[0]).Ptr = (UInt64)ptr4;
                       }
                       if (list2[1] != nullptr) {
-                        dataDescriptor[list[1]].Ptr = (UInt64)ptr6;
+                        *(dataDescriptor + list[1]).Ptr = (UInt64)ptr6;
                       }
                       if (list2[2] != nullptr) {
-                        dataDescriptor[list[2]].Ptr = (UInt64)ptr8;
+                        *(dataDescriptor + list[2]).Ptr = (UInt64)ptr8;
                       }
                       if (list2[3] != nullptr) {
-                        dataDescriptor[list[3]].Ptr = (UInt64)ptr10;
+                        *(dataDescriptor + list[3]).Ptr = (UInt64)ptr10;
                       }
                       if (list2[4] != nullptr) {
-                        dataDescriptor[list[4]].Ptr = (UInt64)ptr12;
+                        *(dataDescriptor + list[4]).Ptr = (UInt64)ptr12;
                       }
                       if (list2[5] != nullptr) {
-                        dataDescriptor[list[5]].Ptr = (UInt64)ptr14;
+                        *(dataDescriptor + list[5]).Ptr = (UInt64)ptr14;
                       }
                       if (list2[6] != nullptr) {
-                        dataDescriptor[list[6]].Ptr = (UInt64)ptr16;
+                        *(dataDescriptor + list[6]).Ptr = (UInt64)ptr16;
                       }
                       if (list2[7] != nullptr) {
-                        dataDescriptor[list[7]].Ptr = (UInt64)ptr18;
+                        *(dataDescriptor + list[7]).Ptr = (UInt64)ptr18;
                       }
                       writeEventErrorCode = m_eventProvider->EventWriteTransfer(m_regHandle, eventDescriptor, eventHandle, activityID, childActivityID, num, ptr);
                     }
@@ -610,12 +610,12 @@ Boolean EventProvider___::WriteEvent(EventDescriptor& eventDescriptor, IntPtr ev
           {
             Char* ptr19 = (String)list2[l];
             Char* ptr20 = ptr19;
-            dataDescriptor[list[l]].Ptr = (UInt64)ptr20;
+            *(dataDescriptor + list[l]).Ptr = (UInt64)ptr20;
           }
         } else {
           {
             Byte* ptr21 = (Array<Byte>)list2[l];
-            dataDescriptor[list[l]].Ptr = (UInt64)ptr21;
+            *(dataDescriptor + list[l]).Ptr = (UInt64)ptr21;
           }
         }
       }

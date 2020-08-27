@@ -44,7 +44,7 @@ void DataCollector::AddScalar(void* value, Int32 size) {
     ScalarsBegin();
     scratch = ptr2;
     for (Int32 i = 0; i != size; i++) {
-      ptr[i] = ((Byte*)value)[i];
+      *(ptr + i) = ((Byte*)value)[i];
     }
   } else {
     Int32 num = bufferPos;

@@ -318,14 +318,14 @@ Array<Char> AssemblyName___::EscapeString(String input, Int32 start, Int32 end, 
     Char* ptr2 = input;
     Char* ptr3 = ptr2;
     for (; i < end; i++) {
-      Char c = ptr3[i];
+      Char c = *(ptr3 + i);
       if (c > 127) {
         Int16 num2 = (Int16)Math::Min(end - i, 39);
         Int16 num3 = 1;
-        while (num3 < num2 && ptr3[i + num3] > 127) {
+        while (num3 < num2 && *(ptr3 + i + num3) > 127) {
           num3 = (Int16)(num3 + 1);
         }
-        if (ptr3[i + num3 - 1] >= 55296 && ptr3[i + num3 - 1] <= 56319) {
+        if (*(ptr3 + i + num3 - 1) >= 55296 && *(ptr3 + i + num3 - 1) <= 56319) {
           if (num3 == 1 || num3 == end - i) {
             rt::throw_exception<FormatException>(SR::get_Arg_FormatException());
           }
@@ -338,15 +338,15 @@ Array<Char> AssemblyName___::EscapeString(String input, Int32 start, Int32 end, 
         }
         i += num3 - 1;
         for (num3 = 0; num3 < num4; num3 = (Int16)(num3 + 1)) {
-          EscapeAsciiChar((Char)ptr[num3], dest, destPos);
+          EscapeAsciiChar((Char)*(ptr + num3), dest, destPos);
         }
         num = i + 1;
       } else if (c == 37 && rsvd == 37) {
         dest = EnsureDestinationSize(ptr3, dest, i, 3, 120, destPos, num);
-        if (i + 2 < end && EscapedAscii(ptr3[i + 1], ptr3[i + 2]) != 65535) {
+        if (i + 2 < end && EscapedAscii(*(ptr3 + i + 1), *(ptr3 + i + 2)) != 65535) {
           dest[destPos++] = 37;
-          dest[destPos++] = ptr3[i + 1];
-          dest[destPos++] = ptr3[i + 2];
+          dest[destPos++] = *(ptr3 + i + 1);
+          dest[destPos++] = *(ptr3 + i + 2);
           i += 2;
         } else {
           EscapeAsciiChar(37, dest, destPos);
@@ -376,7 +376,7 @@ Array<Char> AssemblyName___::EnsureDestinationSize(Char* pStr, Array<Char> dest,
     dest = array;
   }
   while (prevInputPos != currentInputPos) {
-    dest[destPos++] = pStr[prevInputPos++];
+    dest[destPos++] = *(pStr + prevInputPos++);
   }
   return dest;
 }

@@ -47,8 +47,8 @@ IntPtr CSTRMarshaler::ConvertToNative(Int32 flags, String strManaged, IntPtr pNa
     }
   }
 
-  ptr[num] = 0;
-  ptr[num + 1] = 0;
+  *(ptr + num) = 0;
+  *(ptr + num + 1) = 0;
   return (IntPtr)(void*)ptr;
 }
 
@@ -90,7 +90,7 @@ void CSTRMarshaler::ConvertFixedToNative(Int32 flags, String strManaged, IntPtr 
   if (num3 == length) {
     num3--;
   }
-  ptr[num3] = 0;
+  *(ptr + num3) = 0;
 }
 
 String CSTRMarshaler::ConvertFixedToManaged(IntPtr cstr, Int32 length) {

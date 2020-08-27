@@ -63,7 +63,7 @@ Int32 OSEncoder___::GetByteCount(Char* chars, Int32 count, Boolean flush) {
   if (count < 0) {
     rt::throw_exception<ArgumentOutOfRangeException>("count", SR::get_ArgumentOutOfRange_NeedNonNegNum());
   }
-  Boolean flag = count > 0 && !flush && Char::IsHighSurrogate(chars[count - 1]);
+  Boolean flag = count > 0 && !flush && Char::IsHighSurrogate(*(chars + count - 1));
   if (flag) {
     count--;
   }
@@ -119,7 +119,7 @@ Int32 OSEncoder___::GetBytes(Char* chars, Int32 charCount, Byte* bytes, Int32 by
   if (byteCount == 0) {
     return 0;
   }
-  Char c = (charCount > 0 && !flush && Char::IsHighSurrogate(chars[charCount - 1])) ? chars[charCount - 1] : 0;
+  Char c = (charCount > 0 && !flush && Char::IsHighSurrogate(*(chars + charCount - 1))) ? *(chars + charCount - 1) : 0;
   if (c != 0) {
     charCount--;
   }

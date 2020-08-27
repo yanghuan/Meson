@@ -407,12 +407,12 @@ IL_01cc:
 }
 
 UInt32 Decimal::DecCalc::DivByConst(UInt32* result, UInt32 hiRes, UInt32& quotient, UInt32& remainder, UInt32 power) {
-  UInt32 num = result[hiRes];
+  UInt32 num = *(result + hiRes);
   remainder = num - (quotient = num / power) * power;
   UInt32 num2 = hiRes - 1;
   while ((Int32)num2 >= 0) {
-    UInt64 num3 = result[num2] + ((UInt64)remainder << 32);
-    remainder = (UInt32)(Int32)num3 - (result[num2] = (UInt32)(num3 / power)) * power;
+    UInt64 num3 = *(result + num2) + ((UInt64)remainder << 32);
+    remainder = (UInt32)(Int32)num3 - (*(result + num2) = (UInt32)(num3 / power)) * power;
     num2--;
   }
   return power;
@@ -595,9 +595,9 @@ IL_0106:
 IL_0312:
   UInt32* ptr = (UInt32*)(&value);
   UInt32 num14 = 3u;
-  while (++ptr[num14++] == 0) {
+  while (++*(ptr + num14++) == 0) {
     if (num11 < num14) {
-      ptr[num14] = 1u;
+      *(ptr + num14) = 1u;
       num11 = num14;
       break;
     }
@@ -638,13 +638,13 @@ IL_015f:
     UInt32* ptr2 = (UInt32*)(&value);
     UInt32 num15 = 0u;
     do {
-      num13 += UInt32x32To64(ptr2[num15], b);
-      ptr2[num15] = (UInt32)num13;
+      num13 += UInt32x32To64(*(ptr2 + num15), b);
+      *(ptr2 + num15) = (UInt32)num13;
       num15++;
       num13 >>= 32;
     } while (num15 <= num11)
     if (num13 != 0) {
-      ptr2[++num11] = (UInt32)num13;
+      *(ptr2 + ++num11) = (UInt32)num13;
     }
     num7 -= 9;
   }
@@ -727,9 +727,9 @@ IL_04b9:
 IL_02b3:
   UInt32* ptr3 = (UInt32*)(&value);
   UInt32 num18 = 3u;
-  while (ptr3[num18++]-- == 0) {
+  while (*(ptr3 + num18++)-- == 0) {
   }
-  if (ptr3[num11] != 0 || --num11 > 2) {
+  if (*(ptr3 + num11) != 0 || --num11 > 2) {
     goto IL_0350;
   }
   goto IL_04b9;
@@ -946,7 +946,7 @@ void Decimal::DecCalc::VarDecMul(DecCalc& d1, DecCalc& d2) {
   }
 
   UInt32* ptr = (UInt32*)(&value);
-  while (ptr[(Int32)num6] == 0) {
+  while (*(ptr + (Int32)num6) == 0) {
     if (num6 != 0) {
       num6--;
       continue;
@@ -1454,11 +1454,11 @@ void Decimal::DecCalc::VarDecModFull(DecCalc& d1, DecCalc& d2, Int32 scale) {
     value.Buf24.U0 = (UInt32)num4;
     for (Int32 i = 1; i <= num3; i++) {
       num4 >>= 32;
-      num4 += UInt32x32To64(ptr[i], b);
-      ptr[i] = (UInt32)num4;
+      num4 += UInt32x32To64(*(ptr + i), b);
+      *(ptr + i) = (UInt32)num4;
     }
     if (num4 > Int32::MaxValue) {
-      ptr[++num3] = (UInt32)(num4 >> 32);
+      *(ptr + ++num3) = (UInt32)(num4 >> 32);
     }
     scale += 9;
   }

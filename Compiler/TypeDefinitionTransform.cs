@@ -427,7 +427,7 @@ namespace Meson.Compiler {
       if (IsValueTypeInnerField(field, typeDefinition, out typeName)) {
         isPrimitiveType = true;
       } else {
-        typeName = GetFieldTypeName(field, typeDefinition);
+        typeName = GetFieldTypeName(field, typeDefinition, ref fieldName);
       }
       return isPrimitiveType;
     }
@@ -444,13 +444,13 @@ namespace Meson.Compiler {
       }
     }
 
-    private bool CheckFixedBufferField(IField field, ITypeDefinition typeDefinition, out ExpressionSyntax result) {
+    private bool CheckFixedBufferField(IField field, ITypeDefinition typeDefinition, out ExpressionSyntax typeName, ref IdentifierSyntax fieldName) {
       if (field.Type.Name.StartsWith('<')) {
         var attr = field.GetAttribute(KnownAttribute.FixedBuffer);
         if (attr != null) {
           var type = (IType)attr.FixedArguments[0].Value;
           int size = (int)attr.FixedArguments[1].Value;
-          var name = CompilationUnit.GetTypeName(new TypeNameArgs {
+          typeName = CompilationUnit.GetTypeName(new TypeNameArgs {
             Type = type,
             Definition = typeDefinition,
             IsForward = field.IsStatic,
@@ -458,20 +458,19 @@ namespace Meson.Compiler {
             Original = type,
             Symbol = field,
           });
-          result = new GenericIdentifierSyntax(IdentifierSyntax.FixedBuffer, name, (IdentifierSyntax)size.ToString());
+          fieldName = new ArrayIdentifierSyntax(fieldName, size);
           return true;
         }
       }
-      result = null;
+      typeName = null;
       return false;
     }
 
-    private ExpressionSyntax GetFieldTypeName(IField field, ITypeDefinition typeDefinition) {
-      if (CheckFixedBufferField(field, typeDefinition, out var buffField)) {
-        return buffField;
+    private ExpressionSyntax GetFieldTypeName(IField field, ITypeDefinition typeDefinition, ref IdentifierSyntax name) {
+      if (CheckFixedBufferField(field, typeDefinition, out var typeName, ref name)) {
+        return typeName;
       }
-
-      var typeName = CompilationUnit.GetTypeName(new TypeNameArgs {
+      typeName = CompilationUnit.GetTypeName(new TypeNameArgs {
         Type = field.Type,
         Definition = typeDefinition,
         IsForward = field.Type.IsRefType() || (field.IsStatic && !field.IsConst),

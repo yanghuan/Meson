@@ -108,13 +108,13 @@ class Interop {
     public: struct TIME_DYNAMIC_ZONE_INFORMATION : public valueType<TIME_DYNAMIC_ZONE_INFORMATION> {
       public: String GetTimeZoneKeyName();
       public: Int32 Bias;
-      public: rt::FixedBuffer<Char, 32> StandardName;
+      public: Char StandardName[32];
       public: SYSTEMTIME StandardDate;
       public: Int32 StandardBias;
-      public: rt::FixedBuffer<Char, 32> DaylightName;
+      public: Char DaylightName[32];
       public: SYSTEMTIME DaylightDate;
       public: Int32 DaylightBias;
-      public: rt::FixedBuffer<Char, 128> TimeZoneKeyName;
+      public: Char TimeZoneKeyName[128];
       public: Byte DynamicDaylightTimeDisabled;
     };
     public: struct FILE_TIME : public valueType<FILE_TIME> {
@@ -127,10 +127,10 @@ class Interop {
       public: String GetDaylightName();
       public: explicit TIME_ZONE_INFORMATION() {}
       public: Int32 Bias;
-      public: rt::FixedBuffer<Char, 32> StandardName;
+      public: Char StandardName[32];
       public: SYSTEMTIME StandardDate;
       public: Int32 StandardBias;
-      public: rt::FixedBuffer<Char, 32> DaylightName;
+      public: Char DaylightName[32];
       public: SYSTEMTIME DaylightDate;
       public: Int32 DaylightBias;
     };
@@ -143,8 +143,8 @@ class Interop {
       public: UInt32 nFileSizeLow;
       public: UInt32 dwReserved0;
       public: UInt32 dwReserved1;
-      private: rt::FixedBuffer<Char, 260> _cFileName;
-      private: rt::FixedBuffer<Char, 14> _cAlternateFileName;
+      private: Char _cFileName[260];
+      private: Char _cAlternateFileName[14];
     };
     public: CLASS(EnumLocalesProcEx) : public MulticastDelegate::in {
       public: void ctor(Object object, IntPtr method);
@@ -183,8 +183,8 @@ class Interop {
     };
     public: struct CPINFO : public valueType<CPINFO> {
       public: Int32 MaxCharSize;
-      public: rt::FixedBuffer<Byte, 2> DefaultChar;
-      public: rt::FixedBuffer<Byte, 12> LeadByte;
+      public: Byte DefaultChar[2];
+      public: Byte LeadByte[12];
     };
     public: struct PROCESS_MEMORY_COUNTERS : public valueType<PROCESS_MEMORY_COUNTERS> {
       public: UInt32 cb;
@@ -260,7 +260,7 @@ class Interop {
       public: Int32 dwMinorVersion;
       public: Int32 dwBuildNumber;
       public: Int32 dwPlatformId;
-      public: rt::FixedBuffer<Char, 128> szCSDVersion;
+      public: Char szCSDVersion[128];
       public: UInt16 wServicePackMajor;
       public: UInt16 wServicePackMinor;
       public: UInt16 wSuiteMask;
@@ -547,7 +547,7 @@ class Interop {
       public: UInt32 dwMinorVersion;
       public: UInt32 dwBuildNumber;
       public: UInt32 dwPlatformId;
-      public: rt::FixedBuffer<Char, 128> szCSDVersion;
+      public: Char szCSDVersion[128];
     };
     public: struct SYSTEM_LEAP_SECOND_INFORMATION : public valueType<SYSTEM_LEAP_SECOND_INFORMATION> {
       public: BOOLEAN Enabled;

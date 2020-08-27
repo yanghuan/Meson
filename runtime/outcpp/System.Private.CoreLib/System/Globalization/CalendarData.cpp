@@ -612,7 +612,7 @@ Boolean CalendarData___::CallGetCalendarInfoEx(String localeName, CalendarId cal
   Char* ptr = as;
   Int32 num = Interop::Kernel32::GetCalendarInfoEx(localeName, (UInt32)calendar, IntPtr::Zero, calType, (IntPtr)(void*)ptr, 80, IntPtr::Zero);
   if (num > 0) {
-    if (ptr[num - 1] == 0) {
+    if (*(ptr + num - 1) == 0) {
       num--;
     }
     data = rt::newobj<String>(ptr, 0, num);

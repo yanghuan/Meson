@@ -400,7 +400,7 @@ void SignatureHelper___::InternalAddRuntimeType(Type type) {
   }
   Byte* ptr = (Byte*)(&value);
   for (Int32 i = 0; i < sizeof(void*); i++) {
-    m_signature[m_currSig++] = ptr[i];
+    m_signature[m_currSig++] = *(ptr + i);
   }
 }
 

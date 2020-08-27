@@ -1071,7 +1071,7 @@ Int32 CompareInfo___::IndexOfOrdinalIgnoreCaseHelper(ReadOnlySpan<Char> source, 
       Int32 num = 0;
       while (true) {
         if (num < target.get_Length()) {
-          Char c = ptr4[num];
+          Char c = *(ptr4 + num);
           if (c >= 128 || get_HighCharTable()[c]) {
             break;
           }
@@ -1082,7 +1082,7 @@ Int32 CompareInfo___::IndexOfOrdinalIgnoreCaseHelper(ReadOnlySpan<Char> source, 
           Int32 num2 = 0;
           while (true) {
             if (num2 < source.get_Length()) {
-              Char c2 = ptr2[num2];
+              Char c2 = *(ptr2 + num2);
               if (c2 >= 128 || get_HighCharTable()[c2]) {
                 break;
               }
@@ -1113,8 +1113,8 @@ Int32 CompareInfo___::IndexOfOrdinalIgnoreCaseHelper(ReadOnlySpan<Char> source, 
             num8 = num6;
             while (true) {
               if (num7 < target.get_Length()) {
-                Char c3 = ptr2[num8];
-                Char c4 = ptr4[num7];
+                Char c3 = *(ptr2 + num8);
+                Char c4 = *(ptr4 + num7);
                 if (c3 >= 128 || get_HighCharTable()[c3]) {
                   break;
                 }
@@ -1132,7 +1132,7 @@ Int32 CompareInfo___::IndexOfOrdinalIgnoreCaseHelper(ReadOnlySpan<Char> source, 
                 }
                 goto IL_0163;
               }
-              if (num8 < source.get_Length() && ptr2[num8] >= 128) {
+              if (num8 < source.get_Length() && *(ptr2 + num8) >= 128) {
                 break;
               }
               if (matchLengthPtr != nullptr) {
@@ -1174,7 +1174,7 @@ Int32 CompareInfo___::IndexOfOrdinalHelper(ReadOnlySpan<Char> source, ReadOnlySp
       Int32 num = 0;
       while (true) {
         if (num < target.get_Length()) {
-          Char c = ptr4[num];
+          Char c = *(ptr4 + num);
           if (c >= 128 || get_HighCharTable()[c]) {
             break;
           }
@@ -1185,7 +1185,7 @@ Int32 CompareInfo___::IndexOfOrdinalHelper(ReadOnlySpan<Char> source, ReadOnlySp
           Int32 num2 = 0;
           while (true) {
             if (num2 < source.get_Length()) {
-              Char c2 = ptr2[num2];
+              Char c2 = *(ptr2 + num2);
               if (c2 >= 128 || get_HighCharTable()[c2]) {
                 break;
               }
@@ -1216,8 +1216,8 @@ Int32 CompareInfo___::IndexOfOrdinalHelper(ReadOnlySpan<Char> source, ReadOnlySp
             num8 = num6;
             while (true) {
               if (num7 < target.get_Length()) {
-                Char c3 = ptr2[num8];
-                Char c4 = ptr4[num7];
+                Char c3 = *(ptr2 + num8);
+                Char c4 = *(ptr4 + num7);
                 if (c3 >= 128 || get_HighCharTable()[c3]) {
                   break;
                 }
@@ -1228,7 +1228,7 @@ Int32 CompareInfo___::IndexOfOrdinalHelper(ReadOnlySpan<Char> source, ReadOnlySp
                 }
                 goto IL_0135;
               }
-              if (num8 < source.get_Length() && ptr2[num8] >= 128) {
+              if (num8 < source.get_Length() && *(ptr2 + num8) >= 128) {
                 break;
               }
               if (matchLengthPtr != nullptr) {
@@ -1619,13 +1619,13 @@ Int32 CompareInfo___::InvariantFindString(Char* source, Int32 sourceCount, Char*
     if (ignoreCase) {
       Char c = InvariantCaseFold(*value);
       for (num = 0; num <= num3; num++) {
-        Char c2 = InvariantCaseFold(source[num]);
+        Char c2 = InvariantCaseFold(*(source + num));
         if (c2 != c) {
           continue;
         }
         for (num2 = 1; num2 < valueCount; num2++) {
-          c2 = InvariantCaseFold(source[num + num2]);
-          Char c3 = InvariantCaseFold(value[num2]);
+          c2 = InvariantCaseFold(*(source + num + num2));
+          Char c3 = InvariantCaseFold(*(value + num2));
           if (c2 != c3) {
             break;
           }
@@ -1637,13 +1637,13 @@ Int32 CompareInfo___::InvariantFindString(Char* source, Int32 sourceCount, Char*
     } else {
       Char c4 = *value;
       for (num = 0; num <= num3; num++) {
-        Char c2 = source[num];
+        Char c2 = *(source + num);
         if (c2 != c4) {
           continue;
         }
         for (num2 = 1; num2 < valueCount; num2++) {
-          c2 = source[num + num2];
-          Char c3 = value[num2];
+          c2 = *(source + num + num2);
+          Char c3 = *(value + num2);
           if (c2 != c3) {
             break;
           }
@@ -1658,11 +1658,11 @@ Int32 CompareInfo___::InvariantFindString(Char* source, Int32 sourceCount, Char*
     if (ignoreCase) {
       Char c5 = InvariantCaseFold(*value);
       for (num = num3; num >= 0; num--) {
-        Char c2 = InvariantCaseFold(source[num]);
+        Char c2 = InvariantCaseFold(*(source + num));
         if (c2 == c5) {
           for (num2 = 1; num2 < valueCount; num2++) {
-            c2 = InvariantCaseFold(source[num + num2]);
-            Char c3 = InvariantCaseFold(value[num2]);
+            c2 = InvariantCaseFold(*(source + num + num2));
+            Char c3 = InvariantCaseFold(*(value + num2));
             if (c2 != c3) {
               break;
             }
@@ -1675,11 +1675,11 @@ Int32 CompareInfo___::InvariantFindString(Char* source, Int32 sourceCount, Char*
     } else {
       Char c6 = *value;
       for (num = num3; num >= 0; num--) {
-        Char c2 = source[num];
+        Char c2 = *(source + num);
         if (c2 == c6) {
           for (num2 = 1; num2 < valueCount; num2++) {
-            c2 = source[num + num2];
-            Char c3 = value[num2];
+            c2 = *(source + num + num2);
+            Char c3 = *(value + num2);
             if (c2 != c3) {
               break;
             }

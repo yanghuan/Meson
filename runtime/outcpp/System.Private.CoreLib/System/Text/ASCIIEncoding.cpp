@@ -193,7 +193,7 @@ Int32 ASCIIEncoding___::GetBytesWithFallback(ReadOnlySpan<Char> chars, Int32 ori
       {
         Byte* ptr = &MemoryMarshal::GetReference(bytes);
         while (num2 < num) {
-          ptr[num2++] = b;
+          *(ptr + num2++) = b;
           if (num2 < num) {
             num2 += (Int32)ASCIIUtility::NarrowUtf16ToAscii(ptr2 + num2, ptr + num2, (UInt32)(num - num2));
           }
@@ -330,7 +330,7 @@ Int32 ASCIIEncoding___::GetCharsWithFallback(ReadOnlySpan<Byte> bytes, Int32 ori
       {
         Char* ptr = &MemoryMarshal::GetReference(chars);
         while (num2 < num) {
-          ptr[num2++] = c;
+          *(ptr + num2++) = c;
           if (num2 < num) {
             num2 += (Int32)ASCIIUtility::WidenAsciiToUtf16(ptr2 + num2, ptr + num2, (UInt32)(num - num2));
           }

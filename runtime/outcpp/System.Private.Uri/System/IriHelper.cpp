@@ -61,13 +61,13 @@ String IriHelper::EscapeUnescapeIri(Char* pInput, Int32 start, Int32 end, UriCom
   Span<Byte> destination = span;
   for (; i < end; i++) {
     Char c;
-    if ((c = pInput[i]) == 37) {
+    if ((c = *(pInput + i)) == 37) {
       if (i + 2 < end) {
-        c = UriHelper::DecodeHexChars(pInput[i + 1], pInput[i + 2]);
+        c = UriHelper::DecodeHexChars(*(pInput + i + 1), *(pInput + i + 2));
         if (c == 65535 || c == 37 || CheckIsReserved(c, component) || UriHelper::IsNotSafeForUnescape(c)) {
-          dest.Append(pInput[i++]);
-          dest.Append(pInput[i++]);
-          dest.Append(pInput[i]);
+          dest.Append(*(pInput + i++));
+          dest.Append(*(pInput + i++));
+          dest.Append(*(pInput + i));
           continue;
         }
         if (c <= 127) {
@@ -82,13 +82,13 @@ String IriHelper::EscapeUnescapeIri(Char* pInput, Int32 start, Int32 end, UriCom
         }
         array[0] = (Byte)c;
         for (i += 3; i < end; i += 3) {
-          if ((c = pInput[i]) != 37) {
+          if ((c = *(pInput + i)) != 37) {
             break;
           }
           if (i + 2 >= end) {
             break;
           }
-          c = UriHelper::DecodeHexChars(pInput[i + 1], pInput[i + 2]);
+          c = UriHelper::DecodeHexChars(*(pInput + i + 1), *(pInput + i + 2));
           if (c == 65535 || c < 128) {
             break;
           }
@@ -103,17 +103,17 @@ String IriHelper::EscapeUnescapeIri(Char* pInput, Int32 start, Int32 end, UriCom
           continue;
         }
         for (Int32 j = num; j <= i; j++) {
-          dest.Append(pInput[j]);
+          dest.Append(*(pInput + j));
         }
       } else {
-        dest.Append(pInput[i]);
+        dest.Append(*(pInput + i));
       }
     } else if (c > 127) {
       Boolean isSurrogatePair = false;
       Char c2 = 0;
       Boolean flag;
       if (Char::IsHighSurrogate(c) && i + 1 < end) {
-        c2 = pInput[i + 1];
+        c2 = *(pInput + i + 1);
         flag = CheckIriUnicodeRange(c, c2, isSurrogatePair, component == UriComponents::Query);
       } else {
         flag = CheckIriUnicodeRange(c, component == UriComponents::Query);
@@ -136,7 +136,7 @@ String IriHelper::EscapeUnescapeIri(Char* pInput, Int32 start, Int32 end, UriCom
         i++;
       }
     } else {
-      dest.Append(pInput[i]);
+      dest.Append(*(pInput + i));
     }
 
   }

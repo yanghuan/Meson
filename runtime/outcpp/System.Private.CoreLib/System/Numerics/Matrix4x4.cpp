@@ -1010,26 +1010,26 @@ Boolean Matrix4x4::Decompose(Matrix4x4 matrix, Vector3& scale, Quaternion& rotat
       }
     }
 
-    if (ptr2[num4] < 0.0001) {
-      *ptr3[num4] = ptr4[num4];
+    if (*(ptr2 + num4) < 0.0001) {
+      **(ptr3 + num4) = *(ptr4 + num4);
     }
-    *ptr3[num4] = Vector3::Normalize(*ptr3[num4]);
-    if (ptr2[num5] < 0.0001) {
-      Single num7 = MathF::Abs(ptr3[num4]->X);
-      Single num8 = MathF::Abs(ptr3[num4]->Y);
-      Single num9 = MathF::Abs(ptr3[num4]->Z);
+    **(ptr3 + num4) = Vector3::Normalize(**(ptr3 + num4));
+    if (*(ptr2 + num5) < 0.0001) {
+      Single num7 = MathF::Abs(*(ptr3 + num4)->X);
+      Single num8 = MathF::Abs(*(ptr3 + num4)->Y);
+      Single num9 = MathF::Abs(*(ptr3 + num4)->Z);
       UInt32 num10 = (num7 < num8) ? ((!(num8 < num9)) ? ((!(num7 < num9)) ? 2u : 0u) : 0u) : ((num7 < num9) ? 1u : ((num8 < num9) ? 1u : 2u));
-      *ptr3[num5] = Vector3::Cross(*ptr3[num4], ptr4[num10]);
+      **(ptr3 + num5) = Vector3::Cross(**(ptr3 + num4), *(ptr4 + num10));
     }
-    *ptr3[num5] = Vector3::Normalize(*ptr3[num5]);
-    if (ptr2[num6] < 0.0001) {
-      *ptr3[num6] = Vector3::Cross(*ptr3[num4], *ptr3[num5]);
+    **(ptr3 + num5) = Vector3::Normalize(**(ptr3 + num5));
+    if (*(ptr2 + num6) < 0.0001) {
+      **(ptr3 + num6) = Vector3::Cross(**(ptr3 + num4), **(ptr3 + num5));
     }
-    *ptr3[num6] = Vector3::Normalize(*ptr3[num6]);
+    **(ptr3 + num6) = Vector3::Normalize(**(ptr3 + num6));
     Single num11 = identity.GetDeterminant();
     if (num11 < 0) {
-      ptr2[num4] = 0 - ptr2[num4];
-      *ptr3[num4] = -(*ptr3[num4]);
+      *(ptr2 + num4) = 0 - *(ptr2 + num4);
+      **(ptr3 + num4) = -(**(ptr3 + num4));
       num11 = 0 - num11;
     }
     num11 -= 1;

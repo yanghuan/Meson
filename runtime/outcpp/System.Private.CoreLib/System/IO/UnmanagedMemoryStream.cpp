@@ -379,7 +379,7 @@ Int32 UnmanagedMemoryStream___::ReadByte() {
       }
     }
   }
-  return _mem[num];
+  return *(_mem + num);
 }
 
 Int64 UnmanagedMemoryStream___::Seek(Int64 offset, SeekOrigin loc) {
@@ -576,7 +576,7 @@ void UnmanagedMemoryStream___::WriteByte(Byte value) {
       }
     }
   } else {
-    _mem[num] = value;
+    *(_mem + num) = value;
   }
   Interlocked::Exchange(_position, num3);
 }

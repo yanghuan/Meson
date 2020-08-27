@@ -135,7 +135,7 @@ Array<Byte> EventPipeMetadataGenerator___::GenerateMetadata(Int32 eventId, Strin
 
 void EventPipeMetadataGenerator___::WriteToBuffer(Byte* buffer, UInt32 bufferLength, UInt32& offset, Byte* src, UInt32 srcLength) {
   for (Int32 i = 0; i < srcLength; i++) {
-    (buffer + offset)[i] = src[i];
+    (buffer + offset)[i] = *(src + i);
   }
   offset += srcLength;
 }

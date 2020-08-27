@@ -63,7 +63,7 @@ Int32 Encoder___::GetByteCount(Char* chars, Int32 count, Boolean flush) {
   }
   Array<Char> array = rt::newarr<Array<Char>>(count);
   for (Int32 i = 0; i < count; i++) {
-    array[i] = chars[i];
+    array[i] = *(chars + i);
   }
   return GetByteCount(array, 0, count, flush);
 }
@@ -84,7 +84,7 @@ Int32 Encoder___::GetBytes(Char* chars, Int32 charCount, Byte* bytes, Int32 byte
   }
   Array<Char> array = rt::newarr<Array<Char>>(charCount);
   for (Int32 i = 0; i < charCount; i++) {
-    array[i] = chars[i];
+    array[i] = *(chars + i);
   }
   Array<Byte> array2 = rt::newarr<Array<Byte>>(byteCount);
   Int32 bytes2 = GetBytes(array, 0, charCount, array2, 0, flush);
@@ -92,7 +92,7 @@ Int32 Encoder___::GetBytes(Char* chars, Int32 charCount, Byte* bytes, Int32 byte
     byteCount = bytes2;
   }
   for (Int32 i = 0; i < byteCount; i++) {
-    bytes[i] = array2[i];
+    *(bytes + i) = array2[i];
   }
   return byteCount;
 }

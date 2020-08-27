@@ -13,8 +13,8 @@ Int32 Interop::Kernel32::GetLeadByteRanges(Int32 codePage, Array<Byte> leadByteR
   CPINFOEXW cPINFOEXW;
   if (GetCPInfoExW((UInt32)codePage, 0u, &cPINFOEXW) != 0) {
     for (Int32 i = 0; i < 10 && leadByteRanges[i] != 0; i += 2) {
-      leadByteRanges[i] = cPINFOEXW.LeadByte[i];
-      leadByteRanges[i + 1] = cPINFOEXW.LeadByte[i + 1];
+      leadByteRanges[i] = *(cPINFOEXW.LeadByte + i);
+      leadByteRanges[i + 1] = *(cPINFOEXW.LeadByte + i + 1);
       num++;
     }
   }

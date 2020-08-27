@@ -89,7 +89,7 @@ IntPtr AsAnyMarshaler::ConvertStringBuilderToNative(StringBuilder pManagedHome, 
     if (IsIn(dwFlags)) {
       Int32 num4 = pManagedHome->get_Length() * 2;
       pManagedHome->InternalCopy(intPtr, num4);
-      ptr2[num4] = 0;
+      *(ptr2 + num4) = 0;
       (ptr2 + num4)[1] = 0;
     }
     if (IsOut(dwFlags)) {
