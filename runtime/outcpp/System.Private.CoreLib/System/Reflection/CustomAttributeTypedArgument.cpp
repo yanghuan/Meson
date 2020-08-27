@@ -202,7 +202,7 @@ String CustomAttributeTypedArgument::ToString(Boolean typed) {
     return String::in::Format(typed ? "null" : "({0})null", get_ArgumentType()->get_Name());
   }
   if (get_ArgumentType() == typeof<String>()) {
-    return String::in::Format(""{0}"", get_Value());
+    return String::in::Format("\"{0}\"", get_Value());
   }
   if (get_ArgumentType() == typeof<Char>()) {
     return String::in::Format("'{0}'", get_Value());

@@ -31,8 +31,7 @@ String CultureNotFoundException___::get_Message() {
     if (message == nullptr) {
       return text;
     }
-    return message + "
-" + text;
+    return message + "\r\n" + text;
   }
   return message;
 }

@@ -53,24 +53,19 @@ void FileNotFoundException___::SetMessageField() {
 String FileNotFoundException___::ToString() {
   String text = GetType()->ToString() + ": " + get_Message();
   if (!String::in::IsNullOrEmpty(FileName)) {
-    text = text + "
-" + SR::Format(SR::get_IO_FileName_Name(), FileName);
+    text = text + "\r\n" + SR::Format(SR::get_IO_FileName_Name(), FileName);
   }
   if (Exception::in::get_InnerException() != nullptr) {
-    text = text + "
- ---> " + Exception::in::get_InnerException()->ToString();
+    text = text + "\r\n ---> " + Exception::in::get_InnerException()->ToString();
   }
   if (get_StackTrace() != nullptr) {
-    text = text + "
-" + get_StackTrace();
+    text = text + "\r\n" + get_StackTrace();
   }
   if (FusionLog != nullptr) {
     if (text == nullptr) {
       text = " ";
     }
-    text = text + "
-
-" + FusionLog;
+    text = text + "\r\n\r\n" + FusionLog;
   }
   return text;
 }

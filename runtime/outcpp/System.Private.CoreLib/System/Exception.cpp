@@ -163,8 +163,7 @@ void Exception___::InternalPreserveStackTrace() {
   String source = get_Source();
   String stackTrace = get_StackTrace();
   if (!String::in::IsNullOrEmpty(stackTrace)) {
-    _remoteStackTraceString = stackTrace + "
-";
+    _remoteStackTraceString = stackTrace + "\r\n";
   }
   _stackTrace = nullptr;
   _stackTraceString = nullptr;
@@ -294,13 +293,10 @@ String Exception___::ToString() {
       num += 2 + message->get_Length();
     }
     if (_innerException != nullptr) {
-      num += "
-"->get_Length() + " ---> "->get_Length() + text->get_Length() + "
-"->get_Length() + 3 + exception_EndOfInnerExceptionStack->get_Length();
+      num += "\r\n"->get_Length() + " ---> "->get_Length() + text->get_Length() + "\r\n"->get_Length() + 3 + exception_EndOfInnerExceptionStack->get_Length();
     }
     if (stackTrace != nullptr) {
-      num += "
-"->get_Length() + stackTrace->get_Length();
+      num += "\r\n"->get_Length() + stackTrace->get_Length();
     }
     String text2 = String::in::FastAllocateString(num);
     Span<Char> dest2 = Span<Char>(text2->GetRawStringData(), text2->get_Length());
@@ -310,18 +306,15 @@ String Exception___::ToString() {
       Write(message, dest2);
     }
     if (_innerException != nullptr) {
-      Write("
-", dest2);
+      Write("\r\n", dest2);
       Write(" ---> ", dest2);
       Write(text, dest2);
-      Write("
-", dest2);
+      Write("\r\n", dest2);
       Write("   ", dest2);
       Write(exception_EndOfInnerExceptionStack, dest2);
     }
     if (stackTrace != nullptr) {
-      Write("
-", dest2);
+      Write("\r\n", dest2);
       Write(stackTrace, dest2);
     }
     return text2;

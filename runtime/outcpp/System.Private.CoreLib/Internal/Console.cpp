@@ -22,13 +22,11 @@ void Console::Write(String s) {
 }
 
 void Console::WriteLine(String s) {
-  Write(s + "
-");
+  Write(s + "\r\n");
 }
 
 void Console::WriteLine() {
-  Write("
-");
+  Write("\r\n");
 }
 
 void Console::cctor() {

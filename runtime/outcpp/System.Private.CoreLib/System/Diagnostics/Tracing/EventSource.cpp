@@ -1356,7 +1356,7 @@ void EventSource___::ThrowEventSourceException(String eventName, Exception inner
     m_EventSourceExceptionRecurenceCount++;
     String text = "EventSourceException";
     if (eventName != nullptr) {
-      text = text + " while processing event "" + eventName + """;
+      text = text + " while processing event \"" + eventName + "\"";
     }
     switch (EventProvider::in::GetLastWriteEventError()) {
       case EventProvider::in::WriteEventErrorCode::EventTooBig:

@@ -621,14 +621,12 @@ StringBuilder StringBuilder___::AppendCore(StringBuilder value, Int32 startIndex
 }
 
 StringBuilder StringBuilder___::AppendLine() {
-  return Append("
-");
+  return Append("\r\n");
 }
 
 StringBuilder StringBuilder___::AppendLine(String value) {
   Append(value);
-  return Append("
-");
+  return Append("\r\n");
 }
 
 void StringBuilder___::CopyTo(Int32 sourceIndex, Array<Char> destination, Int32 destinationIndex, Int32 count) {

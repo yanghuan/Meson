@@ -130,8 +130,7 @@ Boolean Environment::get_Is64BitOperatingSystem() {
 }
 
 String Environment::get_NewLine() {
-  return "
-";
+  return "\r\n";
 }
 
 OperatingSystem Environment::get_OSVersion() {

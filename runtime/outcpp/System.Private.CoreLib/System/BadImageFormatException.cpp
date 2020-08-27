@@ -73,23 +73,19 @@ void BadImageFormatException___::SetMessageField() {
 String BadImageFormatException___::ToString() {
   String text = GetType()->ToString() + ": " + get_Message();
   if (!String::in::IsNullOrEmpty(_fileName)) {
-    text = text + "
-" + SR::Format(SR::get_IO_FileName_Name(), _fileName);
+    text = text + "\r\n" + SR::Format(SR::get_IO_FileName_Name(), _fileName);
   }
   if (Exception::in::get_InnerException() != nullptr) {
     text = text + " ---> " + Exception::in::get_InnerException()->ToString();
   }
   if (get_StackTrace() != nullptr) {
-    text = text + "
-" + get_StackTrace();
+    text = text + "\r\n" + get_StackTrace();
   }
   if (_fusionLog != nullptr) {
     if (text == nullptr) {
       text = " ";
     }
-    text = text + "
-
-" + _fusionLog;
+    text = text + "\r\n\r\n" + _fusionLog;
   }
   return text;
 }

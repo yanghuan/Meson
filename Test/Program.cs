@@ -16,7 +16,7 @@ namespace Test {
 
     private static void Main(string[] args) {
       Console.WriteLine(args);
-      A a;
+      string s = "\nsssss\a";
     }
   }
 }

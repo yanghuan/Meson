@@ -330,26 +330,23 @@ void SecurityElement___::ToString(Object obj, Action<Object, String> write) {
       String arg = (String)_attributes[i];
       String arg2 = (String)_attributes[i + 1];
       write(obj, arg);
-      write(obj, "="");
+      write(obj, "=\"");
       write(obj, arg2);
-      write(obj, """);
+      write(obj, "\"");
       if (i != _attributes->get_Count() - 2) {
-        write(obj, "
-");
+        write(obj, "\r\n");
       }
     }
   }
   if (_text == nullptr && (_children == nullptr || _children->get_Count() == 0)) {
     write(obj, "/>");
-    write(obj, "
-");
+    write(obj, "\r\n");
     return;
   }
   write(obj, ">");
   write(obj, _text);
   if (_children != nullptr) {
-    write(obj, "
-");
+    write(obj, "\r\n");
     for (Int32 j = 0; j < _children->get_Count(); j++) {
       ((SecurityElement)_children[j])->ToString(obj, write);
     }
@@ -357,8 +354,7 @@ void SecurityElement___::ToString(Object obj, Action<Object, String> write) {
   write(obj, "</");
   write(obj, _tag);
   write(obj, ">");
-  write(obj, "
-");
+  write(obj, "\r\n");
 }
 
 String SecurityElement___::Attribute(String name) {

@@ -22,8 +22,7 @@ ResourceSet FileBasedResourceGroveler___::GrovelForResourceSet(CultureInfo cultu
   String text = FindResourceFile(culture, resourceFileName);
   if (text == nullptr) {
     if (tryParents && culture->get_HasInvariantCultureName()) {
-      rt::throw_exception<MissingManifestResourceException>(SR::get_MissingManifestResource_NoNeutralDisk() + "
-baseName: " + _mediator->get_BaseNameField() + "  locationInfo: " + ((_mediator->get_LocationInfo() == nullptr) ? "<null>" : _mediator->get_LocationInfo()->get_FullName()) + "  fileName: " + _mediator->GetResourceFileName(culture));
+      rt::throw_exception<MissingManifestResourceException>(SR::get_MissingManifestResource_NoNeutralDisk() + "\r\nbaseName: " + _mediator->get_BaseNameField() + "  locationInfo: " + ((_mediator->get_LocationInfo() == nullptr) ? "<null>" : _mediator->get_LocationInfo()->get_FullName()) + "  fileName: " + _mediator->GetResourceFileName(culture));
     }
   } else {
     result = CreateResourceSet(text);

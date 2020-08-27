@@ -329,8 +329,7 @@ String TextWriter___::get_NewLine() {
 
 void TextWriter___::set_NewLine(String value) {
   if (value == nullptr) {
-    value = "
-";
+    value = "\r\n";
   }
   CoreNewLineStr = value;
   CoreNewLine = value->ToCharArray();
@@ -338,16 +337,14 @@ void TextWriter___::set_NewLine(String value) {
 
 void TextWriter___::ctor() {
   CoreNewLine = s_coreNewLine;
-  CoreNewLineStr = "
-";
+  CoreNewLineStr = "\r\n";
   MarshalByRefObject::in::ctor();
   _internalFormatProvider = nullptr;
 }
 
 void TextWriter___::ctor(IFormatProvider formatProvider) {
   CoreNewLine = s_coreNewLine;
-  CoreNewLineStr = "
-";
+  CoreNewLineStr = "\r\n";
   MarshalByRefObject::in::ctor();
   _internalFormatProvider = formatProvider;
 }
@@ -712,8 +709,7 @@ TextWriter TextWriter___::Synchronized(TextWriter writer) {
 
 void TextWriter___::cctor() {
   Null = rt::newobj<NullTextWriter>();
-  s_coreNewLine = "
-"->ToCharArray();
+  s_coreNewLine = "\r\n"->ToCharArray();
 }
 
 } // namespace System::Private::CoreLib::System::IO::TextWriterNamespace

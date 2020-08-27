@@ -20,8 +20,7 @@ String DebugProvider___::DebugAssertException___::Terminate(String s) {
   }
   s = s->Trim();
   if (s->get_Length() > 0) {
-    s += "
-";
+    s += "\r\n";
   }
   return s;
 }
@@ -37,12 +36,7 @@ void DebugProvider___::Fail(String message, String detailMessage) {
 }
 
 void DebugProvider___::WriteAssert(String stackTrace, String message, String detailMessage) {
-  WriteLine(SR::get_DebugAssertBanner() + "
-" + SR::get_DebugAssertShortMessage() + "
-" + message + "
-" + SR::get_DebugAssertLongMessage() + "
-" + detailMessage + "
-" + stackTrace);
+  WriteLine(SR::get_DebugAssertBanner() + "\r\n" + SR::get_DebugAssertShortMessage() + "\r\n" + message + "\r\n" + SR::get_DebugAssertLongMessage() + "\r\n" + detailMessage + "\r\n" + stackTrace);
 }
 
 void DebugProvider___::Write(String message) {
@@ -57,16 +51,14 @@ void DebugProvider___::Write(String message) {
       _needIndent = false;
     }
     WriteCore(message);
-    if (message->EndsWith("
-", StringComparison::Ordinal)) {
+    if (message->EndsWith("\r\n", StringComparison::Ordinal)) {
       _needIndent = true;
     }
   }
 }
 
 void DebugProvider___::WriteLine(String message) {
-  Write(message + "
-");
+  Write(message + "\r\n");
 }
 
 void DebugProvider___::OnIndentLevelChanged(Int32 indentLevel) {

@@ -179,8 +179,7 @@ String AggregateException___::ToString() {
   stringBuilder->Append(Exception::in::ToString());
   for (Int32 i = 0; i < m_innerExceptions->get_Count(); i++) {
     if (m_innerExceptions[i] != Exception::in::get_InnerException()) {
-      stringBuilder->Append("
- ---> ");
+      stringBuilder->Append("\r\n ---> ");
       stringBuilder->AppendFormat(CultureInfo::in::get_InvariantCulture(), SR::get_AggregateException_InnerException(), i);
       stringBuilder->Append(m_innerExceptions[i]->ToString());
       stringBuilder->Append("<---");

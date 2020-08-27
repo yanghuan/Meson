@@ -11,8 +11,7 @@ String ObjectDisposedException___::get_Message() {
     return Exception::in::get_Message();
   }
   String str = SR::Format(SR::get_ObjectDisposed_ObjectName_Name(), objectName);
-  return Exception::in::get_Message() + "
-" + str;
+  return Exception::in::get_Message() + "\r\n" + str;
 }
 
 String ObjectDisposedException___::get_ObjectName() {

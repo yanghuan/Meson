@@ -253,7 +253,7 @@ void AssemblyLoadContext___::InitiateUnload() {
 }
 
 String AssemblyLoadContext___::ToString() {
-  return """ + get_Name() + "" " + GetType()->ToString() + " #" + _id;
+  return "\"" + get_Name() + "\" " + GetType()->ToString() + " #" + _id;
 }
 
 AssemblyName AssemblyLoadContext___::GetAssemblyName(String assemblyPath) {

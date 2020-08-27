@@ -94,6 +94,7 @@ int main() {
   std::printf("aaaa-> %d%\n", a);
   String aaa = 0;
   String bbb = "dddd";
+  char b = '\u0444';
 
   return 0;
 }

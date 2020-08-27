@@ -16,6 +16,7 @@ void Program___::Test() {
 
 void Program___::Main(Array<String> args) {
   Console::WriteLine(args);
+  String text = "\nsssss\a";
 }
 
 void Program___::ctor() {

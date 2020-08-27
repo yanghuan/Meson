@@ -235,12 +235,12 @@ String ManifestBasedResourceGroveler___::GetManifestResourceNamesList(Assembly a
   try {
     Array<String> manifestResourceNames = assembly->GetManifestResourceNames();
     Int32 num = manifestResourceNames->get_Length();
-    String str = """;
+    String str = "\"";
     if (num > 10) {
       num = 10;
-      str = "", ...";
+      str = "\", ...";
     }
-    return """ + String::in::Join("", "", manifestResourceNames, 0, num) + str;
+    return "\"" + String::in::Join("\", \"", manifestResourceNames, 0, num) + str;
   } catch (...) {
   }
 }

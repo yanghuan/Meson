@@ -142,16 +142,14 @@ void UTF7Encoding___::MakeTables() {
     _base64Values[_base64Bytes[k]] = (SByte)k;
   }
   _directEncode = rt::newarr<Array<Boolean>>(128);
-  Int32 length = "	
- '(),-./0123456789:?ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"->get_Length();
+  Int32 length = "\t\n\r '(),-./0123456789:?ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"->get_Length();
   for (Int32 l = 0; l < length; l++) {
-    _directEncode["	
- '(),-./0123456789:?ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"[l]] = true;
+    _directEncode["\t\n\r '(),-./0123456789:?ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"[l]] = true;
   }
   if (_allowOptionals) {
-    length = "!"#$%&*;<=>@[]^_`{|}"->get_Length();
+    length = "!\"#$%&*;<=>@[]^_`{|}"->get_Length();
     for (Int32 m = 0; m < length; m++) {
-      _directEncode["!"#$%&*;<=>@[]^_`{|}"[m]] = true;
+      _directEncode["!\"#$%&*;<=>@[]^_`{|}"[m]] = true;
     }
   }
 }

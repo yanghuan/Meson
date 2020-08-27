@@ -47,20 +47,20 @@ String ApplicationId___::ToString() {
   ValueStringBuilder stringBuilder = ValueStringBuilder(initialBuffer);
   stringBuilder.Append(Name);
   if (Culture != nullptr) {
-    stringBuilder.Append(", culture="");
+    stringBuilder.Append(", culture=\"");
     stringBuilder.Append(Culture);
     stringBuilder.Append(34);
   }
-  stringBuilder.Append(", version="");
+  stringBuilder.Append(", version=\"");
   stringBuilder.Append(Version->ToString());
   stringBuilder.Append(34);
   if (_publicKeyToken != nullptr) {
-    stringBuilder.Append(", publicKeyToken="");
+    stringBuilder.Append(", publicKeyToken=\"");
     EncodeHexString(_publicKeyToken, stringBuilder);
     stringBuilder.Append(34);
   }
   if (ProcessorArchitecture != nullptr) {
-    stringBuilder.Append(", processorArchitecture ="");
+    stringBuilder.Append(", processorArchitecture =\"");
     stringBuilder.Append(ProcessorArchitecture);
     stringBuilder.Append(34);
   }

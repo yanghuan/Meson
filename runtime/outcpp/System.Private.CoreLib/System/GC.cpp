@@ -192,7 +192,7 @@ Boolean GC::StartNoGCRegionWorker(Int64 totalSize, Boolean hasLohSize, Int64 loh
     case 3:
       rt::throw_exception<InvalidOperationException>("The NoGCRegion mode was already in progress");
     case 2:
-      rt::throw_exception<ArgumentOutOfRangeException>("totalSize", "totalSize is too large. For more information about setting the maximum size, see "Latency Modes" in http://go.microsoft.com/fwlink/?LinkId=522706");
+      rt::throw_exception<ArgumentOutOfRangeException>("totalSize", "totalSize is too large. For more information about setting the maximum size, see \"Latency Modes\" in http://go.microsoft.com/fwlink/?LinkId=522706");
     default:
       return true;
   }

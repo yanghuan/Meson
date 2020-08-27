@@ -208,8 +208,7 @@ Boolean AppDomain___::IsFinalizingForUnload() {
 }
 
 String AppDomain___::ToString() {
-  return SR::get_AppDomain_Name() + get_FriendlyName() + "
-" + SR::get_AppDomain_NoContextPolicies();
+  return SR::get_AppDomain_Name() + get_FriendlyName() + "\r\n" + SR::get_AppDomain_NoContextPolicies();
 }
 
 void AppDomain___::Unload(AppDomain domain) {

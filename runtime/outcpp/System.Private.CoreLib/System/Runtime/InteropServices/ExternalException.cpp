@@ -38,12 +38,10 @@ String ExternalException___::ToString() {
   }
   Exception innerException = Exception::in::get_InnerException();
   if (innerException != nullptr) {
-    text = text + "
- ---> " + innerException->ToString();
+    text = text + "\r\n ---> " + innerException->ToString();
   }
   if (get_StackTrace() != nullptr) {
-    text = text + "
-" + get_StackTrace();
+    text = text + "\r\n" + get_StackTrace();
   }
   return text;
 }

@@ -37,8 +37,7 @@ String COMException___::ToString() {
   }
   Exception innerException = Exception::in::get_InnerException();
   if (innerException != nullptr) {
-    stringBuilder->Append("
- ---> ")->Append(innerException->ToString());
+    stringBuilder->Append("\r\n ---> ")->Append(innerException->ToString());
   }
   String stackTrace = get_StackTrace();
   if (stackTrace != nullptr) {

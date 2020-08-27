@@ -498,6 +498,45 @@ namespace Meson.Compiler {
       }
     }
 
+    private static string DecodeCharacters(string s) {
+      StringBuilder sb = new StringBuilder();
+      foreach (char ch in s) {
+        switch (ch) {
+          case '\a':
+            sb.Append("\\a");
+            break;
+          case '\b':
+            sb.Append("\\b");
+            break;
+          case '\f':
+            sb.Append("\\f");
+            break;
+          case '\n':
+            sb.Append("\\n");
+            break;
+          case '\r':
+            sb.Append("\\r");
+            break;
+          case '\t':
+            sb.Append("\\t");
+            break;
+          case '\v':
+            sb.Append("\\v");
+            break;
+          case '\\':
+            sb.Append("\\");
+            break;
+          case '"':
+            sb.Append("\\\"");
+            break;
+          default:
+            sb.Append(ch);
+            break;
+        }
+      }
+      return sb.ToString();
+    }
+
     internal static LiteralExpressionSyntax GetPrimitiveExpression(object value, bool isInPrimitiveType = false) {
       var type = value.GetType();
       var code = Type.GetTypeCode(type);
@@ -507,7 +546,7 @@ namespace Meson.Compiler {
             return new NumberLiteralExpressionSyntax(((int)v).ToString());
           }
         case TypeCode.String: {
-            return new StringLiteralExpressionSyntax((string)value);
+            return new StringLiteralExpressionSyntax(DecodeCharacters((string)value));
           }
         case TypeCode.Int32: {
             return new NumberLiteralExpressionSyntax(value.ToString());
@@ -898,7 +937,7 @@ namespace Meson.Compiler {
     public static string RemoveSpeacialChars(this string name) {
       return name.Replace(".", "").Replace("<", "").Replace(">", "").Replace(",", "");
     }
-    
+
     public static bool IsNull(this Expression expression) {
       return expression == null || expression == Expression.Null;
     }
