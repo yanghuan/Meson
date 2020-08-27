@@ -303,6 +303,9 @@ namespace Meson.Compiler {
     public SyntaxNode VisitIndexerExpression(IndexerExpression indexerExpression) {
       var target = indexerExpression.Target.AcceptExpression(this);
       var arguments = indexerExpression.Arguments.Select(i => i.AcceptExpression(this));
+      var targetType = indexerExpression.Target.GetResolveResult().Type;
+      if (targetType.Kind == TypeKind.Pointer) {
+      }
       return new IndexerExpressionSyntax(target, arguments);
     }
 
@@ -328,7 +331,7 @@ namespace Meson.Compiler {
       return stringTypeName.WithIn().TwoColon("Format").Invation(new ExpressionSyntax[] { new StringLiteralExpressionSyntax(sb.ToString()) }.Concat(expressions));
     }
 
-    private static bool IsMethodSimilar(IMethod symbol, IMethod other, int index) {
+    private static bool IsMethodSimilar(IMethod symbol, IMethod other, int index, bool isZero) {
       if (symbol.TypeParameters.Count != other.TypeParameters.Count) {
         return false;
       }
@@ -341,6 +344,11 @@ namespace Meson.Compiler {
         var t1 = symbol.Parameters[i].Type;
         var t2 = other.Parameters[i].Type;
         if (i == index) {
+          if (isZero) {
+            if (t2.IsReferenceType == true) {
+              continue;
+            }
+          }
           if (!t1.IsNumberImplicit(t2)) {
             return false;
           }
@@ -373,8 +381,8 @@ namespace Meson.Compiler {
           }
           break;
         case TypeKind.Struct:
-          if (type.IsKnownType(KnownTypeCode.Int32) && expression is NumberLiteralExpressionSyntax) {
-            bool exists = symbol.DeclaringTypeDefinition.Methods.Any(i => i != symbol && i.Name == symbol.Name && IsMethodSimilar(symbol, i, index));
+          if (type.IsKnownType(KnownTypeCode.Int32) && expression is NumberLiteralExpressionSyntax numberLiteral) {
+            bool exists = symbol.DeclaringTypeDefinition.Methods.Any(i => i != symbol && i.Name == symbol.Name && IsMethodSimilar(symbol, i, index, numberLiteral.IsZero));
             if (exists) {
               goto Cast;
             }

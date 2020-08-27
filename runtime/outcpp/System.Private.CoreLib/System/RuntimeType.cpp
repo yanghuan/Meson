@@ -224,7 +224,7 @@ String RuntimeType___::RuntimeTypeCache___::GetDefaultMemberName() {
 
 Array<Object> RuntimeType___::RuntimeTypeCache___::GetEmptyArray() {
   Array<Object> as = _emptyArray;
-  return as != nullptr ? as : (_emptyArray = (Array<Object>)Array<>::in::CreateInstance(m_runtimeType, 0));
+  return as != nullptr ? as : (_emptyArray = (Array<Object>)Array<>::in::CreateInstance(m_runtimeType, (Int32)0));
 }
 
 MethodInfo RuntimeType___::RuntimeTypeCache___::GetGenericMethodInfo(RuntimeMethodHandleInternal genericMethod) {

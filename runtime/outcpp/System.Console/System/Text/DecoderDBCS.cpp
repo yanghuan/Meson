@@ -145,7 +145,7 @@ Int32 DecoderDBCS___::GetChars(Byte* bytes, Int32 byteCount, Char* chars, Int32 
   if (charCount == 0) {
     return 0;
   }
-  Byte b = (Byte)((byteCount > 0 && !flush && IsLastByteALeadByte(bytes, byteCount)) ? bytes[byteCount - 1] : 0);
+  Byte b = (Byte)((byteCount > 0 && !flush && IsLastByteALeadByte(bytes, byteCount)) ? bytes[(byteCount - 1).get()] : 0);
   if (b != 0) {
     byteCount--;
   }

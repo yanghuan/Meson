@@ -6,6 +6,7 @@
 #include <System.Private.CoreLib/System/Diagnostics/DebugProvider-dep.h>
 #include <System.Private.CoreLib/System/Diagnostics/StackTrace-dep.h>
 #include <System.Private.CoreLib/System/Environment-dep.h>
+#include <System.Private.CoreLib/System/Int32-dep.h>
 #include <System.Private.CoreLib/System/SR-dep.h>
 #include <System.Private.CoreLib/System/StringComparison.h>
 
@@ -28,7 +29,7 @@ String DebugProvider___::DebugAssertException___::Terminate(String s) {
 void DebugProvider___::Fail(String message, String detailMessage) {
   String stackTrace;
   try {
-    stackTrace = rt::newobj<StackTrace>(0, true)->ToString(StackTrace::in::TraceFormat::Normal);
+    stackTrace = rt::newobj<StackTrace>((Int32)0, true)->ToString(StackTrace::in::TraceFormat::Normal);
   } catch (...) {
   }
   WriteAssert(stackTrace, message, detailMessage);

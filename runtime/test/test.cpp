@@ -87,9 +87,13 @@ enum class EnumA {
 };
 
 int main() {
+  std::nullptr_t null = 0; 
+
   TestTry();
   constexpr rt::TypeCode a = rt::CodeOf<String::in>;
   std::printf("aaaa-> %d%\n", a);
+  String aaa = 0;
+  String bbb = "dddd";
 
   return 0;
 }

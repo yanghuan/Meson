@@ -129,6 +129,11 @@ namespace Meson.Compiler.CppAst {
       Arguments.AddRange(arguments);
     }
 
+    public IndexerExpressionSyntax(ExpressionSyntax expresison, ExpressionSyntax argument) {
+      Expression = expresison;
+      Arguments.Add(argument);
+    }
+
     internal override void Render(CppRenderer renderer) {
       renderer.Render(this);
     }
@@ -180,6 +185,7 @@ namespace Meson.Compiler.CppAst {
     }
 
     public static readonly NumberLiteralExpressionSyntax Zero = new NumberLiteralExpressionSyntax("0");
+    public bool IsZero => Value == Zero.Value;
   }
 
   internal sealed class CodeTemplateExpressionSyntax : ExpressionSyntax {

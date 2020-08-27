@@ -244,7 +244,7 @@ Task<Int32> NullStream___::ReadAsync(Array<Byte> buffer, Int32 offset, Int32 cou
 
 template <>
 ValueTask<Int32> NullStream___::ReadAsync(Memory<Byte> buffer, CancellationToken cancellationToken) {
-  return ValueTask<Int32>(0);
+  return ValueTask<Int32>((Int32)0);
 }
 
 Int32 NullStream___::ReadByte() {

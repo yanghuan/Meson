@@ -17,8 +17,6 @@ namespace Test {
     private static void Main(string[] args) {
       Console.WriteLine(args);
       int b = 10;
-      uint a = b;
-      ulong c = b;
     }
   }
 }
