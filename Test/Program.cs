@@ -17,6 +17,8 @@ namespace Test {
     private static void Main(string[] args) {
       Console.WriteLine(args);
       string s = "\nsssss\a";
+      char[] aa = new char[] { };
+      Span<char> tt = aa;
     }
   }
 }

@@ -297,7 +297,13 @@ namespace rt {
       return T1::op_Implicit(*this);
     }
 
-    template <class R, class T1 = T> requires(std::is_same_v<R, decltype(&(T1().GetPinnableReference()))>)
+    /*
+    template <class R, class T1 = T> requires(std::is_same_v<R, decltype(R::op_Implicit(ref<T1>()))>)
+    operator R() {
+      return R::op_Implicit(*this);
+    }*/
+
+    template <class R, class T1 = T> requires(std::is_pointer_v<R> && std::is_same_v<R, decltype(&(T1().GetPinnableReference()))>)
     operator R() {
       return p_ == nullptr ? nullptr : &(get()->GetPinnableReference());
     }
@@ -788,6 +794,10 @@ namespace rt {
 
   template <class T>
   inline void lock(const T& obj) {
+  }
+
+  template <class T>
+  inline void Using(const T& obj) {
   }
 
   template <class R, class Arg>
