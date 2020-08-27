@@ -176,7 +176,7 @@ namespace Meson.Compiler {
       }
     }
 
-    public static string GetFullNamespace(this ITypeDefinition reference, bool hasGlobal = false, ITypeDefinition definition = null, bool isForUsing= false) {
+    public static string GetFullNamespace(this ITypeDefinition reference, bool hasGlobal = false, ITypeDefinition definition = null, bool isForUsing = false) {
       if (definition != null && definition.ParentModule.AssemblyName == reference.ParentModule.AssemblyName) {
         if (isForUsing) {
           return reference.Namespace.ReplaceDot();
@@ -266,7 +266,7 @@ namespace Meson.Compiler {
             return GetBaseTypes(type).Concat(type.Fields.Select(i => i.Type)).Concat(type.Methods.SelectMany(i => i.Parameters).Select(i => i.Type)).Distinct();
           }
         case ReferenceTypeKind.FieldReference: {
-            return GetBaseTypes(type).Concat( type.Fields.Where(i => !i.IsStatic).Select(i => i.Type.GetReferenceType() ?? i.Type)).Distinct();
+            return GetBaseTypes(type).Concat(type.Fields.Where(i => !i.IsStatic).Select(i => i.Type.GetReferenceType() ?? i.Type)).Distinct();
           }
       }
       throw new InvalidProgramException();
@@ -491,7 +491,7 @@ namespace Meson.Compiler {
 
     public static LiteralExpressionSyntax GetPrimitiveTypeDefaultValue(this ITypeDefinition type) {
       switch (type.KnownTypeCode) {
-        case KnownTypeCode.Boolean: 
+        case KnownTypeCode.Boolean:
           return BooleanLiteralExpressionSyntax.False;
         default:
           return NumberLiteralExpressionSyntax.Zero;
@@ -502,54 +502,54 @@ namespace Meson.Compiler {
       var type = value.GetType();
       var code = Type.GetTypeCode(type);
       switch (code) {
-        case TypeCode.Char:{
-          char v = (char)value;
-          return new NumberLiteralExpressionSyntax(((int)v).ToString());
-        }
+        case TypeCode.Char: {
+            char v = (char)value;
+            return new NumberLiteralExpressionSyntax(((int)v).ToString());
+          }
         case TypeCode.String: {
-          return new StringLiteralExpressionSyntax((string)value);
-        }
+            return new StringLiteralExpressionSyntax((string)value);
+          }
         case TypeCode.Int32: {
-          return new NumberLiteralExpressionSyntax(value.ToString());
-        }
+            return new NumberLiteralExpressionSyntax(value.ToString());
+          }
         case TypeCode.UInt32: {
-          return new NumberLiteralExpressionSyntax($"{value}u");
-        }
-        case TypeCode.Boolean:{
-          return value is false ? BooleanLiteralExpressionSyntax.False : BooleanLiteralExpressionSyntax.True;
-        }
-        case TypeCode.Single:{
-          string s;
-          if (value is float.NaN) {
-            s = isInPrimitiveType ? "rt::NaN<float>" : "Single::NaN";
-          } else if (value is float.NegativeInfinity) {
-            s = isInPrimitiveType ? "rt::NegativeInfinity<float>" : "Single::NegativeInfinity";
-          } else if (value is float.PositiveInfinity) {
-            s = isInPrimitiveType ? "rt::PositiveInfinity<float>" : "Single::PositiveInfinity";
-          } else {
-            s = value.ToString();
+            return new NumberLiteralExpressionSyntax($"{value}u");
           }
-          return new NumberLiteralExpressionSyntax(s);
-        }
-        case TypeCode.Double:{
-          string s;
-          if (value is double.NaN) {
-            s = isInPrimitiveType ? "rt::NaN<double>" : "Double::NaN";
-          } else if (value is double.NegativeInfinity) {
-            s = isInPrimitiveType ? "rt::NegativeInfinity<double>" : "Double::NegativeInfinity";
-          } else if (value is double.PositiveInfinity) {
-            s = isInPrimitiveType ? "rt::PositiveInfinity<double>" : "Double::PositiveInfinity";
-          } else {
-            s = value.ToString();
+        case TypeCode.Boolean: {
+            return value is false ? BooleanLiteralExpressionSyntax.False : BooleanLiteralExpressionSyntax.True;
           }
-          return new NumberLiteralExpressionSyntax(s);
-        }
-        case TypeCode.Decimal:{
-          return new NumberLiteralExpressionSyntax(value.ToString());
-        }
+        case TypeCode.Single: {
+            string s;
+            if (value is float.NaN) {
+              s = isInPrimitiveType ? "rt::NaN<float>" : "Single::NaN";
+            } else if (value is float.NegativeInfinity) {
+              s = isInPrimitiveType ? "rt::NegativeInfinity<float>" : "Single::NegativeInfinity";
+            } else if (value is float.PositiveInfinity) {
+              s = isInPrimitiveType ? "rt::PositiveInfinity<float>" : "Single::PositiveInfinity";
+            } else {
+              s = value.ToString();
+            }
+            return new NumberLiteralExpressionSyntax(s);
+          }
+        case TypeCode.Double: {
+            string s;
+            if (value is double.NaN) {
+              s = isInPrimitiveType ? "rt::NaN<double>" : "Double::NaN";
+            } else if (value is double.NegativeInfinity) {
+              s = isInPrimitiveType ? "rt::NegativeInfinity<double>" : "Double::NegativeInfinity";
+            } else if (value is double.PositiveInfinity) {
+              s = isInPrimitiveType ? "rt::PositiveInfinity<double>" : "Double::PositiveInfinity";
+            } else {
+              s = value.ToString();
+            }
+            return new NumberLiteralExpressionSyntax(s);
+          }
+        case TypeCode.Decimal: {
+            return new NumberLiteralExpressionSyntax(value.ToString());
+          }
         default: {
-          return new NumberLiteralExpressionSyntax(value.ToString());
-        }
+            return new NumberLiteralExpressionSyntax(value.ToString());
+          }
       }
     }
 
@@ -567,7 +567,7 @@ namespace Meson.Compiler {
 
     public static ForwardMacroSyntax GetNestedFriendStatement(this ITypeDefinition type) {
       ForwardMacroKind kind = type.Kind == TypeKind.Struct ? ForwardMacroKind.FriendNestedStruct : ForwardMacroKind.FriendNestedClass;
-      return new ForwardMacroSyntax(type.Name, type.GetTypeParameters().Select(i => (IdentifierSyntax)i.Name), kind) { 
+      return new ForwardMacroSyntax(type.Name, type.GetTypeParameters().Select(i => (IdentifierSyntax)i.Name), kind) {
         AccessibilityToken = type.Accessibility.ToTokenString(),
       };
     }
@@ -838,6 +838,25 @@ namespace Meson.Compiler {
         return left.IsImplementInterface(right);
       }
 
+      return false;
+    }
+
+    public static bool IsNumberImplicit(this IType from, IType to) {
+      var formDefinition = from.GetDefinition();
+      var toDefinition = to.GetDefinition();
+      if (formDefinition != null && toDefinition != null) {
+        switch (formDefinition.KnownTypeCode) {
+          case KnownTypeCode.Int32: {
+              switch (toDefinition.KnownTypeCode) {
+                case KnownTypeCode.Int64:
+                case KnownTypeCode.Single:
+                case KnownTypeCode.Double:
+                  return true;
+              }
+              break;
+            }
+        }
+      }
       return false;
     }
 

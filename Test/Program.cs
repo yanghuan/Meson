@@ -4,26 +4,21 @@ using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 
 namespace Test {
-  enum E {
-    A,
-    B,
-    C
-  }  
+  struct A {
 
-  static class Extension {
-    public static void F(this E e, int a = 10, bool c = false) {
-
-    }
   }
 
-
   class Program {
-    private static int A { get; set; }
+    private unsafe static void Test() {
+      long aa = 0;
+      A* a = (A*)aa;
+    }
 
     private static void Main(string[] args) {
-      foreach (string i in args) {
-        Console.WriteLine(i);
-      }
+      Console.WriteLine(args);
+      int b = 10;
+      uint a = b;
+      ulong c = b;
     }
   }
 }

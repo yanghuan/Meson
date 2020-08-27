@@ -311,7 +311,7 @@ void CustomAttributeData___::ctor(RuntimeModule scope, MetadataToken caCtorToken
     m_namedParams[k + fields->get_Length()] = CustomAttributeNamedParameter(properties[k]->get_Name(), CustomAttributeEncoding::Property, InitCustomAttributeType((RuntimeType)properties[k]->get_PropertyType()));
   }
   m_members = rt::newarr<Array<MemberInfo>>(fields->get_Length() + properties->get_Length());
-  fields->CopyTo(m_members, 0);
+  fields->CopyTo(m_members, (Int32)0);
   properties->CopyTo(m_members, fields->get_Length());
   CustomAttributeEncodedArgument::ParseAttributeArguments(blob, m_ctorParams, m_namedParams, m_scope);
 }

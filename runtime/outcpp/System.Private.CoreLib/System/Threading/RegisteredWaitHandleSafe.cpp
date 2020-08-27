@@ -1,13 +1,14 @@
 #include "RegisteredWaitHandleSafe-dep.h"
 
 #include <System.Private.CoreLib/System/GC-dep.h>
+#include <System.Private.CoreLib/System/Int32-dep.h>
 #include <System.Private.CoreLib/System/Threading/Interlocked-dep.h>
 #include <System.Private.CoreLib/System/Threading/RegisteredWaitHandleSafe-dep.h>
 #include <System.Private.CoreLib/System/Threading/Thread-dep.h>
 
 namespace System::Private::CoreLib::System::Threading::RegisteredWaitHandleSafeNamespace {
 IntPtr RegisteredWaitHandleSafe___::get_InvalidHandle() {
-  return IntPtr(-1);
+  return IntPtr((Int32)-1);
 }
 
 IntPtr RegisteredWaitHandleSafe___::GetHandle() {

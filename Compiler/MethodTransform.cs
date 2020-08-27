@@ -328,27 +328,62 @@ namespace Meson.Compiler {
       return stringTypeName.WithIn().TwoColon("Format").Invation(new ExpressionSyntax[] { new StringLiteralExpressionSyntax(sb.ToString()) }.Concat(expressions));
     }
 
-    private void CheckParameterType(IMethod symbol, IParameter parameter, int index, IType type, ref ExpressionSyntax expression) {
-      if (type.Kind == TypeKind.Array && parameter.Type.Kind == TypeKind.Array && parameter.Type.FullName != type.FullName) {
-        bool exists = symbol.DeclaringTypeDefinition.Methods.Any(i => i != symbol
-          && i.Name == symbol.Name
-          && i.Parameters.Count == symbol.Parameters.Count
-          && type.Is(i.Parameters[index].Type.Original()));
-        if (exists) {
-          goto Cast;
+    private static bool IsMethodSimilar(IMethod symbol, IMethod other, int index) {
+      if (symbol.TypeParameters.Count != other.TypeParameters.Count) {
+        return false;
+      }
+
+      if (symbol.Parameters.Count != other.Parameters.Count) {
+        return false;
+      }
+
+      for (int i = 0; i < symbol.Parameters.Count; ++i) {
+        var t1 = symbol.Parameters[i].Type;
+        var t2 = other.Parameters[i].Type;
+        if (i == index) {
+          if (!t1.IsNumberImplicit(t2)) {
+            return false;
+          }
+        } else if (!t1.Equals(t2)) {
+          return false;
         }
       }
 
-      if (type.Kind == TypeKind.Null) {
-        var original = (IMethod)symbol.MemberDefinition;
-        var originalParameterType = original.Parameters[index].Type;
-        if (originalParameterType.Kind == TypeKind.TypeParameter && original.TypeParameters.Any(i => i.Name == originalParameterType.Name)) {
-          goto Cast;
-        }
+      return true;
+    }
+
+    private void CheckParameterType(IMethod symbol, IParameter parameter, int index, IType type, ref ExpressionSyntax expression) {
+      switch (type.Kind) {
+        case TypeKind.Array:
+          if (parameter.Type.Kind == TypeKind.Array && parameter.Type.FullName != type.FullName) {
+            bool exists = symbol.DeclaringTypeDefinition.Methods.Any(i => i != symbol
+              && i.Name == symbol.Name
+              && i.Parameters.Count == symbol.Parameters.Count
+              && type.Is(i.Parameters[index].Type.Original()));
+            if (exists) {
+              goto Cast;
+            }
+          }
+          break;
+        case TypeKind.Null:
+          var original = (IMethod)symbol.MemberDefinition;
+          var originalParameterType = original.Parameters[index].Type;
+          if (originalParameterType.Kind == TypeKind.TypeParameter && original.TypeParameters.Any(i => i.Name == originalParameterType.Name)) {
+            goto Cast;
+          }
+          break;
+        case TypeKind.Struct:
+          if (type.IsKnownType(KnownTypeCode.Int32) && expression is NumberLiteralExpressionSyntax) {
+            bool exists = symbol.DeclaringTypeDefinition.Methods.Any(i => i != symbol && i.Name == symbol.Name && IsMethodSimilar(symbol, i, index));
+            if (exists) {
+              goto Cast;
+            }
+          }
+          break;
       }
       return;
-    
-     Cast:
+
+    Cast:
       var targetType = GetTypeName(parameter.Type, parameter);
       expression = expression.CastTo(targetType);
     }
@@ -659,7 +694,7 @@ namespace Meson.Compiler {
     private static readonly string[] unaryOperatorToknes_ = new string[] {
       null, "!", "~", "-", "+",
       "++", "--", "++", "--", "*",
-      "&", null, null, null, null, 
+      "&", null, null, null, null,
       string.Empty, null,
     };
 
@@ -919,7 +954,7 @@ namespace Meson.Compiler {
     }
 
     public SyntaxNode VisitUncheckedStatement(UncheckedStatement uncheckedStatement) {
-       var block = uncheckedStatement.Body.Accept<BlockSyntax>(this);
+      var block = uncheckedStatement.Body.Accept<BlockSyntax>(this);
       return new BlockStatementSyntax(block.Statements);
     }
 

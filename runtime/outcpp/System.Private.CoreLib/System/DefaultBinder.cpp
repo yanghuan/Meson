@@ -156,7 +156,7 @@ MethodBase DefaultBinder___::BindToMethod(BindingFlags bindingAttr, Array<Method
             Int32 num8 = parametersNoCopy4->get_Length() - 1;
             Array<>::in::Copy(args, array8, num8);
             array8[num8] = Array<>::in::CreateInstance(array3[0], 1);
-            ((Array<>)array8[num8])->SetValue(args[num8], 0);
+            ((Array<>)array8[num8])->SetValue(args[num8], (Int32)0);
             args = array8;
           }
         } else if (parametersNoCopy4->get_Length() > args->get_Length()) {
@@ -214,7 +214,7 @@ MethodBase DefaultBinder___::BindToMethod(BindingFlags bindingAttr, Array<Method
             Int32 num6 = parametersNoCopy3->get_Length() - 1;
             Array<>::in::Copy(args, array5, num6);
             array5[num6] = Array<>::in::CreateInstance(array3[num5], 1);
-            ((Array<>)array5[num6])->SetValue(args[num6], 0);
+            ((Array<>)array5[num6])->SetValue(args[num6], (Int32)0);
             args = array5;
           }
         } else if (parametersNoCopy3->get_Length() > args->get_Length()) {

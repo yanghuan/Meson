@@ -317,7 +317,7 @@ Boolean WaitHandle___::SignalAndWait(WaitHandle toSignal, WaitHandle toWaitOn, I
 }
 
 void WaitHandle___::cctor() {
-  InvalidHandle = IntPtr(-1);
+  InvalidHandle = IntPtr((Int32)-1);
 }
 
 } // namespace System::Private::CoreLib::System::Threading::WaitHandleNamespace

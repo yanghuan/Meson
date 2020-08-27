@@ -440,7 +440,7 @@ void Environment::SetEnvironmentVariableFromRegistry(String variable, String val
   {
     Char* value2 = "Environment";
     IntPtr pdwResult;
-    IntPtr intPtr = Interop::User32::SendMessageTimeout(IntPtr(65535), 26, IntPtr::Zero, (IntPtr)(void*)value2, 0, 1000, pdwResult);
+    IntPtr intPtr = Interop::User32::SendMessageTimeout(IntPtr((Int32)65535), 26, IntPtr::Zero, (IntPtr)(void*)value2, 0, 1000, pdwResult);
   }
 }
 

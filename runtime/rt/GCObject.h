@@ -512,6 +512,10 @@ namespace rt {
   constexpr bool IsArithmeticCode(TypeCode code) {
     return code >= TypeCode::Char && code <= TypeCode::Double;
   }
+  
+  constexpr bool IsPrimitiveValueCode(TypeCode code) {
+    return code >= TypeCode::Boolean && code <= TypeCode::Double;
+  }
 
   template <class T>
   static constexpr bool IsArithmetic = IsArithmeticCode(CodeOf<T>);
@@ -533,6 +537,19 @@ namespace rt {
       if constexpr (sizeof(To) > sizeof(From)) {
         return true;
       }
+    }
+    return false;
+  }
+
+  template <class T>
+  constexpr bool IsValueType() {
+    if constexpr (std::is_enum_v<T>) {
+      return true;
+    }
+
+    constexpr TypeCode code = CodeOf<T>;
+    if constexpr (IsPrimitiveValueCode(code) || code == TypeCode::Struct) {
+      return true;
     }
     return false;
   }
@@ -664,6 +681,11 @@ namespace rt {
 
     explicit operator void*() const noexcept {
       return (void*)(static_cast<const T*>(this)->get());
+    }
+
+    template <class R> requires(IsValueType<R>())
+    explicit operator R*() const noexcept {
+      return (R*)(static_cast<const T*>(this)->get());
     }
   };
 
