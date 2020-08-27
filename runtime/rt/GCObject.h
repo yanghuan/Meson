@@ -586,6 +586,27 @@ namespace rt {
     }
 
     template <class T1> requires(IsNumerical<T1>) 
+    T operator *=(const T1& other) {
+      auto p = static_cast<T*>(this);
+      p->get() *= GetPrimitiveValue(other);
+      return *p;
+    }
+
+    template <class T1> requires(IsNumerical<T1>) 
+    T operator /=(const T1& other) {
+      auto p = static_cast<T*>(this);
+      p->get() /= GetPrimitiveValue(other);
+      return *p;
+    }
+
+    template <class T1> requires(IsNumerical<T1>) 
+    T operator %=(const T1& other) {
+      auto p = static_cast<T*>(this);
+      p->get() %= GetPrimitiveValue(other);
+      return *p;
+    }
+
+    template <class T1> requires(IsNumerical<T1>) 
     T operator |=(const T1& other) {
       auto p = static_cast<T*>(this);
       p->get() |= GetPrimitiveValue(other);
