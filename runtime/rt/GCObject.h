@@ -297,11 +297,10 @@ namespace rt {
       return T1::op_Implicit(*this);
     }
 
-    /*
-    template <class R, class T1 = T> requires(std::is_same_v<R, decltype(R::op_Implicit(ref<T1>()))>)
+    template <class R> requires(std::is_same_v<R, decltype(R::op_Implicit(ref()))>)
     operator R() {
       return R::op_Implicit(*this);
-    }*/
+    }
 
     template <class R, class T1 = T> requires(std::is_pointer_v<R> && std::is_same_v<R, decltype(&(T1().GetPinnableReference()))>)
     operator R() {
@@ -833,7 +832,8 @@ namespace rt {
   template <class A, class Size>
   inline auto newarr(const Size& n) {
     using T = typename A::in::element_type;
-    return *reinterpret_cast<A*>(&rt::Array<T, object>::newarr(GetPrimitiveValue(n)));
+    auto array = rt::Array<T, object>::newarr(GetPrimitiveValue(n));
+    return *reinterpret_cast<A*>(&array);
   }
 }  // namespace rt
 

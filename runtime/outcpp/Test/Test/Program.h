@@ -5,13 +5,14 @@
 namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)
 FORWARD(String)
+FORWARDS(UIntPtr)
 } // namespace System::Private::CoreLib::System
 namespace Test::Test {
 namespace ProgramNamespace {
 using namespace ::System::Private::CoreLib::System;
 CLASS(Program) : public object {
-  private: static void Test();
   public: static void Main(Array<String> args);
+  private: static void Test(UIntPtr aa);
   public: void ctor();
 };
 } // namespace ProgramNamespace
