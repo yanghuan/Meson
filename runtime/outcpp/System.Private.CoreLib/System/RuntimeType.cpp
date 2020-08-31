@@ -861,6 +861,10 @@ void RuntimeType___::ctor() {
   rt::throw_exception<NotSupportedException>();
 }
 
+IntPtr RuntimeType___::GetUnderlyingNativeHandle() {
+  return m_handle;
+}
+
 Boolean RuntimeType___::CacheEquals(Object o) {
   RuntimeType runtimeType = rt::as<RuntimeType>(o);
   if ((Object)runtimeType != nullptr) {

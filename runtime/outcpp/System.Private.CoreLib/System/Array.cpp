@@ -527,9 +527,9 @@ void Array___<>::Copy(Array<> sourceArray, Array<> destinationArray, Int32 lengt
     Byte& data = Unsafe::As<RawArrayData>(sourceArray)->Data;
     Byte& data2 = Unsafe::As<RawArrayData>(destinationArray)->Data;
     if (methodTable->get_ContainsGCPointers()) {
-      Buffer::BulkMoveWithWriteBarrier(data2, data, uIntPtr);
+      Buffer::BulkMoveWithWriteBarrier(data2, data, (UIntPtr)uIntPtr);
     } else {
-      Buffer::Memmove(data2, data, uIntPtr);
+      Buffer::Memmove(data2, data, (UIntPtr)uIntPtr);
     }
   } else {
     Copy(sourceArray, sourceArray->GetLowerBound(0), destinationArray, destinationArray->GetLowerBound(0), length, false);
@@ -545,9 +545,9 @@ void Array___<>::Copy(Array<> sourceArray, Int32 sourceIndex, Array<> destinatio
       Byte& source = Unsafe::AddByteOffset(Unsafe::As<RawArrayData>(sourceArray)->Data, (UIntPtr)((UInt64)(UInt32)sourceIndex * (UInt64)(Int64)(UInt64)uIntPtr));
       Byte& destination = Unsafe::AddByteOffset(Unsafe::As<RawArrayData>(destinationArray)->Data, (UIntPtr)((UInt64)(UInt32)destinationIndex * (UInt64)(Int64)(UInt64)uIntPtr));
       if (methodTable->get_ContainsGCPointers()) {
-        Buffer::BulkMoveWithWriteBarrier(destination, source, uIntPtr2);
+        Buffer::BulkMoveWithWriteBarrier(destination, source, (UIntPtr)uIntPtr2);
       } else {
-        Buffer::Memmove(destination, source, uIntPtr2);
+        Buffer::Memmove(destination, source, (UIntPtr)uIntPtr2);
       }
       return;
     }
@@ -591,9 +591,9 @@ void Array___<>::Copy(Array<> sourceArray, Int32 sourceIndex, Array<> destinatio
     Byte& source = Unsafe::AddByteOffset(RuntimeHelpers::GetRawArrayData(sourceArray), (UIntPtr)((UInt64)(UInt32)sourceIndex * (UInt64)(Int64)(UInt64)uIntPtr));
     Byte& destination = Unsafe::AddByteOffset(RuntimeHelpers::GetRawArrayData(destinationArray), (UIntPtr)((UInt64)(UInt32)destinationIndex * (UInt64)(Int64)(UInt64)uIntPtr));
     if (methodTable->get_ContainsGCPointers()) {
-      Buffer::BulkMoveWithWriteBarrier(destination, source, uIntPtr2);
+      Buffer::BulkMoveWithWriteBarrier(destination, source, (UIntPtr)uIntPtr2);
     } else {
-      Buffer::Memmove(destination, source, uIntPtr2);
+      Buffer::Memmove(destination, source, (UIntPtr)uIntPtr2);
     }
   } else {
     if (reliable) {
@@ -629,7 +629,7 @@ void Array___<>::Clear(Array<> array, Int32 index, Int32 length) {
   if (methodTable->get_ContainsGCPointers()) {
     SpanHelpers::ClearWithReferences(Unsafe::As<Byte, IntPtr>(reference), (UIntPtr)((UInt64)uIntPtr2 / (UInt64)(UInt32)sizeof(IntPtr)));
   } else {
-    SpanHelpers::ClearWithoutReferences(reference, uIntPtr2);
+    SpanHelpers::ClearWithoutReferences(reference, (UIntPtr)uIntPtr2);
   }
 }
 

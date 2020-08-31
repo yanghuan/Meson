@@ -6,9 +6,11 @@
 #include <System.Private.CoreLib/System/ExceptionArgument.h>
 #include <System.Private.CoreLib/System/SR-dep.h>
 #include <System.Private.CoreLib/System/Threading/Interlocked-dep.h>
-#include <System.Private.CoreLib/System/Threading/Tasks/AsyncCausalityTracer-dep.h>
+#include <System.Private.CoreLib/System/Threading/Tasks/AsyncCausalityStatus.h>
+#include <System.Private.CoreLib/System/Threading/Tasks/CausalityRelation.h>
 #include <System.Private.CoreLib/System/Threading/Tasks/InternalTaskOptions.h>
 #include <System.Private.CoreLib/System/Threading/Tasks/TaskFactory-dep.h>
+#include <System.Private.CoreLib/System/Threading/Tasks/TplEventSource-dep.h>
 #include <System.Private.CoreLib/System/Threading/Tasks/VoidTaskResult-dep.h>
 #include <System.Private.CoreLib/System/ThrowHelper-dep.h>
 
@@ -27,19 +29,25 @@ Boolean TaskFactory___<>::CompleteOnCountdownPromise___<>::get_ShouldNotifyDebug
 void TaskFactory___<>::CompleteOnCountdownPromise___<>::ctor(Array<Task<>> tasksCopy) {
   _tasks = tasksCopy;
   _count = tasksCopy->get_Length();
-  Boolean loggingOn = AsyncCausalityTracer::get_LoggingOn();
+  if (TplEventSource::in::Log->IsEnabled()) {
+    TplEventSource::in::Log->TraceOperationBegin(Task<>::in::get_Id(), "TaskFactory.ContinueWhenAll", 0);
+  }
   if (Task<>::in::s_asyncDebuggingEnabled) {
     Task<>::in::AddToActiveTasks((CompleteOnCountdownPromise<>)this);
   }
 }
 
 void TaskFactory___<>::CompleteOnCountdownPromise___<>::Invoke(Task<> completingTask) {
-  Boolean loggingOn = AsyncCausalityTracer::get_LoggingOn();
+  if (TplEventSource::in::Log->IsEnabled()) {
+    TplEventSource::in::Log->TraceOperationRelation(Task<>::in::get_Id(), CausalityRelation::Join);
+  }
   if (completingTask->get_IsWaitNotificationEnabled()) {
     SetNotificationForWaitCompletion(true);
   }
   if (Interlocked::Decrement(_count) == 0) {
-    Boolean loggingOn2 = AsyncCausalityTracer::get_LoggingOn();
+    if (TplEventSource::in::Log->IsEnabled()) {
+      TplEventSource::in::Log->TraceOperationEnd(Task<>::in::get_Id(), AsyncCausalityStatus::Completed);
+    }
     if (Task<>::in::s_asyncDebuggingEnabled) {
       Task<>::in::RemoveFromActiveTasks((CompleteOnCountdownPromise<>)this);
     }
@@ -56,7 +64,9 @@ void TaskFactory___<>::CompleteOnInvokePromise___::ctor(IList<Task<>> tasks, Boo
   if (isSyncBlocking) {
     _stateFlags = 2;
   }
-  Boolean loggingOn = AsyncCausalityTracer::get_LoggingOn();
+  if (TplEventSource::in::Log->IsEnabled()) {
+    TplEventSource::in::Log->TraceOperationBegin(Task<>::in::get_Id(), "TaskFactory.ContinueWhenAny", 0);
+  }
   if (Task<>::in::s_asyncDebuggingEnabled) {
     Task<>::in::AddToActiveTasks((CompleteOnInvokePromise)this);
   }
@@ -68,7 +78,10 @@ void TaskFactory___<>::CompleteOnInvokePromise___::Invoke(Task<> completingTask)
   if ((stateFlags & 1) != 0 || Interlocked::Exchange(_stateFlags, num | 1) != num) {
     return;
   }
-  Boolean loggingOn = AsyncCausalityTracer::get_LoggingOn();
+  if (TplEventSource::in::Log->IsEnabled()) {
+    TplEventSource::in::Log->TraceOperationRelation(Task<>::in::get_Id(), CausalityRelation::Choice);
+    TplEventSource::in::Log->TraceOperationEnd(Task<>::in::get_Id(), AsyncCausalityStatus::Completed);
+  }
   if (Task<>::in::s_asyncDebuggingEnabled) {
     Task<>::in::RemoveFromActiveTasks((CompleteOnInvokePromise)this);
   }

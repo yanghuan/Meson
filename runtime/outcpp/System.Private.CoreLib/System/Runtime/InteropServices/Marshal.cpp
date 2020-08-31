@@ -879,7 +879,7 @@ Int32 Marshal::GetHRForLastWin32Error() {
 
 void Marshal::ZeroFreeBSTR(IntPtr s) {
   if (!(s == IntPtr::Zero)) {
-    Buffer::ZeroMemory((Byte*)(void*)s, SysStringByteLen(s));
+    Buffer::ZeroMemory((Byte*)(void*)s, (UIntPtr)SysStringByteLen(s));
     FreeBSTR(s);
   }
 }

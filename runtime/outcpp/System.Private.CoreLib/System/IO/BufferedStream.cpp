@@ -14,10 +14,13 @@
 #include <System.Private.CoreLib/System/ObjectDisposedException-dep.h>
 #include <System.Private.CoreLib/System/ReadOnlyMemory-dep.h>
 #include <System.Private.CoreLib/System/ReadOnlySpan-dep.h>
+#include <System.Private.CoreLib/System/Runtime/CompilerServices/AsyncTaskMethodBuilder-dep.h>
+#include <System.Private.CoreLib/System/Runtime/CompilerServices/AsyncValueTaskMethodBuilder-dep.h>
 #include <System.Private.CoreLib/System/SR-dep.h>
 #include <System.Private.CoreLib/System/Threading/Tasks/TaskToApm-dep.h>
 
 namespace System::Private::CoreLib::System::IO::BufferedStreamNamespace {
+using namespace System::Runtime::CompilerServices;
 using namespace System::Threading::Tasks;
 
 Stream BufferedStream___::get_UnderlyingStream() {
@@ -154,19 +157,12 @@ void BufferedStream___::Dispose(Boolean disposing) {
 }
 
 ValueTask<> BufferedStream___::DisposeAsync() {
-  Int32 num = 1;
-  try {
-    if (_stream != nullptr) {
-      try {
-      } catch (...) {
-      } finally: {
-      }
-    }
-  } catch (...) {
-  } finally: {
-    _stream = nullptr;
-    _buffer = nullptr;
-  }
+  <DisposeAsync>d__35 stateMachine;
+  stateMachine.<>t__builder = AsyncValueTaskMethodBuilder<>::Create();
+  stateMachine.<>4__this = (BufferedStream)this;
+  stateMachine.<>1__state = -1;
+  stateMachine.<>t__builder.Start(stateMachine);
+  return stateMachine.<>t__builder.get_Task();
 }
 
 void BufferedStream___::Flush() {
@@ -198,7 +194,13 @@ Task<> BufferedStream___::FlushAsync(CancellationToken cancellationToken) {
 }
 
 Task<> BufferedStream___::FlushAsyncInternal(CancellationToken cancellationToken) {
-  SemaphoreSlim sem = LazyEnsureAsyncActiveSemaphoreInitialized();
+  <FlushAsyncInternal>d__38 stateMachine;
+  stateMachine.<>t__builder = AsyncTaskMethodBuilder<>::Create();
+  stateMachine.<>4__this = (BufferedStream)this;
+  stateMachine.cancellationToken = cancellationToken;
+  stateMachine.<>1__state = -1;
+  stateMachine.<>t__builder.Start(stateMachine);
+  return stateMachine.<>t__builder.get_Task();
 }
 
 void BufferedStream___::FlushRead() {
@@ -227,6 +229,13 @@ void BufferedStream___::FlushWrite() {
 }
 
 ValueTask<> BufferedStream___::FlushWriteAsync(CancellationToken cancellationToken) {
+  <FlushWriteAsync>d__42 stateMachine;
+  stateMachine.<>t__builder = AsyncValueTaskMethodBuilder<>::Create();
+  stateMachine.<>4__this = (BufferedStream)this;
+  stateMachine.cancellationToken = cancellationToken;
+  stateMachine.<>1__state = -1;
+  stateMachine.<>t__builder.Start(stateMachine);
+  return stateMachine.<>t__builder.get_Task();
 }
 
 Int32 BufferedStream___::ReadFromBuffer(Array<Byte> array, Int32 offset, Int32 count) {
@@ -369,7 +378,7 @@ Task<Int32> BufferedStream___::ReadAsync(Array<Byte> buffer, Int32 offset, Int32
 template <>
 ValueTask<Int32> BufferedStream___::ReadAsync(Memory<Byte> buffer, CancellationToken cancellationToken) {
   if (cancellationToken.get_IsCancellationRequested()) {
-    return ValueTask<Int32>(Task<>::in::FromCanceled<Int32>(cancellationToken));
+    return ValueTask<>::FromCanceled<Int32>(cancellationToken);
   }
   EnsureNotClosed();
   EnsureCanRead();
@@ -395,6 +404,16 @@ ValueTask<Int32> BufferedStream___::ReadAsync(Memory<Byte> buffer, CancellationT
 }
 
 ValueTask<Int32> BufferedStream___::ReadFromUnderlyingStreamAsync(Memory<Byte> buffer, CancellationToken cancellationToken, Int32 bytesAlreadySatisfied, Task<> semaphoreLockTask) {
+  <ReadFromUnderlyingStreamAsync>d__51 stateMachine;
+  stateMachine.<>t__builder = AsyncValueTaskMethodBuilder<Int32>::Create();
+  stateMachine.<>4__this = (BufferedStream)this;
+  stateMachine.buffer = buffer;
+  stateMachine.cancellationToken = cancellationToken;
+  stateMachine.bytesAlreadySatisfied = bytesAlreadySatisfied;
+  stateMachine.semaphoreLockTask = semaphoreLockTask;
+  stateMachine.<>1__state = -1;
+  stateMachine.<>t__builder.Start(stateMachine);
+  return stateMachine.<>t__builder.get_Task();
 }
 
 IAsyncResult BufferedStream___::BeginRead(Array<Byte> buffer, Int32 offset, Int32 count, AsyncCallback callback, Object state) {
@@ -546,7 +565,7 @@ Task<> BufferedStream___::WriteAsync(Array<Byte> buffer, Int32 offset, Int32 cou
 template <>
 ValueTask<> BufferedStream___::WriteAsync(ReadOnlyMemory<Byte> buffer, CancellationToken cancellationToken) {
   if (cancellationToken.get_IsCancellationRequested()) {
-    return ValueTask<>(Task<>::in::FromCanceled<Int32>(cancellationToken));
+    return ValueTask<>::FromCanceled(cancellationToken);
   }
   EnsureNotClosed();
   EnsureCanWrite();
@@ -574,6 +593,15 @@ ValueTask<> BufferedStream___::WriteAsync(ReadOnlyMemory<Byte> buffer, Cancellat
 }
 
 ValueTask<> BufferedStream___::WriteToUnderlyingStreamAsync(ReadOnlyMemory<Byte> buffer, CancellationToken cancellationToken, Task<> semaphoreLockTask) {
+  <WriteToUnderlyingStreamAsync>d__62 stateMachine;
+  stateMachine.<>t__builder = AsyncValueTaskMethodBuilder<>::Create();
+  stateMachine.<>4__this = (BufferedStream)this;
+  stateMachine.buffer = buffer;
+  stateMachine.cancellationToken = cancellationToken;
+  stateMachine.semaphoreLockTask = semaphoreLockTask;
+  stateMachine.<>1__state = -1;
+  stateMachine.<>t__builder.Start(stateMachine);
+  return stateMachine.<>t__builder.get_Task();
 }
 
 IAsyncResult BufferedStream___::BeginWrite(Array<Byte> buffer, Int32 offset, Int32 count, AsyncCallback callback, Object state) {
@@ -651,6 +679,15 @@ Task<> BufferedStream___::CopyToAsync(Stream destination, Int32 bufferSize, Canc
 }
 
 Task<> BufferedStream___::CopyToAsyncCore(Stream destination, Int32 bufferSize, CancellationToken cancellationToken) {
+  <CopyToAsyncCore>d__70 stateMachine;
+  stateMachine.<>t__builder = AsyncTaskMethodBuilder<>::Create();
+  stateMachine.<>4__this = (BufferedStream)this;
+  stateMachine.destination = destination;
+  stateMachine.bufferSize = bufferSize;
+  stateMachine.cancellationToken = cancellationToken;
+  stateMachine.<>1__state = -1;
+  stateMachine.<>t__builder.Start(stateMachine);
+  return stateMachine.<>t__builder.get_Task();
 }
 
 } // namespace System::Private::CoreLib::System::IO::BufferedStreamNamespace

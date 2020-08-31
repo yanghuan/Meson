@@ -4,10 +4,8 @@
 #include <System.Private.CoreLib/System/ArgumentOutOfRangeException-dep.h>
 #include <System.Private.CoreLib/System/Boolean-dep.h>
 #include <System.Private.CoreLib/System/NotSupportedException-dep.h>
-#include <System.Private.CoreLib/System/Object-dep.h>
 #include <System.Private.CoreLib/System/ObjectDisposedException-dep.h>
 #include <System.Private.CoreLib/System/SR-dep.h>
-#include <System.Private.CoreLib/System/SystemException-dep.h>
 
 namespace System::Private::CoreLib::System::IO::StreamHelpersNamespace {
 void StreamHelpers::ValidateCopyToArgs(Stream source, Stream destination, Int32 bufferSize) {
@@ -30,18 +28,6 @@ void StreamHelpers::ValidateCopyToArgs(Stream source, Stream destination, Int32 
   }
   if (!canWrite) {
     rt::throw_exception<NotSupportedException>(SR::get_NotSupported_UnwritableStream());
-  }
-}
-
-void StreamHelpers::ValidateCopyToArgs(Stream source, Delegate callback, Int32 bufferSize) {
-  if ((Object)callback == nullptr) {
-    rt::throw_exception<ArgumentNullException>("callback");
-  }
-  if (bufferSize <= 0) {
-    rt::throw_exception<ArgumentOutOfRangeException>("bufferSize", bufferSize, SR::get_ArgumentOutOfRange_NeedPosNum());
-  }
-  if (!source->get_CanRead()) {
-    rt::throw_exception(source->get_CanWrite() ? ((SystemException)rt::newobj<NotSupportedException>(SR::get_NotSupported_UnreadableStream())) : ((SystemException)rt::newobj<ObjectDisposedException>(nullptr, SR::get_ObjectDisposed_StreamClosed())));
   }
 }
 

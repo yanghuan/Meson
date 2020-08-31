@@ -70,6 +70,8 @@ CLASS(CultureInfo) : public object {
   public: Boolean get_HasInvariantCultureName();
   private: static Dictionary<String, CultureInfo> get_CachedCulturesByName();
   private: static Dictionary<Int32, CultureInfo> get_CachedCulturesByLcid();
+  public: static String get_UserDefaultLocaleName() { return UserDefaultLocaleName; }
+  public: static void set_UserDefaultLocaleName(String value);
   private: static void AsyncLocalSetCurrentCulture(AsyncLocalValueChangedArgs<CultureInfo> args);
   private: static void AsyncLocalSetCurrentUICulture(AsyncLocalValueChangedArgs<CultureInfo> args);
   private: static CultureInfo InitializeUserDefaultCulture();
@@ -106,6 +108,7 @@ CLASS(CultureInfo) : public object {
   private: static CultureInfo NlsGetPredefinedCultureInfo(String name);
   public: static CultureInfo GetUserDefaultCulture();
   private: static CultureInfo GetUserDefaultUICulture();
+  private: static String GetUserDefaultLocaleName();
   private: static void cctor();
   private: Boolean _isReadOnly;
   private: CompareInfo _compareInfo;
@@ -137,6 +140,7 @@ CLASS(CultureInfo) : public object {
   public: static constexpr Int32 LOCALE_CUSTOM_UNSPECIFIED = 4096;
   public: static constexpr Int32 LOCALE_CUSTOM_DEFAULT = 3072;
   public: static constexpr Int32 LOCALE_INVARIANT = 127;
+  private: static String UserDefaultLocaleName;
 };
 } // namespace CultureInfoNamespace
 using CultureInfo = CultureInfoNamespace::CultureInfo;

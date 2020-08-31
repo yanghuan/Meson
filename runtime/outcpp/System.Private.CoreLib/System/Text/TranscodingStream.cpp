@@ -13,15 +13,18 @@
 #include <System.Private.CoreLib/System/ObjectDisposedException-dep.h>
 #include <System.Private.CoreLib/System/ReadOnlyMemory-dep.h>
 #include <System.Private.CoreLib/System/ReadOnlySpan-dep.h>
+#include <System.Private.CoreLib/System/Runtime/CompilerServices/AsyncValueTaskMethodBuilder-dep.h>
 #include <System.Private.CoreLib/System/Runtime/InteropServices/MemoryMarshal-dep.h>
 #include <System.Private.CoreLib/System/Span-dep.h>
 #include <System.Private.CoreLib/System/SR-dep.h>
+#include <System.Private.CoreLib/System/Text/TranscodingStream-dep.h>
 #include <System.Private.CoreLib/System/Threading/CancellationToken-dep.h>
 #include <System.Private.CoreLib/System/Threading/Tasks/TaskToApm-dep.h>
 
 namespace System::Private::CoreLib::System::Text::TranscodingStreamNamespace {
 using namespace System::Buffers;
 using namespace System::IO;
+using namespace System::Runtime::CompilerServices;
 using namespace System::Runtime::InteropServices;
 using namespace System::Threading;
 using namespace System::Threading::Tasks;
@@ -89,8 +92,13 @@ void TranscodingStream___::Dispose(Boolean disposing) {
 
 ValueTask<> TranscodingStream___::DisposeAsync() {
   auto DisposeAsyncCore = [](ArraySegment<Byte> pendingData) -> ValueTask<> {
-    Stream innerStream2 = _innerStream;
-    _innerStream = nullptr;
+    <<DisposeAsync>g__DisposeAsyncCore|30_0>d stateMachine;
+    stateMachine.<>t__builder = AsyncValueTaskMethodBuilder<>::Create();
+    stateMachine.<>4__this = (TranscodingStream)this;
+    stateMachine.pendingData = pendingData;
+    stateMachine.<>1__state = -1;
+    stateMachine.<>t__builder.Start(stateMachine);
+    return stateMachine.<>t__builder.get_Task();
   };
   if (_innerStream == nullptr) {
     return ValueTask<>();
@@ -215,25 +223,18 @@ Task<Int32> TranscodingStream___::ReadAsync(Array<Byte> buffer, Int32 offset, In
 
 ValueTask<Int32> TranscodingStream___::ReadAsync(Memory<Byte> buffer, CancellationToken cancellationToken) {
   auto ReadAsyncCore = [](Memory<Byte> buffer, CancellationToken cancellationToken) -> ValueTask<Int32> {
-    if (_readBufferCount == 0) {
-      Array<Byte> rentedBytes = ArrayPool<Byte>::in::get_Shared()->Rent(4096);
-      Array<Char> rentedChars = ArrayPool<Char>::in::get_Shared()->Rent(_readCharBufferMaxSize);
-      try {
-      } catch (...) {
-      } finally: {
-        ArrayPool<Byte>::in::get_Shared()->Return(rentedBytes);
-        ArrayPool<Char>::in::get_Shared()->Return(rentedChars);
-      }
-    }
-    Int32 num2 = Math::Min(_readBufferCount, buffer.get_Length());
-    MemoryExtensions::AsSpan(_readBuffer, _readBufferOffset, num2).CopyTo(buffer.get_Span());
-    _readBufferOffset += num2;
-    _readBufferCount -= num2;
-    return num2;
+    <<ReadAsync>g__ReadAsyncCore|41_0>d stateMachine;
+    stateMachine.<>t__builder = AsyncValueTaskMethodBuilder<Int32>::Create();
+    stateMachine.<>4__this = (TranscodingStream)this;
+    stateMachine.buffer = buffer;
+    stateMachine.cancellationToken = cancellationToken;
+    stateMachine.<>1__state = -1;
+    stateMachine.<>t__builder.Start(stateMachine);
+    return stateMachine.<>t__builder.get_Task();
   };
   EnsurePreReadConditions();
   if (cancellationToken.get_IsCancellationRequested()) {
-    return ValueTask<Int32>(Task<>::in::FromCanceled<Int32>(cancellationToken));
+    return ValueTask<>::FromCanceled<Int32>(cancellationToken);
   }
   return ReadAsyncCore(buffer, cancellationToken);
 }
@@ -303,27 +304,18 @@ Task<> TranscodingStream___::WriteAsync(Array<Byte> buffer, Int32 offset, Int32 
 
 ValueTask<> TranscodingStream___::WriteAsync(ReadOnlyMemory<Byte> buffer, CancellationToken cancellationToken) {
   auto WriteAsyncCore = [](ReadOnlyMemory<Byte> remainingOuterEncodedBytes, CancellationToken cancellationToken) -> ValueTask<> {
-    Int32 minimumLength = Math::Clamp(remainingOuterEncodedBytes.get_Length(), 4096, 1048576);
-    Array<Char> scratchChars = ArrayPool<Char>::in::get_Shared()->Rent(minimumLength);
-    Array<Byte> scratchBytes = ArrayPool<Byte>::in::get_Shared()->Rent(minimumLength);
-    try {
-      Boolean decoderFinished;
-      do {
-        Int32 bytesUsed;
-        Int32 charsUsed;
-        _thisDecoder->Convert(remainingOuterEncodedBytes.get_Span(), scratchChars, false, bytesUsed, charsUsed, decoderFinished);
-        ReadOnlyMemory<Byte> readOnlyMemory = remainingOuterEncodedBytes;
-        Int32 length = readOnlyMemory.get_Length();
-      } while (!decoderFinished)
-    } catch (...) {
-    } finally: {
-      ArrayPool<Char>::in::get_Shared()->Return(scratchChars);
-      ArrayPool<Byte>::in::get_Shared()->Return(scratchBytes);
-    }
+    <<WriteAsync>g__WriteAsyncCore|50_0>d stateMachine;
+    stateMachine.<>t__builder = AsyncValueTaskMethodBuilder<>::Create();
+    stateMachine.<>4__this = (TranscodingStream)this;
+    stateMachine.remainingOuterEncodedBytes = remainingOuterEncodedBytes;
+    stateMachine.cancellationToken = cancellationToken;
+    stateMachine.<>1__state = -1;
+    stateMachine.<>t__builder.Start(stateMachine);
+    return stateMachine.<>t__builder.get_Task();
   };
   EnsurePreWriteConditions();
   if (cancellationToken.get_IsCancellationRequested()) {
-    return ValueTask<>(Task<>::in::FromCanceled(cancellationToken));
+    return ValueTask<>::FromCanceled(cancellationToken);
   }
   return WriteAsyncCore(buffer, cancellationToken);
 }

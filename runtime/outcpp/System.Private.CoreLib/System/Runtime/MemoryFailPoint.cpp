@@ -184,8 +184,6 @@ void MemoryFailPoint___::GrowPageFileIfNecessaryAndPossible(UIntPtr numBytes) {
 
 void MemoryFailPoint___::cctor() {
   s_topOfMemory = GetTopOfMemory();
-  s_hiddenLastKnownFreeAddressSpace = 0;
-  s_hiddenLastTimeCheckingAddressSpace = 0;
   s_GCSegmentSize = GC::GetSegmentSize();
 }
 

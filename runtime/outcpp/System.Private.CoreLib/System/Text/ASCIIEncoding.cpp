@@ -15,6 +15,7 @@
 #include <System.Private.CoreLib/System/Text/EncoderReplacementFallback-dep.h>
 #include <System.Private.CoreLib/System/ThrowHelper-dep.h>
 #include <System.Private.CoreLib/System/UInt32-dep.h>
+#include <System.Private.CoreLib/System/UIntPtr-dep.h>
 
 namespace System::Private::CoreLib::System::Text::ASCIIEncodingNamespace {
 using namespace System::Runtime::InteropServices;
@@ -98,7 +99,7 @@ Int32 ASCIIEncoding___::GetByteCountFast(Char* pChars, Int32 charsLength, Encode
   Int32 num = charsLength;
   EncoderReplacementFallback encoderReplacementFallback = rt::as<EncoderReplacementFallback>(fallback);
   if (encoderReplacementFallback == nullptr || encoderReplacementFallback->get_MaxCharCount() != 1 || encoderReplacementFallback->get_DefaultString()[0] > 127) {
-    num = (Int32)ASCIIUtility::GetIndexOfFirstNonAsciiChar(pChars, (UInt32)charsLength);
+    num = (Int32)ASCIIUtility::GetIndexOfFirstNonAsciiChar(pChars, (UIntPtr)(UInt32)charsLength);
   }
   charsConsumed = num;
   return num;
@@ -179,7 +180,7 @@ Int32 ASCIIEncoding___::GetBytesCommon(Char* pChars, Int32 charCount, Byte* pByt
 }
 
 Int32 ASCIIEncoding___::GetBytesFast(Char* pChars, Int32 charsLength, Byte* pBytes, Int32 bytesLength, Int32& charsConsumed) {
-  return charsConsumed = (Int32)ASCIIUtility::NarrowUtf16ToAscii(pChars, pBytes, (UInt32)Math::Min(charsLength, bytesLength));
+  return charsConsumed = (Int32)ASCIIUtility::NarrowUtf16ToAscii(pChars, pBytes, (UIntPtr)(UInt32)Math::Min(charsLength, bytesLength));
 }
 
 Int32 ASCIIEncoding___::GetBytesWithFallback(ReadOnlySpan<Char> chars, Int32 originalCharsLength, Span<Byte> bytes, Int32 originalBytesLength, EncoderNLS encoder) {
@@ -195,7 +196,7 @@ Int32 ASCIIEncoding___::GetBytesWithFallback(ReadOnlySpan<Char> chars, Int32 ori
         while (num2 < num) {
           *(ptr + num2++) = b;
           if (num2 < num) {
-            num2 += (Int32)ASCIIUtility::NarrowUtf16ToAscii(ptr2 + num2, ptr + num2, (UInt32)(num - num2));
+            num2 += (Int32)ASCIIUtility::NarrowUtf16ToAscii(ptr2 + num2, ptr + num2, (UIntPtr)(UInt32)(num - num2));
           }
         }
       }
@@ -258,7 +259,7 @@ Int32 ASCIIEncoding___::GetCharCountFast(Byte* pBytes, Int32 bytesLength, Decode
   Int32 num = bytesLength;
   DecoderReplacementFallback decoderReplacementFallback = rt::as<DecoderReplacementFallback>(fallback);
   if (decoderReplacementFallback == nullptr || decoderReplacementFallback->get_MaxCharCount() != 1) {
-    num = (Int32)ASCIIUtility::GetIndexOfFirstNonAsciiByte(pBytes, (UInt32)bytesLength);
+    num = (Int32)ASCIIUtility::GetIndexOfFirstNonAsciiByte(pBytes, (UIntPtr)(UInt32)bytesLength);
   }
   bytesConsumed = num;
   return num;
@@ -316,7 +317,7 @@ Int32 ASCIIEncoding___::GetCharsCommon(Byte* pBytes, Int32 byteCount, Char* pCha
 }
 
 Int32 ASCIIEncoding___::GetCharsFast(Byte* pBytes, Int32 bytesLength, Char* pChars, Int32 charsLength, Int32& bytesConsumed) {
-  return bytesConsumed = (Int32)ASCIIUtility::WidenAsciiToUtf16(pBytes, pChars, (UInt32)Math::Min(bytesLength, charsLength));
+  return bytesConsumed = (Int32)ASCIIUtility::WidenAsciiToUtf16(pBytes, pChars, (UIntPtr)(UInt32)Math::Min(bytesLength, charsLength));
 }
 
 Int32 ASCIIEncoding___::GetCharsWithFallback(ReadOnlySpan<Byte> bytes, Int32 originalBytesLength, Span<Char> chars, Int32 originalCharsLength, DecoderNLS decoder) {
@@ -332,7 +333,7 @@ Int32 ASCIIEncoding___::GetCharsWithFallback(ReadOnlySpan<Byte> bytes, Int32 ori
         while (num2 < num) {
           *(ptr + num2++) = c;
           if (num2 < num) {
-            num2 += (Int32)ASCIIUtility::WidenAsciiToUtf16(ptr2 + num2, ptr + num2, (UInt32)(num - num2));
+            num2 += (Int32)ASCIIUtility::WidenAsciiToUtf16(ptr2 + num2, ptr + num2, (UIntPtr)(UInt32)(num - num2));
           }
         }
       }

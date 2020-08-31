@@ -8,6 +8,7 @@
 #include <System.Private.CoreLib/System/IntPtr-dep.h>
 #include <System.Private.CoreLib/System/Numerics/BitOperations-dep.h>
 #include <System.Private.CoreLib/System/Numerics/Vector-dep.h>
+#include <System.Private.CoreLib/System/Runtime/Intrinsics/Arm/AdvSimd-dep.h>
 #include <System.Private.CoreLib/System/Runtime/Intrinsics/Vector128-dep.h>
 #include <System.Private.CoreLib/System/Runtime/Intrinsics/X86/Sse2-dep.h>
 #include <System.Private.CoreLib/System/Runtime/Intrinsics/X86/Sse41-dep.h>
@@ -18,6 +19,7 @@ namespace System::Private::CoreLib::System::Text::ASCIIUtilityNamespace {
 using namespace Internal::Runtime::CompilerServices;
 using namespace System::Numerics;
 using namespace System::Runtime::Intrinsics;
+using namespace System::Runtime::Intrinsics::Arm;
 using namespace System::Runtime::Intrinsics::X86;
 
 Boolean ASCIIUtility::AllBytesInUInt64AreAscii(UInt64 value) {
@@ -720,15 +722,17 @@ UIntPtr ASCIIUtility::WidenAsciiToUtf16_Sse2(Byte* pAsciiBuffer, Char* pUtf16Buf
   Sse2::in::Store((Byte*)pUtf16Buffer, source);
   UIntPtr uIntPtr2 = (UIntPtr)(void*)((UInt64)(num >> 1) - (UInt64)(Int64)(IntPtr)(void*)((Int64)(IntPtr)(void*)((UInt64)(UIntPtr)(void*)pUtf16Buffer >> 1) & (Int64)(IntPtr)(void*)((UInt64)uIntPtr >> 1)));
   UIntPtr uIntPtr3 = elementCount - num;
+  Char* ptr = pUtf16Buffer + (UInt64)uIntPtr2;
   do {
     vector = Sse2::in::LoadVector128(pAsciiBuffer + (UInt64)uIntPtr2);
     num2 = (UInt32)Sse2::in::MoveMask(vector);
     if (num2 == 0) {
-      Byte* ptr = (Byte*)(pUtf16Buffer + (UInt64)uIntPtr2);
-      Sse2::in::StoreAligned(ptr, Sse2::in::UnpackLow(vector, zero));
-      ptr += num;
-      Sse2::in::StoreAligned(ptr, Sse2::in::UnpackHigh(vector, zero));
+      Vector128<Byte> source2 = Sse2::in::UnpackLow(vector, zero);
+      Sse2::in::StoreAligned((Byte*)ptr, source2);
+      Vector128<Byte> source3 = Sse2::in::UnpackHigh(vector, zero);
+      Sse2::in::StoreAligned((Byte*)ptr + num, source3);
       uIntPtr2 = (UIntPtr)(void*)((UInt64)(Int64)(UInt64)uIntPtr2 + (UInt64)num);
+      ptr += num;
       continue;
     }
     if ((Byte)num2 == 0) {
@@ -746,6 +750,10 @@ void ASCIIUtility::WidenFourAsciiBytesToUtf16AndWriteToBuffer(Char& outputBuffer
     Vector128<Byte> left = Vector128<>::AsByte(Sse2::in::ConvertScalarToVector128UInt32(value));
     Vector128<UInt64> value2 = Vector128<>::AsUInt64(Sse2::in::UnpackLow(left, Vector128<Byte>::get_Zero()));
     Unsafe::WriteUnaligned(Unsafe::As<Char, Byte>(outputBuffer), Sse2::in::X64::in::ConvertToUInt64(value2));
+  } else if (AdvSimd::in::Arm64::in::get_IsSupported()) {
+    Vector128<Byte> left2 = Vector128<>::AsByte(AdvSimd::in::DuplicateToVector128(value));
+    Vector128<UInt64> vector = Vector128<>::AsUInt64(AdvSimd::in::Arm64::in::ZipLow(left2, Vector128<Byte>::get_Zero()));
+    Unsafe::WriteUnaligned(Unsafe::As<Char, Byte>(outputBuffer), Vector128<>::ToScalar(vector));
   } else if (BitConverter::IsLittleEndian) {
     outputBuffer = (Char)(Byte)value;
     value >>= 8;
@@ -763,6 +771,7 @@ void ASCIIUtility::WidenFourAsciiBytesToUtf16AndWriteToBuffer(Char& outputBuffer
     value >>= 8;
     outputBuffer = (Char)value;
   }
+
 
 }
 

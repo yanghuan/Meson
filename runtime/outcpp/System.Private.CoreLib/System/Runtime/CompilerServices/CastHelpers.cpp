@@ -73,7 +73,7 @@ Object CastHelpers::IsInstanceOfAny(void* toTypeHnd, Object obj) {
   if (obj != nullptr) {
     void* methodTable = RuntimeHelpers::GetMethodTable(obj);
     if (methodTable != toTypeHnd) {
-      CastResult castResult = TryGet((UIntPtr)methodTable, (UIntPtr)toTypeHnd);
+      CastResult castResult = TryGet((UIntPtr)(UIntPtr)methodTable, (UIntPtr)(UIntPtr)toTypeHnd);
       if (castResult != CastResult::CanCast) {
         if (castResult != 0) {
           return IsInstanceOfAny_NoCacheLookup(toTypeHnd, obj);
@@ -174,7 +174,7 @@ Object CastHelpers::IsInstanceOfClass(void* toTypeHnd, Object obj) {
 }
 
 Object CastHelpers::IsInstance_Helper(void* toTypeHnd, Object obj) {
-  switch (TryGet((UIntPtr)(void*)RuntimeHelpers::GetMethodTable(obj), (UIntPtr)toTypeHnd)) {
+  switch (TryGet((UIntPtr)(UIntPtr)(void*)RuntimeHelpers::GetMethodTable(obj), (UIntPtr)(UIntPtr)toTypeHnd)) {
     case CastResult::CanCast:
       return obj;
     case CastResult::CannotCast:
@@ -188,7 +188,7 @@ Object CastHelpers::ChkCastAny(void* toTypeHnd, Object obj) {
   if (obj != nullptr) {
     void* methodTable = RuntimeHelpers::GetMethodTable(obj);
     if (methodTable != toTypeHnd) {
-      CastResult castResult = TryGet((UIntPtr)methodTable, (UIntPtr)toTypeHnd);
+      CastResult castResult = TryGet((UIntPtr)(UIntPtr)methodTable, (UIntPtr)(UIntPtr)toTypeHnd);
       if (castResult != CastResult::CanCast) {
         return ChkCastAny_NoCacheLookup(toTypeHnd, obj);
       }
@@ -198,7 +198,7 @@ Object CastHelpers::ChkCastAny(void* toTypeHnd, Object obj) {
 }
 
 Object CastHelpers::ChkCast_Helper(void* toTypeHnd, Object obj) {
-  CastResult castResult = TryGet((UIntPtr)(void*)RuntimeHelpers::GetMethodTable(obj), (UIntPtr)toTypeHnd);
+  CastResult castResult = TryGet((UIntPtr)(UIntPtr)(void*)RuntimeHelpers::GetMethodTable(obj), (UIntPtr)(UIntPtr)toTypeHnd);
   if (castResult == CastResult::CanCast) {
     return obj;
   }
@@ -318,7 +318,7 @@ void CastHelpers::StelemRef(Array<> array, Int32 index, Object obj) {
 }
 
 void CastHelpers::StelemRef_Helper(Object& element, void* elementType, Object obj) {
-  CastResult castResult = TryGet((UIntPtr)(void*)RuntimeHelpers::GetMethodTable(obj), (UIntPtr)elementType);
+  CastResult castResult = TryGet((UIntPtr)(UIntPtr)(void*)RuntimeHelpers::GetMethodTable(obj), (UIntPtr)(UIntPtr)elementType);
   if (castResult == CastResult::CanCast) {
     WriteBarrier(element, obj);
   } else {

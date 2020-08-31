@@ -28,6 +28,10 @@ Encoding EncodingProvider___::GetEncoding(Int32 codepage, EncoderFallback encode
   return encoding;
 }
 
+IEnumerable<EncodingInfo> EncodingProvider___::GetEncodings() {
+  return Array<>::in::Empty<EncodingInfo>();
+}
+
 void EncodingProvider___::AddProvider(EncodingProvider provider) {
   if (provider == nullptr) {
     rt::throw_exception<ArgumentNullException>("provider");
@@ -45,10 +49,10 @@ void EncodingProvider___::AddProvider(EncodingProvider provider) {
 }
 
 Encoding EncodingProvider___::GetEncodingFromProvider(Int32 codepage) {
-  if (s_providers == nullptr) {
+  Array<EncodingProvider> array = s_providers;
+  if (array == nullptr) {
     return nullptr;
   }
-  Array<EncodingProvider> array = s_providers;
   Array<EncodingProvider> array2 = array;
   for (EncodingProvider& encodingProvider : array2) {
     Encoding encoding = encodingProvider->GetEncoding(codepage);
@@ -57,6 +61,25 @@ Encoding EncodingProvider___::GetEncodingFromProvider(Int32 codepage) {
     }
   }
   return nullptr;
+}
+
+Dictionary<Int32, EncodingInfo> EncodingProvider___::GetEncodingListFromProviders() {
+  Array<EncodingProvider> array = s_providers;
+  if (array == nullptr) {
+    return nullptr;
+  }
+  Dictionary<Int32, EncodingInfo> dictionary = rt::newobj<Dictionary<Int32, EncodingInfo>>();
+  Array<EncodingProvider> array2 = array;
+  for (EncodingProvider& encodingProvider : array2) {
+    IEnumerable<EncodingInfo> encodings = encodingProvider->GetEncodings();
+    if (encodings == nullptr) {
+      continue;
+    }
+    for (EncodingInfo& item : encodings) {
+      dictionary->TryAdd(item->get_CodePage(), item);
+    }
+  }
+  return dictionary;
 }
 
 Encoding EncodingProvider___::GetEncodingFromProvider(String encodingName) {

@@ -43,14 +43,14 @@ void Buffer::_BulkMoveWithWriteBarrier(Byte& destination, Byte& source, UIntPtr 
   if ((UInt64)(Int64)Unsafe::ByteOffset(source, destination) >= (UInt64)byteCount) {
     do {
       byteCount -= 16384;
-      __BulkMoveWithWriteBarrier(destination, source, 16384u);
-      destination = Unsafe::AddByteOffset(destination, 16384u);
-      source = Unsafe::AddByteOffset(source, 16384u);
+      __BulkMoveWithWriteBarrier(destination, source, (UIntPtr)16384u);
+      destination = Unsafe::AddByteOffset(destination, (UIntPtr)16384u);
+      source = Unsafe::AddByteOffset(source, (UIntPtr)16384u);
     } while (byteCount > 16384)
   } else {
     do {
       byteCount -= 16384;
-      __BulkMoveWithWriteBarrier(Unsafe::AddByteOffset(destination, byteCount), Unsafe::AddByteOffset(source, byteCount), 16384u);
+      __BulkMoveWithWriteBarrier(Unsafe::AddByteOffset(destination, byteCount), Unsafe::AddByteOffset(source, byteCount), (UIntPtr)16384u);
     } while (byteCount > 16384)
   }
   __BulkMoveWithWriteBarrier(destination, source, byteCount);
@@ -108,7 +108,7 @@ void Buffer::BlockCopy(Array<> src, Int32 srcOffset, Array<> dst, Int32 dstOffse
   if ((UInt64)uIntPtr < (UInt64)(UIntPtr)(void*)((Int64)(UInt64)uIntPtr4 + (Int64)(UInt64)uIntPtr3) || (UInt64)uIntPtr2 < (UInt64)(UIntPtr)(void*)((Int64)(UInt64)uIntPtr5 + (Int64)(UInt64)uIntPtr3)) {
     rt::throw_exception<ArgumentException>(SR::get_Argument_InvalidOffLen());
   }
-  Memmove(Unsafe::AddByteOffset(RuntimeHelpers::GetRawArrayData(dst), uIntPtr5), Unsafe::AddByteOffset(RuntimeHelpers::GetRawArrayData(src), uIntPtr4), uIntPtr3);
+  Memmove(Unsafe::AddByteOffset(RuntimeHelpers::GetRawArrayData(dst), (UIntPtr)uIntPtr5), Unsafe::AddByteOffset(RuntimeHelpers::GetRawArrayData(src), (UIntPtr)uIntPtr4), (UIntPtr)uIntPtr3);
 }
 
 Int32 Buffer::ByteLength(Array<> array) {

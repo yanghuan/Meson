@@ -5,6 +5,7 @@
 #include <System.Private.CoreLib/System/SpanHelpers-dep.h>
 #include <System.Private.CoreLib/System/String-dep.h>
 #include <System.Private.CoreLib/System/Text/Encoding-dep.h>
+#include <System.Private.CoreLib/System/UIntPtr-dep.h>
 
 namespace System::Private::CoreLib::System::MdUtf8StringNamespace {
 using namespace System::Text;
@@ -27,7 +28,7 @@ Boolean MdUtf8String::Equals(MdUtf8String s) {
   if (s.m_StringHeapByteLength != m_StringHeapByteLength) {
     return false;
   }
-  return SpanHelpers::SequenceEqual(*s.m_pStringHeap, *m_pStringHeap, (UInt32)m_StringHeapByteLength);
+  return SpanHelpers::SequenceEqual(*s.m_pStringHeap, *m_pStringHeap, (UIntPtr)(UInt32)m_StringHeapByteLength);
 }
 
 Boolean MdUtf8String::EqualsCaseInsensitive(MdUtf8String s) {

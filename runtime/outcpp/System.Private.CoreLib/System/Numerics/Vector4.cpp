@@ -107,7 +107,7 @@ Vector4 Vector4::Clamp(Vector4 value1, Vector4 min, Vector4 max) {
 }
 
 Vector4 Vector4::Lerp(Vector4 value1, Vector4 value2, Single amount) {
-  return value1 + (value2 - value1) * amount;
+  return value1 * (1 - amount) + value2 * amount;
 }
 
 Vector4 Vector4::Transform(Vector2 position, Matrix4x4 matrix) {

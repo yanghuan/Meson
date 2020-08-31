@@ -654,7 +654,7 @@ String String___::Ctor(Array<Char> value) {
   }
   String text = FastAllocateString(value->get_Length());
   UIntPtr elementCount = (UIntPtr)(UInt32)text->get_Length();
-  Buffer::Memmove(text->_firstChar, MemoryMarshal::GetArrayDataReference(value), elementCount);
+  Buffer::Memmove(text->_firstChar, MemoryMarshal::GetArrayDataReference(value), (UIntPtr)elementCount);
   return text;
 }
 
@@ -676,7 +676,7 @@ String String___::Ctor(Array<Char> value, Int32 startIndex, Int32 length) {
   }
   String text = FastAllocateString(length);
   UIntPtr elementCount = (UIntPtr)(UInt32)text->get_Length();
-  Buffer::Memmove(text->_firstChar, Unsafe::Add(MemoryMarshal::GetArrayDataReference(value), startIndex), elementCount);
+  Buffer::Memmove(text->_firstChar, Unsafe::Add(MemoryMarshal::GetArrayDataReference(value), startIndex), (UIntPtr)elementCount);
   return text;
 }
 
@@ -690,7 +690,7 @@ String String___::Ctor(Char* ptr) {
   }
   String text = FastAllocateString(num);
   UIntPtr elementCount = (UIntPtr)(UInt32)text->get_Length();
-  Buffer::Memmove(text->_firstChar, *ptr, elementCount);
+  Buffer::Memmove(text->_firstChar, *ptr, (UIntPtr)elementCount);
   return text;
 }
 
@@ -713,7 +713,7 @@ String String___::Ctor(Char* ptr, Int32 startIndex, Int32 length) {
   }
   String text = FastAllocateString(length);
   UIntPtr elementCount = (UIntPtr)(UInt32)text->get_Length();
-  Buffer::Memmove(text->_firstChar, *ptr2, elementCount);
+  Buffer::Memmove(text->_firstChar, *ptr2, (UIntPtr)elementCount);
   return text;
 }
 
@@ -826,7 +826,7 @@ String String___::Ctor(ReadOnlySpan<Char> value) {
     return Empty;
   }
   String text = FastAllocateString(value.get_Length());
-  Buffer::Memmove(text->_firstChar, MemoryMarshal::GetReference(value), (UInt32)value.get_Length());
+  Buffer::Memmove(text->_firstChar, MemoryMarshal::GetReference(value), (UIntPtr)(UInt32)value.get_Length());
   return text;
 }
 
@@ -856,7 +856,7 @@ String String___::Copy(String str) {
   }
   String text = FastAllocateString(str->get_Length());
   UIntPtr elementCount = (UIntPtr)(UInt32)text->get_Length();
-  Buffer::Memmove(text->_firstChar, str->_firstChar, elementCount);
+  Buffer::Memmove(text->_firstChar, str->_firstChar, (UIntPtr)elementCount);
   return text;
 }
 
@@ -876,7 +876,7 @@ void String___::CopyTo(Int32 sourceIndex, Array<Char> destination, Int32 destina
   if (destinationIndex > destination->get_Length() - count || destinationIndex < 0) {
     rt::throw_exception<ArgumentOutOfRangeException>("destinationIndex", SR::get_ArgumentOutOfRange_IndexCount());
   }
-  Buffer::Memmove(Unsafe::Add(MemoryMarshal::GetArrayDataReference(destination), destinationIndex), Unsafe::Add(_firstChar, sourceIndex), (UInt32)count);
+  Buffer::Memmove(Unsafe::Add(MemoryMarshal::GetArrayDataReference(destination), destinationIndex), Unsafe::Add(_firstChar, sourceIndex), (UIntPtr)(UInt32)count);
 }
 
 Array<Char> String___::ToCharArray() {
@@ -884,7 +884,7 @@ Array<Char> String___::ToCharArray() {
     return Array<>::in::Empty<Char>();
   }
   Array<Char> array = rt::newarr<Array<Char>>(get_Length());
-  Buffer::Memmove(MemoryMarshal::GetArrayDataReference(array), _firstChar, (UInt32)get_Length());
+  Buffer::Memmove(MemoryMarshal::GetArrayDataReference(array), _firstChar, (UIntPtr)(UInt32)get_Length());
   return array;
 }
 
@@ -899,7 +899,7 @@ Array<Char> String___::ToCharArray(Int32 startIndex, Int32 length) {
     rt::throw_exception<ArgumentOutOfRangeException>("length", SR::get_ArgumentOutOfRange_Index());
   }
   Array<Char> array = rt::newarr<Array<Char>>(length);
-  Buffer::Memmove(MemoryMarshal::GetArrayDataReference(array), Unsafe::Add(_firstChar, startIndex), (UInt32)length);
+  Buffer::Memmove(MemoryMarshal::GetArrayDataReference(array), Unsafe::Add(_firstChar, startIndex), (UIntPtr)(UInt32)length);
   return array;
 }
 
@@ -957,7 +957,7 @@ String String___::CreateFromChar(Char c1, Char c2) {
 }
 
 void String___::wstrcpy(Char* dmem, Char* smem, Int32 charCount) {
-  Buffer::Memmove((Byte*)dmem, (Byte*)smem, (UInt32)(charCount * 2));
+  Buffer::Memmove((Byte*)dmem, (Byte*)smem, (UIntPtr)(UInt32)(charCount * 2));
 }
 
 String String___::ToString() {
@@ -1025,7 +1025,7 @@ String String___::Normalize(NormalizationForm normalizationForm) {
 Boolean String___::IsAscii() {
   {
     Char* pBuffer = &_firstChar;
-    return ASCIIUtility::GetIndexOfFirstNonAsciiChar(pBuffer, (UInt32)get_Length()) == (UInt32)get_Length();
+    return ASCIIUtility::GetIndexOfFirstNonAsciiChar(pBuffer, (UIntPtr)(UInt32)get_Length()) == (UInt32)get_Length();
   }
 }
 
@@ -1033,7 +1033,7 @@ void String___::FillStringChecked(String dest, Int32 destPos, String src) {
   if (src->get_Length() > dest->get_Length() - destPos) {
     rt::throw_exception<IndexOutOfRangeException>();
   }
-  Buffer::Memmove(Unsafe::Add(dest->_firstChar, destPos), src->_firstChar, (UInt32)src->get_Length());
+  Buffer::Memmove(Unsafe::Add(dest->_firstChar, destPos), src->_firstChar, (UIntPtr)(UInt32)src->get_Length());
 }
 
 String String___::Concat(Object arg0) {
@@ -1693,7 +1693,7 @@ String String___::Replace(Char oldChar, Char newChar) {
   String text = FastAllocateString(get_Length());
   Int32 num3 = num;
   if (num3 > 0) {
-    Buffer::Memmove(text->_firstChar, _firstChar, (UInt32)num3);
+    Buffer::Memmove(text->_firstChar, _firstChar, (UIntPtr)(UInt32)num3);
   }
   UInt16& reference = Unsafe::Add(Unsafe::As<Char, UInt16>(_firstChar), num3);
   UInt16& reference2 = Unsafe::Add(Unsafe::As<Char, UInt16>(text->_firstChar), num3);
@@ -1814,25 +1814,37 @@ Array<String> String___::SplitInternal(ReadOnlySpan<Char> separators, Int32 coun
   if (count < 0) {
     rt::throw_exception<ArgumentOutOfRangeException>("count", SR::get_ArgumentOutOfRange_NegativeCount());
   }
-  if (options < StringSplitOptions::None || options > StringSplitOptions::RemoveEmptyEntries) {
-    rt::throw_exception<ArgumentException>(SR::Format(SR::get_Arg_EnumIllegalVal(), options));
+  CheckStringSplitOptions(options);
+  ValueListBuilder<Int32> sepListBuilder;
+  ReadOnlySpan<Int32> sepList;
+  while (true) {
+    if (count <= 1 || get_Length() == 0) {
+      String text = (String)this;
+      if ((options & StringSplitOptions::TrimEntries) != 0 && count > 0) {
+        text = text->Trim();
+      }
+      if ((options & StringSplitOptions::RemoveEmptyEntries) != 0 && text->get_Length() == 0) {
+        count = 0;
+      }
+      if (count != 0) {
+        return rt::newarr<Array<String>>(1);
+      }
+      return Array<>::in::Empty<String>();
+    }
+    if (separators.get_IsEmpty()) {
+      options &= ~StringSplitOptions::TrimEntries;
+    }
+    Int32 as[128] = {};
+    Span<Int32> initialSpan = as;
+    sepListBuilder = ValueListBuilder<Int32>(initialSpan);
+    MakeSeparatorList(separators, sepListBuilder);
+    sepList = sepListBuilder.AsSpan();
+    if (sepList.get_Length() != 0) {
+      break;
+    }
+    count = 1;
   }
-  Boolean flag = options == StringSplitOptions::RemoveEmptyEntries;
-  if (count == 0 || (flag && get_Length() == 0)) {
-    return Array<>::in::Empty<String>();
-  }
-  if (count == 1) {
-    return rt::newarr<Array<String>>(1);
-  }
-  Int32 as[128] = {};
-  Span<Int32> initialSpan = as;
-  ValueListBuilder<Int32> sepListBuilder = ValueListBuilder<Int32>(initialSpan);
-  MakeSeparatorList(separators, sepListBuilder);
-  ReadOnlySpan<Int32> sepList = sepListBuilder.AsSpan();
-  if (sepList.get_Length() == 0) {
-    return rt::newarr<Array<String>>(1);
-  }
-  Array<String> result = flag ? SplitOmitEmptyEntries(sepList, ReadOnlySpan<T>(), 1, count) : SplitKeepEmptyEntries(sepList, ReadOnlySpan<T>(), 1, count);
+  Array<String> result = (options != 0) ? SplitWithPostProcessing(sepList, ReadOnlySpan<T>(), 1, count, options) : SplitWithoutPostProcessing(sepList, ReadOnlySpan<T>(), 1, count);
   sepListBuilder.Dispose();
   return result;
 }
@@ -1859,21 +1871,32 @@ Array<String> String___::SplitInternal(String separator, Array<String> separator
   if (count < 0) {
     rt::throw_exception<ArgumentOutOfRangeException>("count", SR::get_ArgumentOutOfRange_NegativeCount());
   }
-  if (options < StringSplitOptions::None || options > StringSplitOptions::RemoveEmptyEntries) {
-    rt::throw_exception<ArgumentException>(SR::Format(SR::get_Arg_EnumIllegalVal(), (Int32)options));
-  }
-  Boolean flag = options == StringSplitOptions::RemoveEmptyEntries;
-  Boolean flag2 = separator != nullptr;
-  if (!flag2 && (separators == nullptr || separators->get_Length() == 0)) {
+  CheckStringSplitOptions(options);
+  Boolean flag = separator != nullptr;
+  if (!flag && (separators == nullptr || separators->get_Length() == 0)) {
     return SplitInternal(ReadOnlySpan<T>(), count, options);
   }
-  if (count == 0 || (flag && get_Length() == 0)) {
-    return Array<>::in::Empty<String>();
-  }
-  if (count == 1 || (flag2 && separator->get_Length() == 0)) {
-    return rt::newarr<Array<String>>(1);
-  }
-  if (flag2) {
+  while (true) {
+    if (count <= 1 || get_Length() == 0) {
+      String text = (String)this;
+      if ((options & StringSplitOptions::TrimEntries) != 0 && count > 0) {
+        text = text->Trim();
+      }
+      if ((options & StringSplitOptions::RemoveEmptyEntries) != 0 && text->get_Length() == 0) {
+        count = 0;
+      }
+      if (count != 0) {
+        return rt::newarr<Array<String>>(1);
+      }
+      return Array<>::in::Empty<String>();
+    }
+    if (!flag) {
+      break;
+    }
+    if (separator->get_Length() == 0) {
+      count = 1;
+      continue;
+    }
     return SplitInternal(separator, count, options);
   }
   Int32 as[128] = {};
@@ -1888,7 +1911,7 @@ Array<String> String___::SplitInternal(String separator, Array<String> separator
   if (sepList.get_Length() == 0) {
     return rt::newarr<Array<String>>(1);
   }
-  Array<String> result = flag ? SplitOmitEmptyEntries(sepList, lengthList, 0, count) : SplitKeepEmptyEntries(sepList, lengthList, 0, count);
+  Array<String> result = (options != 0) ? SplitWithPostProcessing(sepList, lengthList, 0, count, options) : SplitWithoutPostProcessing(sepList, lengthList, 0, count);
   sepListBuilder.Dispose();
   lengthListBuilder.Dispose();
   return result;
@@ -1901,14 +1924,21 @@ Array<String> String___::SplitInternal(String separator, Int32 count, StringSpli
   MakeSeparatorList(separator, sepListBuilder);
   ReadOnlySpan<Int32> sepList = sepListBuilder.AsSpan();
   if (sepList.get_Length() == 0) {
-    return rt::newarr<Array<String>>(1);
+    String text = (String)this;
+    if ((options & StringSplitOptions::TrimEntries) != 0) {
+      text = text->Trim();
+    }
+    if (text->get_Length() != 0 || (options & StringSplitOptions::RemoveEmptyEntries) == 0) {
+      return rt::newarr<Array<String>>(1);
+    }
+    return Array<>::in::Empty<String>();
   }
-  Array<String> result = (options == StringSplitOptions::RemoveEmptyEntries) ? SplitOmitEmptyEntries(sepList, ReadOnlySpan<T>(), separator->get_Length(), count) : SplitKeepEmptyEntries(sepList, ReadOnlySpan<T>(), separator->get_Length(), count);
+  Array<String> result = (options != 0) ? SplitWithPostProcessing(sepList, ReadOnlySpan<T>(), separator->get_Length(), count, options) : SplitWithoutPostProcessing(sepList, ReadOnlySpan<T>(), separator->get_Length(), count);
   sepListBuilder.Dispose();
   return result;
 }
 
-Array<String> String___::SplitKeepEmptyEntries(ReadOnlySpan<Int32> sepList, ReadOnlySpan<Int32> lengthList, Int32 defaultLength, Int32 count) {
+Array<String> String___::SplitWithoutPostProcessing(ReadOnlySpan<Int32> sepList, ReadOnlySpan<Int32> lengthList, Int32 defaultLength, Int32 count) {
   Int32 num = 0;
   Int32 num2 = 0;
   count--;
@@ -1930,38 +1960,49 @@ Array<String> String___::SplitKeepEmptyEntries(ReadOnlySpan<Int32> sepList, Read
   return array;
 }
 
-Array<String> String___::SplitOmitEmptyEntries(ReadOnlySpan<Int32> sepList, ReadOnlySpan<Int32> lengthList, Int32 defaultLength, Int32 count) {
+Array<String> String___::SplitWithPostProcessing(ReadOnlySpan<Int32> sepList, ReadOnlySpan<Int32> lengthList, Int32 defaultLength, Int32 count, StringSplitOptions options) {
   Int32 length = sepList.get_Length();
   Int32 num = (length < count) ? (length + 1) : count;
   Array<String> array = rt::newarr<Array<String>>(num);
   Int32 num2 = 0;
   Int32 num3 = 0;
+  ReadOnlySpan<Char> span;
   for (Int32 i = 0; i < length; i++) {
-    if (num2 >= get_Length()) {
-      break;
+    span = MemoryExtensions::AsSpan((String)this, num2, sepList[i] - num2);
+    if ((options & StringSplitOptions::TrimEntries) != 0) {
+      span = MemoryExtensions::Trim(span);
     }
-    if (sepList[i] - num2 > 0) {
-      array[num3++] = Substring(num2, sepList[i] - num2);
+    if (!span.get_IsEmpty() || (options & StringSplitOptions::RemoveEmptyEntries) == 0) {
+      array[num3++] = span.ToString();
     }
     num2 = sepList[i] + (lengthList.get_IsEmpty() ? defaultLength : lengthList[i]);
-    if (num3 == count - 1) {
-      while (i < length - 1 && num2 == sepList[++i]) {
-        num2 += (lengthList.get_IsEmpty() ? defaultLength : lengthList[i]);
-      }
+    if (num3 != count - 1) {
+      continue;
+    }
+    if ((options & StringSplitOptions::RemoveEmptyEntries) == 0) {
       break;
     }
-  }
-  if (num2 < get_Length()) {
-    array[num3++] = Substring(num2);
-  }
-  Array<String> array2 = array;
-  if (num3 != num) {
-    array2 = rt::newarr<Array<String>>(num3);
-    for (Int32 j = 0; j < num3; j++) {
-      array2[j] = array[j];
+    while (++i < length) {
+      span = MemoryExtensions::AsSpan((String)this, num2, sepList[i] - num2);
+      if ((options & StringSplitOptions::TrimEntries) != 0) {
+        span = MemoryExtensions::Trim(span);
+      }
+      if (!span.get_IsEmpty()) {
+        break;
+      }
+      num2 = sepList[i] + (lengthList.get_IsEmpty() ? defaultLength : lengthList[i]);
     }
+    break;
   }
-  return array2;
+  span = MemoryExtensions::AsSpan((String)this, num2);
+  if ((options & StringSplitOptions::TrimEntries) != 0) {
+    span = MemoryExtensions::Trim(span);
+  }
+  if (!span.get_IsEmpty() || (options & StringSplitOptions::RemoveEmptyEntries) == 0) {
+    array[num3++] = span.ToString();
+  }
+  Array<>::in::Resize(array, num3);
+  return array;
 }
 
 void String___::MakeSeparatorList(ReadOnlySpan<Char> separators, ValueListBuilder<Int32>& sepListBuilder) {
@@ -2044,6 +2085,12 @@ void String___::MakeSeparatorList(Array<String> separators, ValueListBuilder<Int
   }
 }
 
+void String___::CheckStringSplitOptions(StringSplitOptions options) {
+  if ((options & ~(StringSplitOptions::RemoveEmptyEntries | StringSplitOptions::TrimEntries)) != 0) {
+    ThrowHelper::ThrowArgumentException(ExceptionResource::Argument_InvalidFlag, ExceptionArgument::options);
+  }
+}
+
 String String___::Substring(Int32 startIndex) {
   return Substring(startIndex, get_Length() - startIndex);
 }
@@ -2073,7 +2120,7 @@ String String___::Substring(Int32 startIndex, Int32 length) {
 String String___::InternalSubString(Int32 startIndex, Int32 length) {
   String text = FastAllocateString(length);
   UIntPtr elementCount = (UIntPtr)(UInt32)text->get_Length();
-  Buffer::Memmove(text->_firstChar, Unsafe::Add(_firstChar, startIndex), elementCount);
+  Buffer::Memmove(text->_firstChar, Unsafe::Add(_firstChar, startIndex), (UIntPtr)elementCount);
   return text;
 }
 

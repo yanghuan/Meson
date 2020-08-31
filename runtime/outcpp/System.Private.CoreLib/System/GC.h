@@ -4,17 +4,17 @@
 
 namespace System::Private::CoreLib::System {
 enum class GCCollectionMode : int32_t;
+enum class GCKind : int32_t;
 enum class GCNotificationStatus : int32_t;
 FORWARD_(Array, T1, T2)
 FORWARDS(Boolean)
 FORWARDS(GCMemoryInfo)
+FORWARD(GCMemoryInfoData)
 FORWARDS(Int32)
 FORWARDS(Int64)
 FORWARDS(IntPtr)
 FORWARD(Object)
-FORWARDS(UInt32)
 FORWARDS(UInt64)
-FORWARDS(UIntPtr)
 FORWARD_(WeakReference, T1, T2)
 namespace GCNamespace {
 class GC {
@@ -36,8 +36,9 @@ class GC {
     AllocationExceeded = 3,
   };
   public: static Int32 get_MaxGeneration();
-  public: static void GetMemoryInfo(UInt64& highMemLoadThresholdBytes, UInt64& totalAvailableMemoryBytes, UInt64& lastRecordedMemLoadBytes, UInt32& lastRecordedMemLoadPct, UIntPtr& lastRecordedHeapSizeBytes, UIntPtr& lastRecordedFragmentationBytes);
+  private: static void GetMemoryInfo(GCMemoryInfoData data, Int32 kind);
   public: static GCMemoryInfo GetGCMemoryInfo();
+  public: static GCMemoryInfo GetGCMemoryInfo(GCKind kind);
   public: static Int32 _StartNoGCRegion(Int64 totalSize, Boolean lohSizeKnown, Int64 lohSize, Boolean disallowFullBlockingGC);
   public: static Int32 _EndNoGCRegion();
   public: static Array<> AllocateNewArray(IntPtr typeHandle, Int32 length, GC_ALLOC_FLAGS flags);

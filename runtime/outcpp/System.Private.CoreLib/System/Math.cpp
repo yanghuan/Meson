@@ -4,12 +4,19 @@
 #include <System.Private.CoreLib/System/ArgumentOutOfRangeException-dep.h>
 #include <System.Private.CoreLib/System/ArithmeticException-dep.h>
 #include <System.Private.CoreLib/System/BitConverter-dep.h>
+#include <System.Private.CoreLib/System/Numerics/VectorMath-dep.h>
 #include <System.Private.CoreLib/System/OverflowException-dep.h>
+#include <System.Private.CoreLib/System/Runtime/Intrinsics/Arm/AdvSimd-dep.h>
+#include <System.Private.CoreLib/System/Runtime/Intrinsics/Vector128-dep.h>
 #include <System.Private.CoreLib/System/Runtime/Intrinsics/X86/Bmi2-dep.h>
+#include <System.Private.CoreLib/System/Runtime/Intrinsics/X86/Sse-dep.h>
 #include <System.Private.CoreLib/System/SR-dep.h>
 #include <System.Private.CoreLib/System/UInt32-dep.h>
 
 namespace System::Private::CoreLib::System::MathNamespace {
+using namespace System::Numerics;
+using namespace System::Runtime::Intrinsics;
+using namespace System::Runtime::Intrinsics::Arm;
 using namespace System::Runtime::Intrinsics::X86;
 
 Int16 Math::Abs(Int16 value) {
@@ -123,12 +130,17 @@ Double Math::BitIncrement(Double x) {
 }
 
 Double Math::CopySign(Double x, Double y) {
-  Int64 num = BitConverter::DoubleToInt64Bits(x);
-  Int64 num2 = BitConverter::DoubleToInt64Bits(y);
-  if ((num ^ num2) < 0) {
-    return BitConverter::Int64BitsToDouble(num ^ Int64::MinValue);
+  auto SoftwareFallback = [](Double x, Double y) -> Double {
+    Int64 num = BitConverter::DoubleToInt64Bits(x);
+    Int64 num2 = BitConverter::DoubleToInt64Bits(y);
+    num &= Int64::MaxValue;
+    num2 &= Int64::MinValue;
+    return BitConverter::Int64BitsToDouble(num | num2);
+  };
+  if (Sse::in::get_IsSupported() || AdvSimd::in::get_IsSupported()) {
+    return Vector128<>::ToScalar(VectorMath::ConditionalSelectBitwise(Vector128<>::CreateScalarUnsafe(-0), Vector128<>::CreateScalarUnsafe(y), Vector128<>::CreateScalarUnsafe(x)));
   }
-  return x;
+  return SoftwareFallback(x, y);
 }
 
 Int32 Math::DivRem(Int32 a, Int32 b, Int32& result) {

@@ -121,11 +121,13 @@ void AppContext::Setup(Char** pNames, Char** pValues, Int32 count) {
 String AppContext::GetBaseDirectoryCore() {
   Assembly entryAssembly = Assembly::in::GetEntryAssembly();
   String text = Path::GetDirectoryName(((Object)entryAssembly != nullptr) ? entryAssembly->get_Location() : nullptr);
-  if (text != nullptr && !Path::EndsInDirectorySeparator(text)) {
+  if (text == nullptr) {
+    return String::in::Empty;
+  }
+  if (!Path::EndsInDirectorySeparator(text)) {
     text += "\";
   }
-  String as = text;
-  return as != nullptr ? as : String::in::Empty;
+  return text;
 }
 
 } // namespace System::Private::CoreLib::System::AppContextNamespace

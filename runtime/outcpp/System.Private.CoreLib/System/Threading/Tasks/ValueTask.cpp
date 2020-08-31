@@ -1,10 +1,8 @@
 #include "ValueTask-dep.h"
 
 #include <System.Private.CoreLib/Internal/Runtime/CompilerServices/Unsafe-dep.h>
-#include <System.Private.CoreLib/System/Exception-dep.h>
 #include <System.Private.CoreLib/System/ExceptionArgument.h>
 #include <System.Private.CoreLib/System/Runtime/CompilerServices/TaskAwaiter-dep.h>
-#include <System.Private.CoreLib/System/Threading/CancellationToken-dep.h>
 #include <System.Private.CoreLib/System/Threading/Tasks/Sources/ValueTaskSourceOnCompletedFlags.h>
 #include <System.Private.CoreLib/System/Threading/Tasks/Sources/ValueTaskSourceStatus.h>
 #include <System.Private.CoreLib/System/Threading/Tasks/ValueTask-dep.h>
@@ -24,8 +22,8 @@ void ValueTask<>::ValueTaskSourceAsTask___::ctor(IValueTaskSource<> source, Int1
 void ValueTask<>::ValueTaskSourceAsTask___::cctor() {
 }
 
-Task<> ValueTask<>::get_CompletedTask() {
-  return Task<>::in::get_CompletedTask();
+ValueTask<> ValueTask<>::get_CompletedTask() {
+  return ValueTask<>();
 }
 
 Boolean ValueTask<>::get_IsCompleted() {
@@ -100,6 +98,14 @@ ValueTask<>::ValueTask(Object obj, Int16 token, Boolean continueOnCapturedContex
   _continueOnCapturedContext = continueOnCapturedContext;
 }
 
+ValueTask<> ValueTask<>::FromCanceled(CancellationToken cancellationToken) {
+  return ValueTask<>(Task<>::in::FromCanceled(cancellationToken));
+}
+
+ValueTask<> ValueTask<>::FromException(Exception exception) {
+  return ValueTask<>(Task<>::in::FromException(exception));
+}
+
 Int32 ValueTask<>::GetHashCode() {
   Object obj = _obj;
   if (obj == nullptr) {
@@ -139,7 +145,7 @@ Task<> ValueTask<>::AsTask() {
       return GetTaskForValueTaskSource(Unsafe::As<IValueTaskSource<>>(obj));
     }
   } else {
-    obj2 = get_CompletedTask();
+    obj2 = Task<>::in::get_CompletedTask();
   }
   return (Task<>)obj2;
 }
@@ -156,7 +162,7 @@ Task<> ValueTask<>::GetTaskForValueTaskSource(IValueTaskSource<> t) {
   if (status != 0) {
     try {
       t->GetResult(_token);
-      return get_CompletedTask();
+      return Task<>::in::get_CompletedTask();
     } catch (Exception ex) {
     }
   }

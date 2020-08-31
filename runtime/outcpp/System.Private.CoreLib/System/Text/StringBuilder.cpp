@@ -5,6 +5,7 @@
 #include <System.Private.CoreLib/System/ArgumentNullException-dep.h>
 #include <System.Private.CoreLib/System/ArgumentOutOfRangeException-dep.h>
 #include <System.Private.CoreLib/System/Buffer-dep.h>
+#include <System.Private.CoreLib/System/Environment-dep.h>
 #include <System.Private.CoreLib/System/FormatException-dep.h>
 #include <System.Private.CoreLib/System/GC-dep.h>
 #include <System.Private.CoreLib/System/ICustomFormatter.h>
@@ -377,7 +378,6 @@ void StringBuilder___::ctor(SerializationInfo info, StreamingContext context) {
   m_ChunkChars = GC::AllocateUninitializedArray<Char>(num);
   text->CopyTo(0, m_ChunkChars, 0, text->get_Length());
   m_ChunkLength = text->get_Length();
-  m_ChunkPrevious = nullptr;
 }
 
 Int32 StringBuilder___::EnsureCapacity(Int32 capacity) {
@@ -621,12 +621,12 @@ StringBuilder StringBuilder___::AppendCore(StringBuilder value, Int32 startIndex
 }
 
 StringBuilder StringBuilder___::AppendLine() {
-  return Append("\r\n");
+  return Append(Environment::get_NewLine());
 }
 
 StringBuilder StringBuilder___::AppendLine(String value) {
   Append(value);
-  return Append("\r\n");
+  return Append(Environment::get_NewLine());
 }
 
 void StringBuilder___::CopyTo(Int32 sourceIndex, Array<Char> destination, Int32 destinationIndex, Int32 count) {

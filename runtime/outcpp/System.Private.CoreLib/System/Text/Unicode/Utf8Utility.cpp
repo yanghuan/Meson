@@ -10,7 +10,10 @@
 #include <System.Private.CoreLib/System/IntPtr-dep.h>
 #include <System.Private.CoreLib/System/Math-dep.h>
 #include <System.Private.CoreLib/System/Numerics/BitOperations-dep.h>
+#include <System.Private.CoreLib/System/PlatformNotSupportedException-dep.h>
+#include <System.Private.CoreLib/System/Runtime/Intrinsics/Arm/AdvSimd-dep.h>
 #include <System.Private.CoreLib/System/Runtime/Intrinsics/Vector128-dep.h>
+#include <System.Private.CoreLib/System/Runtime/Intrinsics/Vector64-dep.h>
 #include <System.Private.CoreLib/System/Runtime/Intrinsics/X86/Sse2-dep.h>
 #include <System.Private.CoreLib/System/Runtime/Intrinsics/X86/Sse41-dep.h>
 #include <System.Private.CoreLib/System/SByte-dep.h>
@@ -26,6 +29,7 @@ using namespace Internal::Runtime::CompilerServices;
 using namespace System::Buffers::Binary;
 using namespace System::Numerics;
 using namespace System::Runtime::Intrinsics;
+using namespace System::Runtime::Intrinsics::Arm;
 using namespace System::Runtime::Intrinsics::X86;
 
 UInt32 Utf8Utility::ExtractCharFromFirstThreeByteSequence(UInt32 value) {
@@ -370,7 +374,7 @@ void Utf8Utility::WriteFirstUtf16CharAsUtf8ThreeByteSequence(Byte& outputBuffer,
 }
 
 OperationStatus Utf8Utility::TranscodeToUtf16(Byte* pInputBuffer, Int32 inputLength, Char* pOutputBuffer, Int32 outputCharsRemaining, Byte*& pInputBufferRemaining, Char*& pOutputBufferRemaining) {
-  UIntPtr uIntPtr = ASCIIUtility::WidenAsciiToUtf16(pInputBuffer, pOutputBuffer, (UInt32)Math::Min(inputLength, outputCharsRemaining));
+  UIntPtr uIntPtr = ASCIIUtility::WidenAsciiToUtf16(pInputBuffer, pOutputBuffer, (UIntPtr)(UInt32)Math::Min(inputLength, outputCharsRemaining));
   pInputBuffer += (UInt64)uIntPtr;
   pOutputBuffer += (UInt64)uIntPtr;
   if ((Int32)(UInt64)uIntPtr == inputLength) {
@@ -772,7 +776,7 @@ IL_0722:
 }
 
 OperationStatus Utf8Utility::TranscodeToUtf8(Char* pInputBuffer, Int32 inputLength, Byte* pOutputBuffer, Int32 outputBytesRemaining, Char*& pInputBufferRemaining, Byte*& pOutputBufferRemaining) {
-  UIntPtr uIntPtr = ASCIIUtility::NarrowUtf16ToAscii(pInputBuffer, pOutputBuffer, (UInt32)Math::Min(inputLength, outputBytesRemaining));
+  UIntPtr uIntPtr = ASCIIUtility::NarrowUtf16ToAscii(pInputBuffer, pOutputBuffer, (UIntPtr)(UInt32)Math::Min(inputLength, outputBytesRemaining));
   pInputBuffer += (UInt64)uIntPtr;
   pOutputBuffer += (UInt64)uIntPtr;
   if ((Int32)(UInt64)uIntPtr == inputLength) {
@@ -783,24 +787,24 @@ OperationStatus Utf8Utility::TranscodeToUtf8(Char* pInputBuffer, Int32 inputLeng
   inputLength -= (Int32)(UInt64)uIntPtr;
   outputBytesRemaining -= (Int32)(UInt64)uIntPtr;
   if (inputLength < 2) {
-    goto IL_04be;
+    goto IL_057e;
   }
   Char* ptr = pInputBuffer + (UInt32)inputLength - 2;
   Vector128<Int16> value;
   Unsafe::SkipInit(value);
-  if (Sse41::in::X64::in::get_IsSupported()) {
+  if (Sse41::in::X64::in::get_IsSupported() || (AdvSimd::in::Arm64::in::get_IsSupported() && BitConverter::IsLittleEndian)) {
     value = Vector128<>::Create((?)(-128));
   }
   UInt32 num;
   while (true) {
 
-  IL_006d:
+  IL_007b:
     num = Unsafe::ReadUnaligned<UInt32>(pInputBuffer);
     while (true) {
 
-    IL_0074:
+    IL_0082:
       if (!Utf16Utility::AllCharsInUInt32AreAscii(num)) {
-        goto IL_02a9;
+        goto IL_0369;
       }
       if (outputBytesRemaining < 2) {
         break;
@@ -812,58 +816,67 @@ OperationStatus Utf8Utility::TranscodeToUtf8(Char* pInputBuffer, Int32 inputLeng
       outputBytesRemaining -= 2;
       UInt32 num3 = (UInt32)((Int32)(ptr - pInputBuffer) + 2);
       UInt32 num4 = (UInt32)Math::Min(num3, outputBytesRemaining);
-      Int32 num6;
-      UInt64 num7;
+      Int32 i;
+      UInt64 num6;
       Vector128<Int16> vector;
-      Int32 num9;
-      UInt32 num10;
-      if (Sse41::in::X64::in::get_IsSupported()) {
+      Int32 num8;
+      UInt32 num9;
+      if (Sse41::in::X64::in::get_IsSupported() || (AdvSimd::in::Arm64::in::get_IsSupported() && BitConverter::IsLittleEndian)) {
         UInt32 num5 = num4 / 8u;
-        num6 = 0;
-        while ((UInt32)num6 < num5) {
+        for (i = 0; (UInt32)i < num5; pInputBuffer += 8, pOutputBuffer += 8, i++) {
           vector = Unsafe::ReadUnaligned<Vector128<Int16>>(pInputBuffer);
-          if (Sse41::in::TestZ(vector, value)) {
+          if (AdvSimd::in::get_IsSupported()) {
+            Vector128<Int16> vector2 = AdvSimd::in::CompareTest(vector, value);
+            if (Vector128<>::ToScalar(Vector128<>::AsUInt64(AdvSimd::in::Arm64::in::MinPairwise(vector2, vector2))) == 0) {
+              Vector64<Byte> source = AdvSimd::in::ExtractNarrowingSaturateUnsignedLower(vector);
+              AdvSimd::in::Store(pOutputBuffer, source);
+              continue;
+            }
+          } else if (Sse41::in::TestZ(vector, value)) {
             Sse2::in::StoreScalar((UInt64*)pOutputBuffer, Vector128<>::AsUInt64(Sse2::in::PackUnsignedSaturate(vector, vector)));
-            pInputBuffer += 8;
-            pOutputBuffer += 8;
-            num6++;
             continue;
           }
-          goto IL_017a;
+
+          goto IL_0203;
         }
-        outputBytesRemaining -= 8 * num6;
+        outputBytesRemaining -= 8 * i;
         if ((num4 & 4) != 0) {
-          num7 = Unsafe::ReadUnaligned<UInt64>(pInputBuffer);
-          if (!Utf16Utility::AllCharsInUInt64AreAscii(num7)) {
-            goto IL_01d3;
+          num6 = Unsafe::ReadUnaligned<UInt64>(pInputBuffer);
+          if (!Utf16Utility::AllCharsInUInt64AreAscii(num6)) {
+            goto IL_0293;
           }
-          vector = Vector128<>::AsInt16(Vector128<>::CreateScalarUnsafe(num7));
-          Unsafe::WriteUnaligned(pOutputBuffer, Sse2::in::ConvertToUInt32(Vector128<>::AsUInt32(Sse2::in::PackUnsignedSaturate(vector, vector))));
+          vector = Vector128<>::AsInt16(Vector128<>::CreateScalarUnsafe(num6));
+          if (AdvSimd::in::get_IsSupported()) {
+            Vector64<Byte> vector3 = AdvSimd::in::ExtractNarrowingSaturateUnsignedLower(vector);
+            AdvSimd::in::StoreSelectedScalar((UInt32*)pOutputBuffer, Vector64<>::AsUInt32(vector3), 0);
+          } else {
+            Unsafe::WriteUnaligned(pOutputBuffer, Sse2::in::ConvertToUInt32(Vector128<>::AsUInt32(Sse2::in::PackUnsignedSaturate(vector, vector))));
+          }
           pInputBuffer += 4;
           pOutputBuffer += 4;
           outputBytesRemaining -= 4;
         }
       } else {
-        UInt32 num8 = num4 / 4u;
-        num9 = 0;
-        while ((UInt32)num9 < num8) {
+        UInt32 num7 = num4 / 4u;
+        num8 = 0;
+        while ((UInt32)num8 < num7) {
           num = Unsafe::ReadUnaligned<UInt32>(pInputBuffer);
-          num10 = Unsafe::ReadUnaligned<UInt32>(pInputBuffer + 2);
-          if (Utf16Utility::AllCharsInUInt32AreAscii(num | num10)) {
+          num9 = Unsafe::ReadUnaligned<UInt32>(pInputBuffer + 2);
+          if (Utf16Utility::AllCharsInUInt32AreAscii(num | num9)) {
             Unsafe::WriteUnaligned(pOutputBuffer, (UInt16)(num | (num >> 8)));
-            Unsafe::WriteUnaligned(pOutputBuffer + 2, (UInt16)(num10 | (num10 >> 8)));
+            Unsafe::WriteUnaligned(pOutputBuffer + 2, (UInt16)(num9 | (num9 >> 8)));
             pInputBuffer += 4;
             pOutputBuffer += 4;
-            num9++;
+            num8++;
             continue;
           }
-          goto IL_0278;
+          goto IL_0338;
         }
-        outputBytesRemaining -= 4 * num9;
+        outputBytesRemaining -= 4 * num8;
       }
-      goto IL_04ac;
+      goto IL_056c;
 
-    IL_02a9:
+    IL_0369:
       while (true) {
         if (IsFirstCharAscii(num)) {
           if (outputBytesRemaining == 0) {
@@ -878,7 +891,7 @@ OperationStatus Utf8Utility::TranscodeToUtf8(Char* pInputBuffer, Int32 inputLeng
           pOutputBuffer++;
           outputBytesRemaining--;
           if (pInputBuffer > ptr) {
-            goto IL_04b3;
+            goto IL_0573;
           }
           num = Unsafe::ReadUnaligned<UInt32>(pInputBuffer);
         }
@@ -892,26 +905,26 @@ OperationStatus Utf8Utility::TranscodeToUtf8(Char* pInputBuffer, Int32 inputLeng
               if (pInputBuffer <= ptr) {
                 num = Unsafe::ReadUnaligned<UInt32>(pInputBuffer);
                 if (!IsFirstCharTwoUtf8Bytes(num)) {
-                  goto IL_0074;
+                  goto IL_0082;
                 }
                 continue;
               }
-              goto IL_04b3;
+              goto IL_0573;
             }
-            goto IL_04c9;
+            goto IL_0589;
           }
           if (outputBytesRemaining < 2) {
             break;
           }
           Unsafe::WriteUnaligned(pOutputBuffer, (UInt16)ExtractUtf8TwoByteSequenceFromFirstUtf16Char(num));
           if (IsSecondCharAscii(num)) {
-            goto IL_0357;
+            goto IL_0417;
           }
           pInputBuffer++;
           pOutputBuffer += 2;
           outputBytesRemaining -= 2;
           if (pInputBuffer > ptr) {
-            goto IL_04b3;
+            goto IL_0573;
           }
           num = Unsafe::ReadUnaligned<UInt32>(pInputBuffer);
         }
@@ -924,11 +937,11 @@ OperationStatus Utf8Utility::TranscodeToUtf8(Char* pInputBuffer, Int32 inputLeng
             if (pInputBuffer <= ptr) {
               num = Unsafe::ReadUnaligned<UInt32>(pInputBuffer);
               if (!IsFirstCharAtLeastThreeUtf8Bytes(num)) {
-                goto IL_0074;
+                goto IL_0082;
               }
               continue;
             }
-            goto IL_04b3;
+            goto IL_0573;
           }
           if (outputBytesRemaining >= 3) {
             WriteFirstUtf16CharAsUtf8ThreeByteSequence(*pOutputBuffer, num);
@@ -936,7 +949,7 @@ OperationStatus Utf8Utility::TranscodeToUtf8(Char* pInputBuffer, Int32 inputLeng
             pOutputBuffer += 3;
             outputBytesRemaining -= 3;
             if (!IsSecondCharAscii(num)) {
-              goto IL_046c;
+              goto IL_052c;
             }
             if (outputBytesRemaining != 0) {
               if (BitConverter::IsLittleEndian) {
@@ -950,38 +963,55 @@ OperationStatus Utf8Utility::TranscodeToUtf8(Char* pInputBuffer, Int32 inputLeng
               if (pInputBuffer <= ptr) {
                 num = Unsafe::ReadUnaligned<UInt32>(pInputBuffer);
                 if (!IsFirstCharAtLeastThreeUtf8Bytes(num)) {
-                  goto IL_0074;
+                  goto IL_0082;
                 }
                 continue;
               }
-              goto IL_04b3;
+              goto IL_0573;
             }
           }
-          goto IL_057b;
+          goto IL_063b;
         }
-        goto IL_047c;
+        goto IL_053c;
 
-      IL_046c:
+      IL_052c:
         if (pInputBuffer <= ptr) {
           num = Unsafe::ReadUnaligned<UInt32>(pInputBuffer);
           continue;
         }
-        goto IL_04b3;
+        goto IL_0573;
       }
-      goto IL_057b;
+      goto IL_063b;
 
-    IL_01d3:
-      num = (UInt32)num7;
+    IL_0203:
+      outputBytesRemaining -= 8 * i;
+      num6 = ((!Sse2::in::X64::in::get_IsSupported()) ? Vector128<>::ToScalar(Vector128<>::AsUInt64(vector)) : Sse2::in::X64::in::ConvertToUInt64(Vector128<>::AsUInt64(vector)));
+      if (Utf16Utility::AllCharsInUInt64AreAscii(num6)) {
+        if (AdvSimd::in::get_IsSupported()) {
+          Vector64<Byte> vector4 = AdvSimd::in::ExtractNarrowingSaturateUnsignedLower(vector);
+          AdvSimd::in::StoreSelectedScalar((UInt32*)pOutputBuffer, Vector64<>::AsUInt32(vector4), 0);
+        } else {
+          Unsafe::WriteUnaligned(pOutputBuffer, Sse2::in::ConvertToUInt32(Vector128<>::AsUInt32(Sse2::in::PackUnsignedSaturate(vector, vector))));
+        }
+        pInputBuffer += 4;
+        pOutputBuffer += 4;
+        outputBytesRemaining -= 4;
+        num6 = Vector128<>::GetElement(Vector128<>::AsUInt64(vector), 1);
+      }
+      goto IL_0293;
+
+    IL_0293:
+      num = (UInt32)num6;
       if (Utf16Utility::AllCharsInUInt32AreAscii(num)) {
         Unsafe::WriteUnaligned(pOutputBuffer, (UInt16)(num | (num >> 8)));
         pInputBuffer += 2;
         pOutputBuffer += 2;
         outputBytesRemaining -= 2;
-        num = (UInt32)(num7 >> 32);
+        num = (UInt32)(num6 >> 32);
       }
-      goto IL_02a9;
+      goto IL_0369;
 
-    IL_0357:
+    IL_0417:
       if (outputBytesRemaining >= 3) {
         if (BitConverter::IsLittleEndian) {
           num >>= 16;
@@ -990,136 +1020,124 @@ OperationStatus Utf8Utility::TranscodeToUtf8(Char* pInputBuffer, Int32 inputLeng
         pInputBuffer += 2;
         pOutputBuffer += 3;
         outputBytesRemaining -= 3;
-        goto IL_04ac;
+        goto IL_056c;
       }
       pInputBuffer++;
       pOutputBuffer += 2;
-      goto IL_057b;
+      goto IL_063b;
 
-    IL_047c:
+    IL_056c:
+      if (pInputBuffer <= ptr) {
+        goto IL_007b;
+      }
+      goto IL_0573;
+
+    IL_053c:
       if (IsWellFormedUtf16SurrogatePair(num)) {
         if (outputBytesRemaining >= 4) {
           Unsafe::WriteUnaligned(pOutputBuffer, ExtractFourUtf8BytesFromSurrogatePair(num));
           pInputBuffer += 2;
           pOutputBuffer += 4;
           outputBytesRemaining -= 4;
-          goto IL_04ac;
+          goto IL_056c;
         }
-        goto IL_057b;
+        goto IL_063b;
       }
-      goto IL_0580;
+      goto IL_0640;
 
-    IL_04b3:
+    IL_0573:
       inputLength = (Int32)(ptr - pInputBuffer) + 2;
-      goto IL_04be;
+      goto IL_057e;
 
-    IL_0278:
-      outputBytesRemaining -= 4 * num9;
+    IL_0338:
+      outputBytesRemaining -= 4 * num8;
       if (Utf16Utility::AllCharsInUInt32AreAscii(num)) {
         Unsafe::WriteUnaligned(pOutputBuffer, (UInt16)(num | (num >> 8)));
         pInputBuffer += 2;
         pOutputBuffer += 2;
         outputBytesRemaining -= 2;
-        num = num10;
+        num = num9;
       }
-      goto IL_02a9;
-
-    IL_04ac:
-      if (pInputBuffer <= ptr) {
-        goto IL_006d;
-      }
-      goto IL_04b3;
-
-    IL_017a:
-      outputBytesRemaining -= 8 * num6;
-      num7 = Sse2::in::X64::in::ConvertToUInt64(Vector128<>::AsUInt64(vector));
-      if (Utf16Utility::AllCharsInUInt64AreAscii(num7)) {
-        Unsafe::WriteUnaligned(pOutputBuffer, Sse2::in::ConvertToUInt32(Vector128<>::AsUInt32(Sse2::in::PackUnsignedSaturate(vector, vector))));
-        pInputBuffer += 4;
-        pOutputBuffer += 4;
-        outputBytesRemaining -= 4;
-        num7 = Vector128<>::GetElement(Vector128<>::AsUInt64(vector), 1);
-      }
-      goto IL_01d3;
+      goto IL_0369;
     }
     break;
   }
-  goto IL_04c9;
+  goto IL_0589;
 
-IL_0583:
+IL_0643:
   pInputBufferRemaining = pInputBuffer;
   pOutputBufferRemaining = pOutputBuffer;
   OperationStatus result;
   return result;
 
-IL_056d:
-  if (inputLength <= 1) {
-    goto IL_0571;
-  }
-  goto IL_057b;
+IL_0589:
+  UInt32 num10 = (!BitConverter::IsLittleEndian) ? (num >> 16) : (num & 65535);
+  goto IL_059f;
 
-IL_04c9:
-  UInt32 num11 = (!BitConverter::IsLittleEndian) ? (num >> 16) : (num & 65535);
-  goto IL_04df;
+IL_0640:
+  result = OperationStatus::InvalidData;
+  goto IL_0643;
 
-IL_04be:
+IL_057e:
   if (inputLength != 0) {
-    num11 = *pInputBuffer;
-    goto IL_04df;
+    num10 = *pInputBuffer;
+    goto IL_059f;
   }
-  goto IL_0571;
+  goto IL_0631;
 
-IL_057b:
-  result = OperationStatus::DestinationTooSmall;
-  goto IL_0583;
-
-IL_04df:
-  if (num11 <= 127) {
+IL_059f:
+  if (num10 <= 127) {
     if (outputBytesRemaining != 0) {
-      *pOutputBuffer = (Byte)num11;
+      *pOutputBuffer = (Byte)num10;
       pInputBuffer++;
       pOutputBuffer++;
-      goto IL_056d;
+      goto IL_062d;
     }
-  } else if (num11 < 2048) {
+  } else if (num10 < 2048) {
     if (outputBytesRemaining >= 2) {
-      pOutputBuffer[1] = (Byte)((num11 & 63) | 4294967168u);
-      *pOutputBuffer = (Byte)((num11 >> 6) | 4294967232u);
+      pOutputBuffer[1] = (Byte)((num10 & 63) | 4294967168u);
+      *pOutputBuffer = (Byte)((num10 >> 6) | 4294967232u);
       pInputBuffer++;
       pOutputBuffer += 2;
-      goto IL_056d;
+      goto IL_062d;
     }
   } else {
-    if (UnicodeUtility::IsSurrogateCodePoint(num11)) {
-      if (num11 > 56319) {
-        goto IL_0580;
+    if (UnicodeUtility::IsSurrogateCodePoint(num10)) {
+      if (num10 > 56319) {
+        goto IL_0640;
       }
       result = OperationStatus::NeedMoreData;
-      goto IL_0583;
+      goto IL_0643;
     }
     if (outputBytesRemaining >= 3) {
-      pOutputBuffer[2] = (Byte)((num11 & 63) | 4294967168u);
-      pOutputBuffer[1] = (Byte)(((num11 >> 6) & 63) | 4294967168u);
-      *pOutputBuffer = (Byte)((num11 >> 12) | 4294967264u);
+      pOutputBuffer[2] = (Byte)((num10 & 63) | 4294967168u);
+      pOutputBuffer[1] = (Byte)(((num10 >> 6) & 63) | 4294967168u);
+      *pOutputBuffer = (Byte)((num10 >> 12) | 4294967264u);
       pInputBuffer++;
       pOutputBuffer += 3;
-      goto IL_056d;
+      goto IL_062d;
     }
   }
 
-  goto IL_057b;
+  goto IL_063b;
 
-IL_0580:
-  result = OperationStatus::InvalidData;
-  goto IL_0583;
-
-IL_0571:
+IL_0631:
   result = OperationStatus::Done;
-  goto IL_0583;
+  goto IL_0643;
+
+IL_062d:
+  if (inputLength <= 1) {
+    goto IL_0631;
+  }
+  goto IL_063b;
+
+IL_063b:
+  result = OperationStatus::DestinationTooSmall;
+  goto IL_0643;
 }
 
 Byte* Utf8Utility::GetPointerToFirstInvalidByte(Byte* pInputBuffer, Int32 inputLength, Int32& utf16CodeUnitCountAdjustment, Int32& scalarCountAdjustment) {
-  UIntPtr indexOfFirstNonAsciiByte = ASCIIUtility::GetIndexOfFirstNonAsciiByte(pInputBuffer, (UInt32)inputLength);
+  UIntPtr indexOfFirstNonAsciiByte = ASCIIUtility::GetIndexOfFirstNonAsciiByte(pInputBuffer, (UIntPtr)(UInt32)inputLength);
   pInputBuffer += (UInt64)indexOfFirstNonAsciiByte;
   inputLength -= (Int32)(UInt64)indexOfFirstNonAsciiByte;
   if (inputLength == 0) {
@@ -1137,6 +1155,8 @@ Byte* Utf8Utility::GetPointerToFirstInvalidByte(Byte* pInputBuffer, Int32 inputL
       while (true) {
 
       IL_0043:
+        UInt32 num4;
+        UIntPtr uIntPtr;
         if (ASCIIUtility::AllBytesInUInt32AreAscii(num3)) {
           pInputBuffer += 4;
           if ((Int64)(IntPtr)(void*)Unsafe::ByteOffset(*pInputBuffer, *ptr) < 16) {
@@ -1146,46 +1166,56 @@ Byte* Utf8Utility::GetPointerToFirstInvalidByte(Byte* pInputBuffer, Int32 inputL
           if (ASCIIUtility::AllBytesInUInt32AreAscii(num3)) {
             pInputBuffer = (Byte*)(void*)(UIntPtr)(void*)((UInt64)(Int64)(UInt64)(UIntPtr)(void*)(pInputBuffer + 4) & (UInt64)(Int64)(IntPtr)(void*)(~3));
             Byte* ptr2 = ptr - 12;
-            UInt32 num4;
+            Vector128<Byte> bitMask = BitConverter::IsLittleEndian ? Vector128<>::AsByte(Vector128<>::Create((?)4097)) : Vector128<>::AsByte(Vector128<>::Create((?)272));
+            UInt64 nonAsciiBytes;
             while (true) {
-              if (Sse2::in::get_IsSupported()) {
-                num4 = (UInt32)Sse2::in::MoveMask(Sse2::in::LoadVector128(pInputBuffer));
-                if (num4 != 0) {
+              if (AdvSimd::in::Arm64::in::get_IsSupported() && BitConverter::IsLittleEndian) {
+                nonAsciiBytes = GetNonAsciiBytes(AdvSimd::in::LoadVector128(pInputBuffer), bitMask);
+                if (nonAsciiBytes != 0) {
                   break;
                 }
-                goto IL_00d8;
-              }
-              if (ASCIIUtility::AllBytesInUInt32AreAscii(*(UInt32*)pInputBuffer | *(UInt32*)(pInputBuffer + 4))) {
-                if (ASCIIUtility::AllBytesInUInt32AreAscii(*(UInt32*)(pInputBuffer + 2 * 4) | *(UInt32*)(pInputBuffer + 3 * 4))) {
-                  goto IL_00d8;
+              } else {
+                if (!Sse2::in::get_IsSupported()) {
+                  if (ASCIIUtility::AllBytesInUInt32AreAscii(*(UInt32*)pInputBuffer | *(UInt32*)(pInputBuffer + 4))) {
+                    if (ASCIIUtility::AllBytesInUInt32AreAscii(*(UInt32*)(pInputBuffer + 2 * 4) | *(UInt32*)(pInputBuffer + 3 * 4))) {
+                      goto IL_013a;
+                    }
+                    pInputBuffer += 8;
+                  }
+                  num3 = *(UInt32*)pInputBuffer;
+                  if (ASCIIUtility::AllBytesInUInt32AreAscii(num3)) {
+                    pInputBuffer += 4;
+                    num3 = *(UInt32*)pInputBuffer;
+                  }
+                  goto IL_0181;
                 }
-                pInputBuffer += 8;
+                num4 = (UInt32)Sse2::in::MoveMask(Sse2::in::LoadVector128(pInputBuffer));
+                if (num4 != 0) {
+                  goto IL_010a;
+                }
               }
-              num3 = *(UInt32*)pInputBuffer;
-              if (ASCIIUtility::AllBytesInUInt32AreAscii(num3)) {
-                pInputBuffer += 4;
-                num3 = *(UInt32*)pInputBuffer;
-              }
-              goto IL_011f;
+              goto IL_013a;
 
-            IL_00d8:
+            IL_013a:
               pInputBuffer += 16;
               if (pInputBuffer <= ptr2) {
                 continue;
               }
-              goto IL_04dc;
+              goto IL_053e;
             }
-            pInputBuffer += BitOperations::TrailingZeroCount(num4);
-            if (pInputBuffer <= ptr) {
-              num3 = Unsafe::ReadUnaligned<UInt32>(pInputBuffer);
-              goto IL_013e;
-            }
-            goto IL_04ed;
+            uIntPtr = (UIntPtr)(void*)((UInt64)BitOperations::TrailingZeroCount(nonAsciiBytes) >> 2);
+            goto IL_014d;
           }
         }
-        goto IL_011f;
+        goto IL_0181;
 
-      IL_013e:
+      IL_0531:
+        pInputBuffer += 4;
+        num -= 2;
+        num2--;
+        break;
+
+      IL_01a0:
         while (true) {
           num3 -= (UInt32)(BitConverter::IsLittleEndian ? 32960 : (-1065353216));
           if ((num3 & (UInt32)(BitConverter::IsLittleEndian ? 49376 : (-524288000))) != 0) {
@@ -1196,7 +1226,7 @@ Byte* Utf8Utility::GetPointerToFirstInvalidByte(Byte* pInputBuffer, Int32 inputL
               pInputBuffer += 4;
               num -= 2;
               if (pInputBuffer > ptr) {
-                goto IL_04ed;
+                goto IL_054f;
               }
               num3 = Unsafe::ReadUnaligned<UInt32>(pInputBuffer);
               if (BitConverter::IsLittleEndian) {
@@ -1211,7 +1241,7 @@ Byte* Utf8Utility::GetPointerToFirstInvalidByte(Byte* pInputBuffer, Int32 inputL
               if (!UInt32BeginsWithOverlongUtf8TwoByteSequence(num3)) {
                 continue;
               }
-              goto IL_05da;
+              goto IL_063c;
             }
             num--;
             if (UInt32ThirdByteIsAscii(num3)) {
@@ -1227,9 +1257,9 @@ Byte* Utf8Utility::GetPointerToFirstInvalidByte(Byte* pInputBuffer, Int32 inputL
             } else {
               pInputBuffer += 2;
             }
-            goto IL_04dc;
+            goto IL_053e;
           }
-          goto IL_05da;
+          goto IL_063c;
         }
         num3 -= (UInt32)(BitConverter::IsLittleEndian ? 8388640 : 536903680);
         if (((Int32)num3 & (BitConverter::IsLittleEndian ? 12632304 : (-255803392))) == 0) {
@@ -1244,7 +1274,7 @@ Byte* Utf8Utility::GetPointerToFirstInvalidByte(Byte* pInputBuffer, Int32 inputL
 
             while (true) {
 
-            IL_02c3:
+            IL_0325:
               IntPtr intPtr = (IntPtr)(void*)((!BitConverter::IsLittleEndian) ? ((Int64)(SByte)num3 >> 7) : ((Int32)num3 >> 31));
               pInputBuffer += 4;
               pInputBuffer += (Int64)intPtr;
@@ -1258,7 +1288,7 @@ Byte* Utf8Utility::GetPointerToFirstInvalidByte(Byte* pInputBuffer, Int32 inputL
                 num5 = Unsafe::ReadUnaligned<UInt64>(pInputBuffer);
                 num3 = (UInt32)num5;
                 if (((Int64)num5 & -4543920089111412496) != -9160180351060901664 || !IsUtf8ContinuationByte(pInputBuffer[8])) {
-                  goto IL_03c2;
+                  goto IL_0424;
                 }
                 if (((Int32)num5 & 8207) != 0 && (((Int32)num5 - 8205) & 8207) != 0) {
                   num5 >>= 24;
@@ -1270,24 +1300,24 @@ Byte* Utf8Utility::GetPointerToFirstInvalidByte(Byte* pInputBuffer, Int32 inputL
                       continue;
                     }
                   }
-                  goto IL_02c3;
+                  goto IL_0325;
                 }
-                goto IL_05da;
+                goto IL_063c;
               }
               break;
 
-            IL_03c2:
+            IL_0424:
               if ((num5 & 211934905417968) != 141291010687200) {
-                goto IL_0432;
+                goto IL_0494;
               }
               if (((Int32)num5 & 8207) != 0 && (((Int32)num5 - 8205) & 8207) != 0) {
                 num5 >>= 24;
                 if (((Int32)num5 & 8207) == 0 || (((Int32)num5 - 8205) & 8207) == 0) {
                   continue;
                 }
-                goto IL_0424;
+                goto IL_0486;
               }
-              goto IL_05da;
+              goto IL_063c;
             }
             if (pInputBuffer <= ptr) {
               num3 = Unsafe::ReadUnaligned<UInt32>(pInputBuffer);
@@ -1296,9 +1326,9 @@ Byte* Utf8Utility::GetPointerToFirstInvalidByte(Byte* pInputBuffer, Int32 inputL
               }
               continue;
             }
-            goto IL_04ed;
+            goto IL_054f;
 
-          IL_0432:
+          IL_0494:
             if (!UInt32BeginsWithUtf8ThreeByteMask(num3)) {
               goto IL_0043;
             }
@@ -1308,55 +1338,66 @@ Byte* Utf8Utility::GetPointerToFirstInvalidByte(Byte* pInputBuffer, Int32 inputL
           if ((Int32)num3 <= -2147467265) {
             num3 = BitOperations::RotateRight(num3, 8);
             if (UnicodeUtility::IsInRangeInclusive(num3, 276824080u, 343932943u)) {
-              goto IL_04cf;
+              goto IL_0531;
             }
           }
         } else {
           num3 -= 128;
           if ((num3 & 12632256) == 0 && UnicodeUtility::IsInRangeInclusive(num3, 269484032u, 336592895u)) {
-            goto IL_04cf;
+            goto IL_0531;
           }
         }
 
-        goto IL_05da;
+        goto IL_063c;
 
-      IL_0424:
+      IL_010a:
+        uIntPtr = (UIntPtr)(void*)BitOperations::TrailingZeroCount(num4);
+        goto IL_014d;
+
+      IL_0486:
         pInputBuffer += 6;
         num -= 4;
         break;
 
-      IL_011f:
+      IL_0181:
         UInt32 num6 = ASCIIUtility::CountNumberOfLeadingAsciiBytesFromUInt32WithSomeNonAsciiData(num3);
         pInputBuffer += num6;
         if (ptr >= pInputBuffer) {
           num3 = Unsafe::ReadUnaligned<UInt32>(pInputBuffer);
-          goto IL_013e;
+          goto IL_01a0;
         }
-        goto IL_04ed;
+        goto IL_054f;
 
-      IL_04cf:
-        pInputBuffer += 4;
-        num -= 2;
-        num2--;
-        break;
+      IL_014d:
+        pInputBuffer += (UInt64)uIntPtr;
+        if (pInputBuffer <= ptr) {
+          num3 = Unsafe::ReadUnaligned<UInt32>(pInputBuffer);
+          goto IL_01a0;
+        }
+        goto IL_054f;
       }
 
-    IL_04dc:
+    IL_053e:
     }
-    goto IL_04ed;
+    goto IL_054f;
   }
-  UIntPtr uIntPtr = (UIntPtr)(UInt32)inputLength;
-  goto IL_05d2;
+  UIntPtr uIntPtr2 = (UIntPtr)(UInt32)inputLength;
+  goto IL_0634;
 
-IL_05d2:
-  while (uIntPtr != (UIntPtr)(void*)nullptr) {
+IL_063c:
+  utf16CodeUnitCountAdjustment = num;
+  scalarCountAdjustment = num2;
+  return pInputBuffer;
+
+IL_0634:
+  while (uIntPtr2 != (UIntPtr)(void*)nullptr) {
     UInt32 num7 = *pInputBuffer;
     if ((UInt32)(Byte)num7 < 128u) {
       pInputBuffer++;
-      uIntPtr = (UIntPtr)(void*)((UInt64)(Int64)(UInt64)uIntPtr - 1);
+      uIntPtr2 = (UIntPtr)(void*)((UInt64)(Int64)(UInt64)uIntPtr2 - 1);
       continue;
     }
-    if ((UInt64)uIntPtr < 2) {
+    if ((UInt64)uIntPtr2 < 2) {
       break;
     }
     UInt32 value = pInputBuffer[1];
@@ -1366,10 +1407,10 @@ IL_05d2:
       }
       pInputBuffer += 2;
       num--;
-      uIntPtr = (UIntPtr)(void*)((UInt64)(Int64)(UInt64)uIntPtr - 2);
+      uIntPtr2 = (UIntPtr)(void*)((UInt64)(Int64)(UInt64)uIntPtr2 - 2);
       continue;
     }
-    if ((UInt64)uIntPtr < 3 || (UInt32)(Byte)num7 >= 240u) {
+    if ((UInt64)uIntPtr2 < 3 || (UInt32)(Byte)num7 >= 240u) {
       break;
     }
     if ((Byte)num7 == 224) {
@@ -1390,18 +1431,23 @@ IL_05d2:
     }
     pInputBuffer += 3;
     num -= 2;
-    uIntPtr = (UIntPtr)(void*)((UInt64)(Int64)(UInt64)uIntPtr - 3);
+    uIntPtr2 = (UIntPtr)(void*)((UInt64)(Int64)(UInt64)uIntPtr2 - 3);
   }
-  goto IL_05da;
+  goto IL_063c;
 
-IL_04ed:
-  uIntPtr = (UIntPtr)(void*)((UInt64)(Int64)(UInt64)(UIntPtr)(void*)Unsafe::ByteOffset(*pInputBuffer, *ptr) + 4);
-  goto IL_05d2;
+IL_054f:
+  uIntPtr2 = (UIntPtr)(void*)((UInt64)(Int64)(UInt64)(UIntPtr)(void*)Unsafe::ByteOffset(*pInputBuffer, *ptr) + 4);
+  goto IL_0634;
+}
 
-IL_05da:
-  utf16CodeUnitCountAdjustment = num;
-  scalarCountAdjustment = num2;
-  return pInputBuffer;
+UInt64 Utf8Utility::GetNonAsciiBytes(Vector128<Byte> value, Vector128<Byte> bitMask128) {
+  if (!AdvSimd::in::Arm64::in::get_IsSupported() || !BitConverter::IsLittleEndian) {
+    rt::throw_exception<PlatformNotSupportedException>();
+  }
+  Vector128<Byte> left = Vector128<>::AsByte(AdvSimd::in::ShiftRightArithmetic(Vector128<>::AsSByte(value), 7));
+  Vector128<Byte> vector = AdvSimd::in::And(left, bitMask128);
+  vector = AdvSimd::in::Arm64::in::AddPairwise(vector, vector);
+  return Vector128<>::ToScalar(Vector128<>::AsUInt64(vector));
 }
 
 } // namespace System::Private::CoreLib::System::Text::Unicode::Utf8UtilityNamespace

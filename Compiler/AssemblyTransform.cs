@@ -10,10 +10,12 @@ namespace Meson.Compiler {
     public IModule Module { get;}
     private readonly Dictionary<ITypeDefinition, ITypeDefinition> nestedBrotherTypes_ = new Dictionary<ITypeDefinition, ITypeDefinition>();
     private IEnumerable<CompilationUnitTransform> compilationUnits_;
+
     private static HashSet<string> ignoreDefinitionTypes_ = new HashSet<string>() {
       "System.Runtime.CompilerServices.NullablePublicOnlyAttribute",
       "System.Runtime.CompilerServices.NullableContextAttribute",
-      "System.Runtime.CompilerServices.NullableAttribute"
+      "System.Runtime.CompilerServices.NullableAttribute",
+      "System.Runtime.CompilerServices.NativeIntegerAttribute",
     };
 
     public AssemblyTransform(SyntaxGenerator generator, IModule module) {

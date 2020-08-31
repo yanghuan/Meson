@@ -91,7 +91,7 @@ ValueTask<> TimerQueueTimer___::CloseAsync() {
       if (rt::is<WaitHandle>(notifyWhenNoCallbacksRunning)) {
         InvalidOperationException ex = rt::newobj<InvalidOperationException>(SR::get_InvalidOperation_TimerAlreadyClosed());
         ex->SetCurrentStackTrace();
-        return ValueTask<>(Task<>::in::FromException(ex));
+        return ValueTask<>::FromException(ex);
       }
     } else {
       _canceled = true;

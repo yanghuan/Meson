@@ -364,7 +364,7 @@ namespace Meson.Compiler {
       return true;
     }
 
-    private void CheckParameterType(IMethod symbol, IParameter parameter, int index, IType type, ref ExpressionSyntax expression) {
+    private void CheckInvokeArgumentType(IMethod symbol, IParameter parameter, int index, IType type, ref ExpressionSyntax expression) {
       switch (type.Kind) {
         case TypeKind.Array:
           if (parameter.Type.Kind == TypeKind.Array && parameter.Type.FullName != type.FullName) {
@@ -385,10 +385,26 @@ namespace Meson.Compiler {
           }
           break;
         case TypeKind.Struct:
-          if (type.IsKnownType(KnownTypeCode.Int32) && expression is NumberLiteralExpressionSyntax numberLiteral) {
-            bool exists = symbol.DeclaringTypeDefinition.Methods.Any(i => i != symbol && i.Name == symbol.Name && IsMethodSimilar(symbol, i, index, numberLiteral.IsZero));
-            if (exists) {
-              goto Cast;
+          var typeDefinition = type.GetDefinition();
+          if (typeDefinition != null) {
+            switch (typeDefinition.KnownTypeCode) {
+              case KnownTypeCode.Int32:
+                if (expression is NumberLiteralExpressionSyntax numberLiteral) {
+                  bool exists = symbol.DeclaringTypeDefinition.Methods.Any(i => i != symbol && i.Name == symbol.Name && IsMethodSimilar(symbol, i, index, numberLiteral.IsZero));
+                  if (exists) {
+                    goto Cast;
+                  }
+                }
+                break;
+            }
+
+            switch (parameter.Type.Kind) {
+              case TypeKind.NInt:
+              case TypeKind.NUInt:
+                if (typeDefinition.Kind != parameter.Type.Kind) {
+                  goto Cast;
+                }
+                break;
             }
           }
           break;
@@ -401,25 +417,26 @@ namespace Meson.Compiler {
     }
 
     private List<ExpressionSyntax> BuildArguments(IMethod symbol, ICollection<Expression> argumentExpressions) {
-      Contract.Assert(symbol != null);
       List<ExpressionSyntax> arguments = new List<ExpressionSyntax>();
       int i = 0;
       foreach (var argument in argumentExpressions) {
-        var resolveResult = argument.GetResolveResult();
-        var parameter = symbol.Parameters[i];
-        if (parameter.IsParams) {
-          bool isMatchParamArray = parameter.Type.Kind == TypeKind.Array && i == symbol.Parameters.Count - 1 && i == argumentExpressions.Count - 1;
-          if (!isMatchParamArray) {
-            var typeName = GetTypeName(parameter.Type);
-            var expressions = argumentExpressions.Skip(i).Select(i => i.AcceptExpression(this)).ToArray();
-            var invation = IdentifierSyntax.NewArray.Generic(typeName).Invation(expressions.Length.ToString());
-            invation.Arguments.AddRange(expressions);
-            arguments.Add(invation);
-            break;
-          }
-        }
         var expression = argument.AcceptExpression(this);
-        CheckParameterType(symbol, parameter, i, resolveResult.Type, ref expression);
+        if (symbol != null) {
+          var resolveResult = argument.GetResolveResult();
+          var parameter = symbol.Parameters[i];
+          if (parameter.IsParams) {
+            bool isMatchParamArray = parameter.Type.Kind == TypeKind.Array && i == symbol.Parameters.Count - 1 && i == argumentExpressions.Count - 1;
+            if (!isMatchParamArray) {
+              var typeName = GetTypeName(parameter.Type);
+              var expressions = argumentExpressions.Skip(i).Select(i => i.AcceptExpression(this)).ToArray();
+              var invation = IdentifierSyntax.NewArray.Generic(typeName).Invation(expressions.Length.ToString());
+              invation.Arguments.AddRange(expressions);
+              arguments.Add(invation);
+              break;
+            }
+          }
+          CheckInvokeArgumentType(symbol, parameter, i, resolveResult.Type, ref expression);
+        }
         arguments.Add(expression);
         ++i;
       }
@@ -433,7 +450,7 @@ namespace Meson.Compiler {
     public SyntaxNode VisitInvocationExpression(InvocationExpression invocationExpression) {
       var symbol = (IMethod)invocationExpression.GetSymbol();
       var arguments = BuildInvocationArguments(symbol, invocationExpression);
-      if (invocationExpression.Target is MemberReferenceExpression memberReference) {
+      if (symbol != null && invocationExpression.Target is MemberReferenceExpression memberReference) {
         if (symbol.IsExtensionMethod) {
           var memberReferenceTarget = memberReference.Target.AcceptExpression(this);
           arguments.Insert(0, memberReferenceTarget);
@@ -462,6 +479,10 @@ namespace Meson.Compiler {
     }
 
     private void CheckNoVisibleMethod(IMethod symbol, InvocationExpression invocationExpression, ref ExpressionSyntax target, List<ExpressionSyntax> arguments) {
+      if (symbol == null) {
+        return;
+      }
+
       if (symbol.IsLocalFunction) {
         if (symbol.IsStatic && target is GenericIdentifierSyntax generic) {
           generic.Name = generic.Name.Dot("operator()");
@@ -1257,7 +1278,7 @@ namespace Meson.Compiler {
     }
 
     public SyntaxNode VisitFunctionPointerType(FunctionPointerType functionPointerType) {
-      throw new System.NotImplementedException();
+      throw new NotImplementedException();
     }
   }
 }

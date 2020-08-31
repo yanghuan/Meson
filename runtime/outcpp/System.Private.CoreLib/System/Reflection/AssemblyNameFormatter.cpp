@@ -4,7 +4,7 @@
 #include <System.Private.CoreLib/System/Boolean-dep.h>
 #include <System.Private.CoreLib/System/Char-dep.h>
 #include <System.Private.CoreLib/System/Collections/Generic/KeyValuePair-dep.h>
-#include <System.Private.CoreLib/System/Globalization/CultureInfo-dep.h>
+#include <System.Private.CoreLib/System/HexConverter-dep.h>
 #include <System.Private.CoreLib/System/Int32-dep.h>
 #include <System.Private.CoreLib/System/IO/FileLoadException-dep.h>
 #include <System.Private.CoreLib/System/MemoryExtensions-dep.h>
@@ -14,7 +14,6 @@
 
 namespace System::Private::CoreLib::System::Reflection::AssemblyNameFormatterNamespace {
 using namespace System::Collections::Generic;
-using namespace System::Globalization;
 using namespace System::IO;
 using namespace System::Text;
 
@@ -60,9 +59,7 @@ String AssemblyNameFormatter::ComputeDisplayName(String name, Version version, S
     if (pkt->get_Length() == 0) {
       stringBuilder->Append("null");
     } else {
-      for (Byte& b : pkt) {
-        stringBuilder->Append(b.ToString("x2", CultureInfo::in::get_InvariantCulture()));
-      }
+      stringBuilder->Append(HexConverter::ToString(pkt, HexConverter::Casing::Lower));
     }
   }
   if ((flags & AssemblyNameFlags::Retargetable) != 0) {

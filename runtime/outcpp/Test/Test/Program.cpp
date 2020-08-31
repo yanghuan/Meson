@@ -13,7 +13,7 @@ void Program___::Main(Array<String> args) {
   Console::WriteLine(args);
   UInt32 num = 20u;
   UIntPtr uIntPtr = (UIntPtr)num;
-  Test(num);
+  Test((UIntPtr)num);
 }
 
 void Program___::Test(UIntPtr aa) {

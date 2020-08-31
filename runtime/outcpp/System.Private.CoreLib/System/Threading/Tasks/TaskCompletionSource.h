@@ -17,26 +17,44 @@ enum class TaskCreationOptions : int32_t;
 FORWARD_(Task, T1, T2)
 namespace TaskCompletionSourceNamespace {
 using namespace System::Collections::Generic;
-CLASS(TaskCompletionSource, TResult) : public object {
+CLASS_FORWARD(TaskCompletionSource, T1, T2)
+CLASS_(TaskCompletionSource) : public object {
+  public: Task<> get_Task();
+  public: void ctor();
+  public: void ctor(TaskCreationOptions creationOptions);
+  public: void ctor(Object state);
+  public: void ctor(Object state, TaskCreationOptions creationOptions);
+  public: void SetException(Exception exception);
+  public: void SetException(IEnumerable<Exception> exceptions);
+  public: Boolean TrySetException(Exception exception);
+  public: Boolean TrySetException(IEnumerable<Exception> exceptions);
+  public: void SetResult();
+  public: Boolean TrySetResult();
+  public: void SetCanceled();
+  public: void SetCanceled(CancellationToken cancellationToken);
+  public: Boolean TrySetCanceled();
+  public: Boolean TrySetCanceled(CancellationToken cancellationToken);
+  private: Task<> _task;
+};
+CLASS_(TaskCompletionSource, TResult) : public object {
   public: Task<TResult> get_Task();
   public: void ctor();
   public: void ctor(TaskCreationOptions creationOptions);
   public: void ctor(Object state);
   public: void ctor(Object state, TaskCreationOptions creationOptions);
-  private: void SpinUntilCompleted();
-  public: Boolean TrySetException(Exception exception);
-  public: Boolean TrySetException(IEnumerable<Exception> exceptions);
   public: void SetException(Exception exception);
   public: void SetException(IEnumerable<Exception> exceptions);
-  public: Boolean TrySetResult(TResult result);
+  public: Boolean TrySetException(Exception exception);
+  public: Boolean TrySetException(IEnumerable<Exception> exceptions);
   public: void SetResult(TResult result);
-  public: Boolean TrySetCanceled();
-  public: Boolean TrySetCanceled(CancellationToken cancellationToken);
+  public: Boolean TrySetResult(TResult result);
   public: void SetCanceled();
   public: void SetCanceled(CancellationToken cancellationToken);
+  public: Boolean TrySetCanceled();
+  public: Boolean TrySetCanceled(CancellationToken cancellationToken);
   private: Task<TResult> _task;
 };
 } // namespace TaskCompletionSourceNamespace
-template <class TResult>
-using TaskCompletionSource = TaskCompletionSourceNamespace::TaskCompletionSource<TResult>;
+template <class T1 = void, class T2 = void>
+using TaskCompletionSource = TaskCompletionSourceNamespace::TaskCompletionSource<T1, T2>;
 } // namespace System::Private::CoreLib::System::Threading::Tasks

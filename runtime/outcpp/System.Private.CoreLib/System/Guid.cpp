@@ -14,7 +14,6 @@
 #include <System.Private.CoreLib/System/Int16-dep.h>
 #include <System.Private.CoreLib/System/Int32-dep.h>
 #include <System.Private.CoreLib/System/MemoryExtensions-dep.h>
-#include <System.Private.CoreLib/System/Number-dep.h>
 #include <System.Private.CoreLib/System/OverflowException-dep.h>
 #include <System.Private.CoreLib/System/ReadOnlySpan-dep.h>
 #include <System.Private.CoreLib/System/Runtime/InteropServices/MemoryMarshal-dep.h>
@@ -453,12 +452,11 @@ Boolean Guid::TryParseHex(ReadOnlySpan<Char> guidString, UInt32& result, Boolean
   for (i = 0; i < guidString.get_Length() && guidString[i] == 48; i++) {
   }
   Int32 num = 0;
-  ReadOnlySpan<Byte> charToHexLookup = Number::get_CharToHexLookup();
   UInt32 num2 = 0u;
   for (; i < guidString.get_Length(); i++) {
     Char c = guidString[i];
-    Int32 num3;
-    if ((UInt32)c >= (UInt32)charToHexLookup.get_Length() || (num3 = charToHexLookup[c]) == 255) {
+    Int32 num3 = HexConverter::FromChar(c);
+    if (num3 == 255) {
       if (num > 8) {
         overflow = true;
       }
