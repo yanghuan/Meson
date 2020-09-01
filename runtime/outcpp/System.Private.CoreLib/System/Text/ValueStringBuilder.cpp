@@ -13,7 +13,6 @@
 #include <System.Private.CoreLib/System/ReadOnlySpan-dep.h>
 #include <System.Private.CoreLib/System/Runtime/InteropServices/MemoryMarshal-dep.h>
 #include <System.Private.CoreLib/System/SR-dep.h>
-#include <System.Private.CoreLib/System/Text/ValueStringBuilder-dep.h>
 #include <System.Private.CoreLib/System/Type-dep.h>
 #include <System.Private.CoreLib/System/UInt32-dep.h>
 
@@ -132,7 +131,7 @@ void ValueStringBuilder::AppendFormatHelper(IFormatProvider provider, String for
       }
     }
     Object obj = args[num2];
-    ReadOnlySpan<Char> readOnlySpan = ReadOnlySpan<T>();
+    ReadOnlySpan<Char> readOnlySpan = rt::default__;
     switch (c.get()) {
       case 58:
         {
@@ -388,7 +387,7 @@ void ValueStringBuilder::Grow(Int32 additionalCapacityBeyondPos) {
 
 void ValueStringBuilder::Dispose() {
   Array<Char> arrayToReturnToPool = _arrayToReturnToPool;
-  *this = ValueStringBuilder();
+  *this = rt::default__;
   if (arrayToReturnToPool != nullptr) {
     ArrayPool<Char>::in::get_Shared()->Return(arrayToReturnToPool);
   }

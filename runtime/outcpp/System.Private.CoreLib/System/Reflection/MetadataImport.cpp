@@ -148,13 +148,13 @@ ConstArray MetadataImport::GetMethodSignature(MetadataToken token) {
 }
 
 ConstArray MetadataImport::GetSigOfMethodDef(Int32 methodToken) {
-  ConstArray signature = ConstArray();
+  ConstArray signature = rt::default__;
   _GetSigOfMethodDef(m_metadataImport2, methodToken, signature);
   return signature;
 }
 
 ConstArray MetadataImport::GetSignatureFromToken(Int32 token) {
-  ConstArray signature = ConstArray();
+  ConstArray signature = rt::default__;
   _GetSignatureFromToken(m_metadataImport2, token, signature);
   return signature;
 }
@@ -178,13 +178,13 @@ Boolean MetadataImport::GetFieldOffset(Int32 typeTokenDef, Int32 fieldTokenDef, 
 }
 
 ConstArray MetadataImport::GetSigOfFieldDef(Int32 fieldToken) {
-  ConstArray fieldMarshal = ConstArray();
+  ConstArray fieldMarshal = rt::default__;
   _GetSigOfFieldDef(m_metadataImport2, fieldToken, fieldMarshal);
   return fieldMarshal;
 }
 
 ConstArray MetadataImport::GetFieldMarshal(Int32 fieldToken) {
-  ConstArray fieldMarshal = ConstArray();
+  ConstArray fieldMarshal = rt::default__;
   _GetFieldMarshal(m_metadataImport2, fieldToken, fieldMarshal);
   return fieldMarshal;
 }

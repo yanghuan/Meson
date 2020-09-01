@@ -65,7 +65,7 @@ Array<Byte> UnmanagedMemoryStreamWrapper___::GetBuffer() {
 }
 
 Boolean UnmanagedMemoryStreamWrapper___::TryGetBuffer(ArraySegment<Byte>& buffer) {
-  buffer = ArraySegment<T>();
+  buffer = rt::default__;
   return false;
 }
 

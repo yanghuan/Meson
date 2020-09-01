@@ -226,7 +226,7 @@ Array<String> Uri___::get_Segments() {
   if (privateAbsolutePath->get_Length() == 0) {
     return Array<>::in::Empty<String>();
   }
-  ArrayBuilder<String> arrayBuilder = ArrayBuilder<T>();
+  ArrayBuilder<String> arrayBuilder = rt::default__;
   Int32 num = 0;
   while (num < privateAbsolutePath->get_Length()) {
     Int32 num2 = privateAbsolutePath->IndexOf(47, num);

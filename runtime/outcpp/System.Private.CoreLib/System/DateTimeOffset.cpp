@@ -431,7 +431,7 @@ Boolean DateTimeOffset::TryParse(ReadOnlySpan<Char> input, DateTimeOffset& resul
 Boolean DateTimeOffset::TryParse(String input, IFormatProvider formatProvider, DateTimeStyles styles, DateTimeOffset& result) {
   styles = ValidateStyles(styles, "styles");
   if (input == nullptr) {
-    result = DateTimeOffset();
+    result = rt::default__;
     return false;
   }
   DateTime result2;
@@ -453,7 +453,7 @@ Boolean DateTimeOffset::TryParse(ReadOnlySpan<Char> input, IFormatProvider forma
 Boolean DateTimeOffset::TryParseExact(String input, String format, IFormatProvider formatProvider, DateTimeStyles styles, DateTimeOffset& result) {
   styles = ValidateStyles(styles, "styles");
   if (input == nullptr || format == nullptr) {
-    result = DateTimeOffset();
+    result = rt::default__;
     return false;
   }
   DateTime result2;
@@ -475,7 +475,7 @@ Boolean DateTimeOffset::TryParseExact(ReadOnlySpan<Char> input, ReadOnlySpan<Cha
 Boolean DateTimeOffset::TryParseExact(String input, Array<String> formats, IFormatProvider formatProvider, DateTimeStyles styles, DateTimeOffset& result) {
   styles = ValidateStyles(styles, "styles");
   if (input == nullptr) {
-    result = DateTimeOffset();
+    result = rt::default__;
     return false;
   }
   DateTime result2;

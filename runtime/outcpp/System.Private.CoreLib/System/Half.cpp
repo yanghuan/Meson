@@ -182,7 +182,7 @@ Half Half::Parse(ReadOnlySpan<Char> s, NumberStyles style, IFormatProvider provi
 
 Boolean Half::TryParse(String s, Half& result) {
   if (s == nullptr) {
-    result = Half();
+    result = rt::default__;
     return false;
   }
   return TryParse(s, NumberStyles::AllowLeadingWhite | NumberStyles::AllowTrailingWhite | NumberStyles::AllowLeadingSign | NumberStyles::AllowDecimalPoint | NumberStyles::AllowThousands | NumberStyles::AllowExponent, nullptr, result);
@@ -195,7 +195,7 @@ Boolean Half::TryParse(ReadOnlySpan<Char> s, Half& result) {
 Boolean Half::TryParse(String s, NumberStyles style, IFormatProvider provider, Half& result) {
   NumberFormatInfo::in::ValidateParseStyleFloatingPoint(style);
   if (s == nullptr) {
-    result = Half();
+    result = rt::default__;
     return false;
   }
   return TryParse(MemoryExtensions::AsSpan(s), style, provider, result);
@@ -386,7 +386,7 @@ Half Half::Negate(Half value) {
   return value;
 }
 
-ValueTuple<> Half::NormSubnormalF16Sig(UInt32 sig) {
+ValueTuple<Int32, UInt32> Half::NormSubnormalF16Sig(UInt32 sig) {
   Int32 num = BitOperations::LeadingZeroCount(sig) - 16 - 5;
 }
 

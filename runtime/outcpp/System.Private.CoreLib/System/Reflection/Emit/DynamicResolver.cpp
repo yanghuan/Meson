@@ -137,9 +137,9 @@ String DynamicResolver___::GetStringLiteral(Int32 token) {
 }
 
 void DynamicResolver___::ResolveToken(Int32 token, IntPtr& typeHandle, IntPtr& methodHandle, IntPtr& fieldHandle) {
-  typeHandle = IntPtr();
-  methodHandle = IntPtr();
-  fieldHandle = IntPtr();
+  typeHandle = rt::default__;
+  methodHandle = rt::default__;
+  fieldHandle = rt::default__;
   Object obj = m_scope[token];
   if (obj == nullptr) {
     rt::throw_exception<InvalidProgramException>();

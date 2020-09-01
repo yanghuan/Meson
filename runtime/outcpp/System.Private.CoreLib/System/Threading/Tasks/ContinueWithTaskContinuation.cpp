@@ -1,7 +1,6 @@
 #include "ContinueWithTaskContinuation-dep.h"
 
 #include <System.Private.CoreLib/System/Object-dep.h>
-#include <System.Private.CoreLib/System/Threading/CancellationToken-dep.h>
 #include <System.Private.CoreLib/System/Threading/Tasks/CausalityRelation.h>
 #include <System.Private.CoreLib/System/Threading/Tasks/TaskSchedulerException-dep.h>
 #include <System.Private.CoreLib/System/Threading/Tasks/TplEventSource-dep.h>
@@ -38,7 +37,7 @@ void ContinueWithTaskContinuation___::Run(Task<> completedTask, Boolean canInlin
     }
   } else {
     Task<>::in::ContingentProperties contingentProperties = task->m_contingentProperties;
-    if (contingentProperties == nullptr || contingentProperties->m_cancellationToken == CancellationToken()) {
+    if (contingentProperties == nullptr || contingentProperties->m_cancellationToken == rt::default__) {
       task->InternalCancelContinueWithInitialState();
     } else {
       task->InternalCancel();

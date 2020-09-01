@@ -174,7 +174,7 @@ Task<> NullStream___::WriteAsync(Array<Byte> buffer, Int32 offset, Int32 count, 
 template <>
 ValueTask<> NullStream___::WriteAsync(ReadOnlyMemory<Byte> buffer, CancellationToken cancellationToken) {
   if (!cancellationToken.get_IsCancellationRequested()) {
-    return ValueTask<>();
+    return rt::default__;
   }
   return ValueTask<>::FromCanceled(cancellationToken);
 }
@@ -552,7 +552,7 @@ void Stream___::Dispose(Boolean disposing) {
 ValueTask<> Stream___::DisposeAsync() {
   try {
     Dispose();
-    return ValueTask<>();
+    return rt::default__;
   } catch (Exception exception) {
   }
 }

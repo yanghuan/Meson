@@ -42,7 +42,7 @@ ReadOnlySpan<Byte> UTF32Encoding___::get_Preamble() {
       }
       return rt::newarr<Array<Byte>>(4);
     }
-    return ReadOnlySpan<T>();
+    return rt::default__;
   }
   return ReadOnlySpan<Byte>(GetPreamble());
 }

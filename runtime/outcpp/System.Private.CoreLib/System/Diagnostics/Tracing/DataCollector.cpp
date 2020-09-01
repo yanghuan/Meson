@@ -2,7 +2,6 @@
 
 #include <System.Private.CoreLib/System/Buffer-dep.h>
 #include <System.Private.CoreLib/System/Char-dep.h>
-#include <System.Private.CoreLib/System/Diagnostics/Tracing/DataCollector-dep.h>
 #include <System.Private.CoreLib/System/IndexOutOfRangeException-dep.h>
 #include <System.Private.CoreLib/System/IntPtr-dep.h>
 #include <System.Private.CoreLib/System/Runtime/InteropServices/GCHandleType.h>
@@ -26,7 +25,7 @@ void DataCollector::Enable(Byte* scratch, Int32 scratchSize, EventSource::in::Ev
 }
 
 void DataCollector::Disable() {
-  *this = DataCollector();
+  *this = rt::default__;
 }
 
 EventSource::in::EventData* DataCollector::Finish() {

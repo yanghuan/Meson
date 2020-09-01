@@ -23,7 +23,7 @@ using namespace System::Runtime::InteropServices;
 
 ReadOnlySpan<Char> MemoryExtensions::AsSpan(String text) {
   if (text == nullptr) {
-    return ReadOnlySpan<T>();
+    return rt::default__;
   }
   return ReadOnlySpan<Char>(text->GetRawStringData(), text->get_Length());
 }
@@ -33,7 +33,7 @@ ReadOnlySpan<Char> MemoryExtensions::AsSpan(String text, Int32 start) {
     if (start != 0) {
       ThrowHelper::ThrowArgumentOutOfRangeException(ExceptionArgument::start);
     }
-    return ReadOnlySpan<T>();
+    return rt::default__;
   }
   if ((UInt32)start > (UInt32)text->get_Length()) {
     ThrowHelper::ThrowArgumentOutOfRangeException(ExceptionArgument::start);
@@ -46,7 +46,7 @@ ReadOnlySpan<Char> MemoryExtensions::AsSpan(String text, Int32 start, Int32 leng
     if (start != 0 || length != 0) {
       ThrowHelper::ThrowArgumentOutOfRangeException(ExceptionArgument::start);
     }
-    return ReadOnlySpan<T>();
+    return rt::default__;
   }
   if ((UInt64)((Int64)(UInt32)start + (Int64)(UInt32)length) > (UInt64)(UInt32)text->get_Length()) {
     ThrowHelper::ThrowArgumentOutOfRangeException(ExceptionArgument::start);
@@ -56,7 +56,7 @@ ReadOnlySpan<Char> MemoryExtensions::AsSpan(String text, Int32 start, Int32 leng
 
 ReadOnlyMemory<Char> MemoryExtensions::AsMemory(String text) {
   if (text == nullptr) {
-    return ReadOnlyMemory<T>();
+    return rt::default__;
   }
   return ReadOnlyMemory<Char>(text, 0, text->get_Length());
 }
@@ -66,7 +66,7 @@ ReadOnlyMemory<Char> MemoryExtensions::AsMemory(String text, Int32 start) {
     if (start != 0) {
       ThrowHelper::ThrowArgumentOutOfRangeException(ExceptionArgument::start);
     }
-    return ReadOnlyMemory<T>();
+    return rt::default__;
   }
   if ((UInt32)start > (UInt32)text->get_Length()) {
     ThrowHelper::ThrowArgumentOutOfRangeException(ExceptionArgument::start);
@@ -79,7 +79,7 @@ ReadOnlyMemory<Char> MemoryExtensions::AsMemory(String text, Index startIndex) {
     if (!startIndex.Equals(Index::get_Start())) {
       ThrowHelper::ThrowArgumentNullException(ExceptionArgument::text);
     }
-    return ReadOnlyMemory<T>();
+    return rt::default__;
   }
   Int32 offset = startIndex.GetOffset(text->get_Length());
   if ((UInt32)offset > (UInt32)text->get_Length()) {
@@ -93,7 +93,7 @@ ReadOnlyMemory<Char> MemoryExtensions::AsMemory(String text, Int32 start, Int32 
     if (start != 0 || length != 0) {
       ThrowHelper::ThrowArgumentOutOfRangeException(ExceptionArgument::start);
     }
-    return ReadOnlyMemory<T>();
+    return rt::default__;
   }
   if ((UInt64)((Int64)(UInt32)start + (Int64)(UInt32)length) > (UInt64)(UInt32)text->get_Length()) {
     ThrowHelper::ThrowArgumentOutOfRangeException(ExceptionArgument::start);
@@ -108,7 +108,7 @@ ReadOnlyMemory<Char> MemoryExtensions::AsMemory(String text, Range range) {
     if (!start.Equals(Index::get_Start()) || !end.Equals(Index::get_Start())) {
       ThrowHelper::ThrowArgumentNullException(ExceptionArgument::text);
     }
-    return ReadOnlyMemory<T>();
+    return rt::default__;
   }
 }
 

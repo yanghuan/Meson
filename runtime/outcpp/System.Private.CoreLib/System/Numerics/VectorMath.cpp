@@ -27,7 +27,7 @@ Vector128<Single> VectorMath::ConditionalSelectBitwise(Vector128<Single> selecto
   if (AdvSimd::in::get_IsSupported()) {
     return Vector128<>::As(AdvSimd::in::BitwiseSelect(Vector128<>::AsByte(selector), Vector128<>::AsByte(ifTrue), Vector128<>::AsByte(ifFalse)));
   }
-  return Vector128<T>();
+  return rt::default__;
 }
 
 Vector128<Double> VectorMath::ConditionalSelectBitwise(Vector128<Double> selector, Vector128<Double> ifTrue, Vector128<Double> ifFalse) {
@@ -40,7 +40,7 @@ Vector128<Double> VectorMath::ConditionalSelectBitwise(Vector128<Double> selecto
   if (AdvSimd::in::get_IsSupported()) {
     return Vector128<>::As(AdvSimd::in::BitwiseSelect(Vector128<>::AsByte(selector), Vector128<>::AsByte(ifTrue), Vector128<>::AsByte(ifFalse)));
   }
-  return Vector128<T>();
+  return rt::default__;
 }
 
 } // namespace System::Private::CoreLib::System::Numerics::VectorMathNamespace

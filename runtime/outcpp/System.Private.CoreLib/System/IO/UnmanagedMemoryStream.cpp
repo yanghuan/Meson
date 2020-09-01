@@ -497,7 +497,7 @@ ValueTask<> UnmanagedMemoryStream___::WriteAsync(ReadOnlyMemory<Byte> buffer, Ca
     } else {
       Write(buffer.get_Span());
     }
-    return ValueTask<>();
+    return rt::default__;
   } catch (Exception exception) {
   }
 }

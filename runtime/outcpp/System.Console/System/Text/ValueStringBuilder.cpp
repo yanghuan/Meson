@@ -1,6 +1,5 @@
 #include "ValueStringBuilder-dep.h"
 
-#include <System.Console/System/Text/ValueStringBuilder-dep.h>
 #include <System.Private.CoreLib/System/Buffers/ArrayPool-dep.h>
 #include <System.Private.CoreLib/System/Math-dep.h>
 #include <System.Private.CoreLib/System/Runtime/InteropServices/MemoryMarshal-dep.h>
@@ -52,7 +51,7 @@ void ValueStringBuilder::Grow(Int32 additionalCapacityBeyondPos) {
 
 void ValueStringBuilder::Dispose() {
   Array<Char> arrayToReturnToPool = _arrayToReturnToPool;
-  *this = ValueStringBuilder();
+  *this = rt::default__;
   if (arrayToReturnToPool != nullptr) {
     ArrayPool<Char>::in::get_Shared()->Return(arrayToReturnToPool);
   }

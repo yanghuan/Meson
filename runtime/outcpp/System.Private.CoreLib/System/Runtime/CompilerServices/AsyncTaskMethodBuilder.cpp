@@ -18,7 +18,7 @@ Object AsyncTaskMethodBuilder<>::get_ObjectIdForDebugger() {
 }
 
 AsyncTaskMethodBuilder<> AsyncTaskMethodBuilder<>::Create() {
-  return AsyncTaskMethodBuilder<>();
+  return rt::default__;
 }
 
 void AsyncTaskMethodBuilder<>::SetStateMachine(IAsyncStateMachine stateMachine) {
@@ -33,7 +33,7 @@ void AsyncTaskMethodBuilder<>::SetResult() {
   if (m_task == nullptr) {
     m_task = Task<>::in::s_cachedCompleted;
   } else {
-    AsyncTaskMethodBuilder<VoidTaskResult>::SetExistingTaskResult(m_task, VoidTaskResult());
+    AsyncTaskMethodBuilder<VoidTaskResult>::SetExistingTaskResult(m_task, rt::default__);
   }
 }
 

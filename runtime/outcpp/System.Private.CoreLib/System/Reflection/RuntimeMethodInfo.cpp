@@ -414,7 +414,7 @@ MethodInfo RuntimeMethodInfo___::GetBaseDefinition() {
   Int32 slot = RuntimeMethodHandle::GetSlot((RuntimeMethodInfo)this);
   RuntimeType runtimeType = (RuntimeType)get_DeclaringType();
   RuntimeType reflectedType = runtimeType;
-  RuntimeMethodHandleInternal methodHandle = RuntimeMethodHandleInternal();
+  RuntimeMethodHandleInternal methodHandle = rt::default__;
   do {
     Int32 numVirtuals = RuntimeTypeHandle::GetNumVirtuals(runtimeType);
     if (numVirtuals <= slot) {

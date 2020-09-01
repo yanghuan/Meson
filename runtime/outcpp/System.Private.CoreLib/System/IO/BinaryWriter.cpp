@@ -82,7 +82,7 @@ ValueTask<> BinaryWriter___::DisposeAsync() {
     } else {
       Dispose();
     }
-    return ValueTask<>();
+    return rt::default__;
   } catch (Exception exception) {
   }
 }

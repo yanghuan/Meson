@@ -580,7 +580,7 @@ ValueTask<> BufferedStream___::WriteAsync(ReadOnlyMemory<Byte> buffer, Cancellat
       flag = (buffer.get_Length() < _bufferSize - _writePos);
       if (flag) {
         Int32 num = WriteToBuffer(buffer.get_Span());
-        return ValueTask<>();
+        return rt::default__;
       }
     } catch (...) {
     } finally: {

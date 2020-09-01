@@ -1420,7 +1420,7 @@ String Number::FormatHalf(ValueStringBuilder& sb, Half value, ReadOnlySpan<Char>
   number.IsNegative = Half::IsNegative(value);
   Boolean isSignificantDigits;
   Int32 nMaxDigits = GetFloatingPointMaxDigitsAndPrecision(c, digits, info, isSignificantDigits);
-  if (value != Half() && (!isSignificantDigits || !Grisu3::TryRunHalf(value, digits, number))) {
+  if (value != rt::default__ && (!isSignificantDigits || !Grisu3::TryRunHalf(value, digits, number))) {
     Dragon4Half(value, digits, isSignificantDigits, number);
   }
   if (c != 0) {
@@ -4504,7 +4504,7 @@ Number::ParsingStatus Number::TryParseDecimal(ReadOnlySpan<Char> value, NumberSt
   Byte as[31] = {};
   Byte* digits = as;
   NumberBuffer number = NumberBuffer(NumberBufferKind::Decimal, digits, 31);
-  result = Decimal();
+  result = rt::default__;
   if (!TryStringToNumber(value, styles, number, info)) {
     return ParsingStatus::Failed;
   }
@@ -4756,7 +4756,7 @@ Double Number::NumberToDouble(NumberBuffer& number) {
 Half Number::NumberToHalf(NumberBuffer& number) {
   Half half;
   if (number.DigitsCount == 0 || number.Scale < -8) {
-    half = Half();
+    half = rt::default__;
   } else if (number.Scale > 5) {
     half = Half::get_PositiveInfinity();
   } else {

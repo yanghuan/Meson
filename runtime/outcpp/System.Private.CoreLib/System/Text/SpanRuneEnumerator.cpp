@@ -11,7 +11,7 @@ Rune SpanRuneEnumerator::get_Current() {
 
 SpanRuneEnumerator::SpanRuneEnumerator(ReadOnlySpan<Char> buffer) {
   _remaining = buffer;
-  _current = Rune();
+  _current = rt::default__;
 }
 
 SpanRuneEnumerator SpanRuneEnumerator::GetEnumerator() {
@@ -20,7 +20,7 @@ SpanRuneEnumerator SpanRuneEnumerator::GetEnumerator() {
 
 Boolean SpanRuneEnumerator::MoveNext() {
   if (_remaining.get_IsEmpty()) {
-    _current = Rune();
+    _current = rt::default__;
     return false;
   }
   Int32 num = Rune::ReadFirstRuneFromUtf16Buffer(_remaining);

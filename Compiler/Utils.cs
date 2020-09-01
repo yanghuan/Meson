@@ -377,6 +377,9 @@ namespace Meson.Compiler {
         }
         int skipCount = genericType.TypeParameters.Count(i => i.Owner != genericType);
         return type.TypeArguments.Skip(skipCount);
+      } else if (type.Kind == TypeKind.Tuple) {
+        var tuple = (TupleType)type;
+        return tuple.ElementTypes;
       }
       return Array.Empty<IType>();
     }

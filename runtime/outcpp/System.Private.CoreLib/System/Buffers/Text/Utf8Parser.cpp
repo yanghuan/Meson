@@ -164,7 +164,7 @@ Boolean Utf8Parser::TryParse(ReadOnlySpan<Byte> source, DateTime& value, Int32& 
       {
         DateTimeOffset dateTimeOffset;
         if (!TryParseDateTimeOffsetR(source, 0u, dateTimeOffset, bytesConsumed)) {
-          value = DateTime();
+          value = rt::default__;
           return false;
         }
         value = dateTimeOffset.get_DateTime();
@@ -173,7 +173,7 @@ Boolean Utf8Parser::TryParse(ReadOnlySpan<Byte> source, DateTime& value, Int32& 
       {
         DateTimeOffset dateTimeOffset2;
         if (!TryParseDateTimeOffsetR(source, 32u, dateTimeOffset2, bytesConsumed)) {
-          value = DateTime();
+          value = rt::default__;
           return false;
         }
         value = dateTimeOffset2.get_DateTime();
@@ -183,7 +183,7 @@ Boolean Utf8Parser::TryParse(ReadOnlySpan<Byte> source, DateTime& value, Int32& 
         DateTimeOffset value2;
         DateTimeKind kind;
         if (!TryParseDateTimeOffsetO(source, value2, bytesConsumed, kind)) {
-          value = DateTime();
+          value = rt::default__;
           bytesConsumed = 0;
           return false;
         }
@@ -233,7 +233,7 @@ Boolean Utf8Parser::TryParse(ReadOnlySpan<Byte> source, DateTimeOffset& value, I
 Boolean Utf8Parser::TryParseDateTimeOffsetDefault(ReadOnlySpan<Byte> source, DateTimeOffset& value, Int32& bytesConsumed) {
   if (source.get_Length() < 26) {
     bytesConsumed = 0;
-    value = DateTimeOffset();
+    value = rt::default__;
     return false;
   }
   DateTime value2;
@@ -241,44 +241,44 @@ Boolean Utf8Parser::TryParseDateTimeOffsetDefault(ReadOnlySpan<Byte> source, Dat
   Int32 bytesConsumed2;
   if (!TryParseDateTimeG(source, value2, valueAsOffset, bytesConsumed2)) {
     bytesConsumed = 0;
-    value = DateTimeOffset();
+    value = rt::default__;
     return false;
   }
   if (source[19] != 32) {
     bytesConsumed = 0;
-    value = DateTimeOffset();
+    value = rt::default__;
     return false;
   }
   Byte b = source[20];
   if (b != 43 && b != 45) {
     bytesConsumed = 0;
-    value = DateTimeOffset();
+    value = rt::default__;
     return false;
   }
   UInt32 num = (UInt32)(source[21] - 48);
   UInt32 num2 = (UInt32)(source[22] - 48);
   if (num > 9 || num2 > 9) {
     bytesConsumed = 0;
-    value = DateTimeOffset();
+    value = rt::default__;
     return false;
   }
   Int32 offsetHours = (Int32)(num * 10 + num2);
   if (source[23] != 58) {
     bytesConsumed = 0;
-    value = DateTimeOffset();
+    value = rt::default__;
     return false;
   }
   UInt32 num3 = (UInt32)(source[24] - 48);
   UInt32 num4 = (UInt32)(source[25] - 48);
   if (num3 > 9 || num4 > 9) {
     bytesConsumed = 0;
-    value = DateTimeOffset();
+    value = rt::default__;
     return false;
   }
   Int32 offsetMinutes = (Int32)(num3 * 10 + num4);
   if (!TryCreateDateTimeOffset(value2, b == 45, offsetHours, offsetMinutes, value)) {
     bytesConsumed = 0;
-    value = DateTimeOffset();
+    value = rt::default__;
     return false;
   }
   bytesConsumed = 26;
@@ -288,38 +288,38 @@ Boolean Utf8Parser::TryParseDateTimeOffsetDefault(ReadOnlySpan<Byte> source, Dat
 Boolean Utf8Parser::TryParseDateTimeG(ReadOnlySpan<Byte> source, DateTime& value, DateTimeOffset& valueAsOffset, Int32& bytesConsumed) {
   if (source.get_Length() < 19) {
     bytesConsumed = 0;
-    value = DateTime();
-    valueAsOffset = DateTimeOffset();
+    value = rt::default__;
+    valueAsOffset = rt::default__;
     return false;
   }
   UInt32 num = (UInt32)(source[0] - 48);
   UInt32 num2 = (UInt32)(source[1] - 48);
   if (num > 9 || num2 > 9) {
     bytesConsumed = 0;
-    value = DateTime();
-    valueAsOffset = DateTimeOffset();
+    value = rt::default__;
+    valueAsOffset = rt::default__;
     return false;
   }
   Int32 month = (Int32)(num * 10 + num2);
   if (source[2] != 47) {
     bytesConsumed = 0;
-    value = DateTime();
-    valueAsOffset = DateTimeOffset();
+    value = rt::default__;
+    valueAsOffset = rt::default__;
     return false;
   }
   UInt32 num3 = (UInt32)(source[3] - 48);
   UInt32 num4 = (UInt32)(source[4] - 48);
   if (num3 > 9 || num4 > 9) {
     bytesConsumed = 0;
-    value = DateTime();
-    valueAsOffset = DateTimeOffset();
+    value = rt::default__;
+    valueAsOffset = rt::default__;
     return false;
   }
   Int32 day = (Int32)(num3 * 10 + num4);
   if (source[5] != 47) {
     bytesConsumed = 0;
-    value = DateTime();
-    valueAsOffset = DateTimeOffset();
+    value = rt::default__;
+    valueAsOffset = rt::default__;
     return false;
   }
   UInt32 num5 = (UInt32)(source[6] - 48);
@@ -328,60 +328,60 @@ Boolean Utf8Parser::TryParseDateTimeG(ReadOnlySpan<Byte> source, DateTime& value
   UInt32 num8 = (UInt32)(source[9] - 48);
   if (num5 > 9 || num6 > 9 || num7 > 9 || num8 > 9) {
     bytesConsumed = 0;
-    value = DateTime();
-    valueAsOffset = DateTimeOffset();
+    value = rt::default__;
+    valueAsOffset = rt::default__;
     return false;
   }
   Int32 year = (Int32)(num5 * 1000 + num6 * 100 + num7 * 10 + num8);
   if (source[10] != 32) {
     bytesConsumed = 0;
-    value = DateTime();
-    valueAsOffset = DateTimeOffset();
+    value = rt::default__;
+    valueAsOffset = rt::default__;
     return false;
   }
   UInt32 num9 = (UInt32)(source[11] - 48);
   UInt32 num10 = (UInt32)(source[12] - 48);
   if (num9 > 9 || num10 > 9) {
     bytesConsumed = 0;
-    value = DateTime();
-    valueAsOffset = DateTimeOffset();
+    value = rt::default__;
+    valueAsOffset = rt::default__;
     return false;
   }
   Int32 hour = (Int32)(num9 * 10 + num10);
   if (source[13] != 58) {
     bytesConsumed = 0;
-    value = DateTime();
-    valueAsOffset = DateTimeOffset();
+    value = rt::default__;
+    valueAsOffset = rt::default__;
     return false;
   }
   UInt32 num11 = (UInt32)(source[14] - 48);
   UInt32 num12 = (UInt32)(source[15] - 48);
   if (num11 > 9 || num12 > 9) {
     bytesConsumed = 0;
-    value = DateTime();
-    valueAsOffset = DateTimeOffset();
+    value = rt::default__;
+    valueAsOffset = rt::default__;
     return false;
   }
   Int32 minute = (Int32)(num11 * 10 + num12);
   if (source[16] != 58) {
     bytesConsumed = 0;
-    value = DateTime();
-    valueAsOffset = DateTimeOffset();
+    value = rt::default__;
+    valueAsOffset = rt::default__;
     return false;
   }
   UInt32 num13 = (UInt32)(source[17] - 48);
   UInt32 num14 = (UInt32)(source[18] - 48);
   if (num13 > 9 || num14 > 9) {
     bytesConsumed = 0;
-    value = DateTime();
-    valueAsOffset = DateTimeOffset();
+    value = rt::default__;
+    valueAsOffset = rt::default__;
     return false;
   }
   Int32 second = (Int32)(num13 * 10 + num14);
   if (!TryCreateDateTimeOffsetInterpretingDataAsLocalTime(year, month, day, hour, minute, second, 0, valueAsOffset)) {
     bytesConsumed = 0;
-    value = DateTime();
-    valueAsOffset = DateTimeOffset();
+    value = rt::default__;
+    valueAsOffset = rt::default__;
     return false;
   }
   bytesConsumed = 19;
@@ -391,15 +391,15 @@ Boolean Utf8Parser::TryParseDateTimeG(ReadOnlySpan<Byte> source, DateTime& value
 
 Boolean Utf8Parser::TryCreateDateTimeOffset(DateTime dateTime, Boolean offsetNegative, Int32 offsetHours, Int32 offsetMinutes, DateTimeOffset& value) {
   if ((UInt32)offsetHours > 14u) {
-    value = DateTimeOffset();
+    value = rt::default__;
     return false;
   }
   if ((UInt32)offsetMinutes > 59u) {
-    value = DateTimeOffset();
+    value = rt::default__;
     return false;
   }
   if (offsetHours == 14 && offsetMinutes != 0) {
-    value = DateTimeOffset();
+    value = rt::default__;
     return false;
   }
   Int64 num = ((Int64)offsetHours * 3600 + (Int64)offsetMinutes * 60) * 10000000;
@@ -416,11 +416,11 @@ Boolean Utf8Parser::TryCreateDateTimeOffset(DateTime dateTime, Boolean offsetNeg
 Boolean Utf8Parser::TryCreateDateTimeOffset(Int32 year, Int32 month, Int32 day, Int32 hour, Int32 minute, Int32 second, Int32 fraction, Boolean offsetNegative, Int32 offsetHours, Int32 offsetMinutes, DateTimeOffset& value) {
   DateTime value2;
   if (!TryCreateDateTime(year, month, day, hour, minute, second, fraction, DateTimeKind::Unspecified, value2)) {
-    value = DateTimeOffset();
+    value = rt::default__;
     return false;
   }
   if (!TryCreateDateTimeOffset(value2, offsetNegative, offsetHours, offsetMinutes, value)) {
-    value = DateTimeOffset();
+    value = rt::default__;
     return false;
   }
   return true;
@@ -429,7 +429,7 @@ Boolean Utf8Parser::TryCreateDateTimeOffset(Int32 year, Int32 month, Int32 day, 
 Boolean Utf8Parser::TryCreateDateTimeOffsetInterpretingDataAsLocalTime(Int32 year, Int32 month, Int32 day, Int32 hour, Int32 minute, Int32 second, Int32 fraction, DateTimeOffset& value) {
   DateTime value2;
   if (!TryCreateDateTime(year, month, day, hour, minute, second, fraction, DateTimeKind::Local, value2)) {
-    value = DateTimeOffset();
+    value = rt::default__;
     return false;
   }
   try {
@@ -441,28 +441,28 @@ Boolean Utf8Parser::TryCreateDateTimeOffsetInterpretingDataAsLocalTime(Int32 yea
 
 Boolean Utf8Parser::TryCreateDateTime(Int32 year, Int32 month, Int32 day, Int32 hour, Int32 minute, Int32 second, Int32 fraction, DateTimeKind kind, DateTime& value) {
   if (year == 0) {
-    value = DateTime();
+    value = rt::default__;
     return false;
   }
   if ((UInt32)(month - 1) >= 12u) {
-    value = DateTime();
+    value = rt::default__;
     return false;
   }
   UInt32 num = (UInt32)(day - 1);
   if (num >= 28 && num >= DateTime::DaysInMonth(year, month)) {
-    value = DateTime();
+    value = rt::default__;
     return false;
   }
   if ((UInt32)hour > 23u) {
-    value = DateTime();
+    value = rt::default__;
     return false;
   }
   if ((UInt32)minute > 59u) {
-    value = DateTime();
+    value = rt::default__;
     return false;
   }
   if ((UInt32)second > 59u) {
-    value = DateTime();
+    value = rt::default__;
     return false;
   }
   Array<Int32> array = DateTime::IsLeapYear(year) ? s_daysToMonth366 : s_daysToMonth365;
@@ -478,7 +478,7 @@ Boolean Utf8Parser::TryCreateDateTime(Int32 year, Int32 month, Int32 day, Int32 
 
 Boolean Utf8Parser::TryParseDateTimeOffsetO(ReadOnlySpan<Byte> source, DateTimeOffset& value, Int32& bytesConsumed, DateTimeKind& kind) {
   if (source.get_Length() < 27) {
-    value = DateTimeOffset();
+    value = rt::default__;
     bytesConsumed = 0;
     kind = DateTimeKind::Unspecified;
     return false;
@@ -488,14 +488,14 @@ Boolean Utf8Parser::TryParseDateTimeOffsetO(ReadOnlySpan<Byte> source, DateTimeO
   UInt32 num3 = (UInt32)(source[2] - 48);
   UInt32 num4 = (UInt32)(source[3] - 48);
   if (num > 9 || num2 > 9 || num3 > 9 || num4 > 9) {
-    value = DateTimeOffset();
+    value = rt::default__;
     bytesConsumed = 0;
     kind = DateTimeKind::Unspecified;
     return false;
   }
   Int32 year = (Int32)(num * 1000 + num2 * 100 + num3 * 10 + num4);
   if (source[4] != 45) {
-    value = DateTimeOffset();
+    value = rt::default__;
     bytesConsumed = 0;
     kind = DateTimeKind::Unspecified;
     return false;
@@ -503,14 +503,14 @@ Boolean Utf8Parser::TryParseDateTimeOffsetO(ReadOnlySpan<Byte> source, DateTimeO
   UInt32 num5 = (UInt32)(source[5] - 48);
   UInt32 num6 = (UInt32)(source[6] - 48);
   if (num5 > 9 || num6 > 9) {
-    value = DateTimeOffset();
+    value = rt::default__;
     bytesConsumed = 0;
     kind = DateTimeKind::Unspecified;
     return false;
   }
   Int32 month = (Int32)(num5 * 10 + num6);
   if (source[7] != 45) {
-    value = DateTimeOffset();
+    value = rt::default__;
     bytesConsumed = 0;
     kind = DateTimeKind::Unspecified;
     return false;
@@ -518,14 +518,14 @@ Boolean Utf8Parser::TryParseDateTimeOffsetO(ReadOnlySpan<Byte> source, DateTimeO
   UInt32 num7 = (UInt32)(source[8] - 48);
   UInt32 num8 = (UInt32)(source[9] - 48);
   if (num7 > 9 || num8 > 9) {
-    value = DateTimeOffset();
+    value = rt::default__;
     bytesConsumed = 0;
     kind = DateTimeKind::Unspecified;
     return false;
   }
   Int32 day = (Int32)(num7 * 10 + num8);
   if (source[10] != 84) {
-    value = DateTimeOffset();
+    value = rt::default__;
     bytesConsumed = 0;
     kind = DateTimeKind::Unspecified;
     return false;
@@ -533,14 +533,14 @@ Boolean Utf8Parser::TryParseDateTimeOffsetO(ReadOnlySpan<Byte> source, DateTimeO
   UInt32 num9 = (UInt32)(source[11] - 48);
   UInt32 num10 = (UInt32)(source[12] - 48);
   if (num9 > 9 || num10 > 9) {
-    value = DateTimeOffset();
+    value = rt::default__;
     bytesConsumed = 0;
     kind = DateTimeKind::Unspecified;
     return false;
   }
   Int32 hour = (Int32)(num9 * 10 + num10);
   if (source[13] != 58) {
-    value = DateTimeOffset();
+    value = rt::default__;
     bytesConsumed = 0;
     kind = DateTimeKind::Unspecified;
     return false;
@@ -548,14 +548,14 @@ Boolean Utf8Parser::TryParseDateTimeOffsetO(ReadOnlySpan<Byte> source, DateTimeO
   UInt32 num11 = (UInt32)(source[14] - 48);
   UInt32 num12 = (UInt32)(source[15] - 48);
   if (num11 > 9 || num12 > 9) {
-    value = DateTimeOffset();
+    value = rt::default__;
     bytesConsumed = 0;
     kind = DateTimeKind::Unspecified;
     return false;
   }
   Int32 minute = (Int32)(num11 * 10 + num12);
   if (source[16] != 58) {
-    value = DateTimeOffset();
+    value = rt::default__;
     bytesConsumed = 0;
     kind = DateTimeKind::Unspecified;
     return false;
@@ -563,14 +563,14 @@ Boolean Utf8Parser::TryParseDateTimeOffsetO(ReadOnlySpan<Byte> source, DateTimeO
   UInt32 num13 = (UInt32)(source[17] - 48);
   UInt32 num14 = (UInt32)(source[18] - 48);
   if (num13 > 9 || num14 > 9) {
-    value = DateTimeOffset();
+    value = rt::default__;
     bytesConsumed = 0;
     kind = DateTimeKind::Unspecified;
     return false;
   }
   Int32 second = (Int32)(num13 * 10 + num14);
   if (source[19] != 46) {
-    value = DateTimeOffset();
+    value = rt::default__;
     bytesConsumed = 0;
     kind = DateTimeKind::Unspecified;
     return false;
@@ -583,7 +583,7 @@ Boolean Utf8Parser::TryParseDateTimeOffsetO(ReadOnlySpan<Byte> source, DateTimeO
   UInt32 num20 = (UInt32)(source[25] - 48);
   UInt32 num21 = (UInt32)(source[26] - 48);
   if (num15 > 9 || num16 > 9 || num17 > 9 || num18 > 9 || num19 > 9 || num20 > 9 || num21 > 9) {
-    value = DateTimeOffset();
+    value = rt::default__;
     bytesConsumed = 0;
     kind = DateTimeKind::Unspecified;
     return false;
@@ -592,7 +592,7 @@ Boolean Utf8Parser::TryParseDateTimeOffsetO(ReadOnlySpan<Byte> source, DateTimeO
   Byte b = (Byte)((source.get_Length() > 27) ? source[27] : 0);
   if (b != 90 && b != 43 && b != 45) {
     if (!TryCreateDateTimeOffsetInterpretingDataAsLocalTime(year, month, day, hour, minute, second, fraction, value)) {
-      value = DateTimeOffset();
+      value = rt::default__;
       bytesConsumed = 0;
       kind = DateTimeKind::Unspecified;
       return false;
@@ -603,7 +603,7 @@ Boolean Utf8Parser::TryParseDateTimeOffsetO(ReadOnlySpan<Byte> source, DateTimeO
   }
   if (b == 90) {
     if (!TryCreateDateTimeOffset(year, month, day, hour, minute, second, fraction, false, 0, 0, value)) {
-      value = DateTimeOffset();
+      value = rt::default__;
       bytesConsumed = 0;
       kind = DateTimeKind::Unspecified;
       return false;
@@ -613,7 +613,7 @@ Boolean Utf8Parser::TryParseDateTimeOffsetO(ReadOnlySpan<Byte> source, DateTimeO
     return true;
   }
   if (source.get_Length() < 33) {
-    value = DateTimeOffset();
+    value = rt::default__;
     bytesConsumed = 0;
     kind = DateTimeKind::Unspecified;
     return false;
@@ -621,14 +621,14 @@ Boolean Utf8Parser::TryParseDateTimeOffsetO(ReadOnlySpan<Byte> source, DateTimeO
   UInt32 num22 = (UInt32)(source[28] - 48);
   UInt32 num23 = (UInt32)(source[29] - 48);
   if (num22 > 9 || num23 > 9) {
-    value = DateTimeOffset();
+    value = rt::default__;
     bytesConsumed = 0;
     kind = DateTimeKind::Unspecified;
     return false;
   }
   Int32 offsetHours = (Int32)(num22 * 10 + num23);
   if (source[30] != 58) {
-    value = DateTimeOffset();
+    value = rt::default__;
     bytesConsumed = 0;
     kind = DateTimeKind::Unspecified;
     return false;
@@ -636,14 +636,14 @@ Boolean Utf8Parser::TryParseDateTimeOffsetO(ReadOnlySpan<Byte> source, DateTimeO
   UInt32 num24 = (UInt32)(source[31] - 48);
   UInt32 num25 = (UInt32)(source[32] - 48);
   if (num24 > 9 || num25 > 9) {
-    value = DateTimeOffset();
+    value = rt::default__;
     bytesConsumed = 0;
     kind = DateTimeKind::Unspecified;
     return false;
   }
   Int32 offsetMinutes = (Int32)(num24 * 10 + num25);
   if (!TryCreateDateTimeOffset(year, month, day, hour, minute, second, fraction, b == 45, offsetHours, offsetMinutes, value)) {
-    value = DateTimeOffset();
+    value = rt::default__;
     bytesConsumed = 0;
     kind = DateTimeKind::Unspecified;
     return false;
@@ -656,7 +656,7 @@ Boolean Utf8Parser::TryParseDateTimeOffsetO(ReadOnlySpan<Byte> source, DateTimeO
 Boolean Utf8Parser::TryParseDateTimeOffsetR(ReadOnlySpan<Byte> source, UInt32 caseFlipXorMask, DateTimeOffset& dateTimeOffset, Int32& bytesConsumed) {
   if (source.get_Length() < 29) {
     bytesConsumed = 0;
-    dateTimeOffset = DateTimeOffset();
+    dateTimeOffset = rt::default__;
     return false;
   }
   UInt32 num = source[0] ^ caseFlipXorMask;
@@ -688,25 +688,25 @@ Boolean Utf8Parser::TryParseDateTimeOffsetR(ReadOnlySpan<Byte> source, UInt32 ca
       break;
     default:
       bytesConsumed = 0;
-      dateTimeOffset = DateTimeOffset();
+      dateTimeOffset = rt::default__;
       return false;
   }
   if (source[4] != 32) {
     bytesConsumed = 0;
-    dateTimeOffset = DateTimeOffset();
+    dateTimeOffset = rt::default__;
     return false;
   }
   UInt32 num5 = (UInt32)(source[5] - 48);
   UInt32 num6 = (UInt32)(source[6] - 48);
   if (num5 > 9 || num6 > 9) {
     bytesConsumed = 0;
-    dateTimeOffset = DateTimeOffset();
+    dateTimeOffset = rt::default__;
     return false;
   }
   Int32 day = (Int32)(num5 * 10 + num6);
   if (source[7] != 32) {
     bytesConsumed = 0;
-    dateTimeOffset = DateTimeOffset();
+    dateTimeOffset = rt::default__;
     return false;
   }
   UInt32 num7 = source[8] ^ caseFlipXorMask;
@@ -753,7 +753,7 @@ Boolean Utf8Parser::TryParseDateTimeOffsetR(ReadOnlySpan<Byte> source, UInt32 ca
       break;
     default:
       bytesConsumed = 0;
-      dateTimeOffset = DateTimeOffset();
+      dateTimeOffset = rt::default__;
       return false;
   }
   UInt32 num11 = (UInt32)(source[12] - 48);
@@ -762,46 +762,46 @@ Boolean Utf8Parser::TryParseDateTimeOffsetR(ReadOnlySpan<Byte> source, UInt32 ca
   UInt32 num14 = (UInt32)(source[15] - 48);
   if (num11 > 9 || num12 > 9 || num13 > 9 || num14 > 9) {
     bytesConsumed = 0;
-    dateTimeOffset = DateTimeOffset();
+    dateTimeOffset = rt::default__;
     return false;
   }
   Int32 year = (Int32)(num11 * 1000 + num12 * 100 + num13 * 10 + num14);
   if (source[16] != 32) {
     bytesConsumed = 0;
-    dateTimeOffset = DateTimeOffset();
+    dateTimeOffset = rt::default__;
     return false;
   }
   UInt32 num15 = (UInt32)(source[17] - 48);
   UInt32 num16 = (UInt32)(source[18] - 48);
   if (num15 > 9 || num16 > 9) {
     bytesConsumed = 0;
-    dateTimeOffset = DateTimeOffset();
+    dateTimeOffset = rt::default__;
     return false;
   }
   Int32 hour = (Int32)(num15 * 10 + num16);
   if (source[19] != 58) {
     bytesConsumed = 0;
-    dateTimeOffset = DateTimeOffset();
+    dateTimeOffset = rt::default__;
     return false;
   }
   UInt32 num17 = (UInt32)(source[20] - 48);
   UInt32 num18 = (UInt32)(source[21] - 48);
   if (num17 > 9 || num18 > 9) {
     bytesConsumed = 0;
-    dateTimeOffset = DateTimeOffset();
+    dateTimeOffset = rt::default__;
     return false;
   }
   Int32 minute = (Int32)(num17 * 10 + num18);
   if (source[22] != 58) {
     bytesConsumed = 0;
-    dateTimeOffset = DateTimeOffset();
+    dateTimeOffset = rt::default__;
     return false;
   }
   UInt32 num19 = (UInt32)(source[23] - 48);
   UInt32 num20 = (UInt32)(source[24] - 48);
   if (num19 > 9 || num20 > 9) {
     bytesConsumed = 0;
-    dateTimeOffset = DateTimeOffset();
+    dateTimeOffset = rt::default__;
     return false;
   }
   Int32 second = (Int32)(num19 * 10 + num20);
@@ -812,17 +812,17 @@ Boolean Utf8Parser::TryParseDateTimeOffsetR(ReadOnlySpan<Byte> source, UInt32 ca
   UInt32 num25 = (num21 << 24) | (num22 << 16) | (num23 << 8) | num24;
   if (num25 != 541543764) {
     bytesConsumed = 0;
-    dateTimeOffset = DateTimeOffset();
+    dateTimeOffset = rt::default__;
     return false;
   }
   if (!TryCreateDateTimeOffset(year, month, day, hour, minute, second, 0, false, 0, 0, dateTimeOffset)) {
     bytesConsumed = 0;
-    dateTimeOffset = DateTimeOffset();
+    dateTimeOffset = rt::default__;
     return false;
   }
   if (dayOfWeek != dateTimeOffset.get_DayOfWeek()) {
     bytesConsumed = 0;
-    dateTimeOffset = DateTimeOffset();
+    dateTimeOffset = rt::default__;
     return false;
   }
   bytesConsumed = 29;
@@ -851,17 +851,17 @@ Boolean Utf8Parser::TryParse(ReadOnlySpan<Byte> source, Decimal& value, Int32& b
   Number::NumberBuffer number = Number::NumberBuffer(Number::NumberBufferKind::Decimal, digits, 31);
   Boolean textUsedExponentNotation;
   if (!TryParseNumber(source, number, bytesConsumed, options, textUsedExponentNotation)) {
-    value = Decimal();
+    value = rt::default__;
     return false;
   }
   if (!textUsedExponentNotation && (standardFormat == 69 || standardFormat == 101)) {
-    value = Decimal();
+    value = rt::default__;
     bytesConsumed = 0;
     return false;
   }
-  value = Decimal();
+  value = rt::default__;
   if (!Number::TryNumberToDecimal(number, value)) {
-    value = Decimal();
+    value = rt::default__;
     bytesConsumed = 0;
     return false;
   }
@@ -940,38 +940,38 @@ Boolean Utf8Parser::TryParse(ReadOnlySpan<Byte> source, Guid& value, Int32& byte
 
 Boolean Utf8Parser::TryParseGuidN(ReadOnlySpan<Byte> text, Guid& value, Int32& bytesConsumed) {
   if (text.get_Length() < 32) {
-    value = Guid();
+    value = rt::default__;
     bytesConsumed = 0;
     return false;
   }
   UInt32 value2;
   Int32 bytesConsumed2;
   if (!TryParseUInt32X(text.Slice(0, 8), value2, bytesConsumed2) || bytesConsumed2 != 8) {
-    value = Guid();
+    value = rt::default__;
     bytesConsumed = 0;
     return false;
   }
   UInt16 value3;
   if (!TryParseUInt16X(text.Slice(8, 4), value3, bytesConsumed2) || bytesConsumed2 != 4) {
-    value = Guid();
+    value = rt::default__;
     bytesConsumed = 0;
     return false;
   }
   UInt16 value4;
   if (!TryParseUInt16X(text.Slice(12, 4), value4, bytesConsumed2) || bytesConsumed2 != 4) {
-    value = Guid();
+    value = rt::default__;
     bytesConsumed = 0;
     return false;
   }
   UInt16 value5;
   if (!TryParseUInt16X(text.Slice(16, 4), value5, bytesConsumed2) || bytesConsumed2 != 4) {
-    value = Guid();
+    value = rt::default__;
     bytesConsumed = 0;
     return false;
   }
   UInt64 value6;
   if (!TryParseUInt64X(text.Slice(20), value6, bytesConsumed2) || bytesConsumed2 != 12) {
-    value = Guid();
+    value = rt::default__;
     bytesConsumed = 0;
     return false;
   }
@@ -983,13 +983,13 @@ Boolean Utf8Parser::TryParseGuidN(ReadOnlySpan<Byte> text, Guid& value, Int32& b
 Boolean Utf8Parser::TryParseGuidCore(ReadOnlySpan<Byte> source, Guid& value, Int32& bytesConsumed, Int32 ends) {
   Int32 num = 36 + ((ends != 0) ? 2 : 0);
   if (source.get_Length() < num) {
-    value = Guid();
+    value = rt::default__;
     bytesConsumed = 0;
     return false;
   }
   if (ends != 0) {
     if (source[0] != (Byte)ends) {
-      value = Guid();
+      value = rt::default__;
       bytesConsumed = 0;
       return false;
     }
@@ -999,85 +999,85 @@ Boolean Utf8Parser::TryParseGuidCore(ReadOnlySpan<Byte> source, Guid& value, Int
   UInt32 value2;
   Int32 bytesConsumed2;
   if (!TryParseUInt32X(source, value2, bytesConsumed2)) {
-    value = Guid();
+    value = rt::default__;
     bytesConsumed = 0;
     return false;
   }
   if (bytesConsumed2 != 8) {
-    value = Guid();
+    value = rt::default__;
     bytesConsumed = 0;
     return false;
   }
   if (source[bytesConsumed2] != 45) {
-    value = Guid();
+    value = rt::default__;
     bytesConsumed = 0;
     return false;
   }
   source = source.Slice(9);
   UInt16 value3;
   if (!TryParseUInt16X(source, value3, bytesConsumed2)) {
-    value = Guid();
+    value = rt::default__;
     bytesConsumed = 0;
     return false;
   }
   if (bytesConsumed2 != 4) {
-    value = Guid();
+    value = rt::default__;
     bytesConsumed = 0;
     return false;
   }
   if (source[bytesConsumed2] != 45) {
-    value = Guid();
+    value = rt::default__;
     bytesConsumed = 0;
     return false;
   }
   source = source.Slice(5);
   UInt16 value4;
   if (!TryParseUInt16X(source, value4, bytesConsumed2)) {
-    value = Guid();
+    value = rt::default__;
     bytesConsumed = 0;
     return false;
   }
   if (bytesConsumed2 != 4) {
-    value = Guid();
+    value = rt::default__;
     bytesConsumed = 0;
     return false;
   }
   if (source[bytesConsumed2] != 45) {
-    value = Guid();
+    value = rt::default__;
     bytesConsumed = 0;
     return false;
   }
   source = source.Slice(5);
   UInt16 value5;
   if (!TryParseUInt16X(source, value5, bytesConsumed2)) {
-    value = Guid();
+    value = rt::default__;
     bytesConsumed = 0;
     return false;
   }
   if (bytesConsumed2 != 4) {
-    value = Guid();
+    value = rt::default__;
     bytesConsumed = 0;
     return false;
   }
   if (source[bytesConsumed2] != 45) {
-    value = Guid();
+    value = rt::default__;
     bytesConsumed = 0;
     return false;
   }
   source = source.Slice(5);
   UInt64 value6;
   if (!TryParseUInt64X(source, value6, bytesConsumed2)) {
-    value = Guid();
+    value = rt::default__;
     bytesConsumed = 0;
     return false;
   }
   if (bytesConsumed2 != 12) {
-    value = Guid();
+    value = rt::default__;
     bytesConsumed = 0;
     return false;
   }
   if (ends != 0 && source[bytesConsumed2] != (Byte)ends) {
-    value = Guid();
+    value = rt::default__;
     bytesConsumed = 0;
     return false;
   }
@@ -3056,7 +3056,7 @@ Boolean Utf8Parser::TryParseTimeSpanBigG(ReadOnlySpan<Byte> source, TimeSpan& va
     }
   }
   if (i == source.get_Length()) {
-    value = TimeSpan();
+    value = rt::default__;
     bytesConsumed = 0;
     return false;
   }
@@ -3065,7 +3065,7 @@ Boolean Utf8Parser::TryParseTimeSpanBigG(ReadOnlySpan<Byte> source, TimeSpan& va
     isNegative = true;
     i++;
     if (i == source.get_Length()) {
-      value = TimeSpan();
+      value = rt::default__;
       bytesConsumed = 0;
       return false;
     }
@@ -3073,66 +3073,66 @@ Boolean Utf8Parser::TryParseTimeSpanBigG(ReadOnlySpan<Byte> source, TimeSpan& va
   UInt32 value2;
   Int32 bytesConsumed2;
   if (!TryParseUInt32D(source.Slice(i), value2, bytesConsumed2)) {
-    value = TimeSpan();
+    value = rt::default__;
     bytesConsumed = 0;
     return false;
   }
   i += bytesConsumed2;
   if (i == source.get_Length() || source[i++] != 58) {
-    value = TimeSpan();
+    value = rt::default__;
     bytesConsumed = 0;
     return false;
   }
   UInt32 value3;
   if (!TryParseUInt32D(source.Slice(i), value3, bytesConsumed2)) {
-    value = TimeSpan();
+    value = rt::default__;
     bytesConsumed = 0;
     return false;
   }
   i += bytesConsumed2;
   if (i == source.get_Length() || source[i++] != 58) {
-    value = TimeSpan();
+    value = rt::default__;
     bytesConsumed = 0;
     return false;
   }
   UInt32 value4;
   if (!TryParseUInt32D(source.Slice(i), value4, bytesConsumed2)) {
-    value = TimeSpan();
+    value = rt::default__;
     bytesConsumed = 0;
     return false;
   }
   i += bytesConsumed2;
   if (i == source.get_Length() || source[i++] != 58) {
-    value = TimeSpan();
+    value = rt::default__;
     bytesConsumed = 0;
     return false;
   }
   UInt32 value5;
   if (!TryParseUInt32D(source.Slice(i), value5, bytesConsumed2)) {
-    value = TimeSpan();
+    value = rt::default__;
     bytesConsumed = 0;
     return false;
   }
   i += bytesConsumed2;
   if (i == source.get_Length() || source[i++] != 46) {
-    value = TimeSpan();
+    value = rt::default__;
     bytesConsumed = 0;
     return false;
   }
   UInt32 value6;
   if (!TryParseTimeSpanFraction(source.Slice(i), value6, bytesConsumed2)) {
-    value = TimeSpan();
+    value = rt::default__;
     bytesConsumed = 0;
     return false;
   }
   i += bytesConsumed2;
   if (!TryCreateTimeSpan(isNegative, value2, value3, value4, value5, value6, value)) {
-    value = TimeSpan();
+    value = rt::default__;
     bytesConsumed = 0;
     return false;
   }
   if (i != source.get_Length() && (source[i] == 46 || source[i] == 58)) {
-    value = TimeSpan();
+    value = rt::default__;
     bytesConsumed = 0;
     return false;
   }
@@ -3141,9 +3141,9 @@ Boolean Utf8Parser::TryParseTimeSpanBigG(ReadOnlySpan<Byte> source, TimeSpan& va
 }
 
 Boolean Utf8Parser::TryParseTimeSpanC(ReadOnlySpan<Byte> source, TimeSpan& value, Int32& bytesConsumed) {
-  TimeSpanSplitter timeSpanSplitter = TimeSpanSplitter();
+  TimeSpanSplitter timeSpanSplitter = rt::default__;
   if (!timeSpanSplitter.TrySplitTimeSpan(source, true, bytesConsumed)) {
-    value = TimeSpan();
+    value = rt::default__;
     return false;
   }
   Boolean isNegative = timeSpanSplitter.IsNegative;
@@ -3171,7 +3171,7 @@ Boolean Utf8Parser::TryParseTimeSpanC(ReadOnlySpan<Byte> source, TimeSpan& value
       flag = TryCreateTimeSpan(isNegative, timeSpanSplitter.V1, timeSpanSplitter.V2, timeSpanSplitter.V3, timeSpanSplitter.V4, timeSpanSplitter.V5, value);
       break;
     default:
-      value = TimeSpan();
+      value = rt::default__;
       flag = false;
       break;
   }
@@ -3257,7 +3257,7 @@ Boolean Utf8Parser::TryParseTimeSpanFraction(ReadOnlySpan<Byte> source, UInt32& 
 
 Boolean Utf8Parser::TryCreateTimeSpan(Boolean isNegative, UInt32 days, UInt32 hours, UInt32 minutes, UInt32 seconds, UInt32 fraction, TimeSpan& timeSpan) {
   if (hours > 23 || minutes > 59 || seconds > 59) {
-    timeSpan = TimeSpan();
+    timeSpan = rt::default__;
     return false;
   }
   Int64 num = ((Int64)days * 3600 * 24 + (Int64)hours * 3600 + (Int64)minutes * 60 + seconds) * 1000;
@@ -3265,23 +3265,23 @@ Boolean Utf8Parser::TryCreateTimeSpan(Boolean isNegative, UInt32 days, UInt32 ho
   if (isNegative) {
     num = -num;
     if (num < -922337203685477) {
-      timeSpan = TimeSpan();
+      timeSpan = rt::default__;
       return false;
     }
     Int64 num2 = num * 10000;
     if (num2 < Int64::MinValue + fraction) {
-      timeSpan = TimeSpan();
+      timeSpan = rt::default__;
       return false;
     }
     ticks = num2 - fraction;
   } else {
     if (num > 922337203685477) {
-      timeSpan = TimeSpan();
+      timeSpan = rt::default__;
       return false;
     }
     Int64 num3 = num * 10000;
     if (num3 > Int64::MaxValue - (Int64)fraction) {
-      timeSpan = TimeSpan();
+      timeSpan = rt::default__;
       return false;
     }
     ticks = num3 + fraction;
@@ -3291,9 +3291,9 @@ Boolean Utf8Parser::TryCreateTimeSpan(Boolean isNegative, UInt32 days, UInt32 ho
 }
 
 Boolean Utf8Parser::TryParseTimeSpanLittleG(ReadOnlySpan<Byte> source, TimeSpan& value, Int32& bytesConsumed) {
-  TimeSpanSplitter timeSpanSplitter = TimeSpanSplitter();
+  TimeSpanSplitter timeSpanSplitter = rt::default__;
   if (!timeSpanSplitter.TrySplitTimeSpan(source, false, bytesConsumed)) {
-    value = TimeSpan();
+    value = rt::default__;
     return false;
   }
   Boolean isNegative = timeSpanSplitter.IsNegative;
@@ -3318,7 +3318,7 @@ Boolean Utf8Parser::TryParseTimeSpanLittleG(ReadOnlySpan<Byte> source, TimeSpan&
       flag = TryCreateTimeSpan(isNegative, timeSpanSplitter.V1, timeSpanSplitter.V2, timeSpanSplitter.V3, timeSpanSplitter.V4, timeSpanSplitter.V5, value);
       break;
     default:
-      value = TimeSpan();
+      value = rt::default__;
       flag = false;
       break;
   }

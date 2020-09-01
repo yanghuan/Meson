@@ -1,22 +1,25 @@
 #include "Program-dep.h"
 
 #include <System.Console/System/Console-dep.h>
-#include <System.Private.CoreLib/System/UInt32-dep.h>
-#include <System.Private.CoreLib/System/UIntPtr-dep.h>
 #include <Test/Test/Program-dep.h>
 
 namespace Test::Test::ProgramNamespace {
 using namespace ::System::Console::System;
-using namespace ::System::Private::CoreLib::System;
 
 void Program___::Main(Array<String> args) {
   Console::WriteLine(args);
-  UInt32 num = 20u;
-  UIntPtr uIntPtr = (UIntPtr)num;
-  Test((UIntPtr)num);
 }
 
-void Program___::Test(UIntPtr aa) {
+ValueTuple<Int32, Int32> Program___::GetDefault() {
+  return rt::default__;
+}
+
+String Program___::GetDefaultS() {
+  return nullptr;
+}
+
+Int32 Program___::GetDefaultA() {
+  return 0;
 }
 
 void Program___::ctor() {

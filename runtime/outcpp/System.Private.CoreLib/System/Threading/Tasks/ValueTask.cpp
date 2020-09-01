@@ -23,7 +23,7 @@ void ValueTask<>::ValueTaskSourceAsTask___::cctor() {
 }
 
 ValueTask<> ValueTask<>::get_CompletedTask() {
-  return ValueTask<>();
+  return rt::default__;
 }
 
 Boolean ValueTask<>::get_IsCompleted() {

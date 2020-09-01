@@ -254,9 +254,9 @@ Exception EventSource___::get_ConstructionException() {
 
 Guid EventSource___::get_CurrentThreadActivityId() {
   if (!IsSupported) {
-    return Guid();
+    return rt::default__;
   }
-  Guid ActivityId = Guid();
+  Guid ActivityId = rt::default__;
   Interop::Advapi32::EventActivityIdControl(Interop::Advapi32::ActivityControl::EVENT_ACTIVITY_CTRL_GET_ID, ActivityId);
   return ActivityId;
 }
@@ -398,7 +398,7 @@ void EventSource___::SetCurrentThreadActivityId(Guid activityId) {
 
 void EventSource___::SetCurrentThreadActivityId(Guid activityId, Guid& oldActivityThatWillContinue) {
   if (!IsSupported) {
-    oldActivityThatWillContinue = Guid();
+    oldActivityThatWillContinue = rt::default__;
     return;
   }
   oldActivityThatWillContinue = activityId;
@@ -847,7 +847,7 @@ void EventSource___::WriteEventWithRelatedActivityIdCore(Int32 eventId, Guid* re
           traceLoggingEventTypes = rt::newobj<TraceLoggingEventTypes>(m_eventData[eventId].Name, m_eventData[eventId].Tags, m_eventData[eventId].Parameters);
           Interlocked::CompareExchange(m_eventData[eventId].TraceLoggingEventTypes, traceLoggingEventTypes, (TraceLoggingEventTypes)nullptr);
         }
-        EventSourceOptions eventSourceOptions = EventSourceOptions();
+        EventSourceOptions eventSourceOptions = rt::default__;
         eventSourceOptions.set_Keywords((EventKeywords)m_eventData[eventId].Descriptor.get_Keywords());
         eventSourceOptions.set_Level((EventLevel)m_eventData[eventId].Descriptor.get_Level());
         eventSourceOptions.set_Opcode((EventOpcode)m_eventData[eventId].Descriptor.get_Opcode());
@@ -990,7 +990,7 @@ String EventSource___::GetName(Type eventSourceType, EventManifestOptions flags)
 Guid EventSource___::GenerateGuidFromName(String name) {
   ReadOnlySpan<Byte> input = rt::newarr<Array<Byte>>(16);
   Array<Byte> array = Encoding::in::get_BigEndianUnicode()->GetBytes(name);
-  Sha1ForNonSecretPurposes sha1ForNonSecretPurposes = Sha1ForNonSecretPurposes();
+  Sha1ForNonSecretPurposes sha1ForNonSecretPurposes = rt::default__;
   sha1ForNonSecretPurposes.Start();
   sha1ForNonSecretPurposes.Append(input);
   sha1ForNonSecretPurposes.Append(array);
@@ -1143,7 +1143,7 @@ void EventSource___::WriteEventVarargs(Int32 eventId, Guid* childActivityID, Arr
           traceLoggingEventTypes = rt::newobj<TraceLoggingEventTypes>(m_eventData[eventId].Name, EventTags::None, m_eventData[eventId].Parameters);
           Interlocked::CompareExchange(m_eventData[eventId].TraceLoggingEventTypes, traceLoggingEventTypes, (TraceLoggingEventTypes)nullptr);
         }
-        EventSourceOptions eventSourceOptions = EventSourceOptions();
+        EventSourceOptions eventSourceOptions = rt::default__;
         eventSourceOptions.set_Keywords((EventKeywords)m_eventData[eventId].Descriptor.get_Keywords());
         eventSourceOptions.set_Level((EventLevel)m_eventData[eventId].Descriptor.get_Level());
         eventSourceOptions.set_Opcode((EventOpcode)m_eventData[eventId].Descriptor.get_Opcode());
@@ -1257,7 +1257,7 @@ void EventSource___::WriteEventString(String msgString) {
   EventLevel eventLevel = EventLevel::LogAlways;
   Int64 keywords = -1;
   if (get_SelfDescribingEvents()) {
-    EventSourceOptions eventSourceOptions = EventSourceOptions();
+    EventSourceOptions eventSourceOptions = rt::default__;
     eventSourceOptions.set_Keywords((EventKeywords)keywords);
     eventSourceOptions.set_Level(eventLevel);
     EventSourceOptions options = eventSourceOptions;
@@ -1276,7 +1276,7 @@ void EventSource___::WriteEventString(String msgString) {
     Char* ptr = msgString;
     Char* ptr2 = ptr;
     EventDescriptor eventDescriptor = EventDescriptor(0, 0, 0, (Byte)eventLevel, 0, 0, keywords);
-    EventProvider::in::EventData eventData = EventProvider::in::EventData();
+    EventProvider::in::EventData eventData = rt::default__;
     eventData.Ptr = (UInt64)ptr2;
     eventData.Size = (UInt32)(2 * (msgString->get_Length() + 1));
     eventData.Reserved = 0u;
@@ -1291,7 +1291,7 @@ void EventSource___::WriteEventString(String msgString) {
         rt::lock(m_createEventLock);
         if (m_writeEventStringEventHandle == IntPtr::Zero) {
           String eventName = "EventSourceMessage";
-          EventParameterInfo eventParameterInfo = EventParameterInfo();
+          EventParameterInfo eventParameterInfo = rt::default__;
           eventParameterInfo.SetInfo("message", typeof<String>());
           Array<Byte> array = EventPipeMetadataGenerator::in::Instance->GenerateMetadata(0, eventName, keywords, (UInt32)eventLevel, 0u, EventOpcode::Info, rt::newarr<Array<EventParameterInfo>>(1));
           UInt32 metadataLength = (UInt32)((array != nullptr) ? array->get_Length() : 0);
@@ -1617,7 +1617,7 @@ void EventSource___::SendManifest(Array<Byte> rawManifest) {
   {
     Byte* ptr2 = rawManifest;
     EventDescriptor eventDescriptor = EventDescriptor(65534, 1, 0, 0, 254, 65534, 72057594037927935);
-    ManifestEnvelope manifestEnvelope = ManifestEnvelope();
+    ManifestEnvelope manifestEnvelope = rt::default__;
     manifestEnvelope.Format = ManifestEnvelope::ManifestFormats::SimpleXmlFormat;
     manifestEnvelope.MajorVersion = 1;
     manifestEnvelope.MinorVersion = 0;
@@ -2166,7 +2166,7 @@ void EventSource___::ctor(String eventSourceName, EventSourceSettings config, Ar
 
 void EventSource___::Write(String eventName) {
   if (IsEnabled()) {
-    EventSourceOptions options = EventSourceOptions();
+    EventSourceOptions options = rt::default__;
     WriteImpl(eventName, options, nullptr, nullptr, nullptr, SimpleEventTypes<EmptyStruct>::get_Instance());
   }
 }
@@ -2207,12 +2207,12 @@ void EventSource___::WriteMultiMergeInner(String eventName, EventSourceOptions& 
   EventData in[eventTypes->dataCount + 3] = {};
   EventData* ptr = in;
   for (Int32 i = 0; i < eventTypes->dataCount + 3; i++) {
-    *(ptr + i) = EventData();
+    *(ptr + i) = rt::default__;
   }
   GCHandle ref[pinCount] = {};
   GCHandle* ptr2 = ref;
   for (Int32 j = 0; j < pinCount; j++) {
-    *(ptr2 + j) = GCHandle();
+    *(ptr2 + j) = rt::default__;
   }
   {
     Byte* pointer = providerMetadata;
@@ -2256,7 +2256,7 @@ void EventSource___::WriteMultiMerge(String eventName, EventSourceOptions& optio
     EventData as[num] = {};
     EventData* ptr = as;
     for (Int32 i = 0; i < num; i++) {
-      *(ptr + i) = EventData();
+      *(ptr + i) = rt::default__;
     }
     {
       Byte* pointer = providerMetadata;
@@ -2301,12 +2301,12 @@ void EventSource___::WriteImpl(String eventName, EventSourceOptions& options, Ob
         EventData is[eventTypes->dataCount + 3] = {};
         EventData* ptr = is;
         for (Int32 i = 0; i < eventTypes->dataCount + 3; i++) {
-          *(ptr + i) = EventData();
+          *(ptr + i) = rt::default__;
         }
         GCHandle in[pinCount] = {};
         GCHandle* ptr2 = in;
         for (Int32 j = 0; j < pinCount; j++) {
-          *(ptr2 + j) = GCHandle();
+          *(ptr2 + j) = rt::default__;
         }
         try {
           {

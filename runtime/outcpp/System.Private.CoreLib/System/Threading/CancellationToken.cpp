@@ -11,7 +11,7 @@
 
 namespace System::Private::CoreLib::System::Threading::CancellationTokenNamespace {
 CancellationToken CancellationToken::get_None() {
-  return CancellationToken();
+  return rt::default__;
 }
 
 Boolean CancellationToken::get_IsCancellationRequested() {
@@ -71,7 +71,7 @@ CancellationTokenRegistration CancellationToken::Register(Action<Object> callbac
   }
   CancellationTokenSource source = _source;
   if (source == nullptr) {
-    return CancellationTokenRegistration();
+    return rt::default__;
   }
   return source->InternalRegister(callback, state, useSynchronizationContext ? SynchronizationContext::in::get_Current() : nullptr, useExecutionContext ? ExecutionContext::in::Capture() : nullptr);
 }

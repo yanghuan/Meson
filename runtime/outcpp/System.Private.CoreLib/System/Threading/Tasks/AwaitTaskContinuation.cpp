@@ -1,7 +1,6 @@
 #include "AwaitTaskContinuation-dep.h"
 
 #include <System.Private.CoreLib/System/Exception-dep.h>
-#include <System.Private.CoreLib/System/Threading/CancellationToken-dep.h>
 #include <System.Private.CoreLib/System/Threading/ExecutionContext-dep.h>
 #include <System.Private.CoreLib/System/Threading/SynchronizationContext-dep.h>
 #include <System.Private.CoreLib/System/Threading/Tasks/AwaitTaskContinuation-dep.h>
@@ -33,7 +32,7 @@ void AwaitTaskContinuation___::ctor(Action<> action, Boolean flowExecutionContex
 }
 
 Task<> AwaitTaskContinuation___::CreateTask(Action<Object> action, Object state, TaskScheduler scheduler) {
-  return rt::newobj<Task<>>(action, state, nullptr, CancellationToken(), TaskCreationOptions::None, InternalTaskOptions::QueuedByRuntime, scheduler);
+  return rt::newobj<Task<>>(action, state, nullptr, rt::default__, TaskCreationOptions::None, InternalTaskOptions::QueuedByRuntime, scheduler);
 }
 
 void AwaitTaskContinuation___::Run(Task<> task, Boolean canInlineContinuationTask) {

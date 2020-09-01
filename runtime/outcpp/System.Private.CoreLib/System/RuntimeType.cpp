@@ -400,7 +400,7 @@ String RuntimeType___::get_Namespace() {
 }
 
 Guid RuntimeType___::get_GUID() {
-  Guid result = Guid();
+  Guid result = rt::default__;
   GetGUID(result);
   return result;
 }
@@ -1295,12 +1295,12 @@ Array<MemberInfo> RuntimeType___::GetMember(String name, MemberTypes type, Bindi
   if (name == nullptr) {
     rt::throw_exception<ArgumentNullException>("name");
   }
-  ListBuilder<MethodInfo> listBuilder = ListBuilder<T>();
-  ListBuilder<ConstructorInfo> listBuilder2 = ListBuilder<T>();
-  ListBuilder<PropertyInfo> listBuilder3 = ListBuilder<T>();
-  ListBuilder<EventInfo> listBuilder4 = ListBuilder<T>();
-  ListBuilder<FieldInfo> listBuilder5 = ListBuilder<T>();
-  ListBuilder<Type> listBuilder6 = ListBuilder<T>();
+  ListBuilder<MethodInfo> listBuilder = rt::default__;
+  ListBuilder<ConstructorInfo> listBuilder2 = rt::default__;
+  ListBuilder<PropertyInfo> listBuilder3 = rt::default__;
+  ListBuilder<EventInfo> listBuilder4 = rt::default__;
+  ListBuilder<FieldInfo> listBuilder5 = rt::default__;
+  ListBuilder<Type> listBuilder6 = rt::default__;
   Int32 num = 0;
   if ((type & MemberTypes::Method) != 0) {
     listBuilder = GetMethodCandidates(name, -1, bindingAttr, CallingConventions::Any, nullptr, true);
@@ -1870,7 +1870,7 @@ Object RuntimeType___::CreateInstanceImpl(BindingFlags bindingAttr, Binder binde
 }
 
 Object RuntimeType___::CreateInstanceDefaultCtorSlow(Boolean publicOnly, Boolean wrapExceptions, Boolean fillCache) {
-  RuntimeMethodHandleInternal ctor = RuntimeMethodHandleInternal();
+  RuntimeMethodHandleInternal ctor = rt::default__;
   Boolean canBeCached = false;
   Boolean hasNoDefaultCtor = false;
   Object result = RuntimeTypeHandle::CreateInstance((RuntimeType)this, publicOnly, wrapExceptions, canBeCached, ctor, hasNoDefaultCtor);

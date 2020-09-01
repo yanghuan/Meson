@@ -25,11 +25,11 @@ void Signature___::ctor(IRuntimeMethodInfo method, Array<RuntimeType> arguments,
   m_arguments = arguments;
   m_returnTypeORfieldType = returnType;
   m_managedCallingConventionAndArgIteratorFlags = (Byte)callingConvention;
-  GetSignature(nullptr, 0, RuntimeFieldHandleInternal(), method, nullptr);
+  GetSignature(nullptr, 0, rt::default__, method, nullptr);
 }
 
 void Signature___::ctor(IRuntimeMethodInfo methodHandle, RuntimeType declaringType) {
-  GetSignature(nullptr, 0, RuntimeFieldHandleInternal(), methodHandle, declaringType);
+  GetSignature(nullptr, 0, rt::default__, methodHandle, declaringType);
 }
 
 void Signature___::ctor(IRuntimeFieldInfo fieldHandle, RuntimeType declaringType) {
@@ -38,7 +38,7 @@ void Signature___::ctor(IRuntimeFieldInfo fieldHandle, RuntimeType declaringType
 }
 
 void Signature___::ctor(void* pCorSig, Int32 cCorSig, RuntimeType declaringType) {
-  GetSignature(pCorSig, cCorSig, RuntimeFieldHandleInternal(), nullptr, declaringType);
+  GetSignature(pCorSig, cCorSig, rt::default__, nullptr, declaringType);
 }
 
 } // namespace System::Private::CoreLib::System::SignatureNamespace

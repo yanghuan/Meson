@@ -858,9 +858,9 @@ void FileStream___::InitFromHandleImpl(SafeFileHandle handle, Boolean useAsyncIO
 }
 
 Interop::Kernel32::SECURITY_ATTRIBUTES FileStream___::GetSecAttrs(FileShare share) {
-  Interop::Kernel32::SECURITY_ATTRIBUTES result = Interop::Kernel32::SECURITY_ATTRIBUTES();
+  Interop::Kernel32::SECURITY_ATTRIBUTES result = rt::default__;
   if ((share & FileShare::Inheritable) != 0) {
-    Interop::Kernel32::SECURITY_ATTRIBUTES result2 = Interop::Kernel32::SECURITY_ATTRIBUTES();
+    Interop::Kernel32::SECURITY_ATTRIBUTES result2 = rt::default__;
     result2.nLength = (UInt32)sizeof(Interop::Kernel32::SECURITY_ATTRIBUTES);
     result2.bInheritHandle = Interop::BOOL::TRUE;
     return result2;
@@ -1230,7 +1230,7 @@ Task<Int32> FileStream___::ReadNativeAsync(Memory<Byte> destination, Int32 numBu
     Int64 length = get_Length();
     VerifyOSHandlePosition();
     if (_filePosition + destination.get_Length() > length) {
-      destination = ((_filePosition > length) ? Memory<T>() : destination.Slice(0, (Int32)(length - _filePosition)));
+      destination = ((_filePosition > length) ? rt::default__ : destination.Slice(0, (Int32)(length - _filePosition)));
     }
     overlapped->OffsetLow = (Int32)_filePosition;
     overlapped->OffsetHigh = (Int32)(_filePosition >> 32);
@@ -1282,7 +1282,7 @@ ValueTask<> FileStream___::WriteAsyncInternal(ReadOnlyMemory<Byte> source, Cance
       _writePos += source.get_Length();
       flag = true;
       if (source.get_Length() != num) {
-        return ValueTask<>();
+        return rt::default__;
       }
     }
   }

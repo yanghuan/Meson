@@ -3,7 +3,6 @@
 #include <System.Private.CoreLib/System/Buffers/ArrayPool-dep.h>
 #include <System.Private.CoreLib/System/Math-dep.h>
 #include <System.Private.CoreLib/System/UInt32-dep.h>
-#include <System.Private.Uri/System/Text/ValueStringBuilder-dep.h>
 
 namespace System::Private::Uri::System::Text::ValueStringBuilderNamespace {
 using namespace ::System::Private::CoreLib::System;
@@ -101,7 +100,7 @@ void ValueStringBuilder::Grow(Int32 additionalCapacityBeyondPos) {
 
 void ValueStringBuilder::Dispose() {
   Array<Char> arrayToReturnToPool = _arrayToReturnToPool;
-  *this = ValueStringBuilder();
+  *this = rt::default__;
   if (arrayToReturnToPool != nullptr) {
     ArrayPool<Char>::in::get_Shared()->Return(arrayToReturnToPool);
   }

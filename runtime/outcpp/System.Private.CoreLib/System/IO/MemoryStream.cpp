@@ -207,7 +207,7 @@ Array<Byte> MemoryStream___::GetBuffer() {
 
 Boolean MemoryStream___::TryGetBuffer(ArraySegment<Byte>& buffer) {
   if (!_exposable) {
-    buffer = ArraySegment<T>();
+    buffer = rt::default__;
     return false;
   }
   buffer = ArraySegment<Byte>(_buffer, _origin, _length - _origin);
@@ -543,7 +543,7 @@ ValueTask<> MemoryStream___::WriteAsync(ReadOnlyMemory<Byte> buffer, Cancellatio
     } else {
       Write(buffer.get_Span());
     }
-    return ValueTask<>();
+    return rt::default__;
   } catch (OperationCanceledException exception) {
   } catch (Exception exception2) {
   }

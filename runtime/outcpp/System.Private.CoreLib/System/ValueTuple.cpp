@@ -33,7 +33,7 @@ String ValueTuple<>::ToString() {
 }
 
 ValueTuple<> ValueTuple<>::Create() {
-  return ValueTuple<>();
+  return rt::default__;
 }
 
 } // namespace System::Private::CoreLib::System::ValueTupleNamespace

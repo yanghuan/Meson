@@ -14,7 +14,6 @@
 #include <System.Private.CoreLib/System/SR-dep.h>
 #include <System.Private.CoreLib/System/Text/StringBuilder-dep.h>
 #include <System.Private.CoreLib/System/Text/StringBuilderCache-dep.h>
-#include <System.Private.CoreLib/System/TimeSpan-dep.h>
 #include <System.Private.CoreLib/System/UInt16-dep.h>
 #include <System.Private.CoreLib/System/UInt32-dep.h>
 
@@ -57,7 +56,7 @@ Boolean TimeSpanParse::TimeSpanToken::NormalizeAndValidateFraction() {
 }
 
 TimeSpanParse::TimeSpanResult::TimeSpanResult(Boolean throwOnFailure, ReadOnlySpan<Char> originalTimeSpanString) {
-  parsedTimeSpan = TimeSpan();
+  parsedTimeSpan = rt::default__;
   _throwOnFailure = throwOnFailure;
   _originalTimeSpanString = originalTimeSpanString;
 }
@@ -145,7 +144,7 @@ TimeSpanParse::TimeSpanToken TimeSpanParse::TimeSpanTokenizer::GetNextToken() {
       Int32 num3;
       while (true) {
         if (++_pos >= _value.get_Length() || (UInt32)(num3 = _value[_pos] - 48) > 9u) {
-          return TimeSpanToken(TTT::Num, 0, num2, ReadOnlySpan<T>());
+          return TimeSpanToken(TTT::Num, 0, num2, rt::default__);
         }
         if (num3 != 0) {
           break;
@@ -164,7 +163,7 @@ TimeSpanParse::TimeSpanToken TimeSpanParse::TimeSpanTokenizer::GetNextToken() {
         return TimeSpanToken(TTT::NumOverflow);
       }
     }
-    return TimeSpanToken(TTT::Num, num, num2, ReadOnlySpan<T>());
+    return TimeSpanToken(TTT::Num, num, num2, rt::default__);
   }
   Int32 num5 = 1;
   while (++_pos < _value.get_Length() && (UInt32)(_value[_pos] - 48) > 9u) {
@@ -181,7 +180,7 @@ void TimeSpanParse::TimeSpanTokenizer::BackOne() {
 
 TimeSpanFormat::FormatLiterals TimeSpanParse::TimeSpanRawInfo::get_PositiveLocalized() {
   if (!_posLocInit) {
-    _posLoc = TimeSpanFormat::FormatLiterals();
+    _posLoc = rt::default__;
     _posLoc.Init(_fullPosPattern, false);
     _posLocInit = true;
   }
@@ -190,7 +189,7 @@ TimeSpanFormat::FormatLiterals TimeSpanParse::TimeSpanRawInfo::get_PositiveLocal
 
 TimeSpanFormat::FormatLiterals TimeSpanParse::TimeSpanRawInfo::get_NegativeLocalized() {
   if (!_negLocInit) {
-    _negLoc = TimeSpanFormat::FormatLiterals();
+    _negLoc = rt::default__;
     _negLoc.Init(_fullNegPattern, false);
     _negLocInit = true;
   }
@@ -274,7 +273,7 @@ void TimeSpanParse::TimeSpanRawInfo::Init(DateTimeFormatInfo dtfi) {
 Boolean TimeSpanParse::TimeSpanRawInfo::ProcessToken(TimeSpanToken& tok, TimeSpanResult& result) {
   switch (tok._ttt) {
     case TTT::Num:
-      if ((_tokenCount == 0 && !AddSep(ReadOnlySpan<T>(), result)) || !AddNum(tok, result)) {
+      if ((_tokenCount == 0 && !AddSep(rt::default__, result)) || !AddNum(tok, result)) {
         return false;
       }
       break;
@@ -363,7 +362,7 @@ Char TimeSpanParse::StringParser::NextNonDigit() {
 }
 
 Boolean TimeSpanParse::StringParser::TryParse(ReadOnlySpan<Char> input, TimeSpanResult& result) {
-  result.parsedTimeSpan = TimeSpan();
+  result.parsedTimeSpan = rt::default__;
   _str = input;
   _len = input.get_Length();
   _pos = -1;
@@ -528,7 +527,7 @@ Boolean TimeSpanParse::TryParse(ReadOnlySpan<Char> input, IFormatProvider format
     result = result2.parsedTimeSpan;
     return true;
   }
-  result = TimeSpan();
+  result = rt::default__;
   return false;
 }
 
@@ -544,7 +543,7 @@ Boolean TimeSpanParse::TryParseExact(ReadOnlySpan<Char> input, ReadOnlySpan<Char
     result = result2.parsedTimeSpan;
     return true;
   }
-  result = TimeSpan();
+  result = rt::default__;
   return false;
 }
 
@@ -560,7 +559,7 @@ Boolean TimeSpanParse::TryParseExactMultiple(ReadOnlySpan<Char> input, Array<Str
     result = result2.parsedTimeSpan;
     return true;
   }
-  result = TimeSpan();
+  result = rt::default__;
   return false;
 }
 
@@ -570,7 +569,7 @@ Boolean TimeSpanParse::TryParseTimeSpan(ReadOnlySpan<Char> input, TimeSpanStanda
     return result.SetBadTimeSpanFailure();
   }
   TimeSpanTokenizer timeSpanTokenizer = TimeSpanTokenizer(input);
-  TimeSpanRawInfo raw = TimeSpanRawInfo();
+  TimeSpanRawInfo raw = rt::default__;
   raw.Init(DateTimeFormatInfo::in::GetInstance(formatProvider));
   TimeSpanToken tok = timeSpanTokenizer.GetNextToken();
   while (tok._ttt != TTT::End) {
@@ -587,7 +586,7 @@ Boolean TimeSpanParse::TryParseTimeSpan(ReadOnlySpan<Char> input, TimeSpanStanda
 
 Boolean TimeSpanParse::ProcessTerminalState(TimeSpanRawInfo& raw, TimeSpanStandardStyles style, TimeSpanResult& result) {
   if (raw._lastSeenTTT == TTT::Num) {
-    TimeSpanToken tok = TimeSpanToken();
+    TimeSpanToken tok = rt::default__;
     tok._ttt = TTT::Sep;
     if (!raw.ProcessToken(tok, result)) {
       return result.SetBadTimeSpanFailure();
@@ -1097,7 +1096,7 @@ Boolean TimeSpanParse::ParseExactLiteral(TimeSpanTokenizer& tokenizer, StringBui
 }
 
 Boolean TimeSpanParse::TryParseTimeSpanConstant(ReadOnlySpan<Char> input, TimeSpanResult& result) {
-  StringParser stringParser = StringParser();
+  StringParser stringParser = rt::default__;
   return stringParser.TryParse(input, result);
 }
 

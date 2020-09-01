@@ -120,7 +120,7 @@ String Interop::Kernel32::GetMessage(Int32 errorCode, IntPtr moduleHandle) {
     }
   }
   if (Marshal::GetLastWin32Error() == 122) {
-    IntPtr intPtr = IntPtr();
+    IntPtr intPtr = rt::default__;
     try {
       Int32 num3 = FormatMessage(num | 256, moduleHandle, (UInt32)errorCode, 0, &intPtr, 0, IntPtr::Zero);
       if (num3 > 0) {
@@ -156,7 +156,7 @@ Int32 Interop::Advapi32::EventWriteTransfer(Int64 registrationHandle, EventDescr
 }
 
 Int32 Interop::NtDll::RtlGetVersionEx(RTL_OSVERSIONINFOEX& osvi) {
-  osvi = RTL_OSVERSIONINFOEX();
+  osvi = rt::default__;
   osvi.dwOSVersionInfoSize = (UInt32)sizeof(RTL_OSVERSIONINFOEX);
   return RtlGetVersion(osvi);
 }

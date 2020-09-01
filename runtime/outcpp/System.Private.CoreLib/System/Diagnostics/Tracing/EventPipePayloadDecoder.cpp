@@ -92,7 +92,7 @@ Array<Object> EventPipePayloadDecoder::DecodePayload(EventSource::in::EventMetad
       ReadOnlySpan<Char> readOnlySpan;
       if (num < 0) {
         readOnlySpan = MemoryMarshal::Cast<Byte, Char>(payload);
-        payload = ReadOnlySpan<T>();
+        payload = rt::default__;
       } else {
         readOnlySpan = MemoryMarshal::Cast<Byte, Char>(payload.Slice(0, num - 2));
         payload = payload.Slice(num);

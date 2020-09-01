@@ -98,7 +98,7 @@ ValueTask<> TimerQueueTimer___::CloseAsync() {
       _associatedTimerQueue->DeleteTimer((TimerQueueTimer)this);
     }
     if (_callbacksRunning == 0) {
-      return ValueTask<>();
+      return rt::default__;
     }
     if (notifyWhenNoCallbacksRunning == nullptr) {
       return ValueTask<>((Task<>)(_notifyWhenNoCallbacksRunning = rt::newobj<Task<Boolean>>((Object)nullptr, TaskCreationOptions::RunContinuationsAsynchronously)));

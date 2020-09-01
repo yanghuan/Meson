@@ -20,7 +20,7 @@ class IPv6AddressHelper {
   private: static Boolean IsLoopback(ReadOnlySpan<UInt16> numbers);
   private: static Boolean InternalIsValid(Char* name, Int32 start, Int32& end, Boolean validateStrictAddress);
   public: static Boolean IsValid(Char* name, Int32 start, Int32& end);
-  public: static ValueTuple<> FindCompressionRange(ReadOnlySpan<UInt16> numbers);
+  public: static ValueTuple<Int32, Int32> FindCompressionRange(ReadOnlySpan<UInt16> numbers);
   public: static Boolean ShouldHaveIpv4Embedded(ReadOnlySpan<UInt16> numbers);
   public: static void Parse(ReadOnlySpan<Char> address, Span<UInt16> numbers, Int32 start, String& scopeId);
 };

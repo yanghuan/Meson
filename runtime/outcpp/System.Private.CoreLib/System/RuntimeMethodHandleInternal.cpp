@@ -4,7 +4,7 @@
 
 namespace System::Private::CoreLib::System::RuntimeMethodHandleInternalNamespace {
 RuntimeMethodHandleInternal RuntimeMethodHandleInternal::get_EmptyHandle() {
-  return RuntimeMethodHandleInternal();
+  return rt::default__;
 }
 
 IntPtr RuntimeMethodHandleInternal::get_Value() {

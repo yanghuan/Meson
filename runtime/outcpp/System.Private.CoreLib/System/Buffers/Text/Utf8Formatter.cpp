@@ -563,7 +563,7 @@ Boolean Utf8Formatter::TryFormat(Guid value, Span<Byte> destination, Int32& byte
     destination = destination.Slice(1);
   }
   num >>= 8;
-  DecomposedGuid decomposedGuid = DecomposedGuid();
+  DecomposedGuid decomposedGuid = rt::default__;
   decomposedGuid.Guid = value;
   Byte& reference = destination[8];
   HexConverter::ToBytesBuffer(decomposedGuid.Byte03, destination, 0, HexConverter::Casing::Lower);

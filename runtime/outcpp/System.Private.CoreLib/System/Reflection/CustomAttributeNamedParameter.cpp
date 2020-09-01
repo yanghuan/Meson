@@ -15,7 +15,7 @@ CustomAttributeNamedParameter::CustomAttributeNamedParameter(String argumentName
   m_fieldOrProperty = fieldOrProperty;
   m_padding = fieldOrProperty;
   m_type = type;
-  m_encodedArgument = CustomAttributeEncodedArgument();
+  m_encodedArgument = rt::default__;
 }
 
 } // namespace System::Private::CoreLib::System::Reflection::CustomAttributeNamedParameterNamespace

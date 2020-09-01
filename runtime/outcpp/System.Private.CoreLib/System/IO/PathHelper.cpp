@@ -71,7 +71,7 @@ Int32 PathHelper::PrependDevicePathChars(ValueStringBuilder& content, Boolean is
 String PathHelper::TryExpandShortFileName(ValueStringBuilder& outputBuilder, String originalPath) {
   Int32 rootLength = PathInternal::GetRootLength(outputBuilder.AsSpan());
   Boolean flag = PathInternal::IsDevice(outputBuilder.AsSpan());
-  ValueStringBuilder buffer = ValueStringBuilder();
+  ValueStringBuilder buffer = rt::default__;
   Boolean flag2 = false;
   Int32 num = 0;
   Boolean flag3 = false;

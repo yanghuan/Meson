@@ -243,14 +243,7 @@ namespace Meson.Compiler {
     }
 
     public SyntaxNode VisitDefaultValueExpression(DefaultValueExpression defaultValueExpression) {
-      var type = (IType)defaultValueExpression.Type.GetSymbol();
-      if (type == null) {
-        type = defaultValueExpression.GetResolveResult().Type;
-      }
-      if (type.IsReferenceType == true) {
-        return IdentifierSyntax.Nullptr;
-      }
-      return GetTypeName(type).Invation();
+      return IdentifierSyntax.Default;
     }
 
     public SyntaxNode VisitDirectionExpression(DirectionExpression directionExpression) {
@@ -983,7 +976,10 @@ namespace Meson.Compiler {
     public SyntaxNode VisitCatchClause(CatchClause catchClause) {
       var type = !catchClause.Type.IsNull ? catchClause.Type.AcceptExpression(this) : IdentifierSyntax.VariableArguments;
       var name = catchClause.VariableNameToken.Accept<IdentifierSyntax>(this);
-      return new CatchClauseSyntax(type, name);
+      var block = catchClause.Body.Accept<BlockSyntax>(this);
+      var catchClauseSyntax = new CatchClauseSyntax(type, name);
+      catchClauseSyntax.AddRange(block.Statements);
+      return catchClauseSyntax;
     }
 
     public SyntaxNode VisitUncheckedStatement(UncheckedStatement uncheckedStatement) {

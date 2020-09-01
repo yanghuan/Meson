@@ -104,7 +104,7 @@ Quaternion Quaternion::CreateFromYawPitchRoll(Single yaw, Single pitch, Single r
 
 Quaternion Quaternion::CreateFromRotationMatrix(Matrix4x4 matrix) {
   Single num = matrix.M11 + matrix.M22 + matrix.M33;
-  Quaternion result = Quaternion();
+  Quaternion result = rt::default__;
   if (num > 0) {
     Single num2 = MathF::Sqrt(num + 1);
     result.W = num2 * 0.5;
@@ -171,7 +171,7 @@ Quaternion Quaternion::Slerp(Quaternion quaternion1, Quaternion quaternion2, Sin
 
 Quaternion Quaternion::Lerp(Quaternion quaternion1, Quaternion quaternion2, Single amount) {
   Single num = 1 - amount;
-  Quaternion result = Quaternion();
+  Quaternion result = rt::default__;
   Single num2 = quaternion1.X * quaternion2.X + quaternion1.Y * quaternion2.Y + quaternion1.Z * quaternion2.Z + quaternion1.W * quaternion2.W;
   if (num2 >= 0) {
     result.X = num * quaternion1.X + amount * quaternion2.X;

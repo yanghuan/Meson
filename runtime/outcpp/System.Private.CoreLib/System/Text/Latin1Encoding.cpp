@@ -28,7 +28,7 @@ void Latin1EncodingSealed___::ctor() {
 }
 
 ReadOnlySpan<Byte> Latin1Encoding___::get_Preamble() {
-  return ReadOnlySpan<T>();
+  return rt::default__;
 }
 
 Boolean Latin1Encoding___::get_IsSingleByte() {

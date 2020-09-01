@@ -233,8 +233,8 @@ Int32 CompareInfo___::Compare(String string1, Int32 offset1, String string2, Int
 }
 
 Int32 CompareInfo___::Compare(String string1, Int32 offset1, Int32 length1, String string2, Int32 offset2, Int32 length2, CompareOptions options) {
-  ReadOnlySpan<Char> slice = ReadOnlySpan<T>();
-  ReadOnlySpan<Char> slice2 = ReadOnlySpan<T>();
+  ReadOnlySpan<Char> slice = rt::default__;
+  ReadOnlySpan<Char> slice2 = rt::default__;
   if (string1 == nullptr) {
     if (offset1 == 0 && length1 == 0) {
       goto IL_0027;
@@ -2026,7 +2026,7 @@ Int32 CompareInfo___::GetNativeCompareFlags(CompareOptions options) {
 }
 
 SortVersion CompareInfo___::NlsGetSortVersion() {
-  Interop::Kernel32::NlsVersionInfoEx nlsVersionInfoEx = Interop::Kernel32::NlsVersionInfoEx();
+  Interop::Kernel32::NlsVersionInfoEx nlsVersionInfoEx = rt::default__;
   nlsVersionInfoEx.dwNLSVersionInfoSize = sizeof(Interop::Kernel32::NlsVersionInfoEx);
   Interop::Kernel32::GetNLSVersionEx(1, _sortName, &nlsVersionInfoEx);
   return rt::newobj<SortVersion>(nlsVersionInfoEx.dwNLSVersion, (nlsVersionInfoEx.dwEffectiveId == 0) ? get_LCID() : nlsVersionInfoEx.dwEffectiveId, nlsVersionInfoEx.guidCustomVersion);

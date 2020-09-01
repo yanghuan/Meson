@@ -239,7 +239,7 @@ void SyncTextWriter___::WriteLine(String format, Array<Object> arg) {
 
 ValueTask<> SyncTextWriter___::DisposeAsync() {
   Dispose();
-  return ValueTask<>();
+  return rt::default__;
 }
 
 Task<> SyncTextWriter___::WriteAsync(Char value) {
@@ -366,7 +366,7 @@ void TextWriter___::Dispose() {
 ValueTask<> TextWriter___::DisposeAsync() {
   try {
     Dispose();
-    return ValueTask<>();
+    return rt::default__;
   } catch (Exception exception) {
   }
 }

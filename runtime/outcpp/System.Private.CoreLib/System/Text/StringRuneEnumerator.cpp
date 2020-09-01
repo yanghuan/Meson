@@ -14,7 +14,7 @@ Object StringRuneEnumerator::get_CurrentOfIEnumerator() {
 
 StringRuneEnumerator::StringRuneEnumerator(String value) {
   _string = value;
-  _current = Rune();
+  _current = rt::default__;
   _nextIndex = 0;
 }
 
@@ -24,7 +24,7 @@ StringRuneEnumerator StringRuneEnumerator::GetEnumerator() {
 
 Boolean StringRuneEnumerator::MoveNext() {
   if ((UInt32)_nextIndex >= _string->get_Length()) {
-    _current = Rune();
+    _current = rt::default__;
     return false;
   }
   if (!Rune::TryGetRuneAt(_string, _nextIndex, _current)) {

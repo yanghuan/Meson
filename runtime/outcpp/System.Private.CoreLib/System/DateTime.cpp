@@ -417,7 +417,7 @@ DateTime DateTime::AddTicks(Int64 value) {
 Boolean DateTime::TryAddTicks(Int64 value, DateTime& result) {
   Int64 internalTicks = get_InternalTicks();
   if (value > 3155378975999999999 - internalTicks || value < -internalTicks) {
-    result = DateTime();
+    result = rt::default__;
     return false;
   }
   result = DateTime((UInt64)(internalTicks + value) | get_InternalKind());
@@ -899,7 +899,7 @@ DateTime DateTime::ToUniversalTime() {
 
 Boolean DateTime::TryParse(String s, DateTime& result) {
   if (s == nullptr) {
-    result = DateTime();
+    result = rt::default__;
     return false;
   }
   return DateTimeParse::TryParse(s, DateTimeFormatInfo::in::get_CurrentInfo(), DateTimeStyles::None, result);
@@ -912,7 +912,7 @@ Boolean DateTime::TryParse(ReadOnlySpan<Char> s, DateTime& result) {
 Boolean DateTime::TryParse(String s, IFormatProvider provider, DateTimeStyles styles, DateTime& result) {
   DateTimeFormatInfo::in::ValidateStyles(styles, "styles");
   if (s == nullptr) {
-    result = DateTime();
+    result = rt::default__;
     return false;
   }
   return DateTimeParse::TryParse(s, DateTimeFormatInfo::in::GetInstance(provider), styles, result);
@@ -926,7 +926,7 @@ Boolean DateTime::TryParse(ReadOnlySpan<Char> s, IFormatProvider provider, DateT
 Boolean DateTime::TryParseExact(String s, String format, IFormatProvider provider, DateTimeStyles style, DateTime& result) {
   DateTimeFormatInfo::in::ValidateStyles(style, "style");
   if (s == nullptr || format == nullptr) {
-    result = DateTime();
+    result = rt::default__;
     return false;
   }
   return DateTimeParse::TryParseExact(s, format, DateTimeFormatInfo::in::GetInstance(provider), style, result);
@@ -940,7 +940,7 @@ Boolean DateTime::TryParseExact(ReadOnlySpan<Char> s, ReadOnlySpan<Char> format,
 Boolean DateTime::TryParseExact(String s, Array<String> formats, IFormatProvider provider, DateTimeStyles style, DateTime& result) {
   DateTimeFormatInfo::in::ValidateStyles(style, "style");
   if (s == nullptr) {
-    result = DateTime();
+    result = rt::default__;
     return false;
   }
   return DateTimeParse::TryParseExactMultiple(s, formats, DateTimeFormatInfo::in::GetInstance(provider), style, result);

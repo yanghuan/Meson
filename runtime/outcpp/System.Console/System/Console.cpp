@@ -316,7 +316,7 @@ void Console::SetWindowSize(Int32 width, Int32 height) {
   ConsolePal::SetWindowSize(width, height);
 }
 
-ValueTuple<> Console::GetCursorPosition() {
+ValueTuple<Int32, Int32> Console::GetCursorPosition() {
   return ConsolePal::GetCursorPosition();
 }
 

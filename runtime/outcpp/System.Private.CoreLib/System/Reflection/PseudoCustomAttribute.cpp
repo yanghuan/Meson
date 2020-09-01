@@ -47,7 +47,7 @@ Dictionary<RuntimeType, RuntimeType> PseudoCustomAttribute::CreatePseudoCustomAt
 }
 
 void PseudoCustomAttribute::GetCustomAttributes(RuntimeType type, RuntimeType caType, RuntimeType::in::ListBuilder<Attribute>& pcas) {
-  pcas = RuntimeType::in::ListBuilder<T>();
+  pcas = rt::default__;
   Boolean flag = caType == typeof<Object>() || caType == typeof<Attribute>();
   if (flag || s_pca->ContainsKey(caType)) {
     if ((flag || caType == typeof<SerializableAttribute>()) && (type->get_Attributes() & TypeAttributes::Serializable) != 0) {
@@ -74,7 +74,7 @@ Boolean PseudoCustomAttribute::IsDefined(RuntimeType type, RuntimeType caType) {
 }
 
 void PseudoCustomAttribute::GetCustomAttributes(RuntimeMethodInfo method, RuntimeType caType, RuntimeType::in::ListBuilder<Attribute>& pcas) {
-  pcas = RuntimeType::in::ListBuilder<T>();
+  pcas = rt::default__;
   Boolean flag = caType == typeof<Object>() || caType == typeof<Attribute>();
   if (!flag && !s_pca->ContainsKey(caType)) {
     return;
@@ -105,7 +105,7 @@ Boolean PseudoCustomAttribute::IsDefined(RuntimeMethodInfo method, RuntimeType c
 }
 
 void PseudoCustomAttribute::GetCustomAttributes(RuntimeParameterInfo parameter, RuntimeType caType, RuntimeType::in::ListBuilder<Attribute>& pcas) {
-  pcas = RuntimeType::in::ListBuilder<T>();
+  pcas = rt::default__;
   Boolean flag = caType == typeof<Object>() || caType == typeof<Attribute>();
   if (!flag && !s_pca->ContainsKey(caType)) {
     return;
@@ -148,7 +148,7 @@ Boolean PseudoCustomAttribute::IsDefined(RuntimeParameterInfo parameter, Runtime
 }
 
 void PseudoCustomAttribute::GetCustomAttributes(RuntimeFieldInfo field, RuntimeType caType, RuntimeType::in::ListBuilder<Attribute>& pcas) {
-  pcas = RuntimeType::in::ListBuilder<T>();
+  pcas = rt::default__;
   Boolean flag = caType == typeof<Object>() || caType == typeof<Attribute>();
   if (!flag && !s_pca->ContainsKey(caType)) {
     return;

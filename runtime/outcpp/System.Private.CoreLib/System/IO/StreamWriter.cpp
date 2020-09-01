@@ -26,7 +26,6 @@
 #include <System.Private.CoreLib/System/SR-dep.h>
 #include <System.Private.CoreLib/System/Text/StringBuilder-dep.h>
 #include <System.Private.CoreLib/System/Text/StringBuilderCache-dep.h>
-#include <System.Private.CoreLib/System/Threading/CancellationToken-dep.h>
 #include <System.Private.CoreLib/System/Threading/Tasks/Task-dep.h>
 #include <System.Private.CoreLib/System/Type-dep.h>
 
@@ -34,7 +33,6 @@ namespace System::Private::CoreLib::System::IO::StreamWriterNamespace {
 using namespace System::Runtime::CompilerServices;
 using namespace System::Runtime::InteropServices;
 using namespace System::Text;
-using namespace System::Threading;
 using namespace System::Threading::Tasks;
 
 Encoding StreamWriter___::get_UTF8NoBOM() {
@@ -475,7 +473,7 @@ Task<> StreamWriter___::WriteAsync(Array<Char> buffer, Int32 index, Int32 count)
   }
   ThrowIfDisposed();
   CheckAsyncTaskInProgress();
-  return _asyncWriteTask = WriteAsyncInternal((StreamWriter)this, ReadOnlyMemory<Char>(buffer, index, count), _charBuffer, _charPos, _charLen, CoreNewLine, _autoFlush, false, CancellationToken());
+  return _asyncWriteTask = WriteAsyncInternal((StreamWriter)this, ReadOnlyMemory<Char>(buffer, index, count), _charBuffer, _charPos, _charLen, CoreNewLine, _autoFlush, false, rt::default__);
 }
 
 template <>
@@ -514,7 +512,7 @@ Task<> StreamWriter___::WriteLineAsync() {
   }
   ThrowIfDisposed();
   CheckAsyncTaskInProgress();
-  return _asyncWriteTask = WriteAsyncInternal((StreamWriter)this, ReadOnlyMemory<Char>::get_Empty(), _charBuffer, _charPos, _charLen, CoreNewLine, _autoFlush, true, CancellationToken());
+  return _asyncWriteTask = WriteAsyncInternal((StreamWriter)this, ReadOnlyMemory<Char>::get_Empty(), _charBuffer, _charPos, _charLen, CoreNewLine, _autoFlush, true, rt::default__);
 }
 
 Task<> StreamWriter___::WriteLineAsync(Char value) {
@@ -556,7 +554,7 @@ Task<> StreamWriter___::WriteLineAsync(Array<Char> buffer, Int32 index, Int32 co
   }
   ThrowIfDisposed();
   CheckAsyncTaskInProgress();
-  return _asyncWriteTask = WriteAsyncInternal((StreamWriter)this, ReadOnlyMemory<Char>(buffer, index, count), _charBuffer, _charPos, _charLen, CoreNewLine, _autoFlush, true, CancellationToken());
+  return _asyncWriteTask = WriteAsyncInternal((StreamWriter)this, ReadOnlyMemory<Char>(buffer, index, count), _charBuffer, _charPos, _charLen, CoreNewLine, _autoFlush, true, rt::default__);
 }
 
 template <>

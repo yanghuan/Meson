@@ -14,7 +14,7 @@ using namespace System::Threading::Tasks;
 
 ValueTask<> AsyncValueTaskMethodBuilder<>::get_Task() {
   if (m_task == s_syncSuccessSentinel) {
-    return ValueTask<>();
+    return rt::default__;
   }
   if (AsyncTaskCache::s_valueTaskPoolingEnabled) {
     StateMachineBox<> stateMachineBox = Unsafe::As<StateMachineBox<>>(m_task);
@@ -38,7 +38,7 @@ Object AsyncValueTaskMethodBuilder<>::get_ObjectIdForDebugger() {
 }
 
 AsyncValueTaskMethodBuilder<> AsyncValueTaskMethodBuilder<>::Create() {
-  return AsyncValueTaskMethodBuilder<>();
+  return rt::default__;
 }
 
 void AsyncValueTaskMethodBuilder<>::SetStateMachine(IAsyncStateMachine stateMachine) {
@@ -49,9 +49,9 @@ void AsyncValueTaskMethodBuilder<>::SetResult() {
   if (m_task == nullptr) {
     m_task = s_syncSuccessSentinel;
   } else if (AsyncTaskCache::s_valueTaskPoolingEnabled) {
-    Unsafe::As<StateMachineBox<>>(m_task)->SetResult(VoidTaskResult());
+    Unsafe::As<StateMachineBox<>>(m_task)->SetResult(rt::default__);
   } else {
-    AsyncTaskMethodBuilder<VoidTaskResult>::SetExistingTaskResult(Unsafe::As<Task<VoidTaskResult>>(m_task), VoidTaskResult());
+    AsyncTaskMethodBuilder<VoidTaskResult>::SetExistingTaskResult(Unsafe::As<Task<VoidTaskResult>>(m_task), rt::default__);
   }
 
 }

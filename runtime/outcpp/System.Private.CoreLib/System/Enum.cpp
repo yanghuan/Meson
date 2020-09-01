@@ -501,7 +501,7 @@ Boolean Enum___::TryParseByName(RuntimeType enumType, String originalValueString
     ReadOnlySpan<Char> span;
     if (num2 == -1) {
       span = MemoryExtensions::Trim(value);
-      value = ReadOnlySpan<T>();
+      value = rt::default__;
     } else {
       if (num2 == value.get_Length() - 1) {
         flag = false;

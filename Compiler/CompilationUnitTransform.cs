@@ -342,7 +342,7 @@ namespace Meson.Compiler {
 
       ExpressionSyntax typeName = GetTypeBaseName(args.Type);
       bool isGeneric = false;
-      if (args.Type.TypeArguments.Count > 0) {
+      if (args.Type.TypeArguments.Count > 0 || args.Type.Kind == TypeKind.Tuple) {
         var typeArguments = args.Type.GetTypeArguments().Select(i => GetTypeName(args.With(i, args.IsForward || i.IsRefType(), i))).ToList();
         if (typeArguments.Count > 0) {
           typeName = new GenericIdentifierSyntax(typeName, typeArguments);

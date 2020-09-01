@@ -323,7 +323,7 @@ CancellationToken Task___<>::get_CancellationToken() {
   if (contingentProperties != nullptr) {
     return contingentProperties->m_cancellationToken;
   }
-  return CancellationToken();
+  return rt::default__;
 }
 
 Boolean Task___<>::get_IsCancellationAcknowledged() {
@@ -455,7 +455,7 @@ void Task___<>::ctor(Object state, TaskCreationOptions creationOptions, Boolean 
       EnsureContingentPropertiesInitializedUnsafe()->m_parent = internalCurrent;
     }
   }
-  TaskConstructorCore(nullptr, state, CancellationToken(), creationOptions, InternalTaskOptions::PromiseTask, nullptr);
+  TaskConstructorCore(nullptr, state, rt::default__, creationOptions, InternalTaskOptions::PromiseTask, nullptr);
 }
 
 void Task___<>::ctor(Action<> action) {
@@ -690,7 +690,7 @@ void Task___<>::InternalRunSynchronously(TaskScheduler scheduler, Boolean waitFo
         flag = true;
       }
       if (waitForCompletion && !get_IsCompleted()) {
-        SpinThenBlockingWait(-1, CancellationToken());
+        SpinThenBlockingWait(-1, rt::default__);
       }
     } catch (Exception innerException) {
     }
@@ -739,7 +739,7 @@ Boolean Task___<>::IsCompletedMethod(Int32 flags) {
 }
 
 void Task___<>::SpinUntilCompleted() {
-  SpinWait spinWait = SpinWait();
+  SpinWait spinWait = rt::default__;
   while (!get_IsCompleted()) {
     spinWait.SpinOnce();
   }
@@ -1028,7 +1028,7 @@ void Task___<>::ExecuteEntryCancellationRequestedOrCanceled() {
 void Task___<>::ExecuteWithThreadLocal(Task<>& currentTaskSlot, Thread threadPoolThread) {
   Task<> task = currentTaskSlot;
   TplEventSource log = TplEventSource::in::Log;
-  Guid oldActivityThatWillContinue = Guid();
+  Guid oldActivityThatWillContinue = rt::default__;
   Boolean flag = log->IsEnabled();
   if (flag) {
     if (log->TasksSetActivityIds) {
@@ -1159,11 +1159,11 @@ void Task___<>::UnsafeSetContinuationForAwait(IAsyncStateMachineBox stateMachine
 }
 
 YieldAwaitable Task___<>::Yield() {
-  return YieldAwaitable();
+  return rt::default__;
 }
 
 void Task___<>::Wait() {
-  Wait(-1, CancellationToken());
+  Wait(-1, rt::default__);
 }
 
 Boolean Task___<>::Wait(TimeSpan timeout) {
@@ -1171,7 +1171,7 @@ Boolean Task___<>::Wait(TimeSpan timeout) {
   if (num < -1 || num > Int32::MaxValue) {
     ThrowHelper::ThrowArgumentOutOfRangeException(ExceptionArgument::timeout);
   }
-  return Wait((Int32)num, CancellationToken());
+  return Wait((Int32)num, rt::default__);
 }
 
 void Task___<>::Wait(CancellationToken cancellationToken) {
@@ -1179,7 +1179,7 @@ void Task___<>::Wait(CancellationToken cancellationToken) {
 }
 
 Boolean Task___<>::Wait(Int32 millisecondsTimeout) {
-  return Wait(millisecondsTimeout, CancellationToken());
+  return Wait(millisecondsTimeout, rt::default__);
 }
 
 Boolean Task___<>::Wait(Int32 millisecondsTimeout, CancellationToken cancellationToken) {
@@ -1274,7 +1274,7 @@ Boolean Task___<>::SpinWait(Int32 millisecondsTimeout) {
     return false;
   }
   Int32 spinCountforSpinBeforeWait = SpinWait::SpinCountforSpinBeforeWait;
-  SpinWait spinWait = SpinWait();
+  SpinWait spinWait = rt::default__;
   while (spinWait.get_Count() < spinCountforSpinBeforeWait) {
     spinWait.SpinOnce(-1);
     if (get_IsCompleted()) {
@@ -1321,7 +1321,7 @@ void Task___<>::RecordInternalCancellationRequest() {
 
 void Task___<>::RecordInternalCancellationRequest(CancellationToken tokenToRecord, Object cancellationException) {
   RecordInternalCancellationRequest();
-  if (tokenToRecord != CancellationToken()) {
+  if (tokenToRecord != rt::default__) {
     m_contingentProperties->m_cancellationToken = tokenToRecord;
   }
   if (cancellationException != nullptr) {
@@ -1517,7 +1517,7 @@ void Task___<>::LogFinishCompletionNotification() {
 }
 
 Task<> Task___<>::ContinueWith(Action<Task<>> continuationAction) {
-  return ContinueWith(continuationAction, TaskScheduler::in::get_Current(), CancellationToken(), TaskContinuationOptions::None);
+  return ContinueWith(continuationAction, TaskScheduler::in::get_Current(), rt::default__, TaskContinuationOptions::None);
 }
 
 Task<> Task___<>::ContinueWith(Action<Task<>> continuationAction, CancellationToken cancellationToken) {
@@ -1525,11 +1525,11 @@ Task<> Task___<>::ContinueWith(Action<Task<>> continuationAction, CancellationTo
 }
 
 Task<> Task___<>::ContinueWith(Action<Task<>> continuationAction, TaskScheduler scheduler) {
-  return ContinueWith(continuationAction, scheduler, CancellationToken(), TaskContinuationOptions::None);
+  return ContinueWith(continuationAction, scheduler, rt::default__, TaskContinuationOptions::None);
 }
 
 Task<> Task___<>::ContinueWith(Action<Task<>> continuationAction, TaskContinuationOptions continuationOptions) {
-  return ContinueWith(continuationAction, TaskScheduler::in::get_Current(), CancellationToken(), continuationOptions);
+  return ContinueWith(continuationAction, TaskScheduler::in::get_Current(), rt::default__, continuationOptions);
 }
 
 Task<> Task___<>::ContinueWith(Action<Task<>> continuationAction, CancellationToken cancellationToken, TaskContinuationOptions continuationOptions, TaskScheduler scheduler) {
@@ -1552,7 +1552,7 @@ Task<> Task___<>::ContinueWith(Action<Task<>> continuationAction, TaskScheduler 
 }
 
 Task<> Task___<>::ContinueWith(Action<Task<>, Object> continuationAction, Object state) {
-  return ContinueWith(continuationAction, state, TaskScheduler::in::get_Current(), CancellationToken(), TaskContinuationOptions::None);
+  return ContinueWith(continuationAction, state, TaskScheduler::in::get_Current(), rt::default__, TaskContinuationOptions::None);
 }
 
 Task<> Task___<>::ContinueWith(Action<Task<>, Object> continuationAction, Object state, CancellationToken cancellationToken) {
@@ -1560,11 +1560,11 @@ Task<> Task___<>::ContinueWith(Action<Task<>, Object> continuationAction, Object
 }
 
 Task<> Task___<>::ContinueWith(Action<Task<>, Object> continuationAction, Object state, TaskScheduler scheduler) {
-  return ContinueWith(continuationAction, state, scheduler, CancellationToken(), TaskContinuationOptions::None);
+  return ContinueWith(continuationAction, state, scheduler, rt::default__, TaskContinuationOptions::None);
 }
 
 Task<> Task___<>::ContinueWith(Action<Task<>, Object> continuationAction, Object state, TaskContinuationOptions continuationOptions) {
-  return ContinueWith(continuationAction, state, TaskScheduler::in::get_Current(), CancellationToken(), continuationOptions);
+  return ContinueWith(continuationAction, state, TaskScheduler::in::get_Current(), rt::default__, continuationOptions);
 }
 
 Task<> Task___<>::ContinueWith(Action<Task<>, Object> continuationAction, Object state, CancellationToken cancellationToken, TaskContinuationOptions continuationOptions, TaskScheduler scheduler) {
@@ -1690,7 +1690,7 @@ void Task___<>::RemoveContinuation(Object continuationObject) {
 }
 
 void Task___<>::WaitAll(Array<Task<>> tasks) {
-  WaitAllCore(tasks, -1, CancellationToken());
+  WaitAllCore(tasks, -1, rt::default__);
 }
 
 Boolean Task___<>::WaitAll(Array<Task<>> tasks, TimeSpan timeout) {
@@ -1698,11 +1698,11 @@ Boolean Task___<>::WaitAll(Array<Task<>> tasks, TimeSpan timeout) {
   if (num < -1 || num > Int32::MaxValue) {
     ThrowHelper::ThrowArgumentOutOfRangeException(ExceptionArgument::timeout);
   }
-  return WaitAllCore(tasks, (Int32)num, CancellationToken());
+  return WaitAllCore(tasks, (Int32)num, rt::default__);
 }
 
 Boolean Task___<>::WaitAll(Array<Task<>> tasks, Int32 millisecondsTimeout) {
-  return WaitAllCore(tasks, millisecondsTimeout, CancellationToken());
+  return WaitAllCore(tasks, millisecondsTimeout, rt::default__);
 }
 
 void Task___<>::WaitAll(Array<Task<>> tasks, CancellationToken cancellationToken) {
@@ -1824,7 +1824,7 @@ void Task___<>::AddExceptionsForCompletedTask(List<Exception>& exceptions, Task<
 }
 
 Int32 Task___<>::WaitAny(Array<Task<>> tasks) {
-  return WaitAnyCore(tasks, -1, CancellationToken());
+  return WaitAnyCore(tasks, -1, rt::default__);
 }
 
 Int32 Task___<>::WaitAny(Array<Task<>> tasks, TimeSpan timeout) {
@@ -1832,7 +1832,7 @@ Int32 Task___<>::WaitAny(Array<Task<>> tasks, TimeSpan timeout) {
   if (num < -1 || num > Int32::MaxValue) {
     ThrowHelper::ThrowArgumentOutOfRangeException(ExceptionArgument::timeout);
   }
-  return WaitAnyCore(tasks, (Int32)num, CancellationToken());
+  return WaitAnyCore(tasks, (Int32)num, rt::default__);
 }
 
 Int32 Task___<>::WaitAny(Array<Task<>> tasks, CancellationToken cancellationToken) {
@@ -1840,7 +1840,7 @@ Int32 Task___<>::WaitAny(Array<Task<>> tasks, CancellationToken cancellationToke
 }
 
 Int32 Task___<>::WaitAny(Array<Task<>> tasks, Int32 millisecondsTimeout) {
-  return WaitAnyCore(tasks, millisecondsTimeout, CancellationToken());
+  return WaitAnyCore(tasks, millisecondsTimeout, rt::default__);
 }
 
 Int32 Task___<>::WaitAny(Array<Task<>> tasks, Int32 millisecondsTimeout, CancellationToken cancellationToken) {
@@ -1900,7 +1900,7 @@ Task<> Task___<>::FromCanceled(OperationCanceledException exception) {
 }
 
 Task<> Task___<>::Run(Action<> action) {
-  return InternalStartNew(nullptr, action, nullptr, CancellationToken(), TaskScheduler::in::get_Default(), TaskCreationOptions::DenyChildAttach, InternalTaskOptions::None);
+  return InternalStartNew(nullptr, action, nullptr, rt::default__, TaskScheduler::in::get_Default(), TaskCreationOptions::DenyChildAttach, InternalTaskOptions::None);
 }
 
 Task<> Task___<>::Run(Action<> action, CancellationToken cancellationToken) {
@@ -1908,7 +1908,7 @@ Task<> Task___<>::Run(Action<> action, CancellationToken cancellationToken) {
 }
 
 Task<> Task___<>::Run(Func<Task<>> function) {
-  return Run(function, CancellationToken());
+  return Run(function, rt::default__);
 }
 
 Task<> Task___<>::Run(Func<Task<>> function, CancellationToken cancellationToken) {
@@ -1923,7 +1923,7 @@ Task<> Task___<>::Run(Func<Task<>> function, CancellationToken cancellationToken
 }
 
 Task<> Task___<>::Delay(TimeSpan delay) {
-  return Delay(delay, CancellationToken());
+  return Delay(delay, rt::default__);
 }
 
 Task<> Task___<>::Delay(TimeSpan delay, CancellationToken cancellationToken) {
@@ -1935,7 +1935,7 @@ Task<> Task___<>::Delay(TimeSpan delay, CancellationToken cancellationToken) {
 }
 
 Task<> Task___<>::Delay(Int32 millisecondsDelay) {
-  return Delay(millisecondsDelay, CancellationToken());
+  return Delay(millisecondsDelay, rt::default__);
 }
 
 Task<> Task___<>::Delay(Int32 millisecondsDelay, CancellationToken cancellationToken) {
@@ -2123,7 +2123,7 @@ Task<> Task___<>::GetActiveTaskFromId(Int32 taskId) {
 void Task___<>::cctor() {
   s_taskCompletionSentinel = rt::newobj<Object>();
   Factory = rt::newobj<TaskFactory<>>();
-  s_cachedCompleted = rt::newobj<Task<VoidTaskResult>>(false, VoidTaskResult(), (TaskCreationOptions)16384, CancellationToken());
+  s_cachedCompleted = rt::newobj<Task<VoidTaskResult>>(false, rt::default__, (TaskCreationOptions)16384, rt::default__);
 }
 
 } // namespace System::Private::CoreLib::System::Threading::Tasks::TaskNamespace

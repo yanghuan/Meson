@@ -937,7 +937,7 @@ IntPtr Marshal::StringToCoTaskMemAuto(String s) {
 }
 
 Int32 Marshal::GetSystemMaxDBCSCharSize() {
-  Interop::Kernel32::CPINFO cPINFO = Interop::Kernel32::CPINFO();
+  Interop::Kernel32::CPINFO cPINFO = rt::default__;
   if (Interop::Kernel32::GetCPInfo(0u, &cPINFO) == Interop::BOOL::FALSE) {
     return 2;
   }

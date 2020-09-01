@@ -55,7 +55,7 @@ StandardFormat StandardFormat::Parse(String format) {
   if (format != nullptr) {
     return Parse(MemoryExtensions::AsSpan(format));
   }
-  return StandardFormat();
+  return rt::default__;
 }
 
 Boolean StandardFormat::TryParse(ReadOnlySpan<Char> format, StandardFormat& result) {
@@ -63,7 +63,7 @@ Boolean StandardFormat::TryParse(ReadOnlySpan<Char> format, StandardFormat& resu
 }
 
 Boolean StandardFormat::ParseHelper(ReadOnlySpan<Char> format, StandardFormat& standardFormat, Boolean throws) {
-  standardFormat = StandardFormat();
+  standardFormat = rt::default__;
   if (format.get_Length() == 0) {
     return true;
   }

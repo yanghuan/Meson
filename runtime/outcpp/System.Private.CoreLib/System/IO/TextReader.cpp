@@ -14,7 +14,6 @@
 #include <System.Private.CoreLib/System/Runtime/InteropServices/MemoryMarshal-dep.h>
 #include <System.Private.CoreLib/System/SR-dep.h>
 #include <System.Private.CoreLib/System/Text/StringBuilder-dep.h>
-#include <System.Private.CoreLib/System/Threading/CancellationToken-dep.h>
 #include <System.Private.CoreLib/System/Tuple-dep.h>
 #include <System.Private.CoreLib/System/UInt32-dep.h>
 
@@ -23,7 +22,6 @@ using namespace System::Buffers;
 using namespace System::Runtime::CompilerServices;
 using namespace System::Runtime::InteropServices;
 using namespace System::Text;
-using namespace System::Threading;
 
 void NullTextReader___::ctor() {
 }
@@ -248,7 +246,7 @@ Task<Int32> TextReader___::ReadAsync(Array<Char> buffer, Int32 index, Int32 coun
   if (buffer->get_Length() - index < count) {
     rt::throw_exception<ArgumentException>(SR::get_Argument_InvalidOffLen());
   }
-  return ReadAsyncInternal(Memory<Char>(buffer, index, count), CancellationToken()).AsTask();
+  return ReadAsyncInternal(Memory<Char>(buffer, index, count), rt::default__).AsTask();
 }
 
 template <>
@@ -270,7 +268,7 @@ Task<Int32> TextReader___::ReadBlockAsync(Array<Char> buffer, Int32 index, Int32
   if (buffer->get_Length() - index < count) {
     rt::throw_exception<ArgumentException>(SR::get_Argument_InvalidOffLen());
   }
-  return ReadBlockAsyncInternal(Memory<Char>(buffer, index, count), CancellationToken()).AsTask();
+  return ReadBlockAsyncInternal(Memory<Char>(buffer, index, count), rt::default__).AsTask();
 }
 
 template <>

@@ -190,7 +190,7 @@ Boolean ConsolePal::get_KeyAvailable() {
   if (_cachedInputRecord.eventType == 1) {
     return true;
   }
-  Interop::InputRecord buffer = Interop::InputRecord();
+  Interop::InputRecord buffer = rt::default__;
   Int32 numEventsRead = 0;
   while (true) {
     if (!Interop::Kernel32::PeekConsoleInput(get_InputHandle(), buffer, 1, numEventsRead)) {
@@ -590,7 +590,7 @@ void ConsolePal::ResetColor() {
   Interop::Kernel32::SetConsoleTextAttribute(get_OutputHandle(), _defaultColors);
 }
 
-ValueTuple<> ConsolePal::GetCursorPosition() {
+ValueTuple<Int32, Int32> ConsolePal::GetCursorPosition() {
   Interop::Kernel32::CONSOLE_SCREEN_BUFFER_INFO bufferInfo = GetBufferInfo();
 }
 
@@ -641,8 +641,8 @@ void ConsolePal::MoveBufferArea(Int32 sourceLeft, Int32 sourceTop, Int32 sourceW
   Array<Interop::Kernel32::CHAR_INFO> array = rt::newarr<Array<Interop::Kernel32::CHAR_INFO>>(sourceWidth * sourceHeight);
   dwSize.X = (Int16)sourceWidth;
   dwSize.Y = (Int16)sourceHeight;
-  Interop::Kernel32::COORD bufferCoord = Interop::Kernel32::COORD();
-  Interop::Kernel32::SMALL_RECT readRegion = Interop::Kernel32::SMALL_RECT();
+  Interop::Kernel32::COORD bufferCoord = rt::default__;
+  Interop::Kernel32::SMALL_RECT readRegion = rt::default__;
   readRegion.Left = (Int16)sourceLeft;
   readRegion.Right = (Int16)(sourceLeft + sourceWidth - 1);
   readRegion.Top = (Int16)sourceTop;
@@ -655,7 +655,7 @@ void ConsolePal::MoveBufferArea(Int32 sourceLeft, Int32 sourceTop, Int32 sourceW
   if (!flag) {
     rt::throw_exception(Win32Marshal::GetExceptionForWin32Error(Marshal::GetLastWin32Error()));
   }
-  Interop::Kernel32::COORD cOORD = Interop::Kernel32::COORD();
+  Interop::Kernel32::COORD cOORD = rt::default__;
   cOORD.X = (Int16)sourceLeft;
   Interop::Kernel32::Color color = ConsoleColorToColorAttribute(sourceBackColor, true);
   color |= ConsoleColorToColorAttribute(sourceForeColor, false);
@@ -670,7 +670,7 @@ void ConsolePal::MoveBufferArea(Int32 sourceLeft, Int32 sourceTop, Int32 sourceW
       rt::throw_exception(Win32Marshal::GetExceptionForWin32Error(Marshal::GetLastWin32Error()));
     }
   }
-  Interop::Kernel32::SMALL_RECT writeRegion = Interop::Kernel32::SMALL_RECT();
+  Interop::Kernel32::SMALL_RECT writeRegion = rt::default__;
   writeRegion.Left = (Int16)targetLeft;
   writeRegion.Right = (Int16)(targetLeft + sourceWidth);
   writeRegion.Top = (Int16)targetTop;
@@ -682,7 +682,7 @@ void ConsolePal::MoveBufferArea(Int32 sourceLeft, Int32 sourceTop, Int32 sourceW
 }
 
 void ConsolePal::Clear() {
-  Interop::Kernel32::COORD cOORD = Interop::Kernel32::COORD();
+  Interop::Kernel32::COORD cOORD = rt::default__;
   IntPtr outputHandle = get_OutputHandle();
   if (outputHandle == get_InvalidHandleValue()) {
     rt::throw_exception<IOException>(SR::get_IO_NoConsole());
@@ -704,7 +704,7 @@ void ConsolePal::Clear() {
 
 void ConsolePal::SetCursorPosition(Int32 left, Int32 top) {
   IntPtr outputHandle = get_OutputHandle();
-  Interop::Kernel32::COORD cursorPosition = Interop::Kernel32::COORD();
+  Interop::Kernel32::COORD cursorPosition = rt::default__;
   cursorPosition.X = (Int16)left;
   cursorPosition.Y = (Int16)top;
   if (!Interop::Kernel32::SetConsoleCursorPosition(outputHandle, cursorPosition)) {
@@ -729,7 +729,7 @@ void ConsolePal::SetBufferSize(Int32 width, Int32 height) {
   if (height < srWindow.Bottom + 1 || height >= 32767) {
     rt::throw_exception<ArgumentOutOfRangeException>("height", height, SR::get_ArgumentOutOfRange_ConsoleBufferLessThanWindowSize());
   }
-  Interop::Kernel32::COORD size = Interop::Kernel32::COORD();
+  Interop::Kernel32::COORD size = rt::default__;
   size.X = (Int16)width;
   size.Y = (Int16)height;
   if (!Interop::Kernel32::SetConsoleScreenBufferSize(get_OutputHandle(), size)) {
@@ -766,7 +766,7 @@ void ConsolePal::SetWindowSize(Int32 width, Int32 height) {
   }
   Interop::Kernel32::CONSOLE_SCREEN_BUFFER_INFO bufferInfo = GetBufferInfo();
   Boolean flag = false;
-  Interop::Kernel32::COORD size = Interop::Kernel32::COORD();
+  Interop::Kernel32::COORD size = rt::default__;
   size.X = bufferInfo.dwSize.X;
   size.Y = bufferInfo.dwSize.Y;
   if (bufferInfo.dwSize.X < bufferInfo.srWindow.Left + width) {
@@ -835,13 +835,13 @@ Interop::Kernel32::CONSOLE_SCREEN_BUFFER_INFO ConsolePal::GetBufferInfo(Boolean 
     if (throwOnNoConsole) {
       rt::throw_exception<IOException>(SR::get_IO_NoConsole());
     }
-    return Interop::Kernel32::CONSOLE_SCREEN_BUFFER_INFO();
+    return rt::default__;
   }
   Interop::Kernel32::CONSOLE_SCREEN_BUFFER_INFO lpConsoleScreenBufferInfo;
   if (!Interop::Kernel32::GetConsoleScreenBufferInfo(outputHandle, lpConsoleScreenBufferInfo) && !Interop::Kernel32::GetConsoleScreenBufferInfo(get_ErrorHandle(), lpConsoleScreenBufferInfo) && !Interop::Kernel32::GetConsoleScreenBufferInfo(get_InputHandle(), lpConsoleScreenBufferInfo)) {
     Int32 lastWin32Error = Marshal::GetLastWin32Error();
     if (lastWin32Error == 6 && !throwOnNoConsole) {
-      return Interop::Kernel32::CONSOLE_SCREEN_BUFFER_INFO();
+      return rt::default__;
     }
     rt::throw_exception(Win32Marshal::GetExceptionForWin32Error(lastWin32Error));
   }

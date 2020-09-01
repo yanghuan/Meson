@@ -832,14 +832,14 @@ String String___::Ctor(ReadOnlySpan<Char> value) {
 
 ReadOnlySpan<Char> String___::op_Implicit(String value) {
   if (value == nullptr) {
-    return ReadOnlySpan<T>();
+    return rt::default__;
   }
   return ReadOnlySpan<Char>(value->GetRawStringData(), value->get_Length());
 }
 
 Boolean String___::TryGetSpan(Int32 startIndex, Int32 count, ReadOnlySpan<Char>& slice) {
   if ((UInt64)((Int64)(UInt32)startIndex + (Int64)(UInt32)count) > (UInt64)(UInt32)get_Length()) {
-    slice = ReadOnlySpan<T>();
+    slice = rt::default__;
     return false;
   }
   slice = ReadOnlySpan<Char>(Unsafe::Add(_firstChar, startIndex), count);
@@ -1844,7 +1844,7 @@ Array<String> String___::SplitInternal(ReadOnlySpan<Char> separators, Int32 coun
     }
     count = 1;
   }
-  Array<String> result = (options != 0) ? SplitWithPostProcessing(sepList, ReadOnlySpan<T>(), 1, count, options) : SplitWithoutPostProcessing(sepList, ReadOnlySpan<T>(), 1, count);
+  Array<String> result = (options != 0) ? SplitWithPostProcessing(sepList, rt::default__, 1, count, options) : SplitWithoutPostProcessing(sepList, rt::default__, 1, count);
   sepListBuilder.Dispose();
   return result;
 }
@@ -1874,7 +1874,7 @@ Array<String> String___::SplitInternal(String separator, Array<String> separator
   CheckStringSplitOptions(options);
   Boolean flag = separator != nullptr;
   if (!flag && (separators == nullptr || separators->get_Length() == 0)) {
-    return SplitInternal(ReadOnlySpan<T>(), count, options);
+    return SplitInternal(rt::default__, count, options);
   }
   while (true) {
     if (count <= 1 || get_Length() == 0) {
@@ -1933,7 +1933,7 @@ Array<String> String___::SplitInternal(String separator, Int32 count, StringSpli
     }
     return Array<>::in::Empty<String>();
   }
-  Array<String> result = (options != 0) ? SplitWithPostProcessing(sepList, ReadOnlySpan<T>(), separator->get_Length(), count, options) : SplitWithoutPostProcessing(sepList, ReadOnlySpan<T>(), separator->get_Length(), count);
+  Array<String> result = (options != 0) ? SplitWithPostProcessing(sepList, rt::default__, separator->get_Length(), count, options) : SplitWithoutPostProcessing(sepList, rt::default__, separator->get_Length(), count);
   sepListBuilder.Dispose();
   return result;
 }
@@ -2048,7 +2048,7 @@ void String___::MakeSeparatorList(ReadOnlySpan<Char> separators, ValueListBuilde
         }
         return;
       }}
-  ProbabilisticMap probabilisticMap = ProbabilisticMap();
+  ProbabilisticMap probabilisticMap = rt::default__;
   UInt32* charMap = (UInt32*)(&probabilisticMap);
   InitializeProbabilisticMap(charMap, separators);
   for (Int32 m = 0; m < get_Length(); m++) {
@@ -2351,7 +2351,7 @@ Int32 String___::IndexOfAny(Array<Char> anyOf, Int32 startIndex, Int32 count) {
 }
 
 Int32 String___::IndexOfCharArray(Array<Char> anyOf, Int32 startIndex, Int32 count) {
-  ProbabilisticMap probabilisticMap = ProbabilisticMap();
+  ProbabilisticMap probabilisticMap = rt::default__;
   UInt32* charMap = (UInt32*)(&probabilisticMap);
   InitializeProbabilisticMap(charMap, anyOf);
   {
@@ -2496,7 +2496,7 @@ Int32 String___::LastIndexOfAny(Array<Char> anyOf, Int32 startIndex, Int32 count
 }
 
 Int32 String___::LastIndexOfCharArray(Array<Char> anyOf, Int32 startIndex, Int32 count) {
-  ProbabilisticMap probabilisticMap = ProbabilisticMap();
+  ProbabilisticMap probabilisticMap = rt::default__;
   UInt32* charMap = (UInt32*)(&probabilisticMap);
   InitializeProbabilisticMap(charMap, anyOf);
   {

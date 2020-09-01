@@ -959,7 +959,7 @@ Boolean Matrix4x4::Decompose(Matrix4x4 matrix, Vector3& scale, Quaternion& rotat
     VectorBasis vectorBasis;
     Vector3* ptr3 = (Vector3*)(&vectorBasis);
     Matrix4x4 identity = get_Identity();
-    CanonicalBasis canonicalBasis = CanonicalBasis();
+    CanonicalBasis canonicalBasis = rt::default__;
     Vector3* ptr4 = &canonicalBasis.Row0;
     canonicalBasis.Row0 = Vector3(1, 0, 0);
     canonicalBasis.Row1 = Vector3(0, 1, 0);

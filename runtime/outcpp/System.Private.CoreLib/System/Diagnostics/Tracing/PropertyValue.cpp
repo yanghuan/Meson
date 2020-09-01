@@ -29,7 +29,7 @@ Int32 PropertyValue::get_ScalarLength() {
 
 PropertyValue::PropertyValue(Object value) {
   _reference = value;
-  _scalar = Scalar();
+  _scalar = rt::default__;
   _scalarLength = 0;
 }
 

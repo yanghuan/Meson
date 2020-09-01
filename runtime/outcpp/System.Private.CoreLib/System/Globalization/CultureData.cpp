@@ -486,7 +486,7 @@ String CultureData___::get_TimeSeparator() {
 }
 
 Boolean CultureData___::get_NlsIsReplacementCulture() {
-  EnumData value = EnumData();
+  EnumData value = rt::default__;
   value.strings = rt::newobj<List<String>>();
   Interop::Kernel32::EnumSystemLocalesEx(EnumAllSystemLocalesProc, 8u, Unsafe::AsPointer(value), IntPtr::Zero);
   for (Int32 i = 0; i < value.strings->get_Count(); i++) {
@@ -1512,7 +1512,7 @@ Interop::BOOL CultureData___::EnumTimeCallback(Char* lpTimeFormatString, void* l
 }
 
 Array<String> CultureData___::nativeEnumTimeFormats(String localeName, UInt32 dwFlags, Boolean useUserOverride) {
-  EnumData value = EnumData();
+  EnumData value = rt::default__;
   value.strings = rt::newobj<List<String>>();
   Interop::Kernel32::EnumTimeFormatsEx(EnumTimeCallback, localeName, dwFlags, Unsafe::AsPointer(value));
   if (value.strings->get_Count() > 0) {
@@ -1558,7 +1558,7 @@ Array<CultureInfo> CultureData___::NlsEnumCultures(CultureTypes types) {
   if ((types & CultureTypes::ReplacementCultures) != 0) {
     num |= 2;
   }
-  EnumData value = EnumData();
+  EnumData value = rt::default__;
   value.strings = rt::newobj<List<String>>();
   Interop::Kernel32::EnumSystemLocalesEx(EnumAllSystemLocalesProc, num, Unsafe::AsPointer(value), IntPtr::Zero);
   Array<CultureInfo> array = rt::newarr<Array<CultureInfo>>(value.strings->get_Count());

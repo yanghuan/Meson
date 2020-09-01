@@ -8,7 +8,7 @@ Object AsyncIteratorMethodBuilder::get_ObjectIdForDebugger() {
 }
 
 AsyncIteratorMethodBuilder AsyncIteratorMethodBuilder::Create() {
-  return AsyncIteratorMethodBuilder();
+  return rt::default__;
 }
 
 void AsyncIteratorMethodBuilder::Complete() {

@@ -50,7 +50,7 @@ ReadOnlySpan<Byte> UnicodeEncoding___::get_Preamble() {
       }
       return rt::newarr<Array<Byte>>(2);
     }
-    return ReadOnlySpan<T>();
+    return rt::default__;
   }
   return ReadOnlySpan<Byte>(GetPreamble());
 }

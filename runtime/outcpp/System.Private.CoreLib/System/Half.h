@@ -81,7 +81,7 @@ struct Half : public valueType<Half> {
   public: static Single op_Explicit(Half value, Single);
   public: static Double op_Explicit(Half value, Double);
   public: static Half Negate(Half value);
-  private: static ValueTuple<> NormSubnormalF16Sig(UInt32 sig);
+  private: static ValueTuple<Int32, UInt32> NormSubnormalF16Sig(UInt32 sig);
   private: static Half CreateHalfNaN(Boolean sign, UInt64 significand);
   private: static UInt16 RoundPackToHalf(Boolean sign, Int16 exp, UInt16 sig);
   private: static UInt32 ShiftRightJam(UInt32 i, Int32 dist);

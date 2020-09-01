@@ -277,7 +277,7 @@ void CancellationTokenSource___::ThrowObjectDisposedException() {
 CancellationTokenRegistration CancellationTokenSource___::InternalRegister(Action<Object> callback, Object stateForCallback, SynchronizationContext syncContext, ExecutionContext executionContext) {
   if (!get_IsCancellationRequested()) {
     if (_disposed) {
-      return CancellationTokenRegistration();
+      return rt::default__;
     }
     Array<CallbackPartition> array = _callbackPartitions;
     if (array == nullptr) {
@@ -324,7 +324,7 @@ CancellationTokenRegistration CancellationTokenSource___::InternalRegister(Actio
     }
   }
   callback(stateForCallback);
-  return CancellationTokenRegistration();
+  return rt::default__;
 }
 
 void CancellationTokenSource___::NotifyCancellation(Boolean throwOnFirstException) {
@@ -438,7 +438,7 @@ CancellationTokenSource CancellationTokenSource___::CreateLinkedTokenSource(Arra
 }
 
 void CancellationTokenSource___::WaitForCallbackToComplete(Int64 id) {
-  SpinWait spinWait = SpinWait();
+  SpinWait spinWait = rt::default__;
   while (get_ExecutingCallback() == id) {
     spinWait.SpinOnce();
   }
@@ -446,7 +446,7 @@ void CancellationTokenSource___::WaitForCallbackToComplete(Int64 id) {
 
 ValueTask<> CancellationTokenSource___::WaitForCallbackToCompleteAsync(Int64 id) {
   if (get_ExecutingCallback() != id) {
-    return ValueTask<>();
+    return rt::default__;
   }
 }
 

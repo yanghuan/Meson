@@ -505,7 +505,7 @@ Boolean EventProvider___::WriteEvent(EventDescriptor& eventDescriptor, IntPtr ev
     EventData as[2 * num] = {};
     EventData* ptr = as;
     for (Int32 j = 0; j < 2 * num; j++) {
-      *(ptr + j) = EventData();
+      *(ptr + j) = rt::default__;
     }
     EventData* dataDescriptor = ptr;
     Byte is[(Int32)(UInt32)(32 * num)] = {};

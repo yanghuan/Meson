@@ -965,11 +965,11 @@ IL_0368:
   return;
 
 IL_03b4:
-  d1 = DecCalc();
+  d1 = rt::default__;
 }
 
 void Decimal::DecCalc::VarDecFromR4(Single input, DecCalc& result) {
-  result = DecCalc();
+  result = rt::default__;
   Int32 num = (Int32)(GetExponent(input) - 126);
   if (num < -94) {
     return;
@@ -1065,7 +1065,7 @@ void Decimal::DecCalc::VarDecFromR4(Single input, DecCalc& result) {
 }
 
 void Decimal::DecCalc::VarDecFromR8(Double input, DecCalc& result) {
-  result = DecCalc();
+  result = rt::default__;
   Int32 num = (Int32)(GetExponent(input) - 1022);
   if (num < -94) {
     return;
@@ -1865,7 +1865,7 @@ Decimal Decimal::Parse(ReadOnlySpan<Char> s, NumberStyles style, IFormatProvider
 
 Boolean Decimal::TryParse(String s, Decimal& result) {
   if (s == nullptr) {
-    result = Decimal();
+    result = rt::default__;
     return false;
   }
   return Number::TryParseDecimal(s, NumberStyles::Number, NumberFormatInfo::in::get_CurrentInfo(), result) == Number::ParsingStatus::OK;
@@ -1878,7 +1878,7 @@ Boolean Decimal::TryParse(ReadOnlySpan<Char> s, Decimal& result) {
 Boolean Decimal::TryParse(String s, NumberStyles style, IFormatProvider provider, Decimal& result) {
   NumberFormatInfo::in::ValidateParseStyleFloatingPoint(style);
   if (s == nullptr) {
-    result = Decimal();
+    result = rt::default__;
     return false;
   }
   return Number::TryParseDecimal(s, style, NumberFormatInfo::in::GetInstance(provider), result) == Number::ParsingStatus::OK;

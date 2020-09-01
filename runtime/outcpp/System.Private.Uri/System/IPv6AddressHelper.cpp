@@ -151,7 +151,7 @@ Boolean IPv6AddressHelper::IsValid(Char* name, Int32 start, Int32& end) {
   return InternalIsValid(name, start, end, false);
 }
 
-ValueTuple<> IPv6AddressHelper::FindCompressionRange(ReadOnlySpan<UInt16> numbers) {
+ValueTuple<Int32, Int32> IPv6AddressHelper::FindCompressionRange(ReadOnlySpan<UInt16> numbers) {
   Int32 num = 0;
   Int32 num2 = -1;
   Int32 num3 = 0;

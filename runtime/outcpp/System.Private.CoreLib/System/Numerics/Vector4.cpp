@@ -16,7 +16,7 @@ using namespace System::Globalization;
 using namespace System::Text;
 
 Vector4 Vector4::get_Zero() {
-  return Vector4();
+  return rt::default__;
 }
 
 Vector4 Vector4::get_One() {

@@ -41,7 +41,7 @@ using namespace System::Globalization;
 using namespace System::Text;
 
 DateTime DateTimeParse::ParseExact(ReadOnlySpan<Char> s, ReadOnlySpan<Char> format, DateTimeFormatInfo dtfi, DateTimeStyles style) {
-  DateTimeResult result = DateTimeResult();
+  DateTimeResult result = rt::default__;
   result.Init(s);
   if (TryParseExact(s, format, dtfi, style, result)) {
     return result.parsedDate;
@@ -50,7 +50,7 @@ DateTime DateTimeParse::ParseExact(ReadOnlySpan<Char> s, ReadOnlySpan<Char> form
 }
 
 DateTime DateTimeParse::ParseExact(ReadOnlySpan<Char> s, ReadOnlySpan<Char> format, DateTimeFormatInfo dtfi, DateTimeStyles style, TimeSpan& offset) {
-  DateTimeResult result = DateTimeResult();
+  DateTimeResult result = rt::default__;
   result.Init(s);
   result.flags |= ParseFlags::CaptureOffset;
   if (TryParseExact(s, format, dtfi, style, result)) {
@@ -61,7 +61,7 @@ DateTime DateTimeParse::ParseExact(ReadOnlySpan<Char> s, ReadOnlySpan<Char> form
 }
 
 Boolean DateTimeParse::TryParseExact(ReadOnlySpan<Char> s, ReadOnlySpan<Char> format, DateTimeFormatInfo dtfi, DateTimeStyles style, DateTime& result) {
-  DateTimeResult result2 = DateTimeResult();
+  DateTimeResult result2 = rt::default__;
   result2.Init(s);
   if (TryParseExact(s, format, dtfi, style, result2)) {
     result = result2.parsedDate;
@@ -72,7 +72,7 @@ Boolean DateTimeParse::TryParseExact(ReadOnlySpan<Char> s, ReadOnlySpan<Char> fo
 }
 
 Boolean DateTimeParse::TryParseExact(ReadOnlySpan<Char> s, ReadOnlySpan<Char> format, DateTimeFormatInfo dtfi, DateTimeStyles style, DateTime& result, TimeSpan& offset) {
-  DateTimeResult result2 = DateTimeResult();
+  DateTimeResult result2 = rt::default__;
   result2.Init(s);
   result2.flags |= ParseFlags::CaptureOffset;
   if (TryParseExact(s, format, dtfi, style, result2)) {
@@ -98,7 +98,7 @@ Boolean DateTimeParse::TryParseExact(ReadOnlySpan<Char> s, ReadOnlySpan<Char> fo
 }
 
 DateTime DateTimeParse::ParseExactMultiple(ReadOnlySpan<Char> s, Array<String> formats, DateTimeFormatInfo dtfi, DateTimeStyles style) {
-  DateTimeResult result = DateTimeResult();
+  DateTimeResult result = rt::default__;
   result.Init(s);
   if (TryParseExactMultiple(s, formats, dtfi, style, result)) {
     return result.parsedDate;
@@ -107,7 +107,7 @@ DateTime DateTimeParse::ParseExactMultiple(ReadOnlySpan<Char> s, Array<String> f
 }
 
 DateTime DateTimeParse::ParseExactMultiple(ReadOnlySpan<Char> s, Array<String> formats, DateTimeFormatInfo dtfi, DateTimeStyles style, TimeSpan& offset) {
-  DateTimeResult result = DateTimeResult();
+  DateTimeResult result = rt::default__;
   result.Init(s);
   result.flags |= ParseFlags::CaptureOffset;
   if (TryParseExactMultiple(s, formats, dtfi, style, result)) {
@@ -118,7 +118,7 @@ DateTime DateTimeParse::ParseExactMultiple(ReadOnlySpan<Char> s, Array<String> f
 }
 
 Boolean DateTimeParse::TryParseExactMultiple(ReadOnlySpan<Char> s, Array<String> formats, DateTimeFormatInfo dtfi, DateTimeStyles style, DateTime& result, TimeSpan& offset) {
-  DateTimeResult result2 = DateTimeResult();
+  DateTimeResult result2 = rt::default__;
   result2.Init(s);
   result2.flags |= ParseFlags::CaptureOffset;
   if (TryParseExactMultiple(s, formats, dtfi, style, result2)) {
@@ -132,7 +132,7 @@ Boolean DateTimeParse::TryParseExactMultiple(ReadOnlySpan<Char> s, Array<String>
 }
 
 Boolean DateTimeParse::TryParseExactMultiple(ReadOnlySpan<Char> s, Array<String> formats, DateTimeFormatInfo dtfi, DateTimeStyles style, DateTime& result) {
-  DateTimeResult result2 = DateTimeResult();
+  DateTimeResult result2 = rt::default__;
   result2.Init(s);
   if (TryParseExactMultiple(s, formats, dtfi, style, result2)) {
     result = result2.parsedDate;
@@ -160,7 +160,7 @@ Boolean DateTimeParse::TryParseExactMultiple(ReadOnlySpan<Char> s, Array<String>
       result.SetBadFormatSpecifierFailure();
       return false;
     }
-    DateTimeResult result2 = DateTimeResult();
+    DateTimeResult result2 = rt::default__;
     result2.Init(s);
     result2.flags = result.flags;
     if (TryParseExact(s, formats[i], dtfi, style, result2)) {
@@ -1482,7 +1482,7 @@ Boolean DateTimeParse::ProcessTerminalState(DS dps, DateTimeResult& result, Date
 }
 
 DateTime DateTimeParse::Parse(ReadOnlySpan<Char> s, DateTimeFormatInfo dtfi, DateTimeStyles styles) {
-  DateTimeResult result = DateTimeResult();
+  DateTimeResult result = rt::default__;
   result.Init(s);
   if (TryParse(s, dtfi, styles, result)) {
     return result.parsedDate;
@@ -1491,7 +1491,7 @@ DateTime DateTimeParse::Parse(ReadOnlySpan<Char> s, DateTimeFormatInfo dtfi, Dat
 }
 
 DateTime DateTimeParse::Parse(ReadOnlySpan<Char> s, DateTimeFormatInfo dtfi, DateTimeStyles styles, TimeSpan& offset) {
-  DateTimeResult result = DateTimeResult();
+  DateTimeResult result = rt::default__;
   result.Init(s);
   result.flags |= ParseFlags::CaptureOffset;
   if (TryParse(s, dtfi, styles, result)) {
@@ -1502,7 +1502,7 @@ DateTime DateTimeParse::Parse(ReadOnlySpan<Char> s, DateTimeFormatInfo dtfi, Dat
 }
 
 Boolean DateTimeParse::TryParse(ReadOnlySpan<Char> s, DateTimeFormatInfo dtfi, DateTimeStyles styles, DateTime& result) {
-  DateTimeResult result2 = DateTimeResult();
+  DateTimeResult result2 = rt::default__;
   result2.Init(s);
   if (TryParse(s, dtfi, styles, result2)) {
     result = result2.parsedDate;
@@ -1513,7 +1513,7 @@ Boolean DateTimeParse::TryParse(ReadOnlySpan<Char> s, DateTimeFormatInfo dtfi, D
 }
 
 Boolean DateTimeParse::TryParse(ReadOnlySpan<Char> s, DateTimeFormatInfo dtfi, DateTimeStyles styles, DateTime& result, TimeSpan& offset) {
-  DateTimeResult result2 = DateTimeResult();
+  DateTimeResult result2 = rt::default__;
   result2.Init(s);
   result2.flags |= ParseFlags::CaptureOffset;
   if (TryParse(s, dtfi, styles, result2)) {
@@ -1533,9 +1533,9 @@ Boolean DateTimeParse::TryParse(ReadOnlySpan<Char> s, DateTimeFormatInfo dtfi, D
   }
   DS dS = DS::BEGIN;
   Boolean flag = false;
-  DateTimeToken dtok = DateTimeToken();
+  DateTimeToken dtok = rt::default__;
   dtok.suffix = TokenType::SEP_Unk;
-  DateTimeRawInfo raw = DateTimeRawInfo();
+  DateTimeRawInfo raw = rt::default__;
   Int32 as[3] = {};
   Int32* numberBuffer = as;
   raw.Init(numberBuffer);
@@ -2622,7 +2622,7 @@ Boolean DateTimeParse::TryParseQuoteString(ReadOnlySpan<Char> format, Int32 pos,
 }
 
 Boolean DateTimeParse::DoStrictParse(ReadOnlySpan<Char> s, ReadOnlySpan<Char> formatParam, DateTimeStyles styles, DateTimeFormatInfo dtfi, DateTimeResult& result) {
-  ParsingInfo parseInfo = ParsingInfo();
+  ParsingInfo parseInfo = rt::default__;
   parseInfo.Init();
   parseInfo.calendar = dtfi->set_Calendar();
   parseInfo.fAllowInnerWhite = ((styles & DateTimeStyles::AllowInnerWhite) != 0);

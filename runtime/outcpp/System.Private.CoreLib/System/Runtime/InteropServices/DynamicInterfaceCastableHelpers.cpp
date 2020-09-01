@@ -18,7 +18,7 @@ Boolean DynamicInterfaceCastableHelpers::IsInterfaceImplemented(IDynamicInterfac
 
 RuntimeType DynamicInterfaceCastableHelpers::GetInterfaceImplementation(IDynamicInterfaceCastable castable, RuntimeType interfaceType) {
   RuntimeTypeHandle interfaceImplementation = castable->GetInterfaceImplementation(RuntimeTypeHandle(interfaceType));
-  if (interfaceImplementation.Equals(RuntimeTypeHandle())) {
+  if (interfaceImplementation.Equals(rt::default__)) {
     rt::throw_exception<InvalidCastException>(SR::Format(SR::get_InvalidCast_FromTo(), castable->GetType(), interfaceType));
   }
   RuntimeType runtimeType = interfaceImplementation.GetRuntimeType();

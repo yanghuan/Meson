@@ -25,7 +25,7 @@ using namespace System::Globalization;
 using namespace System::Runtime::InteropServices;
 
 GuidResult::GuidResult(Guid::GuidParseThrowStyle canThrow) {
-  *this = GuidResult();
+  *this = rt::default__;
   _throwStyle = canThrow;
 }
 
@@ -142,7 +142,7 @@ Guid Guid::Parse(ReadOnlySpan<Char> input) {
 
 Boolean Guid::TryParse(String input, Guid& result) {
   if (input == nullptr) {
-    result = Guid();
+    result = rt::default__;
     return false;
   }
   return TryParse((ReadOnlySpan<Char>)input, result);
@@ -154,7 +154,7 @@ Boolean Guid::TryParse(ReadOnlySpan<Char> input, Guid& result) {
     result = result2._parsedGuid;
     return true;
   }
-  result = Guid();
+  result = rt::default__;
   return false;
 }
 
@@ -201,7 +201,7 @@ Guid Guid::ParseExact(ReadOnlySpan<Char> input, ReadOnlySpan<Char> format) {
 
 Boolean Guid::TryParseExact(String input, String format, Guid& result) {
   if (input == nullptr) {
-    result = Guid();
+    result = rt::default__;
     return false;
   }
   return TryParseExact((ReadOnlySpan<Char>)input, (ReadOnlySpan<Char>)format, result);
@@ -209,7 +209,7 @@ Boolean Guid::TryParseExact(String input, String format, Guid& result) {
 
 Boolean Guid::TryParseExact(ReadOnlySpan<Char> input, ReadOnlySpan<Char> format, Guid& result) {
   if (format.get_Length() != 1) {
-    result = Guid();
+    result = rt::default__;
     return false;
   }
   input = MemoryExtensions::Trim(input);
@@ -236,7 +236,7 @@ Boolean Guid::TryParseExact(ReadOnlySpan<Char> input, ReadOnlySpan<Char> format,
     result = result2._parsedGuid;
     return true;
   }
-  result = Guid();
+  result = rt::default__;
   return false;
 }
 

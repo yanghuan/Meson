@@ -101,7 +101,7 @@ ValueTask<> TranscodingStream___::DisposeAsync() {
     return stateMachine.<>t__builder.get_Task();
   };
   if (_innerStream == nullptr) {
-    return ValueTask<>();
+    return rt::default__;
   }
   ArraySegment<Byte> pendingData2 = FinalFlushWriteBuffers();
   if (pendingData2.get_Count() == 0) {
@@ -110,7 +110,7 @@ ValueTask<> TranscodingStream___::DisposeAsync() {
     if (!_leaveOpen) {
       return innerStream->DisposeAsync();
     }
-    return ValueTask<>();
+    return rt::default__;
   }
   return DisposeAsyncCore(pendingData2);
 }
@@ -155,7 +155,7 @@ void TranscodingStream___::EnsurePreWriteConditions() {
 
 ArraySegment<Byte> TranscodingStream___::FinalFlushWriteBuffers() {
   if (_thisDecoder == nullptr || _innerEncoder == nullptr) {
-    return ArraySegment<T>();
+    return rt::default__;
   }
   Array<Char> chars = Array<>::in::Empty<Char>();
   Int32 num = _thisDecoder->GetCharCount(Array<>::in::Empty<Byte>(), 0, 0, true);

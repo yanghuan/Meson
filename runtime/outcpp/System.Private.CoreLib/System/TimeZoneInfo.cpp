@@ -185,8 +185,8 @@ Boolean TimeZoneInfo___::AdjustmentRule___::get_NoDaylightTransitions() {
 }
 
 Boolean TimeZoneInfo___::AdjustmentRule___::get_HasDaylightSaving() {
-  if (!(get_DaylightDelta() != TimeSpan::Zero) && (!(get_DaylightTransitionStart() != TransitionTime()) || !(get_DaylightTransitionStart().get_TimeOfDay() != DateTime::MinValue))) {
-    if (get_DaylightTransitionEnd() != TransitionTime()) {
+  if (!(get_DaylightDelta() != TimeSpan::Zero) && (!(get_DaylightTransitionStart() != rt::default__) || !(get_DaylightTransitionStart().get_TimeOfDay() != DateTime::MinValue))) {
+    if (get_DaylightTransitionEnd() != rt::default__) {
       return get_DaylightTransitionEnd().get_TimeOfDay() != DateTime::MinValue.AddMilliseconds(1);
     }
     return false;
@@ -1848,7 +1848,7 @@ TimeSpan TimeZoneInfo___::GetDateTimeNowUtcOffsetFromUtc(DateTime time, Boolean&
 
 Boolean TimeZoneInfo___::TransitionTimeFromTimeZoneInformation(Interop::Kernel32::REG_TZI_FORMAT& timeZoneInformation, TransitionTime& transitionTime, Boolean readStartDate) {
   if (timeZoneInformation.StandardDate.Month == 0) {
-    transitionTime = TransitionTime();
+    transitionTime = rt::default__;
     return false;
   }
   if (readStartDate) {
@@ -1931,7 +1931,7 @@ Boolean TimeZoneInfo___::TryCreateAdjustmentRules(String id, Interop::Kernel32::
 Boolean TimeZoneInfo___::TryGetTimeZoneEntryFromRegistry(RegistryKey key, String name, Interop::Kernel32::REG_TZI_FORMAT& dtzi) {
   Array<Byte> array = rt::as<Array<Byte>>(key->GetValue(name, nullptr));
   if (array == nullptr || array->get_Length() != sizeof(Interop::Kernel32::REG_TZI_FORMAT)) {
-    dtzi = Interop::Kernel32::REG_TZI_FORMAT();
+    dtzi = rt::default__;
     return false;
   }
   {

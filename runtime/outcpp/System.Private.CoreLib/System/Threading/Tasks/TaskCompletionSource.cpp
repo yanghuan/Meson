@@ -3,7 +3,6 @@
 #include <System.Private.CoreLib/System/Collections/Generic/List-dep.h>
 #include <System.Private.CoreLib/System/ExceptionArgument.h>
 #include <System.Private.CoreLib/System/ExceptionResource.h>
-#include <System.Private.CoreLib/System/Threading/CancellationToken-dep.h>
 #include <System.Private.CoreLib/System/ThrowHelper-dep.h>
 
 namespace System::Private::CoreLib::System::Threading::Tasks::TaskCompletionSourceNamespace {
@@ -86,7 +85,7 @@ Boolean TaskCompletionSource___<>::TrySetResult() {
 }
 
 void TaskCompletionSource___<>::SetCanceled() {
-  SetCanceled(CancellationToken());
+  SetCanceled(rt::default__);
 }
 
 void TaskCompletionSource___<>::SetCanceled(CancellationToken cancellationToken) {
@@ -96,7 +95,7 @@ void TaskCompletionSource___<>::SetCanceled(CancellationToken cancellationToken)
 }
 
 Boolean TaskCompletionSource___<>::TrySetCanceled() {
-  return TrySetCanceled(CancellationToken());
+  return TrySetCanceled(rt::default__);
 }
 
 Boolean TaskCompletionSource___<>::TrySetCanceled(CancellationToken cancellationToken) {

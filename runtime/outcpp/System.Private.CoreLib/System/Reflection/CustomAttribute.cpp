@@ -133,7 +133,7 @@ Array<Object> CustomAttribute::GetCustomAttributes(RuntimeType type, RuntimeType
     }
     return customAttributes;
   }
-  RuntimeType::in::ListBuilder<T> attributes = RuntimeType::in::ListBuilder<T>();
+  RuntimeType::in::ListBuilder<T> attributes = rt::default__;
   Boolean mustBeInheritable = false;
   RuntimeType elementType = (caType->get_IsValueType() || caType->get_ContainsGenericParameters()) ? ((RuntimeType)typeof<Object>()) : caType;
   for (Int32 i = 0; i < pcas.get_Count(); i++) {
@@ -164,7 +164,7 @@ Array<Object> CustomAttribute::GetCustomAttributes(RuntimeMethodInfo method, Run
     }
     return customAttributes;
   }
-  RuntimeType::in::ListBuilder<T> attributes = RuntimeType::in::ListBuilder<T>();
+  RuntimeType::in::ListBuilder<T> attributes = rt::default__;
   Boolean mustBeInheritable = false;
   RuntimeType elementType = (caType->get_IsValueType() || caType->get_ContainsGenericParameters()) ? ((RuntimeType)typeof<Object>()) : caType;
   for (Int32 i = 0; i < pcas.get_Count(); i++) {
@@ -231,7 +231,7 @@ Boolean CustomAttribute::IsCustomAttributeDefined(RuntimeModule decoratedModule,
   Array<CustomAttributeRecord> customAttributeRecords = CustomAttributeData::in::GetCustomAttributeRecords(decoratedModule, decoratedMetadataToken);
   if (attributeFilterType != nullptr) {
     MetadataImport scope = decoratedModule->get_MetadataImport();
-    RuntimeType::in::ListBuilder<T> derivedAttributes = RuntimeType::in::ListBuilder<T>();
+    RuntimeType::in::ListBuilder<T> derivedAttributes = rt::default__;
     for (Int32 i = 0; i < customAttributeRecords->get_Length(); i++) {
       RuntimeType attributeType;
       IRuntimeMethodInfo ctorWithParameters;
@@ -251,8 +251,8 @@ Boolean CustomAttribute::IsCustomAttributeDefined(RuntimeModule decoratedModule,
 }
 
 Array<Object> CustomAttribute::GetCustomAttributes(RuntimeModule decoratedModule, Int32 decoratedMetadataToken, Int32 pcaCount, RuntimeType attributeFilterType) {
-  RuntimeType::in::ListBuilder<T> attributes = RuntimeType::in::ListBuilder<T>();
-  AddCustomAttributes(attributes, decoratedModule, decoratedMetadataToken, attributeFilterType, false, RuntimeType::in::ListBuilder<T>());
+  RuntimeType::in::ListBuilder<T> attributes = rt::default__;
+  AddCustomAttributes(attributes, decoratedModule, decoratedMetadataToken, attributeFilterType, false, rt::default__);
   RuntimeType elementType = (attributeFilterType == nullptr || attributeFilterType->get_IsValueType() || attributeFilterType->get_ContainsGenericParameters()) ? ((RuntimeType)typeof<Object>()) : attributeFilterType;
   Array<Object> array = CreateAttributeArrayHelper(elementType, attributes.get_Count() + pcaCount);
   for (Int32 i = 0; i < attributes.get_Count(); i++) {
@@ -353,7 +353,7 @@ Boolean CustomAttribute::FilterCustomAttributeRecord(MetadataToken caCtorToken, 
       ctorWithParameters = ModuleHandle::ResolveMethodHandleInternal(decoratedModule->GetNativeHandle(), caCtorToken);
     }
   }
-  MetadataToken token = MetadataToken();
+  MetadataToken token = rt::default__;
   if (decoratedToken.get_IsParamDef()) {
     token = MetadataToken(scope.GetParentToken(decoratedToken));
     token = MetadataToken(scope.GetParentToken(token));
@@ -370,7 +370,7 @@ Boolean CustomAttribute::FilterCustomAttributeRecord(MetadataToken caCtorToken, 
 
 
 
-  RuntimeTypeHandle rth = token.get_IsTypeDef() ? decoratedModule->get_ModuleHandle().ResolveTypeHandle(token) : RuntimeTypeHandle();
+  RuntimeTypeHandle rth = token.get_IsTypeDef() ? decoratedModule->get_ModuleHandle().ResolveTypeHandle(token) : rt::default__;
   RuntimeTypeHandle rth2 = attributeType->get_TypeHandle();
   Boolean result = RuntimeMethodHandle::IsCAVisibleFromDecoratedType(QCallTypeHandle(rth2), (ctorWithParameters != nullptr) ? ctorWithParameters->get_Value() : RuntimeMethodHandleInternal::get_EmptyHandle(), QCallTypeHandle(rth), QCallModule(decoratedModule)) != Interop::BOOL::FALSE;
   GC::KeepAlive(ctorWithParameters);

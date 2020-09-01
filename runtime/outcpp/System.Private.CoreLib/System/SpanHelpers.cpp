@@ -2048,14 +2048,14 @@ void SpanHelpers::ClearWithoutReferences(Byte& b, UIntPtr byteLength) {
 
 void SpanHelpers::ClearWithReferences(IntPtr& ip, UIntPtr pointerSizeLength) {
   while (pointerSizeLength >= 8) {
-    Unsafe::Add(Unsafe::Add(ip, (IntPtr)(void*)pointerSizeLength), -1) = IntPtr();
-    Unsafe::Add(Unsafe::Add(ip, (IntPtr)(void*)pointerSizeLength), -2) = IntPtr();
-    Unsafe::Add(Unsafe::Add(ip, (IntPtr)(void*)pointerSizeLength), -3) = IntPtr();
-    Unsafe::Add(Unsafe::Add(ip, (IntPtr)(void*)pointerSizeLength), -4) = IntPtr();
-    Unsafe::Add(Unsafe::Add(ip, (IntPtr)(void*)pointerSizeLength), -5) = IntPtr();
-    Unsafe::Add(Unsafe::Add(ip, (IntPtr)(void*)pointerSizeLength), -6) = IntPtr();
-    Unsafe::Add(Unsafe::Add(ip, (IntPtr)(void*)pointerSizeLength), -7) = IntPtr();
-    Unsafe::Add(Unsafe::Add(ip, (IntPtr)(void*)pointerSizeLength), -8) = IntPtr();
+    Unsafe::Add(Unsafe::Add(ip, (IntPtr)(void*)pointerSizeLength), -1) = rt::default__;
+    Unsafe::Add(Unsafe::Add(ip, (IntPtr)(void*)pointerSizeLength), -2) = rt::default__;
+    Unsafe::Add(Unsafe::Add(ip, (IntPtr)(void*)pointerSizeLength), -3) = rt::default__;
+    Unsafe::Add(Unsafe::Add(ip, (IntPtr)(void*)pointerSizeLength), -4) = rt::default__;
+    Unsafe::Add(Unsafe::Add(ip, (IntPtr)(void*)pointerSizeLength), -5) = rt::default__;
+    Unsafe::Add(Unsafe::Add(ip, (IntPtr)(void*)pointerSizeLength), -6) = rt::default__;
+    Unsafe::Add(Unsafe::Add(ip, (IntPtr)(void*)pointerSizeLength), -7) = rt::default__;
+    Unsafe::Add(Unsafe::Add(ip, (IntPtr)(void*)pointerSizeLength), -8) = rt::default__;
     pointerSizeLength -= 8;
   }
   if (pointerSizeLength < 4) {
@@ -2066,17 +2066,17 @@ void SpanHelpers::ClearWithReferences(IntPtr& ip, UIntPtr pointerSizeLength) {
       goto IL_012f;
     }
   } else {
-    Unsafe::Add(ip, 2) = IntPtr();
-    Unsafe::Add(ip, 3) = IntPtr();
-    Unsafe::Add(Unsafe::Add(ip, (IntPtr)(void*)pointerSizeLength), -3) = IntPtr();
-    Unsafe::Add(Unsafe::Add(ip, (IntPtr)(void*)pointerSizeLength), -2) = IntPtr();
+    Unsafe::Add(ip, 2) = rt::default__;
+    Unsafe::Add(ip, 3) = rt::default__;
+    Unsafe::Add(Unsafe::Add(ip, (IntPtr)(void*)pointerSizeLength), -3) = rt::default__;
+    Unsafe::Add(Unsafe::Add(ip, (IntPtr)(void*)pointerSizeLength), -2) = rt::default__;
   }
-  Unsafe::Add(ip, 1) = IntPtr();
-  Unsafe::Add(Unsafe::Add(ip, (IntPtr)(void*)pointerSizeLength), -1) = IntPtr();
+  Unsafe::Add(ip, 1) = rt::default__;
+  Unsafe::Add(Unsafe::Add(ip, (IntPtr)(void*)pointerSizeLength), -1) = rt::default__;
   goto IL_012f;
 
 IL_012f:
-  ip = IntPtr();
+  ip = rt::default__;
 }
 
 } // namespace System::Private::CoreLib::System::SpanHelpersNamespace

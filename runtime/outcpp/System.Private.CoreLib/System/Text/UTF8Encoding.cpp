@@ -29,7 +29,7 @@ using namespace System::Text::Unicode;
 
 ReadOnlySpan<Byte> UTF8EncodingSealed___::get_Preamble() {
   if (!_emitUTF8Identifier) {
-    return ReadOnlySpan<T>();
+    return rt::default__;
   }
   return get_PreambleSpan();
 }
@@ -87,7 +87,7 @@ ReadOnlySpan<Byte> UTF8Encoding___::get_PreambleSpan() {
 ReadOnlySpan<Byte> UTF8Encoding___::get_Preamble() {
   if (!(GetType() != typeof<UTF8Encoding>())) {
     if (!_emitUTF8Identifier) {
-      return ReadOnlySpan<T>();
+      return rt::default__;
     }
     return get_PreambleSpan();
   }

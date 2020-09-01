@@ -4,7 +4,6 @@
 #include <System.Private.CoreLib/System/Collections/ObjectModel/ReadOnlyCollection-dep.h>
 #include <System.Private.CoreLib/System/Runtime/CompilerServices/AsyncMethodBuilderCore-dep.h>
 #include <System.Private.CoreLib/System/Runtime/ExceptionServices/ExceptionDispatchInfo-dep.h>
-#include <System.Private.CoreLib/System/Threading/CancellationToken-dep.h>
 #include <System.Private.CoreLib/System/Threading/Tasks/TaskCanceledException-dep.h>
 #include <System.Private.CoreLib/System/Threading/Tasks/TaskScheduler-dep.h>
 #include <System.Private.CoreLib/System/Threading/Tasks/TaskStatus.h>
@@ -13,7 +12,6 @@
 namespace System::Private::CoreLib::System::Runtime::CompilerServices::TaskAwaiterNamespace {
 using namespace System::Collections::ObjectModel;
 using namespace System::Runtime::ExceptionServices;
-using namespace System::Threading;
 using namespace System::Threading::Tasks;
 
 Boolean TaskAwaiter<>::get_IsCompleted() {
@@ -44,7 +42,7 @@ void TaskAwaiter<>::ValidateEnd(Task<> task) {
 
 void TaskAwaiter<>::HandleNonSuccessAndDebuggerNotification(Task<> task) {
   if (!task->get_IsCompleted()) {
-    Boolean flag = task->InternalWait(-1, CancellationToken());
+    Boolean flag = task->InternalWait(-1, rt::default__);
   }
   task->NotifyDebuggerOfWaitCompletionIfNecessary();
   if (!task->get_IsCompletedSuccessfully()) {

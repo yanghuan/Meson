@@ -108,7 +108,7 @@ Boolean SemaphoreSlim___::Wait(Int32 millisecondsTimeout, CancellationToken canc
   try {
     if (m_currentCount == 0) {
       Int32 num = SpinWait::SpinCountforSpinBeforeWait * 4;
-      SpinWait spinWait = SpinWait();
+      SpinWait spinWait = rt::default__;
       while (spinWait.get_Count() < num) {
         spinWait.SpinOnce(-1);
         if (m_currentCount != 0) {
@@ -184,7 +184,7 @@ Boolean SemaphoreSlim___::WaitUntilCountOrTimeout(Int32 millisecondsTimeout, UIn
 }
 
 Task<> SemaphoreSlim___::WaitAsync() {
-  return WaitAsync(-1, CancellationToken());
+  return WaitAsync(-1, rt::default__);
 }
 
 Task<> SemaphoreSlim___::WaitAsync(CancellationToken cancellationToken) {
@@ -192,11 +192,11 @@ Task<> SemaphoreSlim___::WaitAsync(CancellationToken cancellationToken) {
 }
 
 Task<Boolean> SemaphoreSlim___::WaitAsync(Int32 millisecondsTimeout) {
-  return WaitAsync(millisecondsTimeout, CancellationToken());
+  return WaitAsync(millisecondsTimeout, rt::default__);
 }
 
 Task<Boolean> SemaphoreSlim___::WaitAsync(TimeSpan timeout) {
-  return WaitAsync(timeout, CancellationToken());
+  return WaitAsync(timeout, rt::default__);
 }
 
 Task<Boolean> SemaphoreSlim___::WaitAsync(TimeSpan timeout, CancellationToken cancellationToken) {
@@ -361,8 +361,8 @@ void SemaphoreSlim___::CheckDispose() {
 }
 
 void SemaphoreSlim___::cctor() {
-  s_trueTask = rt::newobj<Task<Boolean>>(false, true, (TaskCreationOptions)16384, CancellationToken());
-  s_falseTask = rt::newobj<Task<Boolean>>(false, false, (TaskCreationOptions)16384, CancellationToken());
+  s_trueTask = rt::newobj<Task<Boolean>>(false, true, (TaskCreationOptions)16384, rt::default__);
+  s_falseTask = rt::newobj<Task<Boolean>>(false, false, (TaskCreationOptions)16384, rt::default__);
   s_cancellationTokenCanceledEventHandler = &CancellationTokenCanceledEventHandler;
 }
 

@@ -19,7 +19,7 @@ Int32 ModuleHandle::get_MDStreamVersion() {
 }
 
 ModuleHandle ModuleHandle::GetEmptyMH() {
-  return ModuleHandle();
+  return rt::default__;
 }
 
 ModuleHandle::ModuleHandle(RuntimeModule module) {

@@ -179,7 +179,7 @@ Boolean ManualResetEventSlim___::Wait(Int32 millisecondsTimeout, CancellationTok
       flag = true;
     }
     Int32 spinCount = get_SpinCount();
-    SpinWait spinWait = SpinWait();
+    SpinWait spinWait = rt::default__;
     while (spinWait.get_Count() < spinCount) {
       spinWait.SpinOnce(-1);
       if (get_IsSet()) {
@@ -260,7 +260,7 @@ void ManualResetEventSlim___::CancellationTokenCallback(Object obj) {
 }
 
 void ManualResetEventSlim___::UpdateStateAtomically(Int32 newBits, Int32 updateBitsMask) {
-  SpinWait spinWait = SpinWait();
+  SpinWait spinWait = rt::default__;
   while (true) {
     Int32 combinedState = m_combinedState;
     Int32 value = (combinedState & ~updateBitsMask) | newBits;

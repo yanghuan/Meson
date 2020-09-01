@@ -131,7 +131,7 @@ UInt64 MemoryFailPoint___::GetTopOfMemory() {
 }
 
 Boolean MemoryFailPoint___::CheckForAvailableMemory(UInt64& availPageFile, UInt64& totalAddressSpaceFree) {
-  Interop::Kernel32::MEMORYSTATUSEX lpBuffer = Interop::Kernel32::MEMORYSTATUSEX();
+  Interop::Kernel32::MEMORYSTATUSEX lpBuffer = rt::default__;
   lpBuffer.dwLength = (UInt32)sizeof(Interop::Kernel32::MEMORYSTATUSEX);
   if (!Interop::Kernel32::GlobalMemoryStatusEx(lpBuffer)) {
     availPageFile = 0;
@@ -156,7 +156,7 @@ UInt64 MemoryFailPoint___::MemFreeAfterAddress(void* address, UInt64 size) {
     return 0;
   }
   UInt64 num = 0;
-  Interop::Kernel32::MEMORY_BASIC_INFORMATION lpBuffer = Interop::Kernel32::MEMORY_BASIC_INFORMATION();
+  Interop::Kernel32::MEMORY_BASIC_INFORMATION lpBuffer = rt::default__;
   UIntPtr dwLength = (UIntPtr)(UInt64)sizeof(Interop::Kernel32::MEMORY_BASIC_INFORMATION);
   while ((UInt64)((Int64)address + (Int64)size) < s_topOfMemory) {
     UIntPtr value = Interop::Kernel32::VirtualQuery(address, lpBuffer, dwLength);

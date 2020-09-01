@@ -3,7 +3,6 @@
 #include <System.Private.CoreLib/System/ArgumentNullException-dep.h>
 #include <System.Private.CoreLib/System/Int32-dep.h>
 #include <System.Private.CoreLib/System/Runtime/CompilerServices/YieldAwaitable-dep.h>
-#include <System.Private.CoreLib/System/Threading/CancellationToken-dep.h>
 #include <System.Private.CoreLib/System/Threading/SynchronizationContext-dep.h>
 #include <System.Private.CoreLib/System/Threading/Tasks/Task-dep.h>
 #include <System.Private.CoreLib/System/Threading/Tasks/TaskCreationOptions.h>
@@ -48,7 +47,7 @@ void YieldAwaitable::YieldAwaiter::QueueContinuation(Action<> continuation, Bool
       ThreadPool::UnsafeQueueUserWorkItem(s_waitCallbackRunAction, continuation);
     }
   } else {
-    Task<>::in::get_Factory()->StartNew(continuation, CancellationToken(), TaskCreationOptions::PreferFairness, current2);
+    Task<>::in::get_Factory()->StartNew(continuation, rt::default__, TaskCreationOptions::PreferFairness, current2);
   }
 }
 
@@ -71,7 +70,7 @@ void YieldAwaitable::YieldAwaiter::cctor() {
 }
 
 YieldAwaitable::YieldAwaiter YieldAwaitable::GetAwaiter() {
-  return YieldAwaiter();
+  return rt::default__;
 }
 
 } // namespace System::Private::CoreLib::System::Runtime::CompilerServices::YieldAwaitableNamespace

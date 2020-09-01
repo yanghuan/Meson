@@ -110,7 +110,7 @@ CLASS(HashSet, T) : public object {
   private: void IntersectWithEnumerable(IEnumerable<T> other);
   private: void SymmetricExceptWithUniqueHashSet(HashSet<T> other);
   private: void SymmetricExceptWithEnumerable(IEnumerable<T> other);
-  private: ValueTuple<> CheckUniqueAndUnfoundElements(IEnumerable<T> other, Boolean returnIfUnfound);
+  private: ValueTuple<Int32, Int32> CheckUniqueAndUnfoundElements(IEnumerable<T> other, Boolean returnIfUnfound);
   public: static Boolean EqualityComparersAreEqual(HashSet<T> set1, HashSet<T> set2);
   private: Array<Int32> _buckets;
   private: Array<Entry> _entries;

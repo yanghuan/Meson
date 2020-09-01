@@ -54,7 +54,7 @@ Boolean Environment::WindowsVersion::GetIsWindows8OrAbove() {
   conditionMask = Interop::Kernel32::VerSetConditionMask(conditionMask, 1u, 3);
   conditionMask = Interop::Kernel32::VerSetConditionMask(conditionMask, 32u, 3);
   conditionMask = Interop::Kernel32::VerSetConditionMask(conditionMask, 16u, 3);
-  Interop::Kernel32::OSVERSIONINFOEX lpVersionInfo = Interop::Kernel32::OSVERSIONINFOEX();
+  Interop::Kernel32::OSVERSIONINFOEX lpVersionInfo = rt::default__;
   lpVersionInfo.dwOSVersionInfoSize = sizeof(Interop::Kernel32::OSVERSIONINFOEX);
   lpVersionInfo.dwMajorVersion = 6;
   lpVersionInfo.dwMinorVersion = 2;
@@ -259,7 +259,7 @@ String Environment::get_SystemDirectory() {
 Boolean Environment::get_UserInteractive() {
   IntPtr processWindowStation = Interop::User32::GetProcessWindowStation();
   if (processWindowStation != IntPtr::Zero) {
-    Interop::User32::USEROBJECTFLAGS uSEROBJECTFLAGS = Interop::User32::USEROBJECTFLAGS();
+    Interop::User32::USEROBJECTFLAGS uSEROBJECTFLAGS = rt::default__;
     UInt32 lpnLengthNeeded = 0u;
     if (Interop::User32::GetUserObjectInformationW(processWindowStation, 1, &uSEROBJECTFLAGS, (UInt32)sizeof(Interop::User32::USEROBJECTFLAGS), lpnLengthNeeded)) {
       return (uSEROBJECTFLAGS.dwFlags & 1) != 0;
@@ -269,7 +269,7 @@ Boolean Environment::get_UserInteractive() {
 }
 
 Int64 Environment::get_WorkingSet() {
-  Interop::Kernel32::PROCESS_MEMORY_COUNTERS ppsmemCounters = Interop::Kernel32::PROCESS_MEMORY_COUNTERS();
+  Interop::Kernel32::PROCESS_MEMORY_COUNTERS ppsmemCounters = rt::default__;
   ppsmemCounters.cb = (UInt32)sizeof(Interop::Kernel32::PROCESS_MEMORY_COUNTERS);
   if (!Interop::Kernel32::GetProcessMemoryInfo(Interop::Kernel32::GetCurrentProcess(), ppsmemCounters, ppsmemCounters.cb)) {
     return 0;

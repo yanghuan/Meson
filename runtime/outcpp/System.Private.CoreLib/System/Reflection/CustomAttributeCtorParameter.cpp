@@ -7,7 +7,7 @@ CustomAttributeEncodedArgument CustomAttributeCtorParameter::get_CustomAttribute
 
 CustomAttributeCtorParameter::CustomAttributeCtorParameter(CustomAttributeType type) {
   m_type = type;
-  m_encodedArgument = CustomAttributeEncodedArgument();
+  m_encodedArgument = rt::default__;
 }
 
 } // namespace System::Private::CoreLib::System::Reflection::CustomAttributeCtorParameterNamespace

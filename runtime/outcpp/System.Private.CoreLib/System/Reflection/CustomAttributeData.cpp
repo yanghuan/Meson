@@ -287,7 +287,7 @@ CustomAttributeTypedArgument CustomAttributeData___::Filter(IList<CustomAttribut
       return attrs[i]->get_ConstructorArguments()[parameter];
     }
   }
-  return CustomAttributeTypedArgument();
+  return rt::default__;
 }
 
 void CustomAttributeData___::ctor() {

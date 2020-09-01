@@ -236,7 +236,7 @@ String JapaneseCalendar___::GetAbbreviatedEraName(Array<String> eraNames, Int32 
 }
 
 Boolean JapaneseCalendar___::GetJapaneseEraStartDate(Int32 era, DateTime& dateTime) {
-  dateTime = DateTime();
+  dateTime = rt::default__;
   Int32 startYear;
   Int32 startMonth;
   Int32 startDay;

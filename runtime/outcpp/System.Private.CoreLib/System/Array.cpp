@@ -640,7 +640,7 @@ Object Array___<>::GetValue(Array<Int32> indices) {
   if (get_Rank() != indices->get_Length()) {
     ThrowHelper::ThrowArgumentException(ExceptionResource::Arg_RankIndices);
   }
-  TypedReference typedReference = TypedReference();
+  TypedReference typedReference = rt::default__;
   {
     Int32* pIndices = &indices[0];
     InternalGetReference(&typedReference, indices->get_Length(), pIndices);
@@ -652,7 +652,7 @@ Object Array___<>::GetValue(Int32 index) {
   if (get_Rank() != 1) {
     ThrowHelper::ThrowArgumentException(ExceptionResource::Arg_Need1DArray);
   }
-  TypedReference typedReference = TypedReference();
+  TypedReference typedReference = rt::default__;
   InternalGetReference(&typedReference, 1, &index);
   return TypedReference::InternalToObject(&typedReference);
 }
@@ -665,7 +665,7 @@ Object Array___<>::GetValue(Int32 index1, Int32 index2) {
   Int32* ptr = as;
   *ptr = index1;
   ptr[1] = index2;
-  TypedReference typedReference = TypedReference();
+  TypedReference typedReference = rt::default__;
   InternalGetReference(&typedReference, 2, ptr);
   return TypedReference::InternalToObject(&typedReference);
 }
@@ -679,7 +679,7 @@ Object Array___<>::GetValue(Int32 index1, Int32 index2, Int32 index3) {
   *ptr = index1;
   ptr[1] = index2;
   ptr[2] = index3;
-  TypedReference typedReference = TypedReference();
+  TypedReference typedReference = rt::default__;
   InternalGetReference(&typedReference, 3, ptr);
   return TypedReference::InternalToObject(&typedReference);
 }
@@ -688,7 +688,7 @@ void Array___<>::SetValue(Object value, Int32 index) {
   if (get_Rank() != 1) {
     ThrowHelper::ThrowArgumentException(ExceptionResource::Arg_Need1DArray);
   }
-  TypedReference typedReference = TypedReference();
+  TypedReference typedReference = rt::default__;
   InternalGetReference(&typedReference, 1, &index);
   InternalSetValue(&typedReference, value);
 }
@@ -701,7 +701,7 @@ void Array___<>::SetValue(Object value, Int32 index1, Int32 index2) {
   Int32* ptr = as;
   *ptr = index1;
   ptr[1] = index2;
-  TypedReference typedReference = TypedReference();
+  TypedReference typedReference = rt::default__;
   InternalGetReference(&typedReference, 2, ptr);
   InternalSetValue(&typedReference, value);
 }
@@ -715,7 +715,7 @@ void Array___<>::SetValue(Object value, Int32 index1, Int32 index2, Int32 index3
   *ptr = index1;
   ptr[1] = index2;
   ptr[2] = index3;
-  TypedReference typedReference = TypedReference();
+  TypedReference typedReference = rt::default__;
   InternalGetReference(&typedReference, 3, ptr);
   InternalSetValue(&typedReference, value);
 }
@@ -727,7 +727,7 @@ void Array___<>::SetValue(Object value, Array<Int32> indices) {
   if (get_Rank() != indices->get_Length()) {
     ThrowHelper::ThrowArgumentException(ExceptionResource::Arg_RankIndices);
   }
-  TypedReference typedReference = TypedReference();
+  TypedReference typedReference = rt::default__;
   {
     Int32* pIndices = &indices[0];
     InternalGetReference(&typedReference, indices->get_Length(), pIndices);

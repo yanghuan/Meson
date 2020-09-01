@@ -420,7 +420,7 @@ Boolean Rune::TryCreate(Char ch, Rune& result) {
     result = UnsafeCreate(ch);
     return true;
   }
-  result = Rune();
+  result = rt::default__;
   return false;
 }
 
@@ -431,7 +431,7 @@ Boolean Rune::TryCreate(Char highSurrogate, Char lowSurrogate, Rune& result) {
     result = UnsafeCreate((UInt32)((Int32)(num << 10) + (lowSurrogate - 56320) + 65536));
     return true;
   }
-  result = Rune();
+  result = rt::default__;
   return false;
 }
 
@@ -444,7 +444,7 @@ Boolean Rune::TryCreate(UInt32 value, Rune& result) {
     result = UnsafeCreate(value);
     return true;
   }
-  result = Rune();
+  result = rt::default__;
   return false;
 }
 
@@ -508,7 +508,7 @@ Boolean Rune::TryGetRuneAt(String input, Int32 index, Rune& value) {
     value = UnsafeCreate((UInt32)num);
     return true;
   }
-  value = Rune();
+  value = rt::default__;
   return false;
 }
 

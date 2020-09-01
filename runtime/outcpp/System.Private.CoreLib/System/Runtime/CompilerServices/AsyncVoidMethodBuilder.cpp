@@ -24,7 +24,7 @@ AsyncVoidMethodBuilder AsyncVoidMethodBuilder::Create() {
   if (current != nullptr) {
     current->OperationStarted();
   }
-  AsyncVoidMethodBuilder result = AsyncVoidMethodBuilder();
+  AsyncVoidMethodBuilder result = rt::default__;
   result._synchronizationContext = current;
   return result;
 }

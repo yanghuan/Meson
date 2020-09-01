@@ -25,7 +25,7 @@ void EnumerableViewOfDispatch___::ctor(Object dispatch) {
 IEnumerator EnumerableViewOfDispatch___::GetEnumerator() {
   Variant variant;
   void* value = &variant;
-  DISPPARAMS pDispParams = DISPPARAMS();
+  DISPPARAMS pDispParams = rt::default__;
   Guid riid = Guid::Empty;
   get_Dispatch()->Invoke(-4, riid, 1, InvokeFlags::DISPATCH_METHOD | InvokeFlags::DISPATCH_PROPERTYGET, pDispParams, IntPtr(value), IntPtr::Zero, IntPtr::Zero);
   IntPtr intPtr = IntPtr::Zero;

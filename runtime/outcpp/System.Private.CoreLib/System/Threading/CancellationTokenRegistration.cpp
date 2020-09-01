@@ -8,7 +8,7 @@ namespace System::Private::CoreLib::System::Threading::CancellationTokenRegistra
 CancellationToken CancellationTokenRegistration::get_Token() {
   CancellationTokenSource::in::CallbackNode node = _node;
   if (node == nullptr) {
-    return CancellationToken();
+    return rt::default__;
   }
   return CancellationToken(node->Partition->Source);
 }
@@ -28,7 +28,7 @@ void CancellationTokenRegistration::Dispose() {
 ValueTask<> CancellationTokenRegistration::DisposeAsync() {
   CancellationTokenSource::in::CallbackNode node = _node;
   if (node == nullptr || node->Partition->Unregister(_id, node)) {
-    return ValueTask<>();
+    return rt::default__;
   }
   return WaitForCallbackIfNecessaryAsync();
 }
@@ -53,7 +53,7 @@ ValueTask<> CancellationTokenRegistration::WaitForCallbackIfNecessaryAsync() {
   if (source->get_IsCancellationRequested() && !source->get_IsCancellationCompleted() && source->get_ThreadIDExecutingCallbacks() != Environment::get_CurrentManagedThreadId()) {
     return source->WaitForCallbackToCompleteAsync(_id);
   }
-  return ValueTask<>();
+  return rt::default__;
 }
 
 Boolean CancellationTokenRegistration::op_Equality(CancellationTokenRegistration left, CancellationTokenRegistration right) {

@@ -23,7 +23,7 @@ struct Range : public valueType<Range> {
   public: String ToString();
   public: static Range StartAt(Index start);
   public: static Range EndAt(Index end);
-  public: ValueTuple<> GetOffsetAndLength(Int32 length);
+  public: ValueTuple<Int32, Int32> GetOffsetAndLength(Int32 length);
   public: explicit Range() {}
   private: Index Start;
   private: Index End;

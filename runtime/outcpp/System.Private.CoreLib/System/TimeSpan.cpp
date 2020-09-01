@@ -305,7 +305,7 @@ TimeSpan TimeSpan::ParseExact(ReadOnlySpan<Char> input, Array<String> formats, I
 
 Boolean TimeSpan::TryParse(String s, TimeSpan& result) {
   if (s == nullptr) {
-    result = TimeSpan();
+    result = rt::default__;
     return false;
   }
   return TimeSpanParse::TryParse(s, nullptr, result);
@@ -317,7 +317,7 @@ Boolean TimeSpan::TryParse(ReadOnlySpan<Char> s, TimeSpan& result) {
 
 Boolean TimeSpan::TryParse(String input, IFormatProvider formatProvider, TimeSpan& result) {
   if (input == nullptr) {
-    result = TimeSpan();
+    result = rt::default__;
     return false;
   }
   return TimeSpanParse::TryParse(input, formatProvider, result);
@@ -329,7 +329,7 @@ Boolean TimeSpan::TryParse(ReadOnlySpan<Char> input, IFormatProvider formatProvi
 
 Boolean TimeSpan::TryParseExact(String input, String format, IFormatProvider formatProvider, TimeSpan& result) {
   if (input == nullptr || format == nullptr) {
-    result = TimeSpan();
+    result = rt::default__;
     return false;
   }
   return TimeSpanParse::TryParseExact(input, format, formatProvider, TimeSpanStyles::None, result);
@@ -341,7 +341,7 @@ Boolean TimeSpan::TryParseExact(ReadOnlySpan<Char> input, ReadOnlySpan<Char> for
 
 Boolean TimeSpan::TryParseExact(String input, Array<String> formats, IFormatProvider formatProvider, TimeSpan& result) {
   if (input == nullptr) {
-    result = TimeSpan();
+    result = rt::default__;
     return false;
   }
   return TimeSpanParse::TryParseExactMultiple(input, formats, formatProvider, TimeSpanStyles::None, result);
@@ -354,7 +354,7 @@ Boolean TimeSpan::TryParseExact(ReadOnlySpan<Char> input, Array<String> formats,
 Boolean TimeSpan::TryParseExact(String input, String format, IFormatProvider formatProvider, TimeSpanStyles styles, TimeSpan& result) {
   ValidateStyles(styles, "styles");
   if (input == nullptr || format == nullptr) {
-    result = TimeSpan();
+    result = rt::default__;
     return false;
   }
   return TimeSpanParse::TryParseExact(input, format, formatProvider, styles, result);
@@ -368,7 +368,7 @@ Boolean TimeSpan::TryParseExact(ReadOnlySpan<Char> input, ReadOnlySpan<Char> for
 Boolean TimeSpan::TryParseExact(String input, Array<String> formats, IFormatProvider formatProvider, TimeSpanStyles styles, TimeSpan& result) {
   ValidateStyles(styles, "styles");
   if (input == nullptr) {
-    result = TimeSpan();
+    result = rt::default__;
     return false;
   }
   return TimeSpanParse::TryParseExactMultiple(input, formats, formatProvider, styles, result);

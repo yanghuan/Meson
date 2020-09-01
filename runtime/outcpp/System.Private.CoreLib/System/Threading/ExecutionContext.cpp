@@ -65,7 +65,7 @@ AsyncFlowControl ExecutionContext___::SuppressFlow() {
     rt::throw_exception<InvalidOperationException>(SR::get_InvalidOperation_CannotSupressFlowMultipleTimes());
   }
   executionContext = executionContext->ShallowClone(true);
-  AsyncFlowControl result = AsyncFlowControl();
+  AsyncFlowControl result = rt::default__;
   currentThread->_executionContext = executionContext;
   result.Initialize(currentThread);
   return result;

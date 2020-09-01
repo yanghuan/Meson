@@ -63,7 +63,7 @@ Range Range::StartAt(Index start) {
 Range Range::EndAt(Index end) {
 }
 
-ValueTuple<> Range::GetOffsetAndLength(Int32 length) {
+ValueTuple<Int32, Int32> Range::GetOffsetAndLength(Int32 length) {
   Index start = Start;
   Int32 num = (!start.get_IsFromEnd()) ? start.get_Value() : (length - start.get_Value());
   Index end = End;

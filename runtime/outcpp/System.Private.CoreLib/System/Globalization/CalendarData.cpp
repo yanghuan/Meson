@@ -318,7 +318,7 @@ Boolean CalendarData___::GetCalendarInfo(String localeName, CalendarId calendarI
 
 Boolean CalendarData___::EnumDatePatterns(String localeName, CalendarId calendarId, CalendarDataType dataType, Array<String>& datePatterns) {
   datePatterns = nullptr;
-  IcuEnumCalendarsData callbackContext = IcuEnumCalendarsData();
+  IcuEnumCalendarsData callbackContext = rt::default__;
   callbackContext.Results = rt::newobj<List<String>>();
   callbackContext.DisallowDuplicates = true;
   Boolean flag = EnumCalendarInfo(localeName, calendarId, dataType, callbackContext);
@@ -451,7 +451,7 @@ Int32 CalendarData___::CountOccurrences(String input, Char value, Int32& index) 
 
 Boolean CalendarData___::EnumMonthNames(String localeName, CalendarId calendarId, CalendarDataType dataType, Array<String>& monthNames, String& leapHebrewMonthName) {
   monthNames = nullptr;
-  IcuEnumCalendarsData callbackContext = IcuEnumCalendarsData();
+  IcuEnumCalendarsData callbackContext = rt::default__;
   callbackContext.Results = rt::newobj<List<String>>();
   Boolean flag = EnumCalendarInfo(localeName, calendarId, dataType, callbackContext);
   if (flag) {
@@ -482,7 +482,7 @@ Boolean CalendarData___::EnumEraNames(String localeName, CalendarId calendarId, 
 
 Boolean CalendarData___::EnumCalendarInfo(String localeName, CalendarId calendarId, CalendarDataType dataType, Array<String>& calendarData) {
   calendarData = nullptr;
-  IcuEnumCalendarsData callbackContext = IcuEnumCalendarsData();
+  IcuEnumCalendarsData callbackContext = rt::default__;
   callbackContext.Results = rt::newobj<List<String>>();
   Boolean flag = EnumCalendarInfo(localeName, calendarId, dataType, callbackContext);
   if (flag) {
@@ -677,7 +677,7 @@ void CalendarData___::CheckSpecialCalendar(CalendarId& calendar, String& localeN
 }
 
 Boolean CalendarData___::CallEnumCalendarInfo(String localeName, CalendarId calendar, UInt32 calType, UInt32 lcType, Array<String>& data) {
-  EnumData value = EnumData();
+  EnumData value = rt::default__;
   value.userOverride = nullptr;
   value.strings = rt::newobj<List<String>>();
   if (lcType != 0 && ((Int32)lcType & Int32::MinValue) == 0) {
@@ -765,7 +765,7 @@ Int32 CalendarData___::GetCalendarsCore(String localeName, Boolean useUserOverri
 }
 
 Int32 CalendarData___::NlsGetCalendars(String localeName, Boolean useUserOverride, Array<CalendarId> calendars) {
-  NlsEnumCalendarsData value = NlsEnumCalendarsData();
+  NlsEnumCalendarsData value = rt::default__;
   value.userOverride = 0;
   value.calendars = rt::newobj<List<Int32>>();
   if (useUserOverride) {

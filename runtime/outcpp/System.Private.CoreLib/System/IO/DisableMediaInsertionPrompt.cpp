@@ -6,7 +6,7 @@
 
 namespace System::Private::CoreLib::System::IO::DisableMediaInsertionPromptNamespace {
 DisableMediaInsertionPrompt DisableMediaInsertionPrompt::Create() {
-  DisableMediaInsertionPrompt result = DisableMediaInsertionPrompt();
+  DisableMediaInsertionPrompt result = rt::default__;
   result._disableSuccess = Interop::Kernel32::SetThreadErrorMode(1u, result._oldMode);
   return result;
 }
