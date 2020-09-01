@@ -1,8 +1,10 @@
 #include "IPv6AddressHelper-dep.h"
 
+#include <System.Private.CoreLib/System/Char-dep.h>
 #include <System.Private.CoreLib/System/Span-dep.h>
 #include <System.Private.CoreLib/System/UInt16-dep.h>
 #include <System.Private.CoreLib/System/UInt32-dep.h>
+#include <System.Private.CoreLib/System/ValueTuple-dep.h>
 #include <System.Private.Uri/System/IPv4AddressHelper-dep.h>
 #include <System.Private.Uri/System/Uri-dep.h>
 
@@ -15,6 +17,48 @@ String IPv6AddressHelper::ParseCanonicalName(String str, Int32 start, Boolean& i
   span.Clear();
   Parse(str, span, start, scopeId);
   isLoopback = IsLoopback(span);
+  ValueTuple<Int32, Int32> tuple = FindCompressionRange(span);
+  Int32 item = tuple.Item1;
+  Int32 item2 = tuple.Item2;
+  Boolean flag = ShouldHaveIpv4Embedded(span);
+  Char is[48] = {};
+  Span<Char> span2 = is;
+  span2[0] = 91;
+  Int32 num = 1;
+  for (Int32 i = 0; i < 8; i++) {
+    Int32 charsWritten;
+    if (flag && i == 6) {
+      span2[num++] = 58;
+      Boolean flag2 = (span[i] >> 8).TryFormat(span2.Slice(num), charsWritten);
+      num += charsWritten;
+      span2[num++] = 46;
+      flag2 = (span[i] & 255).TryFormat(span2.Slice(num), charsWritten);
+      num += charsWritten;
+      span2[num++] = 46;
+      flag2 = (span[i + 1] >> 8).TryFormat(span2.Slice(num), charsWritten);
+      num += charsWritten;
+      span2[num++] = 46;
+      flag2 = (span[i + 1] & 255).TryFormat(span2.Slice(num), charsWritten);
+      num += charsWritten;
+      break;
+    }
+    if (item == i) {
+      span2[num++] = 58;
+    }
+    if (item <= i && item2 == 8) {
+      span2[num++] = 58;
+      break;
+    }
+    if (item > i || i >= item2) {
+      if (i != 0) {
+        span2[num++] = 58;
+      }
+      Boolean flag2 = span[i].TryFormat(span2.Slice(num), charsWritten, "x");
+      num += charsWritten;
+    }
+  }
+  span2[num++] = 93;
+  return rt::newobj<String>(span2.Slice(0, num));
 }
 
 Boolean IPv6AddressHelper::IsLoopback(ReadOnlySpan<UInt16> numbers) {
@@ -167,7 +211,9 @@ ValueTuple<Int32, Int32> IPv6AddressHelper::FindCompressionRange(ReadOnlySpan<UI
     }
   }
   if (num <= 1) {
+    return {-1, -1};
   }
+  return {num2, num2 + num};
 }
 
 Boolean IPv6AddressHelper::ShouldHaveIpv4Embedded(ReadOnlySpan<UInt16> numbers) {

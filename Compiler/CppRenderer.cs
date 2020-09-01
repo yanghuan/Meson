@@ -821,6 +821,12 @@ namespace Meson.Compiler {
       node.FalseExpression.Render(this);
     }
 
+    internal void Render(InitializationExpressionSyntax node) {
+      Write(Tokens.OpenBrace);
+      WriteNodesWithSeparated(node.Expressions);
+      Write(Tokens.CloseBrace);
+    }
+
     internal void Render(VariableInitializerSyntax node) {
       node.Name.Render(this);
       if (node.Initializer != null) {

@@ -500,7 +500,7 @@ void CalendarData___::EnumCalendarInfoCallback(Char* calendarStringPtr, IntPtr c
     ReadOnlySpan<Char> strA = ReadOnlySpan<Char>(calendarStringPtr, String::in::wcslen(calendarStringPtr));
     IcuEnumCalendarsData& reference = Unsafe::As<Byte, IcuEnumCalendarsData>(*(Byte*)(void*)context);
     if (reference.DisallowDuplicates) {
-      for (String& result : reference.Results) {
+      for (String& result : rt::each(reference.Results)) {
         if (String::in::CompareOrdinal(strA, result) == 0) {
           return;
         }

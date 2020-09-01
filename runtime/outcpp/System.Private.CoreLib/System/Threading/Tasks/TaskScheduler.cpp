@@ -135,7 +135,7 @@ Array<Task<>> TaskScheduler___::GetScheduledTasksForDebugger() {
     array = rt::newobj<List<Task<>>>(scheduledTasks)->ToArray();
   }
   Array<Task<>> array2 = array;
-  for (Task<>& task : array2) {
+  for (Task<>& task : rt::each(array2)) {
     Int32 id = task->get_Id();
   }
   return array;
@@ -146,7 +146,7 @@ Array<TaskScheduler> TaskScheduler___::GetTaskSchedulersForDebugger() {
     return rt::newarr<Array<TaskScheduler>>(1);
   }
   List<TaskScheduler> list = rt::newobj<List<TaskScheduler>>();
-  for (KeyValuePair<TaskScheduler, Object>& item : (IEnumerable<KeyValuePair<TaskScheduler, Object>>)s_activeTaskSchedulers) {
+  for (KeyValuePair<TaskScheduler, Object>& item : rt::each((IEnumerable<KeyValuePair<TaskScheduler, Object>>)s_activeTaskSchedulers)) {
     list->Add(item.get_Key());
   }
   if (!list->Contains(s_defaultTaskScheduler)) {
@@ -154,7 +154,7 @@ Array<TaskScheduler> TaskScheduler___::GetTaskSchedulersForDebugger() {
   }
   Array<TaskScheduler> array = list->ToArray();
   Array<TaskScheduler> array2 = array;
-  for (TaskScheduler& taskScheduler : array2) {
+  for (TaskScheduler& taskScheduler : rt::each(array2)) {
     Int32 id = taskScheduler->get_Id();
   }
   return array;

@@ -699,7 +699,8 @@ namespace Meson.Compiler {
     }
 
     public SyntaxNode VisitTupleExpression(TupleExpression tupleExpression) {
-      throw new NotImplementedException();
+      var elements = tupleExpression.Elements.Select(i => i.AcceptExpression(this));
+      return new InitializationExpressionSyntax(elements);
     }
 
     public SyntaxNode VisitTypeOfExpression(TypeOfExpression typeOfExpression) {
@@ -880,7 +881,7 @@ namespace Meson.Compiler {
       var variableName = foreachStatement.VariableNameToken.Accept<IdentifierSyntax>(this);
       var expression = foreachStatement.InExpression.AcceptExpression(this);
       var embeddedStatement = foreachStatement.EmbeddedStatement.AcceptStatement(this);
-      return new ForeachStatementSyntax(new RefExpressionSyntax(variableType), variableName, expression, embeddedStatement);
+      return new ForeachStatementSyntax(new RefExpressionSyntax(variableType), variableName, IdentifierSyntax.Each.Invation(expression), embeddedStatement);
     }
 
     public SyntaxNode VisitForStatement(ForStatement forStatement) {
@@ -1208,7 +1209,8 @@ namespace Meson.Compiler {
     }
 
     public SyntaxNode VisitTupleType(TupleAstType tupleType) {
-      throw new NotImplementedException();
+      var type = tupleType.GetResolveResult().Type;
+      return GetTypeName(type);
     }
 
     public SyntaxNode VisitTupleTypeElement(TupleTypeElement tupleTypeElement) {

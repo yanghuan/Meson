@@ -46,7 +46,7 @@ Type ComActivator::BasicClassFactory___::GetValidatedInterfaceType(Type classTyp
     rt::throw_exception<COMException>(String::in::Empty, -2147221232);
   }
   Array<Type> interfaces = classType->GetInterfaces();
-  for (Type& type : interfaces) {
+  for (Type type : rt::each(interfaces)) {
     if (type->get_GUID() == riid) {
       return type;
     }
@@ -153,7 +153,7 @@ void ComActivator::ClassRegistrationScenarioForType(ComActivationContext cxt, Bo
   while (type3 != nullptr && !flag) {
     Array<MethodInfo> methods = type3->GetMethods(BindingFlags::Instance | BindingFlags::Static | BindingFlags::Public | BindingFlags::NonPublic);
     Array<MethodInfo> array = methods;
-    for (MethodInfo& methodInfo : array) {
+    for (MethodInfo& methodInfo : rt::each(array)) {
       if (methodInfo->GetCustomAttributes(type, true)->get_Length() != 0) {
         if (!methodInfo->get_IsStatic()) {
           String resourceFormat = register ? SR::get_InvalidOperation_NonStaticComRegFunction() : SR::get_InvalidOperation_NonStaticComUnRegFunction();

@@ -49,7 +49,7 @@ void PasteArguments::AppendArgument(StringBuilder stringBuilder, String argument
 }
 
 Boolean PasteArguments::ContainsNoWhitespaceOrQuotes(String s) {
-  for (Char& c : s) {
+  for (Char& c : rt::each(s)) {
     if (Char::IsWhiteSpace(c) || c == 34) {
       return false;
     }
@@ -59,12 +59,12 @@ Boolean PasteArguments::ContainsNoWhitespaceOrQuotes(String s) {
 
 String PasteArguments::Paste(IEnumerable<String> arguments, Boolean pasteFirstArgumentUsingArgV0Rules) {
   StringBuilder stringBuilder = rt::newobj<StringBuilder>();
-  for (String& argument : arguments) {
+  for (String& argument : rt::each(arguments)) {
     if (pasteFirstArgumentUsingArgV0Rules) {
       pasteFirstArgumentUsingArgV0Rules = false;
       Boolean flag = false;
       String text = argument;
-      for (Char& c : text) {
+      for (Char& c : rt::each(text)) {
         if (c == 34) {
           rt::throw_exception<ApplicationException>("The argv[0] argument cannot include a double quote.");
         }

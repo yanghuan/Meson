@@ -39,7 +39,7 @@ Boolean EventParameterInfo::GenerateMetadata(Byte* pMetadataBlob, UInt32& offset
     if (properties != nullptr) {
       EventPipeMetadataGenerator::in::WriteToBuffer(pMetadataBlob, blobSize, offset, (UInt32)properties->get_Length());
       Array<PropertyAnalysis> array = properties;
-      for (PropertyAnalysis& property : array) {
+      for (PropertyAnalysis& property : rt::each(array)) {
         if (!GenerateMetadataForProperty(property, pMetadataBlob, offset, blobSize)) {
           return false;
         }
@@ -67,7 +67,7 @@ Boolean EventParameterInfo::GenerateMetadataForProperty(PropertyAnalysis propert
     if (properties != nullptr) {
       EventPipeMetadataGenerator::in::WriteToBuffer(pMetadataBlob, blobSize, offset, (UInt32)properties->get_Length());
       Array<PropertyAnalysis> array = properties;
-      for (PropertyAnalysis& property2 : array) {
+      for (PropertyAnalysis& property2 : rt::each(array)) {
         if (!GenerateMetadataForProperty(property2, pMetadataBlob, offset, blobSize)) {
           return false;
         }
@@ -124,7 +124,7 @@ Boolean EventParameterInfo::GenerateMetadataForTypeV2(TraceLoggingTypeInfo typeI
     if (properties != nullptr) {
       EventPipeMetadataGenerator::in::WriteToBuffer(pMetadataBlob, blobSize, offset, (UInt32)properties->get_Length());
       Array<PropertyAnalysis> array = properties;
-      for (PropertyAnalysis& propertyAnalysis : array) {
+      for (PropertyAnalysis& propertyAnalysis : rt::each(array)) {
         if (!GenerateMetadataForNamedTypeV2(propertyAnalysis->name, propertyAnalysis->typeInfo, pMetadataBlob, offset, blobSize)) {
           return false;
         }
@@ -238,7 +238,7 @@ Boolean EventParameterInfo::GetMetadataLength(UInt32& size) {
     Array<PropertyAnalysis> properties = invokeTypeInfo->properties;
     if (properties != nullptr) {
       Array<PropertyAnalysis> array = properties;
-      for (PropertyAnalysis& property : array) {
+      for (PropertyAnalysis& property : rt::each(array)) {
         size += GetMetadataLengthForProperty(property);
       }
     }
@@ -257,7 +257,7 @@ UInt32 EventParameterInfo::GetMetadataLengthForProperty(PropertyAnalysis propert
     Array<PropertyAnalysis> properties = invokeTypeInfo->properties;
     if (properties != nullptr) {
       Array<PropertyAnalysis> array = properties;
-      for (PropertyAnalysis& property2 : array) {
+      for (PropertyAnalysis& property2 : rt::each(array)) {
         num += GetMetadataLengthForProperty(property2);
       }
     }
@@ -296,7 +296,7 @@ Boolean EventParameterInfo::GetMetadataLengthForTypeV2(TraceLoggingTypeInfo type
     Array<PropertyAnalysis> properties = invokeTypeInfo->properties;
     if (properties != nullptr) {
       Array<PropertyAnalysis> array = properties;
-      for (PropertyAnalysis& propertyAnalysis : array) {
+      for (PropertyAnalysis& propertyAnalysis : rt::each(array)) {
         UInt32 size2;
         if (!GetMetadataLengthForNamedTypeV2(propertyAnalysis->name, propertyAnalysis->typeInfo, size2)) {
           return false;

@@ -60,7 +60,7 @@ void AssemblyLoadContext___::ContextualReflectionScope::Dispose() {
 
 IEnumerable<Assembly> AssemblyLoadContext___::get_Assemblies() {
   Array<Assembly> loadedAssemblies = GetLoadedAssemblies();
-  for (Assembly& assembly : loadedAssemblies) {
+  for (Assembly& assembly : rt::each(loadedAssemblies)) {
     AssemblyLoadContext loadContext = GetLoadContext(assembly);
     if (loadContext == (AssemblyLoadContext)this) {
     }
@@ -86,7 +86,7 @@ IEnumerable<AssemblyLoadContext> AssemblyLoadContext___::get_All() {
     rt::lock(s_allContexts);
     list = rt::newobj<List<WeakReference<AssemblyLoadContext>>>(s_allContexts->get_Values());
   }
-  for (WeakReference<AssemblyLoadContext>& item : list) {
+  for (WeakReference<AssemblyLoadContext>& item : rt::each(list)) {
     AssemblyLoadContext target;
     if (item->TryGetTarget(target)) {
     }
@@ -361,7 +361,7 @@ void AssemblyLoadContext___::Unload() {
 void AssemblyLoadContext___::OnProcessExit() {
   {
     rt::lock(s_allContexts);
-    for (KeyValuePair<Int64, WeakReference<AssemblyLoadContext>>& s_allContext : s_allContexts) {
+    for (KeyValuePair<Int64, WeakReference<AssemblyLoadContext>>& s_allContext : rt::each(s_allContexts)) {
       AssemblyLoadContext target;
       if (s_allContext.get_Value()->TryGetTarget(target)) {
         target->RaiseUnloadEvent();

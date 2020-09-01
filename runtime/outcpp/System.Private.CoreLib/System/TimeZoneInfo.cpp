@@ -373,7 +373,7 @@ String TimeZoneInfo___::StringSerializer::GetSerializedString(TimeZoneInfo zone)
   serializedText.Append(59);
   Array<AdjustmentRule> adjustmentRules = zone->GetAdjustmentRules();
   Array<AdjustmentRule> array = adjustmentRules;
-  for (AdjustmentRule& adjustmentRule : array) {
+  for (AdjustmentRule& adjustmentRule : rt::each(array)) {
     serializedText.Append(91);
     serializedText.AppendSpanFormattable(adjustmentRule->get_DateStart(), "MM:dd:yyyy", DateTimeFormatInfo::in::get_InvariantInfo());
     serializedText.Append(59);
@@ -423,7 +423,7 @@ TimeZoneInfo___::StringSerializer::StringSerializer(String str) {
 }
 
 void TimeZoneInfo___::StringSerializer::SerializeSubstitute(String text, ValueStringBuilder& serializedText) {
-  for (Char& c : text) {
+  for (Char& c : rt::each(text)) {
     if (c == 92 || c == 91 || c == 93 || c == 59) {
       serializedText.Append(92);
     }
@@ -1699,7 +1699,7 @@ void TimeZoneInfo___::PopulateAllSystemTimeZones(CachedData cachedData) {
     rt::Using(registryKey);
     if (registryKey != nullptr) {
       Array<String> subKeyNames = registryKey->GetSubKeyNames();
-      for (String& id : subKeyNames) {
+      for (String& id : rt::each(subKeyNames)) {
         TimeZoneInfo value;
         Exception e;
         TryGetTimeZone(id, false, value, e, cachedData);
@@ -1763,7 +1763,7 @@ String TimeZoneInfo___::FindIdFromTimeZoneInformation(Interop::Kernel32::TIME_ZO
       return nullptr;
     }
     Array<String> subKeyNames = registryKey->GetSubKeyNames();
-    for (String& text : subKeyNames) {
+    for (String& text : rt::each(subKeyNames)) {
       if (TryCompareTimeZoneInformationToRegistry(timeZone, text, dstDisabled)) {
         return text;
       }

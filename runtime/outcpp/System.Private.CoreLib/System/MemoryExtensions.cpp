@@ -15,6 +15,7 @@
 #include <System.Private.CoreLib/System/ThrowHelper-dep.h>
 #include <System.Private.CoreLib/System/UInt32-dep.h>
 #include <System.Private.CoreLib/System/UInt64-dep.h>
+#include <System.Private.CoreLib/System/ValueTuple-dep.h>
 
 namespace System::Private::CoreLib::System::MemoryExtensionsNamespace {
 using namespace Internal::Runtime::CompilerServices;
@@ -110,6 +111,10 @@ ReadOnlyMemory<Char> MemoryExtensions::AsMemory(String text, Range range) {
     }
     return rt::default__;
   }
+  ValueTuple<Int32, Int32> offsetAndLength = range.GetOffsetAndLength(text->get_Length());
+  Int32 item = offsetAndLength.Item1;
+  Int32 item2 = offsetAndLength.Item2;
+  return ReadOnlyMemory<Char>(text, item, item2);
 }
 
 Boolean MemoryExtensions::IsWhiteSpace(ReadOnlySpan<Char> span) {

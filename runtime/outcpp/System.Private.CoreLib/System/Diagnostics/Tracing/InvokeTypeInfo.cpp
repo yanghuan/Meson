@@ -21,7 +21,7 @@ void InvokeTypeInfo___::WriteMetadata(TraceLoggingMetadataCollector collector, S
     return;
   }
   Array<PropertyAnalysis> array = properties;
-  for (PropertyAnalysis& propertyAnalysis : array) {
+  for (PropertyAnalysis& propertyAnalysis : rt::each(array)) {
     EventFieldFormat format2 = EventFieldFormat::Default;
     EventFieldAttribute fieldAttribute = propertyAnalysis->fieldAttribute;
     if (fieldAttribute != nullptr) {
@@ -35,7 +35,7 @@ void InvokeTypeInfo___::WriteMetadata(TraceLoggingMetadataCollector collector, S
 void InvokeTypeInfo___::WriteData(TraceLoggingDataCollector collector, PropertyValue value) {
   if (properties != nullptr) {
     Array<PropertyAnalysis> array = properties;
-    for (PropertyAnalysis& propertyAnalysis : array) {
+    for (PropertyAnalysis& propertyAnalysis : rt::each(array)) {
       propertyAnalysis->typeInfo->WriteData(collector, propertyAnalysis->getter(value));
     }
   }

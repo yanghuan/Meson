@@ -146,13 +146,13 @@ Array<UInt64> ManifestBuilder___::GetChannelData() {
     return Array<>::in::Empty<UInt64>();
   }
   Int32 num = -1;
-  for (Int32& key : channelTab->get_Keys()) {
+  for (Int32& key : rt::each(channelTab->get_Keys())) {
     if (key > num) {
       num = key;
     }
   }
   Array<UInt64> array = rt::newarr<Array<UInt64>>(num + 1);
-  for (KeyValuePair<Int32, ChannelInfo>& item : channelTab) {
+  for (KeyValuePair<Int32, ChannelInfo>& item : rt::each(channelTab)) {
     array[item.get_Key()] = item.get_Value()->Keywords;
   }
   return array;
@@ -264,7 +264,7 @@ String ManifestBuilder___::CreateManifestString() {
   if (channelTab != nullptr) {
     sb->AppendLine(" <channels>");
     List<KeyValuePair<Int32, ChannelInfo>> list = rt::newobj<List<KeyValuePair<Int32, ChannelInfo>>>();
-    for (KeyValuePair<Int32, ChannelInfo>& item : channelTab) {
+    for (KeyValuePair<Int32, ChannelInfo>& item : rt::each(channelTab)) {
       list->Add(item);
     }
   }
@@ -272,7 +272,7 @@ String ManifestBuilder___::CreateManifestString() {
     sb->AppendLine(" <tasks>");
     List<Int32> list2 = rt::newobj<List<Int32>>(taskTab->get_Keys());
     list2->Sort();
-    for (Int32& item3 : list2) {
+    for (Int32& item3 : rt::each(list2)) {
       sb->Append("  <task");
       WriteNameAndMessageAttribs(sb, "task", taskTab[item3]);
       sb->Append(" value=\"")->Append(item3)->AppendLine("\"/>");
@@ -281,14 +281,14 @@ String ManifestBuilder___::CreateManifestString() {
   }
   if (mapsTab != nullptr) {
     sb->AppendLine(" <maps>");
-    for (Type& value3 : mapsTab->get_Values()) {
+    for (Type& value3 : rt::each(mapsTab->get_Values())) {
       Boolean flag2 = EventSource::in::GetCustomAttributeHelper(value3, typeof<FlagsAttribute>(), flags) != nullptr;
       String value2 = flag2 ? "bitMap" : "valueMap";
       sb->Append("  <")->Append(value2)->Append(" name=\"")->Append(value3->get_Name())->AppendLine("\">");
       Array<FieldInfo> fields = value3->GetFields(BindingFlags::DeclaredOnly | BindingFlags::Static | BindingFlags::Public);
       Boolean flag3 = false;
       Array<FieldInfo> array = fields;
-      for (FieldInfo& fieldInfo : array) {
+      for (FieldInfo& fieldInfo : rt::each(array)) {
         Object rawConstantValue = fieldInfo->GetRawConstantValue();
         if (rawConstantValue != nullptr) {
           UInt64 num = (UInt64)((!rt::is<UInt64>(rawConstantValue)) ? Convert::ToInt64(rawConstantValue) : ((Int64)(UInt64)rawConstantValue));
@@ -312,7 +312,7 @@ String ManifestBuilder___::CreateManifestString() {
   sb->AppendLine(" <opcodes>");
   List<Int32> list3 = rt::newobj<List<Int32>>(opcodeTab->get_Keys());
   list3->Sort();
-  for (Int32& item4 : list3) {
+  for (Int32& item4 : rt::each(list3)) {
     sb->Append("  <opcode");
     WriteNameAndMessageAttribs(sb, "opcode", opcodeTab[item4]);
     sb->Append(" value=\"")->Append(item4)->AppendLine("\"/>");
@@ -322,7 +322,7 @@ String ManifestBuilder___::CreateManifestString() {
     sb->AppendLine(" <keywords>");
     List<UInt64> list4 = rt::newobj<List<UInt64>>(keywordTab->get_Keys());
     list4->Sort();
-    for (UInt64& item5 : list4) {
+    for (UInt64& item5 : rt::each(list4)) {
       sb->Append("  <keyword");
       WriteNameAndMessageAttribs(sb, "keyword", keywordTab[item5]);
       sb->Append(" mask=\"0x")->Append(item5.ToString("x", CultureInfo::in::get_InvariantCulture()))->AppendLine("\"/>");
@@ -347,11 +347,11 @@ String ManifestBuilder___::CreateManifestString() {
   Array<String> array2 = rt::newarr<Array<String>>(stringTab->get_Keys()->get_Count());
   stringTab->get_Keys()->CopyTo(array2, 0);
   Array<>::in::Sort(array2, 0, array2->get_Length());
-  for (CultureInfo& item6 : list5) {
+  for (CultureInfo& item6 : rt::each(list5)) {
     sb->Append(" <resources culture=\"")->Append(item6->get_Name())->AppendLine("\">");
     sb->AppendLine("  <stringTable>");
     Array<String> array3 = array2;
-    for (String& text3 : array3) {
+    for (String& text3 : rt::each(array3)) {
       String localizedMessage = GetLocalizedMessage(text3, item6, true);
       sb->Append("   <string id=\"")->Append(text3)->Append("\" value=\"")->Append(localizedMessage)->AppendLine("\"/>");
     }
@@ -630,7 +630,7 @@ String ManifestBuilder___::TranslateToManifestConvention(String eventMessage, St
 Int32 ManifestBuilder___::TranslateIndexToManifestConvention(Int32 idx, String evtName) {
   List<Int32> value;
   if (perEventByteArrayArgIndices->TryGetValue(evtName, value)) {
-    for (Int32& item : value) {
+    for (Int32& item : rt::each(value)) {
       if (idx >= item) {
         idx++;
         continue;

@@ -23,7 +23,7 @@ void TypeAnalysis___::ctor(Type dataType, EventDataAttribute eventAttrib, List<T
   Object::in::ctor();
   IEnumerable<PropertyInfo> enumerable = Statics::GetProperties(dataType);
   List<PropertyAnalysis> list = rt::newobj<List<PropertyAnalysis>>();
-  for (PropertyInfo& item : enumerable) {
+  for (PropertyInfo& item : rt::each(enumerable)) {
     if (!Statics::HasCustomAttribute(item, typeof<EventIgnoreAttribute>()) && item->get_CanRead() && item->GetIndexParameters()->get_Length() == 0) {
       MethodInfo getMethod = Statics::GetGetMethod(item);
       if (!(getMethod == nullptr) && !getMethod->get_IsStatic() && getMethod->get_IsPublic()) {
@@ -37,7 +37,7 @@ void TypeAnalysis___::ctor(Type dataType, EventDataAttribute eventAttrib, List<T
   }
   properties = list->ToArray();
   Array<PropertyAnalysis> array = properties;
-  for (PropertyAnalysis& propertyAnalysis : array) {
+  for (PropertyAnalysis& propertyAnalysis : rt::each(array)) {
     TraceLoggingTypeInfo typeInfo = propertyAnalysis->typeInfo;
     level = (EventLevel)Statics::Combine((Int32)typeInfo->get_Level(), (Int32)level);
     opcode = (EventOpcode)Statics::Combine((Int32)typeInfo->get_Opcode(), (Int32)opcode);

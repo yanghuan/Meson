@@ -85,7 +85,7 @@ Array<EncodingInfo> EncodingTable::GetEncodings(Dictionary<Int32, EncodingInfo> 
   }
   Array<EncodingInfo> array3 = rt::newarr<Array<EncodingInfo>>(encodingInfoList->get_Count());
   Int32 num2 = 0;
-  for (KeyValuePair<Int32, EncodingInfo>& encodingInfo : encodingInfoList) {
+  for (KeyValuePair<Int32, EncodingInfo>& encodingInfo : rt::each(encodingInfoList)) {
     array3[num2++] = encodingInfo.get_Value();
   }
   return array3;

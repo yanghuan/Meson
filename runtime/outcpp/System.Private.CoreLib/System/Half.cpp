@@ -16,6 +16,7 @@
 #include <System.Private.CoreLib/System/ThrowHelper-dep.h>
 #include <System.Private.CoreLib/System/UInt32-dep.h>
 #include <System.Private.CoreLib/System/UInt64-dep.h>
+#include <System.Private.CoreLib/System/ValueTuple-dep.h>
 
 namespace System::Private::CoreLib::System::HalfNamespace {
 using namespace System::Globalization;
@@ -353,6 +354,11 @@ Single Half::op_Explicit(Half value, Single) {
         if (num2 == 0) {
           return BitConverter::Int32BitsToSingle(flag ? Int32::MinValue : 0);
         }
+        ValueTuple<Int32, UInt32> tuple = NormSubnormalF16Sig(num2);
+        num = tuple.Item1;
+        num2 = tuple.Item2;
+        num--;
+        break;
       }}
   return CreateSingle(flag, (Byte)(num + 112), num2 << 13);
 }
@@ -375,6 +381,11 @@ Double Half::op_Explicit(Half value, Double) {
         if (num2 == 0) {
           return BitConverter::Int64BitsToDouble(flag ? Int64::MinValue : 0);
         }
+        ValueTuple<Int32, UInt32> tuple = NormSubnormalF16Sig(num2);
+        num = tuple.Item1;
+        num2 = tuple.Item2;
+        num--;
+        break;
       }}
   return CreateDouble(flag, (UInt16)(num + 1008), (UInt64)num2 << 42);
 }
@@ -388,6 +399,7 @@ Half Half::Negate(Half value) {
 
 ValueTuple<Int32, UInt32> Half::NormSubnormalF16Sig(UInt32 sig) {
   Int32 num = BitOperations::LeadingZeroCount(sig) - 16 - 5;
+  return {1 - num, sig << num};
 }
 
 Half Half::CreateHalfNaN(Boolean sign, UInt64 significand) {

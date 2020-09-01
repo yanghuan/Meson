@@ -1,5 +1,6 @@
 #include "HexConverter-dep.h"
 
+#include <System.Private.CoreLib/System/IntPtr-dep.h>
 #include <System.Private.CoreLib/System/UInt32-dep.h>
 
 namespace System::Private::CoreLib::System::HexConverterNamespace {

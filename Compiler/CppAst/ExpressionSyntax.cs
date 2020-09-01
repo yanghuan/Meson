@@ -278,4 +278,16 @@ namespace Meson.Compiler.CppAst {
       renderer.Render(this);
     }
   }
+
+  sealed class InitializationExpressionSyntax : ExpressionSyntax {
+    public List<ExpressionSyntax> Expressions = new List<ExpressionSyntax>();
+
+    public InitializationExpressionSyntax(IEnumerable<ExpressionSyntax> expressions) {
+      Expressions.AddRange(expressions);
+    }
+
+    internal override void Render(CppRenderer renderer) {
+      renderer.Render(this);
+    }
+  }
 }

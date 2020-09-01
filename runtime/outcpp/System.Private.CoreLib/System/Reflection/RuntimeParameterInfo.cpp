@@ -213,7 +213,7 @@ Object RuntimeParameterInfo___::GetDefaultValueInternal(Boolean raw) {
   }
   if (obj == DBNull::in::Value) {
     if (raw) {
-      for (CustomAttributeData& customAttribute : CustomAttributeData::in::GetCustomAttributes((RuntimeParameterInfo)this)) {
+      for (CustomAttributeData& customAttribute : rt::each(CustomAttributeData::in::GetCustomAttributes((RuntimeParameterInfo)this))) {
         Type declaringType = customAttribute->get_Constructor()->get_DeclaringType();
         if (declaringType == typeof<DateTimeConstantAttribute>()) {
           obj = GetRawDateTimeConstant(customAttribute);
@@ -244,7 +244,7 @@ Object RuntimeParameterInfo___::GetDefaultValueInternal(Boolean raw) {
 }
 
 Decimal RuntimeParameterInfo___::GetRawDecimalConstant(CustomAttributeData attr) {
-  for (CustomAttributeNamedArgument& namedArgument : attr->get_NamedArguments()) {
+  for (CustomAttributeNamedArgument& namedArgument : rt::each(attr->get_NamedArguments())) {
     if (namedArgument.get_MemberInfo()->get_Name()->Equals("Value")) {
       return (Decimal)namedArgument.get_TypedValue().get_Value();
     }
@@ -268,7 +268,7 @@ Decimal RuntimeParameterInfo___::GetRawDecimalConstant(CustomAttributeData attr)
 }
 
 DateTime RuntimeParameterInfo___::GetRawDateTimeConstant(CustomAttributeData attr) {
-  for (CustomAttributeNamedArgument& namedArgument : attr->get_NamedArguments()) {
+  for (CustomAttributeNamedArgument& namedArgument : rt::each(attr->get_NamedArguments())) {
     if (namedArgument.get_MemberInfo()->get_Name()->Equals("Value")) {
       return DateTime((Int64)namedArgument.get_TypedValue().get_Value());
     }
@@ -277,7 +277,7 @@ DateTime RuntimeParameterInfo___::GetRawDateTimeConstant(CustomAttributeData att
 }
 
 Object RuntimeParameterInfo___::GetRawConstant(CustomAttributeData attr) {
-  for (CustomAttributeNamedArgument& namedArgument : attr->get_NamedArguments()) {
+  for (CustomAttributeNamedArgument& namedArgument : rt::each(attr->get_NamedArguments())) {
     if (namedArgument.get_MemberInfo()->get_Name()->Equals("Value")) {
       return namedArgument.get_TypedValue().get_Value();
     }

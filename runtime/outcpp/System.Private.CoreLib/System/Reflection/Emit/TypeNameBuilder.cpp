@@ -104,7 +104,7 @@ String TypeNameBuilder___::ToString() {
 }
 
 Boolean TypeNameBuilder___::ContainsReservedChar(String name) {
-  for (Char& c : name) {
+  for (Char& c : rt::each(name)) {
     if (c == 0) {
       break;
     }
@@ -132,7 +132,7 @@ Boolean TypeNameBuilder___::IsTypeNameReservedChar(Char ch) {
 
 void TypeNameBuilder___::EscapeName(String name) {
   if (ContainsReservedChar(name)) {
-    for (Char& c : name) {
+    for (Char& c : rt::each(name)) {
       if (c != 0) {
         if (IsTypeNameReservedChar(c)) {
           _str->Append(92);
@@ -153,7 +153,7 @@ void TypeNameBuilder___::EscapeAssemblyName(String name) {
 
 void TypeNameBuilder___::EscapeEmbeddedAssemblyName(String name) {
   if (name->Contains(93)) {
-    for (Char& c : name) {
+    for (Char& c : rt::each(name)) {
       if (c == 93) {
         Append(92);
       }
@@ -179,7 +179,7 @@ void TypeNameBuilder___::PopOpenGenericArgument() {
 }
 
 void TypeNameBuilder___::Append(String pStr) {
-  for (Char& c : pStr) {
+  for (Char& c : rt::each(pStr)) {
     if (c != 0) {
       _str->Append(c);
       continue;

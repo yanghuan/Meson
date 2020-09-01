@@ -48,7 +48,7 @@ String AsyncMethodBuilderCore::GetAsyncStateMachineDescription(IAsyncStateMachin
   StringBuilder stringBuilder = rt::newobj<StringBuilder>();
   stringBuilder->AppendLine(type->get_FullName());
   Array<FieldInfo> array = fields;
-  for (FieldInfo& fieldInfo : array) {
+  for (FieldInfo& fieldInfo : rt::each(array)) {
     stringBuilder->Append("    ")->Append(fieldInfo->get_Name())->Append(": ")->Append(fieldInfo->GetValue(stateMachine))->AppendLine();
   }
   return stringBuilder->ToString();

@@ -46,7 +46,7 @@ SignatureHelper SignatureHelper___::GetMethodSigHelper(Module mod, CallingConven
 SignatureHelper SignatureHelper___::GetMethodSpecSigHelper(Module scope, Array<Type> inst) {
   SignatureHelper signatureHelper = rt::newobj<SignatureHelper>(scope, MdSigCallingConvention::GenericInst);
   signatureHelper->AddData(inst->get_Length());
-  for (Type& clsArgument : inst) {
+  for (Type& clsArgument : rt::each(inst)) {
     signatureHelper->AddArgument(clsArgument);
   }
   return signatureHelper;
@@ -209,7 +209,7 @@ void SignatureHelper___::AddOneArgTypeHelper(Type argument, Boolean pinned) {
 
 void SignatureHelper___::AddOneArgTypeHelper(Type clsArgument, Array<Type> requiredCustomModifiers, Array<Type> optionalCustomModifiers) {
   if (optionalCustomModifiers != nullptr) {
-    for (Type& type : optionalCustomModifiers) {
+    for (Type& type : rt::each(optionalCustomModifiers)) {
       if (type == nullptr) {
         rt::throw_exception<ArgumentNullException>("optionalCustomModifiers");
       }
@@ -225,7 +225,7 @@ void SignatureHelper___::AddOneArgTypeHelper(Type clsArgument, Array<Type> requi
     }
   }
   if (requiredCustomModifiers != nullptr) {
-    for (Type& type2 : requiredCustomModifiers) {
+    for (Type& type2 : rt::each(requiredCustomModifiers)) {
       if (type2 == nullptr) {
         rt::throw_exception<ArgumentNullException>("requiredCustomModifiers");
       }
@@ -263,7 +263,7 @@ void SignatureHelper___::AddOneArgTypeHelperWorker(Type clsArgument, Boolean las
     Array<Type> genericArguments = clsArgument->GetGenericArguments();
     AddData(genericArguments->get_Length());
     Array<Type> array = genericArguments;
-    for (Type& clsArgument2 : array) {
+    for (Type& clsArgument2 : rt::each(array)) {
       AddOneArgTypeHelper(clsArgument2);
     }
     return;

@@ -52,7 +52,7 @@ void EventPipeConfiguration___::EnableProviderConfiguration(EventPipeProviderCon
 }
 
 void EventPipeConfiguration___::EnableProviderRange(Array<EventPipeProviderConfiguration> providerConfigs) {
-  for (EventPipeProviderConfiguration& providerConfig : providerConfigs) {
+  for (EventPipeProviderConfiguration& providerConfig : rt::each(providerConfigs)) {
     EnableProviderConfiguration(providerConfig);
   }
 }

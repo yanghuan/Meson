@@ -202,7 +202,7 @@ void ResourceManager___::ReleaseAllResources() {
   _lastUsedResourceCache = rt::newobj<CultureNameResourceSetPair>();
   {
     rt::lock(resourceSets);
-    for (KeyValuePair<String, ResourceSet>& item : resourceSets) {
+    for (KeyValuePair<String, ResourceSet>& item : rt::each(resourceSets)) {
       String key;
       ResourceSet value;
       item.Deconstruct(key, value);
@@ -295,7 +295,7 @@ ResourceSet ResourceManager___::InternalGetResourceSet(CultureInfo culture, Bool
     }
   }
   ResourceFallbackManager resourceFallbackManager = rt::newobj<ResourceFallbackManager>(culture, _neutralResourcesCulture, tryParents);
-  for (CultureInfo& item : resourceFallbackManager) {
+  for (CultureInfo& item : rt::each(resourceFallbackManager)) {
     {
       rt::lock(resourceSets);
       if (resourceSets->TryGetValue(item->get_Name(), value)) {
@@ -315,7 +315,7 @@ ResourceSet ResourceManager___::InternalGetResourceSet(CultureInfo culture, Bool
 
 IL_00c9:
   if (value != nullptr && cultureInfo != nullptr) {
-    for (CultureInfo& item2 : resourceFallbackManager) {
+    for (CultureInfo& item2 : rt::each(resourceFallbackManager)) {
       AddResourceSet(resourceSets, item2->get_Name(), value);
       if (item2 == cultureInfo) {
         return value;
@@ -400,7 +400,7 @@ String ResourceManager___::GetString(String name, CultureInfo culture) {
     }
   }
   ResourceFallbackManager resourceFallbackManager = rt::newobj<ResourceFallbackManager>(culture, _neutralResourcesCulture, true);
-  for (CultureInfo& item : resourceFallbackManager) {
+  for (CultureInfo& item : rt::each(resourceFallbackManager)) {
     ResourceSet resourceSet2 = InternalGetResourceSet(item, true, true);
     if (resourceSet2 == nullptr) {
       break;
@@ -451,7 +451,7 @@ Object ResourceManager___::GetObject(String name, CultureInfo culture, Boolean w
     }
   }
   ResourceFallbackManager resourceFallbackManager = rt::newobj<ResourceFallbackManager>(culture, _neutralResourcesCulture, true);
-  for (CultureInfo& item : resourceFallbackManager) {
+  for (CultureInfo& item : rt::each(resourceFallbackManager)) {
     ResourceSet resourceSet2 = InternalGetResourceSet(item, true, true);
     if (resourceSet2 == nullptr) {
       break;

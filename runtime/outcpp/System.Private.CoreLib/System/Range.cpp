@@ -71,6 +71,7 @@ ValueTuple<Int32, Int32> Range::GetOffsetAndLength(Int32 length) {
   if ((UInt32)num2 > (UInt32)length || (UInt32)num > (UInt32)num2) {
     ThrowHelper::ThrowArgumentOutOfRangeException(ExceptionArgument::length);
   }
+  return {num, num2 - num};
 }
 
 } // namespace System::Private::CoreLib::System::RangeNamespace

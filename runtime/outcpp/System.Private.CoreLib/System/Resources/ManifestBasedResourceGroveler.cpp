@@ -175,7 +175,7 @@ Stream ManifestBasedResourceGroveler___::CaseInsensitiveManifestResourceStreamLo
   String text2 = (text != nullptr && name != nullptr) ? String::in::Concat(text, ReadOnlySpan<Char>(ptr, 1), name) : (text + name);
   String text3 = nullptr;
   Array<String> manifestResourceNames = satellite->GetManifestResourceNames();
-  for (String& text4 : manifestResourceNames) {
+  for (String& text4 : rt::each(manifestResourceNames)) {
     if (String::in::Equals(text4, text2, StringComparison::InvariantCultureIgnoreCase)) {
       if (text3 != nullptr) {
         rt::throw_exception<MissingManifestResourceException>(SR::Format(SR::get_MissingManifestResource_MultipleBlobs(), text2, satellite->ToString()));

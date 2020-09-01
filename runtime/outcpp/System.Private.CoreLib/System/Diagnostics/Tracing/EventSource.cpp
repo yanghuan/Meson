@@ -141,7 +141,7 @@ void EventSource___::Sha1ForNonSecretPurposes::Append(Byte input) {
 
 void EventSource___::Sha1ForNonSecretPurposes::Append(ReadOnlySpan<Byte> input) {
   ReadOnlySpan<Byte> readOnlySpan = input;
-  for (Byte& input2 : readOnlySpan) {
+  for (Byte& input2 : rt::each(readOnlySpan)) {
     Append(input2);
   }
 }
@@ -349,7 +349,7 @@ IEnumerable<EventSource> EventSource___::GetSources() {
   List<EventSource> list = rt::newobj<List<EventSource>>();
   {
     rt::lock(EventListener::in::get_EventListenersLock());
-    for (WeakReference<EventSource>& s_EventSource : EventListener::in::s_EventSources) {
+    for (WeakReference<EventSource>& s_EventSource : rt::each(EventListener::in::s_EventSources)) {
       EventSource target;
       if (s_EventSource->TryGetTarget(target) && !target->get_IsDisposed()) {
         list->Add(target);
@@ -1606,7 +1606,7 @@ Boolean EventSource___::AnyEventEnabled() {
 void EventSource___::EnsureDescriptorsInitialized() {
   if (m_eventData == nullptr) {
     m_rawManifest = CreateManifestAndDescriptors(GetType(), get_Name(), (EventSource)this);
-    for (WeakReference<EventSource>& s_EventSource : EventListener::in::s_EventSources) {
+    for (WeakReference<EventSource>& s_EventSource : rt::each(EventListener::in::s_EventSources)) {
       EventSource target;
       if (s_EventSource->TryGetTarget(target) && target->get_Guid() == m_guid && !target->get_IsDisposed() && target != (EventSource)this) {
         rt::throw_exception<ArgumentException>(SR::Format(SR::get_EventSource_EventSourceGuidInUse(), m_guid));
@@ -1686,7 +1686,7 @@ Attribute EventSource___::GetCustomAttributeHelper(MemberInfo member, Type attri
     }
     return result;
   }
-  for (CustomAttributeData& customAttribute : CustomAttributeData::in::GetCustomAttributes(member)) {
+  for (CustomAttributeData& customAttribute : rt::each(CustomAttributeData::in::GetCustomAttributes(member))) {
     if (!AttributeTypeNamesMatch(attributeType, customAttribute->get_Constructor()->get_ReflectedType())) {
       continue;
     }
@@ -1700,7 +1700,7 @@ Attribute EventSource___::GetCustomAttributeHelper(MemberInfo member, Type attri
     if (attribute == nullptr) {
       continue;
     }
-    for (CustomAttributeNamedArgument& namedArgument : customAttribute->get_NamedArguments()) {
+    for (CustomAttributeNamedArgument& namedArgument : rt::each(customAttribute->get_NamedArguments())) {
       PropertyInfo property = attributeType->GetProperty(namedArgument.get_MemberInfo()->get_Name(), BindingFlags::Instance | BindingFlags::Public);
       Object obj2 = namedArgument.get_TypedValue().get_Value();
       if (property->get_PropertyType()->get_IsEnum()) {
@@ -1780,7 +1780,7 @@ Array<Byte> EventSource___::CreateManifestAndDescriptors(Type eventSourceType, S
       }
     }
     Array<String> array = rt::newarr<Array<String>>(3);
-    for (String& text : array) {
+    for (String& text : rt::each(array)) {
       Type nestedType = eventSourceType->GetNestedType(text);
       if (!(nestedType != nullptr)) {
         continue;
@@ -1790,7 +1790,7 @@ Array<Byte> EventSource___::CreateManifestAndDescriptors(Type eventSourceType, S
         continue;
       }
       Array<FieldInfo> fields = nestedType->GetFields(BindingFlags::DeclaredOnly | BindingFlags::Static | BindingFlags::Public | BindingFlags::NonPublic);
-      for (FieldInfo& staticField : fields) {
+      for (FieldInfo& staticField : rt::each(fields)) {
         AddProviderEnumKind(manifestBuilder, staticField, text);
       }
     }
@@ -1799,7 +1799,7 @@ Array<Byte> EventSource___::CreateManifestAndDescriptors(Type eventSourceType, S
     manifestBuilder->AddKeyword("Session1", 70368744177664);
     manifestBuilder->AddKeyword("Session0", 140737488355328);
     if (eventSourceType != typeof<EventSource>()) {
-      for (MethodInfo& methodInfo : methods) {
+      for (MethodInfo& methodInfo : rt::each(methods)) {
         Array<ParameterInfo> args = methodInfo->GetParameters();
         EventAttribute eventAttribute = (EventAttribute)GetCustomAttributeHelper(methodInfo, typeof<EventAttribute>(), flags);
         if (methodInfo->get_IsStatic()) {
@@ -1903,7 +1903,7 @@ Array<Byte> EventSource___::CreateManifestAndDescriptors(Type eventSourceType, S
     String text4 = String::in::Empty;
     if (manifestBuilder != nullptr && manifestBuilder->get_Errors()->get_Count() > 0) {
       Boolean flag3 = true;
-      for (String& error : manifestBuilder->get_Errors()) {
+      for (String& error : rt::each(manifestBuilder->get_Errors())) {
         if (!flag3) {
           text4 += Environment::get_NewLine();
         }
@@ -2448,7 +2448,7 @@ void EventSource___::InitializeProviderMetadata() {
     }
     providerMetadata = Statics::MetadataForString(get_Name(), 0, list->get_Count(), 0);
     Int32 num2 = providerMetadata->get_Length() - list->get_Count();
-    for (Byte& item : list) {
+    for (Byte& item : rt::each(list)) {
       providerMetadata[num2++] = item;
     }
   } else {

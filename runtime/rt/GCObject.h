@@ -189,9 +189,25 @@ namespace rt {
     static constexpr bool value = ElementTypeTo::value && ElementTypeFrom::value && IsDerived<ElementTypeTo::type, ElementTypeFrom::type>;
   };
 
+
+  template <typename, typename = void>
+  struct GetTypeInterface {
+    using type = TypeList<>;
+  };
+
+  template <typename T>
+  struct GetTypeInterface<T, std::void_t<decltype(T::interface)>> {
+    using type = typename T::interface;
+  };
+
+  template <class Interfaces, class I>
+  constexpr bool IsInterfacesContains() {
+    return true;
+  }
+
   template <class To, class From>
   struct IsInterfaceConvertible {
-    static constexpr bool value = CodeOf<To> == TypeCode::Interface;
+    static constexpr bool value = CodeOf<To> == TypeCode::Interface && IsInterfacesContains<GetTypeInterface<From>::type, To>();
   };
 
   template <class To, class From>
@@ -796,6 +812,47 @@ namespace rt {
   }
 
   template <class T>
+  struct Enumerator {
+    struct Iterator {
+      T* ins_;
+      Iterator(T* ins) : ins_(ins) {}
+
+      bool operator !=(const Iterator& other) {
+        return ins_ != other.ins_;
+      }
+
+      Iterator operator ++() {
+        bool hasNext = ins_->MoveNext();
+        if (!hasNext) {
+          ins_ = nullptr;
+        }
+        return *this;
+      }
+
+      int operator *() {
+        return (*ins_)->get_Current();
+      }
+    };
+
+    T& ins_;
+    Enumerator(T& ins) : ins_(ins) {}
+
+    Iterator begin() {
+      bool hasNext = ins_->MoveNext();
+      return hasNext ? &ins_ : nullptr;
+    }
+
+    Iterator end() {
+      return nullptr;
+    }
+  };
+
+  template <class T>
+  inline void each(T& obj) {
+    return Enumerator(obj->GetEnumerator());
+  }
+
+  template <class T>
   inline void Using(const T& obj) {
   }
 
@@ -829,8 +886,8 @@ namespace rt {
     throw_exception(newobj<Ex>(std::forward<Args>(args)...));
   }
 
-  template <class A, class Size>
-  inline auto newarr(const Size& n) {
+  template <class A, class Size, class... Args>
+  inline auto newarr(const Size& n, Args&&... args) {
     using T = typename A::in::element_type;
     auto array = rt::Array<T, object>::newarr(GetPrimitiveValue(n));
     return *reinterpret_cast<A*>(&array);

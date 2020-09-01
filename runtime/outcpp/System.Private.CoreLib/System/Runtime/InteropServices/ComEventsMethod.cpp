@@ -94,7 +94,7 @@ ComEventsMethod ComEventsMethod___::Remove(ComEventsMethod methods, ComEventsMet
 void ComEventsMethod___::AddDelegate(Delegate d, Boolean wrapArgs) {
   {
     rt::lock(_delegateWrappers);
-    for (DelegateWrapper& delegateWrapper : _delegateWrappers) {
+    for (DelegateWrapper& delegateWrapper : rt::each(_delegateWrappers)) {
       if (delegateWrapper->get_Delegate()->GetType() == d->GetType() && delegateWrapper->get_WrapArgs() == wrapArgs) {
         delegateWrapper->set_Delegate(Delegate::in::Combine(delegateWrapper->get_Delegate(), d));
         return;
@@ -133,7 +133,7 @@ Object ComEventsMethod___::Invoke(Array<Object> args) {
   Object result = nullptr;
   {
     rt::lock(_delegateWrappers);
-    for (DelegateWrapper& delegateWrapper : _delegateWrappers) {
+    for (DelegateWrapper& delegateWrapper : rt::each(_delegateWrappers)) {
       result = delegateWrapper->Invoke(args);
     }
     return result;

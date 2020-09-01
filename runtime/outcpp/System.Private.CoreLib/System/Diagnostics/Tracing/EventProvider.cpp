@@ -128,7 +128,7 @@ void EventProvider___::EtwEnableCallBack(Guid& sourceId, Int32 controlCode, Byte
           if (sessions->get_Count() == 0) {
             sessions->Add(rt::newobj<Tuple<SessionInfo, Boolean>>(SessionInfo(0, 0), true));
           }
-          for (Tuple<SessionInfo, Boolean>& item2 : sessions) {
+          for (Tuple<SessionInfo, Boolean>& item2 : rt::each(sessions)) {
             Int32 sessionIdBit = item2->get_Item1().sessionIdBit;
             Int32 etwSessionId = item2->get_Item1().etwSessionId;
             Boolean item = item2->get_Item2();

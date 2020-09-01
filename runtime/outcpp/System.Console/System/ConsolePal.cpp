@@ -595,6 +595,7 @@ void ConsolePal::ResetColor() {
 
 ValueTuple<Int32, Int32> ConsolePal::GetCursorPosition() {
   Interop::Kernel32::CONSOLE_SCREEN_BUFFER_INFO bufferInfo = GetBufferInfo();
+  return {bufferInfo.dwCursorPosition.X, bufferInfo.dwCursorPosition.Y};
 }
 
 void ConsolePal::Beep() {
