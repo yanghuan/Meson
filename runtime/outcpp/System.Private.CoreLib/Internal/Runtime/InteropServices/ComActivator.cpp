@@ -46,6 +46,17 @@ Type ComActivator::BasicClassFactory___::GetValidatedInterfaceType(Type classTyp
     rt::throw_exception<COMException>(String::in::Empty, -2147221232);
   }
   Array<Type> interfaces = classType->GetInterfaces();
+  {
+    auto&& e = rt::each(interfaces);
+    auto __begin = e.begin();
+    auto __end = e.end();
+    while (__begin != __end) {
+      Type t = *__begin;
+      ++__begin;
+    }
+  }
+
+
   for (Type type : rt::each(interfaces)) {
     if (type->get_GUID() == riid) {
       return type;

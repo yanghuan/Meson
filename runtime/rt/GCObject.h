@@ -821,7 +821,7 @@ namespace rt {
         return ins_ != other.ins_;
       }
 
-      Iterator operator ++() {
+      Iterator& operator ++() {
         bool hasNext = ins_->MoveNext();
         if (!hasNext) {
           ins_ = nullptr;
@@ -829,7 +829,7 @@ namespace rt {
         return *this;
       }
 
-      int operator *() {
+      auto operator *() {
         return (*ins_)->get_Current();
       }
     };
@@ -848,8 +848,8 @@ namespace rt {
   };
 
   template <class T>
-  inline void each(T& obj) {
-    return Enumerator(obj->GetEnumerator());
+  inline Enumerator<decltype(T()->GetEnumerator())> each(T& obj) {
+    return obj->GetEnumerator();
   }
 
   template <class T>
