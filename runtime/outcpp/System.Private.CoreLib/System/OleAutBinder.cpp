@@ -3,10 +3,13 @@
 #include <System.Private.CoreLib/Microsoft/Win32/OAVariantLib-dep.h>
 #include <System.Private.CoreLib/System/Enum-dep.h>
 #include <System.Private.CoreLib/System/NotSupportedException-dep.h>
+#include <System.Private.CoreLib/System/Runtime/InteropServices/COMException-dep.h>
+#include <System.Private.CoreLib/System/SR-dep.h>
 #include <System.Private.CoreLib/System/Variant-dep.h>
 
 namespace System::Private::CoreLib::System::OleAutBinderNamespace {
 using namespace Microsoft::Win32;
+using namespace System::Runtime::InteropServices;
 
 Object OleAutBinder___::ChangeType(Object value, Type type, CultureInfo cultureInfo) {
   Variant source = Variant(value);
@@ -26,6 +29,7 @@ Object OleAutBinder___::ChangeType(Object value, Type type, CultureInfo cultureI
   try {
     return OAVariantLib::ChangeType(source, type, 16, cultureInfo).ToObject();
   } catch (NotSupportedException) {
+    rt::throw_exception<COMException>(SR::get_Interop_COM_TypeMismatch(), -2147352571);
   }
 }
 

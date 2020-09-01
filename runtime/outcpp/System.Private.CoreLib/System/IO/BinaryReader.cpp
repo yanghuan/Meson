@@ -14,6 +14,7 @@
 #include <System.Private.CoreLib/System/IO/Error-dep.h>
 #include <System.Private.CoreLib/System/IO/IOException-dep.h>
 #include <System.Private.CoreLib/System/IO/MemoryStream-dep.h>
+#include <System.Private.CoreLib/System/IO/SeekOrigin.h>
 #include <System.Private.CoreLib/System/Math-dep.h>
 #include <System.Private.CoreLib/System/ReadOnlySpan-dep.h>
 #include <System.Private.CoreLib/System/Span-dep.h>
@@ -127,6 +128,10 @@ Int32 BinaryReader___::Read() {
     try {
       num = _decoder->GetChars(ReadOnlySpan<Byte>(_charBytes, 0, num3), chars, false);
     } catch (...) {
+      if (_stream->get_CanSeek()) {
+        _stream->Seek(num2 - _stream->get_Position(), SeekOrigin::Current);
+      }
+      throw;
     }
   }
   return chars[0];
@@ -198,6 +203,7 @@ Decimal BinaryReader___::ReadDecimal() {
   try {
     return Decimal::ToDecimal(span);
   } catch (ArgumentException innerException) {
+    rt::throw_exception<IOException>(SR::get_Arg_DecBitCtor(), innerException);
   }
 }
 

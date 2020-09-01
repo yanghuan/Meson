@@ -400,6 +400,8 @@ Array<Type> RuntimeAssembly___::GetForwardedTypes() {
         continue;
       }
     } catch (Exception ex) {
+      o = nullptr;
+      item = ex;
     }
     if (o != nullptr) {
       list->Add(o);
@@ -423,6 +425,8 @@ void RuntimeAssembly___::AddPublicNestedTypes(Type type, List<Type> types, List<
   try {
     nestedTypes = type->GetNestedTypes(BindingFlags::Public);
   } catch (Exception item) {
+    exceptions->Add(item);
+    return;
   }
   Array<Type> array = nestedTypes;
   for (Type& type2 : array) {

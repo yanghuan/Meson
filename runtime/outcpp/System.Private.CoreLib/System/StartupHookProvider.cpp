@@ -58,6 +58,7 @@ void StartupHookProvider::ProcessStartupHooks() {
     try {
       array2[i].AssemblyName = rt::newobj<AssemblyName>(text2);
     } catch (Exception innerException) {
+      rt::throw_exception<ArgumentException>(SR::Format(SR::get_Argument_InvalidStartupHookSimpleAssemblyName(), text2), innerException);
     }
   }
   Array<StartupHookNameOrPath> array3 = array2;
@@ -78,6 +79,8 @@ void StartupHookProvider::CallStartupHook(StartupHookNameOrPath startupHook) {
       assembly = AssemblyLoadContext::in::get_Default()->LoadFromAssemblyName(startupHook.AssemblyName);
     }
   } catch (Exception innerException) {
+    String as = startupHook.Path;
+    rt::throw_exception<ArgumentException>(SR::Format(SR::get_Argument_StartupHookAssemblyLoadFailed(), as != nullptr ? as : startupHook.AssemblyName->ToString()), innerException);
   }
   Type type = assembly->GetType("StartupHook", true);
   MethodInfo method = type->GetMethod("Initialize", BindingFlags::Static | BindingFlags::Public | BindingFlags::NonPublic, nullptr, Type::in::EmptyTypes, nullptr);

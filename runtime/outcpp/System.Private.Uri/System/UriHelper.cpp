@@ -91,7 +91,7 @@ String UriHelper::EscapeString(String stringToEscape, Boolean checkExistingEscap
   if (stringToEscape->get_Length() == 0) {
     return String::in::Empty;
   }
-  ReadOnlySpan<Boolean> readOnlySpan = rt::default__;
+  ReadOnlySpan<Boolean> readOnlySpan;
   if ((forceEscape1 | forceEscape2) == 0) {
     readOnlySpan = unreserved;
   } else {
@@ -130,7 +130,7 @@ Array<Char> UriHelper::EscapeString(ReadOnlySpan<Char> stringToEscape, Array<Cha
       Array<>::in::Resize(dest, destSize + requiredSize + 120);
     }
   };
-  ReadOnlySpan<Boolean> readOnlySpan = rt::default__;
+  ReadOnlySpan<Boolean> readOnlySpan;
   if ((forceEscape1 | forceEscape2) == 0) {
     readOnlySpan = get_UnreservedReservedTable();
   } else {

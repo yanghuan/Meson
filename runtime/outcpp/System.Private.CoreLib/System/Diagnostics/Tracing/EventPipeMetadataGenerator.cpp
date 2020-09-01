@@ -130,6 +130,7 @@ Array<Byte> EventPipeMetadataGenerator___::GenerateMetadata(Int32 eventId, Strin
       return array;
     }
   } catch (...) {
+    return nullptr;
   }
 }
 

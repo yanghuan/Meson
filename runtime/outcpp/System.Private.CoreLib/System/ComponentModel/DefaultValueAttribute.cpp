@@ -35,6 +35,7 @@ void DefaultValueAttribute___::ctor(Type type, String value) {
     try {
       conversionResult = func(typeToConvert, stringValue);
     } catch (...) {
+      return false;
     }
     return true;
   };

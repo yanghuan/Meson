@@ -133,7 +133,7 @@ Array<Object> CustomAttribute::GetCustomAttributes(RuntimeType type, RuntimeType
     }
     return customAttributes;
   }
-  RuntimeType::in::ListBuilder<T> attributes = rt::default__;
+  RuntimeType::in::ListBuilder<T> attributes;
   Boolean mustBeInheritable = false;
   RuntimeType elementType = (caType->get_IsValueType() || caType->get_ContainsGenericParameters()) ? ((RuntimeType)typeof<Object>()) : caType;
   for (Int32 i = 0; i < pcas.get_Count(); i++) {
@@ -164,7 +164,7 @@ Array<Object> CustomAttribute::GetCustomAttributes(RuntimeMethodInfo method, Run
     }
     return customAttributes;
   }
-  RuntimeType::in::ListBuilder<T> attributes = rt::default__;
+  RuntimeType::in::ListBuilder<T> attributes;
   Boolean mustBeInheritable = false;
   RuntimeType elementType = (caType->get_IsValueType() || caType->get_ContainsGenericParameters()) ? ((RuntimeType)typeof<Object>()) : caType;
   for (Int32 i = 0; i < pcas.get_Count(); i++) {
@@ -231,7 +231,7 @@ Boolean CustomAttribute::IsCustomAttributeDefined(RuntimeModule decoratedModule,
   Array<CustomAttributeRecord> customAttributeRecords = CustomAttributeData::in::GetCustomAttributeRecords(decoratedModule, decoratedMetadataToken);
   if (attributeFilterType != nullptr) {
     MetadataImport scope = decoratedModule->get_MetadataImport();
-    RuntimeType::in::ListBuilder<T> derivedAttributes = rt::default__;
+    RuntimeType::in::ListBuilder<T> derivedAttributes;
     for (Int32 i = 0; i < customAttributeRecords->get_Length(); i++) {
       RuntimeType attributeType;
       IRuntimeMethodInfo ctorWithParameters;
@@ -251,7 +251,7 @@ Boolean CustomAttribute::IsCustomAttributeDefined(RuntimeModule decoratedModule,
 }
 
 Array<Object> CustomAttribute::GetCustomAttributes(RuntimeModule decoratedModule, Int32 decoratedMetadataToken, Int32 pcaCount, RuntimeType attributeFilterType) {
-  RuntimeType::in::ListBuilder<T> attributes = rt::default__;
+  RuntimeType::in::ListBuilder<T> attributes;
   AddCustomAttributes(attributes, decoratedModule, decoratedMetadataToken, attributeFilterType, false, rt::default__);
   RuntimeType elementType = (attributeFilterType == nullptr || attributeFilterType->get_IsValueType() || attributeFilterType->get_ContainsGenericParameters()) ? ((RuntimeType)typeof<Object>()) : attributeFilterType;
   Array<Object> array = CreateAttributeArrayHelper(elementType, attributes.get_Count() + pcaCount);
@@ -322,6 +322,7 @@ void CustomAttribute::AddCustomAttributes(RuntimeType::in::ListBuilder<Object>& 
           field->SetValue(obj, value, BindingFlags::Default, Type::in::get_DefaultBinder(), nullptr);
         }
       } catch (Exception inner) {
+        rt::throw_exception<CustomAttributeFormatException>(SR::Format(isProperty ? SR::get_RFLCT_InvalidPropFail() : SR::get_RFLCT_InvalidFieldFail(), name), inner);
       }
     }
     if (blob != intPtr) {
@@ -353,7 +354,7 @@ Boolean CustomAttribute::FilterCustomAttributeRecord(MetadataToken caCtorToken, 
       ctorWithParameters = ModuleHandle::ResolveMethodHandleInternal(decoratedModule->GetNativeHandle(), caCtorToken);
     }
   }
-  MetadataToken token = rt::default__;
+  MetadataToken token;
   if (decoratedToken.get_IsParamDef()) {
     token = MetadataToken(scope.GetParentToken(decoratedToken));
     token = MetadataToken(scope.GetParentToken(token));

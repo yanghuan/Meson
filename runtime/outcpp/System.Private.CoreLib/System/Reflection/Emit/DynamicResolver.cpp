@@ -53,6 +53,8 @@ void DynamicResolver___::Finalize() {
     try {
       destroyScout = rt::newobj<DestroyScout>();
     } catch (...) {
+      GC::ReRegisterForFinalize((DynamicResolver)this);
+      return;
     }
     destroyScout->m_methodHandle = method->m_methodHandle->get_Value();
   }

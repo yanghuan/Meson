@@ -82,7 +82,9 @@ void Array___<>::SorterObjectArray::IntrospectiveSort(Int32 left, Int32 length) 
     try {
       IntroSort(left, length + left - 1, 2 * (BitOperations::Log2((UInt32)length) + 1));
     } catch (IndexOutOfRangeException) {
+      ThrowHelper::ThrowArgumentException_BadComparer(comparer);
     } catch (Exception e) {
+      ThrowHelper::ThrowInvalidOperationException(ExceptionResource::InvalidOperation_IComparerFailed, e);
     }
   }
 }
@@ -236,7 +238,9 @@ void Array___<>::SorterGenericArray::IntrospectiveSort(Int32 left, Int32 length)
     try {
       IntroSort(left, length + left - 1, 2 * (BitOperations::Log2((UInt32)length) + 1));
     } catch (IndexOutOfRangeException) {
+      ThrowHelper::ThrowArgumentException_BadComparer(comparer);
     } catch (Exception e) {
+      ThrowHelper::ThrowInvalidOperationException(ExceptionResource::InvalidOperation_IComparerFailed, e);
     }
   }
 }
@@ -640,7 +644,7 @@ Object Array___<>::GetValue(Array<Int32> indices) {
   if (get_Rank() != indices->get_Length()) {
     ThrowHelper::ThrowArgumentException(ExceptionResource::Arg_RankIndices);
   }
-  TypedReference typedReference = rt::default__;
+  TypedReference typedReference;
   {
     Int32* pIndices = &indices[0];
     InternalGetReference(&typedReference, indices->get_Length(), pIndices);
@@ -652,7 +656,7 @@ Object Array___<>::GetValue(Int32 index) {
   if (get_Rank() != 1) {
     ThrowHelper::ThrowArgumentException(ExceptionResource::Arg_Need1DArray);
   }
-  TypedReference typedReference = rt::default__;
+  TypedReference typedReference;
   InternalGetReference(&typedReference, 1, &index);
   return TypedReference::InternalToObject(&typedReference);
 }
@@ -665,7 +669,7 @@ Object Array___<>::GetValue(Int32 index1, Int32 index2) {
   Int32* ptr = as;
   *ptr = index1;
   ptr[1] = index2;
-  TypedReference typedReference = rt::default__;
+  TypedReference typedReference;
   InternalGetReference(&typedReference, 2, ptr);
   return TypedReference::InternalToObject(&typedReference);
 }
@@ -679,7 +683,7 @@ Object Array___<>::GetValue(Int32 index1, Int32 index2, Int32 index3) {
   *ptr = index1;
   ptr[1] = index2;
   ptr[2] = index3;
-  TypedReference typedReference = rt::default__;
+  TypedReference typedReference;
   InternalGetReference(&typedReference, 3, ptr);
   return TypedReference::InternalToObject(&typedReference);
 }
@@ -688,7 +692,7 @@ void Array___<>::SetValue(Object value, Int32 index) {
   if (get_Rank() != 1) {
     ThrowHelper::ThrowArgumentException(ExceptionResource::Arg_Need1DArray);
   }
-  TypedReference typedReference = rt::default__;
+  TypedReference typedReference;
   InternalGetReference(&typedReference, 1, &index);
   InternalSetValue(&typedReference, value);
 }
@@ -701,7 +705,7 @@ void Array___<>::SetValue(Object value, Int32 index1, Int32 index2) {
   Int32* ptr = as;
   *ptr = index1;
   ptr[1] = index2;
-  TypedReference typedReference = rt::default__;
+  TypedReference typedReference;
   InternalGetReference(&typedReference, 2, ptr);
   InternalSetValue(&typedReference, value);
 }
@@ -715,7 +719,7 @@ void Array___<>::SetValue(Object value, Int32 index1, Int32 index2, Int32 index3
   *ptr = index1;
   ptr[1] = index2;
   ptr[2] = index3;
-  TypedReference typedReference = rt::default__;
+  TypedReference typedReference;
   InternalGetReference(&typedReference, 3, ptr);
   InternalSetValue(&typedReference, value);
 }
@@ -727,7 +731,7 @@ void Array___<>::SetValue(Object value, Array<Int32> indices) {
   if (get_Rank() != indices->get_Length()) {
     ThrowHelper::ThrowArgumentException(ExceptionResource::Arg_RankIndices);
   }
-  TypedReference typedReference = rt::default__;
+  TypedReference typedReference;
   {
     Int32* pIndices = &indices[0];
     InternalGetReference(&typedReference, indices->get_Length(), pIndices);
@@ -993,6 +997,8 @@ Int32 Array___<>::BinarySearch(Array<> array, Int32 index, Int32 length, Object 
       try {
         num3 = comparer->Compare(array2[median], value);
       } catch (Exception e) {
+        ThrowHelper::ThrowInvalidOperationException(ExceptionResource::InvalidOperation_IComparerFailed, e);
+        return 0;
       }
       if (num3 == 0) {
         return median;
@@ -1063,6 +1069,8 @@ Int32 Array___<>::BinarySearch(Array<> array, Int32 index, Int32 length, Object 
     try {
       num5 = comparer->Compare(array->GetValue(median2), value);
     } catch (Exception e2) {
+      ThrowHelper::ThrowInvalidOperationException(ExceptionResource::InvalidOperation_IComparerFailed, e2);
+      return 0;
     }
     if (num5 == 0) {
       return median2;

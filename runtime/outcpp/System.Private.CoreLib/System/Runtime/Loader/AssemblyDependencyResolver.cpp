@@ -34,7 +34,9 @@ void AssemblyDependencyResolver___::ctor(String componentAssemblyPath) {
   StringBuilder errorMessage = rt::newobj<StringBuilder>();
   try {
   } catch (EntryPointNotFoundException innerException) {
+    rt::throw_exception<InvalidOperationException>(SR::get_AssemblyDependencyResolver_FailedToLoadHostpolicy(), innerException);
   } catch (DllNotFoundException innerException2) {
+    rt::throw_exception<InvalidOperationException>(SR::get_AssemblyDependencyResolver_FailedToLoadHostpolicy(), innerException2);
   }
   if (num != 0) {
     rt::throw_exception<InvalidOperationException>(SR::Format(SR::get_AssemblyDependencyResolver_FailedToResolveDependencies(), componentAssemblyPath, num, errorMessage));

@@ -5,6 +5,7 @@
 #include <System.Private.CoreLib/System/ArgumentOutOfRangeException-dep.h>
 #include <System.Private.CoreLib/System/Exception-dep.h>
 #include <System.Private.CoreLib/System/Int32-dep.h>
+#include <System.Private.CoreLib/System/OutOfMemoryException-dep.h>
 #include <System.Private.Uri/System/SR-dep.h>
 #include <System.Private.Uri/System/Uri-dep.h>
 #include <System.Private.Uri/System/UriFormatException-dep.h>
@@ -263,6 +264,10 @@ void UriBuilder___::ctor(String scheme, String host, Int32 port, String path, St
   try {
     set_Extra(extraValue);
   } catch (Exception ex) {
+    if (rt::is<OutOfMemoryException>(ex)) {
+      throw;
+    }
+    rt::throw_exception<ArgumentException>(SR::get_Argument_ExtraNotValid(), "extraValue");
   }
 }
 

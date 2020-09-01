@@ -192,6 +192,7 @@ Int32 ComActivator::GetClassFactoryForTypeInternal(ComActivationContextInternal*
     IntPtr iUnknownForObject = Marshal::GetIUnknownForObject(classFactoryForType);
     Marshal::WriteIntPtr(reference.ClassFactoryDest, iUnknownForObject);
   } catch (Exception ex) {
+    return ex->get_HResult();
   }
   return 0;
 }
@@ -207,6 +208,7 @@ Int32 ComActivator::RegisterClassForTypeInternal(ComActivationContextInternal* p
     ComActivationContext cxt = ComActivationContext::Create(reference);
     ClassRegistrationScenarioForType(cxt, true);
   } catch (Exception ex) {
+    return ex->get_HResult();
   }
   return 0;
 }
@@ -222,6 +224,7 @@ Int32 ComActivator::UnregisterClassForTypeInternal(ComActivationContextInternal*
     ComActivationContext cxt = ComActivationContext::Create(reference);
     ClassRegistrationScenarioForType(cxt, false);
   } catch (Exception ex) {
+    return ex->get_HResult();
   }
   return 0;
 }
@@ -240,6 +243,8 @@ Type ComActivator::FindClassType(Guid clsid, String assemblyPath, String assembl
       return type;
     }
   } catch (Exception) {
+    if (!IsLoggingEnabled()) {
+    }
   }
   rt::throw_exception<COMException>(String::in::Empty, -2147221231);
 }

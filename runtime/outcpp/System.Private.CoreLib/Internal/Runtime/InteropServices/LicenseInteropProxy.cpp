@@ -85,6 +85,7 @@ Object LicenseInteropProxy___::AllocateAndValidateLicense(Type type, String key,
     Array<Object> parameters = rt::newarr<Array<Object>>(2);
     return _createWithContext->Invoke(nullptr, BindingFlags::DoNotWrapExceptions, nullptr, parameters, nullptr);
   } catch (Exception ex) {
+    rt::throw_exception<COMException>(ex->get_Message(), -2147221230);
   }
 }
 

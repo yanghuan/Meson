@@ -2,6 +2,7 @@
 
 #include <System.Private.CoreLib/System/Action-dep.h>
 #include <System.Private.CoreLib/System/Byte-dep.h>
+#include <System.Private.CoreLib/System/Diagnostics/Debugger-dep.h>
 #include <System.Private.CoreLib/System/Diagnostics/Tracing/ActivityTracker-dep.h>
 #include <System.Private.CoreLib/System/Diagnostics/Tracing/EventKeywords.h>
 #include <System.Private.CoreLib/System/Diagnostics/Tracing/EventLevel.h>
@@ -257,6 +258,7 @@ void ActivityTracker___::Enable() {
     try {
       m_current = rt::newobj<AsyncLocal<ActivityInfo>>(rt::newobj<Action<AsyncLocalValueChangedArgs<ActivityInfo>>>(&ActivityChanging));
     } catch (NotImplementedException) {
+      Debugger::Log(0, nullptr, "Activity Enabled() called but AsyncLocals Not Supported (pre V4.6).  Ignoring Enable");
     }
   }
 }

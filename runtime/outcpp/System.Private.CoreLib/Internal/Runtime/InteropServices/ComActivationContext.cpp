@@ -9,7 +9,7 @@ using namespace System;
 using namespace System::Runtime::InteropServices;
 
 ComActivationContext ComActivationContext::Create(ComActivationContextInternal& cxtInt) {
-  ComActivationContext result = rt::default__;
+  ComActivationContext result;
   result.ClassId = cxtInt.ClassId;
   result.InterfaceId = cxtInt.InterfaceId;
   result.AssemblyPath = Marshal::PtrToStringUni(IntPtr(cxtInt.AssemblyPathBuffer));

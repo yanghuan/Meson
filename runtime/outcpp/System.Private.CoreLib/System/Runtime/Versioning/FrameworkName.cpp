@@ -108,6 +108,7 @@ void FrameworkName___::ctor(String frameworkName) {
       try {
         _version = Version::in::Parse(input);
       } catch (Exception innerException) {
+        rt::throw_exception<ArgumentException>(SR::get_Argument_FrameworkNameInvalidVersion(), "frameworkName", innerException);
       }
     } else {
       if (!MemoryExtensions::Equals(MemoryExtensions, span, "Profile", StringComparison::OrdinalIgnoreCase)) {

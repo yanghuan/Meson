@@ -208,6 +208,7 @@ DateTime HebrewCalendar___::AddMonths(DateTime time, Int32 months) {
     }
     return DateTime(ToDateTime(num, num3, num2, 0, 0, 0, 0).get_Ticks() + time.get_Ticks() % 864000000000);
   } catch (ArgumentException) {
+    rt::throw_exception<ArgumentOutOfRangeException>("months", months, SR::get_ArgumentOutOfRange_AddValue());
   }
 }
 

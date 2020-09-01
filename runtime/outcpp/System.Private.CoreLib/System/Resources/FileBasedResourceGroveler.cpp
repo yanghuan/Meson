@@ -2,6 +2,7 @@
 
 #include <System.Private.CoreLib/Internal/IO/File-dep.h>
 #include <System.Private.CoreLib/System/Activator-dep.h>
+#include <System.Private.CoreLib/System/InvalidOperationException-dep.h>
 #include <System.Private.CoreLib/System/IO/Path-dep.h>
 #include <System.Private.CoreLib/System/MissingMethodException-dep.h>
 #include <System.Private.CoreLib/System/Resources/MissingManifestResourceException-dep.h>
@@ -51,6 +52,7 @@ ResourceSet FileBasedResourceGroveler___::CreateResourceSet(String file) {
   try {
     return (ResourceSet)Activator::CreateInstance(_mediator->get_UserResourceSet(), args);
   } catch (MissingMethodException innerException) {
+    rt::throw_exception<InvalidOperationException>(SR::Format(SR::get_InvalidOperation_ResMgrBadResSet_Type(), _mediator->get_UserResourceSet()->get_AssemblyQualifiedName()), innerException);
   }
 }
 

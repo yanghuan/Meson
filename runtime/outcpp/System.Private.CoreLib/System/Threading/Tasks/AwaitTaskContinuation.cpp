@@ -66,6 +66,7 @@ void AwaitTaskContinuation___::RunCallback(ContextCallback callback, Object stat
       ExecutionContext::in::RunInternal(capturedContext, callback, state);
     }
   } catch (Exception exception) {
+    Task<>::in::ThrowAsync(exception, nullptr);
   } finally: {
     if (task != nullptr) {
       currentTask = task;
@@ -85,6 +86,7 @@ void AwaitTaskContinuation___::RunOrScheduleAction(Action<> action, Boolean allo
     }
     action();
   } catch (Exception exception) {
+    Task<>::in::ThrowAsync(exception, nullptr);
   } finally: {
     if (t_currentTask != nullptr) {
       Task<>::in::t_currentTask = t_currentTask;
@@ -108,6 +110,7 @@ void AwaitTaskContinuation___::RunOrScheduleAction(IAsyncStateMachineBox box, Bo
     }
     box->MoveNext();
   } catch (Exception exception) {
+    Task<>::in::ThrowAsync(exception, nullptr);
   } finally: {
     if (t_currentTask != nullptr) {
       Task<>::in::t_currentTask = t_currentTask;

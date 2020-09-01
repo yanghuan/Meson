@@ -265,6 +265,8 @@ Int32 BufferedStream___::ReadFromBuffer(Array<Byte> array, Int32 offset, Int32 c
     error = nullptr;
     return ReadFromBuffer(array, offset, count);
   } catch (Exception ex) {
+    Exception ex2 = error = ex;
+    return 0;
   }
 }
 

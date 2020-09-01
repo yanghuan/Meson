@@ -526,6 +526,12 @@ void Task___<>::AssignCancellationToken(CancellationToken cancellationToken, Tas
       return;
     }
   } catch (...) {
+    ContingentProperties contingentProperties2 = m_contingentProperties;
+    Task<> task = (contingentProperties2 != nullptr) ? contingentProperties2->m_parent : nullptr;
+    if (task != nullptr && (get_Options() & TaskCreationOptions::AttachedToParent) != 0 && (task->get_Options() & TaskCreationOptions::DenyChildAttach) == 0) {
+      task->DisregardChild();
+    }
+    throw;
   }
 }
 
@@ -693,6 +699,14 @@ void Task___<>::InternalRunSynchronously(TaskScheduler scheduler, Boolean waitFo
         SpinThenBlockingWait(-1, rt::default__);
       }
     } catch (Exception innerException) {
+      if (!flag) {
+        TaskSchedulerException ex = rt::newobj<TaskSchedulerException>(innerException);
+        AddException(ex);
+        Finish(false);
+        m_contingentProperties->m_exceptionsHolder->MarkAsHandled(false);
+        rt::throw_exception(ex);
+      }
+      throw;
     }
   } else {
     ThrowHelper::ThrowInvalidOperationException(ExceptionResource::Task_RunSynchronously_TaskCompleted);
@@ -739,7 +753,7 @@ Boolean Task___<>::IsCompletedMethod(Int32 flags) {
 }
 
 void Task___<>::SpinUntilCompleted() {
-  SpinWait spinWait = rt::default__;
+  SpinWait spinWait;
   while (!get_IsCompleted()) {
     spinWait.SpinOnce();
   }
@@ -790,6 +804,13 @@ void Task___<>::ScheduleAndStart(Boolean needsProtection) {
   try {
     m_taskScheduler->InternalQueueTask((Task<>)this);
   } catch (Exception innerException) {
+    TaskSchedulerException ex = rt::newobj<TaskSchedulerException>(innerException);
+    AddException(ex);
+    Finish(false);
+    if ((get_Options() & (TaskCreationOptions)512) == 0) {
+      m_contingentProperties->m_exceptionsHolder->MarkAsHandled(false);
+    }
+    rt::throw_exception(ex);
   }
 }
 
@@ -855,6 +876,7 @@ void Task___<>::ThrowAsync(Exception exception, SynchronizationContext targetCon
   if (targetContext != nullptr) {
     try {
     } catch (Exception ex) {
+      state2 = ExceptionDispatchInfo::in::Capture(rt::newobj<AggregateException>(rt::newarr<Array<Exception>>(2, exception, ex)));
     }
   }
 }
@@ -1028,7 +1050,7 @@ void Task___<>::ExecuteEntryCancellationRequestedOrCanceled() {
 void Task___<>::ExecuteWithThreadLocal(Task<>& currentTaskSlot, Thread threadPoolThread) {
   Task<> task = currentTaskSlot;
   TplEventSource log = TplEventSource::in::Log;
-  Guid oldActivityThatWillContinue = rt::default__;
+  Guid oldActivityThatWillContinue;
   Boolean flag = log->IsEnabled();
   if (flag) {
     if (log->TasksSetActivityIds) {
@@ -1057,6 +1079,7 @@ void Task___<>::ExecuteWithThreadLocal(Task<>& currentTaskSlot, Thread threadPoo
       }
 
     } catch (Exception unhandledException) {
+      HandleException(unhandledException);
     }
     if (flag2) {
       TplEventSource::in::Log->TraceSynchronousWorkEnd(CausalitySynchronousWork::Execution);
@@ -1209,6 +1232,7 @@ Boolean Task___<>::WrappedTryRunInline() {
   try {
     return m_taskScheduler->TryRunInline((Task<>)this, true);
   } catch (Exception innerException) {
+    rt::throw_exception<TaskSchedulerException>(innerException);
   }
 }
 
@@ -1274,7 +1298,7 @@ Boolean Task___<>::SpinWait(Int32 millisecondsTimeout) {
     return false;
   }
   Int32 spinCountforSpinBeforeWait = SpinWait::SpinCountforSpinBeforeWait;
-  SpinWait spinWait = rt::default__;
+  SpinWait spinWait;
   while (spinWait.get_Count() < spinCountforSpinBeforeWait) {
     spinWait.SpinOnce(-1);
     if (get_IsCompleted()) {
@@ -1292,6 +1316,7 @@ void Task___<>::InternalCancel() {
     try {
       flag = (taskScheduler != nullptr && taskScheduler->TryDequeue((Task<>)this));
     } catch (Exception innerException) {
+      ex = rt::newobj<TaskSchedulerException>(innerException);
     }
   }
   RecordInternalCancellationRequest();

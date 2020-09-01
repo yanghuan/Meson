@@ -473,6 +473,7 @@ Object EventProvider___::EncodeObject(Object& data, EventData*& dataDescriptor, 
         }
 
       } catch (...) {
+        goto IL_0411;
       }
       continue;
     }
@@ -669,6 +670,8 @@ Int32 EventProvider___::SetInformation(Interop::Advapi32::EVENT_INFO_CLASS event
       result = Interop::Advapi32::EventSetInformation(m_regHandle, eventInfoClass, (void*)data, (Int32)dataSize);
       return result;
     } catch (TypeLoadException) {
+      m_setInformationMissing = true;
+      return result;
     }
   }
   return result;

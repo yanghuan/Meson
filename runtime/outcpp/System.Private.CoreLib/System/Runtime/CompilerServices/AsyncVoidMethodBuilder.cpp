@@ -24,7 +24,7 @@ AsyncVoidMethodBuilder AsyncVoidMethodBuilder::Create() {
   if (current != nullptr) {
     current->OperationStarted();
   }
-  AsyncVoidMethodBuilder result = rt::default__;
+  AsyncVoidMethodBuilder result;
   result._synchronizationContext = current;
   return result;
 }
@@ -67,6 +67,7 @@ void AsyncVoidMethodBuilder::NotifySynchronizationContextOfCompletion() {
   try {
     _synchronizationContext->OperationCompleted();
   } catch (Exception exception) {
+    Task<>::in::ThrowAsync(exception, nullptr);
   }
 }
 

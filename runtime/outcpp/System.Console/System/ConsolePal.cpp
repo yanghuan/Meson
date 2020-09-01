@@ -22,6 +22,7 @@
 #include <System.Private.CoreLib/System/InvalidOperationException-dep.h>
 #include <System.Private.CoreLib/System/IO/IOException-dep.h>
 #include <System.Private.CoreLib/System/IO/StreamReader-dep.h>
+#include <System.Private.CoreLib/System/PlatformNotSupportedException-dep.h>
 #include <System.Private.CoreLib/System/Runtime/InteropServices/Marshal-dep.h>
 #include <System.Private.CoreLib/System/Span-dep.h>
 #include <System.Private.CoreLib/System/UInt16-dep.h>
@@ -175,6 +176,7 @@ Boolean ConsolePal::get_NumberLock() {
     Int16 keyState = Interop::User32::in::GetKeyState(144);
     return (keyState & 1) == 1;
   } catch (Exception) {
+    rt::throw_exception<PlatformNotSupportedException>();
   }
 }
 
@@ -183,6 +185,7 @@ Boolean ConsolePal::get_CapsLock() {
     Int16 keyState = Interop::User32::in::GetKeyState(20);
     return (keyState & 1) == 1;
   } catch (Exception) {
+    rt::throw_exception<PlatformNotSupportedException>();
   }
 }
 
@@ -190,7 +193,7 @@ Boolean ConsolePal::get_KeyAvailable() {
   if (_cachedInputRecord.eventType == 1) {
     return true;
   }
-  Interop::InputRecord buffer = rt::default__;
+  Interop::InputRecord buffer;
   Int32 numEventsRead = 0;
   while (true) {
     if (!Interop::Kernel32::PeekConsoleInput(get_InputHandle(), buffer, 1, numEventsRead)) {
@@ -641,8 +644,8 @@ void ConsolePal::MoveBufferArea(Int32 sourceLeft, Int32 sourceTop, Int32 sourceW
   Array<Interop::Kernel32::CHAR_INFO> array = rt::newarr<Array<Interop::Kernel32::CHAR_INFO>>(sourceWidth * sourceHeight);
   dwSize.X = (Int16)sourceWidth;
   dwSize.Y = (Int16)sourceHeight;
-  Interop::Kernel32::COORD bufferCoord = rt::default__;
-  Interop::Kernel32::SMALL_RECT readRegion = rt::default__;
+  Interop::Kernel32::COORD bufferCoord;
+  Interop::Kernel32::SMALL_RECT readRegion;
   readRegion.Left = (Int16)sourceLeft;
   readRegion.Right = (Int16)(sourceLeft + sourceWidth - 1);
   readRegion.Top = (Int16)sourceTop;
@@ -655,7 +658,7 @@ void ConsolePal::MoveBufferArea(Int32 sourceLeft, Int32 sourceTop, Int32 sourceW
   if (!flag) {
     rt::throw_exception(Win32Marshal::GetExceptionForWin32Error(Marshal::GetLastWin32Error()));
   }
-  Interop::Kernel32::COORD cOORD = rt::default__;
+  Interop::Kernel32::COORD cOORD;
   cOORD.X = (Int16)sourceLeft;
   Interop::Kernel32::Color color = ConsoleColorToColorAttribute(sourceBackColor, true);
   color |= ConsoleColorToColorAttribute(sourceForeColor, false);
@@ -670,7 +673,7 @@ void ConsolePal::MoveBufferArea(Int32 sourceLeft, Int32 sourceTop, Int32 sourceW
       rt::throw_exception(Win32Marshal::GetExceptionForWin32Error(Marshal::GetLastWin32Error()));
     }
   }
-  Interop::Kernel32::SMALL_RECT writeRegion = rt::default__;
+  Interop::Kernel32::SMALL_RECT writeRegion;
   writeRegion.Left = (Int16)targetLeft;
   writeRegion.Right = (Int16)(targetLeft + sourceWidth);
   writeRegion.Top = (Int16)targetTop;
@@ -682,7 +685,7 @@ void ConsolePal::MoveBufferArea(Int32 sourceLeft, Int32 sourceTop, Int32 sourceW
 }
 
 void ConsolePal::Clear() {
-  Interop::Kernel32::COORD cOORD = rt::default__;
+  Interop::Kernel32::COORD cOORD;
   IntPtr outputHandle = get_OutputHandle();
   if (outputHandle == get_InvalidHandleValue()) {
     rt::throw_exception<IOException>(SR::get_IO_NoConsole());
@@ -704,7 +707,7 @@ void ConsolePal::Clear() {
 
 void ConsolePal::SetCursorPosition(Int32 left, Int32 top) {
   IntPtr outputHandle = get_OutputHandle();
-  Interop::Kernel32::COORD cursorPosition = rt::default__;
+  Interop::Kernel32::COORD cursorPosition;
   cursorPosition.X = (Int16)left;
   cursorPosition.Y = (Int16)top;
   if (!Interop::Kernel32::SetConsoleCursorPosition(outputHandle, cursorPosition)) {
@@ -729,7 +732,7 @@ void ConsolePal::SetBufferSize(Int32 width, Int32 height) {
   if (height < srWindow.Bottom + 1 || height >= 32767) {
     rt::throw_exception<ArgumentOutOfRangeException>("height", height, SR::get_ArgumentOutOfRange_ConsoleBufferLessThanWindowSize());
   }
-  Interop::Kernel32::COORD size = rt::default__;
+  Interop::Kernel32::COORD size;
   size.X = (Int16)width;
   size.Y = (Int16)height;
   if (!Interop::Kernel32::SetConsoleScreenBufferSize(get_OutputHandle(), size)) {
@@ -766,7 +769,7 @@ void ConsolePal::SetWindowSize(Int32 width, Int32 height) {
   }
   Interop::Kernel32::CONSOLE_SCREEN_BUFFER_INFO bufferInfo = GetBufferInfo();
   Boolean flag = false;
-  Interop::Kernel32::COORD size = rt::default__;
+  Interop::Kernel32::COORD size;
   size.X = bufferInfo.dwSize.X;
   size.Y = bufferInfo.dwSize.Y;
   if (bufferInfo.dwSize.X < bufferInfo.srWindow.Left + width) {

@@ -256,7 +256,7 @@ Guid EventSource___::get_CurrentThreadActivityId() {
   if (!IsSupported) {
     return rt::default__;
   }
-  Guid ActivityId = rt::default__;
+  Guid ActivityId;
   Interop::Advapi32::EventActivityIdControl(Interop::Advapi32::ActivityControl::EVENT_ACTIVITY_CTRL_GET_ID, ActivityId);
   return ActivityId;
 }
@@ -847,7 +847,7 @@ void EventSource___::WriteEventWithRelatedActivityIdCore(Int32 eventId, Guid* re
           traceLoggingEventTypes = rt::newobj<TraceLoggingEventTypes>(m_eventData[eventId].Name, m_eventData[eventId].Tags, m_eventData[eventId].Parameters);
           Interlocked::CompareExchange(m_eventData[eventId].TraceLoggingEventTypes, traceLoggingEventTypes, (TraceLoggingEventTypes)nullptr);
         }
-        EventSourceOptions eventSourceOptions = rt::default__;
+        EventSourceOptions eventSourceOptions;
         eventSourceOptions.set_Keywords((EventKeywords)m_eventData[eventId].Descriptor.get_Keywords());
         eventSourceOptions.set_Level((EventLevel)m_eventData[eventId].Descriptor.get_Level());
         eventSourceOptions.set_Opcode((EventOpcode)m_eventData[eventId].Descriptor.get_Opcode());
@@ -859,6 +859,10 @@ void EventSource___::WriteEventWithRelatedActivityIdCore(Int32 eventId, Guid* re
       WriteToAllListeners(eventId, activityID, relatedActivityId, eventDataCount, data);
     }
   } catch (Exception ex) {
+    if (rt::is<EventSourceException>(ex)) {
+      throw;
+    }
+    ThrowEventSourceException(m_eventData[eventId].Name, ex);
   }
 }
 
@@ -967,6 +971,10 @@ void EventSource___::Initialize(Guid eventSourceGuid, String eventSourceName, Ar
     m_eventPipeProvider = overideEventProvider2;
     m_completelyInited = true;
   } catch (Exception ex) {
+    if (m_constructionException == nullptr) {
+      m_constructionException = ex;
+    }
+    ReportOutOfBandMessage("ERROR: Exception during construction of EventSource " + get_Name() + ": " + ex->get_Message());
   }
   {
     rt::lock(EventListener::in::get_EventListenersLock());
@@ -990,7 +998,7 @@ String EventSource___::GetName(Type eventSourceType, EventManifestOptions flags)
 Guid EventSource___::GenerateGuidFromName(String name) {
   ReadOnlySpan<Byte> input = rt::newarr<Array<Byte>>(16);
   Array<Byte> array = Encoding::in::get_BigEndianUnicode()->GetBytes(name);
-  Sha1ForNonSecretPurposes sha1ForNonSecretPurposes = rt::default__;
+  Sha1ForNonSecretPurposes sha1ForNonSecretPurposes;
   sha1ForNonSecretPurposes.Start();
   sha1ForNonSecretPurposes.Append(input);
   sha1ForNonSecretPurposes.Append(array);
@@ -1143,7 +1151,7 @@ void EventSource___::WriteEventVarargs(Int32 eventId, Guid* childActivityID, Arr
           traceLoggingEventTypes = rt::newobj<TraceLoggingEventTypes>(m_eventData[eventId].Name, EventTags::None, m_eventData[eventId].Parameters);
           Interlocked::CompareExchange(m_eventData[eventId].TraceLoggingEventTypes, traceLoggingEventTypes, (TraceLoggingEventTypes)nullptr);
         }
-        EventSourceOptions eventSourceOptions = rt::default__;
+        EventSourceOptions eventSourceOptions;
         eventSourceOptions.set_Keywords((EventKeywords)m_eventData[eventId].Descriptor.get_Keywords());
         eventSourceOptions.set_Level((EventLevel)m_eventData[eventId].Descriptor.get_Level());
         eventSourceOptions.set_Opcode((EventOpcode)m_eventData[eventId].Descriptor.get_Opcode());
@@ -1160,6 +1168,10 @@ void EventSource___::WriteEventVarargs(Int32 eventId, Guid* childActivityID, Arr
       WriteToAllListeners(eventId, nullptr, nullptr, activityID, childActivityID, args2);
     }
   } catch (Exception ex) {
+    if (rt::is<EventSourceException>(ex)) {
+      throw;
+    }
+    ThrowEventSourceException(m_eventData[eventId].Name, ex);
   }
 }
 
@@ -1240,6 +1252,8 @@ void EventSource___::DispatchToAllListeners(Int32 eventId, EventWrittenEventArgs
       try {
         eventDispatcher->m_Listener->OnEventWritten(eventCallbackArgs);
       } catch (Exception ex2) {
+        ReportOutOfBandMessage("ERROR: Exception during EventSource.OnEventWritten: " + ex2->get_Message());
+        ex = ex2;
       }
     }
   }
@@ -1257,7 +1271,7 @@ void EventSource___::WriteEventString(String msgString) {
   EventLevel eventLevel = EventLevel::LogAlways;
   Int64 keywords = -1;
   if (get_SelfDescribingEvents()) {
-    EventSourceOptions eventSourceOptions = rt::default__;
+    EventSourceOptions eventSourceOptions;
     eventSourceOptions.set_Keywords((EventKeywords)keywords);
     eventSourceOptions.set_Level(eventLevel);
     EventSourceOptions options = eventSourceOptions;
@@ -1276,7 +1290,7 @@ void EventSource___::WriteEventString(String msgString) {
     Char* ptr = msgString;
     Char* ptr2 = ptr;
     EventDescriptor eventDescriptor = EventDescriptor(0, 0, 0, (Byte)eventLevel, 0, 0, keywords);
-    EventProvider::in::EventData eventData = rt::default__;
+    EventProvider::in::EventData eventData;
     eventData.Ptr = (UInt64)ptr2;
     eventData.Size = (UInt32)(2 * (msgString->get_Length() + 1));
     eventData.Reserved = 0u;
@@ -1291,7 +1305,7 @@ void EventSource___::WriteEventString(String msgString) {
         rt::lock(m_createEventLock);
         if (m_writeEventStringEventHandle == IntPtr::Zero) {
           String eventName = "EventSourceMessage";
-          EventParameterInfo eventParameterInfo = rt::default__;
+          EventParameterInfo eventParameterInfo;
           eventParameterInfo.SetInfo("message", typeof<String>());
           Array<Byte> array = EventPipeMetadataGenerator::in::Instance->GenerateMetadata(0, eventName, keywords, (UInt32)eventLevel, 0u, EventOpcode::Info, rt::newarr<Array<EventParameterInfo>>(1));
           UInt32 metadataLength = (UInt32)((array != nullptr) ? array->get_Length() : 0);
@@ -1550,6 +1564,7 @@ void EventSource___::DoCommand(EventCommandEventArgs commandArgs) {
       eventCommandExecuted2((EventSource)this, commandArgs);
     }
   } catch (Exception ex) {
+    ReportOutOfBandMessage("ERROR: Exception in Command Processing for EventSource " + get_Name() + ": " + ex->get_Message());
   }
 }
 
@@ -1617,7 +1632,7 @@ void EventSource___::SendManifest(Array<Byte> rawManifest) {
   {
     Byte* ptr2 = rawManifest;
     EventDescriptor eventDescriptor = EventDescriptor(65534, 1, 0, 0, 254, 65534, 72057594037927935);
-    ManifestEnvelope manifestEnvelope = rt::default__;
+    ManifestEnvelope manifestEnvelope;
     manifestEnvelope.Format = ManifestEnvelope::ManifestFormats::SimpleXmlFormat;
     manifestEnvelope.MajorVersion = 1;
     manifestEnvelope.MinorVersion = 0;
@@ -1879,6 +1894,10 @@ Array<Byte> EventSource___::CreateManifestAndDescriptors(Type eventSourceType, S
       result = manifestBuilder->CreateManifest();
     }
   } catch (Exception ex2) {
+    if ((flags & EventManifestOptions::Strict) == 0) {
+      throw;
+    }
+    ex = ex2;
   }
   if ((flags & EventManifestOptions::Strict) != 0 && ((manifestBuilder != nullptr && manifestBuilder->get_Errors()->get_Count() > 0) || ex != nullptr)) {
     String text4 = String::in::Empty;
@@ -2166,7 +2185,7 @@ void EventSource___::ctor(String eventSourceName, EventSourceSettings config, Ar
 
 void EventSource___::Write(String eventName) {
   if (IsEnabled()) {
-    EventSourceOptions options = rt::default__;
+    EventSourceOptions options;
     WriteImpl(eventName, options, nullptr, nullptr, nullptr, SimpleEventTypes<EmptyStruct>::get_Instance());
   }
 }
@@ -2348,6 +2367,10 @@ void EventSource___::WriteImpl(String eventName, EventSourceOptions& options, Ob
                     WriteToAllListeners(eventName, descriptor, nameInfo->tags, pActivityId, pRelatedActivityId, payload);
                   }
                 } catch (Exception ex) {
+                  if (rt::is<EventSourceException>(ex)) {
+                    throw;
+                  }
+                  ThrowEventSourceException(eventName, ex);
                 } finally: {
                   WriteCleanup(ptr2, pinCount);
                 }
@@ -2362,6 +2385,10 @@ void EventSource___::WriteImpl(String eventName, EventSourceOptions& options, Ob
     } finally: {
     }
   } catch (Exception ex2) {
+    if (rt::is<EventSourceException>(ex2)) {
+      throw;
+    }
+    ThrowEventSourceException(eventName, ex2);
   }
 }
 

@@ -226,7 +226,7 @@ Array<String> Uri___::get_Segments() {
   if (privateAbsolutePath->get_Length() == 0) {
     return Array<>::in::Empty<String>();
   }
-  ArrayBuilder<String> arrayBuilder = rt::default__;
+  ArrayBuilder<String> arrayBuilder;
   Int32 num = 0;
   while (num < privateAbsolutePath->get_Length()) {
     Int32 num2 = privateAbsolutePath->IndexOf(47, num);
@@ -2079,6 +2079,7 @@ Int32 Uri___::CheckAuthorityHelper(Char* pString, Int32 idx, Int32 length, Parsi
         try {
           newHost += text2->Normalize(NormalizationForm::FormC);
         } catch (ArgumentException) {
+          err = ParsingError::BadHostName;
         }
         flags |= Flags::HostUnicodeNormalized;
       }
@@ -2100,6 +2101,8 @@ Int32 Uri___::CheckAuthorityHelper(Char* pString, Int32 idx, Int32 length, Parsi
         try {
           newHost += text3->Normalize(NormalizationForm::FormC);
         } catch (ArgumentException) {
+          err = ParsingError::BadFormat;
+          return idx;
         }
         flags |= Flags::HostUnicodeNormalized;
       }
@@ -2121,6 +2124,7 @@ void Uri___::CheckAuthorityHelperHandleDnsIri(Char* pString, Int32 start, Int32 
     try {
       newHost += text->Normalize(NormalizationForm::FormC);
     } catch (ArgumentException) {
+      err = ParsingError::BadHostName;
     }
     justNormalized = true;
   }
@@ -2724,6 +2728,7 @@ void Uri___::InitializeUri(ParsingError err, UriKind uriKind, UriFormatException
         try {
           EnsureParseRemaining();
         } catch (UriFormatException ex) {
+          UriFormatException ex2 = e = ex;
         }
       }
       return;
@@ -2749,6 +2754,7 @@ void Uri___::InitializeUri(ParsingError err, UriKind uriKind, UriFormatException
       try {
         EnsureParseRemaining();
       } catch (UriFormatException ex3) {
+        UriFormatException ex4 = e = ex3;
       }
     }
   } else if (err != 0 && uriKind != UriKind::Absolute && err <= ParsingError::EmptyUriString) {
@@ -3037,6 +3043,8 @@ Uri Uri___::CreateHelper(String uriString, Boolean dontEscape, UriKind uriKind, 
     }
     return nullptr;
   } catch (UriFormatException ex) {
+    UriFormatException ex2 = e = ex;
+    return nullptr;
   }
 }
 

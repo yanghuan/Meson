@@ -3,6 +3,7 @@
 #include <System.Private.CoreLib/System/ArgumentNullException-dep.h>
 #include <System.Private.CoreLib/System/Collections/Hashtable-dep.h>
 #include <System.Private.CoreLib/System/InvalidCastException-dep.h>
+#include <System.Private.CoreLib/System/InvalidOperationException-dep.h>
 #include <System.Private.CoreLib/System/ObjectDisposedException-dep.h>
 #include <System.Private.CoreLib/System/Reflection/Assembly-dep.h>
 #include <System.Private.CoreLib/System/Resources/ResourceReader-dep.h>
@@ -85,6 +86,7 @@ String ResourceSet___::GetString(String name) {
   try {
     return (String)objectInternal;
   } catch (InvalidCastException) {
+    rt::throw_exception<InvalidOperationException>(SR::Format(SR::get_InvalidOperation_ResourceNotString_Name(), name));
   }
 }
 
@@ -94,6 +96,7 @@ String ResourceSet___::GetString(String name, Boolean ignoreCase) {
   try {
     text = (String)objectInternal;
   } catch (InvalidCastException) {
+    rt::throw_exception<InvalidOperationException>(SR::Format(SR::get_InvalidOperation_ResourceNotString_Name(), name));
   }
   if (text != nullptr || !ignoreCase) {
     return text;
@@ -102,6 +105,7 @@ String ResourceSet___::GetString(String name, Boolean ignoreCase) {
   try {
     return (String)objectInternal;
   } catch (InvalidCastException) {
+    rt::throw_exception<InvalidOperationException>(SR::Format(SR::get_InvalidOperation_ResourceNotString_Name(), name));
   }
 }
 

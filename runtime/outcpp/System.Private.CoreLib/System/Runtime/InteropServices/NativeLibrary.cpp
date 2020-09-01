@@ -2,6 +2,7 @@
 
 #include <System.Private.CoreLib/System/ArgumentException-dep.h>
 #include <System.Private.CoreLib/System/ArgumentNullException-dep.h>
+#include <System.Private.CoreLib/System/InvalidOperationException-dep.h>
 #include <System.Private.CoreLib/System/Reflection/RuntimeAssembly-dep.h>
 #include <System.Private.CoreLib/System/Runtime/CompilerServices/ConditionalWeakTable-dep.h>
 #include <System.Private.CoreLib/System/Runtime/CompilerServices/QCallAssembly-dep.h>
@@ -104,6 +105,7 @@ void NativeLibrary::SetDllImportResolver(Assembly assembly, DllImportResolver re
   try {
     s_nativeDllResolveMap->Add(assembly, resolver);
   } catch (ArgumentException) {
+    rt::throw_exception<InvalidOperationException>(SR::get_InvalidOperation_CannotRegisterSecondResolver());
   }
 }
 

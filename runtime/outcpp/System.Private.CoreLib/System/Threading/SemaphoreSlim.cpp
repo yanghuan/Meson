@@ -108,7 +108,7 @@ Boolean SemaphoreSlim___::Wait(Int32 millisecondsTimeout, CancellationToken canc
   try {
     if (m_currentCount == 0) {
       Int32 num = SpinWait::SpinCountforSpinBeforeWait * 4;
-      SpinWait spinWait = rt::default__;
+      SpinWait spinWait;
       while (spinWait.get_Count() < num) {
         spinWait.SpinOnce(-1);
         if (m_currentCount != 0) {
@@ -135,6 +135,7 @@ Boolean SemaphoreSlim___::Wait(Int32 millisecondsTimeout, CancellationToken canc
         try {
           result = WaitUntilCountOrTimeout(millisecondsTimeout, startTime, cancellationToken);
         } catch (OperationCanceledException ex2) {
+          ex = ex2;
         }
       }
       if (m_currentCount > 0) {

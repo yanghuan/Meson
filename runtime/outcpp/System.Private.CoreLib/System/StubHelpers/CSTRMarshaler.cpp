@@ -34,6 +34,8 @@ IntPtr CSTRMarshaler::ConvertToNative(Int32 flags, String strManaged, IntPtr pNa
     try {
       num = Marshal::StringToAnsiString(strManaged, ptr, num, (flags & 255) != 0, flags >> 8 != 0);
     } catch (Exception) {
+      Marshal::FreeCoTaskMem((IntPtr)(void*)ptr);
+      throw;
     }
   } else if (strManaged->get_Length() == 0) {
     num = 0;

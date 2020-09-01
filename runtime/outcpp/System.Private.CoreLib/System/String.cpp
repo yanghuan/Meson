@@ -2048,7 +2048,7 @@ void String___::MakeSeparatorList(ReadOnlySpan<Char> separators, ValueListBuilde
         }
         return;
       }}
-  ProbabilisticMap probabilisticMap = rt::default__;
+  ProbabilisticMap probabilisticMap;
   UInt32* charMap = (UInt32*)(&probabilisticMap);
   InitializeProbabilisticMap(charMap, separators);
   for (Int32 m = 0; m < get_Length(); m++) {
@@ -2351,7 +2351,7 @@ Int32 String___::IndexOfAny(Array<Char> anyOf, Int32 startIndex, Int32 count) {
 }
 
 Int32 String___::IndexOfCharArray(Array<Char> anyOf, Int32 startIndex, Int32 count) {
-  ProbabilisticMap probabilisticMap = rt::default__;
+  ProbabilisticMap probabilisticMap;
   UInt32* charMap = (UInt32*)(&probabilisticMap);
   InitializeProbabilisticMap(charMap, anyOf);
   {
@@ -2496,7 +2496,7 @@ Int32 String___::LastIndexOfAny(Array<Char> anyOf, Int32 startIndex, Int32 count
 }
 
 Int32 String___::LastIndexOfCharArray(Array<Char> anyOf, Int32 startIndex, Int32 count) {
-  ProbabilisticMap probabilisticMap = rt::default__;
+  ProbabilisticMap probabilisticMap;
   UInt32* charMap = (UInt32*)(&probabilisticMap);
   InitializeProbabilisticMap(charMap, anyOf);
   {

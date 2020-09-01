@@ -254,6 +254,7 @@ Boolean Calendar___::TryToDateTime(Int32 year, Int32 month, Int32 day, Int32 hou
     result = ToDateTime(year, month, day, hour, minute, second, millisecond, era);
     return true;
   } catch (ArgumentException) {
+    return false;
   }
 }
 

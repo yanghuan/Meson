@@ -27,6 +27,7 @@ void PollingCounter___::WritePayload(Single intervalSec, Int32 pollingIntervalMi
     try {
       num = _metricProvider();
     } catch (Exception ex) {
+      ReportOutOfBandMessage("ERROR: Exception during EventCounter " + DiagnosticCounter::in::get_Name() + " metricProvider callback: " + ex->get_Message());
     }
     CounterPayload counterPayload = rt::newobj<CounterPayload>();
     counterPayload->set_Name(DiagnosticCounter::in::get_Name());

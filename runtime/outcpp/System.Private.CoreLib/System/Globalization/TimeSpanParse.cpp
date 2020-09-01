@@ -569,7 +569,7 @@ Boolean TimeSpanParse::TryParseTimeSpan(ReadOnlySpan<Char> input, TimeSpanStanda
     return result.SetBadTimeSpanFailure();
   }
   TimeSpanTokenizer timeSpanTokenizer = TimeSpanTokenizer(input);
-  TimeSpanRawInfo raw = rt::default__;
+  TimeSpanRawInfo raw;
   raw.Init(DateTimeFormatInfo::in::GetInstance(formatProvider));
   TimeSpanToken tok = timeSpanTokenizer.GetNextToken();
   while (tok._ttt != TTT::End) {
@@ -586,7 +586,7 @@ Boolean TimeSpanParse::TryParseTimeSpan(ReadOnlySpan<Char> input, TimeSpanStanda
 
 Boolean TimeSpanParse::ProcessTerminalState(TimeSpanRawInfo& raw, TimeSpanStandardStyles style, TimeSpanResult& result) {
   if (raw._lastSeenTTT == TTT::Num) {
-    TimeSpanToken tok = rt::default__;
+    TimeSpanToken tok;
     tok._ttt = TTT::Sep;
     if (!raw.ProcessToken(tok, result)) {
       return result.SetBadTimeSpanFailure();
@@ -1096,7 +1096,7 @@ Boolean TimeSpanParse::ParseExactLiteral(TimeSpanTokenizer& tokenizer, StringBui
 }
 
 Boolean TimeSpanParse::TryParseTimeSpanConstant(ReadOnlySpan<Char> input, TimeSpanResult& result) {
-  StringParser stringParser = rt::default__;
+  StringParser stringParser;
   return stringParser.TryParse(input, result);
 }
 

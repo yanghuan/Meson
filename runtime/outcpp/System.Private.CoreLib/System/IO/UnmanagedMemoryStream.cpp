@@ -220,6 +220,7 @@ Task<> UnmanagedMemoryStream___::FlushAsync(CancellationToken cancellationToken)
     Flush();
     return Task<>::in::get_CompletedTask();
   } catch (Exception exception) {
+    return Task<>::in::FromException(exception);
   }
 }
 
@@ -301,6 +302,7 @@ Task<Int32> UnmanagedMemoryStream___::ReadAsync(Array<Byte> buffer, Int32 offset
     Task<Int32> lastReadTask = _lastReadTask;
     return (lastReadTask != nullptr && lastReadTask->get_Result() == num) ? lastReadTask : (_lastReadTask = Task<>::in::FromResult(num));
   } catch (Exception exception) {
+    return Task<>::in::FromException<Int32>(exception);
   }
 }
 
@@ -313,6 +315,7 @@ ValueTask<Int32> UnmanagedMemoryStream___::ReadAsync(Memory<Byte> buffer, Cancel
     ArraySegment<Byte> segment;
     return ValueTask<Int32>(MemoryMarshal::TryGetArray(buffer, segment) ? Read(segment.get_Array(), segment.get_Offset(), segment.get_Count()) : Read(buffer.get_Span()));
   } catch (Exception exception) {
+    return ValueTask<>::FromException<Int32>(exception);
   }
 }
 
@@ -482,6 +485,7 @@ Task<> UnmanagedMemoryStream___::WriteAsync(Array<Byte> buffer, Int32 offset, In
     Write(buffer, offset, count);
     return Task<>::in::get_CompletedTask();
   } catch (Exception exception) {
+    return Task<>::in::FromException(exception);
   }
 }
 
@@ -499,6 +503,7 @@ ValueTask<> UnmanagedMemoryStream___::WriteAsync(ReadOnlyMemory<Byte> buffer, Ca
     }
     return rt::default__;
   } catch (Exception exception) {
+    return ValueTask<>::FromException(exception);
   }
 }
 

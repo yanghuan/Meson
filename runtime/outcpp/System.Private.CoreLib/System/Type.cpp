@@ -1175,6 +1175,7 @@ Boolean Type___::FilterAttributeImpl(MemberInfo m, Object filterCriteria) {
           Int32 num2 = (Int32)filterCriteria;
           methodAttributes = (MethodAttributes)num2;
         } catch (...) {
+          rt::throw_exception<InvalidFilterCriteriaException>(SR::get_InvalidFilterCriteriaException_CritInt());
         }
         MethodAttributes methodAttributes2 = (m->get_MemberType() != MemberTypes::Method) ? ((ConstructorInfo)m)->get_Attributes() : ((MethodInfo)m)->get_Attributes();
         if ((methodAttributes & MethodAttributes::MemberAccessMask) != 0 && (methodAttributes2 & MethodAttributes::MemberAccessMask) != (methodAttributes & MethodAttributes::MemberAccessMask)) {
@@ -1203,6 +1204,7 @@ Boolean Type___::FilterAttributeImpl(MemberInfo m, Object filterCriteria) {
           Int32 num = (Int32)filterCriteria;
           fieldAttributes = (FieldAttributes)num;
         } catch (...) {
+          rt::throw_exception<InvalidFilterCriteriaException>(SR::get_InvalidFilterCriteriaException_CritInt());
         }
         FieldAttributes attributes = ((FieldInfo)m)->get_Attributes();
         if ((fieldAttributes & FieldAttributes::FieldAccessMask) != 0 && (attributes & FieldAttributes::FieldAccessMask) != (fieldAttributes & FieldAttributes::FieldAccessMask)) {

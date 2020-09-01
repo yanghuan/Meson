@@ -1,5 +1,6 @@
 #include "ExecutionContext-dep.h"
 
+#include <System.Private.CoreLib/System/Environment-dep.h>
 #include <System.Private.CoreLib/System/Exception-dep.h>
 #include <System.Private.CoreLib/System/Int32-dep.h>
 #include <System.Private.CoreLib/System/InvalidOperationException-dep.h>
@@ -65,7 +66,7 @@ AsyncFlowControl ExecutionContext___::SuppressFlow() {
     rt::throw_exception<InvalidOperationException>(SR::get_InvalidOperation_CannotSupressFlowMultipleTimes());
   }
   executionContext = executionContext->ShallowClone(true);
-  AsyncFlowControl result = rt::default__;
+  AsyncFlowControl result;
   currentThread->_executionContext = executionContext;
   result.Initialize(currentThread);
   return result;
@@ -114,6 +115,7 @@ void ExecutionContext___::RunInternal(ExecutionContext executionContext, Context
   try {
     callback(state);
   } catch (Exception source) {
+    exceptionDispatchInfo = ExceptionDispatchInfo::in::Capture(source);
   }
   SynchronizationContext synchronizationContext2 = synchronizationContext;
   Thread thread2 = thread;
@@ -152,6 +154,7 @@ void ExecutionContext___::RunFromThreadPoolDispatchLoop(Thread threadPoolThread,
   try {
     callback(state);
   } catch (Exception source) {
+    exceptionDispatchInfo = ExceptionDispatchInfo::in::Capture(source);
   }
   ExecutionContext executionContext2 = threadPoolThread->_executionContext;
   threadPoolThread->_synchronizationContext = nullptr;
@@ -232,6 +235,7 @@ void ExecutionContext___::OnValuesChanged(ExecutionContext previousExecutionCtx,
       }
     }
   } catch (Exception exception) {
+    Environment::FailFast(SR::get_ExecutionContext_ExceptionInAsyncLocalNotification(), exception);
   }
 }
 

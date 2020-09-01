@@ -22,6 +22,7 @@
 #include <System.Private.CoreLib/System/ReadOnlySpan-dep.h>
 #include <System.Private.CoreLib/System/Security/SecurityException-dep.h>
 #include <System.Private.CoreLib/System/SR-dep.h>
+#include <System.Private.CoreLib/System/TypeInitializationException-dep.h>
 #include <System.Private.CoreLib/System/UnauthorizedAccessException-dep.h>
 
 namespace System::Private::CoreLib::System::Globalization::JapaneseCalendarNamespace {
@@ -86,6 +87,7 @@ void JapaneseCalendar___::ctor() {
   try {
     rt::newobj<CultureInfo>("ja-JP");
   } catch (ArgumentException innerException) {
+    rt::throw_exception<TypeInitializationException>(GetType()->ToString(), innerException);
   }
   _helper = rt::newobj<GregorianCalendarHelper>((JapaneseCalendar)this, GetEraInfo());
 }
@@ -272,8 +274,11 @@ Array<EraInfo> JapaneseCalendar___::NlsGetJapaneseEras() {
       }
     }
   } catch (SecurityException) {
+    return nullptr;
   } catch (IOException) {
+    return nullptr;
   } catch (UnauthorizedAccessException) {
+    return nullptr;
   }
   if (num < 4) {
     return nullptr;

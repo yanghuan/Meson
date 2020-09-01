@@ -150,6 +150,7 @@ String DomainNameHelper::IdnEquivalent(String hostname) {
     }
     return ascii;
   } catch (ArgumentException) {
+    rt::throw_exception<UriFormatException>(SR::get_net_uri_BadUnicodeHostForIdn());
   }
 }
 
@@ -203,6 +204,7 @@ String DomainNameHelper::UnicodeEquivalent(Char* hostname, Int32 start, Int32 en
       try {
         unicode = s_idnMapping->GetAscii(unicode);
       } catch (ArgumentException) {
+        rt::throw_exception<UriFormatException>(SR::get_net_uri_BadUnicodeHostForIdn());
       }
       text2 += s_idnMapping->GetUnicode(unicode);
       if (flag4) {

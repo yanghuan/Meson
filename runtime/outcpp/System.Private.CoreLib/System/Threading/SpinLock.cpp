@@ -18,6 +18,7 @@ Nullable<Boolean> SystemThreading_SpinLockDebugView___::get_IsHeldByCurrentThrea
   try {
     return _spinLock.get_IsHeldByCurrentThread();
   } catch (InvalidOperationException) {
+    return nullptr;
   }
 }
 
@@ -131,7 +132,7 @@ void SpinLock::ContinueTryEnter(Int32 millisecondsTimeout, Boolean& lockTaken) {
       num = (Interlocked::Add(_owner, 2) & 2147483646) >> 1;
     }
   }
-  SpinWait spinWait = rt::default__;
+  SpinWait spinWait;
   if (num > Environment::get_ProcessorCount()) {
     spinWait.set_Count(10);
   }
@@ -149,7 +150,7 @@ void SpinLock::ContinueTryEnter(Int32 millisecondsTimeout, Boolean& lockTaken) {
 }
 
 void SpinLock::DecrementWaiters() {
-  SpinWait spinWait = rt::default__;
+  SpinWait spinWait;
   while (true) {
     Int32 owner = _owner;
     if ((owner & 2147483646) != 0 && Interlocked::CompareExchange(_owner, owner - 2, owner) != owner) {
@@ -165,7 +166,7 @@ void SpinLock::ContinueTryEnterWithThreadTracking(Int32 millisecondsTimeout, UIn
   if (_owner == currentManagedThreadId) {
     rt::throw_exception<LockRecursionException>(SR::get_SpinLock_TryEnter_LockRecursionException());
   }
-  SpinWait spinWait = rt::default__;
+  SpinWait spinWait;
   while (true) {
     spinWait.SpinOnce();
     if (_owner == 0 && CompareExchange(_owner, currentManagedThreadId, 0, lockTaken) == 0) {

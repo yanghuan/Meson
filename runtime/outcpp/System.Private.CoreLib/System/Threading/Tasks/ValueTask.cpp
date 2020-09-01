@@ -2,6 +2,7 @@
 
 #include <System.Private.CoreLib/Internal/Runtime/CompilerServices/Unsafe-dep.h>
 #include <System.Private.CoreLib/System/ExceptionArgument.h>
+#include <System.Private.CoreLib/System/OperationCanceledException-dep.h>
 #include <System.Private.CoreLib/System/Runtime/CompilerServices/TaskAwaiter-dep.h>
 #include <System.Private.CoreLib/System/Threading/Tasks/Sources/ValueTaskSourceOnCompletedFlags.h>
 #include <System.Private.CoreLib/System/Threading/Tasks/Sources/ValueTaskSourceStatus.h>
@@ -164,6 +165,16 @@ Task<> ValueTask<>::GetTaskForValueTaskSource(IValueTaskSource<> t) {
       t->GetResult(_token);
       return Task<>::in::get_CompletedTask();
     } catch (Exception ex) {
+      if (status == ValueTaskSourceStatus::Canceled) {
+        OperationCanceledException ex2 = rt::as<OperationCanceledException>(ex);
+        if (ex2 != nullptr) {
+          Task<> task = rt::newobj<Task<>>();
+          task->TrySetCanceled(ex2->get_CancellationToken(), ex2);
+          return task;
+        }
+        return s_canceledTask;
+      }
+      return Task<>::in::FromException(ex);
     }
   }
   return rt::newobj<ValueTaskSourceAsTask>(t, _token);

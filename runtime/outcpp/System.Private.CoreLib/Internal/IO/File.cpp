@@ -38,7 +38,7 @@ Boolean File::Exists(String path) {
 }
 
 Boolean File::InternalExists(String fullPath) {
-  Interop::Kernel32::WIN32_FILE_ATTRIBUTE_DATA data = rt::default__;
+  Interop::Kernel32::WIN32_FILE_ATTRIBUTE_DATA data;
   if (FillAttributeInfo(fullPath, data, true) == 0 && data.dwFileAttributes != -1) {
     return (data.dwFileAttributes & 16) == 0;
   }
@@ -52,7 +52,7 @@ Int32 File::FillAttributeInfo(String path, Interop::Kernel32::WIN32_FILE_ATTRIBU
     if (!Interop::Kernel32::GetFileAttributesEx(path, Interop::Kernel32::GET_FILEEX_INFO_LEVELS::GetFileExInfoStandard, data)) {
       num = Marshal::GetLastWin32Error();
       if (num == 5) {
-        Interop::Kernel32::WIN32_FIND_DATA data2 = rt::default__;
+        Interop::Kernel32::WIN32_FIND_DATA data2;
         {
           SafeFindHandle safeFindHandle = Interop::Kernel32::FindFirstFile(path, data2);
           rt::Using(safeFindHandle);

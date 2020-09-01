@@ -127,6 +127,7 @@ Assembly Assembly___::LoadWithPartialName(String partialName) {
     StackCrawlMark stackMark = StackCrawlMark::LookForMyCaller;
     return RuntimeAssembly::in::InternalLoad(partialName, stackMark, AssemblyLoadContext::in::get_CurrentContextualReflectionContext());
   } catch (FileNotFoundException) {
+    return nullptr;
   }
 }
 
@@ -433,6 +434,7 @@ Assembly Assembly___::LoadFromResolveHandler(Object sender, ResolveEventArgs arg
   try {
     return LoadFrom(text);
   } catch (FileNotFoundException) {
+    return nullptr;
   }
 }
 

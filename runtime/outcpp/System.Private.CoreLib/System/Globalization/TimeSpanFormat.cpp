@@ -48,7 +48,7 @@ String TimeSpanFormat::FormatLiterals::get_End() {
 }
 
 TimeSpanFormat::FormatLiterals TimeSpanFormat::FormatLiterals::InitInvariant(Boolean isNegative) {
-  FormatLiterals result = rt::default__;
+  FormatLiterals result;
   result._literals = rt::newarr<Array<String>>(6);
   result._literals[0] = (isNegative ? "-" : String::in::Empty);
   result._literals[1] = ".";

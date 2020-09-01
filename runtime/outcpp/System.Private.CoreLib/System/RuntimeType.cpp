@@ -400,7 +400,7 @@ String RuntimeType___::get_Namespace() {
 }
 
 Guid RuntimeType___::get_GUID() {
-  Guid result = rt::default__;
+  Guid result;
   GetGUID(result);
   return result;
 }
@@ -1295,12 +1295,12 @@ Array<MemberInfo> RuntimeType___::GetMember(String name, MemberTypes type, Bindi
   if (name == nullptr) {
     rt::throw_exception<ArgumentNullException>("name");
   }
-  ListBuilder<MethodInfo> listBuilder = rt::default__;
-  ListBuilder<ConstructorInfo> listBuilder2 = rt::default__;
-  ListBuilder<PropertyInfo> listBuilder3 = rt::default__;
-  ListBuilder<EventInfo> listBuilder4 = rt::default__;
-  ListBuilder<FieldInfo> listBuilder5 = rt::default__;
-  ListBuilder<Type> listBuilder6 = rt::default__;
+  ListBuilder<MethodInfo> listBuilder;
+  ListBuilder<ConstructorInfo> listBuilder2;
+  ListBuilder<PropertyInfo> listBuilder3;
+  ListBuilder<EventInfo> listBuilder4;
+  ListBuilder<FieldInfo> listBuilder5;
+  ListBuilder<Type> listBuilder6;
   Int32 num = 0;
   if ((type & MemberTypes::Method) != 0) {
     listBuilder = GetMethodCandidates(name, -1, bindingAttr, CallingConventions::Any, nullptr, true);
@@ -1464,6 +1464,8 @@ Type RuntimeType___::MakeGenericType(Array<Type> instantiation) {
     Array<Type> inst = array;
     return runtimeTypeHandle.Instantiate(inst);
   } catch (TypeLoadException e) {
+    ValidateGenericArguments((RuntimeType)this, array, e);
+    throw;
   }
 }
 
@@ -1617,6 +1619,7 @@ Object RuntimeType___::InvokeMember(String name, BindingFlags bindingFlags, Bind
     try {
       return InvokeDispMethod(name, bindingFlags, target, providedArgs, byrefModifiers, culture2, namedParams);
     } catch (TargetInvocationException ex) {
+      rt::throw_exception(ex->get_InnerException());
     }
   }
   if (namedParams != nullptr && Array<>::in::IndexOf(namedParams, (String)nullptr) != -1) {
@@ -1680,6 +1683,7 @@ Object RuntimeType___::InvokeMember(String name, BindingFlags bindingFlags, Bind
             try {
               array2[i] = ((IConvertible)providedArgs[i])->ToInt32(nullptr);
             } catch (InvalidCastException) {
+              rt::throw_exception<ArgumentException>(SR::get_Arg_IndexMustBeInt());
             }
           }
           Array<> array3 = (Array<>)fieldInfo->GetValue(target);
@@ -1850,6 +1854,7 @@ Object RuntimeType___::CreateInstanceImpl(BindingFlags bindingAttr, Binder binde
     try {
       methodBase = binder->BindToMethod(bindingAttr, match, args, nullptr, culture, nullptr, state);
     } catch (MissingMethodException) {
+      methodBase = nullptr;
     }
     if ((Object)methodBase == nullptr) {
       rt::throw_exception<MissingMethodException>(SR::Format(SR::get_MissingConstructor_Name(), get_FullName()));
@@ -1870,7 +1875,7 @@ Object RuntimeType___::CreateInstanceImpl(BindingFlags bindingAttr, Binder binde
 }
 
 Object RuntimeType___::CreateInstanceDefaultCtorSlow(Boolean publicOnly, Boolean wrapExceptions, Boolean fillCache) {
-  RuntimeMethodHandleInternal ctor = rt::default__;
+  RuntimeMethodHandleInternal ctor;
   Boolean canBeCached = false;
   Boolean hasNoDefaultCtor = false;
   Object result = RuntimeTypeHandle::CreateInstance((RuntimeType)this, publicOnly, wrapExceptions, canBeCached, ctor, hasNoDefaultCtor);
@@ -1896,6 +1901,7 @@ Object RuntimeType___::CreateInstanceDefaultCtor(Boolean publicOnly, Boolean ski
         activatorCache->_ctor(obj);
         return obj;
       } catch (Exception inner) {
+        rt::throw_exception<TargetInvocationException>(inner);
       }
     }
     return obj;

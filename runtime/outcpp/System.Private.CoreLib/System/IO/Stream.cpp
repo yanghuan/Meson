@@ -554,6 +554,7 @@ ValueTask<> Stream___::DisposeAsync() {
     Dispose();
     return rt::default__;
   } catch (Exception exception) {
+    return ValueTask<>::FromException(exception);
   }
 }
 
@@ -795,6 +796,7 @@ IAsyncResult Stream___::BlockingBeginRead(Array<Byte> buffer, Int32 offset, Int3
     Int32 bytesRead = Read(buffer, offset, count);
     synchronousAsyncResult = rt::newobj<SynchronousAsyncResult>(bytesRead, state);
   } catch (IOException ex) {
+    synchronousAsyncResult = rt::newobj<SynchronousAsyncResult>(ex, state, false);
   }
   if (callback != nullptr) {
     callback(synchronousAsyncResult);
@@ -812,6 +814,7 @@ IAsyncResult Stream___::BlockingBeginWrite(Array<Byte> buffer, Int32 offset, Int
     Write(buffer, offset, count);
     synchronousAsyncResult = rt::newobj<SynchronousAsyncResult>(state);
   } catch (IOException ex) {
+    synchronousAsyncResult = rt::newobj<SynchronousAsyncResult>(ex, state, true);
   }
   if (callback != nullptr) {
     callback(synchronousAsyncResult);

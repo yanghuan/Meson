@@ -7,6 +7,7 @@
 #include <System.Private.CoreLib/System/Globalization/GregorianCalendarHelper-dep.h>
 #include <System.Private.CoreLib/System/Globalization/KoreanCalendar-dep.h>
 #include <System.Private.CoreLib/System/SR-dep.h>
+#include <System.Private.CoreLib/System/TypeInitializationException-dep.h>
 
 namespace System::Private::CoreLib::System::Globalization::KoreanCalendarNamespace {
 DateTime KoreanCalendar___::get_MinSupportedDateTime() {
@@ -48,6 +49,7 @@ void KoreanCalendar___::ctor() {
   try {
     rt::newobj<CultureInfo>("ko-KR");
   } catch (ArgumentException innerException) {
+    rt::throw_exception<TypeInitializationException>(GetType()->ToString(), innerException);
   }
   _helper = rt::newobj<GregorianCalendarHelper>((KoreanCalendar)this, s_koreanEraInfo);
 }

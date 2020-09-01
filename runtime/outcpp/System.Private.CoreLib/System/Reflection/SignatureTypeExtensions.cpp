@@ -143,6 +143,7 @@ Type SignatureTypeExtensions::TryMakeArrayType(Type type) {
   try {
     return type->MakeArrayType();
   } catch (...) {
+    return nullptr;
   }
 }
 
@@ -150,6 +151,7 @@ Type SignatureTypeExtensions::TryMakeArrayType(Type type, Int32 rank) {
   try {
     return type->MakeArrayType(rank);
   } catch (...) {
+    return nullptr;
   }
 }
 
@@ -157,6 +159,7 @@ Type SignatureTypeExtensions::TryMakeByRefType(Type type) {
   try {
     return type->MakeByRefType();
   } catch (...) {
+    return nullptr;
   }
 }
 
@@ -164,6 +167,7 @@ Type SignatureTypeExtensions::TryMakePointerType(Type type) {
   try {
     return type->MakePointerType();
   } catch (...) {
+    return nullptr;
   }
 }
 
@@ -171,6 +175,7 @@ Type SignatureTypeExtensions::TryMakeGenericType(Type type, Array<Type> instanti
   try {
     return type->MakeGenericType(instantiation);
   } catch (...) {
+    return nullptr;
   }
 }
 

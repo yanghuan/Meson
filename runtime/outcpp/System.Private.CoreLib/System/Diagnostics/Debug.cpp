@@ -80,6 +80,7 @@ void Debug::ContractFailure(String message, String detailMessage, String failure
   try {
     stackTrace = rt::newobj<StackTrace>(2, true)->ToString(StackTrace::in::TraceFormat::Normal);
   } catch (...) {
+    stackTrace = "";
   }
   s_provider->WriteAssert(stackTrace, message, detailMessage);
   DebugProvider::in::FailCore(stackTrace, message, detailMessage, failureKindMessage);

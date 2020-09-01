@@ -2008,6 +2008,8 @@ Byte Decimal::ToByte(Decimal value) {
   try {
     num = ToUInt32(value);
   } catch (OverflowException) {
+    Number::ThrowOverflowException(TypeCode::Byte);
+    throw;
   }
   if (num != (Byte)num) {
     Number::ThrowOverflowException(TypeCode::Byte);
@@ -2020,6 +2022,8 @@ SByte Decimal::ToSByte(Decimal value) {
   try {
     num = ToInt32(value);
   } catch (OverflowException) {
+    Number::ThrowOverflowException(TypeCode::SByte);
+    throw;
   }
   if (num != (SByte)num) {
     Number::ThrowOverflowException(TypeCode::SByte);
@@ -2032,6 +2036,8 @@ Int16 Decimal::ToInt16(Decimal value) {
   try {
     num = ToInt32(value);
   } catch (OverflowException) {
+    Number::ThrowOverflowException(TypeCode::Int16);
+    throw;
   }
   if (num != (Int16)num) {
     Number::ThrowOverflowException(TypeCode::Int16);
@@ -2084,6 +2090,8 @@ UInt16 Decimal::ToUInt16(Decimal value) {
   try {
     num = ToUInt32(value);
   } catch (OverflowException) {
+    Number::ThrowOverflowException(TypeCode::UInt16);
+    throw;
   }
   if (num != (UInt16)num) {
     Number::ThrowOverflowException(TypeCode::UInt16);
@@ -2185,6 +2193,7 @@ Char Decimal::op_Explicit(Decimal value, Char) {
   try {
     return (Char)ToUInt16(value);
   } catch (OverflowException innerException) {
+    rt::throw_exception<OverflowException>(SR::get_Overflow_Char(), innerException);
   }
 }
 

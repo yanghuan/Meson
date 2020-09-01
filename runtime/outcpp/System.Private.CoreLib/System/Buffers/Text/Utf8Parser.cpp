@@ -409,6 +409,8 @@ Boolean Utf8Parser::TryCreateDateTimeOffset(DateTime dateTime, Boolean offsetNeg
   try {
     value = DateTimeOffset(dateTime.get_Ticks(), TimeSpan(num));
   } catch (ArgumentOutOfRangeException) {
+    value = rt::default__;
+    return false;
   }
   return true;
 }
@@ -435,6 +437,8 @@ Boolean Utf8Parser::TryCreateDateTimeOffsetInterpretingDataAsLocalTime(Int32 yea
   try {
     value = DateTimeOffset(value2);
   } catch (ArgumentOutOfRangeException) {
+    value = rt::default__;
+    return false;
   }
   return true;
 }
@@ -3141,7 +3145,7 @@ Boolean Utf8Parser::TryParseTimeSpanBigG(ReadOnlySpan<Byte> source, TimeSpan& va
 }
 
 Boolean Utf8Parser::TryParseTimeSpanC(ReadOnlySpan<Byte> source, TimeSpan& value, Int32& bytesConsumed) {
-  TimeSpanSplitter timeSpanSplitter = rt::default__;
+  TimeSpanSplitter timeSpanSplitter;
   if (!timeSpanSplitter.TrySplitTimeSpan(source, true, bytesConsumed)) {
     value = rt::default__;
     return false;
@@ -3291,7 +3295,7 @@ Boolean Utf8Parser::TryCreateTimeSpan(Boolean isNegative, UInt32 days, UInt32 ho
 }
 
 Boolean Utf8Parser::TryParseTimeSpanLittleG(ReadOnlySpan<Byte> source, TimeSpan& value, Int32& bytesConsumed) {
-  TimeSpanSplitter timeSpanSplitter = rt::default__;
+  TimeSpanSplitter timeSpanSplitter;
   if (!timeSpanSplitter.TrySplitTimeSpan(source, false, bytesConsumed)) {
     value = rt::default__;
     return false;

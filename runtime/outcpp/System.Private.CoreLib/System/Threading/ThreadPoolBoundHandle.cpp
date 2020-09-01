@@ -55,6 +55,8 @@ NativeOverlapped* ThreadPoolBoundHandle___::AllocateNativeOverlapped(PreAllocate
     overlapped->_boundHandle = (ThreadPoolBoundHandle)this;
     return overlapped->_nativeOverlapped;
   } catch (...) {
+    preAllocated->Release();
+    throw;
   }
 }
 
@@ -85,6 +87,7 @@ ThreadPoolBoundHandleOverlapped ThreadPoolBoundHandle___::GetOverlappedWrapper(N
   try {
     return (ThreadPoolBoundHandleOverlapped)Overlapped::in::Unpack(overlapped);
   } catch (NullReferenceException innerException) {
+    rt::throw_exception<ArgumentException>(SR::get_Argument_NativeOverlappedAlreadyFree(), "overlapped", innerException);
   }
 }
 
@@ -102,6 +105,13 @@ ThreadPoolBoundHandle ThreadPoolBoundHandle___::BindHandleCore(SafeHandle handle
   try {
     Boolean flag = ThreadPool::BindHandle(handle);
   } catch (Exception ex) {
+    if (ex->get_HResult() == -2147024890) {
+      rt::throw_exception<ArgumentException>(SR::get_Argument_InvalidHandle(), "handle");
+    }
+    if (ex->get_HResult() == -2147024809) {
+      rt::throw_exception<ArgumentException>(SR::get_Argument_AlreadyBoundOrSyncHandle(), "handle");
+    }
+    throw;
   }
   return rt::newobj<ThreadPoolBoundHandle>(handle);
 }

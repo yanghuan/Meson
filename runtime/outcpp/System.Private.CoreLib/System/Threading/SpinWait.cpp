@@ -89,7 +89,7 @@ Boolean SpinWait::SpinUntil(Func<Boolean> condition, Int32 millisecondsTimeout) 
   if (millisecondsTimeout != 0 && millisecondsTimeout != -1) {
     num = TimeoutHelper::GetTime();
   }
-  SpinWait spinWait = rt::default__;
+  SpinWait spinWait;
   while (!condition()) {
     if (millisecondsTimeout == 0) {
       return false;

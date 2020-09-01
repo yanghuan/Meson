@@ -4317,6 +4317,11 @@ String SR::InternalGetResourceString(String key) {
     String as = string;
     return as != nullptr ? as : key;
   } catch (...) {
+    if (lockTaken) {
+      s_resourceManager = nullptr;
+      _currentlyLoading = nullptr;
+    }
+    throw;
   } finally: {
     if (lockTaken) {
       Monitor::Exit(_lock);

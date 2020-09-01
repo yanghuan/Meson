@@ -148,6 +148,7 @@ MethodBase RuntimeModule___::ResolveMethod(Int32 metadataToken, Array<Type> gene
     }
     return RuntimeType::in::GetMethodBase(rt::as<RuntimeType>(type), runtimeMethodInfo);
   } catch (BadImageFormatException innerException) {
+    rt::throw_exception<ArgumentException>(SR::get_Argument_BadImageFormatExceptionResolve(), innerException);
   }
 }
 
@@ -163,6 +164,7 @@ FieldInfo RuntimeModule___::ResolveLiteralField(Int32 metadataToken, Array<Type>
   try {
     return type->GetField(name, BindingFlags::DeclaredOnly | BindingFlags::Instance | BindingFlags::Static | BindingFlags::Public | BindingFlags::NonPublic);
   } catch (...) {
+    rt::throw_exception<ArgumentException>(SR::Format(SR::get_Argument_ResolveField(), metadataToken2, (RuntimeModule)this), "metadataToken");
   }
 }
 
@@ -192,7 +194,9 @@ FieldInfo RuntimeModule___::ResolveField(Int32 metadataToken, Array<Type> generi
     }
     return RuntimeType::in::GetFieldInfo(runtimeType, runtimeFieldInfo);
   } catch (MissingFieldException) {
+    return ResolveLiteralField(metadataToken2, genericTypeArguments, genericMethodArguments);
   } catch (BadImageFormatException innerException) {
+    rt::throw_exception<ArgumentException>(SR::get_Argument_BadImageFormatExceptionResolve(), innerException);
   }
 }
 
@@ -216,6 +220,7 @@ Type RuntimeModule___::ResolveType(Int32 metadataToken, Array<Type> genericTypeA
     }
     return runtimeType;
   } catch (BadImageFormatException innerException) {
+    rt::throw_exception<ArgumentException>(SR::get_Argument_BadImageFormatExceptionResolve(), innerException);
   }
 }
 

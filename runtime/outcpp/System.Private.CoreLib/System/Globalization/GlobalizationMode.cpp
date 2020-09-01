@@ -54,7 +54,7 @@ Boolean GlobalizationMode::TryGetStringValue(String switchName, String envVariab
 }
 
 void GlobalizationMode::LoadAppLocalIcu(String icuSuffixAndVersion) {
-  ReadOnlySpan<Char> suffix = rt::default__;
+  ReadOnlySpan<Char> suffix;
   Int32 num = icuSuffixAndVersion->IndexOf(58);
   ReadOnlySpan<Char> version;
   if (num >= 0) {

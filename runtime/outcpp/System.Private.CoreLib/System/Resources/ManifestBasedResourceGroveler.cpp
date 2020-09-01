@@ -8,6 +8,7 @@
 #include <System.Private.CoreLib/System/Environment-dep.h>
 #include <System.Private.CoreLib/System/Int32-dep.h>
 #include <System.Private.CoreLib/System/Int64-dep.h>
+#include <System.Private.CoreLib/System/InvalidOperationException-dep.h>
 #include <System.Private.CoreLib/System/IO/BinaryReader-dep.h>
 #include <System.Private.CoreLib/System/IO/FileLoadException-dep.h>
 #include <System.Private.CoreLib/System/IO/SeekOrigin.h>
@@ -99,6 +100,10 @@ CultureInfo ManifestBasedResourceGroveler___::GetNeutralResourcesLanguage(Assemb
   try {
     return CultureInfo::in::GetCultureInfo(customAttribute->get_CultureName());
   } catch (ArgumentException innerException) {
+    if (a == typeof<Object>()->get_Assembly()) {
+      return CultureInfo::in::get_InvariantCulture();
+    }
+    rt::throw_exception<ArgumentException>(SR::Format(SR::get_Arg_InvalidNeutralResourcesLanguage_Asm_Culture(), a, customAttribute->get_CultureName()), innerException);
   }
 }
 
@@ -154,6 +159,7 @@ ResourceSet ManifestBasedResourceGroveler___::CreateResourceSet(Stream store, As
     args2 = rt::newarr<Array<Object>>(1);
     return (ResourceSet)Activator::CreateInstance(_mediator->get_UserResourceSet(), args2);
   } catch (MissingMethodException innerException) {
+    rt::throw_exception<InvalidOperationException>(SR::Format(SR::get_InvalidOperation_ResMgrBadResSet_Type(), _mediator->get_UserResourceSet()->get_AssemblyQualifiedName()), innerException);
   }
 }
 
@@ -193,7 +199,9 @@ Assembly ManifestBasedResourceGroveler___::GetSatelliteAssembly(CultureInfo look
     result = InternalGetSatelliteAssembly(_mediator->get_MainAssembly(), lookForCulture, _mediator->get_SatelliteContractVersion());
     return result;
   } catch (FileLoadException) {
+    return result;
   } catch (BadImageFormatException) {
+    return result;
   }
 }
 
@@ -242,6 +250,7 @@ String ManifestBasedResourceGroveler___::GetManifestResourceNamesList(Assembly a
     }
     return "\"" + String::in::Join("\", \"", manifestResourceNames, 0, num) + str;
   } catch (...) {
+    return "\"\"";
   }
 }
 

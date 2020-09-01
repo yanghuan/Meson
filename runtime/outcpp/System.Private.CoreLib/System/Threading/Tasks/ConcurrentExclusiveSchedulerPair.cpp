@@ -1,5 +1,6 @@
 #include "ConcurrentExclusiveSchedulerPair-dep.h"
 
+#include <System.Private.CoreLib/System/AggregateException-dep.h>
 #include <System.Private.CoreLib/System/ArgumentNullException-dep.h>
 #include <System.Private.CoreLib/System/ArgumentOutOfRangeException-dep.h>
 #include <System.Private.CoreLib/System/Environment-dep.h>
@@ -99,6 +100,8 @@ Boolean ConcurrentExclusiveSchedulerPair___::ConcurrentExclusiveTaskScheduler___
     task2->RunSynchronously(m_pair->m_underlyingTaskScheduler);
     return task2->get_Result();
   } catch (...) {
+    AggregateException exception = task2->get_Exception();
+    throw;
   } finally: {
     task2->Dispose();
   }
@@ -299,6 +302,9 @@ void ConcurrentExclusiveSchedulerPair___::ProcessAsyncIfNecessary(Boolean fairly
     if (!TryQueueThreadPoolWorkItem(fairly)) {
       try {
       } catch (Exception exception) {
+        m_processingCount = 0;
+        Task<> as = task;
+        FaultWithTask(as != nullptr ? as : Task<>::in::FromException(exception));
       }
     }
   } else {
@@ -314,6 +320,9 @@ void ConcurrentExclusiveSchedulerPair___::ProcessAsyncIfNecessary(Boolean fairly
         }
         try {
         } catch (Exception exception2) {
+          m_processingCount--;
+          Task<> as = task;
+          FaultWithTask(as != nullptr ? as : Task<>::in::FromException(exception2));
         }
       }
     }

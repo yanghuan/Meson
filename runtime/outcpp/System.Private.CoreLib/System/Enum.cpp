@@ -476,6 +476,8 @@ Boolean Enum___::TryParseRareEnum(RuntimeType enumType, String originalValueStri
       return true;
     } catch (FormatException) {
     } catch (...) {
+      result = nullptr;
+      return false;
     }
   }
   UInt64 result2;

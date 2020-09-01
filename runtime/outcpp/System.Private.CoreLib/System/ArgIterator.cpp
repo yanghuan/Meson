@@ -13,7 +13,7 @@ ArgIterator::ArgIterator(RuntimeArgumentHandle arglist, void* ptr) {
 }
 
 TypedReference ArgIterator::GetNextArg() {
-  TypedReference result = rt::default__;
+  TypedReference result;
   FCallGetNextArg(&result);
   return result;
 }
@@ -25,7 +25,7 @@ TypedReference ArgIterator::GetNextArg(RuntimeTypeHandle rth) {
   if (ArgPtr == IntPtr::Zero) {
     rt::throw_exception<ArgumentNullException>();
   }
-  TypedReference result = rt::default__;
+  TypedReference result;
   InternalGetNextArg(&result, rth.GetRuntimeType());
   return result;
 }

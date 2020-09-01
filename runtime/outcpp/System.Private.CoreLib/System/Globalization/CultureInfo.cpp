@@ -385,6 +385,7 @@ CultureInfo CultureInfo___::GetCultureByName(String name) {
   try {
     return rt::newobj<CultureInfo>(name);
   } catch (ArgumentException) {
+    return get_InvariantCulture();
   }
 }
 
@@ -393,6 +394,20 @@ CultureInfo CultureInfo___::CreateSpecificCulture(String name) {
   try {
     cultureInfo = rt::newobj<CultureInfo>(name);
   } catch (ArgumentException) {
+    cultureInfo = nullptr;
+    for (Int32 i = 0; i < name->get_Length(); i++) {
+      if (45 == name[i]) {
+        try {
+          cultureInfo = rt::newobj<CultureInfo>(name->Substring(0, i));
+        } catch (ArgumentException) {
+          throw;
+        }
+        break;
+      }
+    }
+    if (cultureInfo == nullptr) {
+      throw;
+    }
   }
   if (!cultureInfo->get_IsNeutralCulture()) {
     return cultureInfo;
@@ -594,6 +609,7 @@ CultureInfo CultureInfo___::GetCultureInfo(Int32 culture) {
   try {
     value = rt::newobj<CultureInfo>(culture, false);
   } catch (ArgumentException) {
+    rt::throw_exception<CultureNotFoundException>("culture", culture, SR::get_Argument_CultureNotSupported());
   }
   {
     rt::lock(cachedCulturesByLcid);
@@ -651,6 +667,7 @@ CultureInfo CultureInfo___::GetCultureInfo(String name, String altName) {
     value = rt::newobj<CultureInfo>(name, altName);
     value->get_TextInfo()->SetReadOnlyState(true);
   } catch (ArgumentException) {
+    rt::throw_exception<CultureNotFoundException>("name/altName", SR::Format(SR::get_Argument_OneOfCulturesNotSupported(), name, altName));
   }
   {
     rt::lock(cachedCulturesByName);

@@ -8,6 +8,7 @@
 #include <System.Private.CoreLib/System/ArraySegment-dep.h>
 #include <System.Private.CoreLib/System/Buffer-dep.h>
 #include <System.Private.CoreLib/System/Exception-dep.h>
+#include <System.Private.CoreLib/System/GC-dep.h>
 #include <System.Private.CoreLib/System/Int64-dep.h>
 #include <System.Private.CoreLib/System/IO/DisableMediaInsertionPrompt-dep.h>
 #include <System.Private.CoreLib/System/IO/Error-dep.h>
@@ -293,6 +294,8 @@ void FileStream___::ctor(IntPtr handle, FileAccess access, Boolean ownsHandle, I
   try {
     ValidateAndInitFromHandle(safeFileHandle, access, bufferSize, isAsync);
   } catch (...) {
+    GC::SuppressFinalize(safeFileHandle);
+    throw;
   }
   _access = access;
   _useAsyncIO = isAsync;
@@ -398,6 +401,9 @@ void FileStream___::ctor(String path, FileMode mode, FileAccess access, FileShar
   try {
     Init(mode, share, path);
   } catch (...) {
+    _fileHandle->Dispose();
+    _fileHandle = nullptr;
+    throw;
   }
 }
 
@@ -819,6 +825,7 @@ void FileStream___::Init(FileMode mode, FileShare share, String originalPath) {
     try {
       _fileHandle->set_ThreadPoolBinding(ThreadPoolBoundHandle::in::BindHandle(_fileHandle));
     } catch (ArgumentException innerException) {
+      rt::throw_exception<IOException>(SR::get_IO_BindHandleFailed(), innerException);
     } finally: {
       if (_fileHandle->get_ThreadPoolBinding() == nullptr) {
         _fileHandle->Dispose();
@@ -845,6 +852,7 @@ void FileStream___::InitFromHandleImpl(SafeFileHandle handle, Boolean useAsyncIO
     try {
       handle->set_ThreadPoolBinding(ThreadPoolBoundHandle::in::BindHandle(handle));
     } catch (Exception innerException) {
+      rt::throw_exception<ArgumentException>(SR::get_Arg_HandleNotAsync(), "handle", innerException);
     }
   } else if (!useAsyncIO) {
     VerifyHandleIsSync(handle);
@@ -858,9 +866,9 @@ void FileStream___::InitFromHandleImpl(SafeFileHandle handle, Boolean useAsyncIO
 }
 
 Interop::Kernel32::SECURITY_ATTRIBUTES FileStream___::GetSecAttrs(FileShare share) {
-  Interop::Kernel32::SECURITY_ATTRIBUTES result = rt::default__;
+  Interop::Kernel32::SECURITY_ATTRIBUTES result;
   if ((share & FileShare::Inheritable) != 0) {
-    Interop::Kernel32::SECURITY_ATTRIBUTES result2 = rt::default__;
+    Interop::Kernel32::SECURITY_ATTRIBUTES result2;
     result2.nLength = (UInt32)sizeof(Interop::Kernel32::SECURITY_ATTRIBUTES);
     result2.bInheritHandle = Interop::BOOL::TRUE;
     return result2;
@@ -1410,6 +1418,7 @@ Task<> FileStream___::FlushAsyncInternal(CancellationToken cancellationToken) {
   try {
     FlushInternalBuffer();
   } catch (Exception exception) {
+    return Task<>::in::FromException(exception);
   }
   return Task<>::in::get_CompletedTask();
 }

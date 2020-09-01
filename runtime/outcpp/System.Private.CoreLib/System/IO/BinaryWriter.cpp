@@ -84,6 +84,7 @@ ValueTask<> BinaryWriter___::DisposeAsync() {
     }
     return rt::default__;
   } catch (Exception exception) {
+    return ValueTask<>::FromException(exception);
   }
 }
 

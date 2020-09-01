@@ -962,6 +962,10 @@ namespace Meson.Compiler {
         return (StatementSyntax)IdentifierSyntax.Throw.Generic(typeName).Invation(arguments);
       }
 
+      if (throwStatement.Expression.IsNull) {
+        return (StatementSyntax)IdentifierSyntax.Rethrow;
+      }
+
       var expression = throwStatement.Expression.AcceptExpression(this);
       return (StatementSyntax)IdentifierSyntax.Throw.Invation(expression);
     }
@@ -1177,7 +1181,7 @@ namespace Meson.Compiler {
 
     public SyntaxNode VisitVariableInitializer(VariableInitializer variableInitializer) {
       var name = variableInitializer.NameToken.Accept<IdentifierSyntax>(this);
-      var initializer = variableInitializer.Initializer.AcceptExpression(this);
+      var initializer = variableInitializer.Initializer is DefaultValueExpression ? null : variableInitializer.Initializer.AcceptExpression(this);
       return new VariableInitializerSyntax(name, initializer);
     }
 

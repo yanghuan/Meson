@@ -1109,7 +1109,7 @@ StringBuilder StringBuilder___::AppendFormatHelper(IFormatProvider provider, Str
       }
     }
     Object obj = args[num2];
-    ReadOnlySpan<Char> readOnlySpan = rt::default__;
+    ReadOnlySpan<Char> readOnlySpan;
     switch (c.get()) {
       case 58:
         {

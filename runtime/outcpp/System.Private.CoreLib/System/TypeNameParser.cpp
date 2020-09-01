@@ -100,6 +100,7 @@ Assembly TypeNameParser___::ResolveAssembly(String asmName, Func<AssemblyName, A
       try {
         return RuntimeAssembly::in::InternalLoad(asmName, stackMark, AssemblyLoadContext::in::get_CurrentContextualReflectionContext());
       } catch (FileNotFoundException) {
+        return nullptr;
       }
     }
     assembly = RuntimeAssembly::in::InternalLoad(asmName, stackMark, AssemblyLoadContext::in::get_CurrentContextualReflectionContext());

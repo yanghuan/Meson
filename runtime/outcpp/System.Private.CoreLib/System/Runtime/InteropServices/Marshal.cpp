@@ -3,6 +3,7 @@
 #include <System.Private.CoreLib/Internal/Runtime/CompilerServices/Unsafe-dep.h>
 #include <System.Private.CoreLib/Interop-dep.h>
 #include <System.Private.CoreLib/System/__ComObject-dep.h>
+#include <System.Private.CoreLib/System/AccessViolationException-dep.h>
 #include <System.Private.CoreLib/System/ArgumentException-dep.h>
 #include <System.Private.CoreLib/System/ArgumentNullException-dep.h>
 #include <System.Private.CoreLib/System/ArgumentOutOfRangeException-dep.h>
@@ -492,6 +493,7 @@ Byte Marshal::ReadByte(IntPtr ptr, Int32 ofs) {
     Byte* ptr2 = (Byte*)(void*)ptr + ofs;
     return *ptr2;
   } catch (NullReferenceException) {
+    rt::throw_exception<AccessViolationException>();
   }
 }
 
@@ -507,6 +509,7 @@ Int16 Marshal::ReadInt16(IntPtr ptr, Int32 ofs) {
     }
     return Unsafe::ReadUnaligned<Int16>(ptr2);
   } catch (NullReferenceException) {
+    rt::throw_exception<AccessViolationException>();
   }
 }
 
@@ -522,6 +525,7 @@ Int32 Marshal::ReadInt32(IntPtr ptr, Int32 ofs) {
     }
     return Unsafe::ReadUnaligned<Int32>(ptr2);
   } catch (NullReferenceException) {
+    rt::throw_exception<AccessViolationException>();
   }
 }
 
@@ -549,6 +553,7 @@ Int64 Marshal::ReadInt64(IntPtr ptr, Int32 ofs) {
     }
     return Unsafe::ReadUnaligned<Int64>(ptr2);
   } catch (NullReferenceException) {
+    rt::throw_exception<AccessViolationException>();
   }
 }
 
@@ -561,6 +566,7 @@ void Marshal::WriteByte(IntPtr ptr, Int32 ofs, Byte val) {
     Byte* ptr2 = (Byte*)(void*)ptr + ofs;
     *ptr2 = val;
   } catch (NullReferenceException) {
+    rt::throw_exception<AccessViolationException>();
   }
 }
 
@@ -577,6 +583,7 @@ void Marshal::WriteInt16(IntPtr ptr, Int32 ofs, Int16 val) {
       Unsafe::WriteUnaligned(ptr2, val);
     }
   } catch (NullReferenceException) {
+    rt::throw_exception<AccessViolationException>();
   }
 }
 
@@ -605,6 +612,7 @@ void Marshal::WriteInt32(IntPtr ptr, Int32 ofs, Int32 val) {
       Unsafe::WriteUnaligned(ptr2, val);
     }
   } catch (NullReferenceException) {
+    rt::throw_exception<AccessViolationException>();
   }
 }
 
@@ -633,6 +641,7 @@ void Marshal::WriteInt64(IntPtr ptr, Int32 ofs, Int64 val) {
       Unsafe::WriteUnaligned(ptr2, val);
     }
   } catch (NullReferenceException) {
+    rt::throw_exception<AccessViolationException>();
   }
 }
 
@@ -937,7 +946,7 @@ IntPtr Marshal::StringToCoTaskMemAuto(String s) {
 }
 
 Int32 Marshal::GetSystemMaxDBCSCharSize() {
-  Interop::Kernel32::CPINFO cPINFO = rt::default__;
+  Interop::Kernel32::CPINFO cPINFO;
   if (Interop::Kernel32::GetCPInfo(0u, &cPINFO) == Interop::BOOL::FALSE) {
     return 2;
   }

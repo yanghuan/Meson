@@ -216,6 +216,8 @@ void ResourceReader___::ctor(String fileName) {
   try {
     ReadResources();
   } catch (...) {
+    _store->Close();
+    throw;
   }
 }
 
@@ -478,7 +480,9 @@ Object ResourceReader___::LoadObjectV1(Int32 pos) {
   try {
     return _LoadObjectV1(pos);
   } catch (EndOfStreamException inner) {
+    rt::throw_exception<BadImageFormatException>(SR::get_BadImageFormat_TypeMismatch(), inner);
   } catch (ArgumentOutOfRangeException inner2) {
+    rt::throw_exception<BadImageFormatException>(SR::get_BadImageFormat_TypeMismatch(), inner2);
   }
 }
 
@@ -542,7 +546,9 @@ Object ResourceReader___::LoadObjectV2(Int32 pos, ResourceTypeCode& typeCode) {
   try {
     return _LoadObjectV2(pos, typeCode);
   } catch (EndOfStreamException inner) {
+    rt::throw_exception<BadImageFormatException>(SR::get_BadImageFormat_TypeMismatch(), inner);
   } catch (ArgumentOutOfRangeException inner2) {
+    rt::throw_exception<BadImageFormatException>(SR::get_BadImageFormat_TypeMismatch(), inner2);
   }
 }
 
@@ -634,7 +640,9 @@ void ResourceReader___::ReadResources() {
   try {
     _ReadResources();
   } catch (EndOfStreamException inner) {
+    rt::throw_exception<BadImageFormatException>(SR::get_BadImageFormat_ResourcesHeaderCorrupted(), inner);
   } catch (IndexOutOfRangeException inner2) {
+    rt::throw_exception<BadImageFormatException>(SR::get_BadImageFormat_ResourcesHeaderCorrupted(), inner2);
   }
 }
 
@@ -736,6 +744,7 @@ Type ResourceReader___::FindType(Int32 typeIndex) {
       String typeName = _store->ReadString();
       _typeTable[typeIndex] = Type::in::GetType(typeName, true);
     } catch (FileNotFoundException) {
+      rt::throw_exception<NotSupportedException>(SR::get_NotSupported_ResourceObjectSerialization());
     } finally: {
       _store->get_BaseStream()->set_Position(position);
     }

@@ -28,6 +28,7 @@ void IncrementingPollingCounter___::UpdateMetric() {
       _increment = _totalValueProvider();
     }
   } catch (Exception ex) {
+    ReportOutOfBandMessage("ERROR: Exception during EventCounter " + DiagnosticCounter::in::get_Name() + " getMetricFunction callback: " + ex->get_Message());
   }
 }
 

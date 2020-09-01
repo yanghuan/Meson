@@ -359,7 +359,7 @@ Object Hashtable___::get_Item(Object key) {
   Int32 num3 = (Int32)(seed % (UInt32)buckets->get_Length());
   bucket bucket;
   do {
-    SpinWait spinWait = rt::default__;
+    SpinWait spinWait;
     while (true) {
       Int32 version = _version;
       bucket = buckets[num3];

@@ -12,7 +12,7 @@ Variant OAVariantLib::ChangeType(Variant source, Type targetClass, Int16 options
   if (culture == nullptr) {
     rt::throw_exception<ArgumentNullException>("culture");
   }
-  Variant result = rt::default__;
+  Variant result;
   ChangeTypeEx(result, source, culture->get_LCID(), targetClass->get_TypeHandle().get_Value(), GetCVTypeFromClass(targetClass), options);
   return result;
 }

@@ -327,7 +327,7 @@ void __DTString::RemoveLeadingInQuoteSpaces() {
 }
 
 DTSubString __DTString::GetSubString() {
-  DTSubString result = rt::default__;
+  DTSubString result;
   result.index = Index;
   result.s = Value;
   while (Index + result.length < get_Length()) {

@@ -813,6 +813,7 @@ MethodToken ModuleBuilder___::GetMethodTokenNoLock(MethodInfo method, Boolean ge
       try {
         methodSigHelper = SignatureHelper::in::GetMethodSigHelper((ModuleBuilder)this, method->get_CallingConvention(), method->get_ReturnType(), method->get_ReturnParameter()->GetRequiredCustomModifiers(), method->get_ReturnParameter()->GetOptionalCustomModifiers(), array2, array3, array4);
       } catch (NotImplementedException) {
+        methodSigHelper = SignatureHelper::in::GetMethodSigHelper((ModuleBuilder)this, method->get_ReturnType(), array2);
       }
       Int32 length;
       Array<Byte> signature = methodSigHelper->InternalGetSignature(length);

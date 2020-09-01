@@ -410,7 +410,9 @@ TimeZoneInfo TimeZoneInfo___::StringSerializer::GetDeserializedTimeZoneInfo(Stri
   try {
     return rt::newobj<TimeZoneInfo>(nextStringValue, nextTimeSpanValue, nextStringValue2, nextStringValue3, nextStringValue4, nextAdjustmentRuleArrayValue, false);
   } catch (ArgumentException innerException) {
+    rt::throw_exception<SerializationException>(SR::get_Serialization_InvalidData(), innerException);
   } catch (InvalidTimeZoneException innerException2) {
+    rt::throw_exception<SerializationException>(SR::get_Serialization_InvalidData(), innerException2);
   }
 }
 
@@ -559,6 +561,7 @@ TimeSpan TimeZoneInfo___::StringSerializer::GetNextTimeSpanValue() {
   try {
     return TimeSpan(0, nextInt32Value, 0);
   } catch (ArgumentOutOfRangeException innerException) {
+    rt::throw_exception<SerializationException>(SR::get_Serialization_InvalidData(), innerException);
   }
 }
 
@@ -632,6 +635,7 @@ TimeZoneInfo::in::AdjustmentRule TimeZoneInfo___::StringSerializer::GetNextAdjus
   try {
     result = AdjustmentRule::in::CreateAdjustmentRule(nextDateTimeValue, nextDateTimeValue2, nextTimeSpanValue, nextTransitionTimeValue, nextTransitionTimeValue2, baseUtcOffsetDelta, num > 0);
   } catch (ArgumentException innerException) {
+    rt::throw_exception<SerializationException>(SR::get_Serialization_InvalidData(), innerException);
   }
   if (_currentTokenStartIndex >= _serializedText->get_Length()) {
     _state = State::EndOfLine;
@@ -665,6 +669,7 @@ TimeZoneInfo::in::TransitionTime TimeZoneInfo___::StringSerializer::GetNextTrans
     try {
       result = TransitionTime::CreateFixedDateRule(nextDateTimeValue, nextInt32Value2, nextInt32Value3);
     } catch (ArgumentException innerException) {
+      rt::throw_exception<SerializationException>(SR::get_Serialization_InvalidData(), innerException);
     }
   } else {
     Int32 nextInt32Value4 = GetNextInt32Value();
@@ -672,6 +677,7 @@ TimeZoneInfo::in::TransitionTime TimeZoneInfo___::StringSerializer::GetNextTrans
     try {
       result = TransitionTime::CreateFloatingDateRule(nextDateTimeValue, nextInt32Value2, nextInt32Value4, (DayOfWeek)nextInt32Value5);
     } catch (ArgumentException innerException2) {
+      rt::throw_exception<SerializationException>(SR::get_Serialization_InvalidData(), innerException2);
     }
   }
   if (_state == State::EndOfLine || _currentTokenStartIndex >= _serializedText->get_Length()) {
@@ -1373,6 +1379,7 @@ Boolean TimeZoneInfo___::GetIsDaylightSavingsFromUtc(DateTime time, Int32 year, 
           isAmbiguousLocalDst = (time >= t3 && time < t4);
           return flag;
         } catch (ArgumentOutOfRangeException) {
+          return flag;
         }
       }
     }
@@ -1445,6 +1452,7 @@ Boolean TimeZoneInfo___::GetIsAmbiguousTime(DateTime time, AdjustmentRule rule, 
         result = (time >= t4 && time < t3);
         return result;
       } catch (ArgumentOutOfRangeException) {
+        return result;
       }
     }
   }
@@ -1486,6 +1494,7 @@ Boolean TimeZoneInfo___::GetIsInvalidTime(DateTime time, AdjustmentRule rule, Da
         result = (time >= t3 && time < t4);
         return result;
       } catch (ArgumentOutOfRangeException) {
+        return result;
       }
     }
   }
@@ -1922,8 +1931,14 @@ Boolean TimeZoneInfo___::TryCreateAdjustmentRules(String id, Interop::Kernel32::
       }
     }
   } catch (InvalidCastException ex) {
+    InvalidCastException ex2 = (InvalidCastException)(e = ex);
+    return false;
   } catch (ArgumentOutOfRangeException ex3) {
+    ArgumentOutOfRangeException ex4 = (ArgumentOutOfRangeException)(e = ex3);
+    return false;
   } catch (ArgumentException ex5) {
+    ArgumentException ex6 = (ArgumentException)(e = ex5);
+    return false;
   }
   return true;
 }
@@ -1986,6 +2001,7 @@ String TimeZoneInfo___::TryGetLocalizedNameByMuiNativeResource(String resource) 
   try {
     pcwszFilePath = Path::Combine(systemDirectory, path);
   } catch (ArgumentException) {
+    return String::in::Empty;
   }
   Int32 result;
   if (!Int32::TryParse(array[1], NumberStyles::Integer, CultureInfo::in::get_InvariantCulture(), result)) {
@@ -2000,6 +2016,7 @@ String TimeZoneInfo___::TryGetLocalizedNameByMuiNativeResource(String resource) 
     Int64 pululEnumerator = 0;
     return Interop::Kernel32::GetFileMUIPath(16u, pcwszFilePath, nullptr, pcchLanguage, ptr, pcchFileMUIPath, pululEnumerator) ? TryGetLocalizedNameByNativeResource(rt::newobj<String>(ptr, 0, pcchFileMUIPath), result) : String::in::Empty;
   } catch (EntryPointNotFoundException) {
+    return String::in::Empty;
   }
 }
 
@@ -2078,7 +2095,13 @@ TimeZoneInfo::in::TimeZoneInfoResult TimeZoneInfo___::TryGetTimeZoneFromLocalMac
       value = rt::newobj<TimeZoneInfo>(id, TimeSpan(0, -dtzi.Bias, 0), displayName, standardName, daylightName, rules, false);
       return TimeZoneInfoResult::Success;
     } catch (ArgumentException ex) {
+      value = nullptr;
+      e = ex;
+      return TimeZoneInfoResult::InvalidTimeZoneException;
     } catch (InvalidTimeZoneException ex2) {
+      value = nullptr;
+      e = ex2;
+      return TimeZoneInfoResult::InvalidTimeZoneException;
     }
   }
 }

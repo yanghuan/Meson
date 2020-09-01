@@ -384,6 +384,8 @@ void CancellationTokenSource___::ExecuteCallbackHandlers(Boolean throwOnFirstExc
             callbacks->ExecuteCallback();
           }
         } catch (Exception item) {
+          List<Exception> as = list;
+          (as != nullptr ? as : (list = rt::newobj<List<Exception>>()))->Add(item);
         }
       }
     }
@@ -438,7 +440,7 @@ CancellationTokenSource CancellationTokenSource___::CreateLinkedTokenSource(Arra
 }
 
 void CancellationTokenSource___::WaitForCallbackToComplete(Int64 id) {
-  SpinWait spinWait = rt::default__;
+  SpinWait spinWait;
   while (get_ExecutingCallback() == id) {
     spinWait.SpinOnce();
   }

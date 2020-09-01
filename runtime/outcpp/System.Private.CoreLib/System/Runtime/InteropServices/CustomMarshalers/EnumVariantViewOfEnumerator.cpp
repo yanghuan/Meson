@@ -37,6 +37,7 @@ Int32 EnumVariantViewOfEnumerator___::Next(Int32 celt, Array<Object> rgVar, IntP
       Marshal::WriteInt32(pceltFetched, num);
     }
   } catch (Exception ex) {
+    return ex->get_HResult();
   }
   if (num != celt) {
     return 1;
@@ -48,6 +49,7 @@ Int32 EnumVariantViewOfEnumerator___::Reset() {
   try {
     Enumerator->Reset();
   } catch (Exception ex) {
+    return ex->get_HResult();
   }
   return 0;
 }
@@ -58,6 +60,7 @@ Int32 EnumVariantViewOfEnumerator___::Skip(Int32 celt) {
       celt--;
     }
   } catch (Exception ex) {
+    return ex->get_HResult();
   }
   if (celt != 0) {
     return 1;

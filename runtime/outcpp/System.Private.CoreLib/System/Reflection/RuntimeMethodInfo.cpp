@@ -414,7 +414,7 @@ MethodInfo RuntimeMethodInfo___::GetBaseDefinition() {
   Int32 slot = RuntimeMethodHandle::GetSlot((RuntimeMethodInfo)this);
   RuntimeType runtimeType = (RuntimeType)get_DeclaringType();
   RuntimeType reflectedType = runtimeType;
-  RuntimeMethodHandleInternal methodHandle = rt::default__;
+  RuntimeMethodHandleInternal methodHandle;
   do {
     Int32 numVirtuals = RuntimeTypeHandle::GetNumVirtuals(runtimeType);
     if (numVirtuals <= slot) {
@@ -483,6 +483,8 @@ MethodInfo RuntimeMethodInfo___::MakeGenericMethod(Array<Type> methodInstantiati
   try {
     return rt::as<MethodInfo>(RuntimeType::in::GetMethodBase(get_ReflectedTypeInternal(), RuntimeMethodHandle::GetStubIfNeeded(RuntimeMethodHandleInternal(m_handle), m_declaringType, array)));
   } catch (VerificationException e) {
+    RuntimeType::in::ValidateGenericArguments((RuntimeMethodInfo)this, array, e);
+    throw;
   }
 }
 

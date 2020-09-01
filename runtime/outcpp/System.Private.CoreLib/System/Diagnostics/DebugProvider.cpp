@@ -30,6 +30,7 @@ void DebugProvider___::Fail(String message, String detailMessage) {
   try {
     stackTrace = rt::newobj<StackTrace>((Int32)0, true)->ToString(StackTrace::in::TraceFormat::Normal);
   } catch (...) {
+    stackTrace = "";
   }
   WriteAssert(stackTrace, message, detailMessage);
   FailCore(stackTrace, message, detailMessage, "Assertion failed.");

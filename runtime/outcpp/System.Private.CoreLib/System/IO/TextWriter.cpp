@@ -368,6 +368,7 @@ ValueTask<> TextWriter___::DisposeAsync() {
     Dispose();
     return rt::default__;
   } catch (Exception exception) {
+    return ValueTask<>::FromException(exception);
   }
 }
 

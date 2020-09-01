@@ -7,6 +7,7 @@
 #include <System.Private.CoreLib/System/Globalization/GregorianCalendarHelper-dep.h>
 #include <System.Private.CoreLib/System/Globalization/TaiwanCalendar-dep.h>
 #include <System.Private.CoreLib/System/SR-dep.h>
+#include <System.Private.CoreLib/System/TypeInitializationException-dep.h>
 
 namespace System::Private::CoreLib::System::Globalization::TaiwanCalendarNamespace {
 DateTime TaiwanCalendar___::get_MinSupportedDateTime() {
@@ -53,6 +54,7 @@ void TaiwanCalendar___::ctor() {
   try {
     rt::newobj<CultureInfo>("zh-TW");
   } catch (ArgumentException innerException) {
+    rt::throw_exception<TypeInitializationException>(GetType()->ToString(), innerException);
   }
   _helper = rt::newobj<GregorianCalendarHelper>((TaiwanCalendar)this, s_taiwanEraInfo);
 }

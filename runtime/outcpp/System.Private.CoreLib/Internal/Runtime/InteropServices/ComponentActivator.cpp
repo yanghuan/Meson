@@ -41,6 +41,7 @@ Int32 ComponentActivator::LoadAssemblyAndGetFunctionPointer(IntPtr assemblyPathN
     AssemblyLoadContext isolatedComponentLoadContext = GetIsolatedComponentLoadContext(assemblyPath);
     *(IntPtr*)(void*)functionHandle = InternalGetFunctionPointer(isolatedComponentLoadContext, typeName, methodName, delegateTypeNative);
   } catch (Exception ex) {
+    return ex->get_HResult();
   }
   return 0;
 }
@@ -60,6 +61,7 @@ Int32 ComponentActivator::GetFunctionPointer(IntPtr typeNameNative, IntPtr metho
     }
     *(IntPtr*)(void*)functionHandle = InternalGetFunctionPointer(AssemblyLoadContext::in::get_Default(), typeName, methodName, delegateTypeNative);
   } catch (Exception ex) {
+    return ex->get_HResult();
   }
   return 0;
 }

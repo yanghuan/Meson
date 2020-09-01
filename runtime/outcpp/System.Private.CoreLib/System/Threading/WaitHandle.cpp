@@ -157,6 +157,22 @@ void WaitHandle___::ObtainSafeWaitHandles(ReadOnlySpan<WaitHandle> waitHandles, 
       unsafeWaitHandles[i] = safeWaitHandle2->DangerousGetHandle();
     }
   } catch (...) {
+    for (Int32 j = 0; j < waitHandles.get_Length(); j++) {
+      SafeWaitHandle safeWaitHandle3 = safeWaitHandles[j];
+      if (safeWaitHandle3 == nullptr) {
+        break;
+      }
+      safeWaitHandle3->DangerousRelease();
+      safeWaitHandles[j] = nullptr;
+      if (safeWaitHandle3 == safeWaitHandle) {
+        safeWaitHandle = nullptr;
+        success = true;
+      }
+    }
+    if (!success) {
+      safeWaitHandle->DangerousRelease();
+    }
+    throw;
   }
 }
 

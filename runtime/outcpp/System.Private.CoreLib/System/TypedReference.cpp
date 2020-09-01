@@ -56,7 +56,7 @@ TypedReference TypedReference::MakeTypedReference(Object target, Array<FieldInfo
     array[i] = runtimeFieldInfo->get_FieldHandle().get_Value();
     runtimeType = runtimeType2;
   }
-  TypedReference result = rt::default__;
+  TypedReference result;
   InternalMakeTypedReference(&result, target, array, runtimeType);
   return result;
 }
