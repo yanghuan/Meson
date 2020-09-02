@@ -167,7 +167,7 @@ void DecoderFallbackBuffer___::ThrowLastBytesRecursive(Array<Byte> bytesUnknown)
     if (stringBuilder->get_Length() > 0) {
       stringBuilder->Append(32);
     }
-    stringBuilder->AppendFormat(CultureInfo::in::get_InvariantCulture(), "\x{0:X2}", bytesUnknown[i]);
+    stringBuilder->AppendFormat(CultureInfo::in::get_InvariantCulture(), "\\x{0:X2}", bytesUnknown[i]);
   }
   if (i == 20) {
     stringBuilder->Append(" ...");

@@ -254,7 +254,7 @@ void ThreadPoolWorkQueue___::WorkStealingQueueList::cctor() {
 Int64 ThreadPoolWorkQueue___::get_LocalCount() {
   Int64 num = 0;
   Array<WorkStealingQueue> queues = WorkStealingQueueList::get_Queues();
-  for (WorkStealingQueue&& workStealingQueue : rt::each(queues)) {
+  for (WorkStealingQueue&& workStealingQueue : *queues) {
     num += workStealingQueue->get_Count();
   }
   return num;

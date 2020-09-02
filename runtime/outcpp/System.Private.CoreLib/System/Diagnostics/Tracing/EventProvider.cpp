@@ -128,7 +128,7 @@ void EventProvider___::EtwEnableCallBack(Guid& sourceId, Int32 controlCode, Byte
           if (sessions->get_Count() == 0) {
             sessions->Add(rt::newobj<Tuple<SessionInfo, Boolean>>(SessionInfo(0, 0), true));
           }
-          for (Tuple<SessionInfo, Boolean>&& item2 : rt::each(sessions)) {
+          for (Tuple<SessionInfo, Boolean>&& item2 : *sessions) {
             Int32 sessionIdBit = item2->get_Item1().sessionIdBit;
             Int32 etwSessionId = item2->get_Item1().etwSessionId;
             Boolean item = item2->get_Item2();
@@ -274,9 +274,9 @@ Boolean EventProvider___::GetDataFromController(Int32 etwSessionId, Interop::Adv
   dataStart = 0;
   if (filterData == nullptr) {
     Guid providerId = m_providerId;
-    String str = "\Microsoft\Windows\CurrentVersion\Winevt\Publishers\{" + providerId.ToString() + "}";
+    String str = "\\Microsoft\\Windows\\CurrentVersion\\Winevt\\Publishers\\{" + providerId.ToString() + "}";
     Int32 size = IntPtr::get_Size();
-    str = "Software\Wow6432Node" + str;
+    str = "Software\\Wow6432Node" + str;
     String name = "ControllerData_Session_" + etwSessionId.ToString(CultureInfo::in::get_InvariantCulture());
     {
       RegistryKey registryKey = Registry::LocalMachine->OpenSubKey(str);

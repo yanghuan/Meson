@@ -527,7 +527,7 @@ namespace Meson.Compiler {
             sb.Append("\\v");
             break;
           case '\\':
-            sb.Append("\\");
+            sb.Append("\\\\");
             break;
           case '"':
             sb.Append("\\\"");

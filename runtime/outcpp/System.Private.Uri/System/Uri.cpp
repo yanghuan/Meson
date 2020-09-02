@@ -2513,7 +2513,7 @@ String Uri___::CombineUri(Uri basePart, String relativePart, UriFormat uriFormat
         }
       }
       if (basePart->get_IsImplicitFile()) {
-        return "\\" + basePart->GetParts(UriComponents::Host, UriFormat::Unescaped) + text + relativePart;
+        return "\\\\" + basePart->GetParts(UriComponents::Host, UriFormat::Unescaped) + text + relativePart;
       }
       return "file://" + basePart->GetParts(UriComponents::Host, uriFormat) + text + relativePart;
     }
@@ -2562,13 +2562,13 @@ String Uri___::CombineUri(Uri basePart, String relativePart, UriFormat uriFormat
     num2 += relativePart->get_Length();
   }
   if (basePart->get_HostType() == Flags::IPv6HostType) {
-    text2 = ((!basePart->get_IsImplicitFile()) ? (basePart->GetParts(UriComponents::Scheme | UriComponents::UserInfo, uriFormat) + "[" + basePart->get_DnsSafeHost() + "]" + basePart->GetParts(UriComponents::Port | UriComponents::KeepDelimiter, uriFormat)) : ("\\[" + basePart->get_DnsSafeHost() + "]"));
+    text2 = ((!basePart->get_IsImplicitFile()) ? (basePart->GetParts(UriComponents::Scheme | UriComponents::UserInfo, uriFormat) + "[" + basePart->get_DnsSafeHost() + "]" + basePart->GetParts(UriComponents::Port | UriComponents::KeepDelimiter, uriFormat)) : ("\\\\[" + basePart->get_DnsSafeHost() + "]"));
   } else if (basePart->get_IsImplicitFile()) {
     if (basePart->get_IsDosPath()) {
       array = Compress(array, 3, num2, basePart->get_Syntax());
       return String::in::Concat(MemoryExtensions::AsSpan(array, 1, num2 - 1), readOnlySpan);
     }
-    text2 = "\\" + basePart->GetParts(UriComponents::Host, UriFormat::Unescaped);
+    text2 = "\\\\" + basePart->GetParts(UriComponents::Host, UriFormat::Unescaped);
   } else {
     text2 = basePart->GetParts(UriComponents::Scheme | UriComponents::UserInfo | UriComponents::Host | UriComponents::Port, uriFormat);
   }

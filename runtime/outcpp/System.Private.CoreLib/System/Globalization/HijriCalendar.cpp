@@ -301,7 +301,7 @@ Int32 HijriCalendar___::GetHijriDateAdjustment() {
 
 Int32 HijriCalendar___::GetAdvanceHijriDate() {
   {
-    RegistryKey registryKey = Registry::CurrentUser->OpenSubKey("Control Panel\International");
+    RegistryKey registryKey = Registry::CurrentUser->OpenSubKey("Control Panel\\International");
     rt::Using(registryKey);
     if (registryKey == nullptr) {
       return 0;

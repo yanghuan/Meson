@@ -59,11 +59,11 @@ Int32 PathHelper::PrependDevicePathChars(ValueStringBuilder& content, Boolean is
   buffer.EnsureCapacity(length + 1);
   buffer.set_Length(0);
   if (isDosUnc) {
-    buffer.Append("\\?\UNC\");
+    buffer.Append("\\\\?\\UNC\\");
     buffer.Append(content.AsSpan(2));
     return 6;
   }
-  buffer.Append("\\?\");
+  buffer.Append("\\\\?\\");
   buffer.Append(content.AsSpan());
   return 4;
 }

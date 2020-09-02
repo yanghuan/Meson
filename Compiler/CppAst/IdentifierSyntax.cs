@@ -24,7 +24,6 @@ namespace Meson.Compiler.CppAst {
     public static readonly IdentifierSyntax Cast = "rt::cast";
     public static readonly IdentifierSyntax Throw = "rt::throw_exception";
     public static readonly IdentifierSyntax Rethrow = "throw";
-    public static readonly IdentifierSyntax Each = "rt::each";
     public static readonly IdentifierSyntax NewObj = "rt::newobj";
     public static readonly IdentifierSyntax NewArray = "rt::newarr";
     public static readonly IdentifierSyntax Lock = "rt::lock";

@@ -165,7 +165,7 @@ Int32 ModuleBuilder___::GetTokenFromTypeSpec(Array<Byte> signature, Int32 length
 Type ModuleBuilder___::FindTypeBuilderWithName(String strTypeName, Boolean ignoreCase) {
   Type value;
   if (ignoreCase) {
-    for (String&& key : rt::each(_typeBuilderDict->get_Keys())) {
+    for (String&& key : *_typeBuilderDict->get_Keys()) {
       if (String::in::Equals(key, strTypeName, StringComparison::OrdinalIgnoreCase)) {
         return _typeBuilderDict[key];
       }
@@ -329,14 +329,14 @@ Int32 ModuleBuilder___::GetMemberRefToken(MethodBase method, IEnumerable<Type> o
 SignatureHelper ModuleBuilder___::GetMemberRefSignature(CallingConventions call, Type returnType, Array<Type> parameterTypes, IEnumerable<Type> optionalParameterTypes, Int32 cGenericParameters) {
   SignatureHelper methodSigHelper = SignatureHelper::in::GetMethodSigHelper((ModuleBuilder)this, call, returnType, cGenericParameters);
   if (parameterTypes != nullptr) {
-    for (Type&& clsArgument : rt::each(parameterTypes)) {
+    for (Type&& clsArgument : *parameterTypes) {
       methodSigHelper->AddArgument(clsArgument);
     }
   }
   if (optionalParameterTypes != nullptr) {
     Int32 num = 0;
     {
-      for (Type&& optionalParameterType : rt::each(optionalParameterTypes)) {
+      for (Type&& optionalParameterType : *optionalParameterTypes) {
         if (num == 0) {
           methodSigHelper->AddSentinel();
         }
@@ -382,7 +382,7 @@ Array<Type> ModuleBuilder___::GetTypes() {
 Array<Type> ModuleBuilder___::GetTypesNoLock() {
   Array<Type> array = rt::newarr<Array<Type>>(_typeBuilderDict->get_Count());
   Int32 num = 0;
-  for (Type&& value : rt::each(_typeBuilderDict->get_Values())) {
+  for (Type&& value : *_typeBuilderDict->get_Values()) {
     EnumBuilder enumBuilder = rt::as<EnumBuilder>(value);
     TypeBuilder typeBuilder = (!(enumBuilder != nullptr)) ? ((TypeBuilder)value) : enumBuilder->m_typeBuilder;
     if (typeBuilder->IsCreated()) {
@@ -443,7 +443,7 @@ Type ModuleBuilder___::GetTypeNoLock(String className, Boolean throwOnError, Boo
     text = className;
     text2 = nullptr;
   }
-  text = text->Replace("\\", "\")->Replace("\[", "[")->Replace("\*", "*")->Replace("\&", "&");
+  text = text->Replace("\\\\", "\\")->Replace("\\[", "[")->Replace("\\*", "*")->Replace("\\&", "&");
   if (text2 != nullptr) {
     type = get_InternalModule()->GetType(text, false, ignoreCase);
   }
