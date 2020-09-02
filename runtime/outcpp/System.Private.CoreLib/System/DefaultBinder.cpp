@@ -383,7 +383,7 @@ MethodBase DefaultBinder___::SelectMethod(BindingFlags bindingAttr, Array<Method
 
 PropertyInfo DefaultBinder___::SelectProperty(BindingFlags bindingAttr, Array<PropertyInfo> match, Type returnType, Array<Type> indexes, Array<ParameterModifier> modifiers) {
   if (indexes != nullptr) {
-    for (Type& left : rt::each(indexes)) {
+    for (Type&& left : rt::each(indexes)) {
       if (left == nullptr) {
         rt::throw_exception<ArgumentNullException>("indexes");
       }

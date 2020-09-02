@@ -184,7 +184,7 @@ void UriHelper::EscapeStringToBuilder(ReadOnlySpan<Char> stringToEscape, ValueSt
       Int32 bytesWritten;
       current.TryEncodeToUtf8(destination, bytesWritten);
       Span<Byte> span2 = destination.Slice(0, bytesWritten);
-      for (Byte& value : rt::each(span2)) {
+      for (Byte&& value : rt::each(span2)) {
         vsb.Append(37);
         HexConverter::ToCharsBuffer(value, vsb.AppendSpan(2));
       }
@@ -450,7 +450,7 @@ Boolean UriHelper::IsBidiControlCharacter(Char ch) {
 String UriHelper::StripBidiControlCharacters(ReadOnlySpan<Char> strToClean, String backingString) {
   Int32 num = 0;
   ReadOnlySpan<Char> readOnlySpan = strToClean;
-  for (Char& c : rt::each(readOnlySpan)) {
+  for (Char&& c : rt::each(readOnlySpan)) {
     if ((UInt32)(c - 8206) <= 32u && IsBidiControlCharacter(c)) {
       num++;
     }

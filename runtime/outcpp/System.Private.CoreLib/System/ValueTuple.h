@@ -71,7 +71,7 @@ struct ValueTuple<T1, T2> : public valueType<ValueTuple<T1, T2>> {
   public: using interface = rt::TypeList<IEquatable<ValueTuple<T1, T2>>, IStructuralEquatable, IStructuralComparable, IComparable<>, IComparable<ValueTuple<T1, T2>>, IValueTupleInternal, ITuple>;
   private: Int32 get_LengthOfITuple();
   private: Object get_ItemOfITuple(Int32 index);
-  public: ValueTuple(T1 item1, T2 item2);
+  public: explicit ValueTuple(T1 item1, T2 item2);
   public: Boolean Equals(Object obj);
   public: Boolean Equals(ValueTuple<T1, T2> other);
   public: Int32 CompareTo(ValueTuple<T1, T2> other);

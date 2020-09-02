@@ -621,7 +621,7 @@ FieldInfo RuntimeType___::GetFieldInfo(RuntimeType reflectedType, IRuntimeFieldI
 
 PropertyInfo RuntimeType___::GetPropertyInfo(RuntimeType reflectedType, Int32 tkProperty) {
   Array<RuntimePropertyInfo> propertyList = reflectedType->get_Cache()->GetPropertyList(MemberListType::All, nullptr);
-  for (RuntimePropertyInfo& runtimePropertyInfo : rt::each(propertyList)) {
+  for (RuntimePropertyInfo&& runtimePropertyInfo : rt::each(propertyList)) {
     if (runtimePropertyInfo->get_MetadataToken() == tkProperty) {
       return runtimePropertyInfo;
     }
@@ -904,7 +904,7 @@ RuntimeType::in::ListBuilder<MethodInfo> RuntimeType___::GetMethodCandidates(Str
   FilterHelper(bindingAttr, name, allowPrefixLookup, prefixLookup, ignoreCase, listType);
   Array<RuntimeMethodInfo> methodList = get_Cache()->GetMethodList(listType, name);
   ListBuilder<MethodInfo> result = ListBuilder<MethodInfo>(methodList->get_Length());
-  for (RuntimeMethodInfo& runtimeMethodInfo : rt::each(methodList)) {
+  for (RuntimeMethodInfo&& runtimeMethodInfo : rt::each(methodList)) {
     if ((genericParameterCount == -1 || genericParameterCount == runtimeMethodInfo->get_GenericParameterCount()) && FilterApplyMethodInfo(runtimeMethodInfo, bindingAttr, callConv, types) && (!prefixLookup || FilterApplyPrefixLookup(runtimeMethodInfo, name, ignoreCase))) {
       result.Add(runtimeMethodInfo);
     }
@@ -919,7 +919,7 @@ RuntimeType::in::ListBuilder<ConstructorInfo> RuntimeType___::GetConstructorCand
   FilterHelper(bindingAttr, name, allowPrefixLookup, prefixLookup, ignoreCase, listType);
   Array<RuntimeConstructorInfo> constructorList = get_Cache()->GetConstructorList(listType, name);
   ListBuilder<ConstructorInfo> result = ListBuilder<ConstructorInfo>(constructorList->get_Length());
-  for (RuntimeConstructorInfo& runtimeConstructorInfo : rt::each(constructorList)) {
+  for (RuntimeConstructorInfo&& runtimeConstructorInfo : rt::each(constructorList)) {
     if (FilterApplyConstructorInfo(runtimeConstructorInfo, bindingAttr, callConv, types) && (!prefixLookup || FilterApplyPrefixLookup(runtimeConstructorInfo, name, ignoreCase))) {
       result.Add(runtimeConstructorInfo);
     }
@@ -935,7 +935,7 @@ RuntimeType::in::ListBuilder<PropertyInfo> RuntimeType___::GetPropertyCandidates
   Array<RuntimePropertyInfo> propertyList = get_Cache()->GetPropertyList(listType, name);
   bindingAttr ^= BindingFlags::DeclaredOnly;
   ListBuilder<PropertyInfo> result = ListBuilder<PropertyInfo>(propertyList->get_Length());
-  for (RuntimePropertyInfo& runtimePropertyInfo : rt::each(propertyList)) {
+  for (RuntimePropertyInfo&& runtimePropertyInfo : rt::each(propertyList)) {
     if ((bindingAttr & runtimePropertyInfo->get_BindingFlags()) == runtimePropertyInfo->get_BindingFlags() && (!prefixLookup || FilterApplyPrefixLookup(runtimePropertyInfo, name, ignoreCase)) && (types == nullptr || runtimePropertyInfo->GetIndexParameters()->get_Length() == types->get_Length())) {
       result.Add(runtimePropertyInfo);
     }
@@ -951,7 +951,7 @@ RuntimeType::in::ListBuilder<EventInfo> RuntimeType___::GetEventCandidates(Strin
   Array<RuntimeEventInfo> eventList = get_Cache()->GetEventList(listType, name);
   bindingAttr ^= BindingFlags::DeclaredOnly;
   ListBuilder<EventInfo> result = ListBuilder<EventInfo>(eventList->get_Length());
-  for (RuntimeEventInfo& runtimeEventInfo : rt::each(eventList)) {
+  for (RuntimeEventInfo&& runtimeEventInfo : rt::each(eventList)) {
     if ((bindingAttr & runtimeEventInfo->get_BindingFlags()) == runtimeEventInfo->get_BindingFlags() && (!prefixLookup || FilterApplyPrefixLookup(runtimeEventInfo, name, ignoreCase))) {
       result.Add(runtimeEventInfo);
     }
@@ -967,7 +967,7 @@ RuntimeType::in::ListBuilder<FieldInfo> RuntimeType___::GetFieldCandidates(Strin
   Array<RuntimeFieldInfo> fieldList = get_Cache()->GetFieldList(listType, name);
   bindingAttr ^= BindingFlags::DeclaredOnly;
   ListBuilder<FieldInfo> result = ListBuilder<FieldInfo>(fieldList->get_Length());
-  for (RuntimeFieldInfo& runtimeFieldInfo : rt::each(fieldList)) {
+  for (RuntimeFieldInfo&& runtimeFieldInfo : rt::each(fieldList)) {
     if ((bindingAttr & runtimeFieldInfo->get_BindingFlags()) == runtimeFieldInfo->get_BindingFlags() && (!prefixLookup || FilterApplyPrefixLookup(runtimeFieldInfo, name, ignoreCase))) {
       result.Add(runtimeFieldInfo);
     }
@@ -986,7 +986,7 @@ RuntimeType::in::ListBuilder<Type> RuntimeType___::GetNestedTypeCandidates(Strin
   FilterHelper(bindingAttr, name, allowPrefixLookup, prefixLookup, ignoreCase, listType);
   Array<RuntimeType> nestedTypeList = get_Cache()->GetNestedTypeList(listType, name);
   ListBuilder<Type> result = ListBuilder<Type>(nestedTypeList->get_Length());
-  for (RuntimeType& runtimeType : rt::each(nestedTypeList)) {
+  for (RuntimeType&& runtimeType : rt::each(nestedTypeList)) {
     if (FilterApplyType(runtimeType, bindingAttr, name, prefixLookup, ns)) {
       result.Add(runtimeType);
     }
@@ -1195,7 +1195,7 @@ EventInfo RuntimeType___::GetEvent(String name, BindingFlags bindingAttr) {
   Array<RuntimeEventInfo> eventList = get_Cache()->GetEventList(listType, name);
   EventInfo eventInfo = nullptr;
   bindingAttr ^= BindingFlags::DeclaredOnly;
-  for (RuntimeEventInfo& runtimeEventInfo : rt::each(eventList)) {
+  for (RuntimeEventInfo&& runtimeEventInfo : rt::each(eventList)) {
     if ((bindingAttr & runtimeEventInfo->get_BindingFlags()) == runtimeEventInfo->get_BindingFlags()) {
       if (eventInfo != nullptr) {
         rt::throw_exception<AmbiguousMatchException>(SR::get_Arg_AmbiguousMatchException());
@@ -1217,7 +1217,7 @@ FieldInfo RuntimeType___::GetField(String name, BindingFlags bindingAttr) {
   FieldInfo fieldInfo = nullptr;
   bindingAttr ^= BindingFlags::DeclaredOnly;
   Boolean flag = false;
-  for (RuntimeFieldInfo& runtimeFieldInfo : rt::each(fieldList)) {
+  for (RuntimeFieldInfo&& runtimeFieldInfo : rt::each(fieldList)) {
     if ((bindingAttr & runtimeFieldInfo->get_BindingFlags()) != runtimeFieldInfo->get_BindingFlags()) {
       continue;
     }
@@ -1256,7 +1256,7 @@ Type RuntimeType___::GetInterface(String fullname, Boolean ignoreCase) {
   FilterHelper(bindingFlags, name, ignoreCase2, listType);
   Array<RuntimeType> interfaceList = get_Cache()->GetInterfaceList(listType, name);
   RuntimeType runtimeType = nullptr;
-  for (RuntimeType& runtimeType2 : rt::each(interfaceList)) {
+  for (RuntimeType&& runtimeType2 : rt::each(interfaceList)) {
     if (FilterApplyType(runtimeType2, bindingFlags, name, false, ns)) {
       if (runtimeType != nullptr) {
         rt::throw_exception<AmbiguousMatchException>(SR::get_Arg_AmbiguousMatchException());
@@ -1280,7 +1280,7 @@ Type RuntimeType___::GetNestedType(String fullname, BindingFlags bindingAttr) {
   FilterHelper(bindingAttr, name, ignoreCase, listType);
   Array<RuntimeType> nestedTypeList = get_Cache()->GetNestedTypeList(listType, name);
   RuntimeType runtimeType = nullptr;
-  for (RuntimeType& runtimeType2 : rt::each(nestedTypeList)) {
+  for (RuntimeType&& runtimeType2 : rt::each(nestedTypeList)) {
     if (FilterApplyType(runtimeType2, bindingAttr, name, false, ns)) {
       if (runtimeType != nullptr) {
         rt::throw_exception<AmbiguousMatchException>(SR::get_Arg_AmbiguousMatchException());
@@ -1727,7 +1727,7 @@ Object RuntimeType___::InvokeMember(String name, BindingFlags bindingFlags, Bind
   if ((bindingFlags & BindingFlags::InvokeMethod) != 0) {
     Array<MethodInfo> array5 = rt::as<Array<MethodInfo>>(GetMember(name, MemberTypes::Method, bindingFlags));
     List<MethodInfo> list = nullptr;
-    for (MethodInfo& methodInfo2 : rt::each(array5)) {
+    for (MethodInfo&& methodInfo2 : rt::each(array5)) {
       if (!FilterApplyMethodInfo((RuntimeMethodInfo)methodInfo2, bindingFlags, CallingConventions::Any, rt::newarr<Array<Type>>(num))) {
         continue;
       }

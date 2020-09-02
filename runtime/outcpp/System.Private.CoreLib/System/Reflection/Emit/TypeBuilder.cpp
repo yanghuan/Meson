@@ -1328,7 +1328,7 @@ TypeInfo TypeBuilder___::CreateTypeNoLock() {
     Int32 tkParent = (m_declMeth == nullptr) ? m_DeclaringType->m_tdType.get_Token() : m_declMeth->GetToken().get_Token();
     m_tdType = TypeToken(DefineGenericParam(QCallModule(module), m_strName, tkParent, m_genParamAttributes, m_genParamPos, array2));
     if (m_ca != nullptr) {
-      for (CustAttr& item : rt::each(m_ca)) {
+      for (CustAttr&& item : rt::each(m_ca)) {
         item->Bake(m_module, get_MetadataTokenInternal());
       }
     }
@@ -1340,7 +1340,7 @@ TypeInfo TypeBuilder___::CreateTypeNoLock() {
   }
   if (m_inst != nullptr) {
     Array<GenericTypeParameterBuilder> inst = m_inst;
-    for (GenericTypeParameterBuilder& genericTypeParameterBuilder : rt::each(inst)) {
+    for (GenericTypeParameterBuilder&& genericTypeParameterBuilder : rt::each(inst)) {
       genericTypeParameterBuilder->m_type->CreateType();
     }
   }

@@ -150,7 +150,7 @@ String TypeNameParser___::EscapeTypeName(String name) {
   Char as[64] = {};
   Span<Char> initialBuffer = as;
   ValueStringBuilder valueStringBuilder = ValueStringBuilder(initialBuffer);
-  for (Char& c : rt::each(name)) {
+  for (Char&& c : rt::each(name)) {
     if (Array<>::in::IndexOf(SPECIAL_CHARS, c) >= 0) {
       valueStringBuilder.Append(92);
     }

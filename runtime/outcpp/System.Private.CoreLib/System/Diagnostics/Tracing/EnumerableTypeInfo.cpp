@@ -29,7 +29,7 @@ void EnumerableTypeInfo___::WriteData(TraceLoggingDataCollector collector, Prope
   Int32 num = 0;
   IEnumerable enumerable = (IEnumerable)value.get_ReferenceValue();
   if (enumerable != nullptr) {
-    for (Object& item : rt::each(enumerable)) {
+    for (Object&& item : rt::each(enumerable)) {
       elementInfo->WriteData(collector, elementInfo->get_PropertyValueFactory()(item));
       num++;
     }
@@ -40,7 +40,7 @@ void EnumerableTypeInfo___::WriteData(TraceLoggingDataCollector collector, Prope
 Object EnumerableTypeInfo___::GetData(Object value) {
   IEnumerable enumerable = (IEnumerable)value;
   List<Object> list = rt::newobj<List<Object>>();
-  for (Object& item : rt::each(enumerable)) {
+  for (Object&& item : rt::each(enumerable)) {
     list->Add(elementInfo->GetData(item));
   }
   return list->ToArray();

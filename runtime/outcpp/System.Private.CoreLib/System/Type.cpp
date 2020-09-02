@@ -356,7 +356,7 @@ Boolean Type___::get_IsVisible() {
   }
   if (get_IsGenericType() && !get_IsGenericTypeDefinition()) {
     Array<Type> genericArguments = GetGenericArguments();
-    for (Type& type2 : rt::each(genericArguments)) {
+    for (Type&& type2 : rt::each(genericArguments)) {
       if (!type2->get_IsVisible()) {
         return false;
       }

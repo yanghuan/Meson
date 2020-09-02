@@ -390,7 +390,7 @@ Array<Type> RuntimeAssembly___::GetForwardedTypes() {
   GetManifestModule(GetNativeHandle())->get_MetadataImport().Enum(MetadataTokenType::ExportedType, 0, result);
   RuntimeAssembly assembly = (RuntimeAssembly)this;
   QCallAssembly assembly2 = QCallAssembly(assembly);
-  for (MetadataToken& mdtExternalType : rt::each(result)) {
+  for (MetadataToken&& mdtExternalType : rt::each(result)) {
     Type o = nullptr;
     Exception item = nullptr;
     ObjectHandleOnStack type = ObjectHandleOnStack::Create(o);
@@ -429,7 +429,7 @@ void RuntimeAssembly___::AddPublicNestedTypes(Type type, List<Type> types, List<
     return;
   }
   Array<Type> array = nestedTypes;
-  for (Type& type2 : rt::each(array)) {
+  for (Type&& type2 : rt::each(array)) {
     types->Add(type2);
     AddPublicNestedTypes(type2, types, exceptions);
   }

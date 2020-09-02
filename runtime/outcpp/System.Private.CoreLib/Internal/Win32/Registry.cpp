@@ -7,8 +7,8 @@ namespace System::Private::CoreLib::Internal::Win32::RegistryNamespace {
 using namespace System;
 
 void Registry::cctor() {
-  //CurrentUser = RegistryKey::in::OpenBaseKey((IntPtr)(-2147483647));
-  //LocalMachine = RegistryKey::in::OpenBaseKey((IntPtr)(-2147483646));
+  CurrentUser = RegistryKey::in::OpenBaseKey((IntPtr)(-2147483647));
+  LocalMachine = RegistryKey::in::OpenBaseKey((IntPtr)(-2147483646));
 }
 
 } // namespace System::Private::CoreLib::Internal::Win32::RegistryNamespace

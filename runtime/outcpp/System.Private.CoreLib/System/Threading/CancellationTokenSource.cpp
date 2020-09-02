@@ -352,7 +352,7 @@ void CancellationTokenSource___::ExecuteCallbackHandlers(Boolean throwOnFirstExc
   List<Exception> list = nullptr;
   try {
     Array<CallbackPartition> array2 = array;
-    for (CallbackPartition& callbackPartition : rt::each(array2)) {
+    for (CallbackPartition&& callbackPartition : rt::each(array2)) {
       if (callbackPartition == nullptr) {
         continue;
       }

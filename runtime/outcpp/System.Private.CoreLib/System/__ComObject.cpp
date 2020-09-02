@@ -47,7 +47,7 @@ void __ComObject___::ReleaseAllData() {
     if (m_ObjectToDataMap == nullptr) {
       return;
     }
-    for (Object& value : rt::each(m_ObjectToDataMap->get_Values())) {
+    for (Object&& value : rt::each(m_ObjectToDataMap->get_Values())) {
       IDisposable disposable = rt::as<IDisposable>(value);
       if (disposable != nullptr) {
         disposable->Dispose();

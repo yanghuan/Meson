@@ -54,7 +54,7 @@ Boolean TaskCompletionSource___<>::TrySetException(IEnumerable<Exception> except
     ThrowHelper::ThrowArgumentNullException(ExceptionArgument::exceptions);
   }
   List<Exception> list = rt::newobj<List<Exception>>();
-  for (Exception& exception : rt::each(exceptions)) {
+  for (Exception&& exception : rt::each(exceptions)) {
     if (exception == nullptr) {
       ThrowHelper::ThrowArgumentException(ExceptionResource::TaskCompletionSourceT_TrySetException_NullException, ExceptionArgument::exceptions);
     }

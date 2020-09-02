@@ -13,7 +13,7 @@ namespace System::Private::CoreLib::System::Threading::TimerNamespace {
 Int64 Timer___::get_ActiveCount() {
   Int64 num = 0;
   Array<TimerQueue> instances = TimerQueue::in::get_Instances();
-  for (TimerQueue& timerQueue : rt::each(instances)) {
+  for (TimerQueue&& timerQueue : rt::each(instances)) {
     {
       rt::lock(timerQueue);
       num += timerQueue->set_ActiveCount();

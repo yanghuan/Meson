@@ -2513,7 +2513,7 @@ void Number::NumberToStringFormat(ValueStringBuilder& sb, NumberBuffer& number, 
 void Number::FormatCurrency(ValueStringBuilder& sb, NumberBuffer& number, Int32 nMaxDigits, NumberFormatInfo info) {
   String text = number.IsNegative ? s_negCurrencyFormats[info->get_CurrencyNegativePattern()] : s_posCurrencyFormats[info->get_CurrencyPositivePattern()];
   String text2 = text;
-  for (Char& c : rt::each(text2)) {
+  for (Char&& c : rt::each(text2)) {
     switch (c.get()) {
       case 35:
         FormatFixed(sb, number, nMaxDigits, info->_currencyGroupSizes, info->get_CurrencyDecimalSeparator(), info->get_CurrencyGroupSeparator());
@@ -2608,7 +2608,7 @@ void Number::FormatFixed(ValueStringBuilder& sb, NumberBuffer& number, Int32 nMa
 void Number::FormatNumber(ValueStringBuilder& sb, NumberBuffer& number, Int32 nMaxDigits, NumberFormatInfo info) {
   String text = number.IsNegative ? s_negNumberFormats[info->get_NumberNegativePattern()] : "#";
   String text2 = text;
-  for (Char& c : rt::each(text2)) {
+  for (Char&& c : rt::each(text2)) {
     switch (c.get()) {
       case 35:
         FormatFixed(sb, number, nMaxDigits, info->_numberGroupSizes, info->get_NumberDecimalSeparator(), info->get_NumberGroupSeparator());
@@ -2683,7 +2683,7 @@ void Number::FormatGeneral(ValueStringBuilder& sb, NumberBuffer& number, Int32 n
 void Number::FormatPercent(ValueStringBuilder& sb, NumberBuffer& number, Int32 nMaxDigits, NumberFormatInfo info) {
   String text = number.IsNegative ? s_negPercentFormats[info->get_PercentNegativePattern()] : s_posPercentFormats[info->get_PercentPositivePattern()];
   String text2 = text;
-  for (Char& c : rt::each(text2)) {
+  for (Char&& c : rt::each(text2)) {
     switch (c.get()) {
       case 35:
         FormatFixed(sb, number, nMaxDigits, info->_percentGroupSizes, info->get_PercentDecimalSeparator(), info->get_PercentGroupSeparator());

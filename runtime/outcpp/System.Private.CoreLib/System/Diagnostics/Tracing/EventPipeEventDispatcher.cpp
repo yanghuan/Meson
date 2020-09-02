@@ -77,7 +77,7 @@ void EventPipeEventDispatcher___::CommitDispatchConfiguration() {
   }
   EventKeywords eventKeywords = EventKeywords::None;
   EventLevel eventLevel = EventLevel::LogAlways;
-  for (EventListenerSubscription& value : rt::each(m_subscriptions->get_Values())) {
+  for (EventListenerSubscription&& value : rt::each(m_subscriptions->get_Values())) {
     eventKeywords |= value->set_MatchAnyKeywords();
     eventLevel = ((value->get_Level() > eventLevel) ? value->get_Level() : eventLevel);
   }

@@ -106,6 +106,11 @@ namespace Meson.Compiler.CppAst {
     }
   }
 
+  internal sealed class RightRefExpressionSyntax : PostfixUnaryExpression {
+    public RightRefExpressionSyntax(ExpressionSyntax name) : base(name, Tokens.LogicAnd) {
+    }
+  }
+
   internal class PrefixUnaryExpressionSyntax : ExpressionSyntax {
     public string OperatorToken { get; }
     public ExpressionSyntax Expression { get; }

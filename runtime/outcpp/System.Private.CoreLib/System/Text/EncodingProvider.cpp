@@ -54,7 +54,7 @@ Encoding EncodingProvider___::GetEncodingFromProvider(Int32 codepage) {
     return nullptr;
   }
   Array<EncodingProvider> array2 = array;
-  for (EncodingProvider& encodingProvider : rt::each(array2)) {
+  for (EncodingProvider&& encodingProvider : rt::each(array2)) {
     Encoding encoding = encodingProvider->GetEncoding(codepage);
     if (encoding != nullptr) {
       return encoding;
@@ -70,12 +70,12 @@ Dictionary<Int32, EncodingInfo> EncodingProvider___::GetEncodingListFromProvider
   }
   Dictionary<Int32, EncodingInfo> dictionary = rt::newobj<Dictionary<Int32, EncodingInfo>>();
   Array<EncodingProvider> array2 = array;
-  for (EncodingProvider& encodingProvider : rt::each(array2)) {
+  for (EncodingProvider&& encodingProvider : rt::each(array2)) {
     IEnumerable<EncodingInfo> encodings = encodingProvider->GetEncodings();
     if (encodings == nullptr) {
       continue;
     }
-    for (EncodingInfo& item : rt::each(encodings)) {
+    for (EncodingInfo&& item : rt::each(encodings)) {
       dictionary->TryAdd(item->get_CodePage(), item);
     }
   }
@@ -88,7 +88,7 @@ Encoding EncodingProvider___::GetEncodingFromProvider(String encodingName) {
   }
   Array<EncodingProvider> array = s_providers;
   Array<EncodingProvider> array2 = array;
-  for (EncodingProvider& encodingProvider : rt::each(array2)) {
+  for (EncodingProvider&& encodingProvider : rt::each(array2)) {
     Encoding encoding = encodingProvider->GetEncoding(encodingName);
     if (encoding != nullptr) {
       return encoding;
@@ -103,7 +103,7 @@ Encoding EncodingProvider___::GetEncodingFromProvider(Int32 codepage, EncoderFal
   }
   Array<EncodingProvider> array = s_providers;
   Array<EncodingProvider> array2 = array;
-  for (EncodingProvider& encodingProvider : rt::each(array2)) {
+  for (EncodingProvider&& encodingProvider : rt::each(array2)) {
     Encoding encoding = encodingProvider->GetEncoding(codepage, enc, dec);
     if (encoding != nullptr) {
       return encoding;
@@ -118,7 +118,7 @@ Encoding EncodingProvider___::GetEncodingFromProvider(String encodingName, Encod
   }
   Array<EncodingProvider> array = s_providers;
   Array<EncodingProvider> array2 = array;
-  for (EncodingProvider& encodingProvider : rt::each(array2)) {
+  for (EncodingProvider&& encodingProvider : rt::each(array2)) {
     Encoding encoding = encodingProvider->GetEncoding(encodingName, enc, dec);
     if (encoding != nullptr) {
       return encoding;

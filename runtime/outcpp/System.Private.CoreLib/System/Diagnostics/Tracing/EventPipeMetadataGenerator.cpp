@@ -54,7 +54,7 @@ Array<Byte> EventPipeMetadataGenerator___::GenerateMetadata(Int32 eventId, Strin
       parameters = Array<>::in::Empty<EventParameterInfo>();
     }
     Array<EventParameterInfo> array2 = parameters;
-    for (EventParameterInfo& eventParameterInfo : rt::each(array2)) {
+    for (EventParameterInfo&& eventParameterInfo : rt::each(array2)) {
       UInt32 size;
       if (!eventParameterInfo.GetMetadataLength(size)) {
         flag = true;
@@ -66,7 +66,7 @@ Array<Byte> EventPipeMetadataGenerator___::GenerateMetadata(Int32 eventId, Strin
       num = num3;
       num2 = 4u;
       Array<EventParameterInfo> array3 = parameters;
-      for (EventParameterInfo& eventParameterInfo2 : rt::each(array3)) {
+      for (EventParameterInfo&& eventParameterInfo2 : rt::each(array3)) {
         UInt32 size2;
         if (!eventParameterInfo2.GetMetadataLengthV2(size2)) {
           parameters = Array<>::in::Empty<EventParameterInfo>();
@@ -104,7 +104,7 @@ Array<Byte> EventPipeMetadataGenerator___::GenerateMetadata(Int32 eventId, Strin
       } else {
         WriteToBuffer(ptr, num7, offset, (UInt32)parameters->get_Length());
         Array<EventParameterInfo> array4 = parameters;
-        for (EventParameterInfo& eventParameterInfo3 : rt::each(array4)) {
+        for (EventParameterInfo&& eventParameterInfo3 : rt::each(array4)) {
           if (!eventParameterInfo3.GenerateMetadata(ptr, offset, num7)) {
             return GenerateMetadata(eventId, eventName, keywords, level, version, opcode, Array<>::in::Empty<EventParameterInfo>());
           }
@@ -120,7 +120,7 @@ Array<Byte> EventPipeMetadataGenerator___::GenerateMetadata(Int32 eventId, Strin
         WriteToBuffer(ptr, num7, offset, (?)2);
         WriteToBuffer(ptr, num7, offset, (UInt32)parameters->get_Length());
         Array<EventParameterInfo> array5 = parameters;
-        for (EventParameterInfo& eventParameterInfo4 : rt::each(array5)) {
+        for (EventParameterInfo&& eventParameterInfo4 : rt::each(array5)) {
           if (!eventParameterInfo4.GenerateMetadataV2(ptr, offset, num7)) {
             return GenerateMetadata(eventId, eventName, keywords, level, version, opcode, Array<>::in::Empty<EventParameterInfo>());
           }

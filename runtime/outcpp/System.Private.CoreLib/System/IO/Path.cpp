@@ -326,7 +326,7 @@ String Path::Join(Array<String> paths) {
     return String::in::Empty;
   }
   Int32 num = 0;
-  for (String& text : rt::each(paths)) {
+  for (String&& text : rt::each(paths)) {
     num += ((text != nullptr) ? text->get_Length() : 0);
   }
   num += paths->get_Length() - 1;
@@ -334,7 +334,7 @@ String Path::Join(Array<String> paths) {
   Span<Char> initialBuffer = as;
   ValueStringBuilder valueStringBuilder = ValueStringBuilder(initialBuffer);
   valueStringBuilder.EnsureCapacity(num);
-  for (String& text2 : rt::each(paths)) {
+  for (String&& text2 : rt::each(paths)) {
     if (String::in::IsNullOrEmpty(text2)) {
       continue;
     }

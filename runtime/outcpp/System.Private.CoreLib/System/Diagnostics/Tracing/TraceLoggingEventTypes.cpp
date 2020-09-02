@@ -62,7 +62,7 @@ void TraceLoggingEventTypes___::ctor(EventTags tags, String defaultName, Array<T
   this->tags = tags;
   level = 5;
   TraceLoggingMetadataCollector traceLoggingMetadataCollector = rt::newobj<TraceLoggingMetadataCollector>();
-  for (TraceLoggingTypeInfo& traceLoggingTypeInfo : rt::each(typeInfos)) {
+  for (TraceLoggingTypeInfo&& traceLoggingTypeInfo : rt::each(typeInfos)) {
     level = Statics::Combine((Int32)traceLoggingTypeInfo->get_Level(), level);
     opcode = Statics::Combine((Int32)traceLoggingTypeInfo->get_Opcode(), opcode);
     keywords |= traceLoggingTypeInfo->get_Keywords();

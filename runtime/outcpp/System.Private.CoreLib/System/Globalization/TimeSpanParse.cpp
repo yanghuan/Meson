@@ -1110,7 +1110,7 @@ Boolean TimeSpanParse::TryParseExactMultipleTimeSpan(ReadOnlySpan<Char> input, A
   if (formats->get_Length() == 0) {
     return result.SetNoFormatSpecifierFailure();
   }
-  for (String& value : rt::each(formats)) {
+  for (String&& value : rt::each(formats)) {
     if (String::in::IsNullOrEmpty(value)) {
       return result.SetBadFormatSpecifierFailure();
     }
