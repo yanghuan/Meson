@@ -203,7 +203,7 @@ void StackTrace___::ToString(TraceFormat traceFormat, StringBuilder sb) {
     }
     if (declaringType != nullptr) {
       String fullName = declaringType->get_FullName();
-      for (Char&& c : rt::each(fullName)) {
+      for (Char&& c : *fullName) {
         sb->Append((c == 43) ? 46 : c);
       }
       sb->Append(46);
@@ -296,14 +296,14 @@ Boolean StackTrace___::TryResolveStateMachineMethod(MethodBase& method, Type& de
     return false;
   }
   Array<MethodInfo> array = methods;
-  for (MethodInfo&& methodInfo : rt::each(array)) {
+  for (MethodInfo&& methodInfo : *array) {
     IEnumerable<StateMachineAttribute> customAttributes = CustomAttributeExtensions::GetCustomAttributes(methodInfo, false);
     if (customAttributes == nullptr) {
       continue;
     }
     Boolean flag = false;
     Boolean flag2 = false;
-    for (StateMachineAttribute&& item : rt::each(customAttributes)) {
+    for (StateMachineAttribute&& item : *customAttributes) {
       if (item->get_StateMachineType() == declaringType) {
         flag = true;
         flag2 = (flag2 || rt::is<IteratorStateMachineAttribute>(item) || rt::is<AsyncIteratorStateMachineAttribute>(item));

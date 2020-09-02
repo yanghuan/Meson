@@ -125,7 +125,7 @@ String AppContext::GetBaseDirectoryCore() {
     return String::in::Empty;
   }
   if (!Path::EndsInDirectorySeparator(text)) {
-    text += "\";
+    text += "\\";
   }
   return text;
 }

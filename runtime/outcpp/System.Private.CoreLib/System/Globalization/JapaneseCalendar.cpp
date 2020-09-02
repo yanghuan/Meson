@@ -254,7 +254,7 @@ Array<EraInfo> JapaneseCalendar___::NlsGetJapaneseEras() {
   Array<EraInfo> array = nullptr;
   try {
     {
-      RegistryKey registryKey = Registry::LocalMachine->OpenSubKey("System\CurrentControlSet\Control\Nls\Calendars\Japanese\Eras");
+      RegistryKey registryKey = Registry::LocalMachine->OpenSubKey("System\\CurrentControlSet\\Control\\Nls\\Calendars\\Japanese\\Eras");
       rt::Using(registryKey);
       if (registryKey == nullptr) {
         return nullptr;

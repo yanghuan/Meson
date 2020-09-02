@@ -427,7 +427,7 @@ IDictionary Environment::GetEnvironmentVariablesFromRegistry(Boolean fromMachine
     rt::Using(registryKey);
     if (registryKey != nullptr) {
       Array<String> valueNames = registryKey->GetValueNames();
-      for (String&& text : rt::each(valueNames)) {
+      for (String&& text : *valueNames) {
         String value = registryKey->GetValue(text, "")->ToString();
         try {
           hashtable->Add(text, value);
@@ -445,7 +445,7 @@ RegistryKey Environment::OpenEnvironmentKeyIfExists(Boolean fromMachine, Boolean
   String name;
   if (fromMachine) {
     registryKey = Registry::LocalMachine;
-    name = "System\CurrentControlSet\Control\Session Manager\Environment";
+    name = "System\\CurrentControlSet\\Control\\Session Manager\\Environment";
   } else {
     registryKey = Registry::CurrentUser;
     name = "Environment";

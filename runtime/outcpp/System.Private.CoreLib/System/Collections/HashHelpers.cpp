@@ -34,7 +34,7 @@ Int32 HashHelpers::GetPrime(Int32 min) {
     rt::throw_exception<ArgumentException>(SR::get_Arg_HTCapacityOverflow());
   }
   Array<Int32> array = s_primes;
-  for (Int32&& num : rt::each(array)) {
+  for (Int32&& num : *array) {
     if (num >= min) {
       return num;
     }

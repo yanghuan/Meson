@@ -373,7 +373,7 @@ String TimeZoneInfo___::StringSerializer::GetSerializedString(TimeZoneInfo zone)
   serializedText.Append(59);
   Array<AdjustmentRule> adjustmentRules = zone->GetAdjustmentRules();
   Array<AdjustmentRule> array = adjustmentRules;
-  for (AdjustmentRule&& adjustmentRule : rt::each(array)) {
+  for (AdjustmentRule&& adjustmentRule : *array) {
     serializedText.Append(91);
     serializedText.AppendSpanFormattable(adjustmentRule->get_DateStart(), "MM:dd:yyyy", DateTimeFormatInfo::in::get_InvariantInfo());
     serializedText.Append(59);
@@ -423,7 +423,7 @@ TimeZoneInfo___::StringSerializer::StringSerializer(String str) {
 }
 
 void TimeZoneInfo___::StringSerializer::SerializeSubstitute(String text, ValueStringBuilder& serializedText) {
-  for (Char&& c : rt::each(text)) {
+  for (Char&& c : *text) {
     if (c == 92 || c == 91 || c == 93 || c == 59) {
       serializedText.Append(92);
     }
@@ -1695,11 +1695,11 @@ Array<TimeZoneInfo::in::AdjustmentRule> TimeZoneInfo___::GetAdjustmentRules() {
 
 void TimeZoneInfo___::PopulateAllSystemTimeZones(CachedData cachedData) {
   {
-    RegistryKey registryKey = Registry::LocalMachine->OpenSubKey("SOFTWARE\Microsoft\Windows NT\CurrentVersion\Time Zones", false);
+    RegistryKey registryKey = Registry::LocalMachine->OpenSubKey("SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Time Zones", false);
     rt::Using(registryKey);
     if (registryKey != nullptr) {
       Array<String> subKeyNames = registryKey->GetSubKeyNames();
-      for (String&& id : rt::each(subKeyNames)) {
+      for (String&& id : *subKeyNames) {
         TimeZoneInfo value;
         Exception e;
         TryGetTimeZone(id, false, value, e, cachedData);
@@ -1757,13 +1757,13 @@ TimeZoneInfo::in::AdjustmentRule TimeZoneInfo___::CreateAdjustmentRuleFromTimeZo
 String TimeZoneInfo___::FindIdFromTimeZoneInformation(Interop::Kernel32::TIME_ZONE_INFORMATION& timeZone, Boolean& dstDisabled) {
   dstDisabled = false;
   {
-    RegistryKey registryKey = Registry::LocalMachine->OpenSubKey("SOFTWARE\Microsoft\Windows NT\CurrentVersion\Time Zones", false);
+    RegistryKey registryKey = Registry::LocalMachine->OpenSubKey("SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Time Zones", false);
     rt::Using(registryKey);
     if (registryKey == nullptr) {
       return nullptr;
     }
     Array<String> subKeyNames = registryKey->GetSubKeyNames();
-    for (String&& text : rt::each(subKeyNames)) {
+    for (String&& text : *subKeyNames) {
       if (TryCompareTimeZoneInformationToRegistry(timeZone, text, dstDisabled)) {
         return text;
       }
@@ -1880,7 +1880,7 @@ Boolean TimeZoneInfo___::TryCreateAdjustmentRules(String id, Interop::Kernel32::
   e = nullptr;
   try {
     {
-      RegistryKey registryKey = Registry::LocalMachine->OpenSubKey("SOFTWARE\Microsoft\Windows NT\CurrentVersion\Time Zones\" + id + "\Dynamic DST", false);
+      RegistryKey registryKey = Registry::LocalMachine->OpenSubKey("SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Time Zones\\" + id + "\\Dynamic DST", false);
       rt::Using(registryKey);
       if (registryKey == nullptr) {
         AdjustmentRule adjustmentRule = CreateAdjustmentRuleFromTimeZoneInformation(defaultTimeZoneInformation, DateTime::MinValue.get_Date(), DateTime::MaxValue.get_Date(), defaultBaseUtcOffset);
@@ -1966,7 +1966,7 @@ Boolean TimeZoneInfo___::TryCompareStandardDate(Interop::Kernel32::TIME_ZONE_INF
 Boolean TimeZoneInfo___::TryCompareTimeZoneInformationToRegistry(Interop::Kernel32::TIME_ZONE_INFORMATION& timeZone, String id, Boolean& dstDisabled) {
   dstDisabled = false;
   {
-    RegistryKey registryKey = Registry::LocalMachine->OpenSubKey("SOFTWARE\Microsoft\Windows NT\CurrentVersion\Time Zones\" + id, false);
+    RegistryKey registryKey = Registry::LocalMachine->OpenSubKey("SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Time Zones\\" + id, false);
     rt::Using(registryKey);
     if (registryKey == nullptr) {
       return false;
@@ -2071,7 +2071,7 @@ void TimeZoneInfo___::GetLocalizedNamesByRegistryKey(RegistryKey key, String& di
 TimeZoneInfo::in::TimeZoneInfoResult TimeZoneInfo___::TryGetTimeZoneFromLocalMachine(String id, TimeZoneInfo& value, Exception& e) {
   e = nullptr;
   {
-    RegistryKey registryKey = Registry::LocalMachine->OpenSubKey("SOFTWARE\Microsoft\Windows NT\CurrentVersion\Time Zones\" + id, false);
+    RegistryKey registryKey = Registry::LocalMachine->OpenSubKey("SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Time Zones\\" + id, false);
     rt::Using(registryKey);
     if (registryKey == nullptr) {
       value = nullptr;

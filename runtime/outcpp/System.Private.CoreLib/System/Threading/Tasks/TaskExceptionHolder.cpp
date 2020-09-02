@@ -67,7 +67,7 @@ void TaskExceptionHolder___::AddFaultException(Object exceptionObject) {
     } else {
       IEnumerable<Exception> enumerable = rt::as<IEnumerable<Exception>>(exceptionObject);
       if (enumerable != nullptr) {
-        for (Exception&& item : rt::each(enumerable)) {
+        for (Exception&& item : *enumerable) {
           list->Add(ExceptionDispatchInfo::in::Capture(item));
         }
       } else {

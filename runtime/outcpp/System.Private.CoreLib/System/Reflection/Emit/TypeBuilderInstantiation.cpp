@@ -126,7 +126,7 @@ Type TypeBuilderInstantiation___::MakeGenericType(Type type, Array<Type> typeArg
   if (typeArguments == nullptr) {
     rt::throw_exception<ArgumentNullException>("typeArguments");
   }
-  for (Type&& left : rt::each(typeArguments)) {
+  for (Type&& left : *typeArguments) {
     if (left == nullptr) {
       rt::throw_exception<ArgumentNullException>("typeArguments");
     }

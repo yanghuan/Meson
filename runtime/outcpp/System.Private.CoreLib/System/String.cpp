@@ -1096,7 +1096,7 @@ String String___::Concat(Array<Object> args) {
   }
   String text = FastAllocateString(num);
   Int32 num2 = 0;
-  for (String&& text2 : rt::each(array)) {
+  for (String&& text2 : *array) {
     FillStringChecked(text, num2, text2);
     num2 += text2->get_Length();
   }
@@ -1247,7 +1247,7 @@ String String___::Concat(Array<String> values) {
     return (String)obj;
   }
   Int64 num = 0;
-  for (String&& text : rt::each(values)) {
+  for (String&& text : *values) {
     if (text != nullptr) {
       num += text->get_Length();
     }
@@ -1261,7 +1261,7 @@ String String___::Concat(Array<String> values) {
   }
   String text2 = FastAllocateString(num2);
   Int32 num3 = 0;
-  for (String&& text3 : rt::each(values)) {
+  for (String&& text3 : *values) {
     if (!IsNullOrEmpty(text3)) {
       Int32 length = text3->get_Length();
       if (length > num2 - num3) {
@@ -1772,7 +1772,7 @@ String String___::ReplaceHelper(Int32 oldValueLength, String newValue, ReadOnlyS
   Span<Char> span = Span<Char>(text->GetRawStringData(), text->get_Length());
   Int32 num2 = 0;
   Int32 num3 = 0;
-  for (Int32&& num4 : rt::each(indices)) {
+  for (Int32&& num4 : *indices) {
     Int32 num5 = num4 - num2;
     if (num5 != 0) {
       MemoryExtensions::AsSpan((String)this, num2, num5).CopyTo(span.Slice(num3));
@@ -2071,7 +2071,7 @@ void String___::MakeSeparatorList(String separator, ValueListBuilder<Int32>& sep
 
 void String___::MakeSeparatorList(Array<String> separators, ValueListBuilder<Int32>& sepListBuilder, ValueListBuilder<Int32>& lengthListBuilder) {
   for (Int32 i = 0; i < get_Length(); i++) {
-    for (String&& text : rt::each(separators)) {
+    for (String&& text : *separators) {
       if (!IsNullOrEmpty(text)) {
         Int32 length = text->get_Length();
         if ((String)this[i] == text[0] && length <= get_Length() - i && (length == 1 || MemoryExtensions::SequenceEqual(MemoryExtensions::AsSpan((String)this, i, length), text))) {

@@ -140,7 +140,7 @@ void CounterGroup___::DisableTimer() {
 void CounterGroup___::ResetCounters() {
   {
     rt::lock(s_counterGroupLock);
-    for (DiagnosticCounter&& counter : rt::each(_counters)) {
+    for (DiagnosticCounter&& counter : *_counters) {
       IncrementingEventCounter incrementingEventCounter = rt::as<IncrementingEventCounter>(counter);
       if (incrementingEventCounter != nullptr) {
         incrementingEventCounter->UpdateMetric();
@@ -165,7 +165,7 @@ void CounterGroup___::OnTimer() {
   }
   DateTime utcNow = DateTime::get_UtcNow();
   TimeSpan timeSpan = utcNow - _timeStampSinceCollectionStarted;
-  for (DiagnosticCounter&& counter : rt::each(_counters)) {
+  for (DiagnosticCounter&& counter : *_counters) {
     counter->WritePayload((Single)timeSpan.get_TotalSeconds(), _pollingIntervalInMilliseconds);
   }
   _timeStampSinceCollectionStarted = utcNow;
@@ -181,7 +181,7 @@ void CounterGroup___::PollForValues() {
     {
       rt::lock(s_counterGroupLock);
       autoResetEvent = s_pollingThreadSleepEvent;
-      for (CounterGroup&& s_counterGroupEnabled : rt::each(s_counterGroupEnabledList)) {
+      for (CounterGroup&& s_counterGroupEnabled : *s_counterGroupEnabledList) {
         DateTime utcNow = DateTime::get_UtcNow();
         if (s_counterGroupEnabled->_nextPollingTimeStamp < utcNow + TimeSpan(0, 0, 0, 0, 1)) {
           s_counterGroupEnabled->OnTimer();

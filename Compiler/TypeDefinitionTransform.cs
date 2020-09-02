@@ -246,6 +246,10 @@ namespace Meson.Compiler {
       }
     }
 
+    private static bool IsStringCtorMethod(IMethod method) {
+      return method.DeclaringType.IsKnownType(KnownTypeCode.String) && method.Name == "Ctor";
+    }
+
     private void VisitMethod(IMethod method, ITypeDefinition typeDefinition, ClassSyntax node) {
       bool isCtor = method.IsCtor();
       if (isCtor && !method.HasBody) {
@@ -260,7 +264,7 @@ namespace Meson.Compiler {
       if (isCtor) {
         methodDefinition = new MethodDefinitionSyntax(node.Name, parameters) {
           IsExplicit = true,
-          AccessibilityToken = method.Accessibility.ToTokenString(),
+          Accessibility = method.Accessibility,
         };
       } else {
         var methodName = GetMemberName(method);
@@ -269,7 +273,7 @@ namespace Meson.Compiler {
         methodDefinition = new MethodDefinitionSyntax(methodName, parameters, returnType) {
           Template = method.GetTemplateSyntax(),
           IsStatic = method.IsStatic,
-          AccessibilityToken = !method.IsMainEntryPoint() ? method.Accessibility.ToTokenString() : Tokens.Public,
+          Accessibility = method.IsMainEntryPoint() || IsStringCtorMethod(method) ? Accessibility.Public : method.Accessibility,
         };
         CheckStructDefaultParameters(method, methodDefinition);
       }

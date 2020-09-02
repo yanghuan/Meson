@@ -326,7 +326,7 @@ String Path::Join(Array<String> paths) {
     return String::in::Empty;
   }
   Int32 num = 0;
-  for (String&& text : rt::each(paths)) {
+  for (String&& text : *paths) {
     num += ((text != nullptr) ? text->get_Length() : 0);
   }
   num += paths->get_Length() - 1;
@@ -334,7 +334,7 @@ String Path::Join(Array<String> paths) {
   Span<Char> initialBuffer = as;
   ValueStringBuilder valueStringBuilder = ValueStringBuilder(initialBuffer);
   valueStringBuilder.EnsureCapacity(num);
-  for (String&& text2 : rt::each(paths)) {
+  for (String&& text2 : *paths) {
     if (String::in::IsNullOrEmpty(text2)) {
       continue;
     }
@@ -663,7 +663,7 @@ String Path::GetFullPath(String path, String basePath) {
     return basePath;
   }
   Int32 length = path->get_Length();
-  String text = (length >= 1 && PathInternal::IsDirectorySeparator(path[0])) ? Join(GetPathRoot(MemoryExtensions::AsSpan(basePath)), MemoryExtensions::AsSpan(path, 1)) : ((length < 2 || !PathInternal::IsValidDriveChar(path[0]) || path[1] != 58) ? JoinInternal(MemoryExtensions::AsSpan(basePath), MemoryExtensions::AsSpan(path)) : ((!MemoryExtensions::EqualsOrdinal(GetVolumeName(MemoryExtensions::AsSpan(path)), GetVolumeName(MemoryExtensions::AsSpan(basePath)))) ? ((!PathInternal::IsDevice(MemoryExtensions::AsSpan(basePath))) ? path->Insert(2, "\") : ((length == 2) ? JoinInternal(MemoryExtensions::AsSpan(basePath, 0, 4), MemoryExtensions::AsSpan(path), MemoryExtensions::AsSpan("\")) : JoinInternal(MemoryExtensions::AsSpan(basePath, 0, 4), MemoryExtensions::AsSpan(path, 0, 2), MemoryExtensions::AsSpan("\"), MemoryExtensions::AsSpan(path, 2)))) : Join(MemoryExtensions::AsSpan(basePath), MemoryExtensions::AsSpan(path, 2))));
+  String text = (length >= 1 && PathInternal::IsDirectorySeparator(path[0])) ? Join(GetPathRoot(MemoryExtensions::AsSpan(basePath)), MemoryExtensions::AsSpan(path, 1)) : ((length < 2 || !PathInternal::IsValidDriveChar(path[0]) || path[1] != 58) ? JoinInternal(MemoryExtensions::AsSpan(basePath), MemoryExtensions::AsSpan(path)) : ((!MemoryExtensions::EqualsOrdinal(GetVolumeName(MemoryExtensions::AsSpan(path)), GetVolumeName(MemoryExtensions::AsSpan(basePath)))) ? ((!PathInternal::IsDevice(MemoryExtensions::AsSpan(basePath))) ? path->Insert(2, "\\") : ((length == 2) ? JoinInternal(MemoryExtensions::AsSpan(basePath, 0, 4), MemoryExtensions::AsSpan(path), MemoryExtensions::AsSpan("\\")) : JoinInternal(MemoryExtensions::AsSpan(basePath, 0, 4), MemoryExtensions::AsSpan(path, 0, 2), MemoryExtensions::AsSpan("\\"), MemoryExtensions::AsSpan(path, 2)))) : Join(MemoryExtensions::AsSpan(basePath), MemoryExtensions::AsSpan(path, 2))));
   if (!PathInternal::IsDevice(MemoryExtensions::AsSpan(text))) {
     return GetFullPath(text);
   }
@@ -768,10 +768,10 @@ ReadOnlySpan<Char> Path::GetVolumeName(ReadOnlySpan<Char> path) {
 
 Int32 Path::GetUncRootLength(ReadOnlySpan<Char> path) {
   Boolean flag = PathInternal::IsDevice(path);
-  if (!flag && MemoryExtensions::EqualsOrdinal(path.Slice(0, 2), MemoryExtensions::AsSpan("\\"))) {
+  if (!flag && MemoryExtensions::EqualsOrdinal(path.Slice(0, 2), MemoryExtensions::AsSpan("\\\\"))) {
     return 2;
   }
-  if (flag && path.get_Length() >= 8 && (MemoryExtensions::EqualsOrdinal(path.Slice(0, 8), MemoryExtensions::AsSpan("\\?\UNC\")) || MemoryExtensions::EqualsOrdinal(path.Slice(5, 4), MemoryExtensions::AsSpan("UNC\")))) {
+  if (flag && path.get_Length() >= 8 && (MemoryExtensions::EqualsOrdinal(path.Slice(0, 8), MemoryExtensions::AsSpan("\\\\?\\UNC\\")) || MemoryExtensions::EqualsOrdinal(path.Slice(5, 4), MemoryExtensions::AsSpan("UNC\\")))) {
     return 8;
   }
   return -1;

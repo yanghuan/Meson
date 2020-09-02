@@ -220,7 +220,7 @@ Boolean MethodBase___::op_Inequality(MethodBase left, MethodBase right) {
 
 void MethodBase___::AppendParameters(ValueStringBuilder& sbParamList, Array<Type> parameterTypes, CallingConventions callingConvention) {
   String s = "";
-  for (Type&& type : rt::each(parameterTypes)) {
+  for (Type&& type : *parameterTypes) {
     sbParamList.Append(s);
     String text = type->FormatTypeName();
     if (type->get_IsByRef()) {

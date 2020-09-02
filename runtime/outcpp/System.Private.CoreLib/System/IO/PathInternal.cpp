@@ -189,10 +189,10 @@ String PathInternal::EnsureExtendedPrefix(String path) {
   if (IsPartiallyQualified(MemoryExtensions::AsSpan(path)) || IsDevice(MemoryExtensions::AsSpan(path))) {
     return path;
   }
-  if (path->StartsWith("\\", StringComparison::OrdinalIgnoreCase)) {
-    return path->Insert(2, "?\UNC\");
+  if (path->StartsWith("\\\\", StringComparison::OrdinalIgnoreCase)) {
+    return path->Insert(2, "?\\UNC\\");
   }
-  return "\\?\" + path;
+  return "\\\\?\\" + path;
 }
 
 Boolean PathInternal::IsDevice(ReadOnlySpan<Char> path) {
@@ -317,7 +317,7 @@ Boolean PathInternal::IsEffectivelyEmpty(ReadOnlySpan<Char> path) {
     return true;
   }
   ReadOnlySpan<Char> readOnlySpan = path;
-  for (Char&& c : rt::each(readOnlySpan)) {
+  for (Char&& c : *readOnlySpan) {
     if (c != 32) {
       return false;
     }

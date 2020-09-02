@@ -48,7 +48,7 @@ void TraceLoggingMetadataCollector___::Impl___::EndBuffered() {
 
 Int32 TraceLoggingMetadataCollector___::Impl___::Encode(Array<Byte> metadata) {
   Int32 pos = 0;
-  for (FieldMetadata&& field : rt::each(fields)) {
+  for (FieldMetadata&& field : *fields) {
     field->Encode(pos, metadata);
   }
   return pos;

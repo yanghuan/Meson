@@ -22,7 +22,7 @@ Object EventPayload___::get_Item(String key) {
     rt::throw_exception<ArgumentNullException>("key");
   }
   Int32 num = 0;
-  for (String&& name : rt::each(m_names)) {
+  for (String&& name : *m_names) {
     if (name == key) {
       return m_values[num];
     }
@@ -68,7 +68,7 @@ Boolean EventPayload___::ContainsKey(String key) {
   if (key == nullptr) {
     rt::throw_exception<ArgumentNullException>("key");
   }
-  for (String&& name : rt::each(m_names)) {
+  for (String&& name : *m_names) {
     if (name == key) {
       return true;
     }
@@ -98,7 +98,7 @@ Boolean EventPayload___::TryGetValue(String key, Object& value) {
     rt::throw_exception<ArgumentNullException>("key");
   }
   Int32 num = 0;
-  for (String&& name : rt::each(m_names)) {
+  for (String&& name : *m_names) {
     if (name == key) {
       value = m_values[num];
       return true;

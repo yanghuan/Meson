@@ -46,7 +46,7 @@ Type ComActivator::BasicClassFactory___::GetValidatedInterfaceType(Type classTyp
     rt::throw_exception<COMException>(String::in::Empty, -2147221232);
   }
   Array<Type> interfaces = classType->GetInterfaces();
-  for (Type&& type : rt::each(interfaces)) {
+  for (Type&& type : *interfaces) {
     if (type->get_GUID() == riid) {
       return type;
     }
@@ -153,7 +153,7 @@ void ComActivator::ClassRegistrationScenarioForType(ComActivationContext cxt, Bo
   while (type3 != nullptr && !flag) {
     Array<MethodInfo> methods = type3->GetMethods(BindingFlags::Instance | BindingFlags::Static | BindingFlags::Public | BindingFlags::NonPublic);
     Array<MethodInfo> array = methods;
-    for (MethodInfo&& methodInfo : rt::each(array)) {
+    for (MethodInfo&& methodInfo : *array) {
       if (methodInfo->GetCustomAttributes(type, true)->get_Length() != 0) {
         if (!methodInfo->get_IsStatic()) {
           String resourceFormat = register ? SR::get_InvalidOperation_NonStaticComRegFunction() : SR::get_InvalidOperation_NonStaticComUnRegFunction();
@@ -170,7 +170,7 @@ void ComActivator::ClassRegistrationScenarioForType(ComActivationContext cxt, Bo
         }
         Array<Object> array2 = rt::newarr<Array<Object>>(1);
         if (parameters[0]->get_ParameterType() == typeof<String>()) {
-          array2[0] = "HKEY_LOCAL_MACHINE\SOFTWARE\Classes\CLSID\" + cxt.ClassId.ToString("B");
+          array2[0] = "HKEY_LOCAL_MACHINE\\SOFTWARE\\Classes\\CLSID\\" + cxt.ClassId.ToString("B");
         } else {
           array2[0] = type2;
         }

@@ -133,7 +133,7 @@ String DomainNameHelper::IdnEquivalent(String hostname) {
     return hostname;
   }
   Boolean flag = true;
-  for (Char&& c : rt::each(hostname)) {
+  for (Char&& c : *hostname) {
     if (c > 127) {
       flag = false;
       break;

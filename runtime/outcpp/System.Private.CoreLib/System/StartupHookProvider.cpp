@@ -62,7 +62,7 @@ void StartupHookProvider::ProcessStartupHooks() {
     }
   }
   Array<StartupHookNameOrPath> array3 = array2;
-  for (StartupHookNameOrPath&& startupHook : rt::each(array3)) {
+  for (StartupHookNameOrPath&& startupHook : *array3) {
     CallStartupHook(startupHook);
   }
 }

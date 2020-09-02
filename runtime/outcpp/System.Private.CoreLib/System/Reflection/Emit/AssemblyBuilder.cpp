@@ -108,7 +108,7 @@ void AssemblyBuilder___::ctor(AssemblyName name, AssemblyBuilderAccess access, S
   if (list == nullptr) {
     return;
   }
-  for (CustomAttributeBuilder&& item : rt::each(list)) {
+  for (CustomAttributeBuilder&& item : *list) {
     SetCustomAttribute(item);
   }
 }
@@ -184,7 +184,7 @@ void AssemblyBuilder___::CheckContext(Array<Array<Type>> typess) {
   if (typess == nullptr) {
     return;
   }
-  for (Array<Type>&& array : rt::each(typess)) {
+  for (Array<Type>&& array : *typess) {
     if (array != nullptr) {
       CheckContext(array);
     }
@@ -195,7 +195,7 @@ void AssemblyBuilder___::CheckContext(Array<Type> types) {
   if (types == nullptr) {
     return;
   }
-  for (Type&& type : rt::each(types)) {
+  for (Type&& type : *types) {
     if (!(type == nullptr)) {
       if (type->get_Module() == nullptr || type->get_Module()->get_Assembly() == nullptr) {
         rt::throw_exception<ArgumentException>(SR::get_Argument_TypeNotValid());

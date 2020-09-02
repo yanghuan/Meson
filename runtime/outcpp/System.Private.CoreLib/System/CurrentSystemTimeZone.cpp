@@ -86,7 +86,7 @@ DaylightTime CurrentSystemTimeZone___::CreateDaylightChanges(Int32 year) {
   TimeSpan delta = TimeSpan::Zero;
   if (TimeZoneInfo::in::get_Local()->get_SupportsDaylightSavingTime()) {
     Array<TimeZoneInfo::in::AdjustmentRule> adjustmentRules = TimeZoneInfo::in::get_Local()->GetAdjustmentRules();
-    for (TimeZoneInfo::in::AdjustmentRule&& adjustmentRule : rt::each(adjustmentRules)) {
+    for (TimeZoneInfo::in::AdjustmentRule&& adjustmentRule : *adjustmentRules) {
       if (adjustmentRule->get_DateStart().get_Year() <= year && adjustmentRule->get_DateEnd().get_Year() >= year && adjustmentRule->get_DaylightDelta() != TimeSpan::Zero) {
         start = TimeZoneInfo::in::TransitionTimeToDateTime(year, adjustmentRule->get_DaylightTransitionStart());
         end = TimeZoneInfo::in::TransitionTimeToDateTime(year, adjustmentRule->get_DaylightTransitionEnd());

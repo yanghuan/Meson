@@ -70,7 +70,6 @@ template <>
 void TestDefault::f(int a, int b) {
 }
 
-
 // https://stackoverflow.com/a/28209546/13460873
 template <char...> double operator "" _x() {
   return .42;
@@ -82,20 +81,16 @@ void TestStrDefault(String s, String ss = nullptr) {
   a.f();
 }
 
-enum class EnumA {
-  A, B, C
+struct TestA {
 };
 
+int operator *(TestA a) {
+  return 0;
+}
+
 int main() {
-  std::nullptr_t null = 0; 
-
-  TestTry();
-  constexpr rt::TypeCode a = rt::CodeOf<String::in>;
-  std::printf("aaaa-> %d%\n", a);
-  String aaa = 0;
-  String bbb = "dddd";
-  char b = '\u0444';
-
+  TestA a;
+  auto i = *a;
   return 0;
 }
 

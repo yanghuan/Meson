@@ -148,7 +148,7 @@ void EventListener___::AddEventSource(EventSource newEventSource) {
 void EventListener___::DisposeOnShutdown(Object sender, EventArgs e) {
   {
     rt::lock(get_EventListenersLock());
-    for (WeakReference<EventSource>&& s_EventSource : rt::each(s_EventSources)) {
+    for (WeakReference<EventSource>&& s_EventSource : *s_EventSources) {
       EventSource target;
       if (s_EventSource->TryGetTarget(target)) {
         target->Dispose();
@@ -158,7 +158,7 @@ void EventListener___::DisposeOnShutdown(Object sender, EventArgs e) {
 }
 
 void EventListener___::RemoveReferencesToListenerInEventSources(EventListener listenerToRemove) {
-  for (WeakReference<EventSource>&& s_EventSource : rt::each(s_EventSources)) {
+  for (WeakReference<EventSource>&& s_EventSource : *s_EventSources) {
     EventSource target;
     if (!s_EventSource->TryGetTarget(target)) {
       continue;
@@ -199,7 +199,7 @@ void EventListener___::CallBackForExistingEventSources(Boolean addToListenersLis
         return;
       }
       Array<WeakReference<EventSource>> array = s_EventSources->ToArray();
-      for (WeakReference<EventSource>&& weakReference : rt::each(array)) {
+      for (WeakReference<EventSource>&& weakReference : *array) {
         EventSource target;
         if (weakReference->TryGetTarget(target)) {
           EventSourceCreatedEventArgs eventSourceCreatedEventArgs = rt::newobj<EventSourceCreatedEventArgs>();
