@@ -241,12 +241,8 @@ struct Vector<T> : public valueType<Vector<T>> {
   private: static T ScalarDivide(T left, T right);
   private: static T GetOneValue();
   private: static T GetAllBitsSetValue();
-  private: static void cctor();
   public: explicit Vector() {}
   private: Register register_;
-  private: static Vector<T> s_zero;
-  private: static Vector<T> s_one;
-  private: static Vector<T> s_allBitsSet;
 };
 } // namespace VectorNamespace
 template <class T1 = void, class T2 = void>

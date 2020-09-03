@@ -16,7 +16,6 @@ enum class EnvironmentVariableTarget : int32_t;
 FORWARD_(Array, T1, T2)
 FORWARDS(Boolean)
 FORWARD(Exception)
-FORWARD_(Func, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18)
 FORWARDS(Int32)
 FORWARDS(Int64)
 FORWARD(OperatingSystem)
@@ -81,10 +80,6 @@ class Environment {
     Create = 32768,
     DoNotVerify = 16384,
   };
-  private: class WinRTFolderPaths {
-    public: static String GetFolderPath(SpecialFolder folder, SpecialFolderOption option);
-    private: static Func<SpecialFolder, SpecialFolderOption, String> s_winRTFolderPathsGetFolderPath;
-  };
   private: class WindowsVersion {
     private: static Boolean GetIsWindows8OrAbove();
     private: static void cctor();
@@ -102,6 +97,7 @@ class Environment {
   public: static String get_CommandLine();
   public: static String get_CurrentDirectory();
   public: static void set_CurrentDirectory(String value);
+  public: static Int32 get_ProcessId();
   public: static Boolean get_Is64BitProcess();
   public: static Boolean get_Is64BitOperatingSystem();
   public: static String get_NewLine();
@@ -113,7 +109,6 @@ class Environment {
   private: static String get_CurrentDirectoryCore();
   private: static void set_CurrentDirectoryCore(String value);
   public: static Int32 get_SystemPageSize();
-  private: static Boolean get_Is64BitOperatingSystemWhen32BitProcess();
   public: static String get_MachineName();
   public: static String get_SystemDirectory();
   public: static Boolean get_UserInteractive();
@@ -147,6 +142,7 @@ class Environment {
   private: static String GetKnownFolderPath(String folderGuid, SpecialFolderOption option);
   public: static Array<String> GetLogicalDrives();
   private: static String ExpandEnvironmentVariablesCore(String name);
+  private: static Int32 GetCurrentProcessId();
   private: static OperatingSystem GetOSVersion();
   private: static String GetEnvironmentVariableCore(String variable);
   private: static void SetEnvironmentVariableCore(String variable, String value);
@@ -154,6 +150,8 @@ class Environment {
   private: static void cctor();
   private: static Int32 ProcessorCount;
   private: static Array<String> s_commandLineArgs;
+  private: static Int32 s_processId;
+  private: static Boolean s_haveProcessId;
   private: static OperatingSystem s_osVersion;
 };
 } // namespace EnvironmentNamespace

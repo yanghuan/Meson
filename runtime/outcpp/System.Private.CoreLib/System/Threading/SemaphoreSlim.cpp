@@ -6,11 +6,11 @@
 #include <System.Private.CoreLib/System/Math-dep.h>
 #include <System.Private.CoreLib/System/ObjectDisposedException-dep.h>
 #include <System.Private.CoreLib/System/OperationCanceledException-dep.h>
+#include <System.Private.CoreLib/System/Runtime/CompilerServices/AsyncTaskMethodBuilder-dep.h>
 #include <System.Private.CoreLib/System/Runtime/CompilerServices/StrongBox-dep.h>
 #include <System.Private.CoreLib/System/SR-dep.h>
 #include <System.Private.CoreLib/System/Threading/CancellationToken-dep.h>
 #include <System.Private.CoreLib/System/Threading/CancellationTokenRegistration-dep.h>
-#include <System.Private.CoreLib/System/Threading/CancellationTokenSource-dep.h>
 #include <System.Private.CoreLib/System/Threading/ManualResetEvent-dep.h>
 #include <System.Private.CoreLib/System/Threading/Monitor-dep.h>
 #include <System.Private.CoreLib/System/Threading/SemaphoreFullException-dep.h>
@@ -265,22 +265,15 @@ Boolean SemaphoreSlim___::RemoveAsyncWaiter(TaskNode task) {
 }
 
 Task<Boolean> SemaphoreSlim___::WaitUntilCountOrTimeoutAsync(TaskNode asyncWaiter, Int32 millisecondsTimeout, CancellationToken cancellationToken) {
-  if (millisecondsTimeout != -1) {
-    {
-      CancellationTokenSource cts = CancellationTokenSource::in::CreateLinkedTokenSource(cancellationToken);
-      rt::Using(cts);
-      Object obj = asyncWaiter;
-    }
-  } else {
-    Task<> task = rt::newobj<Task<>>(nullptr, TaskCreationOptions::RunContinuationsAsynchronously, true);
-  }
-  {
-    rt::lock(m_lockObjAndDisposed);
-    if (RemoveAsyncWaiter(asyncWaiter)) {
-      cancellationToken.ThrowIfCancellationRequested();
-      return false;
-    }
-  }
+  <WaitUntilCountOrTimeoutAsync>d__33 stateMachine;
+  stateMachine.<>t__builder = AsyncTaskMethodBuilder<Boolean>::Create();
+  stateMachine.<>4__this = (SemaphoreSlim)this;
+  stateMachine.asyncWaiter = asyncWaiter;
+  stateMachine.millisecondsTimeout = millisecondsTimeout;
+  stateMachine.cancellationToken = cancellationToken;
+  stateMachine.<>1__state = -1;
+  stateMachine.<>t__builder.Start(stateMachine);
+  return stateMachine.<>t__builder.get_Task();
 }
 
 Int32 SemaphoreSlim___::Release() {

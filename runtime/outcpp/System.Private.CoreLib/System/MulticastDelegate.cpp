@@ -57,7 +57,7 @@ Boolean MulticastDelegate___::Equals(Object obj) {
     return false;
   }
   MulticastDelegate multicastDelegate = Unsafe::As<MulticastDelegate>(obj);
-  if (_invocationCount != (IntPtr)0) {
+  if (_invocationCount != (IntPtr)(Int32)0) {
     if (InvocationListLogicallyNull()) {
       if (IsUnmanagedFunctionPtr()) {
         if (!multicastDelegate->IsUnmanagedFunctionPtr()) {
@@ -138,7 +138,7 @@ MulticastDelegate MulticastDelegate___::NewMulticastDelegate(Array<Object> invoc
 }
 
 void MulticastDelegate___::StoreDynamicMethod(MethodInfo dynamicMethod) {
-  if (_invocationCount != (IntPtr)0) {
+  if (_invocationCount != (IntPtr)(Int32)0) {
     MulticastDelegate multicastDelegate = (MulticastDelegate)_invocationList;
     multicastDelegate->_methodBase = dynamicMethod;
   } else {
@@ -327,7 +327,7 @@ Int32 MulticastDelegate___::GetHashCode() {
   if (IsUnmanagedFunctionPtr()) {
     return ValueType::in::GetHashCodeOfPtr(_methodPtr) ^ ValueType::in::GetHashCodeOfPtr(_methodPtrAux);
   }
-  if (_invocationCount != (IntPtr)0) {
+  if (_invocationCount != (IntPtr)(Int32)0) {
     Delegate delegate = rt::as<Delegate>(_invocationList);
     if ((Object)delegate != nullptr) {
       return delegate->GetHashCode();
@@ -345,7 +345,7 @@ Int32 MulticastDelegate___::GetHashCode() {
 }
 
 Object MulticastDelegate___::GetTarget() {
-  if (_invocationCount != (IntPtr)0) {
+  if (_invocationCount != (IntPtr)(Int32)0) {
     if (InvocationListLogicallyNull()) {
       return nullptr;
     }
@@ -363,7 +363,7 @@ Object MulticastDelegate___::GetTarget() {
 }
 
 MethodInfo MulticastDelegate___::GetMethodImpl() {
-  if (_invocationCount != (IntPtr)0 && _invocationList != nullptr) {
+  if (_invocationCount != (IntPtr)(Int32)0 && _invocationList != nullptr) {
     Array<Object> array = rt::as<Array<Object>>(_invocationList);
     if (array != nullptr) {
       Int32 num = (Int32)_invocationCount - 1;

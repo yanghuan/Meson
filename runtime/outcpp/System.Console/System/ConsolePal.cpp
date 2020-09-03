@@ -326,16 +326,6 @@ void ConsolePal::set_CursorVisible(Boolean value) {
   }
 }
 
-Int32 ConsolePal::get_CursorLeft() {
-  Interop::Kernel32::CONSOLE_SCREEN_BUFFER_INFO bufferInfo = GetBufferInfo();
-  return bufferInfo.dwCursorPosition.X;
-}
-
-Int32 ConsolePal::get_CursorTop() {
-  Interop::Kernel32::CONSOLE_SCREEN_BUFFER_INFO bufferInfo = GetBufferInfo();
-  return bufferInfo.dwCursorPosition.Y;
-}
-
 String ConsolePal::get_Title() {
   Char as[256] = {};
   Span<Char> initialBuffer = as;
@@ -601,6 +591,11 @@ void ConsolePal::ResetColor() {
     }
   }
   Interop::Kernel32::SetConsoleTextAttribute(get_OutputHandle(), _defaultColors);
+}
+
+ValueTuple<Int32, Int32> ConsolePal::GetCursorPosition() {
+  Interop::Kernel32::CONSOLE_SCREEN_BUFFER_INFO bufferInfo = GetBufferInfo();
+  return {bufferInfo.dwCursorPosition.X, bufferInfo.dwCursorPosition.Y};
 }
 
 void ConsolePal::Beep() {

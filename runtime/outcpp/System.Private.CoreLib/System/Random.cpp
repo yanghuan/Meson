@@ -44,7 +44,6 @@ void Random___::ctor(Int32 Seed) {
       }
     }
   }
-  _inext = 0;
   _inextp = 21;
 }
 

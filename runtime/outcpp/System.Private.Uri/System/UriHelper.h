@@ -10,7 +10,6 @@ FORWARDS(Char)
 FORWARDS(Int32)
 FORWARDS(ReadOnlySpan, T)
 FORWARDS(Span, T)
-FORWARDS(UInt32)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::Uri::System::Text {
 FORWARDS(ValueStringBuilder)
@@ -39,7 +38,7 @@ class UriHelper {
   public: static void UnescapeString(Char* pStr, Int32 start, Int32 end, ValueStringBuilder& dest, Char rsvd1, Char rsvd2, Char rsvd3, UnescapeMode unescapeMode, UriParser syntax, Boolean isQuery);
   public: static void MatchUTF8Sequence(ValueStringBuilder& dest, Span<Char> unescapedChars, Int32 charCount, Array<Byte> bytes, Int32 byteCount, Boolean isQuery, Boolean iriParsing);
   public: static void EscapeAsciiChar(Byte b, ValueStringBuilder& to);
-  public: static Char DecodeHexChars(UInt32 first, UInt32 second);
+  public: static Char DecodeHexChars(Int32 first, Int32 second);
   public: static Boolean IsNotSafeForUnescape(Char ch);
   public: static Boolean IsGenDelim(Char ch);
   public: static Boolean IsLWS(Char ch);

@@ -42,7 +42,6 @@ Boolean UnmanagedMemoryAccessor___::get_IsOpen() {
 }
 
 void UnmanagedMemoryAccessor___::ctor() {
-  _isOpen = false;
 }
 
 void UnmanagedMemoryAccessor___::ctor(SafeBuffer buffer, Int64 offset, Int64 capacity) {

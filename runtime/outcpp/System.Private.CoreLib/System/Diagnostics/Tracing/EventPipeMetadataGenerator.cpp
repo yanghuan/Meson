@@ -112,12 +112,12 @@ Array<Byte> EventPipeMetadataGenerator___::GenerateMetadata(Int32 eventId, Strin
       }
       if (opcode != 0) {
         WriteToBuffer(ptr, num7, offset, 1);
-        WriteToBuffer(ptr, num7, offset, (?)1);
+        WriteToBuffer(ptr, num7, offset, (?)(Int32)1);
         WriteToBuffer(ptr, num7, offset, (Byte)opcode);
       }
       if (flag) {
         WriteToBuffer(ptr, num7, offset, num2);
-        WriteToBuffer(ptr, num7, offset, (?)2);
+        WriteToBuffer(ptr, num7, offset, (?)(Int32)2);
         WriteToBuffer(ptr, num7, offset, (UInt32)parameters->get_Length());
         Array<EventParameterInfo> array5 = parameters;
         for (EventParameterInfo&& eventParameterInfo4 : *array5) {

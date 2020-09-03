@@ -55,73 +55,6 @@ Enum::in::EnumInfo Enum___::GetEnumInfo(RuntimeType enumType, Boolean getNames) 
   return enumInfo;
 }
 
-Array<UInt64> Enum___::InternalGetValues(RuntimeType enumType) {
-  return GetEnumInfo(enumType, false)->Values;
-}
-
-Array<String> Enum___::InternalGetNames(RuntimeType enumType) {
-  return GetEnumInfo(enumType)->Names;
-}
-
-Boolean Enum___::HasFlag(Enum flag) {
-  if (flag == nullptr) {
-    rt::throw_exception<ArgumentNullException>("flag");
-  }
-  if (!GetType()->IsEquivalentTo(flag->GetType())) {
-    rt::throw_exception<ArgumentException>(SR::Format(SR::get_Argument_EnumTypeDoesNotMatch(), flag->GetType(), GetType()));
-  }
-  return InternalHasFlag(flag);
-}
-
-String Enum___::GetName(Type enumType, Object value) {
-  if (enumType == nullptr) {
-    rt::throw_exception<ArgumentNullException>("enumType");
-  }
-  return enumType->GetEnumName(value);
-}
-
-Array<String> Enum___::GetNames(Type enumType) {
-  if (enumType == nullptr) {
-    rt::throw_exception<ArgumentNullException>("enumType");
-  }
-  return enumType->GetEnumNames();
-}
-
-Type Enum___::GetUnderlyingType(Type enumType) {
-  if (enumType == nullptr) {
-    rt::throw_exception<ArgumentNullException>("enumType");
-  }
-  return enumType->GetEnumUnderlyingType();
-}
-
-Array<> Enum___::GetValues(Type enumType) {
-  if (enumType == nullptr) {
-    rt::throw_exception<ArgumentNullException>("enumType");
-  }
-  return enumType->GetEnumValues();
-}
-
-Boolean Enum___::IsDefined(Type enumType, Object value) {
-  if (enumType == nullptr) {
-    rt::throw_exception<ArgumentNullException>("enumType");
-  }
-  return enumType->IsEnumDefined(value);
-}
-
-RuntimeType Enum___::ValidateRuntimeType(Type enumType) {
-  if (enumType == nullptr) {
-    rt::throw_exception<ArgumentNullException>("enumType");
-  }
-  if (!enumType->get_IsEnum()) {
-    rt::throw_exception<ArgumentException>(SR::get_Arg_MustBeEnum(), "enumType");
-  }
-  RuntimeType runtimeType = rt::as<RuntimeType>(enumType);
-  if ((Object)runtimeType == nullptr) {
-    rt::throw_exception<ArgumentException>(SR::get_Arg_MustBeType(), "enumType");
-  }
-  return runtimeType;
-}
-
 String Enum___::ValueToString() {
   Byte& rawData = RuntimeHelpers::GetRawData((Enum)this);
   switch (InternalGetCorElementType()) {
@@ -310,6 +243,59 @@ UInt64 Enum___::ToUInt64(Object value) {
     default:
       rt::throw_exception<InvalidOperationException>(SR::get_InvalidOperation_UnknownEnumType());
   }
+}
+
+String Enum___::GetName(Type enumType, Object value) {
+  if ((Object)enumType == nullptr) {
+    rt::throw_exception<ArgumentNullException>("enumType");
+  }
+  return enumType->GetEnumName(value);
+}
+
+Array<String> Enum___::GetNames(Type enumType) {
+  if ((Object)enumType == nullptr) {
+    rt::throw_exception<ArgumentNullException>("enumType");
+  }
+  return enumType->GetEnumNames();
+}
+
+Array<String> Enum___::InternalGetNames(RuntimeType enumType) {
+  return GetEnumInfo(enumType)->Names;
+}
+
+Type Enum___::GetUnderlyingType(Type enumType) {
+  if (enumType == nullptr) {
+    rt::throw_exception<ArgumentNullException>("enumType");
+  }
+  return enumType->GetEnumUnderlyingType();
+}
+
+Array<> Enum___::GetValues(Type enumType) {
+  if ((Object)enumType == nullptr) {
+    rt::throw_exception<ArgumentNullException>("enumType");
+  }
+  return enumType->GetEnumValues();
+}
+
+Boolean Enum___::HasFlag(Enum flag) {
+  if (flag == nullptr) {
+    rt::throw_exception<ArgumentNullException>("flag");
+  }
+  if (!GetType()->IsEquivalentTo(flag->GetType())) {
+    rt::throw_exception<ArgumentException>(SR::Format(SR::get_Argument_EnumTypeDoesNotMatch(), flag->GetType(), GetType()));
+  }
+  return InternalHasFlag(flag);
+}
+
+Array<UInt64> Enum___::InternalGetValues(RuntimeType enumType) {
+  return GetEnumInfo(enumType, false)->Values;
+}
+
+Boolean Enum___::IsDefined(Type enumType, Object value) {
+  if ((Object)enumType == nullptr) {
+    rt::throw_exception<ArgumentNullException>("enumType");
+  }
+  return enumType->IsEnumDefined(value);
 }
 
 Object Enum___::Parse(Type enumType, String value) {
@@ -889,6 +875,20 @@ Object Enum___::ToObject(Type enumType, Char value) {
 
 Object Enum___::ToObject(Type enumType, Boolean value) {
   return InternalBoxEnum(ValidateRuntimeType(enumType), value ? 1 : 0);
+}
+
+RuntimeType Enum___::ValidateRuntimeType(Type enumType) {
+  if (enumType == nullptr) {
+    rt::throw_exception<ArgumentNullException>("enumType");
+  }
+  if (!enumType->get_IsEnum()) {
+    rt::throw_exception<ArgumentException>(SR::get_Arg_MustBeEnum(), "enumType");
+  }
+  RuntimeType runtimeType = rt::as<RuntimeType>(enumType);
+  if ((Object)runtimeType == nullptr) {
+    rt::throw_exception<ArgumentException>(SR::get_Arg_MustBeType(), "enumType");
+  }
+  return runtimeType;
 }
 
 void Enum___::ctor() {

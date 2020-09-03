@@ -406,7 +406,6 @@ void Variant::MarshalHelperCastVariant(Object pValue, Int32 vt, Variant& v) {
 
 void Variant::cctor() {
   ClassTypes = rt::newarr<Array<Type>>(23);
-  Empty = rt::default__;
   Missing = Variant(22, Type::in::Missing, 0);
   DBNull = Variant(23, DBNull::in::Value, 0);
 }

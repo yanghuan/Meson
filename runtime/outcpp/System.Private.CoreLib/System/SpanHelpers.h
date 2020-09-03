@@ -71,6 +71,7 @@ class SpanHelpers {
   private: static UIntPtr UnalignedCountVector(Byte& searchSpace);
   private: static UIntPtr UnalignedCountVector128(Byte& searchSpace);
   private: static UIntPtr UnalignedCountVectorFromEnd(Byte& searchSpace, Int32 length);
+  private: static Boolean TryFindFirstMatchedLane(Vector128<Byte> mask, Vector128<Byte> compareResult, Int32& matchedLane);
   public: static Int32 IndexOf(Char& searchSpace, Int32 searchSpaceLength, Char& value, Int32 valueLength);
   public: static Int32 SequenceCompareTo(Char& first, Int32 firstLength, Char& second, Int32 secondLength);
   public: static Boolean Contains(Char& searchSpace, Char value, Int32 length);
@@ -92,6 +93,7 @@ class SpanHelpers {
   private: static IntPtr GetCharVector256SpanLength(IntPtr offset, IntPtr length);
   private: static IntPtr UnalignedCountVector(Char& searchSpace);
   private: static IntPtr UnalignedCountVector128(Char& searchSpace);
+  private: static Boolean TryFindFirstMatchedLane(Vector128<UInt16> compareResult, Int32& matchedLane);
   public: static void ClearWithoutReferences(Byte& b, UIntPtr byteLength);
   public: static void ClearWithReferences(IntPtr& ip, UIntPtr pointerSizeLength);
   public: template <class T>

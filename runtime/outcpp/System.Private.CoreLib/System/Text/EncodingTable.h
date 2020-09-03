@@ -9,6 +9,9 @@ FORWARD(String)
 FORWARDS(UInt16)
 FORWARDS(UInt32)
 } // namespace System::Private::CoreLib::System
+namespace System::Private::CoreLib::System::Collections::Generic {
+FORWARD(Dictionary, TKey, TValue)
+} // namespace System::Private::CoreLib::System::Collections::Generic
 namespace System::Private::CoreLib::System::Collections {
 FORWARD(Hashtable)
 } // namespace System::Private::CoreLib::System::Collections
@@ -17,10 +20,12 @@ FORWARD(CodePageDataItem)
 FORWARD(EncodingInfo)
 namespace EncodingTableNamespace {
 using namespace System::Collections;
+using namespace System::Collections::Generic;
 class EncodingTable {
   public: static Int32 GetCodePageFromName(String name);
   private: static Int32 InternalGetCodePageFromName(String name);
   public: static Array<EncodingInfo> GetEncodings();
+  public: static Array<EncodingInfo> GetEncodings(Dictionary<Int32, EncodingInfo> encodingInfoList);
   public: static CodePageDataItem GetCodePageDataItem(Int32 codePage);
   private: static CodePageDataItem InternalGetCodePageDataItem(Int32 codePage, Int32 index);
   private: static String GetDisplayName(Int32 codePage, Int32 englishNameIndex);

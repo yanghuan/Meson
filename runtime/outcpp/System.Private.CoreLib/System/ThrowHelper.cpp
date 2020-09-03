@@ -210,7 +210,7 @@ void ThrowHelper::ThrowFormatException_BadFormatSpecifier() {
 }
 
 void ThrowHelper::ThrowArgumentOutOfRangeException_PrecisionTooLarge() {
-  rt::throw_exception<ArgumentOutOfRangeException>("precision", SR::Format(SR::get_Argument_PrecisionTooLarge(), (?)99));
+  rt::throw_exception<ArgumentOutOfRangeException>("precision", SR::Format(SR::get_Argument_PrecisionTooLarge(), (?)(Int32)99));
 }
 
 void ThrowHelper::ThrowArgumentOutOfRangeException_SymbolDoesNotFit() {
@@ -473,6 +473,8 @@ String ThrowHelper::GetResourceString(ExceptionResource resource) {
       return SR::get_Arg_RankMultiDimNotSupported();
     case ExceptionResource::Arg_NonZeroLowerBound:
       return SR::get_Arg_NonZeroLowerBound();
+    case ExceptionResource::ArgumentOutOfRange_GetCharCountOverflow:
+      return SR::get_ArgumentOutOfRange_GetCharCountOverflow();
     case ExceptionResource::ArgumentOutOfRange_ListInsert:
       return SR::get_ArgumentOutOfRange_ListInsert();
     case ExceptionResource::ArgumentOutOfRange_NeedNonNegNum:

@@ -8,10 +8,8 @@ namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)
 FORWARDS(ArraySegment, T)
 FORWARDS(Byte)
-FORWARD_(Func, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18)
 FORWARDS(Int64)
 FORWARDS(Memory, T)
-FORWARD(Object)
 FORWARDS(ReadOnlyMemory, T)
 FORWARDS(ReadOnlySpan, T)
 FORWARDS(Span, T)
@@ -23,13 +21,9 @@ namespace System::Private::CoreLib::System::Threading::Tasks {
 FORWARD_(Task, T1, T2)
 FORWARDS_(ValueTask, T1, T2)
 } // namespace System::Private::CoreLib::System::Threading::Tasks
-namespace System::Private::CoreLib::System::Buffers {
-FORWARD(ReadOnlySpanAction, T, TArg)
-} // namespace System::Private::CoreLib::System::Buffers
 namespace System::Private::CoreLib::System::IO {
 enum class SeekOrigin : int32_t;
 namespace MemoryStreamNamespace {
-using namespace System::Buffers;
 using namespace System::Threading;
 using namespace System::Threading::Tasks;
 CLASS(MemoryStream) : public Stream::in {
@@ -68,8 +62,6 @@ CLASS(MemoryStream) : public Stream::in {
   public: Int32 ReadByte();
   public: void CopyTo(Stream destination, Int32 bufferSize);
   public: Task<> CopyToAsync(Stream destination, Int32 bufferSize, CancellationToken cancellationToken);
-  public: void CopyTo(ReadOnlySpanAction<Byte, Object> callback, Object state, Int32 bufferSize);
-  public: Task<> CopyToAsync(Func<ReadOnlyMemory<Byte>, Object, CancellationToken, ValueTask<>> callback, Object state, Int32 bufferSize, CancellationToken cancellationToken);
   public: Int64 Seek(Int64 offset, SeekOrigin loc);
   public: void SetLength(Int64 value);
   public: Array<Byte> ToArray();

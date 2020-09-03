@@ -23,6 +23,7 @@ FORWARDS(Single)
 FORWARD(String)
 FORWARDS(UInt32)
 FORWARDS(UInt64)
+FORWARDS_(ValueTuple, T1, T2, T3, T4, T5, T6, T7, T8, T9)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Runtime::CompilerServices {
 FORWARD(StrongBox, T)
@@ -88,6 +89,7 @@ class Console {
   public: static void SetBufferSize(Int32 width, Int32 height);
   public: static void SetWindowPosition(Int32 left, Int32 top);
   public: static void SetWindowSize(Int32 width, Int32 height);
+  public: static ValueTuple<Int32, Int32> GetCursorPosition();
   public: static void Beep();
   public: static void Beep(Int32 frequency, Int32 duration);
   public: static void MoveBufferArea(Int32 sourceLeft, Int32 sourceTop, Int32 sourceWidth, Int32 sourceHeight, Int32 targetLeft, Int32 targetTop);

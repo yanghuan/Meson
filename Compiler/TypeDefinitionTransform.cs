@@ -262,8 +262,9 @@ namespace Meson.Compiler {
       var parameters = method.Parameters.Select(i => GetParameterSyntax(i, method, typeDefinition)).ToList();
       MethodDefinitionSyntax methodDefinition;
       if (isCtor) {
+        bool isValueTuple = IsMulti && typeDefinition.IsValueTupleType();
         methodDefinition = new MethodDefinitionSyntax(node.Name, parameters) {
-          IsExplicit = true,
+          IsExplicit = !isValueTuple,
           Accessibility = method.Accessibility,
         };
       } else {

@@ -23,6 +23,7 @@ FORWARDS(Char)
 FORWARDS(Decimal)
 FORWARDS(Double)
 FORWARD(Exception)
+FORWARDS(Half)
 FORWARD(IFormatProvider)
 FORWARDS(Int16)
 FORWARDS(Int64)
@@ -47,8 +48,10 @@ class Number {
   public: struct DiyFp : public valueType<DiyFp> {
     public: static DiyFp CreateAndGetBoundaries(Double value, DiyFp& mMinus, DiyFp& mPlus);
     public: static DiyFp CreateAndGetBoundaries(Single value, DiyFp& mMinus, DiyFp& mPlus);
+    public: static DiyFp CreateAndGetBoundaries(Half value, DiyFp& mMinus, DiyFp& mPlus);
     public: explicit DiyFp(Double value);
     public: explicit DiyFp(Single value);
+    public: explicit DiyFp(Half value);
     public: explicit DiyFp(UInt64 f, Int32 e);
     public: DiyFp Multiply(DiyFp& other);
     public: DiyFp Normalize();
@@ -111,6 +114,7 @@ class Number {
   };
   public: class Grisu3 {
     public: static Boolean TryRunDouble(Double value, Int32 requestedDigits, NumberBuffer& number);
+    public: static Boolean TryRunHalf(Half value, Int32 requestedDigits, NumberBuffer& number);
     public: static Boolean TryRunSingle(Single value, Int32 requestedDigits, NumberBuffer& number);
     private: static Boolean TryRunCounted(DiyFp& w, Int32 requestedDigits, Span<Byte> buffer, Int32& length, Int32& decimalExponent);
     private: static Boolean TryRunShortest(DiyFp& boundaryMinus, DiyFp& w, DiyFp& boundaryPlus, Span<Byte> buffer, Int32& length, Int32& decimalExponent);
@@ -142,6 +146,7 @@ class Number {
     public: explicit FloatingPointInfo() {}
     public: static FloatingPointInfo Double;
     public: static FloatingPointInfo Single;
+    public: static FloatingPointInfo Half;
     private: UInt64 ZeroBits;
     private: UInt64 InfinityBits;
     private: UInt64 NormalMantissaMask;
@@ -154,8 +159,8 @@ class Number {
     private: UInt16 DenormalMantissaBits;
     private: UInt16 ExponentBits;
   };
-  public: static ReadOnlySpan<Byte> get_CharToHexLookup();
   public: static void Dragon4Double(Double value, Int32 cutoffNumber, Boolean isSignificantDigits, NumberBuffer& number);
+  public: static void Dragon4Half(Half value, Int32 cutoffNumber, Boolean isSignificantDigits, NumberBuffer& number);
   public: static void Dragon4Single(Single value, Int32 cutoffNumber, Boolean isSignificantDigits, NumberBuffer& number);
   private: static UInt32 Dragon4(UInt64 mantissa, Int32 exponent, UInt32 mantissaHighBitIdx, Boolean hasUnequalMargins, Int32 cutoffNumber, Boolean isSignificantDigits, Span<Byte> buffer, Int32& decimalExponent);
   public: static String FormatDecimal(Decimal value, ReadOnlySpan<Char> format, NumberFormatInfo info);
@@ -168,6 +173,9 @@ class Number {
   public: static String FormatSingle(Single value, String format, NumberFormatInfo info);
   public: static Boolean TryFormatSingle(Single value, ReadOnlySpan<Char> format, NumberFormatInfo info, Span<Char> destination, Int32& charsWritten);
   private: static String FormatSingle(ValueStringBuilder& sb, Single value, ReadOnlySpan<Char> format, NumberFormatInfo info);
+  public: static String FormatHalf(Half value, String format, NumberFormatInfo info);
+  private: static String FormatHalf(ValueStringBuilder& sb, Half value, ReadOnlySpan<Char> format, NumberFormatInfo info);
+  public: static Boolean TryFormatHalf(Half value, ReadOnlySpan<Char> format, NumberFormatInfo info, Span<Char> destination, Int32& charsWritten);
   private: static Boolean TryCopyTo(String source, Span<Char> destination, Int32& charsWritten);
   private: static Char GetHexBase(Char fmt);
   public: static String FormatInt32(Int32 value, Int32 hexMask, String format, IFormatProvider provider);
@@ -216,6 +224,7 @@ class Number {
   private: static UInt32 High32(UInt64 value);
   private: static UInt32 Int64DivMod1E9(UInt64& value);
   private: static UInt64 ExtractFractionAndBiasedExponent(Double value, Int32& exponent);
+  private: static UInt16 ExtractFractionAndBiasedExponent(Half value, Int32& exponent);
   private: static UInt32 ExtractFractionAndBiasedExponent(Single value, Int32& exponent);
   private: static void AccumulateDecimalDigitsIntoBigInteger(NumberBuffer& number, UInt32 firstIndex, UInt32 lastIndex, BigInteger& result);
   private: static UInt64 AssembleFloatingPointBits(FloatingPointInfo& info, UInt64 initialMantissa, Int32 initialExponent, Boolean hasZeroTail);
@@ -253,8 +262,10 @@ class Number {
   public: static Boolean TryNumberToDecimal(NumberBuffer& number, Decimal& value);
   public: static Double ParseDouble(ReadOnlySpan<Char> value, NumberStyles styles, NumberFormatInfo info);
   public: static Single ParseSingle(ReadOnlySpan<Char> value, NumberStyles styles, NumberFormatInfo info);
+  public: static Half ParseHalf(ReadOnlySpan<Char> value, NumberStyles styles, NumberFormatInfo info);
   public: static ParsingStatus TryParseDecimal(ReadOnlySpan<Char> value, NumberStyles styles, NumberFormatInfo info, Decimal& result);
   public: static Boolean TryParseDouble(ReadOnlySpan<Char> value, NumberStyles styles, NumberFormatInfo info, Double& result);
+  public: static Boolean TryParseHalf(ReadOnlySpan<Char> value, NumberStyles styles, NumberFormatInfo info, Half& result);
   public: static Boolean TryParseSingle(ReadOnlySpan<Char> value, NumberStyles styles, NumberFormatInfo info, Single& result);
   public: static Boolean TryStringToNumber(ReadOnlySpan<Char> value, NumberStyles styles, NumberBuffer& number, NumberFormatInfo info);
   private: static Boolean TrailingZeros(ReadOnlySpan<Char> value, Int32 index);
@@ -266,6 +277,7 @@ class Number {
   public: static void ThrowOverflowException(TypeCode type);
   private: static Exception GetException(ParsingStatus status, TypeCode type);
   public: static Double NumberToDouble(NumberBuffer& number);
+  public: static Half NumberToHalf(NumberBuffer& number);
   public: static Single NumberToSingle(NumberBuffer& number);
   private: static void cctor();
   private: static Array<String> s_singleDigitStringCache;

@@ -95,7 +95,6 @@ CLASS(ILGenerator) : public object {
   public: Label DefineLabel();
   public: void MarkLabel(Label loc);
   public: void ThrowException(Type excType);
-  private: static Type GetConsoleType();
   public: void EmitWriteLine(String value);
   public: void EmitWriteLine(LocalBuilder localBuilder);
   public: void EmitWriteLine(FieldInfo fld);

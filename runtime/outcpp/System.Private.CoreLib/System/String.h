@@ -218,11 +218,12 @@ CLASS(String) : public object {
   public: Array<String> Split(Array<String> separator, Int32 count, StringSplitOptions options);
   private: Array<String> SplitInternal(String separator, Array<String> separators, Int32 count, StringSplitOptions options);
   private: Array<String> SplitInternal(String separator, Int32 count, StringSplitOptions options);
-  private: Array<String> SplitKeepEmptyEntries(ReadOnlySpan<Int32> sepList, ReadOnlySpan<Int32> lengthList, Int32 defaultLength, Int32 count);
-  private: Array<String> SplitOmitEmptyEntries(ReadOnlySpan<Int32> sepList, ReadOnlySpan<Int32> lengthList, Int32 defaultLength, Int32 count);
+  private: Array<String> SplitWithoutPostProcessing(ReadOnlySpan<Int32> sepList, ReadOnlySpan<Int32> lengthList, Int32 defaultLength, Int32 count);
+  private: Array<String> SplitWithPostProcessing(ReadOnlySpan<Int32> sepList, ReadOnlySpan<Int32> lengthList, Int32 defaultLength, Int32 count, StringSplitOptions options);
   private: void MakeSeparatorList(ReadOnlySpan<Char> separators, ValueListBuilder<Int32>& sepListBuilder);
   private: void MakeSeparatorList(String separator, ValueListBuilder<Int32>& sepListBuilder);
   private: void MakeSeparatorList(Array<String> separators, ValueListBuilder<Int32>& sepListBuilder, ValueListBuilder<Int32>& lengthListBuilder);
+  private: static void CheckStringSplitOptions(StringSplitOptions options);
   public: String Substring(Int32 startIndex);
   public: String Substring(Int32 startIndex, Int32 length);
   private: String InternalSubString(Int32 startIndex, Int32 length);

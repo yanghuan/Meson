@@ -57,13 +57,13 @@ struct ValueTuple<T1> : public valueType<ValueTuple<T1>> {
   public: using interface = rt::TypeList<IEquatable<ValueTuple<T1>>, IStructuralEquatable, IStructuralComparable, IComparable<>, IComparable<ValueTuple<T1>>, IValueTupleInternal, ITuple>;
   private: Int32 get_LengthOfITuple();
   private: Object get_ItemOfITuple(Int32 index);
-  public: explicit ValueTuple(T1 item1);
+  public: ValueTuple(T1 item1);
   public: Boolean Equals(Object obj);
   public: Boolean Equals(ValueTuple<T1> other);
   public: Int32 CompareTo(ValueTuple<T1> other);
   public: Int32 GetHashCode();
   public: String ToString();
-  public: explicit ValueTuple() {}
+  public: ValueTuple() {}
   public: T1 Item1;
 };
 template <class T1, class T2>
@@ -71,14 +71,14 @@ struct ValueTuple<T1, T2> : public valueType<ValueTuple<T1, T2>> {
   public: using interface = rt::TypeList<IEquatable<ValueTuple<T1, T2>>, IStructuralEquatable, IStructuralComparable, IComparable<>, IComparable<ValueTuple<T1, T2>>, IValueTupleInternal, ITuple>;
   private: Int32 get_LengthOfITuple();
   private: Object get_ItemOfITuple(Int32 index);
-  public: explicit ValueTuple(T1 item1, T2 item2);
+  public: ValueTuple(T1 item1, T2 item2);
   public: Boolean Equals(Object obj);
   public: Boolean Equals(ValueTuple<T1, T2> other);
   public: Int32 CompareTo(ValueTuple<T1, T2> other);
   public: Int32 GetHashCode();
   private: Int32 GetHashCodeCore(IEqualityComparer comparer);
   public: String ToString();
-  public: explicit ValueTuple() {}
+  public: ValueTuple() {}
   public: T1 Item1;
   public: T2 Item2;
 };
@@ -87,14 +87,14 @@ struct ValueTuple<T1, T2, T3> : public valueType<ValueTuple<T1, T2, T3>> {
   public: using interface = rt::TypeList<IEquatable<ValueTuple<T1, T2, T3>>, IStructuralEquatable, IStructuralComparable, IComparable<>, IComparable<ValueTuple<T1, T2, T3>>, IValueTupleInternal, ITuple>;
   private: Int32 get_LengthOfITuple();
   private: Object get_ItemOfITuple(Int32 index);
-  public: explicit ValueTuple(T1 item1, T2 item2, T3 item3);
+  public: ValueTuple(T1 item1, T2 item2, T3 item3);
   public: Boolean Equals(Object obj);
   public: Boolean Equals(ValueTuple<T1, T2, T3> other);
   public: Int32 CompareTo(ValueTuple<T1, T2, T3> other);
   public: Int32 GetHashCode();
   private: Int32 GetHashCodeCore(IEqualityComparer comparer);
   public: String ToString();
-  public: explicit ValueTuple() {}
+  public: ValueTuple() {}
   public: T1 Item1;
   public: T2 Item2;
   public: T3 Item3;
@@ -104,14 +104,14 @@ struct ValueTuple<T1, T2, T3, T4> : public valueType<ValueTuple<T1, T2, T3, T4>>
   public: using interface = rt::TypeList<IEquatable<ValueTuple<T1, T2, T3, T4>>, IStructuralEquatable, IStructuralComparable, IComparable<>, IComparable<ValueTuple<T1, T2, T3, T4>>, IValueTupleInternal, ITuple>;
   private: Int32 get_LengthOfITuple();
   private: Object get_ItemOfITuple(Int32 index);
-  public: explicit ValueTuple(T1 item1, T2 item2, T3 item3, T4 item4);
+  public: ValueTuple(T1 item1, T2 item2, T3 item3, T4 item4);
   public: Boolean Equals(Object obj);
   public: Boolean Equals(ValueTuple<T1, T2, T3, T4> other);
   public: Int32 CompareTo(ValueTuple<T1, T2, T3, T4> other);
   public: Int32 GetHashCode();
   private: Int32 GetHashCodeCore(IEqualityComparer comparer);
   public: String ToString();
-  public: explicit ValueTuple() {}
+  public: ValueTuple() {}
   public: T1 Item1;
   public: T2 Item2;
   public: T3 Item3;
@@ -122,14 +122,14 @@ struct ValueTuple<T1, T2, T3, T4, T5> : public valueType<ValueTuple<T1, T2, T3, 
   public: using interface = rt::TypeList<IEquatable<ValueTuple<T1, T2, T3, T4, T5>>, IStructuralEquatable, IStructuralComparable, IComparable<>, IComparable<ValueTuple<T1, T2, T3, T4, T5>>, IValueTupleInternal, ITuple>;
   private: Int32 get_LengthOfITuple();
   private: Object get_ItemOfITuple(Int32 index);
-  public: explicit ValueTuple(T1 item1, T2 item2, T3 item3, T4 item4, T5 item5);
+  public: ValueTuple(T1 item1, T2 item2, T3 item3, T4 item4, T5 item5);
   public: Boolean Equals(Object obj);
   public: Boolean Equals(ValueTuple<T1, T2, T3, T4, T5> other);
   public: Int32 CompareTo(ValueTuple<T1, T2, T3, T4, T5> other);
   public: Int32 GetHashCode();
   private: Int32 GetHashCodeCore(IEqualityComparer comparer);
   public: String ToString();
-  public: explicit ValueTuple() {}
+  public: ValueTuple() {}
   public: T1 Item1;
   public: T2 Item2;
   public: T3 Item3;
@@ -141,14 +141,14 @@ struct ValueTuple<T1, T2, T3, T4, T5, T6> : public valueType<ValueTuple<T1, T2, 
   public: using interface = rt::TypeList<IEquatable<ValueTuple<T1, T2, T3, T4, T5, T6>>, IStructuralEquatable, IStructuralComparable, IComparable<>, IComparable<ValueTuple<T1, T2, T3, T4, T5, T6>>, IValueTupleInternal, ITuple>;
   private: Int32 get_LengthOfITuple();
   private: Object get_ItemOfITuple(Int32 index);
-  public: explicit ValueTuple(T1 item1, T2 item2, T3 item3, T4 item4, T5 item5, T6 item6);
+  public: ValueTuple(T1 item1, T2 item2, T3 item3, T4 item4, T5 item5, T6 item6);
   public: Boolean Equals(Object obj);
   public: Boolean Equals(ValueTuple<T1, T2, T3, T4, T5, T6> other);
   public: Int32 CompareTo(ValueTuple<T1, T2, T3, T4, T5, T6> other);
   public: Int32 GetHashCode();
   private: Int32 GetHashCodeCore(IEqualityComparer comparer);
   public: String ToString();
-  public: explicit ValueTuple() {}
+  public: ValueTuple() {}
   public: T1 Item1;
   public: T2 Item2;
   public: T3 Item3;
@@ -161,14 +161,14 @@ struct ValueTuple<T1, T2, T3, T4, T5, T6, T7> : public valueType<ValueTuple<T1, 
   public: using interface = rt::TypeList<IEquatable<ValueTuple<T1, T2, T3, T4, T5, T6, T7>>, IStructuralEquatable, IStructuralComparable, IComparable<>, IComparable<ValueTuple<T1, T2, T3, T4, T5, T6, T7>>, IValueTupleInternal, ITuple>;
   private: Int32 get_LengthOfITuple();
   private: Object get_ItemOfITuple(Int32 index);
-  public: explicit ValueTuple(T1 item1, T2 item2, T3 item3, T4 item4, T5 item5, T6 item6, T7 item7);
+  public: ValueTuple(T1 item1, T2 item2, T3 item3, T4 item4, T5 item5, T6 item6, T7 item7);
   public: Boolean Equals(Object obj);
   public: Boolean Equals(ValueTuple<T1, T2, T3, T4, T5, T6, T7> other);
   public: Int32 CompareTo(ValueTuple<T1, T2, T3, T4, T5, T6, T7> other);
   public: Int32 GetHashCode();
   private: Int32 GetHashCodeCore(IEqualityComparer comparer);
   public: String ToString();
-  public: explicit ValueTuple() {}
+  public: ValueTuple() {}
   public: T1 Item1;
   public: T2 Item2;
   public: T3 Item3;
@@ -182,14 +182,14 @@ struct ValueTuple<T1, T2, T3, T4, T5, T6, T7, TRest> : public valueType<ValueTup
   public: using interface = rt::TypeList<IEquatable<ValueTuple<T1, T2, T3, T4, T5, T6, T7, TRest>>, IStructuralEquatable, IStructuralComparable, IComparable<>, IComparable<ValueTuple<T1, T2, T3, T4, T5, T6, T7, TRest>>, IValueTupleInternal, ITuple>;
   private: Int32 get_LengthOfITuple();
   private: Object get_ItemOfITuple(Int32 index);
-  public: explicit ValueTuple(T1 item1, T2 item2, T3 item3, T4 item4, T5 item5, T6 item6, T7 item7, TRest rest);
+  public: ValueTuple(T1 item1, T2 item2, T3 item3, T4 item4, T5 item5, T6 item6, T7 item7, TRest rest);
   public: Boolean Equals(Object obj);
   public: Boolean Equals(ValueTuple<T1, T2, T3, T4, T5, T6, T7, TRest> other);
   public: Int32 CompareTo(ValueTuple<T1, T2, T3, T4, T5, T6, T7, TRest> other);
   public: Int32 GetHashCode();
   private: Int32 GetHashCodeCore(IEqualityComparer comparer);
   public: String ToString();
-  public: explicit ValueTuple() {}
+  public: ValueTuple() {}
   public: T1 Item1;
   public: T2 Item2;
   public: T3 Item3;

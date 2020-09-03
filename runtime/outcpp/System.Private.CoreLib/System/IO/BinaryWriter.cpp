@@ -8,15 +8,16 @@
 #include <System.Private.CoreLib/System/Exception-dep.h>
 #include <System.Private.CoreLib/System/IO/BinaryWriter-dep.h>
 #include <System.Private.CoreLib/System/IO/EncodingCache-dep.h>
+#include <System.Private.CoreLib/System/ReadOnlySpan-dep.h>
 #include <System.Private.CoreLib/System/SR-dep.h>
-#include <System.Private.CoreLib/System/Threading/Tasks/Task-dep.h>
+#include <System.Private.CoreLib/System/Text/UTF8Encoding-dep.h>
 #include <System.Private.CoreLib/System/Type-dep.h>
 #include <System.Private.CoreLib/System/UInt64-dep.h>
 #include <System.Private.CoreLib/System/UIntPtr-dep.h>
 
 namespace System::Private::CoreLib::System::IO::BinaryWriterNamespace {
 using namespace System::Buffers;
-using namespace System::Threading::Tasks;
+using namespace System::Text;
 
 Stream BinaryWriter___::get_BaseStream() {
   Flush();
@@ -83,7 +84,7 @@ ValueTask<> BinaryWriter___::DisposeAsync() {
     }
     return rt::default__;
   } catch (Exception exception) {
-    return ValueTask<>(Task<>::in::FromException(exception));
+    return ValueTask<>::FromException(exception);
   }
 }
 
@@ -234,16 +235,35 @@ void BinaryWriter___::Write(String value) {
     _maxChars = _largeByteBuffer->get_Length() / _encoding->GetMaxByteCount(1);
   }
   if (byteCount <= _largeByteBuffer->get_Length()) {
-    _encoding->GetBytes(value, 0, value->get_Length(), _largeByteBuffer, 0);
+    _encoding->GetBytes(value, _largeByteBuffer);
     OutStream->Write(_largeByteBuffer, 0, byteCount);
     return;
   }
-  Int32 num = 0;
-  Int32 num2 = value->get_Length();
-  while (num2 > 0) {
-    Int32 num3 = (num2 > _maxChars) ? _maxChars : num2;
+  Int32 num = value->get_Length();
+  Int32 num2 = 0;
+  ReadOnlySpan<Char> readOnlySpan = value;
+  if (_encoding->GetType() == typeof<UTF8Encoding>()) {
+    while (num > 0) {
+      Int32 charsUsed;
+      Int32 bytesUsed;
+      Boolean completed;
+      _encoder->Convert(readOnlySpan.Slice(num2), _largeByteBuffer, num <= _maxChars, charsUsed, bytesUsed, completed);
+      OutStream->Write(_largeByteBuffer, 0, bytesUsed);
+      num2 += charsUsed;
+      num -= charsUsed;
+    }
+  } else {
+    WriteWhenEncodingIsNotUtf8(value, byteCount);
+  }
+}
+
+void BinaryWriter___::WriteWhenEncodingIsNotUtf8(String value, Int32 len) {
+  Int32 num = value->get_Length();
+  Int32 num2 = 0;
+  while (num > 0) {
+    Int32 num3 = (num > _maxChars) ? _maxChars : num;
     {
-      if (num < 0 || num3 < 0 || num > value->get_Length() - num3) {
+      if (num2 < 0 || num3 < 0 || num2 > value->get_Length() - num3) {
         rt::throw_exception<ArgumentOutOfRangeException>("value");
       }
       Int32 bytes2;
@@ -252,13 +272,13 @@ void BinaryWriter___::Write(String value) {
         Char* ptr2 = ptr;
         {
           Byte* bytes = &_largeByteBuffer[0];
-          bytes2 = _encoder->GetBytes(ptr2 + (UInt64)(UIntPtr)(void*)(Int64)num * 2, num3, bytes, _largeByteBuffer->get_Length(), num3 == num2);
+          bytes2 = _encoder->GetBytes(ptr2 + (UInt64)(UIntPtr)(void*)(Int64)num2 * 2, num3, bytes, _largeByteBuffer->get_Length(), num3 == num);
         }
       }
       OutStream->Write(_largeByteBuffer, 0, bytes2);
     }
-    num += num3;
-    num2 -= num3;
+    num2 += num3;
+    num -= num3;
   }
 }
 

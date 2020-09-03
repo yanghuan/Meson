@@ -4,6 +4,7 @@
 #include <System.Private.CoreLib/System/ArgumentException-dep.h>
 #include <System.Private.CoreLib/System/ArgumentOutOfRangeException-dep.h>
 #include <System.Private.CoreLib/System/Array-dep.h>
+#include <System.Private.CoreLib/System/Int32-dep.h>
 #include <System.Private.CoreLib/System/Int64-dep.h>
 #include <System.Private.CoreLib/System/IntPtr-dep.h>
 #include <System.Private.CoreLib/System/Runtime/CompilerServices/RuntimeHelpers-dep.h>
@@ -90,7 +91,7 @@ IntPtr GCHandle::AddrOfPinnedObject() {
   }
   Object obj = InternalGet(GetHandleValue(handle));
   if (obj == nullptr) {
-    return (IntPtr)0;
+    return (IntPtr)(Int32)0;
   }
   if (RuntimeHelpers::ObjectHasComponentSize(obj)) {
     if (obj->GetType() == typeof<String>()) {
@@ -142,7 +143,7 @@ IntPtr GCHandle::GetHandleValue(IntPtr handle) {
 }
 
 Boolean GCHandle::IsPinned(IntPtr handle) {
-  return (IntPtr)(void*)((Int64)handle & 1) != (IntPtr)0;
+  return (IntPtr)(void*)((Int64)handle & 1) != (IntPtr)(Int32)0;
 }
 
 void GCHandle::ThrowIfInvalid(IntPtr handle) {

@@ -8,6 +8,7 @@
 #include <System.Private.CoreLib/System/DateTimeKind.h>
 #include <System.Private.CoreLib/System/DateTimeOffset-dep.h>
 #include <System.Private.CoreLib/System/DayOfWeek.h>
+#include <System.Private.CoreLib/System/HexConverter-dep.h>
 #include <System.Private.CoreLib/System/Int16-dep.h>
 #include <System.Private.CoreLib/System/Int64-dep.h>
 #include <System.Private.CoreLib/System/Math-dep.h>
@@ -2648,9 +2649,9 @@ Boolean Utf8Parser::TryParseByteX(ReadOnlySpan<Byte> source, Byte& value, Int32&
     value = 0;
     return false;
   }
-  ReadOnlySpan<Byte> hexLookup = ParserHelpers::get_HexLookup();
+  ReadOnlySpan<Byte> charToHexLookup = HexConverter::get_CharToHexLookup();
   Byte index = source[0];
-  Byte b = hexLookup[index];
+  Byte b = charToHexLookup[index];
   if (b == Byte::MaxValue) {
     bytesConsumed = 0;
     value = 0;
@@ -2660,7 +2661,7 @@ Boolean Utf8Parser::TryParseByteX(ReadOnlySpan<Byte> source, Byte& value, Int32&
   if (source.get_Length() <= 2) {
     for (Int32 i = 1; i < source.get_Length(); i++) {
       index = source[i];
-      b = hexLookup[index];
+      b = charToHexLookup[index];
       if (b == Byte::MaxValue) {
         bytesConsumed = i;
         value = (Byte)num;
@@ -2671,7 +2672,7 @@ Boolean Utf8Parser::TryParseByteX(ReadOnlySpan<Byte> source, Byte& value, Int32&
   } else {
     for (Int32 j = 1; j < 2; j++) {
       index = source[j];
-      b = hexLookup[index];
+      b = charToHexLookup[index];
       if (b == Byte::MaxValue) {
         bytesConsumed = j;
         value = (Byte)num;
@@ -2681,7 +2682,7 @@ Boolean Utf8Parser::TryParseByteX(ReadOnlySpan<Byte> source, Byte& value, Int32&
     }
     for (Int32 k = 2; k < source.get_Length(); k++) {
       index = source[k];
-      b = hexLookup[index];
+      b = charToHexLookup[index];
       if (b == Byte::MaxValue) {
         bytesConsumed = k;
         value = (Byte)num;
@@ -2706,9 +2707,9 @@ Boolean Utf8Parser::TryParseUInt16X(ReadOnlySpan<Byte> source, UInt16& value, In
     value = 0;
     return false;
   }
-  ReadOnlySpan<Byte> hexLookup = ParserHelpers::get_HexLookup();
+  ReadOnlySpan<Byte> charToHexLookup = HexConverter::get_CharToHexLookup();
   Byte index = source[0];
-  Byte b = hexLookup[index];
+  Byte b = charToHexLookup[index];
   if (b == Byte::MaxValue) {
     bytesConsumed = 0;
     value = 0;
@@ -2718,7 +2719,7 @@ Boolean Utf8Parser::TryParseUInt16X(ReadOnlySpan<Byte> source, UInt16& value, In
   if (source.get_Length() <= 4) {
     for (Int32 i = 1; i < source.get_Length(); i++) {
       index = source[i];
-      b = hexLookup[index];
+      b = charToHexLookup[index];
       if (b == Byte::MaxValue) {
         bytesConsumed = i;
         value = (UInt16)num;
@@ -2729,7 +2730,7 @@ Boolean Utf8Parser::TryParseUInt16X(ReadOnlySpan<Byte> source, UInt16& value, In
   } else {
     for (Int32 j = 1; j < 4; j++) {
       index = source[j];
-      b = hexLookup[index];
+      b = charToHexLookup[index];
       if (b == Byte::MaxValue) {
         bytesConsumed = j;
         value = (UInt16)num;
@@ -2739,7 +2740,7 @@ Boolean Utf8Parser::TryParseUInt16X(ReadOnlySpan<Byte> source, UInt16& value, In
     }
     for (Int32 k = 4; k < source.get_Length(); k++) {
       index = source[k];
-      b = hexLookup[index];
+      b = charToHexLookup[index];
       if (b == Byte::MaxValue) {
         bytesConsumed = k;
         value = (UInt16)num;
@@ -2764,9 +2765,9 @@ Boolean Utf8Parser::TryParseUInt32X(ReadOnlySpan<Byte> source, UInt32& value, In
     value = 0u;
     return false;
   }
-  ReadOnlySpan<Byte> hexLookup = ParserHelpers::get_HexLookup();
+  ReadOnlySpan<Byte> charToHexLookup = HexConverter::get_CharToHexLookup();
   Byte index = source[0];
-  Byte b = hexLookup[index];
+  Byte b = charToHexLookup[index];
   if (b == Byte::MaxValue) {
     bytesConsumed = 0;
     value = 0u;
@@ -2776,7 +2777,7 @@ Boolean Utf8Parser::TryParseUInt32X(ReadOnlySpan<Byte> source, UInt32& value, In
   if (source.get_Length() <= 8) {
     for (Int32 i = 1; i < source.get_Length(); i++) {
       index = source[i];
-      b = hexLookup[index];
+      b = charToHexLookup[index];
       if (b == Byte::MaxValue) {
         bytesConsumed = i;
         value = num;
@@ -2787,7 +2788,7 @@ Boolean Utf8Parser::TryParseUInt32X(ReadOnlySpan<Byte> source, UInt32& value, In
   } else {
     for (Int32 j = 1; j < 8; j++) {
       index = source[j];
-      b = hexLookup[index];
+      b = charToHexLookup[index];
       if (b == Byte::MaxValue) {
         bytesConsumed = j;
         value = num;
@@ -2797,7 +2798,7 @@ Boolean Utf8Parser::TryParseUInt32X(ReadOnlySpan<Byte> source, UInt32& value, In
     }
     for (Int32 k = 8; k < source.get_Length(); k++) {
       index = source[k];
-      b = hexLookup[index];
+      b = charToHexLookup[index];
       if (b == Byte::MaxValue) {
         bytesConsumed = k;
         value = num;
@@ -2822,9 +2823,9 @@ Boolean Utf8Parser::TryParseUInt64X(ReadOnlySpan<Byte> source, UInt64& value, In
     value = 0;
     return false;
   }
-  ReadOnlySpan<Byte> hexLookup = ParserHelpers::get_HexLookup();
+  ReadOnlySpan<Byte> charToHexLookup = HexConverter::get_CharToHexLookup();
   Byte index = source[0];
-  Byte b = hexLookup[index];
+  Byte b = charToHexLookup[index];
   if (b == Byte::MaxValue) {
     bytesConsumed = 0;
     value = 0;
@@ -2834,7 +2835,7 @@ Boolean Utf8Parser::TryParseUInt64X(ReadOnlySpan<Byte> source, UInt64& value, In
   if (source.get_Length() <= 16) {
     for (Int32 i = 1; i < source.get_Length(); i++) {
       index = source[i];
-      b = hexLookup[index];
+      b = charToHexLookup[index];
       if (b == Byte::MaxValue) {
         bytesConsumed = i;
         value = num;
@@ -2845,7 +2846,7 @@ Boolean Utf8Parser::TryParseUInt64X(ReadOnlySpan<Byte> source, UInt64& value, In
   } else {
     for (Int32 j = 1; j < 16; j++) {
       index = source[j];
-      b = hexLookup[index];
+      b = charToHexLookup[index];
       if (b == Byte::MaxValue) {
         bytesConsumed = j;
         value = num;
@@ -2855,7 +2856,7 @@ Boolean Utf8Parser::TryParseUInt64X(ReadOnlySpan<Byte> source, UInt64& value, In
     }
     for (Int32 k = 16; k < source.get_Length(); k++) {
       index = source[k];
-      b = hexLookup[index];
+      b = charToHexLookup[index];
       if (b == Byte::MaxValue) {
         bytesConsumed = k;
         value = num;

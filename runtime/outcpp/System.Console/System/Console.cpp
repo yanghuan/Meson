@@ -254,7 +254,7 @@ void Console::set_CursorVisible(Boolean value) {
 }
 
 Int32 Console::get_CursorLeft() {
-  return ConsolePal::get_CursorLeft();
+  return ConsolePal::GetCursorPosition().Item1;
 }
 
 void Console::set_CursorLeft(Int32 value) {
@@ -262,7 +262,7 @@ void Console::set_CursorLeft(Int32 value) {
 }
 
 Int32 Console::get_CursorTop() {
-  return ConsolePal::get_CursorTop();
+  return ConsolePal::GetCursorPosition().Item2;
 }
 
 void Console::set_CursorTop(Int32 value) {
@@ -314,6 +314,10 @@ void Console::SetWindowPosition(Int32 left, Int32 top) {
 
 void Console::SetWindowSize(Int32 width, Int32 height) {
   ConsolePal::SetWindowSize(width, height);
+}
+
+ValueTuple<Int32, Int32> Console::GetCursorPosition() {
+  return ConsolePal::GetCursorPosition();
 }
 
 void Console::Beep() {

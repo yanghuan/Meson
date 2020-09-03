@@ -4,7 +4,7 @@
 #include <System.Private.CoreLib/System/UInt32.h>
 
 namespace System::Private::CoreLib::System::Threading {
-FORWARD_(ContextCallback, T1, T2)
+FORWARD(ContextCallback)
 FORWARD(ExecutionContext)
 FORWARD(IOCompletionCallback)
 FORWARDS(NativeOverlapped)
@@ -19,7 +19,7 @@ CLASS(_IOCompletionCallback) : public object {
   private: UInt32 _errorCode;
   private: UInt32 _numBytes;
   private: NativeOverlapped* _pNativeOverlapped;
-  public: static ContextCallback<> _ccb;
+  public: static ContextCallback _ccb;
 };
 } // namespace _IOCompletionCallbackNamespace
 using _IOCompletionCallback = _IOCompletionCallbackNamespace::_IOCompletionCallback;

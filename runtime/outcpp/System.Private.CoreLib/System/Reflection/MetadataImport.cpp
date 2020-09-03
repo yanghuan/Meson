@@ -204,7 +204,7 @@ Boolean MetadataImport::IsValidToken(Int32 token) {
 }
 
 void MetadataImport::cctor() {
-  EmptyImport = MetadataImport((IntPtr)0, nullptr);
+  EmptyImport = MetadataImport((IntPtr)(Int32)0, nullptr);
 }
 
 } // namespace System::Private::CoreLib::System::Reflection::MetadataImportNamespace

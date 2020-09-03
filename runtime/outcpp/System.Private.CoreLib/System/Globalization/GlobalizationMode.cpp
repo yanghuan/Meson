@@ -53,22 +53,19 @@ Boolean GlobalizationMode::TryGetStringValue(String switchName, String envVariab
   return true;
 }
 
-void GlobalizationMode::LoadAppLocalIcu(String icuSuffixAndVersion, Boolean suffixWithSeparator) {
-  ReadOnlySpan<Char> readOnlySpan;
+void GlobalizationMode::LoadAppLocalIcu(String icuSuffixAndVersion) {
+  ReadOnlySpan<Char> suffix;
   Int32 num = icuSuffixAndVersion->IndexOf(58);
   ReadOnlySpan<Char> version;
   if (num >= 0) {
-    ReadOnlySpan<Char> readOnlySpan2 = MemoryExtensions::AsSpan(icuSuffixAndVersion);
-    readOnlySpan = readOnlySpan2.Slice(0, num);
-    readOnlySpan2 = MemoryExtensions::AsSpan(icuSuffixAndVersion);
-    version = readOnlySpan2.Slice(readOnlySpan.get_Length() + 1);
+    ReadOnlySpan<Char> readOnlySpan = MemoryExtensions::AsSpan(icuSuffixAndVersion);
+    suffix = readOnlySpan.Slice(0, num);
+    readOnlySpan = MemoryExtensions::AsSpan(icuSuffixAndVersion);
+    version = readOnlySpan.Slice(suffix.get_Length() + 1);
   } else {
     version = icuSuffixAndVersion;
   }
-  if (suffixWithSeparator) {
-    readOnlySpan = String::in::Concat(readOnlySpan, ".");
-  }
-  LoadAppLocalIcuCore(version, readOnlySpan);
+  LoadAppLocalIcuCore(version, suffix);
 }
 
 String GlobalizationMode::CreateLibraryName(ReadOnlySpan<Char> baseName, ReadOnlySpan<Char> suffix, ReadOnlySpan<Char> extension, ReadOnlySpan<Char> version, Boolean versionAtEnd) {
@@ -80,7 +77,7 @@ String GlobalizationMode::CreateLibraryName(ReadOnlySpan<Char> baseName, ReadOnl
 
 IntPtr GlobalizationMode::LoadLibrary(String library, Boolean failOnLoadFailure) {
   IntPtr handle;
-  if (!NativeLibrary::TryLoad(library, typeof<Object>()->get_Assembly(), DllImportSearchPath::ApplicationDirectory, handle) && failOnLoadFailure) {
+  if (!NativeLibrary::TryLoad(library, typeof<Object>()->get_Assembly(), DllImportSearchPath::ApplicationDirectory | DllImportSearchPath::System32, handle) && failOnLoadFailure) {
     Environment::FailFast("Failed to load app-local ICU: " + library);
   }
   return handle;

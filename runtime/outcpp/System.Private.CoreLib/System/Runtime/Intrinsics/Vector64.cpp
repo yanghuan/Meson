@@ -218,6 +218,16 @@ Vector64<Byte> Vector64<>::CreateScalar(Byte value) {
   return SoftwareFallback(value);
 }
 
+Vector64<Double> Vector64<>::CreateScalar(Double value) {
+  auto SoftwareFallback = [](Double value) -> Vector64<Double> {
+    return Unsafe::As<Double, Vector64<Double>>(value);
+  };
+  if (AdvSimd::in::get_IsSupported()) {
+    return Create(value);
+  }
+  return SoftwareFallback(value);
+}
+
 Vector64<Int16> Vector64<>::CreateScalar(Int16 value) {
   auto SoftwareFallback = [](Int16 value) -> Vector64<Int16> {
     Vector64<Int16> source = Vector64<Int16>::get_Zero();
@@ -238,6 +248,16 @@ Vector64<Int32> Vector64<>::CreateScalar(Int32 value) {
   };
   if (AdvSimd::in::get_IsSupported()) {
     return AdvSimd::in::Insert(Vector64<Int32>::get_Zero(), 0, value);
+  }
+  return SoftwareFallback(value);
+}
+
+Vector64<Int64> Vector64<>::CreateScalar(Int64 value) {
+  auto SoftwareFallback = [](Int64 value) -> Vector64<Int64> {
+    return Unsafe::As<Int64, Vector64<Int64>>(value);
+  };
+  if (AdvSimd::in::Arm64::in::get_IsSupported()) {
+    return Create(value);
   }
   return SoftwareFallback(value);
 }
@@ -286,6 +306,16 @@ Vector64<UInt32> Vector64<>::CreateScalar(UInt32 value) {
   };
   if (AdvSimd::in::get_IsSupported()) {
     return AdvSimd::in::Insert(Vector64<UInt32>::get_Zero(), 0, value);
+  }
+  return SoftwareFallback(value);
+}
+
+Vector64<UInt64> Vector64<>::CreateScalar(UInt64 value) {
+  auto SoftwareFallback = [](UInt64 value) -> Vector64<UInt64> {
+    return Unsafe::As<UInt64, Vector64<UInt64>>(value);
+  };
+  if (AdvSimd::in::Arm64::in::get_IsSupported()) {
+    return Create(value);
   }
   return SoftwareFallback(value);
 }

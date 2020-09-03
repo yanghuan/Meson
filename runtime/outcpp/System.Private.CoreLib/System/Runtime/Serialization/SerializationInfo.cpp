@@ -17,15 +17,6 @@ namespace System::Private::CoreLib::System::Runtime::Serialization::Serializatio
 using namespace System::Collections::Generic;
 using namespace System::Threading;
 
-Boolean SerializationInfo___::get_DeserializationInProgress() {
-  if (AsyncDeserializationInProgress->get_Value()) {
-    return true;
-  }
-  StackCrawlMark stackMark = StackCrawlMark::LookForMe;
-  DeserializationTracker threadDeserializationTracker = Thread::in::GetThreadDeserializationTracker(stackMark);
-  return threadDeserializationTracker->get_DeserializationInProgress();
-}
-
 String SerializationInfo___::get_FullTypeName() {
   return _rootTypeName;
 }
@@ -58,53 +49,13 @@ Type SerializationInfo___::get_ObjectType() {
   return _rootType;
 }
 
-void SerializationInfo___::ThrowIfDeserializationInProgress() {
-  if (get_DeserializationInProgress()) {
-    rt::throw_exception<SerializationException>(SR::get_Serialization_DangerousDeserialization());
+Boolean SerializationInfo___::get_DeserializationInProgress() {
+  if (AsyncDeserializationInProgress->get_Value()) {
+    return true;
   }
-}
-
-void SerializationInfo___::ThrowIfDeserializationInProgress(String switchSuffix, Int32& cachedValue) {
-  if (switchSuffix == nullptr) {
-    rt::throw_exception<ArgumentNullException>("switchSuffix");
-  }
-  if (String::in::IsNullOrWhiteSpace(switchSuffix)) {
-    rt::throw_exception<ArgumentException>(SR::get_Argument_EmptyName(), "switchSuffix");
-  }
-  if (cachedValue == 0) {
-    Boolean isEnabled;
-    if (AppContext::TryGetSwitch("Switch.System.Runtime.Serialization.SerializationGuard." + switchSuffix, isEnabled) && isEnabled) {
-      cachedValue = 1;
-    } else {
-      cachedValue = -1;
-    }
-  }
-  if (cachedValue != 1) {
-    if (cachedValue != -1) {
-      rt::throw_exception<ArgumentOutOfRangeException>("cachedValue");
-    }
-    if (get_DeserializationInProgress()) {
-      rt::throw_exception<SerializationException>(SR::Format(SR::get_Serialization_DangerousDeserialization_Switch(), "Switch.System.Runtime.Serialization.SerializationGuard." + switchSuffix));
-    }
-  }
-}
-
-DeserializationToken SerializationInfo___::StartDeserialization() {
-  if (LocalAppContextSwitches::get_SerializationGuard()) {
-    StackCrawlMark stackMark = StackCrawlMark::LookForMe;
-    DeserializationTracker threadDeserializationTracker = Thread::in::GetThreadDeserializationTracker(stackMark);
-    if (!threadDeserializationTracker->get_DeserializationInProgress()) {
-      {
-        rt::lock(threadDeserializationTracker);
-        if (!threadDeserializationTracker->get_DeserializationInProgress()) {
-          AsyncDeserializationInProgress->set_Value(true);
-          threadDeserializationTracker->set_DeserializationInProgress(true);
-          return DeserializationToken(threadDeserializationTracker);
-        }
-      }
-    }
-  }
-  return DeserializationToken(nullptr);
+  StackCrawlMark stackMark = StackCrawlMark::LookForMe;
+  DeserializationTracker threadDeserializationTracker = Thread::in::GetThreadDeserializationTracker(stackMark);
+  return threadDeserializationTracker->get_DeserializationInProgress();
 }
 
 void SerializationInfo___::ctor(Type type, IFormatterConverter converter) {
@@ -448,6 +399,55 @@ String SerializationInfo___::GetString(String name) {
     return _converter->ToString(element);
   }
   return (String)element;
+}
+
+void SerializationInfo___::ThrowIfDeserializationInProgress() {
+  if (get_DeserializationInProgress()) {
+    rt::throw_exception<SerializationException>(SR::get_Serialization_DangerousDeserialization());
+  }
+}
+
+void SerializationInfo___::ThrowIfDeserializationInProgress(String switchSuffix, Int32& cachedValue) {
+  if (switchSuffix == nullptr) {
+    rt::throw_exception<ArgumentNullException>("switchSuffix");
+  }
+  if (String::in::IsNullOrWhiteSpace(switchSuffix)) {
+    rt::throw_exception<ArgumentException>(SR::get_Argument_EmptyName(), "switchSuffix");
+  }
+  if (cachedValue == 0) {
+    Boolean isEnabled;
+    if (AppContext::TryGetSwitch("Switch.System.Runtime.Serialization.SerializationGuard." + switchSuffix, isEnabled) && isEnabled) {
+      cachedValue = 1;
+    } else {
+      cachedValue = -1;
+    }
+  }
+  if (cachedValue != 1) {
+    if (cachedValue != -1) {
+      rt::throw_exception<ArgumentOutOfRangeException>("cachedValue");
+    }
+    if (get_DeserializationInProgress()) {
+      rt::throw_exception<SerializationException>(SR::Format(SR::get_Serialization_DangerousDeserialization_Switch(), "Switch.System.Runtime.Serialization.SerializationGuard." + switchSuffix));
+    }
+  }
+}
+
+DeserializationToken SerializationInfo___::StartDeserialization() {
+  if (LocalAppContextSwitches::get_SerializationGuard()) {
+    StackCrawlMark stackMark = StackCrawlMark::LookForMe;
+    DeserializationTracker threadDeserializationTracker = Thread::in::GetThreadDeserializationTracker(stackMark);
+    if (!threadDeserializationTracker->get_DeserializationInProgress()) {
+      {
+        rt::lock(threadDeserializationTracker);
+        if (!threadDeserializationTracker->get_DeserializationInProgress()) {
+          AsyncDeserializationInProgress->set_Value(true);
+          threadDeserializationTracker->set_DeserializationInProgress(true);
+          return DeserializationToken(threadDeserializationTracker);
+        }
+      }
+    }
+  }
+  return DeserializationToken(nullptr);
 }
 
 void SerializationInfo___::cctor() {

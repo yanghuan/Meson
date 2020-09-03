@@ -396,6 +396,10 @@ namespace Meson.Compiler {
       return type.KnownTypeCode == KnownTypeCode.Object;
     }
 
+    public static bool IsValueTupleType(this ITypeDefinition type) {
+      return type.FullName == "System.ValueTuple";
+    }
+
     public static bool IsArrayType(this ITypeDefinition type) {
       return type.KnownTypeCode == KnownTypeCode.Array;
     }

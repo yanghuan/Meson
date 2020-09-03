@@ -79,14 +79,14 @@ Boolean StandardFormat::ParseHelper(ReadOnlySpan<Char> format, StandardFormat& s
         if (!throws) {
           return false;
         }
-        rt::throw_exception<FormatException>(SR::Format(SR::get_Argument_CannotParsePrecision(), (?)99));
+        rt::throw_exception<FormatException>(SR::Format(SR::get_Argument_CannotParsePrecision(), (?)(Int32)99));
       }
       num = num * 10 + num2;
       if (num > 99) {
         if (!throws) {
           return false;
         }
-        rt::throw_exception<FormatException>(SR::Format(SR::get_Argument_PrecisionTooLarge(), (?)99));
+        rt::throw_exception<FormatException>(SR::Format(SR::get_Argument_PrecisionTooLarge(), (?)(Int32)99));
       }
     }
     precision = (Byte)num;

@@ -84,13 +84,12 @@ void TestStrDefault(String s, String ss = nullptr) {
 struct TestA {
 };
 
-int operator *(TestA a) {
-  return 0;
-}
-
 int main() {
-  TestA a;
-  auto i = *a;
+  using T = Array<Type>;
+  Array<Type> a = nullptr;
+  auto b = *a;
+  constexpr bool aa = rt::IsRef<T> && rt::IsArray<T::in>;
+  std::printf("aa:%d", aa);
   return 0;
 }
 

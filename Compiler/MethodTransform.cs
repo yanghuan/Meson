@@ -218,13 +218,14 @@ namespace Meson.Compiler {
     public SyntaxNode VisitCastExpression(CastExpression castExpression) {
       var targetType = castExpression.Type.AcceptExpression(this);
       var expression = castExpression.Expression.AcceptExpression(this);
-      /*
-      if (expression is LiteralExpressionSyntax) {
-        var type = castExpression.Expression.GetResolveResult().Type;
-        var typeName = GetTypeName(type);
-        expression = expression.CastTo(typeName);
+      var toType = castExpression.Type.GetResolveResult().Type;
+      if (toType.Kind != TypeKind.Enum) {
+        if (expression is LiteralExpressionSyntax) {
+          var type = castExpression.Expression.GetResolveResult().Type;
+          var typeName = GetTypeName(type);
+          expression = expression.CastTo(typeName);
+        }
       }
-      */
       return new CastExpressionSyntax(expression, targetType);
     }
 

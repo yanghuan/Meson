@@ -19,7 +19,7 @@ UIntPtr UIntPtr::get_MaxValue() {
 }
 
 UIntPtr UIntPtr::get_MinValue() {
-  return (UIntPtr)0;
+  return (UIntPtr)(UInt64)0;
 }
 
 UIntPtr::UIntPtr(UInt32 value) {

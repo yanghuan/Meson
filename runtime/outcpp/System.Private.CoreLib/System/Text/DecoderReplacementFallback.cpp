@@ -66,4 +66,8 @@ Int32 DecoderReplacementFallback___::GetHashCode() {
   return _strDefault->GetHashCode();
 }
 
+void DecoderReplacementFallback___::cctor() {
+  s_default = rt::newobj<DecoderReplacementFallback>();
+}
+
 } // namespace System::Private::CoreLib::System::Text::DecoderReplacementFallbackNamespace

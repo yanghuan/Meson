@@ -361,7 +361,7 @@ Int32 CompareInfo___::CompareOrdinalIgnoreCase(Char& strA, Int32 lengthA, Char& 
     }
     return num3 - num4;
   }
-  if (num == 0) {
+  if (num == 0 || GlobalizationMode::get_Invariant()) {
     return lengthA - lengthB;
   }
   num2 -= num;

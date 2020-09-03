@@ -346,10 +346,6 @@ namespace rt {
       return get();
     }
 
-    const T& val() const noexcept {
-      return p_->val();
-    }
-
   private:
     void swap(ref& right) noexcept {
       std::swap(p_, right.p_);
@@ -460,6 +456,14 @@ namespace rt {
       int32_t length;
       T first[];
     };
+    struct Enumerator {
+      T get_Current() {
+        return T();
+      }
+      bool MoveNext() {
+        return false;
+      }
+    };
   public:
     using element_type = T;
     static constexpr TypeCode code = TypeCode::Array;
@@ -515,6 +519,9 @@ namespace rt {
     template <class T1 = T> requires(!IsRef<T1>)
     T& GetPinnableReference() {
       return *begin();
+    }
+    Enumerator GetEnumerator() {
+      return Enumerator();
     }
   protected:
     int32_t length;
@@ -812,15 +819,15 @@ namespace rt {
   }
 
   template <class T>
-  struct Enumerator {
+  struct RefEnumerator {
+    using Base = RefEnumerator;
+
     struct Iterator {
       T* ins_;
       Iterator(T* ins) : ins_(ins) {}
-
       bool operator !=(const Iterator& other) {
         return ins_ != other.ins_;
       }
-
       Iterator& operator ++() {
         bool hasNext = ins_->MoveNext();
         if (!hasNext) {
@@ -828,27 +835,62 @@ namespace rt {
         }
         return *this;
       }
-
       auto operator *() {
         return (*ins_)->get_Current();
       }
     };
 
     T& ins_;
-    Enumerator(T& ins) : ins_(ins) {}
-
+    RefEnumerator(T& ins) : ins_(ins) {}
     Iterator begin() {
       bool hasNext = ins_->MoveNext();
       return hasNext ? &ins_ : nullptr;
     }
-
     Iterator end() {
       return nullptr;
     }
   };
 
   template <class T>
-  inline Enumerator<decltype(T()->GetEnumerator())> each(T& obj) {
+  struct StructEnumerator {
+    using Base = StructEnumerator;
+
+    struct Iterator {
+      T* ins_;
+      Iterator(T* ins) : ins_(ins) {}
+      bool operator !=(const Iterator& other) {
+        return ins_ != other.ins_;
+      }
+      Iterator& operator ++() {
+        bool hasNext = ins_.MoveNext();
+        if (!hasNext) {
+          ins_ = nullptr;
+        }
+        return *this;
+      }
+      auto operator *() {
+        return (*ins_).get_Current();
+      }
+    };
+
+    T& ins_;
+    StructEnumerator(T& ins) : ins_(ins) {}
+    Iterator begin() {
+      bool hasNext = ins_->MoveNext();
+      return hasNext ? &ins_ : nullptr;
+    }
+    Iterator end() {
+      return nullptr;
+    }
+  };
+
+  template <class T>
+  struct EnumeratorBridge : public std::conditional_t<IsRef<T>, RefEnumerator<T>, StructEnumerator<T>> {
+    EnumeratorBridge(T& ins) : EnumeratorBridge::Base(ins) {}
+  };
+
+  template <class T>
+  inline EnumeratorBridge<decltype(T()->GetEnumerator())> each(T& obj) {
     return obj->GetEnumerator();
   }
 
@@ -942,6 +984,11 @@ inline constexpr auto operator |(T a, T b) {
 template <class T> requires(std::is_enum_v<T>) 
 inline constexpr auto operator |=(T a, T b) { 
   return a = (T)((int)a | (int)b);
+}
+
+template <class T> requires(rt::AlwaysTrue<decltype(T()->GetEnumerator())>)
+inline auto operator *(T& v) {
+  return rt::each(v);
 }
 
 #if defined(_MSC_VER)

@@ -97,8 +97,8 @@ UInt64 Latin1Utility::GetIndexOfFirstNonLatin1Char_Sse2(Char* pBuffer, UInt64 bu
   Vector128<UInt16> left;
   UInt32 num3;
   if (bufferLength >= num2) {
-    right = Vector128<>::Create((?)65280);
-    right2 = Vector128<>::Create((?)32512);
+    right = Vector128<>::Create((?)(Int32)65280);
+    right2 = Vector128<>::Create((?)(Int32)32512);
     left = Sse2::in::LoadVector128((UInt16*)pBuffer);
     num3 = (UInt32)Sse2::in::MoveMask(Vector128<>::AsByte(Sse2::in::AddSaturate(left, right2)));
     if ((num3 & 43690) == 0) {
@@ -345,7 +345,7 @@ UInt64 Latin1Utility::NarrowUtf16ToLatin1_Sse2(Char* pUtf16Buffer, Byte* pLatin1
   UInt32 num = (UInt32)Unsafe::SizeOf<Vector128<Byte>>();
   UInt64 num2 = num - 1;
   Vector128<Int16> right = Vector128<>::Create((?)(-256));
-  Vector128<UInt16> right2 = Vector128<>::Create((?)32512);
+  Vector128<UInt16> right2 = Vector128<>::Create((?)(Int32)32512);
   Vector128<Int16> vector = Sse2::in::LoadVector128((Int16*)pUtf16Buffer);
   if (Sse41::in::get_IsSupported()) {
     if (!Sse41::in::TestZ(vector, right)) {

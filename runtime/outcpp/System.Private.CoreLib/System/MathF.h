@@ -53,6 +53,7 @@ class MathF {
   private: static void cctor();
   public: static constexpr Single E = 2.7182817;
   public: static constexpr Single PI = 3.1415927;
+  public: static constexpr Single Tau = 6.2831855;
   private: static Array<Single> roundPower10Single;
 };
 } // namespace MathFNamespace

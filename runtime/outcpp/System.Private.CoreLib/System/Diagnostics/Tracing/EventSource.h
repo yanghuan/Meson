@@ -112,6 +112,7 @@ CLASS(EventSource) : public object {
     public: TraceLoggingEventTypes TraceLoggingEventTypes;
     public: EventActivityOptions ActivityOptions;
   };
+  private: static Boolean get_IsSupported();
   public: String get_Name();
   public: Guid get_Guid();
   public: EventSourceSettings get_Settings();
@@ -120,6 +121,7 @@ CLASS(EventSource) : public object {
   private: Boolean get_IsDisposed();
   private: Boolean get_ThrowOnEventWriteErrors();
   private: Boolean get_SelfDescribingEvents();
+  private: static Boolean InitializeIsSupported();
   public: Boolean IsEnabled();
   public: Boolean IsEnabled(EventLevel level, EventKeywords keywords);
   public: Boolean IsEnabled(EventLevel level, EventKeywords keywords, EventChannel channel);
@@ -138,7 +140,6 @@ CLASS(EventSource) : public object {
   protected: void ctor(EventSourceSettings settings);
   protected: void ctor(EventSourceSettings settings, Array<String> traits);
   private: void DefineEventPipeEvents();
-  public: void GetMetadata(Guid& eventSourceGuid, String& eventSourceName, Array<EventMetadata>& eventData, Array<Byte>& manifestBytes);
   protected: void OnEventCommand(EventCommandEventArgs command);
   protected: void WriteEvent(Int32 eventId);
   protected: void WriteEvent(Int32 eventId, Int32 arg1);
@@ -183,7 +184,6 @@ CLASS(EventSource) : public object {
   private: Boolean IsEnabledByDefault(Int32 eventNum, Boolean enable, EventLevel currentLevel, EventKeywords currentMatchAnyKeyword);
   private: Boolean IsEnabledCommon(Boolean enabled, EventLevel currentLevel, EventKeywords currentMatchAnyKeyword, EventLevel eventLevel, EventKeywords eventKeywords, EventChannel eventChannel);
   private: void ThrowEventSourceException(String eventName, Exception innerEx = nullptr);
-  private: void ValidateEventOpcodeForTransfer(EventMetadata& eventData, String eventName);
   public: static EventOpcode GetOpcodeWithDefault(EventOpcode opcode, String eventName);
   private: static Int32 GetParameterCount(EventMetadata eventData);
   private: static Type GetDataType(EventMetadata eventData, Int32 parameterId);
@@ -229,6 +229,8 @@ CLASS(EventSource) : public object {
   private: static Int32 AddValueToMetaData(List<Byte> metaData, String value);
   private: static Int32 HexDigit(Char c);
   private: NameInfo UpdateDescriptor(String name, TraceLoggingEventTypes eventInfo, EventSourceOptions& options, EventDescriptor& descriptor);
+  private: static void cctor();
+  private: static Boolean IsSupported;
   private: String m_name;
   public: Int32 m_id;
   private: Guid m_guid;
