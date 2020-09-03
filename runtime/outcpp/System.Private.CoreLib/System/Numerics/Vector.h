@@ -242,7 +242,7 @@ struct Vector<T> : public valueType<Vector<T>> {
   private: static T GetOneValue();
   private: static T GetAllBitsSetValue();
   public: explicit Vector() {}
-  private: Register register_;
+  private: Register register一;
 };
 } // namespace VectorNamespace
 template <class T1 = void, class T2 = void>

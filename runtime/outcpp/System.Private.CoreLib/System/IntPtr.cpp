@@ -34,10 +34,10 @@ IntPtr::IntPtr(void* value) {
 }
 
 IntPtr::IntPtr(SerializationInfo info, StreamingContext context) {
-  Int64 int = info->GetInt64("value");
+  Int64 int一 = info->GetInt64("value");
   if (get_Size() == 4) {
   }
-  _value = (void*)int;
+  _value = (void*)int一;
 }
 
 Boolean IntPtr::Equals(Object obj) {

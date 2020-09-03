@@ -138,8 +138,8 @@ Object ComActivator::GetClassFactoryForType(ComActivationContext cxt) {
   return rt::newobj<BasicClassFactory>(cxt.ClassId, type);
 }
 
-void ComActivator::ClassRegistrationScenarioForType(ComActivationContext cxt, Boolean register_) {
-  String str = register ? "ComRegisterFunctionAttribute" : "ComUnregisterFunctionAttribute";
+void ComActivator::ClassRegistrationScenarioForType(ComActivationContext cxt, Boolean register一) {
+  String str = register一 ? "ComRegisterFunctionAttribute" : "ComUnregisterFunctionAttribute";
   Type type = Type::in::GetType("System.Runtime.InteropServices." + str + ", System.Runtime.InteropServices", false);
   if (type == nullptr) {
     return;
@@ -156,16 +156,16 @@ void ComActivator::ClassRegistrationScenarioForType(ComActivationContext cxt, Bo
     for (MethodInfo&& methodInfo : *array) {
       if (methodInfo->GetCustomAttributes(type, true)->get_Length() != 0) {
         if (!methodInfo->get_IsStatic()) {
-          String resourceFormat = register ? SR::get_InvalidOperation_NonStaticComRegFunction() : SR::get_InvalidOperation_NonStaticComUnRegFunction();
+          String resourceFormat = register一 ? SR::get_InvalidOperation_NonStaticComRegFunction() : SR::get_InvalidOperation_NonStaticComUnRegFunction();
           rt::throw_exception<InvalidOperationException>(SR::Format(resourceFormat));
         }
         Array<ParameterInfo> parameters = methodInfo->GetParameters();
         if (methodInfo->get_ReturnType() != typeof<void>() || parameters == nullptr || parameters->get_Length() != 1 || (parameters[0]->get_ParameterType() != typeof<String>() && parameters[0]->get_ParameterType() != typeof<Type>())) {
-          String resourceFormat2 = register ? SR::get_InvalidOperation_InvalidComRegFunctionSig() : SR::get_InvalidOperation_InvalidComUnRegFunctionSig();
+          String resourceFormat2 = register一 ? SR::get_InvalidOperation_InvalidComRegFunctionSig() : SR::get_InvalidOperation_InvalidComUnRegFunctionSig();
           rt::throw_exception<InvalidOperationException>(SR::Format(resourceFormat2));
         }
         if (flag) {
-          String resourceFormat3 = register ? SR::get_InvalidOperation_MultipleComRegFunctions() : SR::get_InvalidOperation_MultipleComUnRegFunctions();
+          String resourceFormat3 = register一 ? SR::get_InvalidOperation_MultipleComRegFunctions() : SR::get_InvalidOperation_MultipleComUnRegFunctions();
           rt::throw_exception<InvalidOperationException>(SR::Format(resourceFormat3));
         }
         Array<Object> array2 = rt::newarr<Array<Object>>(1);

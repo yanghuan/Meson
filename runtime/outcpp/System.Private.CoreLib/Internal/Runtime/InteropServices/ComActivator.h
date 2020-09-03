@@ -52,7 +52,7 @@ class ComActivator {
     private: Type _classType;
   };
   public: static Object GetClassFactoryForType(ComActivationContext cxt);
-  public: static void ClassRegistrationScenarioForType(ComActivationContext cxt, Boolean register_);
+  public: static void ClassRegistrationScenarioForType(ComActivationContext cxt, Boolean register一);
   public: static Int32 GetClassFactoryForTypeInternal(ComActivationContextInternal* pCxtInt);
   public: static Int32 RegisterClassForTypeInternal(ComActivationContextInternal* pCxtInt);
   public: static Int32 UnregisterClassForTypeInternal(ComActivationContextInternal* pCxtInt);

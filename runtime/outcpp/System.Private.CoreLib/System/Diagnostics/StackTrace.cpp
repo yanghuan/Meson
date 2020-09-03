@@ -47,8 +47,8 @@ Int32 StackTrace___::CalculateFramesToSkip(StackFrameHelper StackF, Int32 iNumFr
       if (declaringType == nullptr) {
         break;
       }
-      String namespace = declaringType->get_Namespace();
-      if (namespace == nullptr || !String::in::Equals(namespace, "System.Diagnostics", StringComparison::Ordinal)) {
+      String namespace一 = declaringType->get_Namespace();
+      if (namespace一 == nullptr || !String::in::Equals(namespace一, "System.Diagnostics", StringComparison::Ordinal)) {
         break;
       }
     }

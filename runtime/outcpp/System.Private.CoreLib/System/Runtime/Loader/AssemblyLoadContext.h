@@ -90,7 +90,7 @@ CLASS(AssemblyLoadContext) : public object {
   public: static AssemblyLoadContext GetLoadContext(Assembly assembly);
   public: void SetProfileOptimizationRoot(String directoryPath);
   public: void StartProfileOptimization(String profile);
-  private: static RuntimeAssembly GetRuntimeAssembly(Assembly asm_);
+  private: static RuntimeAssembly GetRuntimeAssembly(Assembly asm一);
   private: static void StartAssemblyLoad(Guid& activityId, Guid& relatedActivityId);
   private: static void StopAssemblyLoad(Guid& activityId);
   private: static void InitializeDefaultContext();

@@ -29,9 +29,9 @@ Int32 Variant::get_CVType() {
   return _flags & 65535;
 }
 
-Variant::Variant(Int32 flags, Object or_, Int64 data) {
+Variant::Variant(Int32 flags, Object or一, Int64 data) {
   _flags = flags;
-  _objref = or;
+  _objref = or一;
   _data = data;
 }
 

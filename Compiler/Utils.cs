@@ -718,53 +718,12 @@ namespace Meson.Compiler {
       return false;
     }
 
-    private static readonly Regex identifierRegex_ = new Regex(@"^[a-zA-Z_][a-zA-Z0-9_]*$", RegexOptions.Compiled);
-
-    public static bool IsIdentifierIllegal(ref string identifierName) {
-      if (!identifierRegex_.IsMatch(identifierName)) {
-        identifierName = EncodeToIdentifier(identifierName);
+    public static bool CheckReservedWord(ref string name) {
+      if (Tokens.IsReservedWord(name)) {
+        name += '一';
         return true;
       }
       return false;
-    }
-
-    private static string ToBase63(int number) {
-      const string kAlphabet = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_";
-      int basis = kAlphabet.Length;
-      int n = number;
-      StringBuilder sb = new StringBuilder();
-      while (n > 0) {
-        char ch = kAlphabet[n % basis];
-        sb.Append(ch);
-        n /= basis;
-      }
-      return sb.ToString();
-    }
-
-    private static string EncodeToIdentifier(string name) {
-      StringBuilder sb = new StringBuilder();
-      foreach (char c in name) {
-        if (c < 127) {
-          sb.Append(c);
-        } else {
-          string base63 = ToBase63(c);
-          sb.Append(base63);
-        }
-      }
-      if (char.IsNumber(sb[0])) {
-        sb.Insert(0, '_');
-      }
-      return sb.ToString();
-    }
-
-    public static string GetNewName(string name, int index) {
-      return index switch
-      {
-        0 => name,
-        1 => name + "_",
-        2 => "_" + name,
-        _ => name + (index - 2),
-      };
     }
 
     public static string ReplaceDot(this string name) {

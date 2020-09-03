@@ -520,6 +520,7 @@ namespace rt {
     T& GetPinnableReference() {
       return *begin();
     }
+    
     Enumerator GetEnumerator() {
       return Enumerator();
     }

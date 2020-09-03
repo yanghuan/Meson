@@ -2277,8 +2277,8 @@ Boolean DateTimeParse::ParseByFormat(__DTString& str, __DTString& format, Parsin
   Int32 result8 = 0;
   Double result9 = 0;
   TM result10 = TM::AM;
-  Char char = format.GetChar();
-  switch (char.get()) {
+  Char char一 = format.GetChar();
+  switch (char一.get()) {
     case 121:
       {
         Int32 repeatCount = format.GetRepeatCount();
@@ -2302,7 +2302,7 @@ Boolean DateTimeParse::ParseByFormat(__DTString& str, __DTString& format, Parsin
           result.SetBadDateTimeFailure();
           return false;
         }
-        if (!CheckNewValue(result.Year, result2, char, result)) {
+        if (!CheckNewValue(result.Year, result2, char一, result)) {
           return false;
         }
         break;
@@ -2327,7 +2327,7 @@ Boolean DateTimeParse::ParseByFormat(__DTString& str, __DTString& format, Parsin
 
           result.flags |= ParseFlags::ParsedMonthName;
         }
-        if (!CheckNewValue(result.Month, result3, char, result)) {
+        if (!CheckNewValue(result.Month, result3, char一, result)) {
           return false;
         }
         break;
@@ -2339,7 +2339,7 @@ Boolean DateTimeParse::ParseByFormat(__DTString& str, __DTString& format, Parsin
             result.SetBadDateTimeFailure();
             return false;
           }
-          if (!CheckNewValue(result.Day, result4, char, result)) {
+          if (!CheckNewValue(result.Day, result4, char一, result)) {
             return false;
           }
           break;
@@ -2354,7 +2354,7 @@ Boolean DateTimeParse::ParseByFormat(__DTString& str, __DTString& format, Parsin
           return false;
         }
 
-        if (!CheckNewValue(parseInfo.dayOfWeek, result5, char, result)) {
+        if (!CheckNewValue(parseInfo.dayOfWeek, result5, char一, result)) {
           return false;
         }
         break;
@@ -2373,7 +2373,7 @@ Boolean DateTimeParse::ParseByFormat(__DTString& str, __DTString& format, Parsin
           result.SetBadDateTimeFailure();
           return false;
         }
-        if (!CheckNewValue(result.Hour, result6, char, result)) {
+        if (!CheckNewValue(result.Hour, result6, char一, result)) {
           return false;
         }
         break;
@@ -2384,7 +2384,7 @@ Boolean DateTimeParse::ParseByFormat(__DTString& str, __DTString& format, Parsin
           result.SetBadDateTimeFailure();
           return false;
         }
-        if (!CheckNewValue(result.Hour, result6, char, result)) {
+        if (!CheckNewValue(result.Hour, result6, char一, result)) {
           return false;
         }
         break;
@@ -2395,7 +2395,7 @@ Boolean DateTimeParse::ParseByFormat(__DTString& str, __DTString& format, Parsin
           result.SetBadDateTimeFailure();
           return false;
         }
-        if (!CheckNewValue(result.Minute, result7, char, result)) {
+        if (!CheckNewValue(result.Minute, result7, char一, result)) {
           return false;
         }
         break;
@@ -2406,7 +2406,7 @@ Boolean DateTimeParse::ParseByFormat(__DTString& str, __DTString& format, Parsin
           result.SetBadDateTimeFailure();
           return false;
         }
-        if (!CheckNewValue(result.Second, result8, char, result)) {
+        if (!CheckNewValue(result.Second, result8, char一, result)) {
           return false;
         }
         break;
@@ -2415,14 +2415,14 @@ Boolean DateTimeParse::ParseByFormat(__DTString& str, __DTString& format, Parsin
       {
         Int32 repeatCount = format.GetRepeatCount();
         if (repeatCount <= 7) {
-          if (!ParseFractionExact(str, repeatCount, result9) && char == 102) {
+          if (!ParseFractionExact(str, repeatCount, result9) && char一 == 102) {
             result.SetBadDateTimeFailure();
             return false;
           }
           if (result.fraction < 0) {
             result.fraction = result9;
           } else if (result9 != result.fraction) {
-            result.SetFailure(ParseFailureKind::FormatWithParameter, "Format_RepeatDateTimePattern", char);
+            result.SetFailure(ParseFailureKind::FormatWithParameter, "Format_RepeatDateTimePattern", char一);
             return false;
           }
 
@@ -2446,7 +2446,7 @@ Boolean DateTimeParse::ParseByFormat(__DTString& str, __DTString& format, Parsin
         if (parseInfo.timeMark == TM::NotSet) {
           parseInfo.timeMark = result10;
         } else if (parseInfo.timeMark != result10) {
-          result.SetFailure(ParseFailureKind::FormatWithParameter, "Format_RepeatDateTimePattern", char);
+          result.SetFailure(ParseFailureKind::FormatWithParameter, "Format_RepeatDateTimePattern", char一);
           return false;
         }
 
@@ -2524,7 +2524,7 @@ Boolean DateTimeParse::ParseByFormat(__DTString& str, __DTString& format, Parsin
         StringBuilder stringBuilder = StringBuilderCache::Acquire();
         Int32 repeatCount;
         if (!TryParseQuoteString(format.Value, format.Index, stringBuilder, repeatCount)) {
-          result.SetFailure(ParseFailureKind::FormatWithParameter, "Format_BadQuote", char);
+          result.SetFailure(ParseFailureKind::FormatWithParameter, "Format_BadQuote", char一);
           StringBuilderCache::Release(stringBuilder);
           return false;
         }
@@ -2561,7 +2561,7 @@ Boolean DateTimeParse::ParseByFormat(__DTString& str, __DTString& format, Parsin
       result.SetBadFormatSpecifierFailure(format.Value);
       return false;
     case 46:
-      if (!str.Match(char)) {
+      if (!str.Match(char一)) {
         if (!format.GetNext() || !format.Match(70)) {
           result.SetBadDateTimeFailure();
           return false;
@@ -2570,8 +2570,8 @@ Boolean DateTimeParse::ParseByFormat(__DTString& str, __DTString& format, Parsin
       }
       break;
     default:
-      if (char == 32) {
-        if (!parseInfo.fAllowInnerWhite && !str.Match(char)) {
+      if (char一 == 32) {
+        if (!parseInfo.fAllowInnerWhite && !str.Match(char一)) {
           if (parseInfo.fAllowTrailingWhite && format.GetNext() && ParseByFormat(str, format, parseInfo, dtfi, result)) {
             return true;
           }
@@ -2586,7 +2586,7 @@ Boolean DateTimeParse::ParseByFormat(__DTString& str, __DTString& format, Parsin
           result.SetBadDateTimeFailure();
           return false;
         }
-      } else if (!str.Match(char)) {
+      } else if (!str.Match(char一)) {
         result.SetBadDateTimeFailure();
         return false;
       }

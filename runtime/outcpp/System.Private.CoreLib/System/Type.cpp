@@ -890,13 +890,13 @@ void Type___::GetEnumData(Array<String>& enumNames, Array<>& enumValues) {
     array2[i] = fields[i]->get_Name();
     array[i] = fields[i]->GetRawConstantValue();
   }
-  IComparer default = Comparer<Object>::in::get_Default();
+  IComparer default一 = Comparer<Object>::in::get_Default();
   for (Int32 j = 1; j < array->get_Length(); j++) {
     Int32 num = j;
     String text = array2[j];
     Object obj = array[j];
     Boolean flag = false;
-    while (default->Compare(array[num - 1], obj) > 0) {
+    while (default一->Compare(array[num - 1], obj) > 0) {
       array2[num] = array2[num - 1];
       array[num] = array[num - 1];
       num--;

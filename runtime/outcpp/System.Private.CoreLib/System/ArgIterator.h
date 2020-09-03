@@ -20,7 +20,7 @@ struct ArgIterator : public valueType<ArgIterator> {
   public: TypedReference GetNextArg();
   private: void FCallGetNextArg(void* result);
   public: TypedReference GetNextArg(RuntimeTypeHandle rth);
-  private: void InternalGetNextArg(void* result, RuntimeType rt_);
+  private: void InternalGetNextArg(void* result, RuntimeType rt一);
   public: void End();
   public: Int32 GetRemainingCount();
   private: void* _GetNextArgType();

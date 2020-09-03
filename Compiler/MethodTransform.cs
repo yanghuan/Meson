@@ -294,7 +294,11 @@ namespace Meson.Compiler {
         }
       }
 
-      var identifier = identifierExpression.IdentifierToken.AcceptExpression(this);
+      string identifierName = identifierExpression.Identifier;
+      if (symbol == null) {
+        Utils.CheckReservedWord(ref identifierName);
+      }
+      IdentifierSyntax identifier = identifierName;
       if (identifierExpression.TypeArguments.Count > 0) {
         identifier = new GenericIdentifierSyntax(identifier, identifierExpression.TypeArguments.Select(i => i.AcceptExpression(this)));
       }
@@ -1189,7 +1193,8 @@ namespace Meson.Compiler {
     }
 
     public SyntaxNode VisitVariableInitializer(VariableInitializer variableInitializer) {
-      var name = variableInitializer.NameToken.Accept<IdentifierSyntax>(this);
+      string name = variableInitializer.Name;
+      Utils.CheckReservedWord(ref name);
       var initializer = variableInitializer.Initializer is DefaultValueExpression ? null : variableInitializer.Initializer.AcceptExpression(this);
       return new VariableInitializerSyntax(name, initializer);
     }

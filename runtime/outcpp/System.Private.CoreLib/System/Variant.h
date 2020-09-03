@@ -24,7 +24,7 @@ namespace VariantNamespace {
 struct Variant : public valueType<Variant> {
   public: Int32 get_CVType();
   public: void SetFieldsObject(Object val);
-  public: explicit Variant(Int32 flags, Object or_, Int64 data);
+  public: explicit Variant(Int32 flags, Object or一, Int64 data);
   public: explicit Variant(Boolean val);
   public: explicit Variant(SByte val);
   public: explicit Variant(Byte val);

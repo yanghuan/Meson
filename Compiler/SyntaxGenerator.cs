@@ -206,15 +206,8 @@ namespace Meson.Compiler {
         case SymbolKind.Field:
         case SymbolKind.Method:
         case SymbolKind.Parameter: {
-            if (Tokens.IsReservedWord(originalString)) {
-              string newName = Utils.GetNewName(originalString, 1);
-              name.Update(newName);
-              break;
-            }
-
-            if (Utils.IsIdentifierIllegal(ref originalString)) {
-              string newName = Utils.GetNewName(originalString, 0);
-              name.Update(newName);
+            if (Utils.CheckReservedWord(ref originalString)) {
+              name.Update(originalString);
             }
             break;
           }

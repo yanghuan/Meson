@@ -80,7 +80,7 @@ String AssemblyLoadContext___::get_Name() {
 }
 
 IEnumerable<AssemblyLoadContext> AssemblyLoadContext___::get_All() {
-  AssemblyLoadContext default = get_Default();
+  AssemblyLoadContext default一 = get_Default();
   List<WeakReference<AssemblyLoadContext>> list = nullptr;
   {
     rt::lock(s_allContexts);
@@ -174,11 +174,11 @@ void AssemblyLoadContext___::StartProfileOptimization(String profile) {
   InternalStartProfile(profile, _nativeAssemblyLoadContext);
 }
 
-RuntimeAssembly AssemblyLoadContext___::GetRuntimeAssembly(Assembly asm_) {
-  if (!(asm == nullptr)) {
-    RuntimeAssembly runtimeAssembly = rt::as<RuntimeAssembly>(asm);
+RuntimeAssembly AssemblyLoadContext___::GetRuntimeAssembly(Assembly asm一) {
+  if (!(asm一 == nullptr)) {
+    RuntimeAssembly runtimeAssembly = rt::as<RuntimeAssembly>(asm一);
     if ((Object)runtimeAssembly == nullptr) {
-      AssemblyBuilder assemblyBuilder = rt::as<AssemblyBuilder>(asm);
+      AssemblyBuilder assemblyBuilder = rt::as<AssemblyBuilder>(asm一);
       if ((Object)assemblyBuilder == nullptr) {
         return nullptr;
       }
@@ -199,7 +199,7 @@ void AssemblyLoadContext___::StopAssemblyLoad(Guid& activityId) {
 }
 
 void AssemblyLoadContext___::InitializeDefaultContext() {
-  AssemblyLoadContext default = get_Default();
+  AssemblyLoadContext default一 = get_Default();
 }
 
 void AssemblyLoadContext___::ctor() {
