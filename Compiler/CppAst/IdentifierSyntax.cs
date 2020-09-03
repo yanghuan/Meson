@@ -32,6 +32,7 @@ namespace Meson.Compiler.CppAst {
     public static readonly IdentifierSyntax Default = "rt::default__";
     public static readonly IdentifierSyntax IsEnumType = "std::is_enum_v";
     public static readonly IdentifierSyntax GetAllocSize = "rt::string::GetAllocSize";
+    public static readonly IdentifierSyntax EmptyArray = "Array<>::in::Empty";
     public static readonly IdentifierSyntax Out = "out";
     public static readonly IdentifierSyntax Value = "value";
     public static readonly IdentifierSyntax Get = "get";

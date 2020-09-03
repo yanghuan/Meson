@@ -445,6 +445,14 @@ namespace Meson.Compiler {
         arguments.Add(expression);
         ++i;
       }
+      if (symbol != null && arguments.Count < symbol.Parameters.Count) {
+        var last = symbol.Parameters.Last();
+        if (last.IsParams) {
+          var elementType = ((ArrayType)last.Type).ElementType;
+          var elementTypeName = GetTypeName(elementType);
+          arguments.Add(IdentifierSyntax.EmptyArray.Generic(elementTypeName).Invation());
+        }
+      }
       return arguments;
     }
 

@@ -157,16 +157,16 @@ void ComActivator::ClassRegistrationScenarioForType(ComActivationContext cxt, Bo
       if (methodInfo->GetCustomAttributes(type, true)->get_Length() != 0) {
         if (!methodInfo->get_IsStatic()) {
           String resourceFormat = register一 ? SR::get_InvalidOperation_NonStaticComRegFunction() : SR::get_InvalidOperation_NonStaticComUnRegFunction();
-          rt::throw_exception<InvalidOperationException>(SR::Format(resourceFormat));
+          rt::throw_exception<InvalidOperationException>(SR::Format(resourceFormat, Array<>::in::Empty<Object>()));
         }
         Array<ParameterInfo> parameters = methodInfo->GetParameters();
         if (methodInfo->get_ReturnType() != typeof<void>() || parameters == nullptr || parameters->get_Length() != 1 || (parameters[0]->get_ParameterType() != typeof<String>() && parameters[0]->get_ParameterType() != typeof<Type>())) {
           String resourceFormat2 = register一 ? SR::get_InvalidOperation_InvalidComRegFunctionSig() : SR::get_InvalidOperation_InvalidComUnRegFunctionSig();
-          rt::throw_exception<InvalidOperationException>(SR::Format(resourceFormat2));
+          rt::throw_exception<InvalidOperationException>(SR::Format(resourceFormat2, Array<>::in::Empty<Object>()));
         }
         if (flag) {
           String resourceFormat3 = register一 ? SR::get_InvalidOperation_MultipleComRegFunctions() : SR::get_InvalidOperation_MultipleComUnRegFunctions();
-          rt::throw_exception<InvalidOperationException>(SR::Format(resourceFormat3));
+          rt::throw_exception<InvalidOperationException>(SR::Format(resourceFormat3, Array<>::in::Empty<Object>()));
         }
         Array<Object> array2 = rt::newarr<Array<Object>>(1);
         if (parameters[0]->get_ParameterType() == typeof<String>()) {

@@ -5,9 +5,16 @@ using System.Threading.Tasks;
 
 namespace Test {
   class Program {
+    private static int[] Get(params int[] args) {
+      return args;
+    }
+
     private static void Main(string[] args) {
       Console.WriteLine(args);
-      IntPtr a = (IntPtr)1000;
+      var a1 = Get();
+      var a2 = Get();
+      Console.WriteLine(a1 == a2);
+      Console.WriteLine(a1 == Array.Empty<int>());
     }
   }
 }

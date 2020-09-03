@@ -374,12 +374,6 @@ namespace rt {
     using type = typename std::remove_pointer<T>::type;
   };
 
-  template <class... _Types>
-  constexpr auto operator +(const std::tuple<_Types...>& t, const ref<typename StringTrim<_Types...>::type>& right) noexcept {
-    string* a = right != nullptr ? reinterpret_cast<string*>(right.get()) : nullptr;
-    return std::tuple_cat(t, std::make_tuple(a));
-  }
-
   class object {
   public:
     template <class T, class... Args>
@@ -945,6 +939,17 @@ inline constexpr bool operator ==(T a, int32_t b) {
 template <class T> requires(std::is_enum_v<T>) 
 inline constexpr bool operator !=(T a, int32_t b) { 
   return (int32_t)a != b;
+}
+
+template <class T> requires(rt::IsString<T>) 
+inline auto operator +(const char* s1, rt::ref<T> s2) { 
+  return rt::ref<T>(s1) + s2;
+}
+
+template <class... _Types>
+constexpr auto operator +(const std::tuple<_Types...>& t, const rt::ref<typename rt::StringTrim<_Types...>::type>& right) noexcept {
+  rt::string* a = right != nullptr ? reinterpret_cast<rt::string*>(right.get()) : nullptr;
+  return std::tuple_cat(t, std::make_tuple(a));
 }
 
 template <class T, class T1> requires(std::is_pointer_v<T> && rt::IsArithmetic<T1>) 
