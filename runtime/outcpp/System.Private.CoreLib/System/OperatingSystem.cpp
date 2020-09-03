@@ -45,9 +45,6 @@ String OperatingSystem___::get_VersionString() {
       case PlatformID::MacOSX:
         str = "Mac OS X ";
         break;
-      case PlatformID::Other:
-        str = "Other ";
-        break;
       default:
         str = "<unknown> ";
         break;
@@ -61,7 +58,7 @@ void OperatingSystem___::ctor(PlatformID platform, Version version) {
 }
 
 void OperatingSystem___::ctor(PlatformID platform, Version version, String servicePack) {
-  if (platform < PlatformID::Win32S || platform > PlatformID::Other) {
+  if (platform < PlatformID::Win32S || platform > PlatformID::MacOSX) {
     rt::throw_exception<ArgumentOutOfRangeException>("platform", platform, SR::Format(SR::get_Arg_EnumIllegalVal(), platform));
   }
   if (version == nullptr) {

@@ -118,11 +118,11 @@ Int32 Decimal::DecCalc::get_Scale() {
 }
 
 UInt64 Decimal::DecCalc::get_Low64() {
-  return ulomid;
+  return ulomidLE;
 }
 
 void Decimal::DecCalc::set_Low64(UInt64 value) {
-  ulomid = value;
+  ulomidLE = value;
 }
 
 UInt32 Decimal::DecCalc::GetExponent(Single f) {
@@ -776,16 +776,16 @@ IL_0093:
 }
 
 Int32 Decimal::DecCalc::VarDecCmp(Decimal& d1, Decimal& d2) {
-  if ((d2.get_Low64() | d2.get_High()) == 0) {
-    if ((d1.get_Low64() | d1.get_High()) == 0) {
+  if ((d2.get_Low() | d2.get_Mid() | d2.get_High()) == 0) {
+    if ((d1.get_Low() | d1.get_Mid() | d1.get_High()) == 0) {
       return 0;
     }
-    return (d1._flags >> 31) | 1;
+    return (d1.flags >> 31) | 1;
   }
-  if ((d1.get_Low64() | d1.get_High()) == 0) {
-    return -((d2._flags >> 31) | 1);
+  if ((d1.get_Low() | d1.get_Mid() | d1.get_High()) == 0) {
+    return -((d2.flags >> 31) | 1);
   }
-  Int32 num = (d1._flags >> 31) - (d2._flags >> 31);
+  Int32 num = (d1.flags >> 31) - (d2.flags >> 31);
   if (num != 0) {
     return num;
   }
@@ -793,9 +793,9 @@ Int32 Decimal::DecCalc::VarDecCmp(Decimal& d1, Decimal& d2) {
 }
 
 Int32 Decimal::DecCalc::VarDecCmpSub(Decimal& d1, Decimal& d2) {
-  Int32 flags = d2._flags;
+  Int32 flags = d2.flags;
   Int32 num = (flags >> 31) | 1;
-  Int32 num2 = flags - d1._flags;
+  Int32 num2 = flags - d1.flags;
   UInt64 num3 = d1.get_Low64();
   UInt32 num4 = d1.get_High();
   UInt64 num5 = d2.get_Low64();
@@ -1177,10 +1177,10 @@ Double Decimal::DecCalc::VarR8FromDec(Decimal& value) {
 }
 
 Int32 Decimal::DecCalc::GetHashCode(Decimal& d) {
-  if ((d.get_Low64() | d.get_High()) == 0) {
+  if ((d.get_Low() | d.get_Mid() | d.get_High()) == 0) {
     return 0;
   }
-  UInt32 flags = (UInt32)d._flags;
+  UInt32 flags = (UInt32)d.flags;
   if ((flags & 16711680) == 0 || (d.get_Low() & 1) != 0) {
     return (Int32)(flags ^ d.get_High() ^ d.get_Mid() ^ d.get_Low());
   }
@@ -1583,27 +1583,27 @@ void Decimal::DecCalc::cctor() {
 }
 
 UInt32 Decimal::get_High() {
-  return _hi32;
+  return (UInt32)hi;
 }
 
 UInt32 Decimal::get_Low() {
-  return (UInt32)_lo64;
+  return (UInt32)lo;
 }
 
 UInt32 Decimal::get_Mid() {
-  return (UInt32)(_lo64 >> 32);
+  return (UInt32)mid;
 }
 
 Boolean Decimal::get_IsNegative() {
-  return _flags < 0;
+  return flags < 0;
 }
 
 Int32 Decimal::get_Scale() {
-  return (Byte)(_flags >> 16);
+  return (Byte)(flags >> 16);
 }
 
 UInt64 Decimal::get_Low64() {
-  return _lo64;
+  return Unsafe::As<Int32, UInt64>(Unsafe::AsRef(lo));
 }
 
 Decimal::Decimal(Currency value) {
@@ -1612,36 +1612,40 @@ Decimal::Decimal(Currency value) {
 
 Decimal::Decimal(Int32 value) {
   if (value >= 0) {
-    _flags = 0;
+    flags = 0;
   } else {
-    _flags = Int32::MinValue;
+    flags = Int32::MinValue;
     value = -value;
   }
-  _lo64 = (UInt32)value;
-  _hi32 = 0u;
+  lo = value;
+  mid = 0;
+  hi = 0;
 }
 
 Decimal::Decimal(UInt32 value) {
-  _flags = 0;
-  _lo64 = value;
-  _hi32 = 0u;
+  flags = 0;
+  lo = (Int32)value;
+  mid = 0;
+  hi = 0;
 }
 
 Decimal::Decimal(Int64 value) {
   if (value >= 0) {
-    _flags = 0;
+    flags = 0;
   } else {
-    _flags = Int32::MinValue;
+    flags = Int32::MinValue;
     value = -value;
   }
-  _lo64 = (UInt64)value;
-  _hi32 = 0u;
+  lo = (Int32)value;
+  mid = (Int32)(value >> 32);
+  hi = 0;
 }
 
 Decimal::Decimal(UInt64 value) {
-  _flags = 0;
-  _lo64 = value;
-  _hi32 = 0u;
+  flags = 0;
+  lo = (Int32)value;
+  mid = (Int32)(value >> 32);
+  hi = 0;
 }
 
 Decimal::Decimal(Single value) {
@@ -1650,15 +1654,6 @@ Decimal::Decimal(Single value) {
 
 Decimal::Decimal(Double value) {
   DecCalc::VarDecFromR8(value, AsMutable(*this));
-}
-
-Decimal::Decimal(SerializationInfo info, StreamingContext context) {
-  if (info == nullptr) {
-    rt::throw_exception<ArgumentNullException>("info");
-  }
-  _flags = info->GetInt32("flags");
-  _hi32 = (UInt32)info->GetInt32("hi");
-  _lo64 = (UInt64)((UInt32)info->GetInt32("lo") + ((Int64)info->GetInt32("mid") << 32));
 }
 
 Decimal Decimal::FromOACurrency(Int64 cy) {
@@ -1700,11 +1695,12 @@ Decimal::Decimal(Array<Int32> bits) {
 
 Decimal::Decimal(ReadOnlySpan<Int32> bits) {
   if (bits.get_Length() == 4) {
-    Int32 flags = bits[3];
-    if (IsValid(flags)) {
-      _lo64 = (UInt32)bits[0] + ((UInt64)(UInt32)bits[1] << 32);
-      _hi32 = (UInt32)bits[2];
-      _flags = flags;
+    Int32 num = bits[3];
+    if (IsValid(num)) {
+      lo = bits[0];
+      mid = bits[1];
+      hi = bits[2];
+      flags = num;
       return;
     }
   }
@@ -1715,19 +1711,21 @@ Decimal::Decimal(Int32 lo, Int32 mid, Int32 hi, Boolean isNegative, Byte scale) 
   if (scale > 28) {
     rt::throw_exception<ArgumentOutOfRangeException>("scale", SR::get_ArgumentOutOfRange_DecimalScale());
   }
-  _lo64 = (UInt32)lo + ((UInt64)(UInt32)mid << 32);
-  _hi32 = (UInt32)hi;
-  _flags = scale << 16;
+  this->lo = lo;
+  this->mid = mid;
+  this->hi = hi;
+  flags = scale << 16;
   if (isNegative) {
-    _flags |= Int32::MinValue;
+    flags |= Int32::MinValue;
   }
 }
 
 Decimal::Decimal(Int32 lo, Int32 mid, Int32 hi, Int32 flags) {
   if (IsValid(flags)) {
-    _lo64 = (UInt32)lo + ((UInt64)(UInt32)mid << 32);
-    _hi32 = (UInt32)hi;
-    _flags = flags;
+    this->lo = lo;
+    this->mid = mid;
+    this->hi = hi;
+    this->flags = flags;
     return;
   }
   rt::throw_exception<ArgumentException>(SR::get_Arg_DecBitCtor());
@@ -1735,11 +1733,11 @@ Decimal::Decimal(Int32 lo, Int32 mid, Int32 hi, Int32 flags) {
 
 Decimal::Decimal(Decimal& d, Int32 flags) {
   *this = d;
-  _flags = flags;
+  this->flags = flags;
 }
 
 Decimal Decimal::Abs(Decimal& d) {
-  return Decimal(d, d._flags & Int32::MaxValue);
+  return Decimal(d, d.flags & Int32::MaxValue);
 }
 
 Decimal Decimal::Add(Decimal d1, Decimal d2) {
@@ -1748,9 +1746,9 @@ Decimal Decimal::Add(Decimal d1, Decimal d2) {
 }
 
 Decimal Decimal::Ceiling(Decimal d) {
-  Int32 flags = d._flags;
-  if ((flags & 16711680) != 0) {
-    DecCalc::InternalRound(AsMutable(d), (Byte)(flags >> 16), MidpointRounding::ToPositiveInfinity);
+  Int32 num = d.flags;
+  if ((num & 16711680) != 0) {
+    DecCalc::InternalRound(AsMutable(d), (Byte)(num >> 16), MidpointRounding::ToPositiveInfinity);
   }
   return d;
 }
@@ -1800,9 +1798,9 @@ Boolean Decimal::Equals(Decimal d1, Decimal d2) {
 }
 
 Decimal Decimal::Floor(Decimal d) {
-  Int32 flags = d._flags;
-  if ((flags & 16711680) != 0) {
-    DecCalc::InternalRound(AsMutable(d), (Byte)(flags >> 16), MidpointRounding::ToNegativeInfinity);
+  Int32 num = d.flags;
+  if ((num & 16711680) != 0) {
+    DecCalc::InternalRound(AsMutable(d), (Byte)(num >> 16), MidpointRounding::ToNegativeInfinity);
   }
   return d;
 }
@@ -1897,10 +1895,10 @@ Int32 Decimal::GetBits(Decimal d, Span<Int32> destination) {
   if ((UInt32)destination.get_Length() <= 3u) {
     ThrowHelper::ThrowArgumentException_DestinationTooShort();
   }
-  destination[0] = (Int32)d.get_Low();
-  destination[1] = (Int32)d.get_Mid();
-  destination[2] = (Int32)d.get_High();
-  destination[3] = d._flags;
+  destination[0] = d.lo;
+  destination[1] = d.mid;
+  destination[2] = d.hi;
+  destination[3] = d.flags;
   return 4;
 }
 
@@ -1909,28 +1907,39 @@ Boolean Decimal::TryGetBits(Decimal d, Span<Int32> destination, Int32& valuesWri
     valuesWritten = 0;
     return false;
   }
-  destination[0] = (Int32)d.get_Low();
-  destination[1] = (Int32)d.get_Mid();
-  destination[2] = (Int32)d.get_High();
-  destination[3] = d._flags;
+  destination[0] = d.lo;
+  destination[1] = d.mid;
+  destination[2] = d.hi;
+  destination[3] = d.flags;
   valuesWritten = 4;
   return true;
 }
 
 void Decimal::GetBytes(Decimal& d, Array<Byte> buffer) {
-  Span<Byte> destination = buffer;
-  BinaryPrimitives::WriteInt32LittleEndian(destination, (Int32)d.get_Low());
-  BinaryPrimitives::WriteInt32LittleEndian(destination.Slice(4), (Int32)d.get_Mid());
-  BinaryPrimitives::WriteInt32LittleEndian(destination.Slice(8), (Int32)d.get_High());
-  BinaryPrimitives::WriteInt32LittleEndian(destination.Slice(12), d._flags);
+  buffer[0] = (Byte)d.lo;
+  buffer[1] = (Byte)(d.lo >> 8);
+  buffer[2] = (Byte)(d.lo >> 16);
+  buffer[3] = (Byte)(d.lo >> 24);
+  buffer[4] = (Byte)d.mid;
+  buffer[5] = (Byte)(d.mid >> 8);
+  buffer[6] = (Byte)(d.mid >> 16);
+  buffer[7] = (Byte)(d.mid >> 24);
+  buffer[8] = (Byte)d.hi;
+  buffer[9] = (Byte)(d.hi >> 8);
+  buffer[10] = (Byte)(d.hi >> 16);
+  buffer[11] = (Byte)(d.hi >> 24);
+  buffer[12] = (Byte)d.flags;
+  buffer[13] = (Byte)(d.flags >> 8);
+  buffer[14] = (Byte)(d.flags >> 16);
+  buffer[15] = (Byte)(d.flags >> 24);
 }
 
 Decimal Decimal::ToDecimal(ReadOnlySpan<Byte> span) {
-  Int32 lo = BinaryPrimitives::ReadInt32LittleEndian(span);
-  Int32 mid = BinaryPrimitives::ReadInt32LittleEndian(span.Slice(4));
-  Int32 hi = BinaryPrimitives::ReadInt32LittleEndian(span.Slice(8));
-  Int32 flags = BinaryPrimitives::ReadInt32LittleEndian(span.Slice(12));
-  return Decimal(lo, mid, hi, flags);
+  Int32 num = BinaryPrimitives::ReadInt32LittleEndian(span);
+  Int32 num2 = BinaryPrimitives::ReadInt32LittleEndian(span.Slice(4));
+  Int32 num3 = BinaryPrimitives::ReadInt32LittleEndian(span.Slice(8));
+  Int32 num4 = BinaryPrimitives::ReadInt32LittleEndian(span.Slice(12));
+  return Decimal(num, num2, num3, num4);
 }
 
 Decimal& Decimal::Max(Decimal& d1, Decimal& d2) {
@@ -1958,7 +1967,7 @@ Decimal Decimal::Multiply(Decimal d1, Decimal d2) {
 }
 
 Decimal Decimal::Negate(Decimal d) {
-  return Decimal(d, d._flags ^ Int32::MinValue);
+  return Decimal(d, d.flags ^ Int32::MinValue);
 }
 
 Decimal Decimal::Round(Decimal d) {
@@ -1992,8 +2001,8 @@ Decimal Decimal::Round(Decimal& d, Int32 decimals, MidpointRounding mode) {
 }
 
 Int32 Decimal::Sign(Decimal& d) {
-  if ((d.get_Low64() | d.get_High()) != 0) {
-    return (d._flags >> 31) | 1;
+  if ((d.lo | d.mid | d.hi) != 0) {
+    return (d.flags >> 31) | 1;
   }
   return 0;
 }
@@ -2051,16 +2060,16 @@ Double Decimal::ToDouble(Decimal d) {
 
 Int32 Decimal::ToInt32(Decimal d) {
   Truncate(d);
-  if ((d.get_High() | d.get_Mid()) == 0) {
-    Int32 low = (Int32)d.get_Low();
+  if ((d.hi | d.mid) == 0) {
+    Int32 num = d.lo;
     if (!d.get_IsNegative()) {
-      if (low >= 0) {
-        return low;
+      if (num >= 0) {
+        return num;
       }
     } else {
-      low = -low;
-      if (low <= 0) {
-        return low;
+      num = -num;
+      if (num <= 0) {
+        return num;
       }
     }
   }
@@ -2069,7 +2078,7 @@ Int32 Decimal::ToInt32(Decimal d) {
 
 Int64 Decimal::ToInt64(Decimal d) {
   Truncate(d);
-  if (d.get_High() == 0) {
+  if (d.hi == 0) {
     Int64 low = (Int64)d.get_Low64();
     if (!d.get_IsNegative()) {
       if (low >= 0) {
@@ -2101,7 +2110,7 @@ UInt16 Decimal::ToUInt16(Decimal value) {
 
 UInt32 Decimal::ToUInt32(Decimal d) {
   Truncate(d);
-  if ((d.get_High() | d.get_Mid()) == 0) {
+  if ((d.hi | d.mid) == 0) {
     UInt32 low = d.get_Low();
     if (!d.get_IsNegative() || low == 0) {
       return low;
@@ -2112,7 +2121,7 @@ UInt32 Decimal::ToUInt32(Decimal d) {
 
 UInt64 Decimal::ToUInt64(Decimal d) {
   Truncate(d);
-  if (d.get_High() == 0) {
+  if (d.hi == 0) {
     UInt64 low = d.get_Low64();
     if (!d.get_IsNegative() || low == 0) {
       return low;
@@ -2131,9 +2140,9 @@ Decimal Decimal::Truncate(Decimal d) {
 }
 
 void Decimal::Truncate(Decimal& d) {
-  Int32 flags = d._flags;
-  if ((flags & 16711680) != 0) {
-    DecCalc::InternalRound(AsMutable(d), (Byte)(flags >> 16), MidpointRounding::ToZero);
+  Int32 num = d.flags;
+  if ((num & 16711680) != 0) {
+    DecCalc::InternalRound(AsMutable(d), (Byte)(num >> 16), MidpointRounding::ToZero);
   }
 }
 
@@ -2234,7 +2243,7 @@ Decimal Decimal::op_UnaryPlus(Decimal d) {
 }
 
 Decimal Decimal::op_UnaryNegation(Decimal d) {
-  return Decimal(d, d._flags ^ Int32::MinValue);
+  return Decimal(d, d.flags ^ Int32::MinValue);
 }
 
 Decimal Decimal::op_Increment(Decimal d) {

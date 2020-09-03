@@ -13,12 +13,11 @@
 #include <System.Private.CoreLib/System/Globalization/JapaneseCalendar-dep.h>
 #include <System.Private.CoreLib/System/IntPtr-dep.h>
 #include <System.Private.CoreLib/System/Math-dep.h>
-#include <System.Private.CoreLib/System/MemoryExtensions-dep.h>
-#include <System.Private.CoreLib/System/ReadOnlySpan-dep.h>
 #include <System.Private.CoreLib/System/Span-dep.h>
+#include <System.Private.CoreLib/System/StringComparison.h>
 #include <System.Private.CoreLib/System/Text/StringBuilder-dep.h>
 #include <System.Private.CoreLib/System/Text/StringBuilderCache-dep.h>
-#include <System.Private.CoreLib/System/UInt16-dep.h>
+#include <System.Private.CoreLib/System/UInt32-dep.h>
 
 namespace System::Private::CoreLib::System::Globalization::CalendarDataNamespace {
 using namespace Internal::Runtime::CompilerServices;
@@ -57,7 +56,7 @@ void CalendarData___::ctor(String localeName, CalendarId calendarId, Boolean bUs
   iTwoDigitYearMax = 2029;
   Object::in::ctor();
   this->bUseUserOverrides = bUseUserOverrides;
-  if (!LoadCalendarDataFromSystemCore(localeName, calendarId)) {
+  if (!(GlobalizationMode::get_UseNls() ? NlsLoadCalendarDataFromSystem(localeName, calendarId) : IcuLoadCalendarDataFromSystem(localeName, calendarId))) {
     if (sNativeName == nullptr) {
       sNativeName = String::in::Empty;
     }
@@ -224,13 +223,9 @@ void CalendarData___::InitializeAbbreviatedEraNames(String localeName, CalendarI
   }
 }
 
-Int32 CalendarData___::GetCalendarCurrentEra(Calendar calendar) {
-  if (GlobalizationMode::get_Invariant()) {
-    return Invariant->iCurrentEra;
-  }
-  CalendarId baseCalendarID = calendar->get_BaseCalendarID();
-  String name = CalendarIdToCultureName(baseCalendarID);
-  return CultureInfo::in::GetCultureInfo(name)->_cultureData->GetCalendar(baseCalendarID)->iCurrentEra;
+CalendarData CalendarData___::GetCalendarData(CalendarId calendarId) {
+  String name = CalendarIdToCultureName(calendarId);
+  return CultureInfo::in::GetCultureInfo(name)->_cultureData->GetCalendar(calendarId);
 }
 
 String CalendarData___::CalendarIdToCultureName(CalendarId calendarId) {
@@ -300,7 +295,7 @@ Int32 CalendarData___::IcuGetTwoDigitYearMax(CalendarId calendarId) {
   return -1;
 }
 
-Int32 CalendarData___::IcuGetCalendars(String localeName, Array<CalendarId> calendars) {
+Int32 CalendarData___::IcuGetCalendars(String localeName, Boolean useUserOverride, Array<CalendarId> calendars) {
   Int32 num = Interop::Globalization::GetCalendars(localeName, calendars, calendars->get_Length());
   if (num == 0 && calendars->get_Length() != 0) {
     calendars[0] = CalendarId::GREGORIAN;
@@ -495,20 +490,62 @@ Boolean CalendarData___::EnumCalendarInfo(String localeName, CalendarId calendar
   return Interop::Globalization::EnumCalendarInfo(EnumCalendarInfoCallback, localeName, calendarId, dataType, (IntPtr)Unsafe::AsPointer(callbackContext));
 }
 
-void CalendarData___::EnumCalendarInfoCallback(Char* calendarStringPtr, IntPtr context) {
+void CalendarData___::EnumCalendarInfoCallback(String calendarString, IntPtr context) {
   try {
-    ReadOnlySpan<Char> strA = ReadOnlySpan<Char>(calendarStringPtr, String::in::wcslen(calendarStringPtr));
     IcuEnumCalendarsData& reference = Unsafe::As<Byte, IcuEnumCalendarsData>(*(Byte*)(void*)context);
     if (reference.DisallowDuplicates) {
       for (String&& result : *reference.Results) {
-        if (String::in::CompareOrdinal(strA, result) == 0) {
+        if (String::in::Equals(calendarString, result, StringComparison::Ordinal)) {
           return;
         }
       }
     }
-    reference.Results->Add(strA.ToString());
+    reference.Results->Add(calendarString);
   } catch (Exception) {
   }
+}
+
+Boolean CalendarData___::NlsLoadCalendarDataFromSystem(String localeName, CalendarId calendarId) {
+  Boolean flag = true;
+  UInt32 num = (!bUseUserOverrides) ? 2147483648u : 0u;
+  switch (calendarId) {
+    case CalendarId::JAPANESELUNISOLAR:
+      calendarId = CalendarId::JAPAN;
+      break;
+    case CalendarId::JULIAN:
+    case CalendarId::CHINESELUNISOLAR:
+    case CalendarId::SAKA:
+    case CalendarId::LUNAR_ETO_CHN:
+    case CalendarId::LUNAR_ETO_KOR:
+    case CalendarId::LUNAR_ETO_ROKUYOU:
+    case CalendarId::KOREANLUNISOLAR:
+    case CalendarId::TAIWANLUNISOLAR:
+      calendarId = CalendarId::GREGORIAN_US;
+      break;
+  }
+  CheckSpecialCalendar(calendarId, localeName);
+  flag &= CallGetCalendarInfoEx(localeName, calendarId, 48 | num, iTwoDigitYearMax);
+  flag &= CallGetCalendarInfoEx(localeName, calendarId, 2u, sNativeName);
+  flag &= CallGetCalendarInfoEx(localeName, calendarId, 56 | num, sMonthDay);
+  flag &= CallEnumCalendarInfo(localeName, calendarId, 5u, 31 | num, saShortDates);
+  flag &= CallEnumCalendarInfo(localeName, calendarId, 6u, 32 | num, saLongDates);
+  flag &= CallEnumCalendarInfo(localeName, calendarId, 47u, 4102u, saYearMonths);
+  flag &= GetCalendarDayInfo(localeName, calendarId, 13u, saDayNames);
+  flag &= GetCalendarDayInfo(localeName, calendarId, 20u, saAbbrevDayNames);
+  flag &= GetCalendarMonthInfo(localeName, calendarId, 21u, saMonthNames);
+  flag &= GetCalendarMonthInfo(localeName, calendarId, 34u, saAbbrevMonthNames);
+  GetCalendarDayInfo(localeName, calendarId, 55u, saSuperShortDayNames);
+  if (calendarId == CalendarId::GREGORIAN) {
+    GetCalendarMonthInfo(localeName, calendarId, 268435477u, saMonthGenitiveNames);
+    GetCalendarMonthInfo(localeName, calendarId, 268435490u, saAbbrevMonthGenitiveNames);
+  }
+  CallEnumCalendarInfo(localeName, calendarId, 4u, 0u, saEraNames);
+  CallEnumCalendarInfo(localeName, calendarId, 57u, 0u, saAbbrevEraNames);
+  saShortDates = CultureData::in::ReescapeWin32Strings(saShortDates);
+  saLongDates = CultureData::in::ReescapeWin32Strings(saLongDates);
+  saYearMonths = CultureData::in::ReescapeWin32Strings(saYearMonths);
+  sMonthDay = CultureData::in::ReescapeWin32String(sMonthDay);
+  return flag;
 }
 
 Int32 CalendarData___::NlsGetTwoDigitYearMax(CalendarId calendarId) {
@@ -522,9 +559,48 @@ Int32 CalendarData___::NlsGetTwoDigitYearMax(CalendarId calendarId) {
   return Invariant->iTwoDigitYearMax;
 }
 
+Int32 CalendarData___::NlsGetCalendars(String localeName, Boolean useUserOverride, Array<CalendarId> calendars) {
+  NlsEnumCalendarsData value;
+  value.userOverride = 0;
+  value.calendars = rt::newobj<List<Int32>>();
+  if (useUserOverride) {
+    Int32 localeInfoExInt = CultureData::in::GetLocaleInfoExInt(localeName, 4105u);
+    if (localeInfoExInt != 0) {
+      value.userOverride = localeInfoExInt;
+      value.calendars->Add(localeInfoExInt);
+    }
+  }
+  Interop::Kernel32::EnumCalendarInfoExEx(EnumCalendarsCallback, localeName, UInt32::MaxValue, nullptr, 1u, Unsafe::AsPointer(value));
+  for (Int32 i = 0; i < Math::Min(calendars->get_Length(), value.calendars->get_Count()); i++) {
+    calendars[i] = (CalendarId)value.calendars[i];
+  }
+  return value.calendars->get_Count();
+}
+
 Boolean CalendarData___::NlsSystemSupportsTaiwaneseCalendar() {
   String data;
   return CallGetCalendarInfoEx("zh-TW", CalendarId::TAIWAN, 2u, data);
+}
+
+void CalendarData___::CheckSpecialCalendar(CalendarId& calendar, String& localeName) {
+  switch (calendar) {
+    case CalendarId::GREGORIAN_US:
+      {
+        String data;
+        if (!CallGetCalendarInfoEx(localeName, calendar, 2u, data)) {
+          localeName = "fa-IR";
+          if (!CallGetCalendarInfoEx(localeName, calendar, 2u, data)) {
+            localeName = "en-US";
+            calendar = CalendarId::GREGORIAN;
+          }
+        }
+        break;
+      }case CalendarId::TAIWAN:
+      if (!NlsSystemSupportsTaiwaneseCalendar()) {
+        calendar = CalendarId::GREGORIAN;
+      }
+      break;
+  }
 }
 
 Boolean CalendarData___::CallGetCalendarInfoEx(String localeName, CalendarId calendar, UInt32 calType, Int32& data) {
@@ -559,130 +635,11 @@ Interop::BOOL CalendarData___::EnumCalendarInfoCallback(Char* lpCalendarInfoStri
   }
 }
 
-Interop::BOOL CalendarData___::EnumCalendarsCallback(Char* lpCalendarInfoString, UInt32 calendar, IntPtr reserved, void* lParam) {
-  NlsEnumCalendarsData& reference = Unsafe::As<Byte, NlsEnumCalendarsData>(*(Byte*)lParam);
-  try {
-    if (reference.userOverride != calendar) {
-      reference.calendars->Add((Int32)calendar);
-    }
-    return Interop::BOOL::TRUE;
-  } catch (Exception) {
-    return Interop::BOOL::FALSE;
-  }
-}
-
-Boolean CalendarData___::LoadCalendarDataFromSystemCore(String localeName, CalendarId calendarId) {
-  if (GlobalizationMode::get_UseNls()) {
-    return NlsLoadCalendarDataFromSystem(localeName, calendarId);
-  }
-  Boolean flag = IcuLoadCalendarDataFromSystem(localeName, calendarId);
-  if (flag && bUseUserOverrides) {
-    NormalizeCalendarId(calendarId, localeName);
-    flag &= CallGetCalendarInfoEx(localeName, calendarId, 48u, iTwoDigitYearMax);
-    CalendarId calendarId2 = (CalendarId)CultureData::in::GetLocaleInfoExInt(localeName, 4105u);
-    if (calendarId2 == calendarId) {
-      String value = CultureData::in::ReescapeWin32String(CultureData::in::GetLocaleInfoEx(localeName, 31u));
-      String value2 = CultureData::in::ReescapeWin32String(CultureData::in::GetLocaleInfoEx(localeName, 32u));
-      InsertOrSwapOverride(value, saShortDates);
-      InsertOrSwapOverride(value2, saLongDates);
-    }
-  }
-  return flag;
-}
-
-void CalendarData___::InsertOrSwapOverride(String value, Array<String>& destination) {
-  if (value == nullptr) {
-    return;
-  }
-  for (Int32 i = 0; i < destination->get_Length(); i++) {
-    if (destination[i] == value) {
-      if (i > 0) {
-        String text = destination[0];
-        destination[0] = value;
-        destination[i] = text;
-      }
-      return;
-    }
-  }
-  Array<String> array = rt::newarr<Array<String>>(destination->get_Length() + 1);
-  array[0] = value;
-  Array<>::in::Copy(destination, 0, array, 1, destination->get_Length());
-  destination = array;
-}
-
-Boolean CalendarData___::NlsLoadCalendarDataFromSystem(String localeName, CalendarId calendarId) {
-  Boolean flag = true;
-  UInt32 num = (!bUseUserOverrides) ? 2147483648u : 0u;
-  NormalizeCalendarId(calendarId, localeName);
-  flag &= CallGetCalendarInfoEx(localeName, calendarId, 48 | num, iTwoDigitYearMax);
-  flag &= CallGetCalendarInfoEx(localeName, calendarId, 2u, sNativeName);
-  flag &= CallGetCalendarInfoEx(localeName, calendarId, 56u, sMonthDay);
-  flag &= CallEnumCalendarInfo(localeName, calendarId, 5u, 31 | num, saShortDates);
-  flag &= CallEnumCalendarInfo(localeName, calendarId, 6u, 32 | num, saLongDates);
-  flag &= CallEnumCalendarInfo(localeName, calendarId, 47u, 4102u, saYearMonths);
-  flag &= GetCalendarDayInfo(localeName, calendarId, 13u, saDayNames);
-  flag &= GetCalendarDayInfo(localeName, calendarId, 20u, saAbbrevDayNames);
-  flag &= GetCalendarMonthInfo(localeName, calendarId, 21u, saMonthNames);
-  flag &= GetCalendarMonthInfo(localeName, calendarId, 34u, saAbbrevMonthNames);
-  GetCalendarDayInfo(localeName, calendarId, 55u, saSuperShortDayNames);
-  if (calendarId == CalendarId::GREGORIAN) {
-    GetCalendarMonthInfo(localeName, calendarId, 268435477u, saMonthGenitiveNames);
-    GetCalendarMonthInfo(localeName, calendarId, 268435490u, saAbbrevMonthGenitiveNames);
-  }
-  CallEnumCalendarInfo(localeName, calendarId, 4u, 0u, saEraNames);
-  CallEnumCalendarInfo(localeName, calendarId, 57u, 0u, saAbbrevEraNames);
-  saShortDates = CultureData::in::ReescapeWin32Strings(saShortDates);
-  saLongDates = CultureData::in::ReescapeWin32Strings(saLongDates);
-  saYearMonths = CultureData::in::ReescapeWin32Strings(saYearMonths);
-  sMonthDay = CultureData::in::ReescapeWin32String(sMonthDay);
-  return flag;
-}
-
-void CalendarData___::NormalizeCalendarId(CalendarId& calendarId, String& localeName) {
-  switch (calendarId) {
-    case CalendarId::JAPANESELUNISOLAR:
-      calendarId = CalendarId::JAPAN;
-      break;
-    case CalendarId::JULIAN:
-    case CalendarId::CHINESELUNISOLAR:
-    case CalendarId::SAKA:
-    case CalendarId::LUNAR_ETO_CHN:
-    case CalendarId::LUNAR_ETO_KOR:
-    case CalendarId::LUNAR_ETO_ROKUYOU:
-    case CalendarId::KOREANLUNISOLAR:
-    case CalendarId::TAIWANLUNISOLAR:
-      calendarId = CalendarId::GREGORIAN_US;
-      break;
-  }
-  CheckSpecialCalendar(calendarId, localeName);
-}
-
-void CalendarData___::CheckSpecialCalendar(CalendarId& calendar, String& localeName) {
-  switch (calendar) {
-    case CalendarId::GREGORIAN_US:
-      {
-        String data;
-        if (!CallGetCalendarInfoEx(localeName, calendar, 2u, data)) {
-          localeName = "fa-IR";
-          if (!CallGetCalendarInfoEx(localeName, calendar, 2u, data)) {
-            localeName = "en-US";
-            calendar = CalendarId::GREGORIAN;
-          }
-        }
-        break;
-      }case CalendarId::TAIWAN:
-      if (!NlsSystemSupportsTaiwaneseCalendar()) {
-        calendar = CalendarId::GREGORIAN;
-      }
-      break;
-  }
-}
-
 Boolean CalendarData___::CallEnumCalendarInfo(String localeName, CalendarId calendar, UInt32 calType, UInt32 lcType, Array<String>& data) {
   EnumData value;
   value.userOverride = nullptr;
   value.strings = rt::newobj<List<String>>();
-  if (lcType != 0 && ((Int32)lcType & Int32::MinValue) == 0) {
+  if (lcType != 0 && ((Int32)lcType & Int32::MinValue) == 0 && GetUserDefaultLocaleName() == localeName) {
     CalendarId calendarId = (CalendarId)CultureData::in::GetLocaleInfoExInt(localeName, 4105u);
     if (calendarId == calendar) {
       String localeInfoEx = CultureData::in::GetLocaleInfoEx(localeName, lcType);
@@ -735,53 +692,26 @@ Boolean CalendarData___::GetCalendarMonthInfo(String localeName, CalendarId cale
   return true;
 }
 
-Int32 CalendarData___::GetCalendarsCore(String localeName, Boolean useUserOverride, Array<CalendarId> calendars) {
-  if (GlobalizationMode::get_UseNls()) {
-    return NlsGetCalendars(localeName, useUserOverride, calendars);
-  }
-  Int32 num = IcuGetCalendars(localeName, calendars);
-  if (useUserOverride) {
-    Int32 localeInfoExInt = CultureData::in::GetLocaleInfoExInt(localeName, 4105u);
-    if (localeInfoExInt != 0 && (UInt32)(UInt16)localeInfoExInt != (UInt32)calendars[0]) {
-      CalendarId calendarId = (CalendarId)localeInfoExInt;
-      for (Int32 i = 1; i < calendars->get_Length(); i++) {
-        if (calendars[i] == calendarId) {
-          CalendarId calendarId2 = calendars[0];
-          calendars[0] = calendarId;
-          calendars[i] = calendarId2;
-          return num;
-        }
-      }
-      num = ((num < calendars->get_Length()) ? (num + 1) : num);
-      CalendarId as[num] = {};
-      Span<CalendarId> span = as;
-      Span<CalendarId> span2 = span;
-      span2[0] = calendarId;
-      span = MemoryExtensions::AsSpan(calendars);
-      span = span.Slice(0, num - 1);
-      span.CopyTo(span2.Slice(1));
-      span2.CopyTo(calendars);
+Interop::BOOL CalendarData___::EnumCalendarsCallback(Char* lpCalendarInfoString, UInt32 calendar, IntPtr reserved, void* lParam) {
+  NlsEnumCalendarsData& reference = Unsafe::As<Byte, NlsEnumCalendarsData>(*(Byte*)lParam);
+  try {
+    if (reference.userOverride != calendar) {
+      reference.calendars->Add((Int32)calendar);
     }
+    return Interop::BOOL::TRUE;
+  } catch (Exception) {
+    return Interop::BOOL::FALSE;
   }
-  return num;
 }
 
-Int32 CalendarData___::NlsGetCalendars(String localeName, Boolean useUserOverride, Array<CalendarId> calendars) {
-  NlsEnumCalendarsData value;
-  value.userOverride = 0;
-  value.calendars = rt::newobj<List<Int32>>();
-  if (useUserOverride) {
-    Int32 localeInfoExInt = CultureData::in::GetLocaleInfoExInt(localeName, 4105u);
-    if (localeInfoExInt != 0) {
-      value.userOverride = localeInfoExInt;
-      value.calendars->Add(localeInfoExInt);
-    }
+String CalendarData___::GetUserDefaultLocaleName() {
+  Char as[85] = {};
+  Char* ptr = as;
+  Int32 localeInfoEx = CultureData::in::GetLocaleInfoEx(nullptr, 92u, ptr, 85);
+  if (localeInfoEx > 0) {
+    return rt::newobj<String>(ptr, 0, localeInfoEx - 1);
   }
-  Interop::Kernel32::EnumCalendarInfoExEx(EnumCalendarsCallback, localeName, UInt32::MaxValue, nullptr, 1u, Unsafe::AsPointer(value));
-  for (Int32 i = 0; i < Math::Min(calendars->get_Length(), value.calendars->get_Count()); i++) {
-    calendars[i] = (CalendarId)value.calendars[i];
-  }
-  return value.calendars->get_Count();
+  return "";
 }
 
 void CalendarData___::cctor() {

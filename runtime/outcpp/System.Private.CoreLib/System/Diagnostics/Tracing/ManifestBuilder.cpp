@@ -162,19 +162,19 @@ void ManifestBuilder___::StartEvent(String eventName, EventAttribute eventAttrib
   this->eventName = eventName;
   numParams = 0;
   byteArrArgIndices = nullptr;
-  events->Append("  <event")->Append(" value=\"")->Append(eventAttribute->get_EventId())->Append(34)->Append(" version=\"")->Append(eventAttribute->get_Version())->Append(34)->Append(" level=\"")->Append(GetLevelName(eventAttribute->get_Level()))->Append(34)->Append(" symbol=\"")->Append(eventName)->Append(34);
+  events->Append("  <event")->Append(" value=\"")->Append(eventAttribute->get_EventId())->Append("\"")->Append(" version=\"")->Append(eventAttribute->get_Version())->Append("\"")->Append(" level=\"")->Append(GetLevelName(eventAttribute->get_Level()))->Append("\"")->Append(" symbol=\"")->Append(eventName)->Append("\"");
   WriteMessageAttrib(events, "event", eventName, eventAttribute->get_Message());
   if (eventAttribute->get_Keywords() != EventKeywords::None) {
-    events->Append(" keywords=\"")->Append(GetKeywords((UInt64)eventAttribute->get_Keywords(), eventName))->Append(34);
+    events->Append(" keywords=\"")->Append(GetKeywords((UInt64)eventAttribute->get_Keywords(), eventName))->Append("\"");
   }
   if (eventAttribute->get_Opcode() != 0) {
-    events->Append(" opcode=\"")->Append(GetOpcodeName(eventAttribute->get_Opcode(), eventName))->Append(34);
+    events->Append(" opcode=\"")->Append(GetOpcodeName(eventAttribute->get_Opcode(), eventName))->Append("\"");
   }
   if (eventAttribute->get_Task() != 0) {
-    events->Append(" task=\"")->Append(GetTaskName(eventAttribute->get_Task(), eventName))->Append(34);
+    events->Append(" task=\"")->Append(GetTaskName(eventAttribute->get_Task(), eventName))->Append("\"");
   }
   if (eventAttribute->get_Channel() != 0) {
-    events->Append(" channel=\"")->Append(GetChannelName(eventAttribute->get_Channel(), eventName, eventAttribute->get_Message()))->Append(34);
+    events->Append(" channel=\"")->Append(GetChannelName(eventAttribute->get_Channel(), eventName, eventAttribute->get_Message()))->Append("\"");
   }
 }
 
@@ -191,12 +191,12 @@ void ManifestBuilder___::AddEventParameter(Type type, String name) {
     templates->Append("   <data name=\"")->Append(name)->AppendLine("Size\" inType=\"win:UInt32\"/>");
   }
   numParams++;
-  templates->Append("   <data name=\"")->Append(name)->Append("\" inType=\"")->Append(GetTypeName(type))->Append(34);
+  templates->Append("   <data name=\"")->Append(name)->Append("\" inType=\"")->Append(GetTypeName(type))->Append("\"");
   if ((type->get_IsArray() || type->get_IsPointer()) && type->GetElementType() == typeof<Byte>()) {
     templates->Append(" length=\"")->Append(name)->Append("Size\"");
   }
   if (ReflectionExtensions::IsEnum(type) && Enum::in::GetUnderlyingType(type) != typeof<UInt64>() && Enum::in::GetUnderlyingType(type) != typeof<Int64>()) {
-    templates->Append(" map=\"")->Append(type->get_Name())->Append(34);
+    templates->Append(" map=\"")->Append(type->get_Name())->Append("\"");
     if (mapsTab == nullptr) {
       mapsTab = rt::newobj<Dictionary<String, Type>>();
     }
@@ -293,7 +293,7 @@ String ManifestBuilder___::CreateManifestString() {
         if (rawConstantValue != nullptr) {
           UInt64 num = (UInt64)((!rt::is<UInt64>(rawConstantValue)) ? Convert::ToInt64(rawConstantValue) : ((Int64)(UInt64)rawConstantValue));
           if (!flag2 || ((num & (num - 1)) == 0 && num != 0)) {
-            sb->Append("   <map value=\"0x")->Append(num.ToString("x", CultureInfo::in::get_InvariantCulture()))->Append(34);
+            sb->Append("   <map value=\"0x")->Append(num.ToString("x", CultureInfo::in::get_InvariantCulture()))->Append("\"");
             WriteMessageAttrib(sb, "map", value3->get_Name() + "." + fieldInfo->get_Name(), fieldInfo->get_Name());
             sb->AppendLine("/>");
             flag3 = true;
@@ -364,7 +364,7 @@ String ManifestBuilder___::CreateManifestString() {
 }
 
 void ManifestBuilder___::WriteNameAndMessageAttribs(StringBuilder stringBuilder, String elementName, String name) {
-  stringBuilder->Append(" name=\"")->Append(name)->Append(34);
+  stringBuilder->Append(" name=\"")->Append(name)->Append("\"");
   WriteMessageAttrib(sb, elementName, name, name);
 }
 

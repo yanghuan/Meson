@@ -66,15 +66,12 @@ class Vector64<> {
   public: static Vector64<UInt16> Create(UInt16 e0, UInt16 e1, UInt16 e2, UInt16 e3);
   public: static Vector64<UInt32> Create(UInt32 e0, UInt32 e1);
   public: static Vector64<Byte> CreateScalar(Byte value);
-  public: static Vector64<Double> CreateScalar(Double value);
   public: static Vector64<Int16> CreateScalar(Int16 value);
   public: static Vector64<Int32> CreateScalar(Int32 value);
-  public: static Vector64<Int64> CreateScalar(Int64 value);
   public: static Vector64<SByte> CreateScalar(SByte value);
   public: static Vector64<Single> CreateScalar(Single value);
   public: static Vector64<UInt16> CreateScalar(UInt16 value);
   public: static Vector64<UInt32> CreateScalar(UInt32 value);
-  public: static Vector64<UInt64> CreateScalar(UInt64 value);
   public: static Vector64<Byte> CreateScalarUnsafe(Byte value);
   public: static Vector64<Int16> CreateScalarUnsafe(Int16 value);
   public: static Vector64<Int32> CreateScalarUnsafe(Int32 value);

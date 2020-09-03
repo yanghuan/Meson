@@ -343,7 +343,7 @@ Array<Char> AssemblyName___::EscapeString(String input, Int32 start, Int32 end, 
         num = i + 1;
       } else if (c == 37 && rsvd == 37) {
         dest = EnsureDestinationSize(ptr3, dest, i, 3, 120, destPos, num);
-        if (i + 2 < end && HexConverter::IsHexChar(*(ptr3 + i + 1)) && HexConverter::IsHexChar(*(ptr3 + i + 2))) {
+        if (i + 2 < end && EscapedAscii(*(ptr3 + i + 1), *(ptr3 + i + 2)) != 65535) {
           dest[destPos++] = 37;
           dest[destPos++] = *(ptr3 + i + 1);
           dest[destPos++] = *(ptr3 + i + 2);
@@ -385,6 +385,17 @@ void AssemblyName___::EscapeAsciiChar(Char ch, Array<Char> to, Int32& pos) {
   to[pos++] = 37;
   to[pos++] = HexConverter::ToCharUpper((Int32)ch >> 4);
   to[pos++] = HexConverter::ToCharUpper(ch);
+}
+
+Char AssemblyName___::EscapedAscii(Char digit, Char next) {
+  if ((digit < 48 || digit > 57) && (digit < 65 || digit > 70) && (digit < 97 || digit > 102)) {
+    return 65535;
+  }
+  Int32 num = (digit <= 57) ? (digit - 48) : (((digit <= 70) ? (digit - 65) : (digit - 97)) + 10);
+  if ((next < 48 || next > 57) && (next < 65 || next > 70) && (next < 97 || next > 102)) {
+    return 65535;
+  }
+  return (Char)((num << 4) + ((next <= 57) ? (next - 48) : (((next <= 70) ? (next - 65) : (next - 97)) + 10)));
 }
 
 Boolean AssemblyName___::IsReservedUnreservedOrHash(Char c) {

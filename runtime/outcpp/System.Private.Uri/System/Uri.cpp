@@ -22,7 +22,6 @@
 #include <System.Private.CoreLib/System/UInt64-dep.h>
 #include <System.Private.Uri/System/Collections/Generic/ArrayBuilder-dep.h>
 #include <System.Private.Uri/System/DomainNameHelper-dep.h>
-#include <System.Private.Uri/System/HexConverter-dep.h>
 #include <System.Private.Uri/System/IPv4AddressHelper-dep.h>
 #include <System.Private.Uri/System/IPv6AddressHelper-dep.h>
 #include <System.Private.Uri/System/IriHelper-dep.h>
@@ -750,15 +749,42 @@ Boolean Uri___::CheckSchemeName(String schemeName) {
 }
 
 Boolean Uri___::IsHexDigit(Char character) {
-  return HexConverter::IsHexChar(character);
+  if ((UInt32)(character - 48) > 9u && (UInt32)(character - 65) > 5u) {
+    return (UInt32)(character - 97) <= 5u;
+  }
+  return true;
 }
 
 Int32 Uri___::FromHex(Char digit) {
-  Int32 num = HexConverter::FromChar(digit);
-  if (num == 255) {
-    rt::throw_exception<ArgumentException>(nullptr, "digit");
+  switch (digit.get()) {
+    default:
+      rt::throw_exception<ArgumentException>(nullptr, "digit");
+    case 97:
+    case 98:
+    case 99:
+    case 100:
+    case 101:
+    case 102:
+      return digit - 97 + 10;
+    case 65:
+    case 66:
+    case 67:
+    case 68:
+    case 69:
+    case 70:
+      return digit - 65 + 10;
+    case 48:
+    case 49:
+    case 50:
+    case 51:
+    case 52:
+    case 53:
+    case 54:
+    case 55:
+    case 56:
+    case 57:
+      return digit - 48;
   }
-  return num;
 }
 
 Int32 Uri___::GetHashCode() {

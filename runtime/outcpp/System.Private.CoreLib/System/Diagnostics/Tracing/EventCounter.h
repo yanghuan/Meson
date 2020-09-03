@@ -20,6 +20,7 @@ CLASS(EventCounter) : public DiagnosticCounter::in {
   public: void OnMetricWritten(Double value);
   public: void WritePayload(Single intervalSec, Int32 pollingIntervalMillisec);
   public: void ResetStatistics();
+  private: void InitializeBuffer();
   private: void Enqueue(Double value);
   protected: void Flush();
   private: Int32 _count;

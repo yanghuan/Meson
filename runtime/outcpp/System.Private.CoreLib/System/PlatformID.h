@@ -11,6 +11,5 @@ enum class PlatformID : int32_t {
   Unix = 4,
   Xbox = 5,
   MacOSX = 6,
-  Other = 7,
 };
 } // namespace System::Private::CoreLib::System

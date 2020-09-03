@@ -54,7 +54,7 @@ struct Int16 : public valueType<Int16, rt::TypeCode::Int16> {
   public: constexpr Int16() noexcept : m_value(0) {}
   public: constexpr Int16(int16_t value) noexcept : m_value(value) {}
   public: template <class T> requires(std::is_enum_v<T>)
-  constexpr Int16(T value) noexcept : Int16((int16_t)value) {}
+  constexpr explicit Int16(T value) noexcept : Int16((int16_t)value) {}
   public: constexpr int16_t& get() noexcept { return m_value; }
   public: constexpr int16_t get() const noexcept { return m_value; }
 };

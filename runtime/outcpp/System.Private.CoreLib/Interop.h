@@ -320,6 +320,7 @@ class Interop {
     public: static UInt32 GetTempFileNameW(Char& lpPathName, String lpPrefixString, UInt32 uUnique, Char& lpTempFileName);
     public: static UInt32 GetTempPathW(Int32 bufferLen, Char& buffer);
     public: static Boolean GlobalMemoryStatusEx(MEMORYSTATUSEX& lpBuffer);
+    public: static Boolean IsWow64Process(IntPtr hProcess, Boolean& Wow64Process);
     public: static IntPtr LoadLibraryEx(String libFilename, IntPtr reserved, Int32 flags);
     public: static Boolean LockFile(SafeFileHandle handle, Int32 offsetLow, Int32 offsetHigh, Int32 countLow, Int32 countHigh);
     public: static Boolean UnlockFile(SafeFileHandle handle, Int32 offsetLow, Int32 offsetHigh, Int32 countLow, Int32 countHigh);
@@ -371,7 +372,6 @@ class Interop {
     public: static IntPtr CoTaskMemRealloc(IntPtr pv, UIntPtr cb);
     public: static void CoTaskMemFree(IntPtr ptr);
     public: static Int32 CoCreateGuid(Guid& guid);
-    public: static Int32 CoGetStandardMarshal(Guid& riid, IntPtr pv, Int32 dwDestContext, IntPtr pvDestContext, Int32 mshlflags, IntPtr& ppMarshal);
   };
   public: class OleAut32 {
     public: static IntPtr SysAllocStringByteLen(Array<Byte> str, UInt32 len);
@@ -388,8 +388,8 @@ class Interop {
     };
     public: CLASS(EnumCalendarInfoCallback) : public MulticastDelegate::in {
       public: void ctor(Object object, IntPtr method);
-      public: void Invoke(Char* calendarString, IntPtr context);
-      public: IAsyncResult BeginInvoke(Char* calendarString, IntPtr context, AsyncCallback callback, Object object);
+      public: void Invoke(String calendarString, IntPtr context);
+      public: IAsyncResult BeginInvoke(String calendarString, IntPtr context, AsyncCallback callback, Object object);
       public: void EndInvoke(IAsyncResult result);
       public: static constexpr rt::TypeCode code = rt::TypeCode::Delegate;
     };

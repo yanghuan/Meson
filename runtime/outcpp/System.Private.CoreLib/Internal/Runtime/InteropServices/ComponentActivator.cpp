@@ -1,7 +1,7 @@
 #include "ComponentActivator-dep.h"
 
+#include <System.Private.CoreLib/Internal/Runtime/InteropServices/IsolatedComponentLoadContext-dep.h>
 #include <System.Private.CoreLib/System/ArgumentNullException-dep.h>
-#include <System.Private.CoreLib/System/ArgumentOutOfRangeException-dep.h>
 #include <System.Private.CoreLib/System/Collections/Generic/Dictionary-dep.h>
 #include <System.Private.CoreLib/System/Delegate-dep.h>
 #include <System.Private.CoreLib/System/Exception-dep.h>
@@ -9,7 +9,6 @@
 #include <System.Private.CoreLib/System/Reflection/Assembly-dep.h>
 #include <System.Private.CoreLib/System/Reflection/AssemblyName-dep.h>
 #include <System.Private.CoreLib/System/Runtime/InteropServices/Marshal-dep.h>
-#include <System.Private.CoreLib/System/Runtime/Loader/AssemblyLoadContext-dep.h>
 #include <System.Private.CoreLib/System/StringComparer-dep.h>
 
 namespace System::Private::CoreLib::Internal::Runtime::InteropServices::ComponentActivatorNamespace {
@@ -17,10 +16,12 @@ using namespace System;
 using namespace System::Collections::Generic;
 using namespace System::Reflection;
 using namespace System::Runtime::InteropServices;
-using namespace System::Runtime::Loader;
 
 String ComponentActivator::MarshalToString(IntPtr arg, String argName) {
-  String text = Marshal::PtrToStringAuto(arg);
+  if (arg == IntPtr::Zero) {
+    rt::throw_exception<ArgumentNullException>(argName);
+  }
+  String text = Marshal::PtrToStringUni(arg);
   if (text == nullptr) {
     rt::throw_exception<ArgumentNullException>(argName);
   }
@@ -30,36 +31,7 @@ String ComponentActivator::MarshalToString(IntPtr arg, String argName) {
 Int32 ComponentActivator::LoadAssemblyAndGetFunctionPointer(IntPtr assemblyPathNative, IntPtr typeNameNative, IntPtr methodNameNative, IntPtr delegateTypeNative, IntPtr reserved, IntPtr functionHandle) {
   try {
     String assemblyPath = MarshalToString(assemblyPathNative, "assemblyPathNative");
-    String typeName = MarshalToString(typeNameNative, "typeNameNative");
-    String methodName = MarshalToString(methodNameNative, "methodNameNative");
-    if (reserved != IntPtr::Zero) {
-      rt::throw_exception<ArgumentOutOfRangeException>("reserved");
-    }
-    if (functionHandle == IntPtr::Zero) {
-      rt::throw_exception<ArgumentNullException>("functionHandle");
-    }
-    AssemblyLoadContext isolatedComponentLoadContext = GetIsolatedComponentLoadContext(assemblyPath);
-    *(IntPtr*)(void*)functionHandle = InternalGetFunctionPointer(isolatedComponentLoadContext, typeName, methodName, delegateTypeNative);
-  } catch (Exception ex) {
-    return ex->get_HResult();
-  }
-  return 0;
-}
-
-Int32 ComponentActivator::GetFunctionPointer(IntPtr typeNameNative, IntPtr methodNameNative, IntPtr delegateTypeNative, IntPtr loadContext, IntPtr reserved, IntPtr functionHandle) {
-  try {
-    String typeName = MarshalToString(typeNameNative, "typeNameNative");
-    String methodName = MarshalToString(methodNameNative, "methodNameNative");
-    if (loadContext != IntPtr::Zero) {
-      rt::throw_exception<ArgumentOutOfRangeException>("loadContext");
-    }
-    if (reserved != IntPtr::Zero) {
-      rt::throw_exception<ArgumentOutOfRangeException>("reserved");
-    }
-    if (functionHandle == IntPtr::Zero) {
-      rt::throw_exception<ArgumentNullException>("functionHandle");
-    }
-    *(IntPtr*)(void*)functionHandle = InternalGetFunctionPointer(AssemblyLoadContext::in::get_Default(), typeName, methodName, delegateTypeNative);
+    IsolatedComponentLoadContext alc = GetIsolatedComponentLoadContext(assemblyPath);
   } catch (Exception ex) {
     return ex->get_HResult();
   }
@@ -77,9 +49,6 @@ IsolatedComponentLoadContext ComponentActivator::GetIsolatedComponentLoadContext
     }
     return value;
   }
-}
-
-IntPtr ComponentActivator::InternalGetFunctionPointer(AssemblyLoadContext alc, String typeName, String methodName, IntPtr delegateTypeNative) {
 }
 
 void ComponentActivator::cctor() {

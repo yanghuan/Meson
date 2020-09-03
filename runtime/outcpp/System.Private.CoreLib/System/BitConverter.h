@@ -8,7 +8,6 @@ FORWARDS(Boolean)
 FORWARDS(Byte)
 FORWARDS(Char)
 FORWARDS(Double)
-FORWARDS(Half)
 FORWARDS(Int16)
 FORWARDS(Int32)
 FORWARDS(Int64)
@@ -68,8 +67,6 @@ class BitConverter {
   public: static Double Int64BitsToDouble(Int64 value);
   public: static Int32 SingleToInt32Bits(Single value);
   public: static Single Int32BitsToSingle(Int32 value);
-  public: static Int16 HalfToInt16Bits(Half value);
-  public: static Half Int16BitsToHalf(Int16 value);
   private: static void cctor();
   public: static Boolean IsLittleEndian;
 };

@@ -669,6 +669,7 @@ namespace Meson.Compiler {
                   Body = BlockSyntax.EmptyBlock,
                   IsConstexpr = true,
                   IsNoexcept = true,
+                  IsExplicit = true,
                   Template = new TemplateSyntax(TemplateTypenameSyntax.T) { Requires = IdentifierSyntax.IsEnumType.Generic(IdentifierSyntax.T) },
                 };
                 enumTypeConstructor.AddInitializationList(node.Name, IdentifierSyntax.Value.CastTo(typeName));

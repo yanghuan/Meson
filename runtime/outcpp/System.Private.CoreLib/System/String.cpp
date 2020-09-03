@@ -1814,37 +1814,25 @@ Array<String> String___::SplitInternal(ReadOnlySpan<Char> separators, Int32 coun
   if (count < 0) {
     rt::throw_exception<ArgumentOutOfRangeException>("count", SR::get_ArgumentOutOfRange_NegativeCount());
   }
-  CheckStringSplitOptions(options);
-  ValueListBuilder<Int32> sepListBuilder;
-  ReadOnlySpan<Int32> sepList;
-  while (true) {
-    if (count <= 1 || get_Length() == 0) {
-      String text = (String)this;
-      if ((options & StringSplitOptions::TrimEntries) != 0 && count > 0) {
-        text = text->Trim();
-      }
-      if ((options & StringSplitOptions::RemoveEmptyEntries) != 0 && text->get_Length() == 0) {
-        count = 0;
-      }
-      if (count != 0) {
-        return rt::newarr<Array<String>>(1);
-      }
-      return Array<>::in::Empty<String>();
-    }
-    if (separators.get_IsEmpty()) {
-      options &= ~StringSplitOptions::TrimEntries;
-    }
-    Int32 as[128] = {};
-    Span<Int32> initialSpan = as;
-    sepListBuilder = ValueListBuilder<Int32>(initialSpan);
-    MakeSeparatorList(separators, sepListBuilder);
-    sepList = sepListBuilder.AsSpan();
-    if (sepList.get_Length() != 0) {
-      break;
-    }
-    count = 1;
+  if (options < StringSplitOptions::None || options > StringSplitOptions::RemoveEmptyEntries) {
+    rt::throw_exception<ArgumentException>(SR::Format(SR::get_Arg_EnumIllegalVal(), options));
   }
-  Array<String> result = (options != 0) ? SplitWithPostProcessing(sepList, rt::default__, 1, count, options) : SplitWithoutPostProcessing(sepList, rt::default__, 1, count);
+  Boolean flag = options == StringSplitOptions::RemoveEmptyEntries;
+  if (count == 0 || (flag && get_Length() == 0)) {
+    return Array<>::in::Empty<String>();
+  }
+  if (count == 1) {
+    return rt::newarr<Array<String>>(1);
+  }
+  Int32 as[128] = {};
+  Span<Int32> initialSpan = as;
+  ValueListBuilder<Int32> sepListBuilder = ValueListBuilder<Int32>(initialSpan);
+  MakeSeparatorList(separators, sepListBuilder);
+  ReadOnlySpan<Int32> sepList = sepListBuilder.AsSpan();
+  if (sepList.get_Length() == 0) {
+    return rt::newarr<Array<String>>(1);
+  }
+  Array<String> result = flag ? SplitOmitEmptyEntries(sepList, rt::default__, 1, count) : SplitKeepEmptyEntries(sepList, rt::default__, 1, count);
   sepListBuilder.Dispose();
   return result;
 }
@@ -1871,32 +1859,21 @@ Array<String> String___::SplitInternal(String separator, Array<String> separator
   if (count < 0) {
     rt::throw_exception<ArgumentOutOfRangeException>("count", SR::get_ArgumentOutOfRange_NegativeCount());
   }
-  CheckStringSplitOptions(options);
-  Boolean flag = separator != nullptr;
-  if (!flag && (separators == nullptr || separators->get_Length() == 0)) {
+  if (options < StringSplitOptions::None || options > StringSplitOptions::RemoveEmptyEntries) {
+    rt::throw_exception<ArgumentException>(SR::Format(SR::get_Arg_EnumIllegalVal(), (Int32)options));
+  }
+  Boolean flag = options == StringSplitOptions::RemoveEmptyEntries;
+  Boolean flag2 = separator != nullptr;
+  if (!flag2 && (separators == nullptr || separators->get_Length() == 0)) {
     return SplitInternal(rt::default__, count, options);
   }
-  while (true) {
-    if (count <= 1 || get_Length() == 0) {
-      String text = (String)this;
-      if ((options & StringSplitOptions::TrimEntries) != 0 && count > 0) {
-        text = text->Trim();
-      }
-      if ((options & StringSplitOptions::RemoveEmptyEntries) != 0 && text->get_Length() == 0) {
-        count = 0;
-      }
-      if (count != 0) {
-        return rt::newarr<Array<String>>(1);
-      }
-      return Array<>::in::Empty<String>();
-    }
-    if (!flag) {
-      break;
-    }
-    if (separator->get_Length() == 0) {
-      count = 1;
-      continue;
-    }
+  if (count == 0 || (flag && get_Length() == 0)) {
+    return Array<>::in::Empty<String>();
+  }
+  if (count == 1 || (flag2 && separator->get_Length() == 0)) {
+    return rt::newarr<Array<String>>(1);
+  }
+  if (flag2) {
     return SplitInternal(separator, count, options);
   }
   Int32 as[128] = {};
@@ -1911,7 +1888,7 @@ Array<String> String___::SplitInternal(String separator, Array<String> separator
   if (sepList.get_Length() == 0) {
     return rt::newarr<Array<String>>(1);
   }
-  Array<String> result = (options != 0) ? SplitWithPostProcessing(sepList, lengthList, 0, count, options) : SplitWithoutPostProcessing(sepList, lengthList, 0, count);
+  Array<String> result = flag ? SplitOmitEmptyEntries(sepList, lengthList, 0, count) : SplitKeepEmptyEntries(sepList, lengthList, 0, count);
   sepListBuilder.Dispose();
   lengthListBuilder.Dispose();
   return result;
@@ -1924,21 +1901,14 @@ Array<String> String___::SplitInternal(String separator, Int32 count, StringSpli
   MakeSeparatorList(separator, sepListBuilder);
   ReadOnlySpan<Int32> sepList = sepListBuilder.AsSpan();
   if (sepList.get_Length() == 0) {
-    String text = (String)this;
-    if ((options & StringSplitOptions::TrimEntries) != 0) {
-      text = text->Trim();
-    }
-    if (text->get_Length() != 0 || (options & StringSplitOptions::RemoveEmptyEntries) == 0) {
-      return rt::newarr<Array<String>>(1);
-    }
-    return Array<>::in::Empty<String>();
+    return rt::newarr<Array<String>>(1);
   }
-  Array<String> result = (options != 0) ? SplitWithPostProcessing(sepList, rt::default__, separator->get_Length(), count, options) : SplitWithoutPostProcessing(sepList, rt::default__, separator->get_Length(), count);
+  Array<String> result = (options == StringSplitOptions::RemoveEmptyEntries) ? SplitOmitEmptyEntries(sepList, rt::default__, separator->get_Length(), count) : SplitKeepEmptyEntries(sepList, rt::default__, separator->get_Length(), count);
   sepListBuilder.Dispose();
   return result;
 }
 
-Array<String> String___::SplitWithoutPostProcessing(ReadOnlySpan<Int32> sepList, ReadOnlySpan<Int32> lengthList, Int32 defaultLength, Int32 count) {
+Array<String> String___::SplitKeepEmptyEntries(ReadOnlySpan<Int32> sepList, ReadOnlySpan<Int32> lengthList, Int32 defaultLength, Int32 count) {
   Int32 num = 0;
   Int32 num2 = 0;
   count--;
@@ -1960,49 +1930,38 @@ Array<String> String___::SplitWithoutPostProcessing(ReadOnlySpan<Int32> sepList,
   return array;
 }
 
-Array<String> String___::SplitWithPostProcessing(ReadOnlySpan<Int32> sepList, ReadOnlySpan<Int32> lengthList, Int32 defaultLength, Int32 count, StringSplitOptions options) {
+Array<String> String___::SplitOmitEmptyEntries(ReadOnlySpan<Int32> sepList, ReadOnlySpan<Int32> lengthList, Int32 defaultLength, Int32 count) {
   Int32 length = sepList.get_Length();
   Int32 num = (length < count) ? (length + 1) : count;
   Array<String> array = rt::newarr<Array<String>>(num);
   Int32 num2 = 0;
   Int32 num3 = 0;
-  ReadOnlySpan<Char> span;
   for (Int32 i = 0; i < length; i++) {
-    span = MemoryExtensions::AsSpan((String)this, num2, sepList[i] - num2);
-    if ((options & StringSplitOptions::TrimEntries) != 0) {
-      span = MemoryExtensions::Trim(span);
-    }
-    if (!span.get_IsEmpty() || (options & StringSplitOptions::RemoveEmptyEntries) == 0) {
-      array[num3++] = span.ToString();
-    }
-    num2 = sepList[i] + (lengthList.get_IsEmpty() ? defaultLength : lengthList[i]);
-    if (num3 != count - 1) {
-      continue;
-    }
-    if ((options & StringSplitOptions::RemoveEmptyEntries) == 0) {
+    if (num2 >= get_Length()) {
       break;
     }
-    while (++i < length) {
-      span = MemoryExtensions::AsSpan((String)this, num2, sepList[i] - num2);
-      if ((options & StringSplitOptions::TrimEntries) != 0) {
-        span = MemoryExtensions::Trim(span);
-      }
-      if (!span.get_IsEmpty()) {
-        break;
-      }
-      num2 = sepList[i] + (lengthList.get_IsEmpty() ? defaultLength : lengthList[i]);
+    if (sepList[i] - num2 > 0) {
+      array[num3++] = Substring(num2, sepList[i] - num2);
     }
-    break;
+    num2 = sepList[i] + (lengthList.get_IsEmpty() ? defaultLength : lengthList[i]);
+    if (num3 == count - 1) {
+      while (i < length - 1 && num2 == sepList[++i]) {
+        num2 += (lengthList.get_IsEmpty() ? defaultLength : lengthList[i]);
+      }
+      break;
+    }
   }
-  span = MemoryExtensions::AsSpan((String)this, num2);
-  if ((options & StringSplitOptions::TrimEntries) != 0) {
-    span = MemoryExtensions::Trim(span);
+  if (num2 < get_Length()) {
+    array[num3++] = Substring(num2);
   }
-  if (!span.get_IsEmpty() || (options & StringSplitOptions::RemoveEmptyEntries) == 0) {
-    array[num3++] = span.ToString();
+  Array<String> array2 = array;
+  if (num3 != num) {
+    array2 = rt::newarr<Array<String>>(num3);
+    for (Int32 j = 0; j < num3; j++) {
+      array2[j] = array[j];
+    }
   }
-  Array<>::in::Resize(array, num3);
-  return array;
+  return array2;
 }
 
 void String___::MakeSeparatorList(ReadOnlySpan<Char> separators, ValueListBuilder<Int32>& sepListBuilder) {
@@ -2082,12 +2041,6 @@ void String___::MakeSeparatorList(Array<String> separators, ValueListBuilder<Int
         }
       }
     }
-  }
-}
-
-void String___::CheckStringSplitOptions(StringSplitOptions options) {
-  if ((options & ~(StringSplitOptions::RemoveEmptyEntries | StringSplitOptions::TrimEntries)) != 0) {
-    ThrowHelper::ThrowArgumentException(ExceptionResource::Argument_InvalidFlag, ExceptionArgument::options);
   }
 }
 

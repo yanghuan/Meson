@@ -278,143 +278,83 @@ Vector128<UInt64> Vector128<>::Create(UInt64 e0, UInt64 e1) {
 }
 
 Vector128<Byte> Vector128<>::Create(Vector64<Byte> lower, Vector64<Byte> upper) {
-  auto SoftwareFallback = [](Vector64<Byte> lower, Vector64<Byte> upper) -> Vector128<Byte> {
-    Vector128<Byte> source = Vector128<Byte>::get_Zero();
-    Vector64<Byte>& reference = Unsafe::As<Vector128<Byte>, Vector64<Byte>>(source);
-    reference = lower;
-    Unsafe::Add(reference, 1) = upper;
-    return source;
-  };
-  if (AdvSimd::in::get_IsSupported()) {
-    return Vector128<>::WithUpper(Vector64<>::ToVector128Unsafe(lower), upper);
-  }
-  return SoftwareFallback(lower, upper);
+  Vector128<Byte> source = Vector128<Byte>::get_Zero();
+  Vector64<Byte>& reference = Unsafe::As<Vector128<Byte>, Vector64<Byte>>(source);
+  reference = lower;
+  Unsafe::Add(reference, 1) = upper;
+  return source;
 }
 
 Vector128<Double> Vector128<>::Create(Vector64<Double> lower, Vector64<Double> upper) {
-  auto SoftwareFallback = [](Vector64<Double> lower, Vector64<Double> upper) -> Vector128<Double> {
-    Vector128<Double> source = Vector128<Double>::get_Zero();
-    Vector64<Double>& reference = Unsafe::As<Vector128<Double>, Vector64<Double>>(source);
-    reference = lower;
-    Unsafe::Add(reference, 1) = upper;
-    return source;
-  };
-  if (AdvSimd::in::get_IsSupported()) {
-    return Vector128<>::WithUpper(Vector64<>::ToVector128Unsafe(lower), upper);
-  }
-  return SoftwareFallback(lower, upper);
+  Vector128<Double> source = Vector128<Double>::get_Zero();
+  Vector64<Double>& reference = Unsafe::As<Vector128<Double>, Vector64<Double>>(source);
+  reference = lower;
+  Unsafe::Add(reference, 1) = upper;
+  return source;
 }
 
 Vector128<Int16> Vector128<>::Create(Vector64<Int16> lower, Vector64<Int16> upper) {
-  auto SoftwareFallback = [](Vector64<Int16> lower, Vector64<Int16> upper) -> Vector128<Int16> {
-    Vector128<Int16> source = Vector128<Int16>::get_Zero();
-    Vector64<Int16>& reference = Unsafe::As<Vector128<Int16>, Vector64<Int16>>(source);
-    reference = lower;
-    Unsafe::Add(reference, 1) = upper;
-    return source;
-  };
-  if (AdvSimd::in::get_IsSupported()) {
-    return Vector128<>::WithUpper(Vector64<>::ToVector128Unsafe(lower), upper);
-  }
-  return SoftwareFallback(lower, upper);
+  Vector128<Int16> source = Vector128<Int16>::get_Zero();
+  Vector64<Int16>& reference = Unsafe::As<Vector128<Int16>, Vector64<Int16>>(source);
+  reference = lower;
+  Unsafe::Add(reference, 1) = upper;
+  return source;
 }
 
 Vector128<Int32> Vector128<>::Create(Vector64<Int32> lower, Vector64<Int32> upper) {
-  auto SoftwareFallback = [](Vector64<Int32> lower, Vector64<Int32> upper) -> Vector128<Int32> {
-    Vector128<Int32> source = Vector128<Int32>::get_Zero();
-    Vector64<Int32>& reference = Unsafe::As<Vector128<Int32>, Vector64<Int32>>(source);
-    reference = lower;
-    Unsafe::Add(reference, 1) = upper;
-    return source;
-  };
-  if (AdvSimd::in::get_IsSupported()) {
-    return Vector128<>::WithUpper(Vector64<>::ToVector128Unsafe(lower), upper);
-  }
-  return SoftwareFallback(lower, upper);
+  Vector128<Int32> source = Vector128<Int32>::get_Zero();
+  Vector64<Int32>& reference = Unsafe::As<Vector128<Int32>, Vector64<Int32>>(source);
+  reference = lower;
+  Unsafe::Add(reference, 1) = upper;
+  return source;
 }
 
 Vector128<Int64> Vector128<>::Create(Vector64<Int64> lower, Vector64<Int64> upper) {
-  auto SoftwareFallback = [](Vector64<Int64> lower, Vector64<Int64> upper) -> Vector128<Int64> {
-    Vector128<Int64> source = Vector128<Int64>::get_Zero();
-    Vector64<Int64>& reference = Unsafe::As<Vector128<Int64>, Vector64<Int64>>(source);
-    reference = lower;
-    Unsafe::Add(reference, 1) = upper;
-    return source;
-  };
-  if (AdvSimd::in::get_IsSupported()) {
-    return Vector128<>::WithUpper(Vector64<>::ToVector128Unsafe(lower), upper);
-  }
-  return SoftwareFallback(lower, upper);
+  Vector128<Int64> source = Vector128<Int64>::get_Zero();
+  Vector64<Int64>& reference = Unsafe::As<Vector128<Int64>, Vector64<Int64>>(source);
+  reference = lower;
+  Unsafe::Add(reference, 1) = upper;
+  return source;
 }
 
 Vector128<SByte> Vector128<>::Create(Vector64<SByte> lower, Vector64<SByte> upper) {
-  auto SoftwareFallback = [](Vector64<SByte> lower, Vector64<SByte> upper) -> Vector128<SByte> {
-    Vector128<SByte> source = Vector128<SByte>::get_Zero();
-    Vector64<SByte>& reference = Unsafe::As<Vector128<SByte>, Vector64<SByte>>(source);
-    reference = lower;
-    Unsafe::Add(reference, 1) = upper;
-    return source;
-  };
-  if (AdvSimd::in::get_IsSupported()) {
-    return Vector128<>::WithUpper(Vector64<>::ToVector128Unsafe(lower), upper);
-  }
-  return SoftwareFallback(lower, upper);
+  Vector128<SByte> source = Vector128<SByte>::get_Zero();
+  Vector64<SByte>& reference = Unsafe::As<Vector128<SByte>, Vector64<SByte>>(source);
+  reference = lower;
+  Unsafe::Add(reference, 1) = upper;
+  return source;
 }
 
 Vector128<Single> Vector128<>::Create(Vector64<Single> lower, Vector64<Single> upper) {
-  auto SoftwareFallback = [](Vector64<Single> lower, Vector64<Single> upper) -> Vector128<Single> {
-    Vector128<Single> source = Vector128<Single>::get_Zero();
-    Vector64<Single>& reference = Unsafe::As<Vector128<Single>, Vector64<Single>>(source);
-    reference = lower;
-    Unsafe::Add(reference, 1) = upper;
-    return source;
-  };
-  if (AdvSimd::in::get_IsSupported()) {
-    return Vector128<>::WithUpper(Vector64<>::ToVector128Unsafe(lower), upper);
-  }
-  return SoftwareFallback(lower, upper);
+  Vector128<Single> source = Vector128<Single>::get_Zero();
+  Vector64<Single>& reference = Unsafe::As<Vector128<Single>, Vector64<Single>>(source);
+  reference = lower;
+  Unsafe::Add(reference, 1) = upper;
+  return source;
 }
 
 Vector128<UInt16> Vector128<>::Create(Vector64<UInt16> lower, Vector64<UInt16> upper) {
-  auto SoftwareFallback = [](Vector64<UInt16> lower, Vector64<UInt16> upper) -> Vector128<UInt16> {
-    Vector128<UInt16> source = Vector128<UInt16>::get_Zero();
-    Vector64<UInt16>& reference = Unsafe::As<Vector128<UInt16>, Vector64<UInt16>>(source);
-    reference = lower;
-    Unsafe::Add(reference, 1) = upper;
-    return source;
-  };
-  if (AdvSimd::in::get_IsSupported()) {
-    return Vector128<>::WithUpper(Vector64<>::ToVector128Unsafe(lower), upper);
-  }
-  return SoftwareFallback(lower, upper);
+  Vector128<UInt16> source = Vector128<UInt16>::get_Zero();
+  Vector64<UInt16>& reference = Unsafe::As<Vector128<UInt16>, Vector64<UInt16>>(source);
+  reference = lower;
+  Unsafe::Add(reference, 1) = upper;
+  return source;
 }
 
 Vector128<UInt32> Vector128<>::Create(Vector64<UInt32> lower, Vector64<UInt32> upper) {
-  auto SoftwareFallback = [](Vector64<UInt32> lower, Vector64<UInt32> upper) -> Vector128<UInt32> {
-    Vector128<UInt32> source = Vector128<UInt32>::get_Zero();
-    Vector64<UInt32>& reference = Unsafe::As<Vector128<UInt32>, Vector64<UInt32>>(source);
-    reference = lower;
-    Unsafe::Add(reference, 1) = upper;
-    return source;
-  };
-  if (AdvSimd::in::get_IsSupported()) {
-    return Vector128<>::WithUpper(Vector64<>::ToVector128Unsafe(lower), upper);
-  }
-  return SoftwareFallback(lower, upper);
+  Vector128<UInt32> source = Vector128<UInt32>::get_Zero();
+  Vector64<UInt32>& reference = Unsafe::As<Vector128<UInt32>, Vector64<UInt32>>(source);
+  reference = lower;
+  Unsafe::Add(reference, 1) = upper;
+  return source;
 }
 
 Vector128<UInt64> Vector128<>::Create(Vector64<UInt64> lower, Vector64<UInt64> upper) {
-  auto SoftwareFallback = [](Vector64<UInt64> lower, Vector64<UInt64> upper) -> Vector128<UInt64> {
-    Vector128<UInt64> source = Vector128<UInt64>::get_Zero();
-    Vector64<UInt64>& reference = Unsafe::As<Vector128<UInt64>, Vector64<UInt64>>(source);
-    reference = lower;
-    Unsafe::Add(reference, 1) = upper;
-    return source;
-  };
-  if (AdvSimd::in::get_IsSupported()) {
-    return Vector128<>::WithUpper(Vector64<>::ToVector128Unsafe(lower), upper);
-  }
-  return SoftwareFallback(lower, upper);
+  Vector128<UInt64> source = Vector128<UInt64>::get_Zero();
+  Vector64<UInt64>& reference = Unsafe::As<Vector128<UInt64>, Vector64<UInt64>>(source);
+  reference = lower;
+  Unsafe::Add(reference, 1) = upper;
+  return source;
 }
 
 Vector128<Byte> Vector128<>::CreateScalar(Byte value) {

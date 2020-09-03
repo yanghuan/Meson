@@ -31,7 +31,7 @@ void ValueTaskAwaiter<>::OnCompleted(Action<> continuation) {
   } else if (obj != nullptr) {
     Unsafe::As<IValueTaskSource<>>(obj)->OnCompleted(s_invokeActionDelegate, continuation, _value._token, ValueTaskSourceOnCompletedFlags::UseSchedulingContext | ValueTaskSourceOnCompletedFlags::FlowExecutionContext);
   } else {
-    Task<>::in::get_CompletedTask()->GetAwaiter().OnCompleted(continuation);
+    ValueTask<>::get_CompletedTask()->GetAwaiter().OnCompleted(continuation);
   }
 
 }
@@ -44,7 +44,7 @@ void ValueTaskAwaiter<>::UnsafeOnCompleted(Action<> continuation) {
   } else if (obj != nullptr) {
     Unsafe::As<IValueTaskSource<>>(obj)->OnCompleted(s_invokeActionDelegate, continuation, _value._token, ValueTaskSourceOnCompletedFlags::UseSchedulingContext);
   } else {
-    Task<>::in::get_CompletedTask()->GetAwaiter().UnsafeOnCompleted(continuation);
+    ValueTask<>::get_CompletedTask()->GetAwaiter().UnsafeOnCompleted(continuation);
   }
 
 }

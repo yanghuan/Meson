@@ -2,7 +2,6 @@
 
 #include <System.Private.CoreLib/Interop.h>
 #include <System.Private.CoreLib/System/Boolean.h>
-#include <System.Private.CoreLib/System/Char.h>
 #include <System.Private.CoreLib/System/Object.h>
 #include <System.Private.CoreLib/System/ValueType.h>
 
@@ -17,6 +16,7 @@ namespace System::Private::CoreLib::System {
 enum class TypeCode : int32_t;
 FORWARD_(Array, T1, T2)
 FORWARDS(Byte)
+FORWARDS(Char)
 FORWARD_(IComparable, T1, T2)
 FORWARD(IConvertible)
 FORWARD(IFormatProvider)
@@ -37,7 +37,7 @@ using namespace System::Reflection;
 using namespace System::Runtime::CompilerServices;
 CLASS(Enum) : public ValueType::in {
   public: using interface = rt::TypeList<IComparable<>, IFormattable, IConvertible>;
-  public: CLASS(EnumInfo) : public object {
+  private: CLASS(EnumInfo) : public object {
     public: void ctor(Boolean hasFlagsAttribute, Array<UInt64> values, Array<String> names);
     public: Boolean HasFlagsAttribute;
     public: Array<UInt64> Values;
@@ -50,6 +50,15 @@ CLASS(Enum) : public ValueType::in {
   public: static RuntimeType InternalGetUnderlyingType(RuntimeType enumType);
   private: Boolean InternalHasFlag(Enum flags);
   private: static EnumInfo GetEnumInfo(RuntimeType enumType, Boolean getNames = true);
+  public: static Array<UInt64> InternalGetValues(RuntimeType enumType);
+  public: static Array<String> InternalGetNames(RuntimeType enumType);
+  public: Boolean HasFlag(Enum flag);
+  public: static String GetName(Type enumType, Object value);
+  public: static Array<String> GetNames(Type enumType);
+  public: static Type GetUnderlyingType(Type enumType);
+  public: static Array<> GetValues(Type enumType);
+  public: static Boolean IsDefined(Type enumType, Object value);
+  private: static RuntimeType ValidateRuntimeType(Type enumType);
   private: String ValueToString();
   private: String ValueToHexString();
   private: static String ValueToHexString(Object value);
@@ -59,22 +68,6 @@ CLASS(Enum) : public ValueType::in {
   private: static String InternalFlagsFormat(RuntimeType enumType, UInt64 result);
   private: static String InternalFlagsFormat(RuntimeType enumType, EnumInfo enumInfo, UInt64 resultValue);
   public: static UInt64 ToUInt64(Object value);
-  public: template <class TEnum>
-  static String GetName(TEnum value);
-  public: static String GetName(Type enumType, Object value);
-  public: template <class TEnum>
-  static Array<String> GetNames();
-  public: static Array<String> GetNames(Type enumType);
-  public: static Array<String> InternalGetNames(RuntimeType enumType);
-  public: static Type GetUnderlyingType(Type enumType);
-  public: template <class TEnum>
-  static Array<TEnum> GetValues();
-  public: static Array<> GetValues(Type enumType);
-  public: Boolean HasFlag(Enum flag);
-  public: static Array<UInt64> InternalGetValues(RuntimeType enumType);
-  public: template <class TEnum>
-  static Boolean IsDefined(TEnum value);
-  public: static Boolean IsDefined(Type enumType, Object value);
   public: static Object Parse(Type enumType, String value);
   public: static Object Parse(Type enumType, String value, Boolean ignoreCase);
   public: template <class TEnum>
@@ -118,9 +111,7 @@ CLASS(Enum) : public ValueType::in {
   public: static Object ToObject(Type enumType, UInt64 value);
   private: static Object ToObject(Type enumType, Char value);
   private: static Object ToObject(Type enumType, Boolean value);
-  private: static RuntimeType ValidateRuntimeType(Type enumType);
   protected: void ctor();
-  private: static constexpr Char EnumSeparatorChar = 44;
 };
 } // namespace EnumNamespace
 using Enum = EnumNamespace::Enum;

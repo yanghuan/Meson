@@ -23,8 +23,4 @@ Int32 EncoderExceptionFallback___::GetHashCode() {
   return 654;
 }
 
-void EncoderExceptionFallback___::cctor() {
-  s_default = rt::newobj<EncoderExceptionFallback>();
-}
-
 } // namespace System::Private::CoreLib::System::Text::EncoderExceptionFallbackNamespace

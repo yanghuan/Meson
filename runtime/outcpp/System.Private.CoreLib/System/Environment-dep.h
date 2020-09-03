@@ -8,6 +8,7 @@
 #include <System.Private.CoreLib/System/Collections/IDictionary.h>
 #include <System.Private.CoreLib/System/EnvironmentVariableTarget.h>
 #include <System.Private.CoreLib/System/Exception-dep.h>
+#include <System.Private.CoreLib/System/Func-dep.h>
 #include <System.Private.CoreLib/System/Int32-dep.h>
 #include <System.Private.CoreLib/System/Int64-dep.h>
 #include <System.Private.CoreLib/System/OperatingSystem-dep.h>

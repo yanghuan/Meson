@@ -22,7 +22,7 @@ FORWARD(String)
 FORWARDS(TimeSpan)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Threading {
-FORWARD(ContextCallback)
+FORWARD_(ContextCallback, T1, T2)
 FORWARD(ExecutionContext)
 FORWARD(SynchronizationContext)
 FORWARD(Thread)
@@ -167,7 +167,6 @@ CLASS_(Task) : public object {
   public: ContingentProperties EnsureContingentPropertiesInitialized();
   public: ContingentProperties EnsureContingentPropertiesInitializedUnsafe();
   private: static Boolean IsCompletedMethod(Int32 flags);
-  public: void SpinUntilCompleted();
   public: void Dispose();
   protected: void Dispose(Boolean disposing);
   public: void ScheduleAndStart(Boolean needsProtection);
@@ -345,7 +344,7 @@ CLASS_(Task) : public object {
   public: ContingentProperties m_contingentProperties;
   private: static TaskFactory<> Factory;
   public: static Task<VoidTaskResult> s_cachedCompleted;
-  private: static ContextCallback s_ecCallback;
+  private: static ContextCallback<> s_ecCallback;
 };
 CLASS(DelayPromise) : public Task<>::in {
   public: void ctor(Int32 millisecondsDelay);

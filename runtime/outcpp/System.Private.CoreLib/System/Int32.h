@@ -48,7 +48,7 @@ struct Int32 : public valueType<Int32, rt::TypeCode::Int32> {
   public: constexpr Int32() noexcept : m_value(0) {}
   public: constexpr Int32(int32_t value) noexcept : m_value(value) {}
   public: template <class T> requires(std::is_enum_v<T>)
-  constexpr Int32(T value) noexcept : Int32((int32_t)value) {}
+  constexpr explicit Int32(T value) noexcept : Int32((int32_t)value) {}
   public: constexpr int32_t& get() noexcept { return m_value; }
   public: constexpr int32_t get() const noexcept { return m_value; }
 };

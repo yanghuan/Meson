@@ -54,7 +54,7 @@ struct SByte : public valueType<SByte, rt::TypeCode::SByte> {
   public: constexpr SByte() noexcept : m_value(0) {}
   public: constexpr SByte(int8_t value) noexcept : m_value(value) {}
   public: template <class T> requires(std::is_enum_v<T>)
-  constexpr SByte(T value) noexcept : SByte((int8_t)value) {}
+  constexpr explicit SByte(T value) noexcept : SByte((int8_t)value) {}
   public: constexpr int8_t& get() noexcept { return m_value; }
   public: constexpr int8_t get() const noexcept { return m_value; }
 };

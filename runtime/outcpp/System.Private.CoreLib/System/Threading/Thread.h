@@ -1,13 +1,13 @@
 #pragma once
 
 #include <System.Private.CoreLib/Interop.h>
-#include <System.Private.CoreLib/System/Boolean.h>
 #include <System.Private.CoreLib/System/Int32.h>
 #include <System.Private.CoreLib/System/IntPtr.h>
 #include <System.Private.CoreLib/System/Runtime/ConstrainedExecution/CriticalFinalizerObject.h>
 
 namespace System::Private::CoreLib::System {
 FORWARD(AppDomain)
+FORWARDS(Boolean)
 FORWARDS(Byte)
 FORWARD(Delegate)
 FORWARDS(Double)
@@ -124,8 +124,9 @@ CLASS(Thread) : public CriticalFinalizerObject::in {
   private: Int32 GetThreadStateNative();
   public: ApartmentState GetApartmentState();
   private: Boolean TrySetApartmentStateUnchecked(ApartmentState state);
+  public: Boolean SetApartmentStateHelper(ApartmentState state, Boolean fireMDAOnMismatch);
   public: Int32 GetApartmentStateNative();
-  public: Int32 SetApartmentStateNative(Int32 state);
+  public: Int32 SetApartmentStateNative(Int32 state, Boolean fireMDAOnMismatch);
   public: void DisableComObjectEagerCleanup();
   public: void Interrupt();
   public: Boolean Join(Int32 millisecondsTimeout);
@@ -203,7 +204,6 @@ CLASS(Thread) : public CriticalFinalizerObject::in {
   private: IntPtr _DONT_USE_InternalThread;
   private: Int32 _priority;
   private: Int32 _managedThreadId;
-  public: static constexpr Boolean IsThreadStartSupported = true;
   private: static Int32 s_optimalMaxSpinWaitsPerSpinIteration;
   private: static Boolean s_isProcessorNumberReallyFast;
   private: static AsyncLocal<IPrincipal> s_asyncLocalPrincipal;

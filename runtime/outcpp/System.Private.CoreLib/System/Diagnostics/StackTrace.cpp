@@ -176,8 +176,8 @@ String StackTrace___::ToString(TraceFormat traceFormat) {
 }
 
 void StackTrace___::ToString(TraceFormat traceFormat, StringBuilder sb) {
-  String resourceString = SR::GetResourceString("Word_At", "at");
-  String resourceString2 = SR::GetResourceString("StackTrace_InFileLineNumber", "in {0}:line {1}");
+  String word_At = SR::get_Word_At();
+  String stackTrace_InFileLineNumber = SR::get_StackTrace_InFileLineNumber();
   Boolean flag = true;
   for (Int32 i = 0; i < _numOfFrames; i++) {
     StackFrame frame = GetFrame(i);
@@ -190,7 +190,7 @@ void StackTrace___::ToString(TraceFormat traceFormat, StringBuilder sb) {
     } else {
       sb->AppendLine();
     }
-    sb->AppendFormat(CultureInfo::in::get_InvariantCulture(), "   {0} ", resourceString);
+    sb->AppendFormat(CultureInfo::in::get_InvariantCulture(), "   {0} ", word_At);
     Boolean flag2 = false;
     Type declaringType = method->get_DeclaringType();
     String name = method->get_Name();
@@ -258,12 +258,12 @@ void StackTrace___::ToString(TraceFormat traceFormat, StringBuilder sb) {
       String fileName = frame->GetFileName();
       if (fileName != nullptr) {
         sb->Append(32);
-        sb->AppendFormat(CultureInfo::in::get_InvariantCulture(), resourceString2, fileName, frame->GetFileLineNumber());
+        sb->AppendFormat(CultureInfo::in::get_InvariantCulture(), stackTrace_InFileLineNumber, fileName, frame->GetFileLineNumber());
       }
     }
     if (frame->get_IsLastFrameFromForeignExceptionStackTrace() && !flag2) {
       sb->AppendLine();
-      sb->Append(SR::GetResourceString("Exception_EndStackTraceFromPreviousThrow", "--- End of stack trace from previous location ---"));
+      sb->Append(SR::get_Exception_EndStackTraceFromPreviousThrow());
     }
   }
   if (traceFormat == TraceFormat::TrailingNewLine) {

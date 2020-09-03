@@ -19,7 +19,7 @@ enum class ValueTaskSourceStatus : int32_t;
 FORWARD_(IValueTaskSource, T1, T2)
 } // namespace System::Private::CoreLib::System::Threading::Tasks::Sources
 namespace System::Private::CoreLib::System::Threading {
-FORWARD(ContextCallback)
+FORWARD_(ContextCallback, T1, T2)
 FORWARD(ExecutionContext)
 FORWARD(IThreadPoolWorkItem)
 } // namespace System::Private::CoreLib::System::Threading
@@ -36,7 +36,6 @@ struct AsyncValueTaskMethodBuilder {
 template <>
 struct AsyncValueTaskMethodBuilder<> : public valueType<AsyncValueTaskMethodBuilder<>> {
   public: ValueTask<> get_Task();
-  public: Object get_ObjectIdForDebugger();
   public: static AsyncValueTaskMethodBuilder<> Create();
   public: template <class TStateMachine>
   void Start(TStateMachine& stateMachine);
@@ -75,7 +74,7 @@ struct AsyncValueTaskMethodBuilder<TResult> : public valueType<AsyncValueTaskMet
     public: void MoveNext();
     public: void ctor();
     private: static void cctor();
-    private: static ContextCallback s_callback;
+    private: static ContextCallback<> s_callback;
     private: static Int32 s_cacheLock;
     private: static StateMachineBox<TStateMachine> s_cache;
     private: static Int32 s_cacheSize;
@@ -86,7 +85,6 @@ struct AsyncValueTaskMethodBuilder<TResult> : public valueType<AsyncValueTaskMet
     public: void ctor();
   };
   public: ValueTask<TResult> get_Task();
-  public: Object get_ObjectIdForDebugger();
   public: static AsyncValueTaskMethodBuilder<TResult> Create();
   public: template <class TStateMachine>
   void Start(TStateMachine& stateMachine);

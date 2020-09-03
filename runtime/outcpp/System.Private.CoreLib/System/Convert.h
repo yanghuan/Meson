@@ -362,11 +362,6 @@ class Convert {
   public: static Array<Byte> FromBase64CharArray(Array<Char> inArray, Int32 offset, Int32 length);
   private: static Array<Byte> FromBase64CharPtr(Char* inputPtr, Int32 inputLength);
   private: static Int32 FromBase64_ComputeResultLength(Char* inputPtr, Int32 inputLength);
-  public: static Array<Byte> FromHexString(String s);
-  public: static Array<Byte> FromHexString(ReadOnlySpan<Char> chars);
-  public: static String ToHexString(Array<Byte> inArray);
-  public: static String ToHexString(Array<Byte> inArray, Int32 offset, Int32 length);
-  public: static String ToHexString(ReadOnlySpan<Byte> bytes);
   private: static void cctor();
   public: static Array<Type> ConvertTypes;
   private: static Type EnumType;

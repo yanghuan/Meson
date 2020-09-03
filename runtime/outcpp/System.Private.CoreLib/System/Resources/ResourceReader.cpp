@@ -146,8 +146,8 @@ Object ResourceReader___::DeserializeObject(Int32 typeIndex) {
   if (!_permitDeserialization) {
     rt::throw_exception<NotSupportedException>(SR::get_NotSupported_ResourceObjectSerialization());
   }
-  if (_binaryFormatter == nullptr && !InitializeBinaryFormatter()) {
-    rt::throw_exception<NotSupportedException>(SR::get_BinaryFormatter_SerializationDisallowed());
+  if (_binaryFormatter == nullptr) {
+    InitializeBinaryFormatter();
   }
   Type type = FindType(typeIndex);
   Object obj = s_deserializeMethod(_binaryFormatter, _store->get_BaseStream());
@@ -157,7 +157,7 @@ Object ResourceReader___::DeserializeObject(Int32 typeIndex) {
   return obj;
 }
 
-Boolean ResourceReader___::InitializeBinaryFormatter() {
+void ResourceReader___::InitializeBinaryFormatter() {
 }
 
 Boolean ResourceReader___::ValidateReaderType(String readerType) {

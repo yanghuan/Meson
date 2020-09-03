@@ -8,18 +8,13 @@ FORWARDS(Byte)
 FORWARDS(Char)
 FORWARDS(Int32)
 FORWARDS(UInt32)
-FORWARDS(UInt64)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Buffers {
 enum class OperationStatus : int32_t;
 } // namespace System::Private::CoreLib::System::Buffers
-namespace System::Private::CoreLib::System::Runtime::Intrinsics {
-FORWARDS_(Vector128, T1, T2)
-} // namespace System::Private::CoreLib::System::Runtime::Intrinsics
 namespace System::Private::CoreLib::System::Text::Unicode {
 namespace Utf8UtilityNamespace {
 using namespace System::Buffers;
-using namespace System::Runtime::Intrinsics;
 class Utf8Utility {
   private: static UInt32 ExtractCharFromFirstThreeByteSequence(UInt32 value);
   private: static UInt32 ExtractCharFromFirstTwoByteSequence(UInt32 value);
@@ -57,7 +52,6 @@ class Utf8Utility {
   public: static OperationStatus TranscodeToUtf16(Byte* pInputBuffer, Int32 inputLength, Char* pOutputBuffer, Int32 outputCharsRemaining, Byte*& pInputBufferRemaining, Char*& pOutputBufferRemaining);
   public: static OperationStatus TranscodeToUtf8(Char* pInputBuffer, Int32 inputLength, Byte* pOutputBuffer, Int32 outputBytesRemaining, Char*& pInputBufferRemaining, Byte*& pOutputBufferRemaining);
   public: static Byte* GetPointerToFirstInvalidByte(Byte* pInputBuffer, Int32 inputLength, Int32& utf16CodeUnitCountAdjustment, Int32& scalarCountAdjustment);
-  private: static UInt64 GetNonAsciiBytes(Vector128<Byte> value, Vector128<Byte> bitMask128);
 };
 } // namespace Utf8UtilityNamespace
 using Utf8Utility = Utf8UtilityNamespace::Utf8Utility;

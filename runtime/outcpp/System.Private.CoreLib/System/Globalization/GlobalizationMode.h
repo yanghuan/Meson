@@ -18,7 +18,7 @@ class GlobalizationMode {
   private: static Boolean TryGetAppLocalIcuSwitchValue(String& value);
   private: static Boolean GetSwitchValue(String switchName, String envVariable);
   private: static Boolean TryGetStringValue(String switchName, String envVariable, String& value);
-  private: static void LoadAppLocalIcu(String icuSuffixAndVersion);
+  private: static void LoadAppLocalIcu(String icuSuffixAndVersion, Boolean suffixWithSeparator = false);
   private: static String CreateLibraryName(ReadOnlySpan<Char> baseName, ReadOnlySpan<Char> suffix, ReadOnlySpan<Char> extension, ReadOnlySpan<Char> version, Boolean versionAtEnd = false);
   private: static IntPtr LoadLibrary(String library, Boolean failOnLoadFailure);
   private: static Boolean LoadIcu();

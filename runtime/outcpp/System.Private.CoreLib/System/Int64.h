@@ -49,7 +49,7 @@ struct Int64 : public valueType<Int64, rt::TypeCode::Int64> {
   public: constexpr Int64() noexcept : m_value(0) {}
   public: constexpr Int64(int64_t value) noexcept : m_value(value) {}
   public: template <class T> requires(std::is_enum_v<T>)
-  constexpr Int64(T value) noexcept : Int64((int64_t)value) {}
+  constexpr explicit Int64(T value) noexcept : Int64((int64_t)value) {}
   public: constexpr int64_t& get() noexcept { return m_value; }
   public: constexpr int64_t get() const noexcept { return m_value; }
 };

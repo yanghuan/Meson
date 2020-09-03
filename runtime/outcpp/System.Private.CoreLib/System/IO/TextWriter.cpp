@@ -10,7 +10,6 @@
 #include <System.Private.CoreLib/System/Globalization/CultureInfo-dep.h>
 #include <System.Private.CoreLib/System/IFormattable.h>
 #include <System.Private.CoreLib/System/IO/TextWriter-dep.h>
-#include <System.Private.CoreLib/System/Runtime/CompilerServices/AsyncTaskMethodBuilder-dep.h>
 #include <System.Private.CoreLib/System/Runtime/InteropServices/MemoryMarshal-dep.h>
 #include <System.Private.CoreLib/System/Span-dep.h>
 #include <System.Private.CoreLib/System/SR-dep.h>
@@ -19,7 +18,6 @@
 namespace System::Private::CoreLib::System::IO::TextWriterNamespace {
 using namespace System::Buffers;
 using namespace System::Globalization;
-using namespace System::Runtime::CompilerServices;
 using namespace System::Runtime::InteropServices;
 
 Encoding NullTextWriter___::get_Encoding() {
@@ -341,6 +339,7 @@ void TextWriter___::ctor() {
   CoreNewLine = s_coreNewLine;
   CoreNewLineStr = "\r\n";
   MarshalByRefObject::in::ctor();
+  _internalFormatProvider = nullptr;
 }
 
 void TextWriter___::ctor(IFormatProvider formatProvider) {
@@ -368,7 +367,7 @@ ValueTask<> TextWriter___::DisposeAsync() {
     Dispose();
     return rt::default__;
   } catch (Exception exception) {
-    return ValueTask<>::FromException(exception);
+    return ValueTask<>(Task<>::in::FromException(exception));
   }
 }
 
@@ -609,14 +608,10 @@ Task<> TextWriter___::WriteAsync(String value) {
 template <>
 Task<> TextWriter___::WriteAsync(StringBuilder value, CancellationToken cancellationToken) {
   auto WriteAsyncCore = [](StringBuilder sb, CancellationToken ct) -> Task<> {
-    <<WriteAsync>g__WriteAsyncCore|60_0>d stateMachine;
-    stateMachine.<>t__builder = AsyncTaskMethodBuilder<>::Create();
-    stateMachine.<>4__this = (TextWriter)this;
-    stateMachine.sb = sb;
-    stateMachine.ct = ct;
-    stateMachine.<>1__state = -1;
-    stateMachine.<>t__builder.Start(stateMachine);
-    return stateMachine.<>t__builder.get_Task();
+    StringBuilder::in::ChunkEnumerator enumerator = sb->GetChunks().GetEnumerator();
+    while (enumerator.MoveNext()) {
+      ReadOnlyMemory<Char> current = enumerator.get_Current();
+    }
   };
   if (!cancellationToken.get_IsCancellationRequested()) {
     if (value != nullptr) {
@@ -660,14 +655,10 @@ Task<> TextWriter___::WriteLineAsync(String value) {
 template <>
 Task<> TextWriter___::WriteLineAsync(StringBuilder value, CancellationToken cancellationToken) {
   auto WriteLineAsyncCore = [](StringBuilder sb, CancellationToken ct) -> Task<> {
-    <<WriteLineAsync>g__WriteLineAsyncCore|66_0>d stateMachine;
-    stateMachine.<>t__builder = AsyncTaskMethodBuilder<>::Create();
-    stateMachine.<>4__this = (TextWriter)this;
-    stateMachine.sb = sb;
-    stateMachine.ct = ct;
-    stateMachine.<>1__state = -1;
-    stateMachine.<>t__builder.Start(stateMachine);
-    return stateMachine.<>t__builder.get_Task();
+    StringBuilder::in::ChunkEnumerator enumerator = sb->GetChunks().GetEnumerator();
+    while (enumerator.MoveNext()) {
+      ReadOnlyMemory<Char> current = enumerator.get_Current();
+    }
   };
   if (!cancellationToken.get_IsCancellationRequested()) {
     if (value != nullptr) {

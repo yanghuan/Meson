@@ -306,6 +306,7 @@ void ActivityTracker___::ctor() {
 
 void ActivityTracker___::cctor() {
   s_activityTrackerInstance = rt::newobj<ActivityTracker>();
+  m_nextId = 0;
 }
 
 } // namespace System::Private::CoreLib::System::Diagnostics::Tracing::ActivityTrackerNamespace

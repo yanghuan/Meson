@@ -10,7 +10,7 @@ Boolean RuntimeFeature::get_IsDynamicCodeCompiled() {
 }
 
 Boolean RuntimeFeature::IsSupported(String feature) {
-  if (!(feature == "PortablePdb") && !(feature == "CovariantReturnsOfClasses") && !(feature == "UnmanagedSignatureCallingConvention") && !(feature == "DefaultImplementationsOfInterfaces")) {
+  if (!(feature == "PortablePdb") && !(feature == "DefaultImplementationsOfInterfaces")) {
     if (!(feature == "IsDynamicCodeSupported")) {
       if (feature == "IsDynamicCodeCompiled") {
         return get_IsDynamicCodeCompiled();

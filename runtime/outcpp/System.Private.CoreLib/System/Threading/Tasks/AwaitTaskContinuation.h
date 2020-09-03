@@ -4,7 +4,7 @@
 #include <System.Private.CoreLib/System/Threading/Tasks/TaskContinuation.h>
 
 namespace System::Private::CoreLib::System::Threading {
-FORWARD(ContextCallback)
+FORWARD_(ContextCallback, T1, T2)
 FORWARD(ExecutionContext)
 FORWARD(IThreadPoolWorkItem)
 } // namespace System::Private::CoreLib::System::Threading
@@ -29,8 +29,8 @@ CLASS(AwaitTaskContinuation) : public TaskContinuation::in {
   public: void ctor(Action<> action, Boolean flowExecutionContext);
   protected: Task<> CreateTask(Action<Object> action, Object state, TaskScheduler scheduler);
   public: void Run(Task<> task, Boolean canInlineContinuationTask);
-  protected: static ContextCallback GetInvokeActionCallback();
-  protected: void RunCallback(ContextCallback callback, Object state, Task<>& currentTask);
+  protected: static ContextCallback<> GetInvokeActionCallback();
+  protected: void RunCallback(ContextCallback<> callback, Object state, Task<>& currentTask);
   public: static void RunOrScheduleAction(Action<> action, Boolean allowInlining);
   public: static void RunOrScheduleAction(IAsyncStateMachineBox box, Boolean allowInlining);
   public: static void UnsafeScheduleAction(Action<> action, Task<> task);
@@ -39,7 +39,7 @@ CLASS(AwaitTaskContinuation) : public TaskContinuation::in {
   private: ExecutionContext m_capturedContext;
   protected: Action<> m_action;
   protected: Int32 m_continuationId;
-  private: static ContextCallback s_invokeContextCallback;
+  private: static ContextCallback<> s_invokeContextCallback;
   private: static Action<Action<>> s_invokeAction;
 };
 } // namespace AwaitTaskContinuationNamespace

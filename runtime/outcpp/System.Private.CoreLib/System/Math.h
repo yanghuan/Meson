@@ -122,7 +122,6 @@ class Math {
   private: static void cctor();
   public: static constexpr Double E = 2.718281828459045;
   public: static constexpr Double PI = 3.141592653589793;
-  public: static constexpr Double Tau = 6.283185307179586;
   private: static Array<Double> roundPower10Double;
 };
 } // namespace MathNamespace

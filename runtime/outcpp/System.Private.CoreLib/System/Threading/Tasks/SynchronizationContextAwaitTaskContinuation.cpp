@@ -36,7 +36,7 @@ void SynchronizationContextAwaitTaskContinuation___::PostAction(Object state) {
 Action<> SynchronizationContextAwaitTaskContinuation___::GetActionLogDelegate(Int32 continuationId, Action<> action) {
 }
 
-ContextCallback SynchronizationContextAwaitTaskContinuation___::GetPostActionCallback() {
+ContextCallback<> SynchronizationContextAwaitTaskContinuation___::GetPostActionCallback() {
   return PostAction;
 }
 

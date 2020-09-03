@@ -1,19 +1,16 @@
 #include "AsyncVoidMethodBuilder-dep.h"
 
+#include <System.Private.CoreLib/System/Boolean-dep.h>
 #include <System.Private.CoreLib/System/ExceptionArgument.h>
 #include <System.Private.CoreLib/System/Runtime/CompilerServices/AsyncVoidMethodBuilder-dep.h>
 #include <System.Private.CoreLib/System/Threading/SynchronizationContext-dep.h>
-#include <System.Private.CoreLib/System/Threading/Tasks/AsyncCausalityStatus.h>
-#include <System.Private.CoreLib/System/Threading/Tasks/TplEventSource-dep.h>
+#include <System.Private.CoreLib/System/Threading/Tasks/AsyncCausalityTracer-dep.h>
+#include <System.Private.CoreLib/System/Threading/Tasks/Task-dep.h>
 #include <System.Private.CoreLib/System/ThrowHelper-dep.h>
 
 namespace System::Private::CoreLib::System::Runtime::CompilerServices::AsyncVoidMethodBuilderNamespace {
 using namespace System::Threading;
 using namespace System::Threading::Tasks;
-
-Task<> AsyncVoidMethodBuilder::get_Task() {
-  return _builder.get_Task();
-}
 
 Object AsyncVoidMethodBuilder::get_ObjectIdForDebugger() {
   return _builder.get_ObjectIdForDebugger();
@@ -34,9 +31,7 @@ void AsyncVoidMethodBuilder::SetStateMachine(IAsyncStateMachine stateMachine) {
 }
 
 void AsyncVoidMethodBuilder::SetResult() {
-  if (TplEventSource::in::Log->IsEnabled()) {
-    TplEventSource::in::Log->TraceOperationEnd(get_Task()->get_Id(), AsyncCausalityStatus::Completed);
-  }
+  Boolean loggingOn = AsyncCausalityTracer::get_LoggingOn();
   _builder.SetResult();
   if (_synchronizationContext != nullptr) {
     NotifySynchronizationContextOfCompletion();
@@ -47,9 +42,7 @@ void AsyncVoidMethodBuilder::SetException(Exception exception) {
   if (exception == nullptr) {
     ThrowHelper::ThrowArgumentNullException(ExceptionArgument::exception);
   }
-  if (TplEventSource::in::Log->IsEnabled()) {
-    TplEventSource::in::Log->TraceOperationEnd(get_Task()->get_Id(), AsyncCausalityStatus::Error);
-  }
+  Boolean loggingOn = AsyncCausalityTracer::get_LoggingOn();
   if (_synchronizationContext != nullptr) {
     try {
       Task<>::in::ThrowAsync(exception, _synchronizationContext);

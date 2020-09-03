@@ -4,6 +4,7 @@
 #include <System.Private.CoreLib/System/ArgumentNullException-dep.h>
 #include <System.Private.CoreLib/System/ArraySegment-dep.h>
 #include <System.Private.CoreLib/System/Buffers/ArrayPool-dep.h>
+#include <System.Private.CoreLib/System/Exception-dep.h>
 #include <System.Private.CoreLib/System/GC-dep.h>
 #include <System.Private.CoreLib/System/InvalidOperationException-dep.h>
 #include <System.Private.CoreLib/System/IO/Error-dep.h>
@@ -11,8 +12,8 @@
 #include <System.Private.CoreLib/System/IO/Stream-dep.h>
 #include <System.Private.CoreLib/System/IO/StreamHelpers-dep.h>
 #include <System.Private.CoreLib/System/Math-dep.h>
-#include <System.Private.CoreLib/System/Runtime/CompilerServices/AsyncTaskMethodBuilder-dep.h>
-#include <System.Private.CoreLib/System/Runtime/CompilerServices/AsyncValueTaskMethodBuilder-dep.h>
+#include <System.Private.CoreLib/System/NotSupportedException-dep.h>
+#include <System.Private.CoreLib/System/ReadOnlySpan-dep.h>
 #include <System.Private.CoreLib/System/Runtime/ExceptionServices/ExceptionDispatchInfo-dep.h>
 #include <System.Private.CoreLib/System/Runtime/InteropServices/MemoryMarshal-dep.h>
 #include <System.Private.CoreLib/System/SR-dep.h>
@@ -22,11 +23,92 @@
 
 namespace System::Private::CoreLib::System::IO::StreamNamespace {
 using namespace System::Buffers;
-using namespace System::Runtime::CompilerServices;
 using namespace System::Runtime::ExceptionServices;
 using namespace System::Runtime::InteropServices;
 using namespace System::Threading;
 using namespace System::Threading::Tasks;
+
+Boolean WriteCallbackStream___::get_CanRead() {
+  return false;
+}
+
+Boolean WriteCallbackStream___::get_CanSeek() {
+  return false;
+}
+
+Boolean WriteCallbackStream___::get_CanWrite() {
+  return true;
+}
+
+Int64 WriteCallbackStream___::get_Length() {
+  rt::throw_exception<NotSupportedException>();
+}
+
+Int64 WriteCallbackStream___::get_Position() {
+  rt::throw_exception<NotSupportedException>();
+}
+
+void WriteCallbackStream___::set_Position(Int64 value) {
+  rt::throw_exception<NotSupportedException>();
+}
+
+void WriteCallbackStream___::ctor(ReadOnlySpanAction<Byte, Object> action, Object state) {
+  _action = action;
+  _state = state;
+}
+
+void WriteCallbackStream___::ctor(Func<ReadOnlyMemory<Byte>, Object, CancellationToken, ValueTask<>> func, Object state) {
+  _func = func;
+  _state = state;
+}
+
+void WriteCallbackStream___::Write(Array<Byte> buffer, Int32 offset, Int32 count) {
+  Write(ReadOnlySpan<Byte>(buffer, offset, count));
+}
+
+void WriteCallbackStream___::Write(ReadOnlySpan<Byte> span) {
+  if (_action != nullptr) {
+    _action(span, _state);
+  } else {
+    _func(span.ToArray(), _state, CancellationToken::get_None()).AsTask()->GetAwaiter().GetResult();
+  }
+}
+
+Task<> WriteCallbackStream___::WriteAsync(Array<Byte> buffer, Int32 offset, Int32 length, CancellationToken cancellationToken) {
+  return WriteAsync(ReadOnlyMemory<Byte>(buffer, offset, length), cancellationToken).AsTask();
+}
+
+ValueTask<> WriteCallbackStream___::WriteAsync(ReadOnlyMemory<Byte> buffer, CancellationToken cancellationToken) {
+  if (_func != nullptr) {
+    return _func(buffer, _state, cancellationToken);
+  }
+  try {
+    cancellationToken.ThrowIfCancellationRequested();
+    _action(buffer.get_Span(), _state);
+    return rt::default__;
+  } catch (Exception exception) {
+    return ValueTask<>(Task<>::in::FromException(exception));
+  }
+}
+
+void WriteCallbackStream___::Flush() {
+}
+
+Task<> WriteCallbackStream___::FlushAsync(CancellationToken token) {
+  return Task<>::in::get_CompletedTask();
+}
+
+Int32 WriteCallbackStream___::Read(Array<Byte> buffer, Int32 offset, Int32 count) {
+  rt::throw_exception<NotSupportedException>();
+}
+
+Int64 WriteCallbackStream___::Seek(Int64 offset, SeekOrigin origin) {
+  rt::throw_exception<NotSupportedException>();
+}
+
+void WriteCallbackStream___::SetLength(Int64 value) {
+  rt::throw_exception<NotSupportedException>();
+}
 
 Boolean Stream___::ReadWriteTask___::get_InvokeMayRunArbitraryCodeOfITaskCompletionAction() {
   return true;
@@ -90,6 +172,18 @@ void NullStream___::CopyTo(Stream destination, Int32 bufferSize) {
 
 Task<> NullStream___::CopyToAsync(Stream destination, Int32 bufferSize, CancellationToken cancellationToken) {
   StreamHelpers::ValidateCopyToArgs((NullStream)this, destination, bufferSize);
+  if (!cancellationToken.get_IsCancellationRequested()) {
+    return Task<>::in::get_CompletedTask();
+  }
+  return Task<>::in::FromCanceled(cancellationToken);
+}
+
+void NullStream___::CopyTo(ReadOnlySpanAction<Byte, Object> callback, Object state, Int32 bufferSize) {
+  StreamHelpers::ValidateCopyToArgs((NullStream)this, callback, bufferSize);
+}
+
+Task<> NullStream___::CopyToAsync(Func<ReadOnlyMemory<Byte>, Object, CancellationToken, ValueTask<>> callback, Object state, Int32 bufferSize, CancellationToken cancellationToken) {
+  StreamHelpers::ValidateCopyToArgs((NullStream)this, callback, bufferSize);
   if (!cancellationToken.get_IsCancellationRequested()) {
     return Task<>::in::get_CompletedTask();
   }
@@ -176,7 +270,7 @@ ValueTask<> NullStream___::WriteAsync(ReadOnlyMemory<Byte> buffer, CancellationT
   if (!cancellationToken.get_IsCancellationRequested()) {
     return rt::default__;
   }
-  return ValueTask<>::FromCanceled(cancellationToken);
+  return ValueTask<>(Task<>::in::FromCanceled(cancellationToken));
 }
 
 void NullStream___::WriteByte(Byte value) {
@@ -490,15 +584,14 @@ Task<> Stream___::CopyToAsync(Stream destination, Int32 bufferSize, Cancellation
 }
 
 Task<> Stream___::CopyToAsyncInternal(Stream destination, Int32 bufferSize, CancellationToken cancellationToken) {
-  <CopyToAsyncInternal>d__29 stateMachine;
-  stateMachine.<>t__builder = AsyncTaskMethodBuilder<>::Create();
-  stateMachine.<>4__this = (Stream)this;
-  stateMachine.destination = destination;
-  stateMachine.bufferSize = bufferSize;
-  stateMachine.cancellationToken = cancellationToken;
-  stateMachine.<>1__state = -1;
-  stateMachine.<>t__builder.Start(stateMachine);
-  return stateMachine.<>t__builder.get_Task();
+  Array<Byte> buffer = ArrayPool<Byte>::in::get_Shared()->Rent(bufferSize);
+  try {
+    while (true) {
+    }
+  } catch (...) {
+  } finally: {
+    ArrayPool<Byte>::in::get_Shared()->Return(buffer);
+  }
 }
 
 void Stream___::CopyTo(Stream destination) {
@@ -537,6 +630,20 @@ Int32 Stream___::GetCopyBufferSize() {
   return num;
 }
 
+void Stream___::CopyTo(ReadOnlySpanAction<Byte, Object> callback, Object state, Int32 bufferSize) {
+  if (callback == nullptr) {
+    rt::throw_exception<ArgumentNullException>("callback");
+  }
+  CopyTo(rt::newobj<WriteCallbackStream>(callback, state), bufferSize);
+}
+
+Task<> Stream___::CopyToAsync(Func<ReadOnlyMemory<Byte>, Object, CancellationToken, ValueTask<>> callback, Object state, Int32 bufferSize, CancellationToken cancellationToken) {
+  if (callback == nullptr) {
+    rt::throw_exception<ArgumentNullException>("callback");
+  }
+  return CopyToAsync(rt::newobj<WriteCallbackStream>(callback, state), bufferSize, cancellationToken);
+}
+
 void Stream___::Close() {
   Dispose(true);
   GC::SuppressFinalize((Stream)this);
@@ -554,7 +661,7 @@ ValueTask<> Stream___::DisposeAsync() {
     Dispose();
     return rt::default__;
   } catch (Exception exception) {
-    return ValueTask<>::FromException(exception);
+    return ValueTask<>(Task<>::in::FromException(exception));
   }
 }
 
@@ -622,14 +729,11 @@ Task<Int32> Stream___::ReadAsync(Array<Byte> buffer, Int32 offset, Int32 count, 
 template <>
 ValueTask<Int32> Stream___::ReadAsync(Memory<Byte> buffer, CancellationToken cancellationToken) {
   auto FinishReadAsync = [](Task<Int32> readTask, Array<Byte> localBuffer, Memory<Byte> localDestination) -> ValueTask<Int32> {
-    <<ReadAsync>g__FinishReadAsync|46_0>d stateMachine;
-    stateMachine.<>t__builder = AsyncValueTaskMethodBuilder<Int32>::Create();
-    stateMachine.readTask = readTask;
-    stateMachine.localBuffer = localBuffer;
-    stateMachine.localDestination = localDestination;
-    stateMachine.<>1__state = -1;
-    stateMachine.<>t__builder.Start(stateMachine);
-    return stateMachine.<>t__builder.get_Task();
+    try {
+    } catch (...) {
+    } finally: {
+      ArrayPool<Byte>::in::get_Shared()->Return(localBuffer);
+    }
   };
   ArraySegment<Byte> segment;
   if (MemoryMarshal::TryGetArray(buffer, segment)) {
@@ -724,13 +828,11 @@ ValueTask<> Stream___::WriteAsync(ReadOnlyMemory<Byte> buffer, CancellationToken
 }
 
 Task<> Stream___::FinishWriteAsync(Task<> writeTask, Array<Byte> localBuffer) {
-  <FinishWriteAsync>d__59 stateMachine;
-  stateMachine.<>t__builder = AsyncTaskMethodBuilder<>::Create();
-  stateMachine.writeTask = writeTask;
-  stateMachine.localBuffer = localBuffer;
-  stateMachine.<>1__state = -1;
-  stateMachine.<>t__builder.Start(stateMachine);
-  return stateMachine.<>t__builder.get_Task();
+  try {
+  } catch (...) {
+  } finally: {
+    ArrayPool<Byte>::in::get_Shared()->Return(localBuffer);
+  }
 }
 
 Task<> Stream___::BeginEndWriteAsync(Array<Byte> buffer, Int32 offset, Int32 count) {

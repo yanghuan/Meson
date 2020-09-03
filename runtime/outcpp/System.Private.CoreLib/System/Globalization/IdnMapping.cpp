@@ -6,12 +6,13 @@
 #include <System.Private.CoreLib/System/ArgumentOutOfRangeException-dep.h>
 #include <System.Private.CoreLib/System/Char-dep.h>
 #include <System.Private.CoreLib/System/Globalization/CharUnicodeInfo-dep.h>
-#include <System.Private.CoreLib/System/Globalization/CompareInfo-dep.h>
 #include <System.Private.CoreLib/System/Globalization/GlobalizationMode-dep.h>
 #include <System.Private.CoreLib/System/Globalization/IdnMapping-dep.h>
 #include <System.Private.CoreLib/System/Globalization/StrongBidiCategory.h>
 #include <System.Private.CoreLib/System/Int64-dep.h>
 #include <System.Private.CoreLib/System/Math-dep.h>
+#include <System.Private.CoreLib/System/MemoryExtensions-dep.h>
+#include <System.Private.CoreLib/System/ReadOnlySpan-dep.h>
 #include <System.Private.CoreLib/System/Runtime/InteropServices/Marshal-dep.h>
 #include <System.Private.CoreLib/System/SR-dep.h>
 #include <System.Private.CoreLib/System/StringComparison.h>
@@ -144,10 +145,10 @@ Int32 IdnMapping___::GetHashCode() {
 }
 
 String IdnMapping___::GetStringForOutput(String originalString, Char* input, Int32 inputLength, Char* output, Int32 outputLength) {
-  if (originalString->get_Length() == inputLength && inputLength == outputLength && CompareInfo::in::EqualsOrdinalIgnoreCase(*input, *output, inputLength)) {
-    return originalString;
+  if (originalString->get_Length() != inputLength || !MemoryExtensions::SequenceEqual(ReadOnlySpan<Char>(input, inputLength), ReadOnlySpan<Char>(output, outputLength))) {
+    return rt::newobj<String>(output, 0, outputLength);
   }
-  return rt::newobj<String>(output, 0, outputLength);
+  return originalString;
 }
 
 String IdnMapping___::GetAsciiInvariant(String unicode, Int32 index, Int32 count) {

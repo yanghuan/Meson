@@ -9,6 +9,7 @@ FORWARD_(Array, T1, T2)
 FORWARDS(Byte)
 FORWARDS(Int32)
 FORWARDS(Memory, T)
+FORWARD(Object)
 FORWARDS(ReadOnlyMemory, T)
 FORWARDS(ReadOnlySpan, T)
 FORWARDS(Span, T)
@@ -16,6 +17,9 @@ FORWARDS(Span, T)
 namespace System::Private::CoreLib::System::Runtime::InteropServices {
 FORWARD(SafeBuffer)
 } // namespace System::Private::CoreLib::System::Runtime::InteropServices
+namespace System::Private::CoreLib::System::Buffers {
+FORWARD(ReadOnlySpanAction, T, TArg)
+} // namespace System::Private::CoreLib::System::Buffers
 namespace System::Private::CoreLib::System::Threading {
 FORWARDS(CancellationToken)
 } // namespace System::Private::CoreLib::System::Threading
@@ -27,6 +31,7 @@ namespace System::Private::CoreLib::System::IO {
 enum class FileAccess : int32_t;
 enum class SeekOrigin : int32_t;
 namespace UnmanagedMemoryStreamNamespace {
+using namespace System::Buffers;
 using namespace System::Runtime::InteropServices;
 using namespace System::Threading;
 using namespace System::Threading::Tasks;
@@ -47,6 +52,7 @@ CLASS(UnmanagedMemoryStream) : public Stream::in {
   public: void ctor(Byte* pointer, Int64 length);
   public: void ctor(Byte* pointer, Int64 length, Int64 capacity, FileAccess access);
   protected: void Initialize(Byte* pointer, Int64 length, Int64 capacity, FileAccess access);
+  public: void CopyTo(ReadOnlySpanAction<Byte, Object> callback, Object state, Int32 bufferSize);
   protected: void Dispose(Boolean disposing);
   private: void EnsureNotClosed();
   private: void EnsureReadable();

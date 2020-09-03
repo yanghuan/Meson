@@ -37,6 +37,8 @@ void IndentedTextWriter___::ctor(TextWriter writer, String tabString) {
   }
   _writer = writer;
   _tabString = tabString;
+  _indentLevel = 0;
+  _tabsPending = false;
 }
 
 void IndentedTextWriter___::Close() {

@@ -33,8 +33,7 @@ struct ManualResetValueTaskSourceCore : public valueType<ManualResetValueTaskSou
   public: void OnCompleted(Action<Object> continuation, Object state, Int16 token, ValueTaskSourceOnCompletedFlags flags);
   private: void ValidateToken(Int16 token);
   private: void SignalCompletion();
-  private: void InvokeContinuationWithContext();
-  private: void InvokeSchedulerContinuation();
+  private: void InvokeContinuation();
   private: Action<Object> _continuation;
   private: Object _continuationState;
   private: ExecutionContext _executionContext;
