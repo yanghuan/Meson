@@ -4,6 +4,7 @@
 #include <System.Private.CoreLib/System/ArgumentException-dep.h>
 #include <System.Private.CoreLib/System/ArgumentOutOfRangeException-dep.h>
 #include <System.Private.CoreLib/System/ArrayTypeMismatchException-dep.h>
+#include <System.Private.CoreLib/System/Byte-dep.h>
 #include <System.Private.CoreLib/System/ExceptionResource.h>
 #include <System.Private.CoreLib/System/FormatException-dep.h>
 #include <System.Private.CoreLib/System/IndexOutOfRangeException-dep.h>
@@ -210,7 +211,7 @@ void ThrowHelper::ThrowFormatException_BadFormatSpecifier() {
 }
 
 void ThrowHelper::ThrowArgumentOutOfRangeException_PrecisionTooLarge() {
-  rt::throw_exception<ArgumentOutOfRangeException>("precision", SR::Format(SR::get_Argument_PrecisionTooLarge(), (?)(Int32)99));
+  rt::throw_exception<ArgumentOutOfRangeException>("precision", SR::Format(SR::get_Argument_PrecisionTooLarge(), (Byte)(Int32)99));
 }
 
 void ThrowHelper::ThrowArgumentOutOfRangeException_SymbolDoesNotFit() {

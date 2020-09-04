@@ -32,7 +32,7 @@ void MulticastDelegate___::ctor(Type target, String method) {
 }
 
 Boolean MulticastDelegate___::IsUnmanagedFunctionPtr() {
-  return _invocationCount == (IntPtr)(-1);
+  return _invocationCount == (IntPtr)(Int32)(-1);
 }
 
 Boolean MulticastDelegate___::InvocationListLogicallyNull() {

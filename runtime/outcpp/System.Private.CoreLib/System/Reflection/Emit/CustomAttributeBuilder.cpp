@@ -102,7 +102,7 @@ void CustomAttributeBuilder___::ctor(ConstructorInfo con, Array<Object> construc
   }
   MemoryStream output = rt::newobj<MemoryStream>();
   BinaryWriter binaryWriter = rt::newobj<BinaryWriter>(output);
-  binaryWriter->Write((?)(Int32)1);
+  binaryWriter->Write((UInt16)(Int32)1);
   for (Int32 i = 0; i < constructorArgs->get_Length(); i++) {
     EmitValue(binaryWriter, parameterTypes[i], constructorArgs[i]);
   }
@@ -129,7 +129,7 @@ void CustomAttributeBuilder___::ctor(ConstructorInfo con, Array<Object> construc
     if (obj2 != nullptr) {
       VerifyTypeAndPassedObjectType(propertyType, obj2->GetType(), String::in::Format("{0}[{1}]", "propertyValues", i));
     }
-    binaryWriter->Write((?)(Int32)84);
+    binaryWriter->Write((Byte)(Int32)84);
     EmitType(binaryWriter, propertyType);
     EmitString(binaryWriter, namedProperties[i]->get_Name());
     EmitValue(binaryWriter, propertyType, obj2);
@@ -153,7 +153,7 @@ void CustomAttributeBuilder___::ctor(ConstructorInfo con, Array<Object> construc
     if (obj3 != nullptr) {
       VerifyTypeAndPassedObjectType(fieldType, obj3->GetType(), String::in::Format("{0}[{1}]", "fieldValues", i));
     }
-    binaryWriter->Write((?)(Int32)83);
+    binaryWriter->Write((Byte)(Int32)83);
     EmitType(binaryWriter, fieldType);
     EmitString(binaryWriter, fieldInfo->get_Name());
     EmitValue(binaryWriter, fieldType, obj3);
@@ -200,54 +200,54 @@ void CustomAttributeBuilder___::EmitType(BinaryWriter writer, Type type) {
   if (type->get_IsPrimitive()) {
     switch (Type::in::GetTypeCode(type)) {
       case TypeCode::SByte:
-        writer->Write((?)(Int32)4);
+        writer->Write((Byte)(Int32)4);
         break;
       case TypeCode::Byte:
-        writer->Write((?)(Int32)5);
+        writer->Write((Byte)(Int32)5);
         break;
       case TypeCode::Char:
-        writer->Write((?)(Int32)3);
+        writer->Write((Byte)(Int32)3);
         break;
       case TypeCode::Boolean:
-        writer->Write((?)(Int32)2);
+        writer->Write((Byte)(Int32)2);
         break;
       case TypeCode::Int16:
-        writer->Write((?)(Int32)6);
+        writer->Write((Byte)(Int32)6);
         break;
       case TypeCode::UInt16:
-        writer->Write((?)(Int32)7);
+        writer->Write((Byte)(Int32)7);
         break;
       case TypeCode::Int32:
-        writer->Write((?)(Int32)8);
+        writer->Write((Byte)(Int32)8);
         break;
       case TypeCode::UInt32:
-        writer->Write((?)(Int32)9);
+        writer->Write((Byte)(Int32)9);
         break;
       case TypeCode::Int64:
-        writer->Write((?)(Int32)10);
+        writer->Write((Byte)(Int32)10);
         break;
       case TypeCode::UInt64:
-        writer->Write((?)(Int32)11);
+        writer->Write((Byte)(Int32)11);
         break;
       case TypeCode::Single:
-        writer->Write((?)(Int32)12);
+        writer->Write((Byte)(Int32)12);
         break;
       case TypeCode::Double:
-        writer->Write((?)(Int32)13);
+        writer->Write((Byte)(Int32)13);
         break;
     }
   } else if (type->get_IsEnum()) {
-    writer->Write((?)(Int32)85);
+    writer->Write((Byte)(Int32)85);
     EmitString(writer, type->get_AssemblyQualifiedName());
   } else if (type == typeof<String>()) {
-    writer->Write((?)(Int32)14);
+    writer->Write((Byte)(Int32)14);
   } else if (type == typeof<Type>()) {
-    writer->Write((?)(Int32)80);
+    writer->Write((Byte)(Int32)80);
   } else if (type->get_IsArray()) {
-    writer->Write((?)(Int32)29);
+    writer->Write((Byte)(Int32)29);
     EmitType(writer, type->GetElementType());
   } else {
-    writer->Write((?)(Int32)81);
+    writer->Write((Byte)(Int32)81);
   }
 
 

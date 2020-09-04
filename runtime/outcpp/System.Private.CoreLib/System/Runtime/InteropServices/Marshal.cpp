@@ -104,7 +104,7 @@ IntPtr Marshal::GetHINSTANCE(Module m) {
   if ((Object)module != nullptr) {
     return GetHINSTANCE(QCallModule(module));
   }
-  return (IntPtr)(-1);
+  return (IntPtr)(Int32)(-1);
 }
 
 IntPtr Marshal::AllocHGlobal(IntPtr cb) {

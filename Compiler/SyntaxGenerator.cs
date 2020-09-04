@@ -75,7 +75,7 @@ namespace Meson.Compiler {
     public ITypeDefinition StringTypeDefinition => GetKnownType(KnownTypeCode.String);
     public ITypeDefinition TypeTypeDefinition => GetKnownType(KnownTypeCode.Type);
 
-    private ITypeDefinition GetKnownType(KnownTypeCode code) {
+    internal ITypeDefinition GetKnownType(KnownTypeCode code) {
       int index = code - KnownTypeCode.Object;
       return knownTypes_[index];
     }

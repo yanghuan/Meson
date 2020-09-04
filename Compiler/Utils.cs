@@ -4,7 +4,6 @@ using System.Diagnostics.CodeAnalysis;
 using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Text;
-using System.Text.RegularExpressions;
 
 using ICSharpCode.Decompiler.CSharp.Syntax;
 using ICSharpCode.Decompiler.TypeSystem;
@@ -765,6 +764,13 @@ namespace Meson.Compiler {
       var typeDefinition = type.GetDefinition();
       string ns = typeDefinition.GetFullNamespace(true, definition);
       return ((IdentifierSyntax)ns).TwoColon(typeName);
+    }
+
+    public static ExpressionSyntax UnParenthesized(this ExpressionSyntax expression) {
+      if (expression is ParenthesizedExpressionSyntax parenthesizedExpression) {
+        return parenthesizedExpression.Expression.UnParenthesized();
+      }
+      return expression;
     }
 
     public static T Accept<T>(this AstNode node, MethodTransform transform) where T : SyntaxNode {

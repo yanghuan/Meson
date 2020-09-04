@@ -91,9 +91,9 @@ Char* Utf16Utility::GetPointerToFirstInvalidChar(Char* pInputBuffer, Int32 input
   Int32 num3 = 0;
   if ((AdvSimd::in::Arm64::in::get_IsSupported() && BitConverter::IsLittleEndian) || Sse2::in::get_IsSupported()) {
     if (inputLength >= Vector128<UInt16>::get_Count()) {
-      Vector128<UInt16> vector = Vector128<>::Create((?)(Int32)128);
-      Vector128<UInt16> right = Vector128<>::Create((?)(Int32)43008);
-      Vector128<Int16> right2 = Vector128<>::Create((?)(-30720));
+      Vector128<UInt16> vector = Vector128<>::Create((UInt16)(Int32)128);
+      Vector128<UInt16> right = Vector128<>::Create((UInt16)(Int32)43008);
+      Vector128<Int16> right2 = Vector128<>::Create((Int16)(Int32)(-30720));
       Vector128<UInt16> zero = Vector128<UInt16>::get_Zero();
       Vector128<Byte> bitMask = BitConverter::IsLittleEndian ? Vector128<>::AsByte(Vector128<>::Create(9241421688590303745)) : Vector128<>::AsByte(Vector128<>::Create(72624976668147840));
       do {

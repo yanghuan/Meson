@@ -793,7 +793,7 @@ OperationStatus Utf8Utility::TranscodeToUtf8(Char* pInputBuffer, Int32 inputLeng
   Vector128<Int16> value;
   Unsafe::SkipInit(value);
   if (Sse41::in::X64::in::get_IsSupported() || (AdvSimd::in::Arm64::in::get_IsSupported() && BitConverter::IsLittleEndian)) {
-    value = Vector128<>::Create((?)(-128));
+    value = Vector128<>::Create((Int16)(Int32)(-128));
   }
   UInt32 num;
   while (true) {
@@ -1166,7 +1166,7 @@ Byte* Utf8Utility::GetPointerToFirstInvalidByte(Byte* pInputBuffer, Int32 inputL
           if (ASCIIUtility::AllBytesInUInt32AreAscii(num3)) {
             pInputBuffer = (Byte*)(void*)(UIntPtr)(void*)((UInt64)(Int64)(UInt64)(UIntPtr)(void*)(pInputBuffer + 4) & (UInt64)(Int64)(IntPtr)(void*)(~3));
             Byte* ptr2 = ptr - 12;
-            Vector128<Byte> bitMask = BitConverter::IsLittleEndian ? Vector128<>::AsByte(Vector128<>::Create((?)(Int32)4097)) : Vector128<>::AsByte(Vector128<>::Create((?)(Int32)272));
+            Vector128<Byte> bitMask = BitConverter::IsLittleEndian ? Vector128<>::AsByte(Vector128<>::Create((UInt16)(Int32)4097)) : Vector128<>::AsByte(Vector128<>::Create((UInt16)(Int32)272));
             UInt64 nonAsciiBytes;
             while (true) {
               if (AdvSimd::in::Arm64::in::get_IsSupported() && BitConverter::IsLittleEndian) {

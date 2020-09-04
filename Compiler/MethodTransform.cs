@@ -220,8 +220,8 @@ namespace Meson.Compiler {
       var expression = castExpression.Expression.AcceptExpression(this);
       var toType = castExpression.Type.GetResolveResult().Type;
       if (toType.Kind != TypeKind.Enum) {
-        if (expression is LiteralExpressionSyntax) {
-          var type = castExpression.Expression.GetResolveResult().Type;
+        if (castExpression.Expression.UnParenthesized() is PrimitiveExpression primitiveExpression) {
+          var type = primitiveExpression.GetResolveResult().Type;
           var typeName = GetTypeName(type);
           expression = expression.CastTo(typeName);
         }
@@ -1035,9 +1035,30 @@ namespace Meson.Compiler {
       return blockStatement;
     }
 
+    private static void CheckRefPointerIndirection(ExpressionSyntax typeExpression, AstType typeNode, VariableInitializerSyntax[] variables, IReadOnlyCollection<VariableInitializer> variablesNode) {
+      if (typeExpression is RefExpressionSyntax) {
+        var type = typeNode.GetResolveResult().Type;
+        Contract.Assert(type.Kind == TypeKind.ByReference);
+        var innerType = ((ByReferenceType)type).ElementType;
+        int i = 0;
+        foreach (var variableNode in variablesNode) {
+          var variableValueType = variableNode.Initializer.GetResolveResult().Type;
+          if (variableValueType.Kind == TypeKind.Pointer) {
+            var innerVariableType = ((PointerType)variableValueType).ElementType;
+            if (innerType.Equals(innerVariableType)) {
+              var variableExpression = variables[i];
+              variableExpression.Initializer = new IndirectionExpressionSyntax(variableExpression.Initializer);
+            }
+          }
+          ++i;
+        }
+      }
+    }
+
     public SyntaxNode VisitVariableDeclarationStatement(VariableDeclarationStatement variableDeclarationStatement) {
       var type = variableDeclarationStatement.Type.AcceptExpression(this);
-      var variables = variableDeclarationStatement.Variables.Select(i => i.Accept<VariableInitializerSyntax>(this));
+      var variables = variableDeclarationStatement.Variables.Select(i => i.Accept<VariableInitializerSyntax>(this)).ToArray();
+      CheckRefPointerIndirection(type, variableDeclarationStatement.Type, variables, variableDeclarationStatement.Variables);
       return new VariableDeclarationStatementSyntax(type, variables);
     }
 
@@ -1249,6 +1270,9 @@ namespace Meson.Compiler {
 
     public SyntaxNode VisitPrimitiveType(PrimitiveType primitiveType) {
       var type = primitiveType.GetResolveResult().Type;
+      if (type.Kind == TypeKind.Unknown) {
+        type = Generator.GetKnownType(primitiveType.KnownTypeCode);
+      }
       return GetTypeName(type);
     }
 

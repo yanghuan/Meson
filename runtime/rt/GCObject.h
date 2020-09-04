@@ -186,9 +186,8 @@ namespace rt {
   struct IsArrayConvertible {
     using ElementTypeTo = ArrayElementType<To>;
     using ElementTypeFrom = ArrayElementType<From>;
-    static constexpr bool value = ElementTypeTo::value && ElementTypeFrom::value && IsDerived<ElementTypeTo::type, ElementTypeFrom::type>;
+    static constexpr bool value = ElementTypeTo::value && ElementTypeFrom::value && IsDerived<typename ElementTypeTo::type, typename ElementTypeFrom::type>;
   };
-
 
   template <typename, typename = void>
   struct GetTypeInterface {
@@ -207,7 +206,7 @@ namespace rt {
 
   template <class To, class From>
   struct IsInterfaceConvertible {
-    static constexpr bool value = CodeOf<To> == TypeCode::Interface && IsInterfacesContains<GetTypeInterface<From>::type, To>();
+    static constexpr bool value = CodeOf<To> == TypeCode::Interface && IsInterfacesContains<typename GetTypeInterface<From>::type, To>();
   };
 
   template <class To, class From>
@@ -231,7 +230,7 @@ namespace rt {
       copyOf(other);
     }
 
-    template <class T1> requires(IsConvertible<T, T1>)
+    template <class T1, class T2 = T> requires(IsConvertible<T2, T1>)
     ref(const ref<T1>& other) noexcept {
       copyOf(other);
     }
@@ -310,7 +309,7 @@ namespace rt {
 
     template <class R, class T1 = T> requires(std::is_same_v<R, decltype(T1::op_Implicit(ref<T1>()))>)
     operator R() {
-      return T1::op_Implicit(*this);
+      return T::op_Implicit(*this);
     }
 
     template <class R> requires(std::is_same_v<R, decltype(R::op_Implicit(ref()))>)
@@ -857,7 +856,7 @@ namespace rt {
         return ins_ != other.ins_;
       }
       Iterator& operator ++() {
-        bool hasNext = ins_.MoveNext();
+        bool hasNext = ins_->MoveNext();
         if (!hasNext) {
           ins_ = nullptr;
         }
@@ -871,7 +870,7 @@ namespace rt {
     T& ins_;
     StructEnumerator(T& ins) : ins_(ins) {}
     Iterator begin() {
-      bool hasNext = ins_->MoveNext();
+      bool hasNext = ins_.MoveNext();
       return hasNext ? &ins_ : nullptr;
     }
     Iterator end() {

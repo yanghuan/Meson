@@ -796,7 +796,7 @@ void ILGenerator___::EmitWriteLine(FieldInfo fld) {
   if ((fld->get_Attributes() & FieldAttributes::Static) != 0) {
     Emit(OpCodes::in::Ldsfld, fld);
   } else {
-    Emit(OpCodes::in::Ldarg, (?)(Int32)0);
+    Emit(OpCodes::in::Ldarg, (Int16)(Int32)0);
     Emit(OpCodes::in::Ldfld, fld);
   }
   Array<Type> array = rt::newarr<Array<Type>>(1);

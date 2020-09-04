@@ -398,7 +398,7 @@ Int32 UTF7Encoding___::GetBytes(Char* chars, Int32 charCount, Byte* bytes, Int32
       continue;
     }
     if (num2 < 0 && nextChar == 43) {
-      if (!encodingByteBuffer->AddByte((?)(Int32)43, (?)(Int32)45)) {
+      if (!encodingByteBuffer->AddByte((Byte)(Int32)43, (Byte)(Int32)45)) {
         break;
       }
       continue;

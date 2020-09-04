@@ -11,6 +11,7 @@
 #include <System.Private.CoreLib/System/Runtime/Intrinsics/Vector256-dep.h>
 #include <System.Private.CoreLib/System/Runtime/Intrinsics/X86/Avx2-dep.h>
 #include <System.Private.CoreLib/System/Runtime/Intrinsics/X86/Sse2-dep.h>
+#include <System.Private.CoreLib/System/UInt16-dep.h>
 #include <System.Private.CoreLib/System/UInt32-dep.h>
 #include <System.Private.CoreLib/System/UInt64-dep.h>
 #include <System.Private.CoreLib/System/UIntPtr-dep.h>
@@ -257,7 +258,7 @@ Int32 SpanHelpers::IndexOf(Byte& searchSpace, Byte value, Int32 length) {
     } else if (AdvSimd::in::Arm64::in::get_IsSupported()) {
       if ((UInt64)uIntPtr < (UInt64)(UInt32)length) {
         uIntPtr2 = GetByteVector128SpanLength((UIntPtr)uIntPtr, length);
-        Vector128<Byte> mask = Vector128<>::AsByte(Vector128<>::Create((?)(Int32)4097));
+        Vector128<Byte> mask = Vector128<>::AsByte(Vector128<>::Create((UInt16)(Int32)4097));
         Int32 matchedLane = 0;
         Vector128<Byte> left5 = Vector128<>::Create(value);
         for (; (UInt64)uIntPtr2 > (UInt64)uIntPtr; uIntPtr = (UIntPtr)(void*)((UInt64)(Int64)(UInt64)uIntPtr + (UInt64)Vector128<Byte>::get_Count())) {
@@ -555,7 +556,7 @@ Int32 SpanHelpers::IndexOfAny(Byte& searchSpace, Byte value0, Byte value1, Int32
     } else if (AdvSimd::in::Arm64::in::get_IsSupported()) {
       if ((UInt64)uIntPtr < (UInt64)(UInt32)length) {
         uIntPtr2 = GetByteVector128SpanLength((UIntPtr)uIntPtr, length);
-        Vector128<Byte> mask = Vector128<>::AsByte(Vector128<>::Create((?)(Int32)4097));
+        Vector128<Byte> mask = Vector128<>::AsByte(Vector128<>::Create((UInt16)(Int32)4097));
         Int32 matchedLane = 0;
         Vector128<Byte> left7 = Vector128<>::Create(value0);
         Vector128<Byte> left8 = Vector128<>::Create(value1);
@@ -749,7 +750,7 @@ Int32 SpanHelpers::IndexOfAny(Byte& searchSpace, Byte value0, Byte value1, Byte 
     } else if (AdvSimd::in::Arm64::in::get_IsSupported()) {
       if ((UInt64)uIntPtr < (UInt64)(UInt32)length) {
         uIntPtr2 = GetByteVector128SpanLength((UIntPtr)uIntPtr, length);
-        Vector128<Byte> mask = Vector128<>::AsByte(Vector128<>::Create((?)(Int32)4097));
+        Vector128<Byte> mask = Vector128<>::AsByte(Vector128<>::Create((UInt16)(Int32)4097));
         Int32 matchedLane = 0;
         Vector128<Byte> left13 = Vector128<>::Create(value0);
         Vector128<Byte> left14 = Vector128<>::Create(value1);

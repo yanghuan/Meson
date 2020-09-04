@@ -1,4 +1,8 @@
 target("test")
+  set_toolset("cxxflags", "/permissive-")
+  set_targetdir("$(buildir)/vc/$(host)/$(mode)/$(arch)")
+  set_objectdir("$(buildir)/vc/.objs")
+  set_dependir("$(buildir)/vc/.deps")
   set_kind("binary")
   add_packages("boost")
   add_includedirs("..", {public = true})

@@ -289,8 +289,8 @@ UIntPtr ASCIIUtility::GetIndexOfFirstNonAsciiChar_Sse2(Char* pBuffer, UIntPtr bu
   Vector128<UInt16> left;
   UInt32 num3;
   if (bufferLength >= num2) {
-    right = Vector128<>::Create((?)(Int32)65408);
-    right2 = Vector128<>::Create((?)(Int32)32640);
+    right = Vector128<>::Create((UInt16)(Int32)65408);
+    right2 = Vector128<>::Create((UInt16)(Int32)32640);
     left = Sse2::in::LoadVector128((UInt16*)pBuffer);
     num3 = (UInt32)Sse2::in::MoveMask(Vector128<>::AsByte(Sse2::in::AddSaturate(left, right2)));
     if ((num3 & 43690) == 0) {
@@ -556,8 +556,8 @@ IL_0137:
 UIntPtr ASCIIUtility::NarrowUtf16ToAscii_Sse2(Char* pUtf16Buffer, Byte* pAsciiBuffer, UIntPtr elementCount) {
   UInt32 num = (UInt32)Unsafe::SizeOf<Vector128<Byte>>();
   UIntPtr uIntPtr = (UIntPtr)(num - 1);
-  Vector128<Int16> right = Vector128<>::Create((?)(-128));
-  Vector128<UInt16> right2 = Vector128<>::Create((?)(Int32)32640);
+  Vector128<Int16> right = Vector128<>::Create((Int16)(Int32)(-128));
+  Vector128<UInt16> right2 = Vector128<>::Create((UInt16)(Int32)32640);
   Vector128<Int16> vector = Sse2::in::LoadVector128((Int16*)pUtf16Buffer);
   if (Sse41::in::get_IsSupported()) {
     if (!Sse41::in::TestZ(vector, right)) {

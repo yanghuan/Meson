@@ -183,7 +183,7 @@ void ComActivator::ClassRegistrationScenarioForType(ComActivationContext cxt, Bo
 }
 
 Int32 ComActivator::GetClassFactoryForTypeInternal(ComActivationContextInternal* pCxtInt) {
-  ComActivationContextInternal& reference = pCxtInt;
+  ComActivationContextInternal& reference = *pCxtInt;
   if (IsLoggingEnabled()) {
   }
   try {
@@ -198,7 +198,7 @@ Int32 ComActivator::GetClassFactoryForTypeInternal(ComActivationContextInternal*
 }
 
 Int32 ComActivator::RegisterClassForTypeInternal(ComActivationContextInternal* pCxtInt) {
-  ComActivationContextInternal& reference = pCxtInt;
+  ComActivationContextInternal& reference = *pCxtInt;
   if (IsLoggingEnabled()) {
   }
   if (reference.InterfaceId != Guid::Empty || reference.ClassFactoryDest != IntPtr::Zero) {
@@ -214,7 +214,7 @@ Int32 ComActivator::RegisterClassForTypeInternal(ComActivationContextInternal* p
 }
 
 Int32 ComActivator::UnregisterClassForTypeInternal(ComActivationContextInternal* pCxtInt) {
-  ComActivationContextInternal& reference = pCxtInt;
+  ComActivationContextInternal& reference = *pCxtInt;
   if (IsLoggingEnabled()) {
   }
   if (reference.InterfaceId != Guid::Empty || reference.ClassFactoryDest != IntPtr::Zero) {

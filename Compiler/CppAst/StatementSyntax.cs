@@ -602,7 +602,7 @@ namespace Meson.Compiler.CppAst {
 
   sealed class VariableInitializerSyntax : SyntaxNode {
     public IdentifierSyntax Name { get; }
-    public ExpressionSyntax Initializer { get; }
+    public ExpressionSyntax Initializer { get; set; }
 
     public VariableInitializerSyntax(IdentifierSyntax name, ExpressionSyntax initializer = null) {
       Name = name;
