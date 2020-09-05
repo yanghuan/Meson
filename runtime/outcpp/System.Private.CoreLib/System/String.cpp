@@ -766,7 +766,7 @@ String String___::CreateStringForSByteConstructor(Byte* pb, Int32 numBytes) {
 
 String String___::Ctor(SByte* value, Int32 startIndex, Int32 length, Encoding enc) {
   if (enc == nullptr) {
-    return rt::newobj<String>(value, startIndex, length);
+    return rt::newstr<String>(value, startIndex, length);
   }
   if (length < 0) {
     rt::throw_exception<ArgumentOutOfRangeException>("length", SR::get_ArgumentOutOfRange_NeedNonNegNum());

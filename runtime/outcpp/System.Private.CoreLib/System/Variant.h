@@ -45,7 +45,7 @@ struct Variant : public valueType<Variant> {
   public: static void MarshalHelperConvertObjectToVariant(Object o, Variant& v);
   public: static Object MarshalHelperConvertVariantToObject(Variant& v);
   public: static void MarshalHelperCastVariant(Object pValue, Int32 vt, Variant& v);
-  private: static void cctor();
+  public: static void cctor();
   public: explicit Variant() {}
   private: Object _objref;
   private: Int64 _data;

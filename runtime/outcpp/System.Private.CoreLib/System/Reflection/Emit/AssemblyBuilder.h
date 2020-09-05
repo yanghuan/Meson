@@ -110,7 +110,7 @@ CLASS(AssemblyBuilder) : public Assembly::in {
   private: void SetCustomAttributeNoLock(ConstructorInfo con, Array<Byte> binaryAttribute);
   public: void SetCustomAttribute(CustomAttributeBuilder customBuilder);
   private: void SetCustomAttributeNoLock(CustomAttributeBuilder customBuilder);
-  private: static void cctor();
+  public: static void cctor();
   public: AssemblyBuilderData _assemblyData;
   private: InternalAssemblyBuilder _internalAssemblyBuilder;
   private: ModuleBuilder _manifestModuleBuilder;

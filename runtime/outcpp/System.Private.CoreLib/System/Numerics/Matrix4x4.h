@@ -90,7 +90,7 @@ struct Matrix4x4 : public valueType<Matrix4x4> {
   public: Boolean Equals(Object obj);
   public: String ToString();
   public: Int32 GetHashCode();
-  private: static void cctor();
+  public: static void cctor();
   public: explicit Matrix4x4() {}
   public: Single M11;
   public: Single M12;

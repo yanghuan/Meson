@@ -16,7 +16,7 @@ String SignatureArrayType___::get_Suffix() {
   if (_rank == 1) {
     return "[*]";
   }
-  return "[" + rt::newobj<String>(44, _rank - 1) + "]";
+  return "[" + rt::newstr<String>(44, _rank - 1) + "]";
 }
 
 void SignatureArrayType___::ctor(SignatureType elementType, Int32 rank, Boolean isMultiDim) {

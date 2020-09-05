@@ -97,7 +97,7 @@ Array<Object> EventPipePayloadDecoder::DecodePayload(EventSource::in::EventMetad
         readOnlySpan = MemoryMarshal::Cast<Byte, Char>(payload.Slice(0, num - 2));
         payload = payload.Slice(num);
       }
-      array[i] = (BitConverter::IsLittleEndian ? rt::newobj<String>(readOnlySpan) : Encoding::in::get_Unicode()->GetString(MemoryMarshal::Cast<Char, Byte>(readOnlySpan)));
+      array[i] = (BitConverter::IsLittleEndian ? rt::newstr<String>(readOnlySpan) : Encoding::in::get_Unicode()->GetString(MemoryMarshal::Cast<Char, Byte>(readOnlySpan)));
     }
 
 

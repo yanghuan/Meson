@@ -15,7 +15,7 @@ using namespace System::Runtime::Serialization;
 CLASS(RuntimeWrappedException) : public Exception::in {
   public: Object get_WrappedException();
   public: void ctor(Object thrownObject);
-  private: void ctor(SerializationInfo info, StreamingContext context);
+  public: void ctor(SerializationInfo info, StreamingContext context);
   public: void GetObjectData(SerializationInfo info, StreamingContext context);
   private: Object _wrappedException;
 };

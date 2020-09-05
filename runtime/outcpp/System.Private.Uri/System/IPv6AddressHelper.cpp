@@ -58,7 +58,7 @@ String IPv6AddressHelper::ParseCanonicalName(String str, Int32 start, Boolean& i
     }
   }
   span2[num++] = 93;
-  return rt::newobj<String>(span2.Slice(0, num));
+  return rt::newstr<String>(span2.Slice(0, num));
 }
 
 Boolean IPv6AddressHelper::IsLoopback(ReadOnlySpan<UInt16> numbers) {
@@ -251,7 +251,7 @@ void IPv6AddressHelper::Parse(ReadOnlySpan<Char> address, Span<UInt16> numbers, 
         start = i;
         for (i++; i < address.get_Length() && address[i] != 93 && address[i] != 47; i++) {
         }
-        scopeId = rt::newobj<String>(address.Slice(start, i - start));
+        scopeId = rt::newstr<String>(address.Slice(start, i - start));
         for (; i < address.get_Length() && address[i] != 93; i++) {
         }
         break;

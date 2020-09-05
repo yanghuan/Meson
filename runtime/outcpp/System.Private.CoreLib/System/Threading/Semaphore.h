@@ -21,7 +21,7 @@ CLASS(Semaphore) : public WaitHandle::in {
   public: static Boolean TryOpenExisting(String name, Semaphore& result);
   public: Int32 Release();
   public: Int32 Release(Int32 releaseCount);
-  private: void ctor(SafeWaitHandle handle);
+  public: void ctor(SafeWaitHandle handle);
   private: void CreateSemaphoreCore(Int32 initialCount, Int32 maximumCount, String name, Boolean& createdNew);
   private: static WaitHandle::in::OpenExistingResult OpenExistingWorker(String name, Semaphore& result);
   private: Int32 ReleaseCore(Int32 releaseCount);

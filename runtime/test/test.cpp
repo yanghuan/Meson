@@ -85,11 +85,21 @@ struct TestA {
 };
 
 int main() {
-  using T = Array<Type>;
-  Array<Type> a = nullptr;
-  auto b = *a;
-  constexpr bool aa = rt::IsRef<T> && rt::IsArray<T::in>;
-  std::printf("aa:%d", aa);
+  //using aa = decltype(int);
+
+  using To = IConvertible::in;
+  using From = String::in;
+  using Interfaces = typename rt::InterfaceOf<From>;
+  constexpr size_t size = std::tuple_size_v<Interfaces>;
+  constexpr bool b = rt::IsInterfacesContains<Interfaces, To>;
+  using Interface = typename std::tuple_element_t<6, Interfaces>;
+  static constexpr bool value = std::is_same_v<Interface, To>;
+  Array<Object> o(false);
+  //auto i = o[0];
+
+  //constexpr bool b = rt::IsInterfaceConvertible<To, From>::value;
+
+  std::printf("N:%d, N1:%d \n", b, b);
   return 0;
 }
 

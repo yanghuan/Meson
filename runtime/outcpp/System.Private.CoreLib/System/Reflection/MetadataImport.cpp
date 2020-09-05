@@ -81,7 +81,7 @@ String MetadataImport::GetUserString(Int32 mdToken) {
   if (ptr == nullptr) {
     return nullptr;
   }
-  return rt::newobj<String>((Char*)ptr, 0, length);
+  return rt::newstr<String>((Char*)ptr, 0, length);
 }
 
 MdUtf8String MetadataImport::GetName(Int32 mdToken) {

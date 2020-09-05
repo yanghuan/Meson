@@ -70,7 +70,7 @@ class BitConverter {
   public: static Single Int32BitsToSingle(Int32 value);
   public: static Int16 HalfToInt16Bits(Half value);
   public: static Half Int16BitsToHalf(Int16 value);
-  private: static void cctor();
+  public: static void cctor();
   public: static Boolean IsLittleEndian;
 };
 } // namespace BitConverterNamespace

@@ -33,7 +33,7 @@ CLASS(Version) : public object {
   public: void ctor(Int32 major, Int32 minor);
   public: void ctor(String version);
   public: void ctor();
-  private: void ctor(Version version);
+  public: void ctor(Version version);
   public: Object Clone();
   public: Int32 CompareTo(Object version);
   public: Int32 CompareTo(Version value);

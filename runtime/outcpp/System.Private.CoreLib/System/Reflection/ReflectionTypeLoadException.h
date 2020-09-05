@@ -24,7 +24,7 @@ CLASS(ReflectionTypeLoadException) : public SystemException::in {
   public: String get_Message();
   public: void ctor(Array<Type> classes, Array<Exception> exceptions);
   public: void ctor(Array<Type> classes, Array<Exception> exceptions, String message);
-  private: void ctor(SerializationInfo info, StreamingContext context);
+  public: void ctor(SerializationInfo info, StreamingContext context);
   public: void GetObjectData(SerializationInfo info, StreamingContext context);
   public: String ToString();
   private: String CreateString(Boolean isMessage);

@@ -90,7 +90,7 @@ struct Half : public valueType<Half> {
   private: static Double CreateDoubleNaN(Boolean sign, UInt64 significand);
   private: static Single CreateSingle(Boolean sign, Byte exp, UInt32 sig);
   private: static Double CreateDouble(Boolean sign, UInt16 exp, UInt64 sig);
-  private: static void cctor();
+  public: static void cctor();
   public: explicit Half() {}
   private: static Half PositiveZero;
   private: static Half NegativeZero;

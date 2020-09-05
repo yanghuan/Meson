@@ -24,7 +24,7 @@ Boolean Interop::Kernel32::SYSTEMTIME::Equals(SYSTEMTIME& other) {
 String Interop::Kernel32::TIME_DYNAMIC_ZONE_INFORMATION::GetTimeZoneKeyName() {
   {
     Char* value = TimeZoneKeyName;
-    return rt::newobj<String>(value);
+    return rt::newstr<String>(value);
   }
 }
 
@@ -41,14 +41,14 @@ Interop::Kernel32::TIME_ZONE_INFORMATION::TIME_ZONE_INFORMATION(TIME_DYNAMIC_ZON
 String Interop::Kernel32::TIME_ZONE_INFORMATION::GetStandardName() {
   {
     Char* value = StandardName;
-    return rt::newobj<String>(value);
+    return rt::newstr<String>(value);
   }
 }
 
 String Interop::Kernel32::TIME_ZONE_INFORMATION::GetDaylightName() {
   {
     Char* value = DaylightName;
-    return rt::newobj<String>(value);
+    return rt::newstr<String>(value);
   }
 }
 

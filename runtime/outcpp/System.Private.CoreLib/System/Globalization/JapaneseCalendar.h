@@ -56,7 +56,7 @@ CLASS(JapaneseCalendar) : public Calendar::in {
   private: static Array<EraInfo> NlsGetJapaneseEras();
   private: static Int32 CompareEraRanges(EraInfo a, EraInfo b);
   private: static EraInfo GetEraFromValue(String value, String data);
-  private: static void cctor();
+  public: static void cctor();
   private: static DateTime s_calendarMinValue;
   private: static Array<EraInfo> s_japaneseEraInfo;
   public: static Calendar s_defaultInstance;

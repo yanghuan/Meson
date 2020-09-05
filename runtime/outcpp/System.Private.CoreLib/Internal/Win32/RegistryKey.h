@@ -19,7 +19,7 @@ using namespace Internal::Win32::SafeHandles;
 using namespace System;
 CLASS(RegistryKey) : public object {
   public: using interface = rt::TypeList<IDisposable>;
-  private: void ctor(SafeRegistryHandle hkey);
+  public: void ctor(SafeRegistryHandle hkey);
   public: void DeleteValue(String name, Boolean throwOnMissingValue);
   public: static RegistryKey OpenBaseKey(IntPtr hKey);
   public: RegistryKey OpenSubKey(String name);

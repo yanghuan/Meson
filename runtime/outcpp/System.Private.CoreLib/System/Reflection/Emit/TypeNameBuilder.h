@@ -25,7 +25,7 @@ CLASS(TypeNameBuilder) : public object {
     FullName = 1,
     AssemblyQualifiedName = 2,
   };
-  private: void ctor();
+  public: void ctor();
   private: void OpenGenericArguments();
   private: void CloseGenericArguments();
   private: void OpenGenericArgument();

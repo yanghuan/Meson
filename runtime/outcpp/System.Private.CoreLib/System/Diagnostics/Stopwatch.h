@@ -26,7 +26,7 @@ CLASS(Stopwatch) : public object {
   private: Int64 GetElapsedDateTimeTicks();
   private: static Int64 QueryPerformanceFrequency();
   private: static Int64 QueryPerformanceCounter();
-  private: static void cctor();
+  public: static void cctor();
   private: Int64 _elapsed;
   private: Int64 _startTimeStamp;
   private: Boolean _isRunning;

@@ -15,7 +15,7 @@ CLASS(PlatformNotSupportedException) : public NotSupportedException::in {
   public: void ctor();
   public: void ctor(String message);
   public: void ctor(String message, Exception inner);
-  protected: void ctor(SerializationInfo info, StreamingContext context);
+  public: void ctor(SerializationInfo info, StreamingContext context);
 };
 } // namespace PlatformNotSupportedExceptionNamespace
 using PlatformNotSupportedException = PlatformNotSupportedExceptionNamespace::PlatformNotSupportedException;

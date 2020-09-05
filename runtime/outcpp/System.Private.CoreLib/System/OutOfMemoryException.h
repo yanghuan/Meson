@@ -15,7 +15,7 @@ CLASS(OutOfMemoryException) : public SystemException::in {
   public: void ctor();
   public: void ctor(String message);
   public: void ctor(String message, Exception innerException);
-  protected: void ctor(SerializationInfo info, StreamingContext context);
+  public: void ctor(SerializationInfo info, StreamingContext context);
 };
 } // namespace OutOfMemoryExceptionNamespace
 using OutOfMemoryException = OutOfMemoryExceptionNamespace::OutOfMemoryException;

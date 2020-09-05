@@ -31,7 +31,7 @@ CLASS(EncodingProvider) : public object {
   public: static Encoding GetEncodingFromProvider(String encodingName);
   public: static Encoding GetEncodingFromProvider(Int32 codepage, EncoderFallback enc, DecoderFallback dec);
   public: static Encoding GetEncodingFromProvider(String encodingName, EncoderFallback enc, DecoderFallback dec);
-  private: static void cctor();
+  public: static void cctor();
   private: static Object s_InternalSyncObject;
   private: static Array<EncodingProvider> s_providers;
 };

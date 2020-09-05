@@ -78,7 +78,7 @@ CLASS(CultureInfo) : public object {
   private: static CultureInfo InitializeUserDefaultUICulture();
   public: void ctor(String name);
   public: void ctor(String name, Boolean useUserOverride);
-  private: void ctor(CultureData cultureData, Boolean isReadOnly = false);
+  public: void ctor(CultureData cultureData, Boolean isReadOnly = false);
   private: static CultureInfo CreateCultureInfoNoThrow(String name, Boolean useUserOverride);
   public: void ctor(Int32 culture);
   public: void ctor(Int32 culture, Boolean useUserOverride);
@@ -109,7 +109,7 @@ CLASS(CultureInfo) : public object {
   public: static CultureInfo GetUserDefaultCulture();
   private: static CultureInfo GetUserDefaultUICulture();
   private: static String GetUserDefaultLocaleName();
-  private: static void cctor();
+  public: static void cctor();
   private: Boolean _isReadOnly;
   private: CompareInfo _compareInfo;
   private: TextInfo _textInfo;

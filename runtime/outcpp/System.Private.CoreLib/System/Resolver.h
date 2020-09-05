@@ -33,7 +33,7 @@ CLASS(Resolver) : public object {
   public: void ResolveToken(Int32 token, IntPtr& typeHandle, IntPtr& methodHandle, IntPtr& fieldHandle);
   public: Array<Byte> ResolveSignature(Int32 token, Int32 fromMethod);
   public: MethodInfo GetDynamicMethod();
-  protected: void ctor();
+  public: void ctor();
 };
 } // namespace ResolverNamespace
 using Resolver = ResolverNamespace::Resolver;

@@ -33,7 +33,7 @@ struct Boolean : public valueType<Boolean, rt::TypeCode::Boolean> {
   public: static Boolean TryParse(ReadOnlySpan<Char> value, Boolean& result);
   private: static ReadOnlySpan<Char> TrimWhiteSpaceAndNull(ReadOnlySpan<Char> value);
   public: TypeCode GetTypeCode();
-  private: static void cctor();
+  public: static void cctor();
   private: bool m_value;
   public: static String TrueString;
   public: static String FalseString;

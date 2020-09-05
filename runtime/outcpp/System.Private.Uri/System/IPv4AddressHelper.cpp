@@ -24,7 +24,7 @@ String IPv4AddressHelper::ParseCanonicalName(String str, Int32 start, Int32 end,
     num = num2 + 1;
   }
   ptr[3].TryFormat(span.Slice(num), charsWritten);
-  return rt::newobj<String>(span.Slice(0, num + charsWritten));
+  return rt::newstr<String>(span.Slice(0, num + charsWritten));
 }
 
 Boolean IPv4AddressHelper::Parse(String name, Byte* numbers, Int32 start, Int32 end) {

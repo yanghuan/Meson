@@ -80,7 +80,7 @@ CLASS(UTF7Encoding) : public Encoding::in {
   public: Text::Encoder GetEncoder();
   public: Int32 GetMaxByteCount(Int32 charCount);
   public: Int32 GetMaxCharCount(Int32 byteCount);
-  private: static void cctor();
+  public: static void cctor();
   public: static UTF7Encoding s_default;
   private: Array<Byte> _base64Bytes;
   private: Array<SByte> _base64Values;

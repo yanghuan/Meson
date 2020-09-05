@@ -67,7 +67,7 @@ CLASS(UTF8Encoding) : public Encoding::in {
   public: Array<Byte> GetPreamble();
   public: Boolean Equals(Object value);
   public: Int32 GetHashCode();
-  private: static void cctor();
+  public: static void cctor();
   public: static UTF8EncodingSealed s_default;
   private: Boolean _emitUTF8Identifier;
   private: Boolean _isThrowException;

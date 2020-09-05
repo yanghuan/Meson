@@ -57,7 +57,7 @@ CLASS(UTF32Encoding) : public Encoding::in {
   public: Array<Byte> GetPreamble();
   public: Boolean Equals(Object value);
   public: Int32 GetHashCode();
-  private: static void cctor();
+  public: static void cctor();
   public: static UTF32Encoding s_default;
   public: static UTF32Encoding s_bigEndianDefault;
   private: Boolean _emitUTF32ByteOrderMark;

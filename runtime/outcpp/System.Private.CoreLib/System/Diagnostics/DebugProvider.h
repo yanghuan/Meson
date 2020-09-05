@@ -27,7 +27,7 @@ CLASS(DebugProvider) : public object {
   public: static void WriteCore(String message);
   private: static void WriteToDebugger(String message);
   public: void ctor();
-  private: static void cctor();
+  public: static void cctor();
   private: static Object s_lock;
   private: Boolean _needIndent;
   private: String _indentString;

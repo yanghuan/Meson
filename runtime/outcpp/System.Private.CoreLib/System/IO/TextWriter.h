@@ -45,8 +45,8 @@ CLASS(TextWriter) : public MarshalByRefObject::in {
   public: Encoding get_Encoding();
   public: String get_NewLine();
   public: void set_NewLine(String value);
-  protected: void ctor();
-  protected: void ctor(IFormatProvider formatProvider);
+  public: void ctor();
+  public: void ctor(IFormatProvider formatProvider);
   public: void Close();
   protected: void Dispose(Boolean disposing);
   public: void Dispose();
@@ -110,7 +110,7 @@ CLASS(TextWriter) : public MarshalByRefObject::in {
   public: Task<> WriteLineAsync();
   public: Task<> FlushAsync();
   public: static TextWriter Synchronized(TextWriter writer);
-  private: static void cctor();
+  public: static void cctor();
   public: static TextWriter Null;
   private: static Array<Char> s_coreNewLine;
   protected: Array<Char> CoreNewLine;

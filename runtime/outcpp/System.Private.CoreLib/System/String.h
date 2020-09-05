@@ -112,16 +112,16 @@ CLASS(String) : public object {
   public: static void CheckStringComparison(StringComparison comparisonType);
   public: static CompareOptions GetCaseCompareOfComparisonCulture(StringComparison comparisonType);
   private: static CompareOptions GetCompareOptionsFromOrdinalStringComparison(StringComparison comparisonType);
-  public: String Ctor(Array<Char> value);
-  public: String Ctor(Array<Char> value, Int32 startIndex, Int32 length);
-  public: String Ctor(Char* ptr);
-  public: String Ctor(Char* ptr, Int32 startIndex, Int32 length);
-  public: String Ctor(SByte* value);
-  public: String Ctor(SByte* value, Int32 startIndex, Int32 length);
+  public: static String Ctor(Array<Char> value);
+  public: static String Ctor(Array<Char> value, Int32 startIndex, Int32 length);
+  public: static String Ctor(Char* ptr);
+  public: static String Ctor(Char* ptr, Int32 startIndex, Int32 length);
+  public: static String Ctor(SByte* value);
+  public: static String Ctor(SByte* value, Int32 startIndex, Int32 length);
   private: static String CreateStringForSByteConstructor(Byte* pb, Int32 numBytes);
-  public: String Ctor(SByte* value, Int32 startIndex, Int32 length, Encoding enc);
-  public: String Ctor(Char c, Int32 count);
-  public: String Ctor(ReadOnlySpan<Char> value);
+  public: static String Ctor(SByte* value, Int32 startIndex, Int32 length, Encoding enc);
+  public: static String Ctor(Char c, Int32 count);
+  public: static String Ctor(ReadOnlySpan<Char> value);
   public: template <class TState>
   static String Create(Int32 length, TState state, SpanAction<Char, TState> action);
   public: static ReadOnlySpan<Char> op_Implicit(String value);

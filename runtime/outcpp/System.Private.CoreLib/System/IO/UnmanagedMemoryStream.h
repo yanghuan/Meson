@@ -40,7 +40,7 @@ CLASS(UnmanagedMemoryStream) : public Stream::in {
   public: void set_Position(Int64 value);
   public: Byte* get_PositionPointer();
   public: void set_PositionPointer(Byte* value);
-  protected: void ctor();
+  public: void ctor();
   public: void ctor(SafeBuffer buffer, Int64 offset, Int64 length);
   public: void ctor(SafeBuffer buffer, Int64 offset, Int64 length, FileAccess access);
   protected: void Initialize(SafeBuffer buffer, Int64 offset, Int64 length, FileAccess access);

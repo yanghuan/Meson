@@ -94,8 +94,8 @@ CLASS(AssemblyLoadContext) : public object {
   private: static void StartAssemblyLoad(Guid& activityId, Guid& relatedActivityId);
   private: static void StopAssemblyLoad(Guid& activityId);
   private: static void InitializeDefaultContext();
-  protected: void ctor();
-  protected: void ctor(Boolean isCollectible);
+  public: void ctor();
+  public: void ctor(Boolean isCollectible);
   public: void ctor(String name, Boolean isCollectible = false);
   public: void ctor(Boolean representsTPALoadContext, Boolean isCollectible, String name);
   protected: void Finalize();
@@ -129,7 +129,7 @@ CLASS(AssemblyLoadContext) : public object {
   private: static RuntimeAssembly InvokeResolveEvent(ResolveEventHandler eventHandler, RuntimeAssembly assembly, String name);
   private: Assembly ResolveSatelliteAssembly(AssemblyName assemblyName);
   public: IntPtr GetResolvedUnmanagedDll(Assembly assembly, String unmanagedDllName);
-  private: static void cctor();
+  public: static void cctor();
   private: static Dictionary<Int64, WeakReference<AssemblyLoadContext>> s_allContexts;
   private: static Int64 s_nextId;
   private: Object _unloadLock;

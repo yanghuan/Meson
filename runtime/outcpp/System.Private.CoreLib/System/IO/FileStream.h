@@ -59,7 +59,7 @@ using namespace System::Threading::Tasks;
 CLASS(FileStream) : public Stream::in {
   private: CLASS(FileStreamCompletionSource) : public TaskCompletionSource<Int32>::in {
     public: NativeOverlapped* get_Overlapped();
-    protected: void ctor(FileStream stream, Int32 numBufferedBytes, Array<Byte> bytes);
+    public: void ctor(FileStream stream, Int32 numBufferedBytes, Array<Byte> bytes);
     public: void SetCompletedSynchronously(Int32 numBytes);
     public: void RegisterForCancellation(CancellationToken cancellationToken);
     public: void ReleaseNativeResource();
@@ -86,7 +86,7 @@ CLASS(FileStream) : public Stream::in {
     public: void GetResult();
     public: void OnCompleted(Action<> continuation);
     public: void UnsafeOnCompleted(Action<> continuation);
-    private: static void cctor();
+    public: static void cctor();
     private: static Action<> s_sentinel;
     public: static IOCompletionCallback s_callback;
     public: FileStream _fileStream;
@@ -200,7 +200,7 @@ CLASS(FileStream) : public Stream::in {
   private: static Boolean GetDefaultIsAsync(SafeFileHandle handle);
   private: static Nullable<Boolean> IsHandleSynchronous(SafeFileHandle fileHandle, Boolean ignoreInvalid);
   private: static void VerifyHandleIsSync(SafeFileHandle handle);
-  private: static void cctor();
+  public: static void cctor();
   private: Array<Byte> _buffer;
   private: Int32 _bufferLength;
   private: SafeFileHandle _fileHandle;

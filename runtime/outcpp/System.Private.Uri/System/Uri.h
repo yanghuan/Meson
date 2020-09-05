@@ -178,7 +178,7 @@ CLASS(Uri) : public object {
   public: void ctor(Uri baseUri, String relativeUri, Boolean dontEscape);
   public: void ctor(String uriString, UriKind uriKind);
   public: void ctor(Uri baseUri, String relativeUri);
-  protected: void ctor(SerializationInfo serializationInfo, StreamingContext streamingContext);
+  public: void ctor(SerializationInfo serializationInfo, StreamingContext streamingContext);
   protected: void GetObjectData(SerializationInfo serializationInfo, StreamingContext streamingContext);
   private: void CreateUri(Uri baseUri, String relativeUri, Boolean dontEscape);
   public: void ctor(Uri baseUri, Uri relativeUri);
@@ -251,7 +251,7 @@ CLASS(Uri) : public object {
   public: static String EscapeUriString(String stringToEscape);
   public: static String EscapeDataString(String stringToEscape);
   public: String EscapeUnescapeIri(String input, Int32 start, Int32 end, UriComponents component);
-  private: void ctor(Flags flags, UriParser uriParser, String uri);
+  public: void ctor(Flags flags, UriParser uriParser, String uri);
   public: static Uri CreateHelper(String uriString, Boolean dontEscape, UriKind uriKind, UriFormatException& e);
   public: static Uri ResolveHelper(Uri baseUri, Uri relativeUri, String& newUriString, Boolean& userEscaped);
   private: String GetRelativeSerializationString(UriFormat format);
@@ -259,7 +259,7 @@ CLASS(Uri) : public object {
   public: Boolean IsBaseOf(Uri uri);
   public: Boolean IsBaseOfHelper(Uri uriLink);
   private: void CreateThisFromUri(Uri otherUri);
-  private: static void cctor();
+  public: static void cctor();
   public: static String UriSchemeFile;
   public: static String UriSchemeFtp;
   public: static String UriSchemeGopher;

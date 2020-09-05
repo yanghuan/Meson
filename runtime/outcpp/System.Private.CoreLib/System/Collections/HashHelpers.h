@@ -27,7 +27,7 @@ class HashHelpers {
   public: static Int32 ExpandPrime(Int32 oldSize);
   public: static UInt64 GetFastModMultiplier(UInt32 divisor);
   public: static UInt32 FastMod(UInt32 value, UInt32 divisor, UInt64 multiplier);
-  private: static void cctor();
+  public: static void cctor();
   private: static Array<Int32> s_primes;
   private: static ConditionalWeakTable<Object, SerializationInfo> s_serializationInfoTable;
 };

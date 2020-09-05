@@ -1093,7 +1093,7 @@ class SR {
   public: static String Format(String resourceFormat, Array<Object> args);
   public: static String Format(IFormatProvider provider, String resourceFormat, Object p1);
   public: static String Format(IFormatProvider provider, String resourceFormat, Object p1, Object p2);
-  private: static void cctor();
+  public: static void cctor();
   private: static Object _lock;
   private: static List<String> _currentlyLoading;
   private: static Int32 _infinitelyRecursingCount;

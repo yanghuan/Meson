@@ -25,7 +25,7 @@ CLASS(StrongNameKeyPair) : public object {
   public: Array<Byte> get_PublicKey();
   public: void ctor(FileStream keyPairFile);
   public: void ctor(Array<Byte> keyPairArray);
-  protected: void ctor(SerializationInfo info, StreamingContext context);
+  public: void ctor(SerializationInfo info, StreamingContext context);
   public: void ctor(String keyPairContainer);
 };
 } // namespace StrongNameKeyPairNamespace

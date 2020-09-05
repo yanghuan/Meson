@@ -54,7 +54,7 @@ CLASS(TypeDelegator) : public TypeInfo::in {
   public: Boolean get_IsCollectible();
   public: Type get_UnderlyingSystemType();
   public: Boolean IsAssignableFrom(TypeInfo typeInfo);
-  protected: void ctor();
+  public: void ctor();
   public: void ctor(Type delegatingType);
   public: Object InvokeMember(String name, BindingFlags invokeAttr, Binder binder, Object target, Array<Object> args, Array<ParameterModifier> modifiers, CultureInfo culture, Array<String> namedParameters);
   protected: ConstructorInfo GetConstructorImpl(BindingFlags bindingAttr, Binder binder, CallingConventions callConvention, Array<Type> types, Array<ParameterModifier> modifiers);

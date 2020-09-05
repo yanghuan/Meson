@@ -195,18 +195,30 @@ namespace rt {
   };
 
   template <typename T>
-  struct GetTypeInterface<T, std::void_t<decltype(T::interface)>> {
+  struct GetTypeInterface<T, std::void_t<typename T::interface>> {
     using type = typename T::interface;
   };
 
+  template <typename T>
+  using InterfaceOf= typename GetTypeInterface<T>::type;
+
+  template <class Interfaces, class I, int Index>
+  struct IsInterfacesContainsType {
+    using Interface = typename std::tuple_element_t<Index, Interfaces>::in;
+    static constexpr bool value = std::is_same_v<Interface, I> || IsInterfacesContainsType<Interfaces, I, Index - 1>::value;
+  };
+
   template <class Interfaces, class I>
-  constexpr bool IsInterfacesContains() {
-    return true;
-  }
+  struct IsInterfacesContainsType<Interfaces, I, -1> {
+     static constexpr bool value = false;
+  };
+
+  template <class Interfaces, class I>
+  static constexpr bool IsInterfacesContains = IsInterfacesContainsType<Interfaces, I, ((int)std::tuple_size_v<Interfaces>) - 1>::value;
 
   template <class To, class From>
   struct IsInterfaceConvertible {
-    static constexpr bool value = CodeOf<To> == TypeCode::Interface && IsInterfacesContains<typename GetTypeInterface<From>::type, To>();
+    static constexpr bool value = CodeOf<To> == TypeCode::Interface && IsInterfacesContains<typename InterfaceOf<From>, To>;
   };
 
   template <class To, class From>
@@ -221,10 +233,17 @@ namespace rt {
     using GCObject = GCObject<T>;
     using in = T;
 
-    constexpr ref() noexcept : p_(nullptr)  {}
-    constexpr ref(std::nullptr_t) noexcept : p_(nullptr) {}
-    explicit ref(GCObject* p) noexcept : p_(p) {}
-    explicit ref(T* p) noexcept : p_(GCObject::From(p)) {}
+    constexpr ref() noexcept : p_(nullptr)  {
+    }
+
+    constexpr ref(std::nullptr_t) noexcept : p_(nullptr) {
+    }
+
+    explicit ref(GCObject* p) noexcept : p_(p) {
+    }
+
+    explicit ref(T* p) noexcept : p_(GCObject::From(p)) {
+    }
 
     ref(const ref& other) noexcept {
       copyOf(other);
@@ -910,10 +929,12 @@ namespace rt {
   }
 
   template <class T, class... Args>
+  inline T newstr(Args&&... args) {
+    return T::in::Ctor(std::forward<Args>(args)...); 
+  }
+
+  template <class T, class... Args>
   inline T newobj(Args&&... args) {
-    if constexpr (IsString<T::in>) { 
-      return T::in::Ctor(std::forward<Args>(args)...); 
-    }
     return rt::object::newobj<T>(std::forward<Args>(args)...);
   }
 

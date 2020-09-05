@@ -47,7 +47,7 @@ struct AsyncValueTaskMethodBuilder<> : public valueType<AsyncValueTaskMethodBuil
   void AwaitOnCompleted(TAwaiter& awaiter, TStateMachine& stateMachine);
   public: template <class TAwaiter, class TStateMachine>
   void AwaitUnsafeOnCompleted(TAwaiter& awaiter, TStateMachine& stateMachine);
-  private: static void cctor();
+  public: static void cctor();
   private: static Object s_syncSuccessSentinel;
   private: Object m_task;
 };
@@ -61,7 +61,7 @@ struct AsyncValueTaskMethodBuilder<TResult> : public valueType<AsyncValueTaskMet
     public: void SetException(Exception error);
     public: ValueTaskSourceStatus GetStatus(Int16 token);
     public: void OnCompleted(Action<Object> continuation, Object state, Int16 token, ValueTaskSourceOnCompletedFlags flags);
-    protected: void ctor();
+    public: void ctor();
     protected: Action<> _moveNextAction;
     public: ExecutionContext Context;
     protected: ManualResetValueTaskSourceCore<TResult> _valueTaskSource;
@@ -74,7 +74,7 @@ struct AsyncValueTaskMethodBuilder<TResult> : public valueType<AsyncValueTaskMet
     private: static void ExecutionContextCallback(Object s);
     public: void MoveNext();
     public: void ctor();
-    private: static void cctor();
+    public: static void cctor();
     private: static ContextCallback s_callback;
     private: static Int32 s_cacheLock;
     private: static StateMachineBox<TStateMachine> s_cache;
@@ -105,7 +105,7 @@ struct AsyncValueTaskMethodBuilder<TResult> : public valueType<AsyncValueTaskMet
   private: template <class TStateMachine>
   static IAsyncStateMachineBox GetStateMachineBox(TStateMachine& stateMachine, StateMachineBox<>& boxFieldRef);
   public: static StateMachineBox<> CreateWeaklyTypedStateMachineBox();
-  private: static void cctor();
+  public: static void cctor();
   public: static Object s_syncSuccessSentinel;
   private: Object m_task;
   private: TResult _result;

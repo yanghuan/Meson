@@ -25,7 +25,7 @@ CLASS(LicenseInteropProxy) : public object {
   public: Object AllocateAndValidateLicense(Type type, String key, Boolean isDesignTime);
   public: void GetCurrentContextInfo(RuntimeTypeHandle rth, Boolean& isDesignTime, IntPtr& bstrKey);
   public: void SaveKeyInCurrentContext(IntPtr bstrKey);
-  private: static void cctor();
+  public: static void cctor();
   private: static Type s_licenseAttrType;
   private: static Type s_licenseExceptionType;
   private: MethodInfo _createWithContext;

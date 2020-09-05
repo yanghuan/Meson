@@ -15,7 +15,7 @@ using namespace System::Runtime::Serialization;
 CLASS(ThreadStartException) : public SystemException::in {
   public: void ctor();
   public: void ctor(Exception reason);
-  private: void ctor(SerializationInfo info, StreamingContext context);
+  public: void ctor(SerializationInfo info, StreamingContext context);
 };
 } // namespace ThreadStartExceptionNamespace
 using ThreadStartException = ThreadStartExceptionNamespace::ThreadStartException;

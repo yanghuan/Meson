@@ -91,7 +91,7 @@ CLASS(StreamWriter) : public TextWriter::in {
   Task<> FlushAsyncInternal(Boolean flushStream, Boolean flushEncoder, Array<Char> sCharBuffer, Int32 sCharPos, T0 cancellationToken = rt::default__);
   private: static Task<> FlushAsyncInternal(StreamWriter _this, Boolean flushStream, Boolean flushEncoder, Array<Char> charBuffer, Int32 charPos, Boolean haveWrittenPreamble, Encoding encoding, Encoder encoder, Array<Byte> byteBuffer, Stream stream, CancellationToken cancellationToken);
   private: void ThrowIfDisposed();
-  private: static void cctor();
+  public: static void cctor();
   public: static StreamWriter Null;
   private: Stream _stream;
   private: Encoding _encoding;

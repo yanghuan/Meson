@@ -24,7 +24,7 @@ CLASS(CultureAwareComparer) : public StringComparer::in {
   public: using interface = rt::TypeList<ISerializable>;
   public: void ctor(CultureInfo culture, CompareOptions options);
   public: void ctor(CompareInfo compareInfo, CompareOptions options);
-  private: void ctor(SerializationInfo info, StreamingContext context);
+  public: void ctor(SerializationInfo info, StreamingContext context);
   public: Int32 Compare(String x, String y);
   public: Boolean Equals(String x, String y);
   public: Int32 GetHashCode(String obj);

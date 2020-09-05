@@ -31,7 +31,7 @@ CLASS(MemoryFailPoint) : public CriticalFinalizerObject::in {
   private: static void CheckForFreeAddressSpace(UInt64 size, Boolean shouldThrow);
   private: static UInt64 MemFreeAfterAddress(void* address, UInt64 size);
   private: static void GrowPageFileIfNecessaryAndPossible(UIntPtr numBytes);
-  private: static void cctor();
+  public: static void cctor();
   private: static UInt64 s_topOfMemory;
   private: static Int64 s_hiddenLastKnownFreeAddressSpace;
   private: static Int64 s_hiddenLastTimeCheckingAddressSpace;

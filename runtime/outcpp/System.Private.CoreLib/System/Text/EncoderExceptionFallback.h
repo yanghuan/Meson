@@ -16,7 +16,7 @@ CLASS(EncoderExceptionFallback) : public EncoderFallback::in {
   public: EncoderFallbackBuffer CreateFallbackBuffer();
   public: Boolean Equals(Object value);
   public: Int32 GetHashCode();
-  private: static void cctor();
+  public: static void cctor();
   public: static EncoderExceptionFallback s_default;
 };
 } // namespace EncoderExceptionFallbackNamespace

@@ -18,10 +18,10 @@ using IEqualityComparer_ = Collections::IEqualityComparer;
 CLASS(ReferenceEqualityComparer) : public object {
   public: using interface = rt::TypeList<IEqualityComparer<Object>, IEqualityComparer_>;
   public: static ReferenceEqualityComparer get_Instance() { return Instance; }
-  private: void ctor();
+  public: void ctor();
   public: Boolean Equals(Object x, Object y);
   public: Int32 GetHashCode(Object obj);
-  private: static void cctor();
+  public: static void cctor();
   private: static ReferenceEqualityComparer Instance;
 };
 } // namespace ReferenceEqualityComparerNamespace

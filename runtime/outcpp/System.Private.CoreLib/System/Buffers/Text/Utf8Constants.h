@@ -8,7 +8,7 @@ FORWARDS(TimeSpan)
 namespace System::Private::CoreLib::System::Buffers::Text {
 namespace Utf8ConstantsNamespace {
 class Utf8Constants {
-  private: static void cctor();
+  public: static void cctor();
   public: static TimeSpan NullUtcOffset;
 };
 } // namespace Utf8ConstantsNamespace

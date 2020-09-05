@@ -268,13 +268,15 @@ namespace Meson.Compiler {
           Accessibility = method.Accessibility,
         };
       } else {
+        bool isStringCtorMethod = IsStringCtorMethod(method);
+        bool isPublic = method.IsMainEntryPoint() || isStringCtorMethod || method.SymbolKind == SymbolKind.Constructor;
         var methodName = GetMemberName(method);
         var returnType = GetRetuenTypeSyntax(method, typeDefinition);
         CheckOperatorParameters(method, parameters, returnType);
         methodDefinition = new MethodDefinitionSyntax(methodName, parameters, returnType) {
           Template = method.GetTemplateSyntax(),
-          IsStatic = method.IsStatic,
-          Accessibility = method.IsMainEntryPoint() || IsStringCtorMethod(method) ? Accessibility.Public : method.Accessibility,
+          IsStatic = method.IsStatic || isStringCtorMethod,
+          Accessibility = isPublic ? Accessibility.Public : method.Accessibility,
         };
         CheckStructDefaultParameters(method, methodDefinition);
       }

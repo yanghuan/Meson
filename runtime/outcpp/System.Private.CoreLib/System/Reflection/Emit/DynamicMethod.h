@@ -112,7 +112,7 @@ CLASS(DynamicMethod) : public MethodInfo::in {
   public: ILGenerator GetILGenerator();
   public: ILGenerator GetILGenerator(Int32 streamSize);
   public: MethodInfo GetMethodInfo();
-  private: static void cctor();
+  public: static void cctor();
   private: Array<RuntimeType> m_parameterTypes;
   public: IRuntimeMethodInfo m_methodHandle;
   private: RuntimeType m_returnType;

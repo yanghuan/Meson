@@ -2014,7 +2014,7 @@ String TimeZoneInfo___::TryGetLocalizedNameByMuiNativeResource(String resource) 
     Int32 pcchFileMUIPath = 260;
     Int32 pcchLanguage = 0;
     Int64 pululEnumerator = 0;
-    return Interop::Kernel32::GetFileMUIPath(16u, pcwszFilePath, nullptr, pcchLanguage, ptr, pcchFileMUIPath, pululEnumerator) ? TryGetLocalizedNameByNativeResource(rt::newobj<String>(ptr, 0, pcchFileMUIPath), result) : String::in::Empty;
+    return Interop::Kernel32::GetFileMUIPath(16u, pcwszFilePath, nullptr, pcchLanguage, ptr, pcchFileMUIPath, pululEnumerator) ? TryGetLocalizedNameByNativeResource(rt::newstr<String>(ptr, 0, pcchFileMUIPath), result) : String::in::Empty;
   } catch (EntryPointNotFoundException) {
     return String::in::Empty;
   }
@@ -2029,7 +2029,7 @@ String TimeZoneInfo___::TryGetLocalizedNameByNativeResource(String filePath, Int
       Char* ptr = as;
       Int32 num = Interop::User32::LoadString(intPtr, (UInt32)resource, ptr, 500);
       if (num != 0) {
-        return rt::newobj<String>(ptr, 0, num);
+        return rt::newstr<String>(ptr, 0, num);
       }
     }
   } catch (...) {

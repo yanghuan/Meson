@@ -93,7 +93,7 @@ CLASS(SerializationInfo) : public object {
   public: static void ThrowIfDeserializationInProgress();
   public: static void ThrowIfDeserializationInProgress(String switchSuffix, Int32& cachedValue);
   public: static DeserializationToken StartDeserialization();
-  private: static void cctor();
+  public: static void cctor();
   private: Array<String> _names;
   private: Array<Object> _values;
   private: Array<Type> _types;

@@ -33,7 +33,7 @@ CLASS(EventPipeEventDispatcher) : public object {
     private: EventKeywords MatchAnyKeywords;
     private: EventLevel Level;
   };
-  private: void ctor();
+  public: void ctor();
   public: void SendCommand(EventListener eventListener, EventCommand command, Boolean enable, EventLevel level, EventKeywords matchAnyKeywords);
   public: void RemoveEventListener(EventListener listener);
   private: void CommitDispatchConfiguration();
@@ -41,7 +41,7 @@ CLASS(EventPipeEventDispatcher) : public object {
   private: void StopDispatchTask();
   private: void DispatchEventsToEventListeners();
   private: DateTime TimeStampToDateTime(Int64 timeStamp);
-  private: static void cctor();
+  public: static void cctor();
   public: static EventPipeEventDispatcher Instance;
   private: IntPtr m_RuntimeProviderID;
   private: UInt64 m_sessionID;

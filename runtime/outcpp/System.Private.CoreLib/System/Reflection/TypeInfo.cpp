@@ -118,7 +118,7 @@ String TypeInfo___::GetRankString(Int32 rank) {
     rt::throw_exception<IndexOutOfRangeException>();
   }
   if (rank != 1) {
-    return "[" + rt::newobj<String>(44, rank - 1) + "]";
+    return "[" + rt::newstr<String>(44, rank - 1) + "]";
   }
   return "[*]";
 }

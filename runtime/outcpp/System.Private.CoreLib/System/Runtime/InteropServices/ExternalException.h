@@ -20,7 +20,7 @@ CLASS(ExternalException) : public SystemException::in {
   public: void ctor(String message);
   public: void ctor(String message, Exception inner);
   public: void ctor(String message, Int32 errorCode);
-  protected: void ctor(SerializationInfo info, StreamingContext context);
+  public: void ctor(SerializationInfo info, StreamingContext context);
   public: String ToString();
 };
 } // namespace ExternalExceptionNamespace

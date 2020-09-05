@@ -258,7 +258,7 @@ CLASS(CultureData) : public object {
   private: Int32 GetMacCodePage(String cultureName);
   private: Int32 GetEbcdicCodePage(String cultureName);
   public: void ctor();
-  private: static void cctor();
+  public: static void cctor();
   private: String _sRealName;
   private: String _sWindowsName;
   private: String _sName;

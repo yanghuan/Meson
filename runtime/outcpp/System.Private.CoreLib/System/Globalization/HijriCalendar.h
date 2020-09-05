@@ -52,7 +52,7 @@ CLASS(HijriCalendar) : public Calendar::in {
   public: Int32 ToFourDigitYear(Int32 year);
   private: Int32 GetHijriDateAdjustment();
   private: static Int32 GetAdvanceHijriDate();
-  private: static void cctor();
+  public: static void cctor();
   public: static Int32 HijriEra;
   private: static Array<Int32> s_hijriMonthDays;
   private: Int32 _hijriAdvance;

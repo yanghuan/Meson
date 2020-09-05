@@ -24,7 +24,7 @@ CLASS(TaskCanceledException) : public OperationCanceledException::in {
   public: void ctor(String message, Exception innerException);
   public: void ctor(String message, Exception innerException, CancellationToken token);
   public: void ctor(Task<> task);
-  protected: void ctor(SerializationInfo info, StreamingContext context);
+  public: void ctor(SerializationInfo info, StreamingContext context);
   private: Task<> _canceledTask;
 };
 } // namespace TaskCanceledExceptionNamespace

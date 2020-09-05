@@ -39,14 +39,14 @@ CLASS(TaskScheduler) : public object {
   public: Boolean TryDequeue(Task<> task);
   public: void NotifyWorkItemProgress();
   public: void InternalQueueTask(Task<> task);
-  protected: void ctor();
+  public: void ctor();
   private: void AddToActiveTaskSchedulers();
   public: static TaskScheduler FromCurrentSynchronizationContext();
   protected: Boolean TryExecuteTask(Task<> task);
   public: static void PublishUnobservedTaskException(Object sender, UnobservedTaskExceptionEventArgs ueea);
   public: Array<Task<>> GetScheduledTasksForDebugger();
   public: static Array<TaskScheduler> GetTaskSchedulersForDebugger();
-  private: static void cctor();
+  public: static void cctor();
   private: static ConditionalWeakTable<TaskScheduler, Object> s_activeTaskSchedulers;
   private: static TaskScheduler s_defaultTaskScheduler;
   public: static Int32 s_taskSchedulerIdCounter;

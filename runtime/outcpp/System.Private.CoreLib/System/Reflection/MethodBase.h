@@ -62,7 +62,7 @@ CLASS(MethodBase) : public MemberInfo::in {
   public: Array<ParameterInfo> GetParametersNoCopy();
   public: Array<Type> GetParameterTypes();
   public: Array<Object> CheckArguments(Array<Object> parameters, Binder binder, BindingFlags invokeAttr, CultureInfo culture, Signature sig);
-  protected: void ctor();
+  public: void ctor();
   public: Array<ParameterInfo> GetParameters();
   public: MethodImplAttributes GetMethodImplementationFlags();
   public: MethodBody GetMethodBody();

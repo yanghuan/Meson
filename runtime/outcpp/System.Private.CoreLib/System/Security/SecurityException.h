@@ -46,7 +46,7 @@ CLASS(SecurityException) : public SystemException::in {
   public: void ctor(String message, Exception inner);
   public: void ctor(String message, Type type);
   public: void ctor(String message, Type type, String state);
-  protected: void ctor(SerializationInfo info, StreamingContext context);
+  public: void ctor(SerializationInfo info, StreamingContext context);
   public: String ToString();
   public: void GetObjectData(SerializationInfo info, StreamingContext context);
   private: Object Demanded;

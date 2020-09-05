@@ -60,8 +60,8 @@ CLASS(ResourceManager) : public object {
   public: Type get_ResourceSetType();
   protected: UltimateResourceFallbackLocation get_FallbackLocation();
   protected: void set_FallbackLocation(UltimateResourceFallbackLocation value);
-  protected: void ctor();
-  private: void ctor(String baseName, String resourceDir, Type userResourceSet);
+  public: void ctor();
+  public: void ctor(String baseName, String resourceDir, Type userResourceSet);
   public: void ctor(String baseName, Assembly assembly);
   public: void ctor(String baseName, Assembly assembly, Type usingResourceSet);
   public: void ctor(Type resourceSource);
@@ -83,7 +83,7 @@ CLASS(ResourceManager) : public object {
   private: Object GetObject(String name, CultureInfo culture, Boolean wrapUnmanagedMemStream);
   public: UnmanagedMemoryStream GetStream(String name);
   public: UnmanagedMemoryStream GetStream(String name, CultureInfo culture);
-  private: static void cctor();
+  public: static void cctor();
   protected: String BaseNameField;
   protected: Assembly MainAssembly;
   private: Dictionary<String, ResourceSet> _resourceSets;

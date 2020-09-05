@@ -13,7 +13,7 @@ CLASS(DecoderFallback) : public object {
   public: static DecoderFallback get_ExceptionFallback();
   public: Int32 get_MaxCharCount();
   public: DecoderFallbackBuffer CreateFallbackBuffer();
-  protected: void ctor();
+  public: void ctor();
 };
 } // namespace DecoderFallbackNamespace
 using DecoderFallback = DecoderFallbackNamespace::DecoderFallback;

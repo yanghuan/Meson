@@ -19,7 +19,7 @@ using namespace System::Runtime::InteropServices;
 CLASS(ThreadPoolBoundHandle) : public object {
   public: using interface = rt::TypeList<IDisposable>;
   public: SafeHandle get_Handle();
-  private: void ctor(SafeHandle handle);
+  public: void ctor(SafeHandle handle);
   public: static ThreadPoolBoundHandle BindHandle(SafeHandle handle);
   public: NativeOverlapped* AllocateNativeOverlapped(IOCompletionCallback callback, Object state, Object pinData);
   public: NativeOverlapped* AllocateNativeOverlapped(PreAllocatedOverlapped preAllocated);

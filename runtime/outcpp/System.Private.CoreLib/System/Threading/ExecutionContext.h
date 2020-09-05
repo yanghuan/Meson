@@ -25,8 +25,8 @@ CLASS(ExecutionContext) : public object {
   public: using interface = rt::TypeList<IDisposable, ISerializable>;
   public: Boolean get_HasChangeNotifications();
   public: Boolean get_IsDefault();
-  private: void ctor(Boolean isDefault);
-  private: void ctor(IAsyncLocalValueMap localValues, Array<IAsyncLocal> localChangeNotifications, Boolean isFlowSuppressed);
+  public: void ctor(Boolean isDefault);
+  public: void ctor(IAsyncLocalValueMap localValues, Array<IAsyncLocal> localChangeNotifications, Boolean isFlowSuppressed);
   public: void GetObjectData(SerializationInfo info, StreamingContext context);
   public: static ExecutionContext Capture();
   private: ExecutionContext ShallowClone(Boolean isFlowSuppressed);
@@ -47,7 +47,7 @@ CLASS(ExecutionContext) : public object {
   public: static void SetLocalValue(IAsyncLocal local, Object newValue, Boolean needChangeNotifications);
   public: ExecutionContext CreateCopy();
   public: void Dispose();
-  private: static void cctor();
+  public: static void cctor();
   public: static ExecutionContext Default;
   public: static ExecutionContext DefaultFlowSuppressed;
   private: IAsyncLocalValueMap m_localValues;

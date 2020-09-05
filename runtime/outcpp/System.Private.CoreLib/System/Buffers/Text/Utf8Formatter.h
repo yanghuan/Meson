@@ -101,7 +101,7 @@ class Utf8Formatter {
   private: static Boolean TryFormatUInt64X(UInt64 value, Byte precision, Boolean useLower, Span<Byte> destination, Int32& bytesWritten);
   public: template <class T0 = StandardFormat>
   static Boolean TryFormat(TimeSpan value, Span<Byte> destination, Int32& bytesWritten, T0 format = rt::default__);
-  private: static void cctor();
+  public: static void cctor();
   private: static Array<UInt32> s_dayAbbreviations;
   private: static Array<UInt32> s_dayAbbreviationsLowercase;
   private: static Array<UInt32> s_monthAbbreviations;

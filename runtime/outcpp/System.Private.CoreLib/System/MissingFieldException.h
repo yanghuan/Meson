@@ -19,7 +19,7 @@ CLASS(MissingFieldException) : public MissingMemberException::in {
   public: void ctor(String message);
   public: void ctor(String message, Exception inner);
   public: void ctor(String className, String fieldName);
-  protected: void ctor(SerializationInfo info, StreamingContext context);
+  public: void ctor(SerializationInfo info, StreamingContext context);
 };
 } // namespace MissingFieldExceptionNamespace
 using MissingFieldException = MissingFieldExceptionNamespace::MissingFieldException;

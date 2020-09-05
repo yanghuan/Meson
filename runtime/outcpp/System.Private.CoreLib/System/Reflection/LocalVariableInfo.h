@@ -14,7 +14,7 @@ CLASS(LocalVariableInfo) : public object {
   public: Type get_LocalType();
   public: Int32 get_LocalIndex();
   public: Boolean get_IsPinned();
-  protected: void ctor();
+  public: void ctor();
   public: String ToString();
 };
 } // namespace LocalVariableInfoNamespace

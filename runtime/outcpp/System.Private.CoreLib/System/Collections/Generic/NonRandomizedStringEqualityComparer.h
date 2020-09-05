@@ -21,12 +21,12 @@ using IEqualityComparer = Generic::IEqualityComparer<T>;
 CLASS(NonRandomizedStringEqualityComparer) : public EqualityComparer<String>::in {
   public: using interface = rt::TypeList<ISerializable>;
   public: static IEqualityComparer<String> get_Default() { return Default; }
-  private: void ctor();
-  private: void ctor(SerializationInfo information, StreamingContext context);
+  public: void ctor();
+  public: void ctor(SerializationInfo information, StreamingContext context);
   public: Boolean Equals(String x, String y);
   public: Int32 GetHashCode(String obj);
   public: void GetObjectData(SerializationInfo info, StreamingContext context);
-  private: static void cctor();
+  public: static void cctor();
   private: static IEqualityComparer<String> Default;
 };
 } // namespace NonRandomizedStringEqualityComparerNamespace

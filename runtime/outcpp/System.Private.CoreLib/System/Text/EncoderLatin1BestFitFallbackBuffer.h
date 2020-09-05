@@ -19,7 +19,7 @@ CLASS(EncoderLatin1BestFitFallbackBuffer) : public EncoderFallbackBuffer::in {
   public: void Reset();
   private: Char TryBestFit(Char cUnknown);
   public: void ctor();
-  private: static void cctor();
+  public: static void cctor();
   private: Char _cBestFit;
   private: Int32 _iCount;
   private: Int32 _iSize;

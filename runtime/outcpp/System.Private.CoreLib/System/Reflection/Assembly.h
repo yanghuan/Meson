@@ -96,7 +96,7 @@ CLASS(Assembly) : public object {
   private: static Assembly GetEntryAssemblyInternal();
   public: Boolean IsRuntimeImplemented();
   public: static UInt32 GetAssemblyCount();
-  protected: void ctor();
+  public: void ctor();
   public: Array<Type> GetTypes();
   public: Array<Type> GetExportedTypes();
   public: Array<Type> GetForwardedTypes();
@@ -148,7 +148,7 @@ CLASS(Assembly) : public object {
   public: static Assembly ReflectionOnlyLoad(Array<Byte> rawAssembly);
   public: static Assembly ReflectionOnlyLoad(String assemblyString);
   public: static Assembly ReflectionOnlyLoadFrom(String assemblyFile);
-  private: static void cctor();
+  public: static void cctor();
   private: static Dictionary<String, Assembly> s_loadfile;
   private: static List<String> s_loadFromAssemblyList;
   private: static Boolean s_loadFromHandlerSet;

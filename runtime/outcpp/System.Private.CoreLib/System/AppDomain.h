@@ -63,7 +63,7 @@ CLASS(AppDomain) : public MarshalByRefObject::in {
   public: Int64 get_MonitoringTotalAllocatedMemorySize();
   public: Boolean get_ShadowCopyFiles();
   public: TimeSpan get_MonitoringTotalProcessorTime();
-  private: void ctor();
+  public: void ctor();
   public: void SetDynamicBase(String path);
   public: String ApplyPolicy(String assemblyName);
   public: static AppDomain CreateDomain(String friendlyName);
@@ -109,7 +109,7 @@ CLASS(AppDomain) : public MarshalByRefObject::in {
   public: Object CreateInstanceFromAndUnwrap(String assemblyFile, String typeName, Boolean ignoreCase, BindingFlags bindingAttr, Binder binder, Array<Object> args, CultureInfo culture, Array<Object> activationAttributes);
   public: Object CreateInstanceFromAndUnwrap(String assemblyFile, String typeName, Array<Object> activationAttributes);
   public: IPrincipal GetThreadPrincipal();
-  private: static void cctor();
+  public: static void cctor();
   private: static AppDomain s_domain;
   private: Object _forLock;
   private: IPrincipal _defaultPrincipal;

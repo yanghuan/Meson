@@ -232,7 +232,7 @@ String BinaryReader___::ReadString() {
     }
     Int32 chars = _decoder->GetChars(_charBytes, 0, num3, _charBuffer, 0);
     if (num == 0 && num3 == num2) {
-      return rt::newobj<String>(_charBuffer, 0, chars);
+      return rt::newstr<String>(_charBuffer, 0, chars);
     }
     if (stringBuilder == nullptr) {
       stringBuilder = StringBuilderCache::Acquire(Math::Min(num2, 360));

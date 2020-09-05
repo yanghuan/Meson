@@ -8,7 +8,7 @@ CLASS(CleanupWorkListElement) : public object {
   protected: void DestroyCore();
   public: void Destroy();
   public: static void AddToCleanupList(CleanupWorkListElement& list, CleanupWorkListElement newElement);
-  protected: void ctor();
+  public: void ctor();
   private: CleanupWorkListElement m_Next;
 };
 } // namespace CleanupWorkListElementNamespace

@@ -14,7 +14,7 @@ CLASS_FORWARD(QueueUserWorkItemCallback, T1, T2)
 CLASS_(QueueUserWorkItemCallback) : public QueueUserWorkItemCallbackBase::in {
   public: void ctor(WaitCallback callback, Object state, ExecutionContext context);
   public: void Execute();
-  private: static void cctor();
+  public: static void cctor();
   private: WaitCallback _callback;
   private: Object _state;
   private: ExecutionContext _context;

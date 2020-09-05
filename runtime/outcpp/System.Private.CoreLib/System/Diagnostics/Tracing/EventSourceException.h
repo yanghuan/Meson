@@ -16,7 +16,7 @@ CLASS(EventSourceException) : public Exception::in {
   public: void ctor();
   public: void ctor(String message);
   public: void ctor(String message, Exception innerException);
-  protected: void ctor(SerializationInfo info, StreamingContext context);
+  public: void ctor(SerializationInfo info, StreamingContext context);
   public: void ctor(Exception innerException);
 };
 } // namespace EventSourceExceptionNamespace

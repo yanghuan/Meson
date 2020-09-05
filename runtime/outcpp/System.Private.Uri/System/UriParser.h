@@ -25,7 +25,7 @@ CLASS(UriParser) : public object {
   public: Int32 get_DefaultPort();
   public: UriSyntaxFlags get_Flags();
   public: Boolean get_IsSimple();
-  protected: void ctor();
+  public: void ctor();
   protected: UriParser OnNewUri();
   protected: void OnRegister(String schemeName, Int32 defaultPort);
   protected: void InitializeAndValidate(Uri uri, UriFormatException& parsingError);
@@ -50,7 +50,7 @@ CLASS(UriParser) : public object {
   public: Boolean InternalIsBaseOf(Uri thisBaseUri, Uri uriLink);
   public: String InternalGetComponents(Uri thisUri, UriComponents uriComponents, UriFormat uriFormat);
   public: Boolean InternalIsWellFormedOriginalString(Uri thisUri);
-  private: static void cctor();
+  public: static void cctor();
   public: static UriParser HttpUri;
   public: static UriParser HttpsUri;
   public: static UriParser WsUri;

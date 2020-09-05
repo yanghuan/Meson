@@ -9,7 +9,7 @@ namespace System::Private::CoreLib::System::Runtime::InteropServices {
 FORWARD(ComEventsSink)
 namespace ComEventsInfoNamespace {
 CLASS(ComEventsInfo) : public object {
-  private: void ctor(Object rcw);
+  public: void ctor(Object rcw);
   protected: void Finalize();
   public: static ComEventsInfo Find(Object rcw);
   public: static ComEventsInfo FromObject(Object rcw);

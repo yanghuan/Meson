@@ -30,7 +30,7 @@ CLASS(PropertyInfo) : public MemberInfo::in {
   public: Boolean get_CanWrite();
   public: MethodInfo get_GetMethod();
   public: MethodInfo get_SetMethod();
-  protected: void ctor();
+  public: void ctor();
   public: Array<ParameterInfo> GetIndexParameters();
   public: Array<MethodInfo> GetAccessors();
   public: Array<MethodInfo> GetAccessors(Boolean nonPublic);

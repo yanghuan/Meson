@@ -11,7 +11,7 @@ namespace Gen2GcCallbackNamespace {
 using namespace System::Runtime::ConstrainedExecution;
 using namespace System::Runtime::InteropServices;
 CLASS(Gen2GcCallback) : public CriticalFinalizerObject::in {
-  private: void ctor(Func<Object, Boolean> callback, Object targetObj);
+  public: void ctor(Func<Object, Boolean> callback, Object targetObj);
   public: static void Register(Func<Object, Boolean> callback, Object targetObj);
   protected: void Finalize();
   private: Func<Boolean> _callback0;

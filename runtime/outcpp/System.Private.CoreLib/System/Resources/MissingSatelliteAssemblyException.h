@@ -19,7 +19,7 @@ CLASS(MissingSatelliteAssemblyException) : public SystemException::in {
   public: void ctor(String message);
   public: void ctor(String message, String cultureName);
   public: void ctor(String message, Exception inner);
-  protected: void ctor(SerializationInfo info, StreamingContext context);
+  public: void ctor(SerializationInfo info, StreamingContext context);
   private: String _cultureName;
 };
 } // namespace MissingSatelliteAssemblyExceptionNamespace

@@ -76,7 +76,7 @@ CLASS(ManifestBuilder) : public object {
   private: static void UpdateStringBuilder(StringBuilder& stringBuilder, String eventMessage, Int32 startIndex, Int32 count);
   private: String TranslateToManifestConvention(String eventMessage, String evtName);
   private: Int32 TranslateIndexToManifestConvention(Int32 idx, String evtName);
-  private: static void cctor();
+  public: static void cctor();
   private: static Array<String> s_escapes;
   private: Dictionary<Int32, String> opcodeTab;
   private: Dictionary<Int32, String> taskTab;

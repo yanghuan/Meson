@@ -131,7 +131,7 @@ struct Decimal : public valueType<Decimal> {
     private: static void VarDecModFull(DecCalc& d1, DecCalc& d2, Int32 scale);
     public: static void InternalRound(DecCalc& d, UInt32 scale, MidpointRounding mode);
     public: static UInt32 DecDivMod1E9(DecCalc& value);
-    private: static void cctor();
+    public: static void cctor();
     private: UInt32 uflags;
     private: UInt32 uhi;
     private: UInt32 ulo;
@@ -260,7 +260,7 @@ struct Decimal : public valueType<Decimal> {
   public: TypeCode GetTypeCode();
   private: static DecCalc& AsMutable(Decimal& d);
   public: static UInt32 DecDivMod1E9(Decimal& value);
-  private: static void cctor();
+  public: static void cctor();
   public: explicit Decimal() {}
   private: Int32 _flags;
   private: UInt32 _hi32;

@@ -29,7 +29,7 @@ CLASS(CultureNotFoundException) : public ArgumentException::in {
   public: void ctor(String message, String invalidCultureName, Exception innerException);
   public: void ctor(String message, Int32 invalidCultureId, Exception innerException);
   public: void ctor(String paramName, Int32 invalidCultureId, String message);
-  protected: void ctor(SerializationInfo info, StreamingContext context);
+  public: void ctor(SerializationInfo info, StreamingContext context);
   public: void GetObjectData(SerializationInfo info, StreamingContext context);
   private: String _invalidCultureName;
   private: Nullable<Int32> _invalidCultureId;

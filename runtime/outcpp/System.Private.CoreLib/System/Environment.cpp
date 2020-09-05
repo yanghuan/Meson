@@ -654,7 +654,7 @@ OperatingSystem Environment::GetOSVersion() {
   if (*osvi.szCSDVersion == 0) {
     return rt::newobj<OperatingSystem>(PlatformID::Win32NT, version);
   }
-  return rt::newobj<OperatingSystem>(PlatformID::Win32NT, version, rt::newobj<String>(osvi.szCSDVersion));
+  return rt::newobj<OperatingSystem>(PlatformID::Win32NT, version, rt::newstr<String>(osvi.szCSDVersion));
 }
 
 String Environment::GetEnvironmentVariableCore(String variable) {
@@ -665,7 +665,7 @@ String Environment::GetEnvironmentVariableCore(String variable) {
     return nullptr;
   }
   if (environmentVariable <= buffer.get_Length()) {
-    return rt::newobj<String>(buffer.Slice(0, environmentVariable));
+    return rt::newstr<String>(buffer.Slice(0, environmentVariable));
   }
   Array<Char> array = ArrayPool<Char>::in::get_Shared()->Rent(environmentVariable);
   try {
@@ -674,7 +674,7 @@ String Environment::GetEnvironmentVariableCore(String variable) {
     if ((environmentVariable == 0 && Marshal::GetLastWin32Error() == 203) || environmentVariable > buffer.get_Length()) {
       return nullptr;
     }
-    return rt::newobj<String>(buffer.Slice(0, environmentVariable));
+    return rt::newstr<String>(buffer.Slice(0, environmentVariable));
   } catch (...) {
   } finally: {
     ArrayPool<Char>::in::get_Shared()->Return(array);
@@ -721,12 +721,12 @@ IDictionary Environment::GetEnvironmentVariables() {
         }
         continue;
       }
-      String key = rt::newobj<String>(span.Slice(num, i - num));
+      String key = rt::newstr<String>(span.Slice(num, i - num));
       i++;
       Int32 num2 = i;
       for (; span[i] != 0; i++) {
       }
-      String value = rt::newobj<String>(span.Slice(num2, i - num2));
+      String value = rt::newstr<String>(span.Slice(num2, i - num2));
       try {
         hashtable->Add(key, value);
       } catch (ArgumentException) {

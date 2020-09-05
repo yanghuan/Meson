@@ -22,10 +22,10 @@ using namespace System::Runtime::Serialization;
 CLASS(Comparer) : public object {
   public: using interface = rt::TypeList<IComparer, ISerializable>;
   public: void ctor(CultureInfo culture);
-  private: void ctor(SerializationInfo info, StreamingContext context);
+  public: void ctor(SerializationInfo info, StreamingContext context);
   public: void GetObjectData(SerializationInfo info, StreamingContext context);
   public: Int32 Compare(Object a, Object b);
-  private: static void cctor();
+  public: static void cctor();
   private: CompareInfo _compareInfo;
   public: static Comparer Default;
   public: static Comparer DefaultInvariant;

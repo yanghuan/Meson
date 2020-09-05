@@ -367,7 +367,7 @@ class Convert {
   public: static String ToHexString(Array<Byte> inArray);
   public: static String ToHexString(Array<Byte> inArray, Int32 offset, Int32 length);
   public: static String ToHexString(ReadOnlySpan<Byte> bytes);
-  private: static void cctor();
+  public: static void cctor();
   public: static Array<Type> ConvertTypes;
   private: static Type EnumType;
   public: static Array<Char> base64Table;

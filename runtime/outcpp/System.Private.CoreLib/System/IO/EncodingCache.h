@@ -9,7 +9,7 @@ namespace System::Private::CoreLib::System::IO {
 namespace EncodingCacheNamespace {
 using namespace System::Text;
 class EncodingCache {
-  private: static void cctor();
+  public: static void cctor();
   public: static Encoding UTF8NoBOM;
 };
 } // namespace EncodingCacheNamespace

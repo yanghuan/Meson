@@ -35,7 +35,7 @@ CLASS(AwaitTaskContinuation) : public TaskContinuation::in {
   public: static void RunOrScheduleAction(IAsyncStateMachineBox box, Boolean allowInlining);
   public: static void UnsafeScheduleAction(Action<> action, Task<> task);
   public: Array<Delegate> GetDelegateContinuationsForDebugger();
-  private: static void cctor();
+  public: static void cctor();
   private: ExecutionContext m_capturedContext;
   protected: Action<> m_action;
   protected: Int32 m_continuationId;

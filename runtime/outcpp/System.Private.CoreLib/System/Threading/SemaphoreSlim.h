@@ -54,7 +54,7 @@ CLASS(SemaphoreSlim) : public object {
   protected: void Dispose(Boolean disposing);
   private: static void CancellationTokenCanceledEventHandler(Object obj);
   private: void CheckDispose();
-  private: static void cctor();
+  public: static void cctor();
   private: Int32 m_currentCount;
   private: Int32 m_maxCount;
   private: Int32 m_waitCount;

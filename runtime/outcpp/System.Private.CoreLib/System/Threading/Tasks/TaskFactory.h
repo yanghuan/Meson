@@ -203,7 +203,7 @@ CLASS_(TaskFactory, TResult) : public object {
     public: void ctor(TInstance thisRef, Func<TInstance, IAsyncResult, TResult> endMethod);
     public: static void CompleteFromAsyncResult(IAsyncResult asyncResult);
     public: void Complete(TInstance thisRef, Func<TInstance, IAsyncResult, TResult> endMethod, IAsyncResult asyncResult, Boolean requiresSynchronization);
-    private: static void cctor();
+    public: static void cctor();
     public: static AsyncCallback s_completeFromAsyncResult;
     private: TInstance m_thisRef;
     private: Func<TInstance, IAsyncResult, TResult> m_endMethod;

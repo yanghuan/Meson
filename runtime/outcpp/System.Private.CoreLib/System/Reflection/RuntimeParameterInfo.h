@@ -41,8 +41,8 @@ CLASS(RuntimeParameterInfo) : public ParameterInfo::in {
   public: void SetName(String name);
   public: void SetAttributes(ParameterAttributes attributes);
   public: void ctor(RuntimeParameterInfo accessor, RuntimePropertyInfo property);
-  private: void ctor(RuntimeParameterInfo accessor, MemberInfo member);
-  private: void ctor(Signature signature, MetadataImport scope, Int32 tkParamDef, Int32 position, ParameterAttributes attributes, MemberInfo member);
+  public: void ctor(RuntimeParameterInfo accessor, MemberInfo member);
+  public: void ctor(Signature signature, MetadataImport scope, Int32 tkParamDef, Int32 position, ParameterAttributes attributes, MemberInfo member);
   public: void ctor(MethodInfo owner, String name, Type parameterType, Int32 position);
   private: Object GetDefaultValue(Boolean raw);
   private: Object GetDefaultValueInternal(Boolean raw);
@@ -56,7 +56,7 @@ CLASS(RuntimeParameterInfo) : public ParameterInfo::in {
   public: Array<Object> GetCustomAttributes(Type attributeType, Boolean inherit);
   public: Boolean IsDefined(Type attributeType, Boolean inherit);
   public: IList<CustomAttributeData> GetCustomAttributesData();
-  private: static void cctor();
+  public: static void cctor();
   private: static Type s_DecimalConstantAttributeType;
   private: static Type s_CustomConstantAttributeType;
   private: Int32 m_tkParamDef;

@@ -14,7 +14,7 @@ CLASS(RuntimeLocalVariableInfo) : public LocalVariableInfo::in {
   public: Type get_LocalType();
   public: Int32 get_LocalIndex();
   public: Boolean get_IsPinned();
-  private: void ctor();
+  public: void ctor();
   private: RuntimeType _type;
   private: Int32 _localIndex;
   private: Boolean _isPinned;

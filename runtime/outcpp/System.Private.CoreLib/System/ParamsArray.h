@@ -15,7 +15,7 @@ struct ParamsArray : public valueType<ParamsArray> {
   public: explicit ParamsArray(Object arg0, Object arg1, Object arg2);
   public: explicit ParamsArray(Array<Object> args);
   private: Object GetAtSlow(Int32 index);
-  private: static void cctor();
+  public: static void cctor();
   public: explicit ParamsArray() {}
   private: static Array<Object> s_oneArgArray;
   private: static Array<Object> s_twoArgArray;

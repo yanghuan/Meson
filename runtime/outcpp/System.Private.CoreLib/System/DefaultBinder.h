@@ -67,7 +67,7 @@ CLASS(DefaultBinder) : public Binder::in {
   private: static Boolean CreateParamOrder(Array<Int32> paramOrder, Array<ParameterInfo> pars, Array<String> names);
   public: static Boolean CanChangePrimitive(Type source, Type target);
   public: void ctor();
-  private: static void cctor();
+  public: static void cctor();
   private: static Array<Primitives> s_primitiveConversions;
 };
 } // namespace DefaultBinderNamespace

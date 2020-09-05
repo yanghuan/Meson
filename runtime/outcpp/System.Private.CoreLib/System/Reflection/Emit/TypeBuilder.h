@@ -138,7 +138,7 @@ CLASS(TypeBuilder) : public TypeInfo::in {
   public: static void SetConstantValue(ModuleBuilder module, Int32 tk, Type destType, Object value);
   public: void ctor(ModuleBuilder module);
   public: void ctor(String szName, Int32 genParamPos, MethodBuilder declMeth);
-  private: void ctor(String szName, Int32 genParamPos, TypeBuilder declType);
+  public: void ctor(String szName, Int32 genParamPos, TypeBuilder declType);
   public: void ctor(String fullname, TypeAttributes attr, Type parent, Array<Type> interfaces, ModuleBuilder module, PackingSize iPackingSize, Int32 iTypeSize, TypeBuilder enclosingType);
   private: FieldBuilder DefineDataHelper(String name, Array<Byte> data, Int32 size, FieldAttributes attributes);
   private: void VerifyTypeAttributes(TypeAttributes attr);

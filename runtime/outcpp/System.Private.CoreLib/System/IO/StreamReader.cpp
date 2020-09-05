@@ -499,7 +499,7 @@ String StreamReader___::ReadLine() {
           stringBuilder->Append(_charBuffer, _charPos, num - _charPos);
           result = stringBuilder->ToString();
         } else {
-          result = rt::newobj<String>(_charBuffer, _charPos, num - _charPos);
+          result = rt::newstr<String>(_charBuffer, _charPos, num - _charPos);
         }
         _charPos = num + 1;
         if (c == 13 && (_charPos < _charLen || ReadBuffer() > 0) && _charBuffer[_charPos] == 10) {

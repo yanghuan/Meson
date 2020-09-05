@@ -30,7 +30,7 @@ CLASS(RuntimeFieldInfo) : public FieldInfo::in {
   public: Type get_DeclaringType();
   public: Module get_Module();
   public: Boolean get_IsCollectible();
-  protected: void ctor(RuntimeType::in::RuntimeTypeCache reflectedTypeCache, RuntimeType declaringType, BindingFlags bindingFlags);
+  public: void ctor(RuntimeType::in::RuntimeTypeCache reflectedTypeCache, RuntimeType declaringType, BindingFlags bindingFlags);
   public: RuntimeType GetDeclaringTypeInternal();
   public: RuntimeType GetRuntimeType();
   public: RuntimeModule GetRuntimeModule();

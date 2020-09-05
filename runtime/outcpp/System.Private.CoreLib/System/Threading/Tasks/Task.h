@@ -330,7 +330,7 @@ CLASS_(Task) : public object {
   public: Array<Delegate> GetDelegateContinuationsForDebugger();
   private: static Array<Delegate> GetDelegatesFromContinuationObject(Object continuationObject);
   private: static Task<> GetActiveTaskFromId(Int32 taskId);
-  private: static void cctor();
+  public: static void cctor();
   public: static Task<> t_currentTask;
   public: static Int32 s_taskIdCounter;
   private: Int32 m_taskId;
@@ -389,7 +389,7 @@ CLASS(TwoTaskWhenAnyPromise, TTask) : public Task<TTask>::in {
 };
 CLASS_(Task, TResult) : public Task<>::in {
   public: class TaskWhenAnyCast {
-    private: static void cctor();
+    public: static void cctor();
     public: static Func<Task<Task<>>, Task<TResult>> Value;
   };
   private: String get_DebuggerDisplayResultDescription();
@@ -455,7 +455,7 @@ CLASS_(Task, TResult) : public Task<>::in {
   Task<TNewResult> ContinueWith(Func<Task<TResult>, Object, TNewResult> continuationFunction, Object state, CancellationToken cancellationToken, TaskContinuationOptions continuationOptions, TaskScheduler scheduler);
   public: template <class TNewResult>
   Task<TNewResult> ContinueWith(Func<Task<TResult>, Object, TNewResult> continuationFunction, Object state, TaskScheduler scheduler, CancellationToken cancellationToken, TaskContinuationOptions continuationOptions);
-  private: static void cctor();
+  public: static void cctor();
   public: TResult m_result;
   private: static TaskFactory<TResult> s_Factory;
 };

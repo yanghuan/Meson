@@ -160,7 +160,7 @@ Type TypeBuilderInstantiation___::MakeArrayType(Int32 rank) {
   if (rank <= 0) {
     rt::throw_exception<IndexOutOfRangeException>();
   }
-  String format = (rank == 1) ? "[]" : ("[" + rt::newobj<String>(44, rank - 1) + "]");
+  String format = (rank == 1) ? "[]" : ("[" + rt::newstr<String>(44, rank - 1) + "]");
   return SymbolType::in::FormCompoundType(format, (TypeBuilderInstantiation)this, 0);
 }
 

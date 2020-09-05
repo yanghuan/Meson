@@ -17,7 +17,7 @@ CLASS(Mutex) : public WaitHandle::in {
   public: void ctor(Boolean initiallyOwned, String name);
   public: void ctor(Boolean initiallyOwned);
   public: void ctor();
-  private: void ctor(SafeWaitHandle handle);
+  public: void ctor(SafeWaitHandle handle);
   public: static Mutex OpenExisting(String name);
   public: static Boolean TryOpenExisting(String name, Mutex& result);
   private: void CreateMutexCore(Boolean initiallyOwned, String name, Boolean& createdNew);

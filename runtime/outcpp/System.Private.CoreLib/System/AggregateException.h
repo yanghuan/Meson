@@ -38,11 +38,11 @@ CLASS(AggregateException) : public Exception::in {
   public: void ctor(Array<Exception> innerExceptions);
   public: void ctor(String message, IEnumerable<Exception> innerExceptions);
   public: void ctor(String message, Array<Exception> innerExceptions);
-  private: void ctor(String message, IList<Exception> innerExceptions);
+  public: void ctor(String message, IList<Exception> innerExceptions);
   public: void ctor(IEnumerable<ExceptionDispatchInfo> innerExceptionInfos);
   public: void ctor(String message, IEnumerable<ExceptionDispatchInfo> innerExceptionInfos);
-  private: void ctor(String message, IList<ExceptionDispatchInfo> innerExceptionInfos);
-  protected: void ctor(SerializationInfo info, StreamingContext context);
+  public: void ctor(String message, IList<ExceptionDispatchInfo> innerExceptionInfos);
+  public: void ctor(SerializationInfo info, StreamingContext context);
   public: void GetObjectData(SerializationInfo info, StreamingContext context);
   public: Exception GetBaseException();
   public: void Handle(Func<Exception, Boolean> predicate);

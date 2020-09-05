@@ -22,7 +22,7 @@ CLASS(SynchronizationContextAwaitTaskContinuation) : public AwaitTaskContinuatio
   private: static void PostAction(Object state);
   private: static Action<> GetActionLogDelegate(Int32 continuationId, Action<> action);
   private: static ContextCallback GetPostActionCallback();
-  private: static void cctor();
+  public: static void cctor();
   private: static SendOrPostCallback s_postCallback;
   private: static ContextCallback s_postActionCallback;
   private: SynchronizationContext m_syncContext;

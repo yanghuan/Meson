@@ -44,7 +44,7 @@ CLASS(TaiwanCalendar) : public Calendar::in {
   public: Boolean IsLeapMonth(Int32 year, Int32 month, Int32 era);
   public: DateTime ToDateTime(Int32 year, Int32 month, Int32 day, Int32 hour, Int32 minute, Int32 second, Int32 millisecond, Int32 era);
   public: Int32 ToFourDigitYear(Int32 year);
-  private: static void cctor();
+  public: static void cctor();
   private: static Array<EraInfo> s_taiwanEraInfo;
   private: static Calendar s_defaultInstance;
   private: GregorianCalendarHelper _helper;

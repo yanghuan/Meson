@@ -25,7 +25,7 @@ struct ValueTaskAwaiter<> : public valueType<ValueTaskAwaiter<>> {
   public: void GetResult();
   public: void OnCompleted(Action<> continuation);
   public: void UnsafeOnCompleted(Action<> continuation);
-  private: static void cctor();
+  public: static void cctor();
   public: explicit ValueTaskAwaiter() {}
   public: static Action<Object> s_invokeActionDelegate;
   private: ValueTask<> _value;

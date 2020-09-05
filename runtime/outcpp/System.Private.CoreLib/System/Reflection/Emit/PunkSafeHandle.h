@@ -24,7 +24,7 @@ CLASS(PunkSafeHandle) : public SafeHandle::in {
   public: Boolean get_IsInvalid();
   protected: Boolean ReleaseHandle();
   private: static IntPtr nGetDReleaseTarget();
-  private: static void cctor();
+  public: static void cctor();
   private: static DRelease m_Release;
 };
 } // namespace PunkSafeHandleNamespace

@@ -42,7 +42,7 @@ CLASS(TraceLoggingMetadataCollector) : public object {
   public: Int32 get_PinCount();
   private: Boolean get_BeginningBufferedArray();
   public: void ctor();
-  private: void ctor(TraceLoggingMetadataCollector other, FieldMetadata group);
+  public: void ctor(TraceLoggingMetadataCollector other, FieldMetadata group);
   public: TraceLoggingMetadataCollector AddGroup(String name);
   public: void AddScalar(String name, TraceLoggingDataType type);
   public: void AddNullTerminatedString(String name, TraceLoggingDataType type);

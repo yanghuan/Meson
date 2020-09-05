@@ -16,7 +16,7 @@ CLASS(ArgumentNullException) : public ArgumentException::in {
   public: void ctor(String paramName);
   public: void ctor(String message, Exception innerException);
   public: void ctor(String paramName, String message);
-  protected: void ctor(SerializationInfo info, StreamingContext context);
+  public: void ctor(SerializationInfo info, StreamingContext context);
 };
 } // namespace ArgumentNullExceptionNamespace
 using ArgumentNullException = ArgumentNullExceptionNamespace::ArgumentNullException;

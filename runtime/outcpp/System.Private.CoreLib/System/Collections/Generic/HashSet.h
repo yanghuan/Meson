@@ -71,7 +71,7 @@ CLASS(HashSet, T) : public object {
   public: void ctor(IEnumerable<T> collection);
   public: void ctor(IEnumerable<T> collection, IEqualityComparer<T> comparer);
   public: void ctor(Int32 capacity, IEqualityComparer<T> comparer);
-  protected: void ctor(SerializationInfo info, StreamingContext context);
+  public: void ctor(SerializationInfo info, StreamingContext context);
   private: void ConstructFrom(HashSet<T> source);
   public: void Clear();
   public: Boolean Contains(T item);

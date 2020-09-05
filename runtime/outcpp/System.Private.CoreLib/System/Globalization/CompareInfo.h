@@ -40,7 +40,7 @@ CLASS(CompareInfo) : public object {
   public: using interface = rt::TypeList<IDeserializationCallback>;
   private: class SortHandleCache {
     public: static IntPtr GetCachedSortHandle(String sortName);
-    private: static void cctor();
+    public: static void cctor();
     private: static Dictionary<String, IntPtr> s_sortNameToSortHandleCache;
   };
   public: String get_Name();
@@ -177,7 +177,7 @@ CLASS(CompareInfo) : public object {
   private: static Boolean NlsIsSortable(ReadOnlySpan<Char> text);
   private: static Int32 GetNativeCompareFlags(CompareOptions options);
   private: SortVersion NlsGetSortVersion();
-  private: static void cctor();
+  public: static void cctor();
   public: static CompareInfo Invariant;
   private: String m_name;
   private: IntPtr _sortHandle;

@@ -19,7 +19,7 @@ CLASS(ArgumentException) : public SystemException::in {
   public: void ctor(String message, Exception innerException);
   public: void ctor(String message, String paramName, Exception innerException);
   public: void ctor(String message, String paramName);
-  protected: void ctor(SerializationInfo info, StreamingContext context);
+  public: void ctor(SerializationInfo info, StreamingContext context);
   public: void GetObjectData(SerializationInfo info, StreamingContext context);
   private: void SetMessageField();
   private: String _paramName;

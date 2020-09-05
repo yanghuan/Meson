@@ -17,7 +17,7 @@ CLASS(SafeArrayRankMismatchException) : public SystemException::in {
   public: void ctor();
   public: void ctor(String message);
   public: void ctor(String message, Exception inner);
-  protected: void ctor(SerializationInfo info, StreamingContext context);
+  public: void ctor(SerializationInfo info, StreamingContext context);
 };
 } // namespace SafeArrayRankMismatchExceptionNamespace
 using SafeArrayRankMismatchException = SafeArrayRankMismatchExceptionNamespace::SafeArrayRankMismatchException;

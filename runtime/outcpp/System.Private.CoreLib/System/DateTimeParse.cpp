@@ -3038,13 +3038,13 @@ Exception DateTimeParse::GetDateTimeParseException(DateTimeResult& result) {
     case ParseFailureKind::FormatWithParameter:
       return rt::newobj<FormatException>(SR::Format(SR::GetResourceString(result.failureMessageID), result.failureMessageFormatArgument));
     case ParseFailureKind::FormatBadDateTimeCalendar:
-      return rt::newobj<FormatException>(SR::Format(SR::GetResourceString(result.failureMessageID), rt::newobj<String>(result.originalDateTimeString), result.calendar));
+      return rt::newobj<FormatException>(SR::Format(SR::GetResourceString(result.failureMessageID), rt::newstr<String>(result.originalDateTimeString), result.calendar));
     case ParseFailureKind::FormatWithOriginalDateTime:
-      return rt::newobj<FormatException>(SR::Format(SR::GetResourceString(result.failureMessageID), rt::newobj<String>(result.originalDateTimeString)));
+      return rt::newobj<FormatException>(SR::Format(SR::GetResourceString(result.failureMessageID), rt::newstr<String>(result.originalDateTimeString)));
     case ParseFailureKind::FormatWithFormatSpecifier:
-      return rt::newobj<FormatException>(SR::Format(SR::GetResourceString(result.failureMessageID), rt::newobj<String>(result.failedFormatSpecifier)));
+      return rt::newobj<FormatException>(SR::Format(SR::GetResourceString(result.failureMessageID), rt::newstr<String>(result.failedFormatSpecifier)));
     case ParseFailureKind::FormatWithOriginalDateTimeAndParameter:
-      return rt::newobj<FormatException>(SR::Format(SR::GetResourceString(result.failureMessageID), rt::newobj<String>(result.originalDateTimeString), result.failureMessageFormatArgument));
+      return rt::newobj<FormatException>(SR::Format(SR::GetResourceString(result.failureMessageID), rt::newstr<String>(result.originalDateTimeString), result.failureMessageFormatArgument));
     default:
       return nullptr;
   }

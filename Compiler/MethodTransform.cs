@@ -652,7 +652,9 @@ namespace Meson.Compiler {
       if (method.DeclaringType.Kind == TypeKind.Struct) {
         return typeName.Invation(arguments);
       }
-      return IdentifierSyntax.NewObj.Generic(typeName).Invation(arguments);
+
+      var name = method.DeclaringType.IsKnownType(KnownTypeCode.String) ? IdentifierSyntax.NewString : IdentifierSyntax.NewObj;
+      return name.Generic(typeName).Invation(arguments);
     }
 
     public SyntaxNode VisitOutVarDeclarationExpression(OutVarDeclarationExpression outVarDeclarationExpression) {

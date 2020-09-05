@@ -147,7 +147,7 @@ String IdnMapping___::GetStringForOutput(String originalString, Char* input, Int
   if (originalString->get_Length() == inputLength && inputLength == outputLength && CompareInfo::in::EqualsOrdinalIgnoreCase(*input, *output, inputLength)) {
     return originalString;
   }
-  return rt::newobj<String>(output, 0, outputLength);
+  return rt::newstr<String>(output, 0, outputLength);
 }
 
 String IdnMapping___::GetAsciiInvariant(String unicode, Int32 index, Int32 count) {

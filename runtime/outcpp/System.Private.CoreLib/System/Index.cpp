@@ -95,7 +95,7 @@ String Index::ToStringFromEnd() {
   Int32 charsWritten;
   Boolean flag = ((UInt32)get_Value()).TryFormat(span.Slice(1), charsWritten);
   span[0] = 94;
-  return rt::newobj<String>(span.Slice(0, charsWritten + 1));
+  return rt::newstr<String>(span.Slice(0, charsWritten + 1));
 }
 
 } // namespace System::Private::CoreLib::System::IndexNamespace

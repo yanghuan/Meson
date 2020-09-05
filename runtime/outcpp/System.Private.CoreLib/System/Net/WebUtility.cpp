@@ -58,7 +58,7 @@ String WebUtility::UrlDecoder::GetString() {
   if (_numBytes > 0) {
     FlushBytes();
   }
-  return rt::newobj<String>(_charBuffer, 0, _numChars);
+  return rt::newstr<String>(_charBuffer, 0, _numChars);
 }
 
 Char WebUtility::HtmlEntities::Lookup(ReadOnlySpan<Char> entity) {

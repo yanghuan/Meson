@@ -61,7 +61,7 @@ class SR {
   public: static String GetResourceString(String resourceKey, String defaultString = nullptr);
   public: static String Format(String resourceFormat, Object p1);
   public: static String Format(String resourceFormat, Object p1, Object p2);
-  private: static void cctor();
+  public: static void cctor();
   private: static Boolean s_usingResourceKeys;
   private: static ResourceManager s_resourceManager;
 };

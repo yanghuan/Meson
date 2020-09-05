@@ -20,7 +20,7 @@ CLASS(ArgumentOutOfRangeException) : public ArgumentException::in {
   public: void ctor(String paramName, String message);
   public: void ctor(String message, Exception innerException);
   public: void ctor(String paramName, Object actualValue, String message);
-  protected: void ctor(SerializationInfo info, StreamingContext context);
+  public: void ctor(SerializationInfo info, StreamingContext context);
   public: void GetObjectData(SerializationInfo info, StreamingContext context);
   private: Object _actualValue;
 };

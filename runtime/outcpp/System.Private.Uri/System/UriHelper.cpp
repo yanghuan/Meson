@@ -457,7 +457,7 @@ String UriHelper::StripBidiControlCharacters(ReadOnlySpan<Char> strToClean, Stri
   }
   if (num == 0) {
     String as = backingString;
-    return as != nullptr ? as : rt::newobj<String>(strToClean);
+    return as != nullptr ? as : rt::newstr<String>(strToClean);
   }
   if (num == strToClean.get_Length()) {
     return String::in::Empty;

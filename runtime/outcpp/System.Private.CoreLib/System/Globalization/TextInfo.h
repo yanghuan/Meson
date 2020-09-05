@@ -49,7 +49,7 @@ CLASS(TextInfo) : public object {
   public: Boolean get_IsRightToLeft();
   private: Boolean get_IsInvariant();
   public: void ctor(CultureData cultureData);
-  private: void ctor(CultureData cultureData, Boolean readOnly);
+  public: void ctor(CultureData cultureData, Boolean readOnly);
   public: Object Clone();
   public: static TextInfo ReadOnly(TextInfo textInfo);
   private: void VerifyWritable();
@@ -89,7 +89,7 @@ CLASS(TextInfo) : public object {
   public: void IcuChangeCase(Char* src, Int32 srcLen, Char* dstBuffer, Int32 dstBufferCapacity, Boolean bToUpper);
   private: void NlsChangeCase(Char* pSource, Int32 pSourceLen, Char* pResult, Int32 pResultLen, Boolean toUpper);
   private: static Boolean IsInvariantLocale(String localeName);
-  private: static void cctor();
+  public: static void cctor();
   private: String _listSeparator;
   private: Boolean _isReadOnly;
   private: String _cultureName;

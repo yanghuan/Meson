@@ -31,8 +31,8 @@ CLASS(Delegate) : public object {
   public: using interface = rt::TypeList<ICloneable, ISerializable>;
   public: Object get_Target();
   public: MethodInfo get_Method();
-  protected: void ctor(Object target, String method);
-  protected: void ctor(Type target, String method);
+  public: void ctor(Object target, String method);
+  public: void ctor(Type target, String method);
   protected: Object DynamicInvokeImpl(Array<Object> args);
   public: Boolean Equals(Object obj);
   public: Int32 GetHashCode();

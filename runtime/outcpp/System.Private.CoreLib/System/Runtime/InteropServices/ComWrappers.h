@@ -56,7 +56,7 @@ CLASS(ComWrappers) : public object {
   protected: static void GetIUnknownImpl(IntPtr& fpQueryInterface, IntPtr& fpAddRef, IntPtr& fpRelease);
   private: static void GetIUnknownImplInternal(IntPtr& fpQueryInterface, IntPtr& fpAddRef, IntPtr& fpRelease);
   public: static Int32 CallICustomQueryInterface(Object customQueryInterfaceMaybe, Guid& iid, IntPtr& ppObject);
-  protected: void ctor();
+  public: void ctor();
   private: static ComWrappers s_globalInstanceForTrackerSupport;
   private: static ComWrappers s_globalInstanceForMarshalling;
   private: static Int64 s_instanceCounter;

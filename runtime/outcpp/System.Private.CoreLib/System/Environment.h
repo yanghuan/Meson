@@ -82,7 +82,7 @@ class Environment {
   };
   private: class WindowsVersion {
     private: static Boolean GetIsWindows8OrAbove();
-    private: static void cctor();
+    public: static void cctor();
     public: static Boolean IsWindows8OrAbove;
   };
   public: static Int32 get_CurrentManagedThreadId();
@@ -147,7 +147,7 @@ class Environment {
   private: static String GetEnvironmentVariableCore(String variable);
   private: static void SetEnvironmentVariableCore(String variable, String value);
   public: static IDictionary GetEnvironmentVariables();
-  private: static void cctor();
+  public: static void cctor();
   private: static Int32 ProcessorCount;
   private: static Array<String> s_commandLineArgs;
   private: static Int32 s_processId;

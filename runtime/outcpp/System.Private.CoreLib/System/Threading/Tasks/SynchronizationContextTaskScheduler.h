@@ -23,7 +23,7 @@ CLASS(SynchronizationContextTaskScheduler) : public TaskScheduler::in {
   public: void QueueTask(Task<> task);
   protected: Boolean TryExecuteTaskInline(Task<> task, Boolean taskWasPreviouslyQueued);
   protected: IEnumerable<Task<>> GetScheduledTasks();
-  private: static void cctor();
+  public: static void cctor();
   private: SynchronizationContext m_synchronizationContext;
   private: static SendOrPostCallback s_postCallback;
 };

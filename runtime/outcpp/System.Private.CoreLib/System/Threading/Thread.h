@@ -90,7 +90,7 @@ CLASS(Thread) : public CriticalFinalizerObject::in {
   public: void set_Name(String value);
   public: ApartmentState get_ApartmentState();
   public: void set_ApartmentState(ApartmentState value);
-  private: void ctor();
+  public: void ctor();
   private: void Create(ThreadStart start);
   private: void Create(ThreadStart start, Int32 maxStackSize);
   private: void Create(ParameterizedThreadStart start);
@@ -194,7 +194,7 @@ CLASS(Thread) : public CriticalFinalizerObject::in {
   public: static void VolatileWrite(UInt64& address, UInt64 value);
   public: static void VolatileWrite(UIntPtr& address, UIntPtr value);
   private: static Exception GetApartmentStateChangeFailedException();
-  private: static void cctor();
+  public: static void cctor();
   public: ExecutionContext _executionContext;
   public: SynchronizationContext _synchronizationContext;
   private: String _name;

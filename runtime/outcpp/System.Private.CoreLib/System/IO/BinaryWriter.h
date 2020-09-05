@@ -38,7 +38,7 @@ using namespace System::Threading::Tasks;
 CLASS(BinaryWriter) : public object {
   public: using interface = rt::TypeList<IDisposable, IAsyncDisposable>;
   public: Stream get_BaseStream();
-  protected: void ctor();
+  public: void ctor();
   public: void ctor(Stream output);
   public: void ctor(Stream output, Encoding encoding);
   public: void ctor(Stream output, Encoding encoding, Boolean leaveOpen);
@@ -71,7 +71,7 @@ CLASS(BinaryWriter) : public object {
   public: void Write(ReadOnlySpan<Char> chars);
   public: void Write7BitEncodedInt(Int32 value);
   public: void Write7BitEncodedInt64(Int64 value);
-  private: static void cctor();
+  public: static void cctor();
   public: static BinaryWriter Null;
   protected: Stream OutStream;
   private: Array<Byte> _buffer;

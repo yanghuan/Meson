@@ -64,7 +64,7 @@ Array<String> RegistryKey___::GetSubKeyNames() {
     Int32 num;
     while ((num = Interop::Advapi32::RegEnumKeyEx(_hkey, list->get_Count(), array, lpcbName, nullptr, nullptr, nullptr, nullptr)) != 259) {
       if (num == 0) {
-        list->Add(rt::newobj<String>(array, 0, lpcbName));
+        list->Add(rt::newstr<String>(array, 0, lpcbName));
         lpcbName = array->get_Length();
       } else {
         Win32Error(num, nullptr);
@@ -86,7 +86,7 @@ Array<String> RegistryKey___::GetValueNames() {
     while ((num = Interop::Advapi32::RegEnumValue(_hkey, list->get_Count(), array, lpcbValueName, IntPtr::Zero, nullptr, nullptr, nullptr)) != 259) {
       switch (num.get()) {
         case 0:
-          list->Add(rt::newobj<String>(array, 0, lpcbValueName));
+          list->Add(rt::newstr<String>(array, 0, lpcbValueName));
           break;
         case 234:
           {

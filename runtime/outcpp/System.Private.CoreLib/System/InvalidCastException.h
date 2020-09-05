@@ -17,7 +17,7 @@ CLASS(InvalidCastException) : public SystemException::in {
   public: void ctor(String message);
   public: void ctor(String message, Exception innerException);
   public: void ctor(String message, Int32 errorCode);
-  protected: void ctor(SerializationInfo info, StreamingContext context);
+  public: void ctor(SerializationInfo info, StreamingContext context);
 };
 } // namespace InvalidCastExceptionNamespace
 using InvalidCastException = InvalidCastExceptionNamespace::InvalidCastException;

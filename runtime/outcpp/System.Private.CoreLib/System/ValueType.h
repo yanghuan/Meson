@@ -15,7 +15,7 @@ CLASS(ValueType) : public object {
   public: Int32 GetHashCode();
   public: static Int32 GetHashCodeOfPtr(IntPtr ptr);
   public: String ToString();
-  protected: void ctor();
+  public: void ctor();
 };
 } // namespace ValueTypeNamespace
 using ValueType = ValueTypeNamespace::ValueType;

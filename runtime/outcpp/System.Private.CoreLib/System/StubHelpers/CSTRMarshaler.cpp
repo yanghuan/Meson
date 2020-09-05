@@ -58,7 +58,7 @@ String CSTRMarshaler::ConvertToManaged(IntPtr cstr) {
   if (IntPtr::Zero == cstr) {
     return nullptr;
   }
-  return rt::newobj<String>((SByte*)(void*)cstr);
+  return rt::newstr<String>((SByte*)(void*)cstr);
 }
 
 void CSTRMarshaler::ClearNative(IntPtr pNative) {
@@ -111,7 +111,7 @@ String CSTRMarshaler::ConvertFixedToManaged(IntPtr cstr, Int32 length) {
   destination[length + 1] = 0;
   {
     SByte* ptr = destination;
-    return rt::newobj<String>(ptr, 0, String::in::strlen((Byte*)ptr));
+    return rt::newstr<String>(ptr, 0, String::in::strlen((Byte*)ptr));
   }
 }
 

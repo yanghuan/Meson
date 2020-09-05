@@ -28,7 +28,7 @@ CLASS(TimerQueueTimer) : public object {
   public: void Fire(Boolean isThreadPool = false);
   public: void SignalNoCallbacksRunning();
   public: void CallCallback(Boolean isThreadPool);
-  private: static void cctor();
+  public: static void cctor();
   private: TimerQueue _associatedTimerQueue;
   public: TimerQueueTimer _next;
   public: TimerQueueTimer _prev;

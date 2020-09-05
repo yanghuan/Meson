@@ -171,7 +171,7 @@ void ValueStringBuilder::AppendFormatHelper(IFormatProvider provider, String for
     String text2 = nullptr;
     if (customFormatter != nullptr) {
       if (readOnlySpan.get_Length() != 0) {
-        text2 = rt::newobj<String>(readOnlySpan);
+        text2 = rt::newstr<String>(readOnlySpan);
       }
       text = customFormatter->Format(text2, obj, provider);
     }
@@ -189,7 +189,7 @@ void ValueStringBuilder::AppendFormatHelper(IFormatProvider provider, String for
       IFormattable formattable = rt::as<IFormattable>(obj);
       if (formattable != nullptr) {
         if (readOnlySpan.get_Length() != 0 && text2 == nullptr) {
-          text2 = rt::newobj<String>(readOnlySpan);
+          text2 = rt::newstr<String>(readOnlySpan);
         }
         text = formattable->ToString(text2, provider);
       } else if (obj != nullptr) {

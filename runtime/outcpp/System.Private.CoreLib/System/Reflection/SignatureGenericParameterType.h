@@ -26,7 +26,7 @@ CLASS(SignatureGenericParameterType) : public SignatureType::in {
   public: Int32 get_GenericParameterPosition();
   public: String get_Name();
   public: String get_Namespace();
-  protected: void ctor(Int32 position);
+  public: void ctor(Int32 position);
   protected: Boolean HasElementTypeImpl();
   protected: Boolean IsArrayImpl();
   protected: Boolean IsByRefImpl();

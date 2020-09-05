@@ -539,7 +539,7 @@ Boolean CalendarData___::CallGetCalendarInfoEx(String localeName, CalendarId cal
     if (*(ptr + num - 1) == 0) {
       num--;
     }
-    data = rt::newobj<String>(ptr, 0, num);
+    data = rt::newstr<String>(ptr, 0, num);
     return true;
   }
   data = "";
@@ -549,7 +549,7 @@ Boolean CalendarData___::CallGetCalendarInfoEx(String localeName, CalendarId cal
 Interop::BOOL CalendarData___::EnumCalendarInfoCallback(Char* lpCalendarInfoString, UInt32 calendar, IntPtr pReserved, void* lParam) {
   EnumData& reference = Unsafe::As<Byte, EnumData>(*(Byte*)lParam);
   try {
-    String text = rt::newobj<String>(lpCalendarInfoString);
+    String text = rt::newstr<String>(lpCalendarInfoString);
     if (reference.userOverride != text) {
       reference.strings->Add(text);
     }

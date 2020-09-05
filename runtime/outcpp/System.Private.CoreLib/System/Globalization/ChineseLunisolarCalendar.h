@@ -28,7 +28,7 @@ CLASS(ChineseLunisolarCalendar) : public EastAsianLunisolarCalendar::in {
   public: Int32 GetGregorianYear(Int32 year, Int32 era);
   public: void ctor();
   public: Int32 GetEra(DateTime time);
-  private: static void cctor();
+  public: static void cctor();
   public: static constexpr Int32 ChineseEra = 1;
   private: static DateTime s_minDate;
   private: static DateTime s_maxDate;

@@ -35,7 +35,7 @@ struct ValueTask<> : public valueType<ValueTask<>> {
   public: using interface = rt::TypeList<IEquatable<ValueTask<>>>;
   private: CLASS(ValueTaskSourceAsTask) : public Task<>::in {
     public: void ctor(IValueTaskSource<> source, Int16 token);
-    private: static void cctor();
+    public: static void cctor();
     private: static Action<Object> s_completionAction;
     private: IValueTaskSource<> _source;
     private: Int16 _token;
@@ -67,7 +67,7 @@ struct ValueTask<> : public valueType<ValueTask<>> {
   public: void ThrowIfCompletedUnsuccessfully();
   public: ValueTaskAwaiter<> GetAwaiter();
   public: ConfiguredValueTaskAwaitable<> ConfigureAwait(Boolean continueOnCapturedContext);
-  private: static void cctor();
+  public: static void cctor();
   public: explicit ValueTask() {}
   private: static Task<> s_canceledTask;
   public: Object _obj;
@@ -79,7 +79,7 @@ struct ValueTask<TResult> : public valueType<ValueTask<TResult>> {
   public: using interface = rt::TypeList<IEquatable<ValueTask<TResult>>>;
   private: CLASS(ValueTaskSourceAsTask) : public Task<TResult>::in {
     public: void ctor(IValueTaskSource<TResult> source, Int16 token);
-    private: static void cctor();
+    public: static void cctor();
     private: static Action<Object> s_completionAction;
     private: IValueTaskSource<TResult> _source;
     private: Int16 _token;

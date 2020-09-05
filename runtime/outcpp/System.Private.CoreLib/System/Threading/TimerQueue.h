@@ -24,7 +24,7 @@ CLASS(TimerQueue) : public object {
   public: Int64 get_ActiveCount() { return ActiveCount; }
   private: void set_ActiveCount(Int64 value) { ActiveCount = value; }
   private: static Int64 get_TickCount64();
-  private: void ctor(Int32 id);
+  public: void ctor(Int32 id);
   private: Boolean SetTimer(UInt32 actualDuration);
   public: static void AppDomainTimerCallback(Int32 id);
   private: static AppDomainTimerSafeHandle CreateAppDomainTimer(UInt32 dueTime, Int32 id);
@@ -38,7 +38,7 @@ CLASS(TimerQueue) : public object {
   private: void LinkTimer(TimerQueueTimer timer);
   private: void UnlinkTimer(TimerQueueTimer timer);
   public: void DeleteTimer(TimerQueueTimer timer);
-  private: static void cctor();
+  public: static void cctor();
   private: Int32 _id;
   private: AppDomainTimerSafeHandle m_appDomainTimer;
   private: static Array<TimerQueue> Instances;

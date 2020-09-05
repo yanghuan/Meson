@@ -48,7 +48,7 @@ class TextSegmentationUtility {
   private: template <class T>
   static Int32 GetLengthOfFirstExtendedGraphemeCluster(ReadOnlySpan<T> input, DecodeFirstRune<T> decoder);
   public: static Int32 GetLengthOfFirstUtf16ExtendedGraphemeCluster(ReadOnlySpan<Char> input);
-  private: static void cctor();
+  public: static void cctor();
   private: static DecodeFirstRune<Char> _utf16Decoder;
 };
 } // namespace TextSegmentationUtilityNamespace

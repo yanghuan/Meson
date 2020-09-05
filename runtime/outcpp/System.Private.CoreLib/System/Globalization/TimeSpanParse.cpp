@@ -93,14 +93,14 @@ Boolean TimeSpanParse::TimeSpanResult::SetOverflowFailure() {
   if (!_throwOnFailure) {
     return false;
   }
-  rt::throw_exception<OverflowException>(SR::Format(SR::get_Overflow_TimeSpanElementTooLarge(), rt::newobj<String>(_originalTimeSpanString)));
+  rt::throw_exception<OverflowException>(SR::Format(SR::get_Overflow_TimeSpanElementTooLarge(), rt::newstr<String>(_originalTimeSpanString)));
 }
 
 Boolean TimeSpanParse::TimeSpanResult::SetBadTimeSpanFailure() {
   if (!_throwOnFailure) {
     return false;
   }
-  rt::throw_exception<FormatException>(SR::Format(SR::get_Format_BadTimeSpan(), rt::newobj<String>(_originalTimeSpanString)));
+  rt::throw_exception<FormatException>(SR::Format(SR::get_Format_BadTimeSpan(), rt::newstr<String>(_originalTimeSpanString)));
 }
 
 template <>

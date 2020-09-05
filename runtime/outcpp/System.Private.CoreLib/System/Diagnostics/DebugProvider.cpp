@@ -74,7 +74,7 @@ String DebugProvider___::GetIndentString() {
   if (indentString != nullptr && indentString->get_Length() == num) {
     return _indentString;
   }
-  return _indentString = rt::newobj<String>(32, num);
+  return _indentString = rt::newstr<String>(32, num);
 }
 
 void DebugProvider___::FailCore(String stackTrace, String message, String detailMessage, String errorSource) {

@@ -52,7 +52,7 @@ class Statics {
   public: static Type FindEnumerableElementType(Type type);
   public: static Boolean IsGenericMatch(Type type, Object openType);
   public: static TraceLoggingTypeInfo CreateDefaultTypeInfo(Type dataType, List<Type> recursionCheck);
-  private: static void cctor();
+  public: static void cctor();
   public: static TraceLoggingDataType IntPtrType;
   public: static TraceLoggingDataType UIntPtrType;
   public: static TraceLoggingDataType HexIntPtrType;

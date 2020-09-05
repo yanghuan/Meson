@@ -1088,7 +1088,7 @@ Object EventSource___::DecodeObject(Int32 eventId, Int32 parameterId, EventData*
       if (dataPointer == IntPtr::Zero) {
         return nullptr;
       }
-      return rt::newobj<String>((Char*)(void*)dataPointer);
+      return rt::newstr<String>((Char*)(void*)dataPointer);
     } catch (...) {
     } finally: {
       m_EventSourceInDecodeObject = false;

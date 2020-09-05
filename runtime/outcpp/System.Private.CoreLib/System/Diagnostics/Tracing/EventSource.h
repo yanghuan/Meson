@@ -135,10 +135,10 @@ CLASS(EventSource) : public object {
   public: String ToString();
   public: static void SetCurrentThreadActivityId(Guid activityId);
   public: static void SetCurrentThreadActivityId(Guid activityId, Guid& oldActivityThatWillContinue);
-  protected: void ctor();
-  protected: void ctor(Boolean throwOnEventWriteErrors);
-  protected: void ctor(EventSourceSettings settings);
-  protected: void ctor(EventSourceSettings settings, Array<String> traits);
+  public: void ctor();
+  public: void ctor(Boolean throwOnEventWriteErrors);
+  public: void ctor(EventSourceSettings settings);
+  public: void ctor(EventSourceSettings settings, Array<String> traits);
   private: void DefineEventPipeEvents();
   protected: void OnEventCommand(EventCommandEventArgs command);
   protected: void WriteEvent(Int32 eventId);
@@ -229,7 +229,7 @@ CLASS(EventSource) : public object {
   private: static Int32 AddValueToMetaData(List<Byte> metaData, String value);
   private: static Int32 HexDigit(Char c);
   private: NameInfo UpdateDescriptor(String name, TraceLoggingEventTypes eventInfo, EventSourceOptions& options, EventDescriptor& descriptor);
-  private: static void cctor();
+  public: static void cctor();
   private: static Boolean IsSupported;
   private: String m_name;
   public: Int32 m_id;

@@ -20,7 +20,7 @@ CLASS(ThreadHelper) : public object {
   private: void InitializeCulture();
   public: void ThreadStart(Object obj);
   public: void ThreadStart();
-  private: static void cctor();
+  public: static void cctor();
   private: Delegate _start;
   public: CultureInfo _startCulture;
   public: CultureInfo _startUICulture;

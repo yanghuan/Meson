@@ -49,8 +49,8 @@ CLASS(StringComparer) : public object {
   public: Int32 Compare(String x, String y);
   public: Boolean Equals(String x, String y);
   public: Int32 GetHashCode(String obj);
-  protected: void ctor();
-  private: static void cctor();
+  public: void ctor();
+  public: static void cctor();
   private: static CultureAwareComparer s_invariantCulture;
   private: static CultureAwareComparer s_invariantCultureIgnoreCase;
   private: static OrdinalCaseSensitiveComparer s_ordinal;

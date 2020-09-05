@@ -36,7 +36,7 @@ class ComponentActivator {
   public: static Int32 GetFunctionPointer(IntPtr typeNameNative, IntPtr methodNameNative, IntPtr delegateTypeNative, IntPtr loadContext, IntPtr reserved, IntPtr functionHandle);
   private: static IsolatedComponentLoadContext GetIsolatedComponentLoadContext(String assemblyPath);
   private: static IntPtr InternalGetFunctionPointer(AssemblyLoadContext alc, String typeName, String methodName, IntPtr delegateTypeNative);
-  private: static void cctor();
+  public: static void cctor();
   private: static Dictionary<String, IsolatedComponentLoadContext> s_assemblyLoadContexts;
   private: static Dictionary<IntPtr, Delegate> s_delegates;
 };

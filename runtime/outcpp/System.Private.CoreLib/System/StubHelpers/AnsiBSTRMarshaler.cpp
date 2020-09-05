@@ -23,7 +23,7 @@ String AnsiBSTRMarshaler::ConvertToManaged(IntPtr bstr) {
   if (IntPtr::Zero == bstr) {
     return nullptr;
   }
-  return rt::newobj<String>((SByte*)(void*)bstr);
+  return rt::newstr<String>((SByte*)(void*)bstr);
 }
 
 void AnsiBSTRMarshaler::ClearNative(IntPtr pNative) {

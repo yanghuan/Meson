@@ -16,13 +16,13 @@ CLASS(BadImageFormatException) : public SystemException::in {
   public: String get_Message();
   public: String get_FileName();
   public: String get_FusionLog();
-  private: void ctor(String fileName, Int32 hResult);
+  public: void ctor(String fileName, Int32 hResult);
   public: void ctor();
   public: void ctor(String message);
   public: void ctor(String message, Exception inner);
   public: void ctor(String message, String fileName);
   public: void ctor(String message, String fileName, Exception inner);
-  protected: void ctor(SerializationInfo info, StreamingContext context);
+  public: void ctor(SerializationInfo info, StreamingContext context);
   public: void GetObjectData(SerializationInfo info, StreamingContext context);
   private: void SetMessageField();
   public: String ToString();

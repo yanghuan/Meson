@@ -51,7 +51,7 @@ struct Matrix3x2 : public valueType<Matrix3x2> {
   public: Boolean Equals(Object obj);
   public: String ToString();
   public: Int32 GetHashCode();
-  private: static void cctor();
+  public: static void cctor();
   public: explicit Matrix3x2() {}
   public: Single M11;
   public: Single M12;

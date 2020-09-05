@@ -13,7 +13,7 @@ CLASS(EncoderFallback) : public object {
   public: static EncoderFallback get_ExceptionFallback();
   public: Int32 get_MaxCharCount();
   public: EncoderFallbackBuffer CreateFallbackBuffer();
-  protected: void ctor();
+  public: void ctor();
 };
 } // namespace EncoderFallbackNamespace
 using EncoderFallback = EncoderFallbackNamespace::EncoderFallback;

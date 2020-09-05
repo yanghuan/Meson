@@ -129,7 +129,7 @@ struct DateTimeOffset : public valueType<DateTimeOffset> {
   public: static Boolean op_LessThanOrEqual(DateTimeOffset left, DateTimeOffset right);
   public: static Boolean op_GreaterThan(DateTimeOffset left, DateTimeOffset right);
   public: static Boolean op_GreaterThanOrEqual(DateTimeOffset left, DateTimeOffset right);
-  private: static void cctor();
+  public: static void cctor();
   public: explicit DateTimeOffset() {}
   public: static DateTimeOffset MinValue;
   public: static DateTimeOffset MaxValue;

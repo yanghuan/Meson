@@ -54,7 +54,7 @@ struct AsyncTaskMethodBuilder<TResult> : public valueType<AsyncTaskMethodBuilder
     public: void MoveNext();
     private: void MoveNext(Thread threadPoolThread);
     public: void ctor();
-    private: static void cctor();
+    public: static void cctor();
     private: static ContextCallback s_callback;
     private: Action<> _moveNextAction;
     public: TStateMachine StateMachine;
@@ -93,7 +93,7 @@ struct AsyncTaskMethodBuilder<TResult> : public valueType<AsyncTaskMethodBuilder
   public: void SetNotificationForWaitCompletion(Boolean enabled);
   public: static void SetNotificationForWaitCompletion(Boolean enabled, Task<TResult>& taskField);
   public: static Task<TResult> GetTaskForResult(TResult result);
-  private: static void cctor();
+  public: static void cctor();
   public: static Task<TResult> s_defaultResultTask;
   private: Task<TResult> m_task;
 };

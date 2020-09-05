@@ -25,7 +25,7 @@ CLASS(NameInfo) : public ConcurrentSetItem<KeyValuePair<String, EventTags>, Name
   public: Int32 Compare(KeyValuePair<String, EventTags> key);
   private: Int32 Compare(String otherName, EventTags otherTags);
   public: IntPtr GetOrCreateEventHandle(EventProvider provider, TraceLoggingEventHandleTable eventHandleTable, EventDescriptor descriptor, TraceLoggingEventTypes eventTypes);
-  private: static void cctor();
+  public: static void cctor();
   private: static Int32 lastIdentity;
   public: String name;
   public: EventTags tags;

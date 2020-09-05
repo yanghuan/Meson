@@ -36,7 +36,7 @@ CLASS(StreamReader) : public TextReader::in {
   public: Boolean get_EndOfStream();
   private: void CheckAsyncTaskInProgress();
   private: static void ThrowAsyncIOInProgress();
-  private: void ctor();
+  public: void ctor();
   public: void ctor(Stream stream);
   public: void ctor(Stream stream, Boolean detectEncodingFromByteOrderMarks);
   public: void ctor(Stream stream, Encoding encoding);
@@ -79,7 +79,7 @@ CLASS(StreamReader) : public TextReader::in {
   ValueTask<Int32> ReadBlockAsync(Memory<Char> buffer, T0 cancellationToken = rt::default__);
   private: ValueTask<Int32> ReadBufferAsync(CancellationToken cancellationToken);
   private: void ThrowIfDisposed();
-  private: static void cctor();
+  public: static void cctor();
   public: static StreamReader Null;
   private: Stream _stream;
   private: Encoding _encoding;

@@ -66,7 +66,7 @@ CLASS(Latin1Encoding) : public Encoding::in {
   public: OperationStatus DecodeFirstRune(ReadOnlySpan<Byte> bytes, Rune& value, Int32& bytesConsumed);
   public: Boolean IsAlwaysNormalized(NormalizationForm form);
   private: static Boolean FallbackSupportsFastGetByteCount(EncoderFallback fallback);
-  private: static void cctor();
+  public: static void cctor();
   public: static Latin1EncodingSealed s_default;
 };
 CLASS(Latin1EncodingSealed) : public Latin1Encoding::in {

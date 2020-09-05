@@ -28,7 +28,7 @@ CLASS_(Lazy, T) : public object {
   public: void ctor(LazyThreadSafetyMode mode);
   public: void ctor(Func<T> valueFactory, Boolean isThreadSafe);
   public: void ctor(Func<T> valueFactory, LazyThreadSafetyMode mode);
-  private: void ctor(Func<T> valueFactory, LazyThreadSafetyMode mode, Boolean useDefaultConstructor);
+  public: void ctor(Func<T> valueFactory, LazyThreadSafetyMode mode, Boolean useDefaultConstructor);
   private: void ViaConstructor();
   private: void ViaFactory(LazyThreadSafetyMode mode);
   private: void ExecutionAndPublication(LazyHelper executionAndPublication, Boolean useDefaultConstructor);

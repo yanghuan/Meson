@@ -47,7 +47,7 @@ CLASS(SecurityElement) : public object {
   public: SecurityElement SearchForChildByTag(String tag);
   public: String SearchForTextOfTag(String tag);
   public: static SecurityElement FromString(String xml);
-  private: static void cctor();
+  public: static void cctor();
   public: String _tag;
   public: String _text;
   private: ArrayList _children;

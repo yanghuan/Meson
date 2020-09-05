@@ -50,7 +50,7 @@ class MathF {
   public: static Single Round(Single x, Int32 digits, MidpointRounding mode);
   public: static Int32 Sign(Single x);
   public: static Single Truncate(Single x);
-  private: static void cctor();
+  public: static void cctor();
   public: static constexpr Single E = 2.7182817;
   public: static constexpr Single PI = 3.1415927;
   public: static constexpr Single Tau = 6.2831855;

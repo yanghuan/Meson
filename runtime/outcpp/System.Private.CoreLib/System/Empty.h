@@ -6,9 +6,9 @@ namespace System::Private::CoreLib::System {
 FORWARD(String)
 namespace EmptyNamespace {
 CLASS(Empty) : public object {
-  private: void ctor();
+  public: void ctor();
   public: String ToString();
-  private: static void cctor();
+  public: static void cctor();
   public: static Empty Value;
 };
 } // namespace EmptyNamespace

@@ -30,9 +30,9 @@ CLASS(StandardOleMarshalObject) : public MarshalByRefObject::in {
     public: Int32 EndInvoke(Guid& riid, IAsyncResult result);
     public: static constexpr rt::TypeCode code = rt::TypeCode::Delegate;
   };
-  protected: void ctor();
+  public: void ctor();
   private: IntPtr GetStdMarshaler(Guid& riid, Int32 dwDestContext, Int32 mshlflags);
-  private: static void cctor();
+  public: static void cctor();
   private: static Guid CLSID_StdMarshal;
 };
 } // namespace StandardOleMarshalObjectNamespace

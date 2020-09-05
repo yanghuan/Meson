@@ -132,7 +132,7 @@ CLASS(Type) : public MemberInfo::in {
   public: static Boolean op_Equality(Type left, Type right);
   public: static Boolean op_Inequality(Type left, Type right);
   public: Boolean IsRuntimeImplemented();
-  protected: void ctor();
+  public: void ctor();
   public: Type GetType();
   protected: Boolean IsArrayImpl();
   protected: Boolean IsByRefImpl();
@@ -246,7 +246,7 @@ CLASS(Type) : public MemberInfo::in {
   public: Boolean ImplementInterface(Type ifaceType);
   private: static Boolean FilterAttributeImpl(MemberInfo m, Object filterCriteria);
   private: static Boolean FilterNameImpl(MemberInfo m, Object filterCriteria, StringComparison comparison);
-  private: static void cctor();
+  public: static void cctor();
   private: static Binder s_defaultBinder;
   public: static Char Delimiter;
   public: static Array<Type> EmptyTypes;

@@ -391,7 +391,7 @@ String ResourceReader___::AllocateStringForNameIndex(Int32 index, Int32& dataOff
       }
       String text = nullptr;
       Char* positionPointer = (Char*)_ums->get_PositionPointer();
-      text = rt::newobj<String>(positionPointer, 0, num2 / 2);
+      text = rt::newstr<String>(positionPointer, 0, num2 / 2);
       _ums->set_Position(num2);
       dataOffset = _store->ReadInt32();
       if (dataOffset < 0 || dataOffset >= _store->get_BaseStream()->get_Length() - _dataSectionOffset) {

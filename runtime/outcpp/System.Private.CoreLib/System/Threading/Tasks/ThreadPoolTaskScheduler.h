@@ -24,7 +24,7 @@ CLASS(ThreadPoolTaskScheduler) : public TaskScheduler::in {
   protected: IEnumerable<Task<>> GetScheduledTasks();
   private: IEnumerable<Task<>> FilterTasksFromWorkItems(IEnumerable<Object> tpwItems);
   public: void NotifyWorkItemProgress();
-  private: static void cctor();
+  public: static void cctor();
   private: static ParameterizedThreadStart s_longRunningThreadWork;
 };
 } // namespace ThreadPoolTaskSchedulerNamespace

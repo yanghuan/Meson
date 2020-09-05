@@ -20,7 +20,7 @@ CLASS(UriFormatException) : public FormatException::in {
   public: void ctor();
   public: void ctor(String textString);
   public: void ctor(String textString, Exception e);
-  protected: void ctor(SerializationInfo serializationInfo, StreamingContext streamingContext);
+  public: void ctor(SerializationInfo serializationInfo, StreamingContext streamingContext);
 };
 } // namespace UriFormatExceptionNamespace
 using UriFormatException = UriFormatExceptionNamespace::UriFormatException;

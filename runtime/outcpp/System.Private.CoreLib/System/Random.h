@@ -23,7 +23,7 @@ CLASS(Random) : public object {
   public: Double NextDouble();
   public: void NextBytes(Array<Byte> buffer);
   public: void NextBytes(Span<Byte> buffer);
-  private: static void cctor();
+  public: static void cctor();
   private: Int32 _inext;
   private: Int32 _inextp;
   private: Array<Int32> _seedArray;

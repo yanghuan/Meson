@@ -9,7 +9,7 @@ namespace System::Private::CoreLib::System::Runtime::CompilerServices {
 namespace CustomConstantAttributeNamespace {
 CLASS(CustomConstantAttribute) : public Attribute::in {
   public: Object get_Value();
-  protected: void ctor();
+  public: void ctor();
 };
 } // namespace CustomConstantAttributeNamespace
 using CustomConstantAttribute = CustomConstantAttributeNamespace::CustomConstantAttribute;

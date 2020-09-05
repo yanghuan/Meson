@@ -797,7 +797,7 @@ String Encoding___::GetString(Array<Byte> bytes) {
 }
 
 String Encoding___::GetString(Array<Byte> bytes, Int32 index, Int32 count) {
-  return rt::newobj<String>(GetChars(bytes, index, count));
+  return rt::newstr<String>(GetChars(bytes, index, count));
 }
 
 Boolean Encoding___::Equals(Object value) {

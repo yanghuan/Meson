@@ -15,13 +15,13 @@ namespace ExpandoToDispatchExMarshalerNamespace {
 CLASS(ExpandoToDispatchExMarshaler) : public object {
   public: using interface = rt::TypeList<ICustomMarshaler>;
   public: static ICustomMarshaler GetInstance(String cookie);
-  private: void ctor();
+  public: void ctor();
   public: void CleanUpManagedData(Object ManagedObj);
   public: void CleanUpNativeData(IntPtr pNativeData);
   public: Int32 GetNativeDataSize();
   public: IntPtr MarshalManagedToNative(Object ManagedObj);
   public: Object MarshalNativeToManaged(IntPtr pNativeData);
-  private: static void cctor();
+  public: static void cctor();
   private: static ExpandoToDispatchExMarshaler s_ExpandoToDispatchExMarshaler;
 };
 } // namespace ExpandoToDispatchExMarshalerNamespace

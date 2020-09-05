@@ -14,13 +14,13 @@ CLASS(ArrayPoolEventSource) : public EventSource::in {
     OverMaximumSize = 1,
     PoolExhausted = 2,
   };
-  private: void ctor();
+  public: void ctor();
   public: void BufferRented(Int32 bufferId, Int32 bufferSize, Int32 poolId, Int32 bucketId);
   public: void BufferAllocated(Int32 bufferId, Int32 bufferSize, Int32 poolId, Int32 bucketId, BufferAllocatedReason reason);
   public: void BufferReturned(Int32 bufferId, Int32 bufferSize, Int32 poolId);
   public: void BufferTrimmed(Int32 bufferId, Int32 bufferSize, Int32 poolId);
   public: void BufferTrimPoll(Int32 milliseconds, Int32 pressure);
-  private: static void cctor();
+  public: static void cctor();
   public: static ArrayPoolEventSource Log;
 };
 } // namespace ArrayPoolEventSourceNamespace

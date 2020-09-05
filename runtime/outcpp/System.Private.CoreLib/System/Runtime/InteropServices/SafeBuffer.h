@@ -18,7 +18,7 @@ using namespace Microsoft::Win32::SafeHandles;
 CLASS(SafeBuffer) : public SafeHandleZeroOrMinusOneIsInvalid::in {
   private: static UIntPtr get_Uninitialized();
   public: UInt64 get_ByteLength();
-  protected: void ctor(Boolean ownsHandle);
+  public: void ctor(Boolean ownsHandle);
   public: void Initialize(UInt64 numBytes);
   public: void Initialize(UInt32 numElements, UInt32 sizeOfEachElement);
   public: template <class T>

@@ -40,7 +40,7 @@ String VBByValStrMarshaler::ConvertToManaged(IntPtr pNative, Int32 cch) {
   if (IntPtr::Zero == pNative) {
     return nullptr;
   }
-  return rt::newobj<String>((SByte*)(void*)pNative, 0, cch);
+  return rt::newstr<String>((SByte*)(void*)pNative, 0, cch);
 }
 
 void VBByValStrMarshaler::ClearNative(IntPtr pNative) {

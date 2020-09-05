@@ -44,7 +44,7 @@ CLASS(FieldInfo) : public MemberInfo::in {
   public: RuntimeFieldHandle get_FieldHandle();
   public: static FieldInfo GetFieldFromHandle(RuntimeFieldHandle handle);
   public: static FieldInfo GetFieldFromHandle(RuntimeFieldHandle handle, RuntimeTypeHandle declaringType);
-  protected: void ctor();
+  public: void ctor();
   public: Boolean Equals(Object obj);
   public: Int32 GetHashCode();
   public: static Boolean op_Equality(FieldInfo left, FieldInfo right);

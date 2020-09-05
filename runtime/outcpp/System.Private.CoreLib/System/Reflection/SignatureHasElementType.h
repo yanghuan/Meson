@@ -28,7 +28,7 @@ CLASS(SignatureHasElementType) : public SignatureType::in {
   public: String get_Name();
   public: String get_Namespace();
   protected: String get_Suffix();
-  protected: void ctor(SignatureType elementType);
+  public: void ctor(SignatureType elementType);
   protected: Boolean HasElementTypeImpl();
   protected: Boolean IsArrayImpl();
   protected: Boolean IsByRefImpl();

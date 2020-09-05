@@ -77,7 +77,7 @@ CLASS(StringBuilder) : public object {
   public: void ctor(String value, Int32 capacity);
   public: void ctor(String value, Int32 startIndex, Int32 length, Int32 capacity);
   public: void ctor(Int32 capacity, Int32 maxCapacity);
-  private: void ctor(SerializationInfo info, StreamingContext context);
+  public: void ctor(SerializationInfo info, StreamingContext context);
   public: Int32 EnsureCapacity(Int32 capacity);
   public: String ToString();
   public: String ToString(Int32 startIndex, Int32 length);
@@ -174,9 +174,9 @@ CLASS(StringBuilder) : public object {
   private: StringBuilder FindChunkForIndex(Int32 index);
   private: StringBuilder Next(StringBuilder chunk);
   private: void ExpandByABlock(Int32 minBlockCharCount);
-  private: void ctor(StringBuilder from);
+  public: void ctor(StringBuilder from);
   private: void MakeRoom(Int32 index, Int32 count, StringBuilder& chunk, Int32& indexInChunk, Boolean doNotMoveFollowingChars);
-  private: void ctor(Int32 size, Int32 maxCapacity, StringBuilder previousBlock);
+  public: void ctor(Int32 size, Int32 maxCapacity, StringBuilder previousBlock);
   private: void Remove(Int32 startIndex, Int32 count, StringBuilder& chunk, Int32& indexInChunk);
   public: Array<Char> m_ChunkChars;
   public: StringBuilder m_ChunkPrevious;

@@ -348,7 +348,7 @@ String Marshal::PtrToStringAnsi(IntPtr ptr) {
   if (IsNullOrWin32Atom(ptr)) {
     return nullptr;
   }
-  return rt::newobj<String>((SByte*)(void*)ptr);
+  return rt::newstr<String>((SByte*)(void*)ptr);
 }
 
 String Marshal::PtrToStringAnsi(IntPtr ptr, Int32 len) {
@@ -358,14 +358,14 @@ String Marshal::PtrToStringAnsi(IntPtr ptr, Int32 len) {
   if (len < 0) {
     rt::throw_exception<ArgumentOutOfRangeException>("len", len, SR::get_ArgumentOutOfRange_NeedNonNegNum());
   }
-  return rt::newobj<String>((SByte*)(void*)ptr, 0, len);
+  return rt::newstr<String>((SByte*)(void*)ptr, 0, len);
 }
 
 String Marshal::PtrToStringUni(IntPtr ptr) {
   if (IsNullOrWin32Atom(ptr)) {
     return nullptr;
   }
-  return rt::newobj<String>((Char*)(void*)ptr);
+  return rt::newstr<String>((Char*)(void*)ptr);
 }
 
 String Marshal::PtrToStringUni(IntPtr ptr, Int32 len) {
@@ -375,7 +375,7 @@ String Marshal::PtrToStringUni(IntPtr ptr, Int32 len) {
   if (len < 0) {
     rt::throw_exception<ArgumentOutOfRangeException>("len", len, SR::get_ArgumentOutOfRange_NeedNonNegNum());
   }
-  return rt::newobj<String>((Char*)(void*)ptr, 0, len);
+  return rt::newstr<String>((Char*)(void*)ptr, 0, len);
 }
 
 String Marshal::PtrToStringUTF8(IntPtr ptr) {

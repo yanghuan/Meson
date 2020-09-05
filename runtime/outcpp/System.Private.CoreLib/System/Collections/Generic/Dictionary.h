@@ -151,7 +151,7 @@ CLASS(Dictionary, TKey, TValue) : public object {
   public: void ctor(IDictionary<TKey, TValue> dictionary, IEqualityComparer<TKey> comparer);
   public: void ctor(IEnumerable<KeyValuePair<TKey, TValue>> collection);
   public: void ctor(IEnumerable<KeyValuePair<TKey, TValue>> collection, IEqualityComparer<TKey> comparer);
-  protected: void ctor(SerializationInfo info, StreamingContext context);
+  public: void ctor(SerializationInfo info, StreamingContext context);
   public: void Add(TKey key, TValue value);
   public: void Clear();
   public: Boolean ContainsKey(TKey key);

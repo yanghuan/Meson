@@ -50,7 +50,7 @@ class Debug {
   public: static void WriteLineIf(Boolean condition, Object value, String category);
   public: static void WriteLineIf(Boolean condition, String message);
   public: static void WriteLineIf(Boolean condition, String message, String category);
-  private: static void cctor();
+  public: static void cctor();
   private: static DebugProvider s_provider;
   private: static Int32 t_indentLevel;
   private: static Int32 s_indentSize;

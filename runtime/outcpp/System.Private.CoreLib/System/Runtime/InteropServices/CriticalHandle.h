@@ -14,7 +14,7 @@ CLASS(CriticalHandle) : public CriticalFinalizerObject::in {
   public: using interface = rt::TypeList<IDisposable>;
   public: Boolean get_IsClosed();
   public: Boolean get_IsInvalid();
-  protected: void ctor(IntPtr invalidHandleValue);
+  public: void ctor(IntPtr invalidHandleValue);
   protected: void Finalize();
   private: void Cleanup();
   protected: void SetHandle(IntPtr handle);

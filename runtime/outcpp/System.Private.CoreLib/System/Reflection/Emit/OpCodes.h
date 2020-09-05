@@ -10,7 +10,7 @@ FORWARDS(OpCode)
 namespace OpCodesNamespace {
 CLASS(OpCodes) : public object {
   public: static Boolean TakesSingleByteArgument(OpCode inst);
-  private: static void cctor();
+  public: static void cctor();
   public: static OpCode Nop;
   public: static OpCode Break;
   public: static OpCode Ldarg_0;

@@ -25,7 +25,7 @@ CLASS(AbandonedMutexException) : public SystemException::in {
   public: void ctor(Int32 location, WaitHandle handle);
   public: void ctor(String message, Int32 location, WaitHandle handle);
   public: void ctor(String message, Exception inner, Int32 location, WaitHandle handle);
-  protected: void ctor(SerializationInfo info, StreamingContext context);
+  public: void ctor(SerializationInfo info, StreamingContext context);
   private: void SetupException(Int32 location, WaitHandle handle);
   private: Int32 _mutexIndex;
   private: Mutex _mutex;

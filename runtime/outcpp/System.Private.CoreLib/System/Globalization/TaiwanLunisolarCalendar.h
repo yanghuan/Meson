@@ -29,7 +29,7 @@ CLASS(TaiwanLunisolarCalendar) : public EastAsianLunisolarCalendar::in {
   public: Int32 GetGregorianYear(Int32 year, Int32 era);
   public: void ctor();
   public: Int32 GetEra(DateTime time);
-  private: static void cctor();
+  public: static void cctor();
   private: static Array<EraInfo> s_taiwanLunisolarEraInfo;
   private: GregorianCalendarHelper _helper;
   private: static DateTime s_minDate;

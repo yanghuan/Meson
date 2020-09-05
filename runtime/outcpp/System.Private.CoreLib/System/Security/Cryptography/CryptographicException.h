@@ -20,7 +20,7 @@ CLASS(CryptographicException) : public SystemException::in {
   public: void ctor(String message);
   public: void ctor(String message, Exception inner);
   public: void ctor(String format, String insert);
-  protected: void ctor(SerializationInfo info, StreamingContext context);
+  public: void ctor(SerializationInfo info, StreamingContext context);
 };
 } // namespace CryptographicExceptionNamespace
 using CryptographicException = CryptographicExceptionNamespace::CryptographicException;

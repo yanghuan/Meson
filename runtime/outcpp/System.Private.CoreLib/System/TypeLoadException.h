@@ -21,13 +21,13 @@ CLASS(TypeLoadException) : public SystemException::in {
   public: using interface = rt::TypeList<ISerializable>;
   public: String get_Message();
   public: String get_TypeName();
-  private: void ctor(String className, String assemblyName, String messageArg, Int32 resourceId);
+  public: void ctor(String className, String assemblyName, String messageArg, Int32 resourceId);
   private: void SetMessageField();
   private: static void GetTypeLoadExceptionMessage(Int32 resourceId, StringHandleOnStack retString);
   public: void ctor();
   public: void ctor(String message);
   public: void ctor(String message, Exception inner);
-  protected: void ctor(SerializationInfo info, StreamingContext context);
+  public: void ctor(SerializationInfo info, StreamingContext context);
   public: void GetObjectData(SerializationInfo info, StreamingContext context);
   private: String _className;
   private: String _assemblyName;

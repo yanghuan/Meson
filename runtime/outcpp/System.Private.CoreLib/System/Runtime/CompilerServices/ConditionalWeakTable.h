@@ -65,7 +65,7 @@ CLASS(ConditionalWeakTable, TKey, TValue) : public object {
     public: Boolean get_HasCapacity();
     public: Int32 get_FirstFreeEntry();
     public: void ctor(ConditionalWeakTable<TKey, TValue> parent);
-    private: void ctor(ConditionalWeakTable<TKey, TValue> parent, Array<Int32> buckets, Array<Entry> entries, Int32 firstFreeEntry);
+    public: void ctor(ConditionalWeakTable<TKey, TValue> parent, Array<Int32> buckets, Array<Entry> entries, Int32 firstFreeEntry);
     public: void CreateEntryNoResize(TKey key, TValue value);
     public: Boolean TryGetValueWorker(TKey key, TValue& value);
     public: Int32 FindEntry(TKey key, Object& value);

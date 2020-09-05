@@ -21,7 +21,7 @@ CLASS(EnumComparer, T) : public Comparer<T>::in {
   public: using interface = rt::TypeList<ISerializable>;
   public: Int32 Compare(T x, T y);
   public: void ctor();
-  private: void ctor(SerializationInfo info, StreamingContext context);
+  public: void ctor(SerializationInfo info, StreamingContext context);
   public: Boolean Equals(Object obj);
   public: Int32 GetHashCode();
   public: void GetObjectData(SerializationInfo info, StreamingContext context);

@@ -17,7 +17,7 @@ CLASS(TargetParameterCountException) : public ApplicationException::in {
   public: void ctor();
   public: void ctor(String message);
   public: void ctor(String message, Exception inner);
-  private: void ctor(SerializationInfo info, StreamingContext context);
+  public: void ctor(SerializationInfo info, StreamingContext context);
 };
 } // namespace TargetParameterCountExceptionNamespace
 using TargetParameterCountException = TargetParameterCountExceptionNamespace::TargetParameterCountException;

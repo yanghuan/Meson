@@ -16,8 +16,8 @@ CLASS(ArrayPool, T) : public object {
   public: static ArrayPool<T> Create(Int32 maxArrayLength, Int32 maxArraysPerBucket);
   public: Array<T> Rent(Int32 minimumLength);
   public: void Return(Array<T> array, Boolean clearArray = false);
-  protected: void ctor();
-  private: static void cctor();
+  public: void ctor();
+  public: static void cctor();
   private: static TlsOverPerCoreLockedStacksArrayPool<T> s_shared;
 };
 } // namespace ArrayPoolNamespace

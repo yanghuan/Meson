@@ -14,7 +14,7 @@ namespace PointerNamespace {
 using namespace System::Runtime::Serialization;
 CLASS(Pointer) : public object {
   public: using interface = rt::TypeList<ISerializable>;
-  private: void ctor(void* ptr, Type ptrType);
+  public: void ctor(void* ptr, Type ptrType);
   public: static Object Box(void* ptr, Type type);
   public: static void* Unbox(Object ptr);
   public: Type GetPointerType();

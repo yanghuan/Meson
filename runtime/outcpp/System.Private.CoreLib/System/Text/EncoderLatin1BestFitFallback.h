@@ -10,9 +10,9 @@ FORWARD(EncoderFallbackBuffer)
 namespace EncoderLatin1BestFitFallbackNamespace {
 CLASS(EncoderLatin1BestFitFallback) : public EncoderFallback::in {
   public: Int32 get_MaxCharCount();
-  private: void ctor();
+  public: void ctor();
   public: EncoderFallbackBuffer CreateFallbackBuffer();
-  private: static void cctor();
+  public: static void cctor();
   public: static EncoderLatin1BestFitFallback SingletonInstance;
 };
 } // namespace EncoderLatin1BestFitFallbackNamespace

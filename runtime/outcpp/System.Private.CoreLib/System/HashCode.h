@@ -44,7 +44,7 @@ struct HashCode : public valueType<HashCode> {
   public: Int32 ToHashCode();
   public: Int32 GetHashCode();
   public: Boolean Equals(Object obj);
-  private: static void cctor();
+  public: static void cctor();
   private: static UInt32 s_seed;
   private: UInt32 _v1;
   private: UInt32 _v2;

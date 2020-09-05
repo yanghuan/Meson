@@ -127,7 +127,7 @@ CLASS(List, T) : public object {
   public: Array<T> ToArray();
   public: void TrimExcess();
   public: Boolean TrueForAll(Predicate<T> match);
-  private: static void cctor();
+  public: static void cctor();
   public: Array<T> _items;
   public: Int32 _size;
   private: Int32 _version;

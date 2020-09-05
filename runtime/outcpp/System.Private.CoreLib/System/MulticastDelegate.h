@@ -21,8 +21,8 @@ namespace MulticastDelegateNamespace {
 using namespace System::Reflection;
 using namespace System::Runtime::Serialization;
 CLASS(MulticastDelegate) : public Delegate::in {
-  protected: void ctor(Object target, String method);
-  protected: void ctor(Type target, String method);
+  public: void ctor(Object target, String method);
+  public: void ctor(Type target, String method);
   public: Boolean IsUnmanagedFunctionPtr();
   public: Boolean InvocationListLogicallyNull();
   public: void GetObjectData(SerializationInfo info, StreamingContext context);

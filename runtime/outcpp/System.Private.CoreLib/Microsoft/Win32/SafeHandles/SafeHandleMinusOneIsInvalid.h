@@ -11,7 +11,7 @@ using namespace System;
 using namespace System::Runtime::InteropServices;
 CLASS(SafeHandleMinusOneIsInvalid) : public SafeHandle::in {
   public: Boolean get_IsInvalid();
-  protected: void ctor(Boolean ownsHandle);
+  public: void ctor(Boolean ownsHandle);
 };
 } // namespace SafeHandleMinusOneIsInvalidNamespace
 using SafeHandleMinusOneIsInvalid = SafeHandleMinusOneIsInvalidNamespace::SafeHandleMinusOneIsInvalid;

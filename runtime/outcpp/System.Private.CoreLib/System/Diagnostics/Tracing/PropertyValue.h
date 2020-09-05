@@ -37,7 +37,7 @@ struct PropertyValue : public valueType<PropertyValue> {
   private: CLASS(TypeHelper) : public object {
     public: Func<PropertyValue, PropertyValue> GetPropertyGetter(PropertyInfo property);
     protected: Delegate GetGetMethod(PropertyInfo property, Type propertyType);
-    protected: void ctor();
+    public: void ctor();
   };
   public: struct Scalar : public valueType<Scalar> {
     public: Boolean AsBoolean;

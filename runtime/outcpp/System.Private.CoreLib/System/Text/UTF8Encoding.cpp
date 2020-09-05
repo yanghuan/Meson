@@ -77,7 +77,7 @@ String UTF8EncodingSealed___::GetStringForSmallInput(Array<Byte> bytes) {
     Byte* pBytes = bytes;
     charsCommon = GetCharsCommon(pBytes, byteCount, ptr, 32);
   }
-  return rt::newobj<String>(ReadOnlySpan<Char>(*ptr, charsCommon));
+  return rt::newstr<String>(ReadOnlySpan<Char>(*ptr, charsCommon));
 }
 
 ReadOnlySpan<Byte> UTF8Encoding___::get_PreambleSpan() {

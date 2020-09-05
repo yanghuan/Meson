@@ -18,7 +18,7 @@ CLASS(TimeZone) : public object {
   public: static TimeZone get_CurrentTimeZone();
   public: String get_StandardName();
   public: String get_DaylightName();
-  protected: void ctor();
+  public: void ctor();
   public: static void ResetTimeZone();
   public: TimeSpan GetUtcOffset(DateTime time);
   public: DateTime ToUniversalTime(DateTime time);

@@ -39,7 +39,7 @@ CLASS(CalendarData) : public object {
     public: Int32 userOverride;
     public: List<Int32> calendars;
   };
-  private: void ctor();
+  public: void ctor();
   private: static CalendarData CreateInvariant();
   public: void ctor(String localeName, CalendarId calendarId, Boolean bUseUserOverrides);
   private: void InitializeEraNames(String localeName, CalendarId calendarId);
@@ -78,7 +78,7 @@ CLASS(CalendarData) : public object {
   private: static Boolean GetCalendarMonthInfo(String localeName, CalendarId calendar, UInt32 calType, Array<String>& outputStrings);
   public: static Int32 GetCalendarsCore(String localeName, Boolean useUserOverride, Array<CalendarId> calendars);
   private: static Int32 NlsGetCalendars(String localeName, Boolean useUserOverride, Array<CalendarId> calendars);
-  private: static void cctor();
+  public: static void cctor();
   public: String sNativeName;
   public: Array<String> saShortDates;
   public: Array<String> saYearMonths;

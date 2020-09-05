@@ -11,7 +11,7 @@ using namespace System;
 using namespace System::Runtime::InteropServices;
 CLASS(CriticalHandleMinusOneIsInvalid) : public CriticalHandle::in {
   public: Boolean get_IsInvalid();
-  protected: void ctor();
+  public: void ctor();
 };
 } // namespace CriticalHandleMinusOneIsInvalidNamespace
 using CriticalHandleMinusOneIsInvalid = CriticalHandleMinusOneIsInvalidNamespace::CriticalHandleMinusOneIsInvalid;

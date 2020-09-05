@@ -33,7 +33,7 @@ CLASS(MemberInfo) : public object {
   public: Boolean CacheEquals(Object o);
   public: template <class TOther>
   Boolean HasSameMetadataDefinitionAsCore(MemberInfo other);
-  protected: void ctor();
+  public: void ctor();
   public: Boolean HasSameMetadataDefinitionAs(MemberInfo other);
   public: Boolean IsDefined(Type attributeType, Boolean inherit);
   public: Array<Object> GetCustomAttributes(Boolean inherit);

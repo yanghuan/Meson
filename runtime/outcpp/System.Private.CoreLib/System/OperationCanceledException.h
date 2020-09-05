@@ -22,7 +22,7 @@ CLASS(OperationCanceledException) : public SystemException::in {
   public: void ctor(CancellationToken token);
   public: void ctor(String message, CancellationToken token);
   public: void ctor(String message, Exception innerException, CancellationToken token);
-  protected: void ctor(SerializationInfo info, StreamingContext context);
+  public: void ctor(SerializationInfo info, StreamingContext context);
   private: CancellationToken _cancellationToken;
 };
 } // namespace OperationCanceledExceptionNamespace

@@ -32,7 +32,7 @@ CLASS_(ArraySortHelper, T) : public object {
   private: static void DownHeap(Span<T> keys, Int32 i, Int32 n, Int32 lo, Comparison<T> comparer);
   private: static void InsertionSort(Span<T> keys, Comparison<T> comparer);
   public: void ctor();
-  private: static void cctor();
+  public: static void cctor();
   private: static IArraySortHelper<T> s_defaultArraySortHelper;
 };
 CLASS_(ArraySortHelper, TKey, TValue) : public object {
@@ -49,7 +49,7 @@ CLASS_(ArraySortHelper, TKey, TValue) : public object {
   private: static void DownHeap(Span<TKey> keys, Span<TValue> values, Int32 i, Int32 n, Int32 lo, IComparer<TKey> comparer);
   private: static void InsertionSort(Span<TKey> keys, Span<TValue> values, IComparer<TKey> comparer);
   public: void ctor();
-  private: static void cctor();
+  public: static void cctor();
   private: static IArraySortHelper<TKey, TValue> s_defaultArraySortHelper;
 };
 } // namespace ArraySortHelperNamespace

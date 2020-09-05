@@ -16,7 +16,7 @@ using namespace System::Runtime::Serialization;
 CLASS(TargetInvocationException) : public ApplicationException::in {
   public: void ctor(Exception inner);
   public: void ctor(String message, Exception inner);
-  private: void ctor(SerializationInfo info, StreamingContext context);
+  public: void ctor(SerializationInfo info, StreamingContext context);
 };
 } // namespace TargetInvocationExceptionNamespace
 using TargetInvocationException = TargetInvocationExceptionNamespace::TargetInvocationException;

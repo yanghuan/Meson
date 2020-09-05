@@ -84,7 +84,7 @@ String Normalization::IcuNormalize(String strInput, NormalizationForm normalizat
       }
       if (num <= span2.get_Length()) {
         ReadOnlySpan<Char> readOnlySpan = span2.Slice(0, num);
-        return MemoryExtensions::SequenceEqual(readOnlySpan, strInput) ? strInput : rt::newobj<String>(readOnlySpan);
+        return MemoryExtensions::SequenceEqual(readOnlySpan, strInput) ? strInput : rt::newstr<String>(readOnlySpan);
       }
       if (i == 0) {
         if (array != nullptr) {
@@ -191,7 +191,7 @@ String Normalization::NlsNormalize(String strInput, NormalizationForm normalizat
         case 0:
           {
             ReadOnlySpan<Char> readOnlySpan = span2.Slice(0, num);
-            return MemoryExtensions::SequenceEqual(readOnlySpan, strInput) ? strInput : rt::newobj<String>(readOnlySpan);
+            return MemoryExtensions::SequenceEqual(readOnlySpan, strInput) ? strInput : rt::newstr<String>(readOnlySpan);
           }case 122:
           num = Math::Abs(num);
           if (array != nullptr) {

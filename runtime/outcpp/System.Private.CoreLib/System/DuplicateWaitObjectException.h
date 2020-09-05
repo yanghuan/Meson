@@ -16,7 +16,7 @@ CLASS(DuplicateWaitObjectException) : public ArgumentException::in {
   public: void ctor(String parameterName);
   public: void ctor(String parameterName, String message);
   public: void ctor(String message, Exception innerException);
-  protected: void ctor(SerializationInfo info, StreamingContext context);
+  public: void ctor(SerializationInfo info, StreamingContext context);
 };
 } // namespace DuplicateWaitObjectExceptionNamespace
 using DuplicateWaitObjectException = DuplicateWaitObjectExceptionNamespace::DuplicateWaitObjectException;

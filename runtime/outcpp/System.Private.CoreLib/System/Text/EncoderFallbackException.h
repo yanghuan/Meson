@@ -26,7 +26,7 @@ CLASS(EncoderFallbackException) : public ArgumentException::in {
   public: void ctor(String message, Exception innerException);
   public: void ctor(String message, Char charUnknown, Int32 index);
   public: void ctor(String message, Char charUnknownHigh, Char charUnknownLow, Int32 index);
-  private: void ctor(SerializationInfo serializationInfo, StreamingContext streamingContext);
+  public: void ctor(SerializationInfo serializationInfo, StreamingContext streamingContext);
   public: Boolean IsUnknownSurrogate();
   private: Char _charUnknown;
   private: Char _charUnknownHigh;

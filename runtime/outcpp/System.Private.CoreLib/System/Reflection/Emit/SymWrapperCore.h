@@ -186,7 +186,7 @@ CLASS(SymWrapperCore) : public object {
       public: DDefineSequencePoints DefineSequencePoints;
     };
     public: static ISymbolWriter CreateSymWriter();
-    private: void ctor();
+    public: void ctor();
     public: void InternalSetUnderlyingWriter(IntPtr ppUnderlyingWriter);
     private: ISymUnmanagedWriter* m_pWriter;
     private: ISymUnmanagedWriterVTable m_vtable;

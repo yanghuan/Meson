@@ -114,7 +114,7 @@ void AppContext::SetSwitch(String switchName, Boolean isEnabled) {
 void AppContext::Setup(Char** pNames, Char** pValues, Int32 count) {
   s_dataStore = rt::newobj<Dictionary<String, Object>>(count);
   for (Int32 i = 0; i < count; i++) {
-    s_dataStore->Add(rt::newobj<String>(*(pNames + i)), rt::newobj<String>(*(pValues + i)));
+    s_dataStore->Add(rt::newstr<String>(*(pNames + i)), rt::newstr<String>(*(pValues + i)));
   }
 }
 

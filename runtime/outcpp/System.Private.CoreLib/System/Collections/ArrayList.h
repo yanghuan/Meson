@@ -108,7 +108,7 @@ CLASS(ArrayList) : public object {
     public: Object Clone();
     public: Boolean MoveNext();
     public: void Reset();
-    private: static void cctor();
+    public: static void cctor();
     private: ArrayList _list;
     private: Int32 _index;
     private: Int32 _version;
@@ -185,7 +185,7 @@ CLASS(IListWrapper) : public ArrayList::in {
     public: using interface = rt::TypeList<IEnumerator, ICloneable>;
     public: Object get_Current();
     public: void ctor(IListWrapper listWrapper, Int32 startIndex, Int32 count);
-    private: void ctor();
+    public: void ctor();
     public: Object Clone();
     public: Boolean MoveNext();
     public: void Reset();

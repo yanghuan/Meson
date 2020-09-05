@@ -105,7 +105,7 @@ class Number {
     public: UInt64 ToUInt64();
     private: UInt32* GetBlocksPointer();
     private: static UInt32 DivRem32(UInt32 value, UInt32& remainder);
-    private: static void cctor();
+    public: static void cctor();
     private: static Array<UInt32> s_Pow10UInt32Table;
     private: static Array<Int32> s_Pow10BigNumTableIndices;
     private: static Array<UInt32> s_Pow10BigNumTable;
@@ -124,7 +124,7 @@ class Number {
     private: static DiyFp GetCachedPowerForBinaryExponentRange(Int32 minExponent, Int32 maxExponent, Int32& decimalExponent);
     private: static Boolean TryRoundWeedCounted(Span<Byte> buffer, Int32 length, UInt64 rest, UInt64 tenKappa, UInt64 unit, Int32& kappa);
     private: static Boolean TryRoundWeedShortest(Span<Byte> buffer, Int32 length, UInt64 distanceTooHighW, UInt64 unsafeInterval, UInt64 rest, UInt64 tenKappa, UInt64 unit);
-    private: static void cctor();
+    public: static void cctor();
     private: static Array<Int16> s_CachedPowersBinaryExponent;
     private: static Array<Int16> s_CachedPowersDecimalExponent;
     private: static Array<UInt64> s_CachedPowersSignificand;
@@ -142,7 +142,7 @@ class Number {
     public: UInt16 get_NormalMantissaBits() { return NormalMantissaBits; }
     public: UInt16 get_DenormalMantissaBits() { return DenormalMantissaBits; }
     public: explicit FloatingPointInfo(UInt16 denormalMantissaBits, UInt16 exponentBits, Int32 maxBinaryExponent, Int32 exponentBias, UInt64 infinityBits);
-    private: static void cctor();
+    public: static void cctor();
     public: explicit FloatingPointInfo() {}
     public: static FloatingPointInfo Double;
     public: static FloatingPointInfo Single;
@@ -279,7 +279,7 @@ class Number {
   public: static Double NumberToDouble(NumberBuffer& number);
   public: static Half NumberToHalf(NumberBuffer& number);
   public: static Single NumberToSingle(NumberBuffer& number);
-  private: static void cctor();
+  public: static void cctor();
   private: static Array<String> s_singleDigitStringCache;
   private: static Array<String> s_posCurrencyFormats;
   private: static Array<String> s_negCurrencyFormats;

@@ -136,9 +136,9 @@ CLASS(Encoding) : public object {
   public: static Encoding get_UTF8();
   public: static Encoding get_UTF32();
   private: static Encoding get_BigEndianUTF32();
-  protected: void ctor();
-  protected: void ctor(Int32 codePage);
-  protected: void ctor(Int32 codePage, EncoderFallback encoderFallback, DecoderFallback decoderFallback);
+  public: void ctor();
+  public: void ctor(Int32 codePage);
+  public: void ctor(Int32 codePage, EncoderFallback encoderFallback, DecoderFallback decoderFallback);
   public: void SetDefaultFallbacks();
   public: static Array<Byte> Convert(Encoding srcEncoding, Encoding dstEncoding, Array<Byte> bytes);
   public: static Array<Byte> Convert(Encoding srcEncoding, Encoding dstEncoding, Array<Byte> bytes, Int32 index, Int32 count);
@@ -216,7 +216,7 @@ CLASS(Encoding) : public object {
   public: Int32 GetCharsWithFallback(Byte* pOriginalBytes, Int32 originalByteCount, Char* pOriginalChars, Int32 originalCharCount, Int32 bytesConsumedSoFar, Int32 charsWrittenSoFar);
   public: Int32 GetCharsWithFallback(Byte* pOriginalBytes, Int32 originalByteCount, Char* pOriginalChars, Int32 originalCharCount, Int32 bytesConsumedSoFar, Int32 charsWrittenSoFar, DecoderNLS decoder);
   public: Int32 GetCharsWithFallback(ReadOnlySpan<Byte> bytes, Int32 originalBytesLength, Span<Char> chars, Int32 originalCharsLength, DecoderNLS decoder);
-  private: static void cctor();
+  public: static void cctor();
   private: static Object/*UTF8Encoding.UTF8EncodingSealed*/ s_defaultEncoding;
   public: Int32 _codePage;
   public: CodePageDataItem _dataItem;

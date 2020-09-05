@@ -23,7 +23,7 @@ using namespace System::Collections;
 using namespace System::IO;
 CLASS(ResourceSet) : public object {
   public: using interface = rt::TypeList<IDisposable, IEnumerable>;
-  protected: void ctor();
+  public: void ctor();
   public: void ctor(Boolean junk);
   public: void ctor(String fileName);
   public: void ctor(Stream stream);

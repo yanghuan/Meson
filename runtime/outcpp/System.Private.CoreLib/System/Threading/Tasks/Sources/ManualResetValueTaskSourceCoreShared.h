@@ -10,7 +10,7 @@ namespace System::Private::CoreLib::System::Threading::Tasks::Sources {
 namespace ManualResetValueTaskSourceCoreSharedNamespace {
 class ManualResetValueTaskSourceCoreShared {
   private: static void CompletionSentinel(Object _);
-  private: static void cctor();
+  public: static void cctor();
   public: static Action<Object> s_sentinel;
 };
 } // namespace ManualResetValueTaskSourceCoreSharedNamespace

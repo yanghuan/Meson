@@ -22,7 +22,7 @@ CLASS(MissingMemberException) : public MemberAccessException::in {
   public: void ctor(String message);
   public: void ctor(String message, Exception inner);
   public: void ctor(String className, String memberName);
-  protected: void ctor(SerializationInfo info, StreamingContext context);
+  public: void ctor(SerializationInfo info, StreamingContext context);
   public: void GetObjectData(SerializationInfo info, StreamingContext context);
   protected: String ClassName;
   protected: String MemberName;

@@ -645,7 +645,7 @@ String Uri___::GetLocalPath() {
         array[num3] = 92;
       }
     }
-    return rt::newobj<String>(array, 0, destPosition);
+    return rt::newstr<String>(array, 0, destPosition);
   }
   return GetUnescapedParts(UriComponents::Path | UriComponents::KeepDelimiter, UriFormat::Unescaped);
 }
@@ -1472,7 +1472,7 @@ String Uri___::ReCreateParts(UriComponents parts, UInt16 nonCanonical, UriFormat
         startIndex = 0;
       }
       if (num != 0) {
-        return rt::newobj<String>(array, startIndex, num);
+        return rt::newstr<String>(array, startIndex, num);
       }
       return String::in::Empty;
     }
@@ -1533,7 +1533,7 @@ String Uri___::ReCreateParts(UriComponents parts, UInt16 nonCanonical, UriFormat
       UriHelper::UnescapeString(_string, startIndex, _info->Offset.End, array, num, 65535, 65535, 65535, UnescapeMode::CopyOnly, _syntax, false);
     }
   }
-  return rt::newobj<String>(array, 0, num);
+  return rt::newstr<String>(array, 0, num);
 }
 
 String Uri___::GetUriPartsFromUserString(UriComponents uriParts) {
@@ -1969,7 +1969,7 @@ Int32 Uri___::CheckAuthorityHelper(Char* pString, Int32 idx, Int32 length, Parsi
             return idx;
           }
         } else {
-          text = rt::newobj<String>(pString, num, j - num + 1);
+          text = rt::newstr<String>(pString, num, j - num + 1);
         }
       }
       j++;
@@ -1981,14 +1981,14 @@ Int32 Uri___::CheckAuthorityHelper(Char* pString, Int32 idx, Int32 length, Parsi
   if (c == 91 && syntax->InFact(UriSyntaxFlags::AllowIPv6Host) && IPv6AddressHelper::IsValid(pString, j + 1, i)) {
     flags |= Flags::IPv6HostType;
     if (flag3) {
-      newHost += rt::newobj<String>(pString, j, i - j);
+      newHost += rt::newstr<String>(pString, j, i - j);
       flags |= Flags::HostUnicodeNormalized;
       justNormalized = true;
     }
   } else if (c <= 57 && c >= 48 && syntax->InFact(UriSyntaxFlags::AllowIPv4Host) && IPv4AddressHelper::IsValid(pString, j, i, false, StaticNotAny(flags, Flags::ImplicitFile), syntax->InFact(UriSyntaxFlags::V1_UnknownUri))) {
     flags |= Flags::IPv4HostType;
     if (flag3) {
-      newHost += rt::newobj<String>(pString, j, i - j);
+      newHost += rt::newstr<String>(pString, j, i - j);
       flags |= Flags::HostUnicodeNormalized;
       justNormalized = true;
     }
@@ -2002,7 +2002,7 @@ Int32 Uri___::CheckAuthorityHelper(Char* pString, Int32 idx, Int32 length, Parsi
   } else if ((flags2 & UriSyntaxFlags::AllowUncHost) != 0 && UncNameHelper::IsValid(pString, j, i, StaticNotAny(flags, Flags::ImplicitFile)) && i - j <= 256) {
     flags |= Flags::UncHostType;
     if (flag3) {
-      newHost += rt::newobj<String>(pString, j, i - j);
+      newHost += rt::newstr<String>(pString, j, i - j);
       flags |= Flags::HostUnicodeNormalized;
       justNormalized = true;
     }
@@ -2061,7 +2061,7 @@ Int32 Uri___::CheckAuthorityHelper(Char* pString, Int32 idx, Int32 length, Parsi
         flags &= ~Flags::HostTypeMask;
       }
       if (flag2 && justNormalized) {
-        newHost += rt::newobj<String>(pString, num3, idx - num3);
+        newHost += rt::newstr<String>(pString, num3, idx - num3);
       }
     } else {
       flags &= ~Flags::HostTypeMask;
@@ -2075,7 +2075,7 @@ Int32 Uri___::CheckAuthorityHelper(Char* pString, Int32 idx, Int32 length, Parsi
       for (i = idx; i < length && *(pString + i) != 47 && *(pString + i) != 63 && *(pString + i) != 35; i++) {
       }
       if (flag3) {
-        String text2 = rt::newobj<String>(pString, num, i - num);
+        String text2 = rt::newstr<String>(pString, num, i - num);
         try {
           newHost += text2->Normalize(NormalizationForm::FormC);
         } catch (ArgumentException) {
@@ -2097,7 +2097,7 @@ Int32 Uri___::CheckAuthorityHelper(Char* pString, Int32 idx, Int32 length, Parsi
       }
       flags |= Flags::BasicHostType;
       if (flag3) {
-        String text3 = rt::newobj<String>(pString, num5, i - num5);
+        String text3 = rt::newstr<String>(pString, num5, i - num5);
         try {
           newHost += text3->Normalize(NormalizationForm::FormC);
         } catch (ArgumentException) {
@@ -2301,7 +2301,7 @@ Array<Char> Uri___::GetCanonicalPath(Array<Char> dest, Int32& pos, UriFormat for
       dest[pos] = 47;
     }
     if (formatAs == UriFormat::UriEscaped && NotAny(Flags::UserEscaped) && InFact(Flags::E_PathNotCanonical)) {
-      dest = UriHelper::EscapeString(rt::newobj<String>(dest, pos, end - pos), dest, pos, !get_IsImplicitFile(), 63, 35);
+      dest = UriHelper::EscapeString(rt::newstr<String>(dest, pos, end - pos), dest, pos, !get_IsImplicitFile(), 63, 35);
       end = pos;
     }
   } else if (_syntax->InFact(UriSyntaxFlags::ConvertPathSlashes) && InFact(Flags::BackslashInPath)) {
@@ -2629,7 +2629,7 @@ String Uri___::Unescape(String path) {
   Array<Char> dest = rt::newarr<Array<Char>>(path->get_Length());
   Int32 destPosition = 0;
   dest = UriHelper::UnescapeString(path, 0, path->get_Length(), dest, destPosition, 65535, 65535, 65535, UnescapeMode::Unescape | UnescapeMode::UnescapeAll, nullptr, false);
-  return rt::newobj<String>(dest, 0, destPosition);
+  return rt::newstr<String>(dest, 0, destPosition);
 }
 
 String Uri___::EscapeString(String str) {
@@ -3106,7 +3106,7 @@ String Uri___::GetRelativeSerializationString(UriFormat format) {
         Array<Char> dest = rt::newarr<Array<Char>>(_string->get_Length());
         Int32 destPosition = 0;
         dest = UriHelper::UnescapeString(_string, 0, _string->get_Length(), dest, destPosition, 65535, 65535, 65535, UnescapeMode::EscapeUnescape, nullptr, false);
-        return rt::newobj<String>(dest, 0, destPosition);
+        return rt::newstr<String>(dest, 0, destPosition);
       }default:
       rt::throw_exception<ArgumentOutOfRangeException>("format");
   }

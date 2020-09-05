@@ -118,7 +118,7 @@ Boolean Boolean::Parse(String value) {
 Boolean Boolean::Parse(ReadOnlySpan<Char> value) {
   Boolean result;
   if (!TryParse(value, result)) {
-    rt::throw_exception<FormatException>(SR::Format(SR::get_Format_BadBoolean(), rt::newobj<String>(value)));
+    rt::throw_exception<FormatException>(SR::Format(SR::get_Format_BadBoolean(), rt::newstr<String>(value)));
   }
   return result;
 }

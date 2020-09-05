@@ -21,7 +21,7 @@ class OAVariantLib {
   public: static Variant ChangeType(Variant source, Type targetClass, Int16 options, CultureInfo culture);
   private: static Int32 GetCVTypeFromClass(Type ctype);
   private: static void ChangeTypeEx(Variant& result, Variant& source, Int32 lcid, IntPtr typeHandle, Int32 cvType, Int16 flags);
-  private: static void cctor();
+  public: static void cctor();
   public: static Array<Type> ClassTypes;
 };
 } // namespace OAVariantLibNamespace

@@ -27,7 +27,7 @@ CLASS(TextReader) : public MarshalByRefObject::in {
   public: using interface = rt::TypeList<IDisposable>;
   private: FRIENDN(NullTextReader)
   public: FRIENDN(SyncTextReader)
-  protected: void ctor();
+  public: void ctor();
   public: void Close();
   public: void Dispose();
   protected: void Dispose(Boolean disposing);
@@ -50,7 +50,7 @@ CLASS(TextReader) : public MarshalByRefObject::in {
   ValueTask<Int32> ReadBlockAsync(Memory<Char> buffer, T0 cancellationToken = rt::default__);
   public: ValueTask<Int32> ReadBlockAsyncInternal(Memory<Char> buffer, CancellationToken cancellationToken);
   public: static TextReader Synchronized(TextReader reader);
-  private: static void cctor();
+  public: static void cctor();
   public: static TextReader Null;
 };
 CLASS(NullTextReader) : public TextReader::in {

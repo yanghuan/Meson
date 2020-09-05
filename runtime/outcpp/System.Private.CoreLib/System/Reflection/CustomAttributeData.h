@@ -73,8 +73,8 @@ CLASS(CustomAttributeData) : public object {
   private: static IList<CustomAttributeData> GetCustomAttributes(RuntimeModule module, Int32 tkTarget);
   public: static Array<CustomAttributeRecord> GetCustomAttributeRecords(RuntimeModule module, Int32 targetToken);
   public: static CustomAttributeTypedArgument Filter(IList<CustomAttributeData> attrs, Type caType, Int32 parameter);
-  protected: void ctor();
-  private: void ctor(RuntimeModule scope, MetadataToken caCtorToken, ConstArray& blob);
+  public: void ctor();
+  public: void ctor(RuntimeModule scope, MetadataToken caCtorToken, ConstArray& blob);
   public: void ctor(Attribute attribute);
   private: void Init(DllImportAttribute dllImport);
   private: void Init(FieldOffsetAttribute fieldOffset);

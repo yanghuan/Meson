@@ -708,7 +708,7 @@ String CultureData___::NormalizeCultureName(String name, Boolean& isNeutralName)
     }
   }
   if (flag) {
-    return rt::newobj<String>(span);
+    return rt::newstr<String>(span);
   }
   return name;
 }
@@ -1175,7 +1175,7 @@ String CultureData___::IcuGetLocaleInfo(String localeName, LocaleStringData type
   if (!Interop::Globalization::GetLocaleInfoString(localeName, (UInt32)type, value, 100)) {
     return String::in::Empty;
   }
-  return rt::newobj<String>(value);
+  return rt::newstr<String>(value);
 }
 
 Int32 CultureData___::IcuGetLocaleInfo(LocaleNumberData type) {
@@ -1316,7 +1316,7 @@ Array<CultureInfo> CultureData___::IcuEnumCultures(CultureTypes types) {
   for (Int32 i = 0; i < locales; i += num) {
     num = array[i++];
     if (i + num <= locales) {
-      CultureInfo cultureInfo = CultureInfo::in::GetCultureInfo(rt::newobj<String>(array, i, num));
+      CultureInfo cultureInfo = CultureInfo::in::GetCultureInfo(rt::newstr<String>(array, i, num));
       if ((flag && cultureInfo->get_IsNeutralCulture()) || (flag2 && !cultureInfo->get_IsNeutralCulture())) {
         list->Add(cultureInfo);
       }
@@ -1334,7 +1334,7 @@ String CultureData___::GetLocaleInfoEx(String localeName, UInt32 field) {
   Char* ptr = as;
   Int32 localeInfoEx = GetLocaleInfoEx(localeName, field, ptr, 530);
   if (localeInfoEx > 0) {
-    return rt::newobj<String>(ptr);
+    return rt::newstr<String>(ptr);
   }
   return nullptr;
 }
@@ -1482,7 +1482,7 @@ Int32 CultureData___::ConvertFirstDayOfWeekMonToSun(Int32 iTemp) {
 Interop::BOOL CultureData___::EnumSystemLocalesProc(Char* lpLocaleString, UInt32 flags, void* contextHandle) {
   EnumLocaleData& reference = Unsafe::As<Byte, EnumLocaleData>(*(Byte*)contextHandle);
   try {
-    String text = rt::newobj<String>(lpLocaleString);
+    String text = rt::newstr<String>(lpLocaleString);
     String localeInfoEx = GetLocaleInfoEx(text, 90u);
     if (localeInfoEx != nullptr && localeInfoEx->Equals(reference.regionName, StringComparison::OrdinalIgnoreCase)) {
       reference.cultureName = text;
@@ -1497,7 +1497,7 @@ Interop::BOOL CultureData___::EnumSystemLocalesProc(Char* lpLocaleString, UInt32
 Interop::BOOL CultureData___::EnumAllSystemLocalesProc(Char* lpLocaleString, UInt32 flags, void* contextHandle) {
   EnumData& reference = Unsafe::As<Byte, EnumData>(*(Byte*)contextHandle);
   try {
-    reference.strings->Add(rt::newobj<String>(lpLocaleString));
+    reference.strings->Add(rt::newstr<String>(lpLocaleString));
     return Interop::BOOL::TRUE;
   } catch (Exception) {
     return Interop::BOOL::FALSE;
@@ -1507,7 +1507,7 @@ Interop::BOOL CultureData___::EnumAllSystemLocalesProc(Char* lpLocaleString, UIn
 Interop::BOOL CultureData___::EnumTimeCallback(Char* lpTimeFormatString, void* lParam) {
   EnumData& reference = Unsafe::As<Byte, EnumData>(*(Byte*)lParam);
   try {
-    reference.strings->Add(rt::newobj<String>(lpTimeFormatString));
+    reference.strings->Add(rt::newstr<String>(lpTimeFormatString));
     return Interop::BOOL::TRUE;
   } catch (Exception) {
     return Interop::BOOL::FALSE;
@@ -1583,7 +1583,7 @@ Boolean CultureData___::InitCultureDataCore() {
   if (localeInfoEx == 0) {
     return false;
   }
-  _sRealName = rt::newobj<String>(ptr, 0, localeInfoEx - 1);
+  _sRealName = rt::newstr<String>(ptr, 0, localeInfoEx - 1);
   sRealName = _sRealName;
   if (GetLocaleInfoEx(sRealName, 536871025u, ptr, 2) == 0) {
     return false;
@@ -1596,7 +1596,7 @@ Boolean CultureData___::InitCultureDataCore() {
     if (localeInfoEx < 1) {
       return false;
     }
-    _sSpecificCulture = rt::newobj<String>(ptr, 0, localeInfoEx - 1);
+    _sSpecificCulture = rt::newstr<String>(ptr, 0, localeInfoEx - 1);
   } else {
     _sSpecificCulture = sRealName;
     _sName = sRealName;
@@ -1644,7 +1644,7 @@ String CultureData___::LCIDToLocaleName(Int32 culture) {
   Char* ptr = as;
   Int32 num = Interop::Kernel32::LCIDToLocaleName(culture, ptr, 86, 134217728u);
   if (num > 0) {
-    return rt::newobj<String>(ptr);
+    return rt::newstr<String>(ptr);
   }
   return nullptr;
 }

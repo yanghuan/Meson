@@ -10,7 +10,7 @@ namespace System::Private::CoreLib::Microsoft::Win32::SafeHandles {
 namespace SafeWaitHandleNamespace {
 using namespace System;
 CLASS(SafeWaitHandle) : public SafeHandleZeroOrMinusOneIsInvalid::in {
-  private: void ctor();
+  public: void ctor();
   public: void ctor(IntPtr existingHandle, Boolean ownsHandle);
   protected: Boolean ReleaseHandle();
 };

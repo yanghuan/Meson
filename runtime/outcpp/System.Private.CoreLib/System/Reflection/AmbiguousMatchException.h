@@ -17,7 +17,7 @@ CLASS(AmbiguousMatchException) : public SystemException::in {
   public: void ctor();
   public: void ctor(String message);
   public: void ctor(String message, Exception inner);
-  private: void ctor(SerializationInfo info, StreamingContext context);
+  public: void ctor(SerializationInfo info, StreamingContext context);
 };
 } // namespace AmbiguousMatchExceptionNamespace
 using AmbiguousMatchException = AmbiguousMatchExceptionNamespace::AmbiguousMatchException;

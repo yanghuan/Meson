@@ -83,7 +83,7 @@ CLASS(Exception) : public object {
   public: void ctor();
   public: void ctor(String message);
   public: void ctor(String message, Exception innerException);
-  protected: void ctor(SerializationInfo info, StreamingContext context);
+  public: void ctor(SerializationInfo info, StreamingContext context);
   private: String GetClassName();
   public: Exception GetBaseException();
   public: void GetObjectData(SerializationInfo info, StreamingContext context);

@@ -129,7 +129,7 @@ class ConsolePal {
   private: static ConsoleColor ColorAttributeToConsoleColor(Interop::Kernel32::Color c);
   private: static Interop::Kernel32::CONSOLE_SCREEN_BUFFER_INFO GetBufferInfo();
   private: static Interop::Kernel32::CONSOLE_SCREEN_BUFFER_INFO GetBufferInfo(Boolean throwOnNoConsole, Boolean& succeeded);
-  private: static void cctor();
+  public: static void cctor();
   private: static Object s_readKeySyncObject;
   private: static Interop::InputRecord _cachedInputRecord;
   private: static Boolean _haveReadDefaultColors;

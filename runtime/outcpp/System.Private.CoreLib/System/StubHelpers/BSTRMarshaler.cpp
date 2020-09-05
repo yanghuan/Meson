@@ -51,7 +51,7 @@ String BSTRMarshaler::ConvertToManaged(IntPtr bstr) {
   }
   UInt32 num = Marshal::SysStringByteLen(bstr);
   StubHelpers::CheckStringLength(num);
-  String text = (num != 1) ? rt::newobj<String>((Char*)(void*)bstr, 0, (Int32)(num / 2u)) : String::in::FastAllocateString(0);
+  String text = (num != 1) ? rt::newstr<String>((Char*)(void*)bstr, 0, (Int32)(num / 2u)) : String::in::FastAllocateString(0);
   if ((num & 1) == 1) {
     text->SetTrailByte(((Byte*)(void*)bstr)[num - 1]);
   }

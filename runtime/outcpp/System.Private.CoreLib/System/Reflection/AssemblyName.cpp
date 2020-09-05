@@ -306,7 +306,7 @@ String AssemblyName___::EscapeCodeBase(String codebase) {
   if (array == nullptr) {
     return codebase;
   }
-  return rt::newobj<String>(array, 0, destPos);
+  return rt::newstr<String>(array, 0, destPos);
 }
 
 Array<Char> AssemblyName___::EscapeString(String input, Int32 start, Int32 end, Array<Char> dest, Int32& destPos, Boolean isUriString, Char force1, Char force2, Char rsvd) {

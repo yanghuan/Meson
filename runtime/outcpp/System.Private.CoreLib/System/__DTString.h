@@ -43,7 +43,7 @@ struct __DTString : public valueType<__DTString> {
   public: void RemoveLeadingInQuoteSpaces();
   public: DTSubString GetSubString();
   public: void ConsumeSubString(DTSubString sub);
-  private: static void cctor();
+  public: static void cctor();
   public: explicit __DTString() {}
   public: ReadOnlySpan<Char> Value;
   public: Int32 Index;

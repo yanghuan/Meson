@@ -23,7 +23,7 @@ CLASS(DecoderFallbackException) : public ArgumentException::in {
   public: void ctor(String message);
   public: void ctor(String message, Exception innerException);
   public: void ctor(String message, Array<Byte> bytesUnknown, Int32 index);
-  private: void ctor(SerializationInfo serializationInfo, StreamingContext streamingContext);
+  public: void ctor(SerializationInfo serializationInfo, StreamingContext streamingContext);
   private: Array<Byte> _bytesUnknown;
   private: Int32 _index;
 };

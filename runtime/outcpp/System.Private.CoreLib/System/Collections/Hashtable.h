@@ -111,7 +111,7 @@ CLASS(Hashtable) : public object {
   public: void ctor(Int32 capacity, Single loadFactor, IHashCodeProvider hcp, IComparer comparer);
   public: void ctor(IDictionary d, Single loadFactor, IHashCodeProvider hcp, IComparer comparer);
   public: void ctor(IDictionary d, Single loadFactor, IEqualityComparer equalityComparer);
-  protected: void ctor(SerializationInfo info, StreamingContext context);
+  public: void ctor(SerializationInfo info, StreamingContext context);
   private: UInt32 InitHash(Object key, Int32 hashsize, UInt32& seed, UInt32& incr);
   public: void Add(Object key, Object value);
   public: void Clear();

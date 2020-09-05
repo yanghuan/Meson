@@ -89,7 +89,7 @@ struct MetadataImport : public valueType<MetadataImport> {
   public: void GetPInvokeMap(Int32 token, PInvokeAttributes& attributes, String& importName, String& importDll);
   private: static Boolean _IsValidToken(IntPtr scope, Int32 token);
   public: Boolean IsValidToken(Int32 token);
-  private: static void cctor();
+  public: static void cctor();
   public: explicit MetadataImport() {}
   private: IntPtr m_metadataImport2;
   private: Object m_keepalive;
