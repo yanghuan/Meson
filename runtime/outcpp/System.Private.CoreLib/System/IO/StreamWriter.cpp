@@ -180,12 +180,12 @@ ValueTask<> StreamWriter___::DisposeAsync() {
 }
 
 ValueTask<> StreamWriter___::DisposeAsyncCore() {
-  <DisposeAsyncCore>d__33 stateMachine;
-  stateMachine.<>t__builder = AsyncValueTaskMethodBuilder<>::Create();
-  stateMachine.<>4__this = (StreamWriter)this;
-  stateMachine.<>1__state = -1;
-  stateMachine.<>t__builder.Start(stateMachine);
-  return stateMachine.<>t__builder.get_Task();
+  一DisposeAsyncCore一d__33 stateMachine;
+  stateMachine.一一t__builder = AsyncValueTaskMethodBuilder<>::Create();
+  stateMachine.一一4__this = (StreamWriter)this;
+  stateMachine.一一1__state = -1;
+  stateMachine.一一t__builder.Start(stateMachine);
+  return stateMachine.一一t__builder.get_Task();
 }
 
 void StreamWriter___::Flush() {
@@ -412,8 +412,8 @@ Task<> StreamWriter___::WriteAsync(Char value) {
 }
 
 Task<> StreamWriter___::WriteAsyncInternal(StreamWriter _this, Char value, Array<Char> charBuffer, Int32 charPos, Int32 charLen, Array<Char> coreNewLine, Boolean autoFlush, Boolean appendNewLine) {
-  <WriteAsyncInternal>d__61 stateMachine;
-  stateMachine.<>t__builder = AsyncTaskMethodBuilder<>::Create();
+  一WriteAsyncInternal一d__61 stateMachine;
+  stateMachine.一一t__builder = AsyncTaskMethodBuilder<>::Create();
   stateMachine._this = _this;
   stateMachine.value = value;
   stateMachine.charBuffer = charBuffer;
@@ -422,9 +422,9 @@ Task<> StreamWriter___::WriteAsyncInternal(StreamWriter _this, Char value, Array
   stateMachine.coreNewLine = coreNewLine;
   stateMachine.autoFlush = autoFlush;
   stateMachine.appendNewLine = appendNewLine;
-  stateMachine.<>1__state = -1;
-  stateMachine.<>t__builder.Start(stateMachine);
-  return stateMachine.<>t__builder.get_Task();
+  stateMachine.一一1__state = -1;
+  stateMachine.一一t__builder.Start(stateMachine);
+  return stateMachine.一一t__builder.get_Task();
 }
 
 Task<> StreamWriter___::WriteAsync(String value) {
@@ -440,8 +440,8 @@ Task<> StreamWriter___::WriteAsync(String value) {
 }
 
 Task<> StreamWriter___::WriteAsyncInternal(StreamWriter _this, String value, Array<Char> charBuffer, Int32 charPos, Int32 charLen, Array<Char> coreNewLine, Boolean autoFlush, Boolean appendNewLine) {
-  <WriteAsyncInternal>d__63 stateMachine;
-  stateMachine.<>t__builder = AsyncTaskMethodBuilder<>::Create();
+  一WriteAsyncInternal一d__63 stateMachine;
+  stateMachine.一一t__builder = AsyncTaskMethodBuilder<>::Create();
   stateMachine._this = _this;
   stateMachine.value = value;
   stateMachine.charBuffer = charBuffer;
@@ -450,9 +450,9 @@ Task<> StreamWriter___::WriteAsyncInternal(StreamWriter _this, String value, Arr
   stateMachine.coreNewLine = coreNewLine;
   stateMachine.autoFlush = autoFlush;
   stateMachine.appendNewLine = appendNewLine;
-  stateMachine.<>1__state = -1;
-  stateMachine.<>t__builder.Start(stateMachine);
-  return stateMachine.<>t__builder.get_Task();
+  stateMachine.一一1__state = -1;
+  stateMachine.一一t__builder.Start(stateMachine);
+  return stateMachine.一一t__builder.get_Task();
 }
 
 Task<> StreamWriter___::WriteAsync(Array<Char> buffer, Int32 index, Int32 count) {
@@ -490,8 +490,8 @@ Task<> StreamWriter___::WriteAsync(ReadOnlyMemory<Char> buffer, CancellationToke
 }
 
 Task<> StreamWriter___::WriteAsyncInternal(StreamWriter _this, ReadOnlyMemory<Char> source, Array<Char> charBuffer, Int32 charPos, Int32 charLen, Array<Char> coreNewLine, Boolean autoFlush, Boolean appendNewLine, CancellationToken cancellationToken) {
-  <WriteAsyncInternal>d__66 stateMachine;
-  stateMachine.<>t__builder = AsyncTaskMethodBuilder<>::Create();
+  一WriteAsyncInternal一d__66 stateMachine;
+  stateMachine.一一t__builder = AsyncTaskMethodBuilder<>::Create();
   stateMachine._this = _this;
   stateMachine.source = source;
   stateMachine.charBuffer = charBuffer;
@@ -501,9 +501,9 @@ Task<> StreamWriter___::WriteAsyncInternal(StreamWriter _this, ReadOnlyMemory<Ch
   stateMachine.autoFlush = autoFlush;
   stateMachine.appendNewLine = appendNewLine;
   stateMachine.cancellationToken = cancellationToken;
-  stateMachine.<>1__state = -1;
-  stateMachine.<>t__builder.Start(stateMachine);
-  return stateMachine.<>t__builder.get_Task();
+  stateMachine.一一1__state = -1;
+  stateMachine.一一t__builder.Start(stateMachine);
+  return stateMachine.一一t__builder.get_Task();
 }
 
 Task<> StreamWriter___::WriteLineAsync() {
@@ -593,8 +593,8 @@ Task<> StreamWriter___::FlushAsyncInternal(Boolean flushStream, Boolean flushEnc
 }
 
 Task<> StreamWriter___::FlushAsyncInternal(StreamWriter _this, Boolean flushStream, Boolean flushEncoder, Array<Char> charBuffer, Int32 charPos, Boolean haveWrittenPreamble, Encoding encoding, Encoder encoder, Array<Byte> byteBuffer, Stream stream, CancellationToken cancellationToken) {
-  <FlushAsyncInternal>d__74 stateMachine;
-  stateMachine.<>t__builder = AsyncTaskMethodBuilder<>::Create();
+  一FlushAsyncInternal一d__74 stateMachine;
+  stateMachine.一一t__builder = AsyncTaskMethodBuilder<>::Create();
   stateMachine._this = _this;
   stateMachine.flushStream = flushStream;
   stateMachine.flushEncoder = flushEncoder;
@@ -606,9 +606,9 @@ Task<> StreamWriter___::FlushAsyncInternal(StreamWriter _this, Boolean flushStre
   stateMachine.byteBuffer = byteBuffer;
   stateMachine.stream = stream;
   stateMachine.cancellationToken = cancellationToken;
-  stateMachine.<>1__state = -1;
-  stateMachine.<>t__builder.Start(stateMachine);
-  return stateMachine.<>t__builder.get_Task();
+  stateMachine.一一1__state = -1;
+  stateMachine.一一t__builder.Start(stateMachine);
+  return stateMachine.一一t__builder.get_Task();
 }
 
 void StreamWriter___::ThrowIfDisposed() {

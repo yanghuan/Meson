@@ -92,13 +92,13 @@ void TranscodingStream___::Dispose(Boolean disposing) {
 
 ValueTask<> TranscodingStream___::DisposeAsync() {
   auto DisposeAsyncCore = [](ArraySegment<Byte> pendingData) -> ValueTask<> {
-    <<DisposeAsync>g__DisposeAsyncCore|30_0>d stateMachine;
-    stateMachine.<>t__builder = AsyncValueTaskMethodBuilder<>::Create();
-    stateMachine.<>4__this = (TranscodingStream)this;
+    一一DisposeAsync一g__DisposeAsyncCore|30_0一d stateMachine;
+    stateMachine.一一t__builder = AsyncValueTaskMethodBuilder<>::Create();
+    stateMachine.一一4__this = (TranscodingStream)this;
     stateMachine.pendingData = pendingData;
-    stateMachine.<>1__state = -1;
-    stateMachine.<>t__builder.Start(stateMachine);
-    return stateMachine.<>t__builder.get_Task();
+    stateMachine.一一1__state = -1;
+    stateMachine.一一t__builder.Start(stateMachine);
+    return stateMachine.一一t__builder.get_Task();
   };
   if (_innerStream == nullptr) {
     return rt::default__;
@@ -223,14 +223,14 @@ Task<Int32> TranscodingStream___::ReadAsync(Array<Byte> buffer, Int32 offset, In
 
 ValueTask<Int32> TranscodingStream___::ReadAsync(Memory<Byte> buffer, CancellationToken cancellationToken) {
   auto ReadAsyncCore = [](Memory<Byte> buffer, CancellationToken cancellationToken) -> ValueTask<Int32> {
-    <<ReadAsync>g__ReadAsyncCore|41_0>d stateMachine;
-    stateMachine.<>t__builder = AsyncValueTaskMethodBuilder<Int32>::Create();
-    stateMachine.<>4__this = (TranscodingStream)this;
+    一一ReadAsync一g__ReadAsyncCore|41_0一d stateMachine;
+    stateMachine.一一t__builder = AsyncValueTaskMethodBuilder<Int32>::Create();
+    stateMachine.一一4__this = (TranscodingStream)this;
     stateMachine.buffer = buffer;
     stateMachine.cancellationToken = cancellationToken;
-    stateMachine.<>1__state = -1;
-    stateMachine.<>t__builder.Start(stateMachine);
-    return stateMachine.<>t__builder.get_Task();
+    stateMachine.一一1__state = -1;
+    stateMachine.一一t__builder.Start(stateMachine);
+    return stateMachine.一一t__builder.get_Task();
   };
   EnsurePreReadConditions();
   if (cancellationToken.get_IsCancellationRequested()) {
@@ -304,14 +304,14 @@ Task<> TranscodingStream___::WriteAsync(Array<Byte> buffer, Int32 offset, Int32 
 
 ValueTask<> TranscodingStream___::WriteAsync(ReadOnlyMemory<Byte> buffer, CancellationToken cancellationToken) {
   auto WriteAsyncCore = [](ReadOnlyMemory<Byte> remainingOuterEncodedBytes, CancellationToken cancellationToken) -> ValueTask<> {
-    <<WriteAsync>g__WriteAsyncCore|50_0>d stateMachine;
-    stateMachine.<>t__builder = AsyncValueTaskMethodBuilder<>::Create();
-    stateMachine.<>4__this = (TranscodingStream)this;
+    一一WriteAsync一g__WriteAsyncCore|50_0一d stateMachine;
+    stateMachine.一一t__builder = AsyncValueTaskMethodBuilder<>::Create();
+    stateMachine.一一4__this = (TranscodingStream)this;
     stateMachine.remainingOuterEncodedBytes = remainingOuterEncodedBytes;
     stateMachine.cancellationToken = cancellationToken;
-    stateMachine.<>1__state = -1;
-    stateMachine.<>t__builder.Start(stateMachine);
-    return stateMachine.<>t__builder.get_Task();
+    stateMachine.一一1__state = -1;
+    stateMachine.一一t__builder.Start(stateMachine);
+    return stateMachine.一一t__builder.get_Task();
   };
   EnsurePreWriteConditions();
   if (cancellationToken.get_IsCancellationRequested()) {

@@ -143,9 +143,7 @@ namespace Meson.Compiler.CppAst {
   }
 
   internal sealed class StringLiteralExpressionSyntax : LiteralExpressionSyntax {
-    public string OpenParenToken => Tokens.Quote;
     public string Value { get; }
-    public string CloseParenToken => Tokens.Quote;
 
     public StringLiteralExpressionSyntax(string value) {
       Value = value;

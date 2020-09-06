@@ -609,14 +609,14 @@ Task<> TextWriter___::WriteAsync(String value) {
 template <>
 Task<> TextWriter___::WriteAsync(StringBuilder value, CancellationToken cancellationToken) {
   auto WriteAsyncCore = [](StringBuilder sb, CancellationToken ct) -> Task<> {
-    <<WriteAsync>g__WriteAsyncCore|60_0>d stateMachine;
-    stateMachine.<>t__builder = AsyncTaskMethodBuilder<>::Create();
-    stateMachine.<>4__this = (TextWriter)this;
+    一一WriteAsync一g__WriteAsyncCore|60_0一d stateMachine;
+    stateMachine.一一t__builder = AsyncTaskMethodBuilder<>::Create();
+    stateMachine.一一4__this = (TextWriter)this;
     stateMachine.sb = sb;
     stateMachine.ct = ct;
-    stateMachine.<>1__state = -1;
-    stateMachine.<>t__builder.Start(stateMachine);
-    return stateMachine.<>t__builder.get_Task();
+    stateMachine.一一1__state = -1;
+    stateMachine.一一t__builder.Start(stateMachine);
+    return stateMachine.一一t__builder.get_Task();
   };
   if (!cancellationToken.get_IsCancellationRequested()) {
     if (value != nullptr) {
@@ -660,14 +660,14 @@ Task<> TextWriter___::WriteLineAsync(String value) {
 template <>
 Task<> TextWriter___::WriteLineAsync(StringBuilder value, CancellationToken cancellationToken) {
   auto WriteLineAsyncCore = [](StringBuilder sb, CancellationToken ct) -> Task<> {
-    <<WriteLineAsync>g__WriteLineAsyncCore|66_0>d stateMachine;
-    stateMachine.<>t__builder = AsyncTaskMethodBuilder<>::Create();
-    stateMachine.<>4__this = (TextWriter)this;
+    一一WriteLineAsync一g__WriteLineAsyncCore|66_0一d stateMachine;
+    stateMachine.一一t__builder = AsyncTaskMethodBuilder<>::Create();
+    stateMachine.一一4__this = (TextWriter)this;
     stateMachine.sb = sb;
     stateMachine.ct = ct;
-    stateMachine.<>1__state = -1;
-    stateMachine.<>t__builder.Start(stateMachine);
-    return stateMachine.<>t__builder.get_Task();
+    stateMachine.一一1__state = -1;
+    stateMachine.一一t__builder.Start(stateMachine);
+    return stateMachine.一一t__builder.get_Task();
   };
   if (!cancellationToken.get_IsCancellationRequested()) {
     if (value != nullptr) {

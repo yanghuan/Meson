@@ -296,7 +296,7 @@ namespace Meson.Compiler {
 
       string identifierName = identifierExpression.Identifier;
       if (symbol == null) {
-        Utils.CheckReservedWord(ref identifierName);
+        Utils.CheckBadWord(ref identifierName);
       }
       IdentifierSyntax identifier = identifierName;
       if (identifierExpression.TypeArguments.Count > 0) {
@@ -672,7 +672,7 @@ namespace Meson.Compiler {
       return expression.Parenthesized();
     }
 
-    private ISymbol GetPointerTargetMember(PointerReferenceExpression pointerReferenceExpression) {
+    private static ISymbol GetPointerTargetMember(PointerReferenceExpression pointerReferenceExpression) {
       var target = pointerReferenceExpression.Target.UnParenthesized();
       var targetType = target.GetResolveResult().Type;
       Contract.Assert(targetType.Kind == TypeKind.Pointer);
@@ -1225,7 +1225,7 @@ namespace Meson.Compiler {
 
     public SyntaxNode VisitVariableInitializer(VariableInitializer variableInitializer) {
       string name = variableInitializer.Name;
-      Utils.CheckReservedWord(ref name);
+      Utils.CheckBadWord(ref name);
       var initializer = variableInitializer.Initializer is DefaultValueExpression ? null : variableInitializer.Initializer.AcceptExpression(this);
       return new VariableInitializerSyntax(name, initializer);
     }

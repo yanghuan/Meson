@@ -490,15 +490,15 @@ Task<> Stream___::CopyToAsync(Stream destination, Int32 bufferSize, Cancellation
 }
 
 Task<> Stream___::CopyToAsyncInternal(Stream destination, Int32 bufferSize, CancellationToken cancellationToken) {
-  <CopyToAsyncInternal>d__29 stateMachine;
-  stateMachine.<>t__builder = AsyncTaskMethodBuilder<>::Create();
-  stateMachine.<>4__this = (Stream)this;
+  一CopyToAsyncInternal一d__29 stateMachine;
+  stateMachine.一一t__builder = AsyncTaskMethodBuilder<>::Create();
+  stateMachine.一一4__this = (Stream)this;
   stateMachine.destination = destination;
   stateMachine.bufferSize = bufferSize;
   stateMachine.cancellationToken = cancellationToken;
-  stateMachine.<>1__state = -1;
-  stateMachine.<>t__builder.Start(stateMachine);
-  return stateMachine.<>t__builder.get_Task();
+  stateMachine.一一1__state = -1;
+  stateMachine.一一t__builder.Start(stateMachine);
+  return stateMachine.一一t__builder.get_Task();
 }
 
 void Stream___::CopyTo(Stream destination) {
@@ -622,14 +622,14 @@ Task<Int32> Stream___::ReadAsync(Array<Byte> buffer, Int32 offset, Int32 count, 
 template <>
 ValueTask<Int32> Stream___::ReadAsync(Memory<Byte> buffer, CancellationToken cancellationToken) {
   auto FinishReadAsync = [](Task<Int32> readTask, Array<Byte> localBuffer, Memory<Byte> localDestination) -> ValueTask<Int32> {
-    <<ReadAsync>g__FinishReadAsync|46_0>d stateMachine;
-    stateMachine.<>t__builder = AsyncValueTaskMethodBuilder<Int32>::Create();
+    一一ReadAsync一g__FinishReadAsync|46_0一d stateMachine;
+    stateMachine.一一t__builder = AsyncValueTaskMethodBuilder<Int32>::Create();
     stateMachine.readTask = readTask;
     stateMachine.localBuffer = localBuffer;
     stateMachine.localDestination = localDestination;
-    stateMachine.<>1__state = -1;
-    stateMachine.<>t__builder.Start(stateMachine);
-    return stateMachine.<>t__builder.get_Task();
+    stateMachine.一一1__state = -1;
+    stateMachine.一一t__builder.Start(stateMachine);
+    return stateMachine.一一t__builder.get_Task();
   };
   ArraySegment<Byte> segment;
   if (MemoryMarshal::TryGetArray(buffer, segment)) {
@@ -724,13 +724,13 @@ ValueTask<> Stream___::WriteAsync(ReadOnlyMemory<Byte> buffer, CancellationToken
 }
 
 Task<> Stream___::FinishWriteAsync(Task<> writeTask, Array<Byte> localBuffer) {
-  <FinishWriteAsync>d__59 stateMachine;
-  stateMachine.<>t__builder = AsyncTaskMethodBuilder<>::Create();
+  一FinishWriteAsync一d__59 stateMachine;
+  stateMachine.一一t__builder = AsyncTaskMethodBuilder<>::Create();
   stateMachine.writeTask = writeTask;
   stateMachine.localBuffer = localBuffer;
-  stateMachine.<>1__state = -1;
-  stateMachine.<>t__builder.Start(stateMachine);
-  return stateMachine.<>t__builder.get_Task();
+  stateMachine.一一1__state = -1;
+  stateMachine.一一t__builder.Start(stateMachine);
+  return stateMachine.一一t__builder.get_Task();
 }
 
 Task<> Stream___::BeginEndWriteAsync(Array<Byte> buffer, Int32 offset, Int32 count) {

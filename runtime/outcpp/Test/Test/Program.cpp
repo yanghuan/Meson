@@ -8,7 +8,6 @@ using namespace ::System::Console::System;
 
 void Program___::Main(Array<String> args) {
   Console::WriteLine(args);
-  rt::newstr<String>(100, 2);
 }
 
 void Program___::ctor() {

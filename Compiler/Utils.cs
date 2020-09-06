@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
 using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Text;
@@ -717,14 +716,6 @@ namespace Meson.Compiler {
       return false;
     }
 
-    public static bool CheckReservedWord(ref string name) {
-      if (Tokens.IsReservedWord(name)) {
-        name += '一';
-        return true;
-      }
-      return false;
-    }
-
     public static string ReplaceDot(this string name) {
       return name.Replace(Tokens.Dot, Tokens.TwoColon);
     }
@@ -747,13 +738,23 @@ namespace Meson.Compiler {
     }
 
     public static string GetNewIdentifierName(this string name, int index) {
-      return index switch
-      {
+      return index switch {
         0 => name,
         1 => name + "_",
         2 => "_" + name,
         _ => name + (index - 2),
       };
+    }
+
+    public static bool CheckBadWord(ref string name) {
+      if (Tokens.IsReservedWord(name)) {
+        name += '一';
+        return true;
+      } else if (name.StartsWith('<')) {
+        name = name.Replace('<', '一').Replace('>', '一').Replace('.', '_');
+        return true;
+      }
+      return false;
     }
 
     public static IdentifierSyntax AsIdentifier(this string name) {

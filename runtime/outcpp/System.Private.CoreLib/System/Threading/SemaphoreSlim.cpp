@@ -265,15 +265,15 @@ Boolean SemaphoreSlim___::RemoveAsyncWaiter(TaskNode task) {
 }
 
 Task<Boolean> SemaphoreSlim___::WaitUntilCountOrTimeoutAsync(TaskNode asyncWaiter, Int32 millisecondsTimeout, CancellationToken cancellationToken) {
-  <WaitUntilCountOrTimeoutAsync>d__33 stateMachine;
-  stateMachine.<>t__builder = AsyncTaskMethodBuilder<Boolean>::Create();
-  stateMachine.<>4__this = (SemaphoreSlim)this;
+  一WaitUntilCountOrTimeoutAsync一d__33 stateMachine;
+  stateMachine.一一t__builder = AsyncTaskMethodBuilder<Boolean>::Create();
+  stateMachine.一一4__this = (SemaphoreSlim)this;
   stateMachine.asyncWaiter = asyncWaiter;
   stateMachine.millisecondsTimeout = millisecondsTimeout;
   stateMachine.cancellationToken = cancellationToken;
-  stateMachine.<>1__state = -1;
-  stateMachine.<>t__builder.Start(stateMachine);
-  return stateMachine.<>t__builder.get_Task();
+  stateMachine.一一1__state = -1;
+  stateMachine.一一t__builder.Start(stateMachine);
+  return stateMachine.一一t__builder.get_Task();
 }
 
 Int32 SemaphoreSlim___::Release() {

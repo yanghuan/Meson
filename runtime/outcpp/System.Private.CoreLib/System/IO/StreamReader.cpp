@@ -528,12 +528,12 @@ Task<String> StreamReader___::ReadLineAsync() {
 }
 
 Task<String> StreamReader___::ReadLineAsyncInternal() {
-  <ReadLineAsyncInternal>d__59 stateMachine;
-  stateMachine.<>t__builder = AsyncTaskMethodBuilder<String>::Create();
-  stateMachine.<>4__this = (StreamReader)this;
-  stateMachine.<>1__state = -1;
-  stateMachine.<>t__builder.Start(stateMachine);
-  return stateMachine.<>t__builder.get_Task();
+  一ReadLineAsyncInternal一d__59 stateMachine;
+  stateMachine.一一t__builder = AsyncTaskMethodBuilder<String>::Create();
+  stateMachine.一一4__this = (StreamReader)this;
+  stateMachine.一一1__state = -1;
+  stateMachine.一一t__builder.Start(stateMachine);
+  return stateMachine.一一t__builder.get_Task();
 }
 
 Task<String> StreamReader___::ReadToEndAsync() {
@@ -546,12 +546,12 @@ Task<String> StreamReader___::ReadToEndAsync() {
 }
 
 Task<String> StreamReader___::ReadToEndAsyncInternal() {
-  <ReadToEndAsyncInternal>d__61 stateMachine;
-  stateMachine.<>t__builder = AsyncTaskMethodBuilder<String>::Create();
-  stateMachine.<>4__this = (StreamReader)this;
-  stateMachine.<>1__state = -1;
-  stateMachine.<>t__builder.Start(stateMachine);
-  return stateMachine.<>t__builder.get_Task();
+  一ReadToEndAsyncInternal一d__61 stateMachine;
+  stateMachine.一一t__builder = AsyncTaskMethodBuilder<String>::Create();
+  stateMachine.一一4__this = (StreamReader)this;
+  stateMachine.一一1__state = -1;
+  stateMachine.一一t__builder.Start(stateMachine);
+  return stateMachine.一一t__builder.get_Task();
 }
 
 Task<Int32> StreamReader___::ReadAsync(Array<Char> buffer, Int32 index, Int32 count) {
@@ -586,14 +586,14 @@ ValueTask<Int32> StreamReader___::ReadAsync(Memory<Char> buffer, CancellationTok
 }
 
 ValueTask<Int32> StreamReader___::ReadAsyncInternal(Memory<Char> buffer, CancellationToken cancellationToken) {
-  <ReadAsyncInternal>d__64 stateMachine;
-  stateMachine.<>t__builder = AsyncValueTaskMethodBuilder<Int32>::Create();
-  stateMachine.<>4__this = (StreamReader)this;
+  一ReadAsyncInternal一d__64 stateMachine;
+  stateMachine.一一t__builder = AsyncValueTaskMethodBuilder<Int32>::Create();
+  stateMachine.一一4__this = (StreamReader)this;
   stateMachine.buffer = buffer;
   stateMachine.cancellationToken = cancellationToken;
-  stateMachine.<>1__state = -1;
-  stateMachine.<>t__builder.Start(stateMachine);
-  return stateMachine.<>t__builder.get_Task();
+  stateMachine.一一1__state = -1;
+  stateMachine.一一t__builder.Start(stateMachine);
+  return stateMachine.一一t__builder.get_Task();
 }
 
 Task<Int32> StreamReader___::ReadBlockAsync(Array<Char> buffer, Int32 index, Int32 count) {
@@ -632,13 +632,13 @@ ValueTask<Int32> StreamReader___::ReadBlockAsync(Memory<Char> buffer, Cancellati
 }
 
 ValueTask<Int32> StreamReader___::ReadBufferAsync(CancellationToken cancellationToken) {
-  <ReadBufferAsync>d__67 stateMachine;
-  stateMachine.<>t__builder = AsyncValueTaskMethodBuilder<Int32>::Create();
-  stateMachine.<>4__this = (StreamReader)this;
+  一ReadBufferAsync一d__67 stateMachine;
+  stateMachine.一一t__builder = AsyncValueTaskMethodBuilder<Int32>::Create();
+  stateMachine.一一4__this = (StreamReader)this;
   stateMachine.cancellationToken = cancellationToken;
-  stateMachine.<>1__state = -1;
-  stateMachine.<>t__builder.Start(stateMachine);
-  return stateMachine.<>t__builder.get_Task();
+  stateMachine.一一1__state = -1;
+  stateMachine.一一t__builder.Start(stateMachine);
+  return stateMachine.一一t__builder.get_Task();
 }
 
 void StreamReader___::ThrowIfDisposed() {

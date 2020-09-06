@@ -921,12 +921,12 @@ ValueTask<> FileStream___::DisposeAsync() {
 }
 
 ValueTask<> FileStream___::DisposeAsyncCore() {
-  <DisposeAsyncCore>d__99 stateMachine;
-  stateMachine.<>t__builder = AsyncValueTaskMethodBuilder<>::Create();
-  stateMachine.<>4__this = (FileStream)this;
-  stateMachine.<>1__state = -1;
-  stateMachine.<>t__builder.Start(stateMachine);
-  return stateMachine.<>t__builder.get_Task();
+  一DisposeAsyncCore一d__99 stateMachine;
+  stateMachine.一一t__builder = AsyncValueTaskMethodBuilder<>::Create();
+  stateMachine.一一4__this = (FileStream)this;
+  stateMachine.一一1__state = -1;
+  stateMachine.一一t__builder.Start(stateMachine);
+  return stateMachine.一一t__builder.get_Task();
 }
 
 void FileStream___::FlushOSBuffer() {
@@ -1397,15 +1397,15 @@ Task<> FileStream___::CopyToAsync(Stream destination, Int32 bufferSize, Cancella
 }
 
 Task<> FileStream___::AsyncModeCopyToAsync(Stream destination, Int32 bufferSize, CancellationToken cancellationToken) {
-  <AsyncModeCopyToAsync>d__128 stateMachine;
-  stateMachine.<>t__builder = AsyncTaskMethodBuilder<>::Create();
-  stateMachine.<>4__this = (FileStream)this;
+  一AsyncModeCopyToAsync一d__128 stateMachine;
+  stateMachine.一一t__builder = AsyncTaskMethodBuilder<>::Create();
+  stateMachine.一一4__this = (FileStream)this;
   stateMachine.destination = destination;
   stateMachine.bufferSize = bufferSize;
   stateMachine.cancellationToken = cancellationToken;
-  stateMachine.<>1__state = -1;
-  stateMachine.<>t__builder.Start(stateMachine);
-  return stateMachine.<>t__builder.get_Task();
+  stateMachine.一一1__state = -1;
+  stateMachine.一一t__builder.Start(stateMachine);
+  return stateMachine.一一t__builder.get_Task();
 }
 
 Task<> FileStream___::FlushAsyncInternal(CancellationToken cancellationToken) {

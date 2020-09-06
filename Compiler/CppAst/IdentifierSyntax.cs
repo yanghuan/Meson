@@ -60,9 +60,7 @@ namespace Meson.Compiler.CppAst {
 
   internal class GenericIdentifierSyntax : IdentifierSyntax {
     public ExpressionSyntax Name { get; set; }
-    public string OpenBrace => Tokens.Less;
     public readonly List<ExpressionSyntax> GenericArguments = new List<ExpressionSyntax>();
-    public string CloseBrace => Tokens.Greater;
 
     public GenericIdentifierSyntax(ExpressionSyntax name) {
       Name = name;
@@ -152,9 +150,7 @@ namespace Meson.Compiler.CppAst {
 
   internal sealed class NestedCycleRefTypeNameSyntax : IdentifierSyntax {
     public IdentifierSyntax Type { get; }
-    public string OpenComment => Tokens.OpneComment;
     public string FullName { get; }
-    public string CloseComment => Tokens.CloseComment;
 
     public NestedCycleRefTypeNameSyntax(string fullName) : this(fullName, Object) {
     }

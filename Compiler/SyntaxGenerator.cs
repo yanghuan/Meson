@@ -28,12 +28,14 @@ namespace Meson.Compiler {
       Discards = false,
       OutVariables = false,
       NamedArguments = false,
+      //UseLambdaSyntax = false,
+      //AnonymousMethods = false,
       QueryExpressions = false,
       ExtensionMethods = false,
       SwitchStatementOnString = false,
       NativeIntegers = false,
     };
-    private List<ITypeDefinition> knownTypes_ = new List<ITypeDefinition>();
+    private readonly List<ITypeDefinition> knownTypes_ = new List<ITypeDefinition>();
 
     public SyntaxGenerator(Options options) {
       Options = options;
@@ -201,12 +203,12 @@ namespace Meson.Compiler {
       return name;
     }
 
-    private void CheckMemberBadName(ISymbol symbol, string originalString, SymbolNameSyntax name) {
+    private static void CheckMemberBadName(ISymbol symbol, string originalString, SymbolNameSyntax name) {
       switch (symbol.SymbolKind) {
         case SymbolKind.Field:
         case SymbolKind.Method:
         case SymbolKind.Parameter: {
-            if (Utils.CheckReservedWord(ref originalString)) {
+            if (Utils.CheckBadWord(ref originalString)) {
               name.Update(originalString);
             }
             break;

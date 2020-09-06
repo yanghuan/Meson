@@ -541,9 +541,9 @@ namespace Meson.Compiler {
 
     internal void Render(GenericIdentifierSyntax node) {
       node.Name.Render(this);
-      Write(node.OpenBrace);
+      Write(Tokens.Less);
       WriteNodesWithSeparated(node.GenericArguments);
-      Write(node.CloseBrace);
+      Write(Tokens.Greater);
     }
 
     internal void Render(PostfixUnaryExpression node) {
@@ -651,9 +651,9 @@ namespace Meson.Compiler {
 
     internal void Render(NestedCycleRefTypeNameSyntax node) {
       node.Type.Render(this);
-      Write(node.OpenComment);
+      Write(Tokens.OpneComment);
       Write(node.FullName);
-      Write(node.CloseComment);
+      Write(Tokens.CloseComment);
     }
 
     internal void Render(ReturnStatementSyntax node) {
@@ -667,9 +667,9 @@ namespace Meson.Compiler {
     }
 
     internal void Render(StringLiteralExpressionSyntax node) {
-      Write(node.OpenParenToken);
+      Write(Tokens.Quote);
       Write(node.Value);
-      Write(node.CloseParenToken);
+      Write(Tokens.Quote);
     }
 
     internal void Render(BooleanLiteralExpressionSyntax node) {

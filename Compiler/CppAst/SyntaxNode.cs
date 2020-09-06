@@ -172,7 +172,7 @@ namespace Meson.Compiler.CppAst {
       }
     }
 
-    public static bool IsReservedWord(string identifier) {
+    internal static bool IsReservedWord(string identifier) {
       return ReservedWords.Contains(identifier);
     }
   }

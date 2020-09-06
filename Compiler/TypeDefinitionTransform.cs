@@ -225,7 +225,7 @@ namespace Meson.Compiler {
       return Generator.GetMemberName(field);
     }
 
-    private void CheckStructDefaultParameters(IMethod method, MethodDefinitionSyntax methodDefinition) {
+    private static void CheckStructDefaultParameters(IMethod method, MethodDefinitionSyntax methodDefinition) {
       int index = 0;
       foreach (var parameter in methodDefinition.Parameters) {
         if (parameter.Value == IdentifierSyntax.Default) {
@@ -318,7 +318,7 @@ namespace Meson.Compiler {
       });
     }
 
-    private ExpressionSyntax GetDefaultEnumValue(IParameter parameter, object constValue, ExpressionSyntax typeName) {
+    private static ExpressionSyntax GetDefaultEnumValue(IParameter parameter, object constValue, ExpressionSyntax typeName) {
       var fields = parameter.Type.GetDefinition().Fields;
       var field = fields.FirstOrDefault(i => constValue.Equals(i.GetConstantValue()));
       if (field != null) {
@@ -345,7 +345,7 @@ namespace Meson.Compiler {
       return constValue.ToString().AsIdentifier().CastTo(typeName);
     }
 
-    private ExpressionSyntax GetDefaultParameterValue(IParameter parameter, ExpressionSyntax parametertype, ITypeDefinition typeDefinition) {
+    private static ExpressionSyntax GetDefaultParameterValue(IParameter parameter, ExpressionSyntax parametertype, ITypeDefinition typeDefinition) {
       var constValue = parameter.GetConstantValue();
       ExpressionSyntax defaultValue;
       if (constValue == null) {
@@ -489,7 +489,7 @@ namespace Meson.Compiler {
       return typeName;
     }
 
-    private void CheckFieldTypeConflict(ref ExpressionSyntax type, IField field, ITypeDefinition typeDefinition) {
+    private static void CheckFieldTypeConflict(ref ExpressionSyntax type, IField field, ITypeDefinition typeDefinition) {
       foreach (var m in typeDefinition.Methods) {
         if (m.Name == field.Type.Name) {
           type = type.WithFullName(field.Type, typeDefinition);

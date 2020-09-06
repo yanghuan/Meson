@@ -9,7 +9,6 @@ namespace Test {
 
     private static void Main(string[] args) {
       Console.WriteLine(args);
-      new string('d', 2);
     }
   }
 }
