@@ -74,6 +74,7 @@ struct DateTimeOffset : public valueType<DateTimeOffset> {
   public: DateTimeOffset AddTicks(Int64 ticks);
   public: DateTimeOffset AddYears(Int32 years);
   public: static Int32 Compare(DateTimeOffset first, DateTimeOffset second);
+  private: Int32 CompareToOfIComparable(Object obj);
   public: Int32 CompareTo(DateTimeOffset other);
   public: Boolean Equals(Object obj);
   public: Boolean Equals(DateTimeOffset other);
@@ -82,6 +83,8 @@ struct DateTimeOffset : public valueType<DateTimeOffset> {
   public: static DateTimeOffset FromFileTime(Int64 fileTime);
   public: static DateTimeOffset FromUnixTimeSeconds(Int64 seconds);
   public: static DateTimeOffset FromUnixTimeMilliseconds(Int64 milliseconds);
+  private: void OnDeserializationOfIDeserializationCallback(Object sender);
+  private: void GetObjectDataOfISerializable(SerializationInfo info, StreamingContext context);
   private: explicit DateTimeOffset(SerializationInfo info, StreamingContext context);
   public: Int32 GetHashCode();
   public: static DateTimeOffset Parse(String input);

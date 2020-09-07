@@ -1,16 +1,17 @@
 #include "SemaphoreSlim-dep.h"
 
 #include <System.Private.CoreLib/System/ArgumentOutOfRangeException-dep.h>
+#include <System.Private.CoreLib/System/Exception-dep.h>
 #include <System.Private.CoreLib/System/GC-dep.h>
+#include <System.Private.CoreLib/System/Int32-dep.h>
 #include <System.Private.CoreLib/System/Int64-dep.h>
 #include <System.Private.CoreLib/System/Math-dep.h>
 #include <System.Private.CoreLib/System/ObjectDisposedException-dep.h>
 #include <System.Private.CoreLib/System/OperationCanceledException-dep.h>
-#include <System.Private.CoreLib/System/Runtime/CompilerServices/AsyncTaskMethodBuilder-dep.h>
+#include <System.Private.CoreLib/System/Runtime/CompilerServices/ConfiguredTaskAwaitable-dep.h>
 #include <System.Private.CoreLib/System/Runtime/CompilerServices/StrongBox-dep.h>
 #include <System.Private.CoreLib/System/SR-dep.h>
-#include <System.Private.CoreLib/System/Threading/CancellationToken-dep.h>
-#include <System.Private.CoreLib/System/Threading/CancellationTokenRegistration-dep.h>
+#include <System.Private.CoreLib/System/Threading/CancellationTokenSource-dep.h>
 #include <System.Private.CoreLib/System/Threading/ManualResetEvent-dep.h>
 #include <System.Private.CoreLib/System/Threading/Monitor-dep.h>
 #include <System.Private.CoreLib/System/Threading/SemaphoreFullException-dep.h>
@@ -25,6 +26,43 @@ using namespace System::Runtime::CompilerServices;
 using namespace System::Threading::Tasks;
 
 void SemaphoreSlim___::TaskNode___::ctor() {
+}
+
+void SemaphoreSlim___::__c___::cctor() {
+  <>9 = rt::newobj<__c>();
+}
+
+void SemaphoreSlim___::__c___::ctor() {
+}
+
+void SemaphoreSlim___::__c___::_WaitUntilCountOrTimeoutAsync_b__33_0(Object s) {
+  ((Task<>)s)->TrySetResult();
+}
+
+void SemaphoreSlim___::_WaitUntilCountOrTimeoutAsync_d__33::MoveNext() {
+  Int32 num = <>1__state;
+  SemaphoreSlim semaphoreSlim = <>4__this;
+  Boolean result2;
+  try {
+    Task<> task;
+    ConfiguredTaskAwaitable<TResult>::ConfiguredTaskAwaiter awaiter;
+    StrongBox<Boolean> lockObjAndDisposed;
+    Boolean lockTaken;
+    Action<Object> as = __c::in::__9__33_0;
+  } catch (Exception exception) {
+    <>1__state = -2;
+    <>t__builder.SetException(exception);
+    return;
+  }
+  goto IL_02df;
+
+IL_02df:
+  <>1__state = -2;
+  <>t__builder.SetResult(result2);
+}
+
+void SemaphoreSlim___::_WaitUntilCountOrTimeoutAsync_d__33::SetStateMachine(IAsyncStateMachine stateMachine) {
+  <>t__builder.SetStateMachine(stateMachine);
 }
 
 Int32 SemaphoreSlim___::get_CurrentCount() {
@@ -265,15 +303,15 @@ Boolean SemaphoreSlim___::RemoveAsyncWaiter(TaskNode task) {
 }
 
 Task<Boolean> SemaphoreSlim___::WaitUntilCountOrTimeoutAsync(TaskNode asyncWaiter, Int32 millisecondsTimeout, CancellationToken cancellationToken) {
-  一WaitUntilCountOrTimeoutAsync一d__33 stateMachine;
-  stateMachine.一一t__builder = AsyncTaskMethodBuilder<Boolean>::Create();
-  stateMachine.一一4__this = (SemaphoreSlim)this;
+  _WaitUntilCountOrTimeoutAsync_d__33 stateMachine;
+  stateMachine.__t__builder = AsyncTaskMethodBuilder<Boolean>::Create();
+  stateMachine.__4__this = (SemaphoreSlim)this;
   stateMachine.asyncWaiter = asyncWaiter;
   stateMachine.millisecondsTimeout = millisecondsTimeout;
   stateMachine.cancellationToken = cancellationToken;
-  stateMachine.一一1__state = -1;
-  stateMachine.一一t__builder.Start(stateMachine);
-  return stateMachine.一一t__builder.get_Task();
+  stateMachine.__1__state = -1;
+  stateMachine.__t__builder.Start(stateMachine);
+  return stateMachine.__t__builder.get_Task();
 }
 
 Int32 SemaphoreSlim___::Release() {

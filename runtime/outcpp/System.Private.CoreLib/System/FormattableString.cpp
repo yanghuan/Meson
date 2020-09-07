@@ -6,6 +6,10 @@
 namespace System::Private::CoreLib::System::FormattableStringNamespace {
 using namespace System::Globalization;
 
+String FormattableString___::ToStringOfIFormattable(String ignored, IFormatProvider formatProvider) {
+  return ToString(formatProvider);
+}
+
 String FormattableString___::Invariant(FormattableString formattable) {
   if (formattable == nullptr) {
     rt::throw_exception<ArgumentNullException>("formattable");

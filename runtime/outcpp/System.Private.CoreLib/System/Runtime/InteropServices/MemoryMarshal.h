@@ -1,27 +1,57 @@
 #pragma once
 
-#include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/Int32.h>
+#include <System.Private.CoreLib/System/Object.h>
+#include <System.Private.CoreLib/System/ReadOnlyMemory.h>
 
+namespace System::Private::CoreLib::System::Collections::Generic {
+FORWARD(IEnumerable, T)
+FORWARD(IEnumerator, T)
+} // namespace System::Private::CoreLib::System::Collections::Generic
+namespace System::Private::CoreLib::System::Collections {
+FORWARD(IEnumerable)
+FORWARD(IEnumerator)
+} // namespace System::Private::CoreLib::System::Collections
 namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)
 FORWARDS(ArraySegment, T)
 FORWARDS(Boolean)
 FORWARDS(Byte)
 FORWARDS(Char)
-FORWARDS(Int32)
+FORWARD(IDisposable)
 FORWARDS(Memory, T)
-FORWARDS(ReadOnlyMemory, T)
 FORWARDS(ReadOnlySpan, T)
 FORWARDS(Span, T)
 FORWARD(String)
 } // namespace System::Private::CoreLib::System
-namespace System::Private::CoreLib::System::Collections::Generic {
-FORWARD(IEnumerable, T)
-} // namespace System::Private::CoreLib::System::Collections::Generic
 namespace System::Private::CoreLib::System::Runtime::InteropServices {
 namespace MemoryMarshalNamespace {
+using namespace System::Collections;
 using namespace System::Collections::Generic;
+template <class T>
+using IEnumerable = Collections::Generic::IEnumerable<T>;
+using IEnumerable_ = Collections::IEnumerable;
+template <class T>
+using IEnumerator = Collections::Generic::IEnumerator<T>;
+using IEnumerator_ = Collections::IEnumerator;
 class MemoryMarshal {
+  private: CLASS(_ToEnumerable_d__15, T) : public object {
+    public: using interface = rt::TypeList<IEnumerable<T>, IEnumerable_, IEnumerator<T>, IDisposable, IEnumerator_>;
+    private: T get_CurrentOfIEnumeratorT();
+    private: Object get_CurrentOfIEnumerator();
+    public: void ctor(Int32 __1__state);
+    private: void DisposeOfIDisposable();
+    private: Boolean MoveNext();
+    private: void ResetOfIEnumerator();
+    private: IEnumerator<T> GetEnumeratorOfIEnumerableT();
+    private: IEnumerator_ GetEnumeratorOfIEnumerable();
+    private: Int32 __1__state;
+    private: T __2__current;
+    private: Int32 __l__initialThreadId;
+    private: ReadOnlyMemory<T> memory;
+    public: ReadOnlyMemory<T> __3__memory;
+    private: Int32 _i_5__2;
+  };
   public: template <class T>
   static T& GetArrayDataReference(Array<T> array);
   public: template <class T>

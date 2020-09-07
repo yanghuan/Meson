@@ -26,6 +26,12 @@ void RegistryKey___::ctor(SafeRegistryHandle hkey) {
   _hkey = hkey;
 }
 
+void RegistryKey___::DisposeOfIDisposable() {
+  if (_hkey != nullptr) {
+    _hkey->Dispose();
+  }
+}
+
 void RegistryKey___::DeleteValue(String name, Boolean throwOnMissingValue) {
   Int32 num = Interop::Advapi32::RegDeleteValue(_hkey, name);
   if (num == 2 || num == 206) {

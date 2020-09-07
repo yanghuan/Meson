@@ -14,12 +14,14 @@
 #include <System.Private.CoreLib/System/Diagnostics/Tracing/ActivityTracker-dep.h>
 #include <System.Private.CoreLib/System/Diagnostics/Tracing/EventActivityOptions.h>
 #include <System.Private.CoreLib/System/Diagnostics/Tracing/NativeRuntimeEventSource-dep.h>
+#include <System.Private.CoreLib/System/Environment-dep.h>
 #include <System.Private.CoreLib/System/Func-dep.h>
 #include <System.Private.CoreLib/System/GC-dep.h>
 #include <System.Private.CoreLib/System/Int64-dep.h>
 #include <System.Private.CoreLib/System/InvalidOperationException-dep.h>
 #include <System.Private.CoreLib/System/IO/Path-dep.h>
 #include <System.Private.CoreLib/System/IO/PathInternal-dep.h>
+#include <System.Private.CoreLib/System/NotSupportedException-dep.h>
 #include <System.Private.CoreLib/System/Reflection/Emit/AssemblyBuilder-dep.h>
 #include <System.Private.CoreLib/System/Reflection/RuntimeAssembly-dep.h>
 #include <System.Private.CoreLib/System/ResolveEventArgs-dep.h>
@@ -56,6 +58,159 @@ void AssemblyLoadContext___::ContextualReflectionScope::Dispose() {
   if (_initialized) {
     SetCurrentContextualReflectionContext(_predecessor);
   }
+}
+
+Assembly AssemblyLoadContext___::_get_Assemblies_d__55___::get_CurrentOfAssembly() {
+  return <>2__current;
+}
+
+Object AssemblyLoadContext___::_get_Assemblies_d__55___::get_CurrentOfIEnumerator() {
+  return <>2__current;
+}
+
+void AssemblyLoadContext___::_get_Assemblies_d__55___::ctor(Int32 __1__state) {
+  this->__1__state = __1__state;
+  <>l__initialThreadId = Environment::get_CurrentManagedThreadId();
+}
+
+void AssemblyLoadContext___::_get_Assemblies_d__55___::DisposeOfIDisposable() {
+}
+
+Boolean AssemblyLoadContext___::_get_Assemblies_d__55___::MoveNext() {
+  Int32 num = <>1__state;
+  AssemblyLoadContext assemblyLoadContext = <>4__this;
+  if (num != 0) {
+    if (num != 1) {
+      return false;
+    }
+    <>1__state = -1;
+    goto IL_0062;
+  }
+  <>1__state = -1;
+  <>7__wrap1 = GetLoadedAssemblies();
+  <>7__wrap2 = 0;
+  goto IL_0070;
+
+IL_0062:
+  <>7__wrap2++;
+  goto IL_0070;
+
+IL_0070:
+  if (<>7__wrap2 < <>7__wrap1->get_Length()) {
+    Assembly assembly = <>7__wrap1[<>7__wrap2];
+    AssemblyLoadContext loadContext = GetLoadContext(assembly);
+    if (loadContext == assemblyLoadContext) {
+      <>2__current = assembly;
+      <>1__state = 1;
+      return true;
+    }
+    goto IL_0062;
+  }
+  <>7__wrap1 = nullptr;
+  return false;
+}
+
+void AssemblyLoadContext___::_get_Assemblies_d__55___::ResetOfIEnumerator() {
+  rt::throw_exception<NotSupportedException>();
+}
+
+IEnumerator<Assembly> AssemblyLoadContext___::_get_Assemblies_d__55___::GetEnumeratorOfAssembly() {
+  _get_Assemblies_d__55 result;
+  if (<>1__state == -2 && <>l__initialThreadId == Environment::get_CurrentManagedThreadId()) {
+    <>1__state = 0;
+    result = (_get_Assemblies_d__55)this;
+  } else {
+    result = rt::newobj<_get_Assemblies_d__55>(0);
+  }
+  return result;
+}
+
+IEnumerator_ AssemblyLoadContext___::_get_Assemblies_d__55___::GetEnumeratorOfIEnumerable() {
+  return ((IEnumerable<Assembly>)(_get_Assemblies_d__55)this)->GetEnumerator();
+}
+
+AssemblyLoadContext AssemblyLoadContext___::_get_All_d__85___::get_CurrentOfAssemblyLoadContext() {
+  return <>2__current;
+}
+
+Object AssemblyLoadContext___::_get_All_d__85___::get_CurrentOfIEnumerator() {
+  return <>2__current;
+}
+
+void AssemblyLoadContext___::_get_All_d__85___::ctor(Int32 __1__state) {
+  this->__1__state = __1__state;
+  <>l__initialThreadId = Environment::get_CurrentManagedThreadId();
+}
+
+void AssemblyLoadContext___::_get_All_d__85___::DisposeOfIDisposable() {
+  Int32 num = <>1__state;
+  if (num == -3 || num == 1) {
+    try {
+    } catch (...) {
+    } finally: {
+      __m__Finally1();
+    }
+  }
+}
+
+Boolean AssemblyLoadContext___::_get_All_d__85___::MoveNext() {
+  try {
+    switch (<>1__state.get()) {
+      default:
+        return false;
+      case 0:
+        {
+          <>1__state = -1;
+          AssemblyLoadContext default一 = get_Default();
+          List<WeakReference<AssemblyLoadContext>> list = nullptr;
+          {
+            rt::lock(s_allContexts);
+            list = rt::newobj<List<WeakReference<AssemblyLoadContext>>>(s_allContexts->get_Values());
+          }
+          <>7__wrap1 = list->GetEnumerator();
+          <>1__state = -3;
+          break;
+        }case 1:
+        <>1__state = -3;
+        break;
+    }
+    while (<>7__wrap1.MoveNext()) {
+      WeakReference<AssemblyLoadContext> current = <>7__wrap1.get_Current();
+      AssemblyLoadContext target;
+      if (current->TryGetTarget(target)) {
+        <>2__current = target;
+        <>1__state = 1;
+        return true;
+      }
+    }
+    __m__Finally1();
+    <>7__wrap1 = rt::default__;
+    return false;
+  } catch (...) {
+    ((IDisposable)(_get_All_d__85)this)->Dispose();
+    throw;
+  }
+}
+
+void AssemblyLoadContext___::_get_All_d__85___::__m__Finally1() {
+  <>1__state = -1;
+  ((IDisposable)<>7__wrap1)->Dispose();
+}
+
+void AssemblyLoadContext___::_get_All_d__85___::ResetOfIEnumerator() {
+  rt::throw_exception<NotSupportedException>();
+}
+
+IEnumerator<AssemblyLoadContext> AssemblyLoadContext___::_get_All_d__85___::GetEnumeratorOfAssemblyLoadContext() {
+  if (<>1__state == -2 && <>l__initialThreadId == Environment::get_CurrentManagedThreadId()) {
+    <>1__state = 0;
+    return (_get_All_d__85)this;
+  }
+  return rt::newobj<_get_All_d__85>(0);
+}
+
+IEnumerator_ AssemblyLoadContext___::_get_All_d__85___::GetEnumeratorOfIEnumerable() {
+  return ((IEnumerable<AssemblyLoadContext>)(_get_All_d__85)this)->GetEnumerator();
 }
 
 IEnumerable<Assembly> AssemblyLoadContext___::get_Assemblies() {

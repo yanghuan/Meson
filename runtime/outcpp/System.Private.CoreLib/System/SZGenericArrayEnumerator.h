@@ -25,6 +25,7 @@ CLASS(SZGenericArrayEnumerator, T) : public object {
   private: Object get_CurrentOfIEnumerator();
   public: void ctor(Array<T> array);
   public: Boolean MoveNext();
+  private: void ResetOfIEnumerator();
   public: void Dispose();
   public: static void cctor();
   private: Array<T> _array;

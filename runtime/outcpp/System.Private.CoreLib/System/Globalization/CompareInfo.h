@@ -58,6 +58,7 @@ CLASS(CompareInfo) : public object {
   public: static Boolean IsSortable(Rune value);
   private: void InitSort(CultureInfo culture);
   private: void OnDeserializing(StreamingContext ctx);
+  private: void OnDeserializationOfIDeserializationCallback(Object sender);
   private: void OnDeserialized(StreamingContext ctx);
   private: void OnDeserialized();
   private: void OnSerializing(StreamingContext ctx);

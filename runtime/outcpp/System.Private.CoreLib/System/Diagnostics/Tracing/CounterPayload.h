@@ -1,5 +1,6 @@
 #pragma once
 
+#include <System.Private.CoreLib/System/Collections/Generic/KeyValuePair.h>
 #include <System.Private.CoreLib/System/Double.h>
 #include <System.Private.CoreLib/System/Int32.h>
 #include <System.Private.CoreLib/System/Object.h>
@@ -8,13 +9,15 @@
 namespace System::Private::CoreLib::System::Collections::Generic {
 FORWARD(IEnumerable, T)
 FORWARD(IEnumerator, T)
-FORWARDS_(KeyValuePair, T1, T2, T3)
 } // namespace System::Private::CoreLib::System::Collections::Generic
 namespace System::Private::CoreLib::System {
+FORWARDS(Boolean)
+FORWARD(IDisposable)
 FORWARD(String)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Collections {
 FORWARD(IEnumerable)
+FORWARD(IEnumerator)
 } // namespace System::Private::CoreLib::System::Collections
 namespace System::Private::CoreLib::System::Diagnostics::Tracing {
 namespace CounterPayloadNamespace {
@@ -25,8 +28,24 @@ using IEnumerable = Collections::Generic::IEnumerable<T>;
 using IEnumerable_ = Collections::IEnumerable;
 template <class T>
 using IEnumerator = Collections::Generic::IEnumerator<T>;
+using IEnumerator_ = Collections::IEnumerator;
 CLASS(CounterPayload) : public object {
   public: using interface = rt::TypeList<IEnumerable<KeyValuePair<String, Object>>, IEnumerable_>;
+  private: CLASS(_get_ForEnumeration_d__51) : public object {
+    public: using interface = rt::TypeList<IEnumerable<KeyValuePair<String, Object>>, IEnumerable_, IEnumerator<KeyValuePair<String, Object>>, IDisposable, IEnumerator_>;
+    private: KeyValuePair<String, Object> get_CurrentOfObject();
+    private: Object get_CurrentOfIEnumerator();
+    public: void ctor(Int32 __1__state);
+    private: void DisposeOfIDisposable();
+    private: Boolean MoveNext();
+    private: void ResetOfIEnumerator();
+    private: IEnumerator<KeyValuePair<String, Object>> GetEnumeratorOfObject();
+    private: IEnumerator_ GetEnumeratorOfIEnumerable();
+    private: Int32 __1__state;
+    private: KeyValuePair<String, Object> __2__current;
+    private: Int32 __l__initialThreadId;
+    public: CounterPayload __4__this;
+  };
   public: String get_Name() { return Name; }
   public: void set_Name(String value) { Name = value; }
   public: String get_DisplayName() { return DisplayName; }
@@ -53,6 +72,7 @@ CLASS(CounterPayload) : public object {
   public: void set_DisplayUnits(String value) { DisplayUnits = value; }
   private: IEnumerable<KeyValuePair<String, Object>> get_ForEnumeration();
   public: IEnumerator<KeyValuePair<String, Object>> GetEnumerator();
+  private: IEnumerator_ GetEnumeratorOfIEnumerable();
   public: void ctor();
   private: String Name;
   private: String DisplayName;

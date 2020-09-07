@@ -91,6 +91,9 @@ CLASS(NumberFormatInfo) : public object {
   public: static NumberFormatInfo ReadOnly(NumberFormatInfo nfi);
   public: static void ValidateParseStyleInteger(NumberStyles style);
   public: static void ValidateParseStyleFloatingPoint(NumberStyles style);
+  public: static NumberFormatInfo _GetInstance_g__GetProviderNonNull42_0(IFormatProvider provider);
+  public: static void _ValidateParseStyleInteger_g__throwInvalid133_0(NumberStyles value);
+  public: static void _ValidateParseStyleFloatingPoint_g__throwInvalid134_0(NumberStyles value);
   private: static NumberFormatInfo s_invariantInfo;
   public: Array<Int32> _numberGroupSizes;
   public: Array<Int32> _currencyGroupSizes;

@@ -42,6 +42,13 @@ using namespace System::Collections::Generic;
 using namespace System::Runtime::Serialization;
 CLASS(Module) : public object {
   public: using interface = rt::TypeList<ICustomAttributeProvider, ISerializable>;
+  private: CLASS(__c) : public object {
+    public: static void cctor();
+    public: void ctor();
+    public: Boolean _cctor_b__61_0(Type m, Object c);
+    public: Boolean _cctor_b__61_1(Type m, Object c);
+    public: static __c __9;
+  };
   public: Assembly get_Assembly();
   public: String get_FullyQualifiedName();
   public: String get_Name();

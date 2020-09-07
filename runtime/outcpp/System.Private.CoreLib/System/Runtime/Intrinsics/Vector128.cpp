@@ -637,4 +637,264 @@ Vector128<UInt64> Vector128<>::CreateScalarUnsafe(UInt64 value) {
   return Unsafe::AsRef<Vector128<UInt64>>(ptr);
 }
 
+Vector128<Byte> Vector128<>::_Create_g__SoftwareFallback20_0(Byte value) {
+  Byte as[16] = {};
+  Byte* source = as;
+  return Unsafe::AsRef<Vector128<Byte>>(source);
+}
+
+Vector128<Double> Vector128<>::_Create_g__SoftwareFallback21_0(Double value) {
+  Double as[2] = {};
+  Double* source = as;
+  return Unsafe::AsRef<Vector128<Double>>(source);
+}
+
+Vector128<Int16> Vector128<>::_Create_g__SoftwareFallback22_0(Int16 value) {
+  Int16 as[8] = {};
+  Int16* source = as;
+  return Unsafe::AsRef<Vector128<Int16>>(source);
+}
+
+Vector128<Int32> Vector128<>::_Create_g__SoftwareFallback23_0(Int32 value) {
+  Int32 as[4] = {};
+  Int32* source = as;
+  return Unsafe::AsRef<Vector128<Int32>>(source);
+}
+
+Vector128<Int64> Vector128<>::_Create_g__SoftwareFallback24_0(Int64 value) {
+  Int64 as[2] = {};
+  Int64* source = as;
+  return Unsafe::AsRef<Vector128<Int64>>(source);
+}
+
+Vector128<SByte> Vector128<>::_Create_g__SoftwareFallback25_0(SByte value) {
+  SByte as[16] = {};
+  SByte* source = as;
+  return Unsafe::AsRef<Vector128<SByte>>(source);
+}
+
+Vector128<Single> Vector128<>::_Create_g__SoftwareFallback26_0(Single value) {
+  Single as[4] = {};
+  Single* source = as;
+  return Unsafe::AsRef<Vector128<Single>>(source);
+}
+
+Vector128<UInt16> Vector128<>::_Create_g__SoftwareFallback27_0(UInt16 value) {
+  UInt16 as[8] = {};
+  UInt16* source = as;
+  return Unsafe::AsRef<Vector128<UInt16>>(source);
+}
+
+Vector128<UInt32> Vector128<>::_Create_g__SoftwareFallback28_0(UInt32 value) {
+  UInt32 as[4] = {};
+  UInt32* source = as;
+  return Unsafe::AsRef<Vector128<UInt32>>(source);
+}
+
+Vector128<UInt64> Vector128<>::_Create_g__SoftwareFallback29_0(UInt64 value) {
+  UInt64 as[2] = {};
+  UInt64* source = as;
+  return Unsafe::AsRef<Vector128<UInt64>>(source);
+}
+
+Vector128<Byte> Vector128<>::_Create_g__SoftwareFallback30_0(Byte e0, Byte e1, Byte e2, Byte e3, Byte e4, Byte e5, Byte e6, Byte e7, Byte e8, Byte e9, Byte e10, Byte e11, Byte e12, Byte e13, Byte e14, Byte e15) {
+  Byte as[16] = {};
+  Byte* source = as;
+  return Unsafe::AsRef<Vector128<Byte>>(source);
+}
+
+Vector128<Double> Vector128<>::_Create_g__SoftwareFallback31_0(Double e0, Double e1) {
+  Double as[2] = {};
+  Double* source = as;
+  return Unsafe::AsRef<Vector128<Double>>(source);
+}
+
+Vector128<Int16> Vector128<>::_Create_g__SoftwareFallback32_0(Int16 e0, Int16 e1, Int16 e2, Int16 e3, Int16 e4, Int16 e5, Int16 e6, Int16 e7) {
+  Int16 as[8] = {};
+  Int16* source = as;
+  return Unsafe::AsRef<Vector128<Int16>>(source);
+}
+
+Vector128<Int32> Vector128<>::_Create_g__SoftwareFallback33_0(Int32 e0, Int32 e1, Int32 e2, Int32 e3) {
+  Int32 as[4] = {};
+  Int32* source = as;
+  return Unsafe::AsRef<Vector128<Int32>>(source);
+}
+
+Vector128<Int64> Vector128<>::_Create_g__SoftwareFallback34_0(Int64 e0, Int64 e1) {
+  Int64 as[2] = {};
+  Int64* source = as;
+  return Unsafe::AsRef<Vector128<Int64>>(source);
+}
+
+Vector128<SByte> Vector128<>::_Create_g__SoftwareFallback35_0(SByte e0, SByte e1, SByte e2, SByte e3, SByte e4, SByte e5, SByte e6, SByte e7, SByte e8, SByte e9, SByte e10, SByte e11, SByte e12, SByte e13, SByte e14, SByte e15) {
+  SByte as[16] = {};
+  SByte* source = as;
+  return Unsafe::AsRef<Vector128<SByte>>(source);
+}
+
+Vector128<Single> Vector128<>::_Create_g__SoftwareFallback36_0(Single e0, Single e1, Single e2, Single e3) {
+  Single as[4] = {};
+  Single* source = as;
+  return Unsafe::AsRef<Vector128<Single>>(source);
+}
+
+Vector128<UInt16> Vector128<>::_Create_g__SoftwareFallback37_0(UInt16 e0, UInt16 e1, UInt16 e2, UInt16 e3, UInt16 e4, UInt16 e5, UInt16 e6, UInt16 e7) {
+  UInt16 as[8] = {};
+  UInt16* source = as;
+  return Unsafe::AsRef<Vector128<UInt16>>(source);
+}
+
+Vector128<UInt32> Vector128<>::_Create_g__SoftwareFallback38_0(UInt32 e0, UInt32 e1, UInt32 e2, UInt32 e3) {
+  UInt32 as[4] = {};
+  UInt32* source = as;
+  return Unsafe::AsRef<Vector128<UInt32>>(source);
+}
+
+Vector128<UInt64> Vector128<>::_Create_g__SoftwareFallback39_0(UInt64 e0, UInt64 e1) {
+  UInt64 as[2] = {};
+  UInt64* source = as;
+  return Unsafe::AsRef<Vector128<UInt64>>(source);
+}
+
+Vector128<Byte> Vector128<>::_Create_g__SoftwareFallback40_0(Vector64<Byte> lower, Vector64<Byte> upper) {
+  Vector128<Byte> source = Vector128<Byte>::get_Zero();
+  Vector64<Byte>& reference = Unsafe::As<Vector128<Byte>, Vector64<Byte>>(source);
+  reference = lower;
+  Unsafe::Add(reference, 1) = upper;
+  return source;
+}
+
+Vector128<Double> Vector128<>::_Create_g__SoftwareFallback41_0(Vector64<Double> lower, Vector64<Double> upper) {
+  Vector128<Double> source = Vector128<Double>::get_Zero();
+  Vector64<Double>& reference = Unsafe::As<Vector128<Double>, Vector64<Double>>(source);
+  reference = lower;
+  Unsafe::Add(reference, 1) = upper;
+  return source;
+}
+
+Vector128<Int16> Vector128<>::_Create_g__SoftwareFallback42_0(Vector64<Int16> lower, Vector64<Int16> upper) {
+  Vector128<Int16> source = Vector128<Int16>::get_Zero();
+  Vector64<Int16>& reference = Unsafe::As<Vector128<Int16>, Vector64<Int16>>(source);
+  reference = lower;
+  Unsafe::Add(reference, 1) = upper;
+  return source;
+}
+
+Vector128<Int32> Vector128<>::_Create_g__SoftwareFallback43_0(Vector64<Int32> lower, Vector64<Int32> upper) {
+  Vector128<Int32> source = Vector128<Int32>::get_Zero();
+  Vector64<Int32>& reference = Unsafe::As<Vector128<Int32>, Vector64<Int32>>(source);
+  reference = lower;
+  Unsafe::Add(reference, 1) = upper;
+  return source;
+}
+
+Vector128<Int64> Vector128<>::_Create_g__SoftwareFallback44_0(Vector64<Int64> lower, Vector64<Int64> upper) {
+  Vector128<Int64> source = Vector128<Int64>::get_Zero();
+  Vector64<Int64>& reference = Unsafe::As<Vector128<Int64>, Vector64<Int64>>(source);
+  reference = lower;
+  Unsafe::Add(reference, 1) = upper;
+  return source;
+}
+
+Vector128<SByte> Vector128<>::_Create_g__SoftwareFallback45_0(Vector64<SByte> lower, Vector64<SByte> upper) {
+  Vector128<SByte> source = Vector128<SByte>::get_Zero();
+  Vector64<SByte>& reference = Unsafe::As<Vector128<SByte>, Vector64<SByte>>(source);
+  reference = lower;
+  Unsafe::Add(reference, 1) = upper;
+  return source;
+}
+
+Vector128<Single> Vector128<>::_Create_g__SoftwareFallback46_0(Vector64<Single> lower, Vector64<Single> upper) {
+  Vector128<Single> source = Vector128<Single>::get_Zero();
+  Vector64<Single>& reference = Unsafe::As<Vector128<Single>, Vector64<Single>>(source);
+  reference = lower;
+  Unsafe::Add(reference, 1) = upper;
+  return source;
+}
+
+Vector128<UInt16> Vector128<>::_Create_g__SoftwareFallback47_0(Vector64<UInt16> lower, Vector64<UInt16> upper) {
+  Vector128<UInt16> source = Vector128<UInt16>::get_Zero();
+  Vector64<UInt16>& reference = Unsafe::As<Vector128<UInt16>, Vector64<UInt16>>(source);
+  reference = lower;
+  Unsafe::Add(reference, 1) = upper;
+  return source;
+}
+
+Vector128<UInt32> Vector128<>::_Create_g__SoftwareFallback48_0(Vector64<UInt32> lower, Vector64<UInt32> upper) {
+  Vector128<UInt32> source = Vector128<UInt32>::get_Zero();
+  Vector64<UInt32>& reference = Unsafe::As<Vector128<UInt32>, Vector64<UInt32>>(source);
+  reference = lower;
+  Unsafe::Add(reference, 1) = upper;
+  return source;
+}
+
+Vector128<UInt64> Vector128<>::_Create_g__SoftwareFallback49_0(Vector64<UInt64> lower, Vector64<UInt64> upper) {
+  Vector128<UInt64> source = Vector128<UInt64>::get_Zero();
+  Vector64<UInt64>& reference = Unsafe::As<Vector128<UInt64>, Vector64<UInt64>>(source);
+  reference = lower;
+  Unsafe::Add(reference, 1) = upper;
+  return source;
+}
+
+Vector128<Byte> Vector128<>::_CreateScalar_g__SoftwareFallback50_0(Byte value) {
+  Vector128<Byte> source = Vector128<Byte>::get_Zero();
+  Unsafe::WriteUnaligned(Unsafe::As<Vector128<Byte>, Byte>(source), value);
+  return source;
+}
+
+Vector128<Double> Vector128<>::_CreateScalar_g__SoftwareFallback51_0(Double value) {
+  Vector128<Double> source = Vector128<Double>::get_Zero();
+  Unsafe::WriteUnaligned(Unsafe::As<Vector128<Double>, Byte>(source), value);
+  return source;
+}
+
+Vector128<Int16> Vector128<>::_CreateScalar_g__SoftwareFallback52_0(Int16 value) {
+  Vector128<Int16> source = Vector128<Int16>::get_Zero();
+  Unsafe::WriteUnaligned(Unsafe::As<Vector128<Int16>, Byte>(source), value);
+  return source;
+}
+
+Vector128<Int32> Vector128<>::_CreateScalar_g__SoftwareFallback53_0(Int32 value) {
+  Vector128<Int32> source = Vector128<Int32>::get_Zero();
+  Unsafe::WriteUnaligned(Unsafe::As<Vector128<Int32>, Byte>(source), value);
+  return source;
+}
+
+Vector128<Int64> Vector128<>::_CreateScalar_g__SoftwareFallback54_0(Int64 value) {
+  Vector128<Int64> source = Vector128<Int64>::get_Zero();
+  Unsafe::WriteUnaligned(Unsafe::As<Vector128<Int64>, Byte>(source), value);
+  return source;
+}
+
+Vector128<SByte> Vector128<>::_CreateScalar_g__SoftwareFallback55_0(SByte value) {
+  Vector128<SByte> source = Vector128<SByte>::get_Zero();
+  Unsafe::WriteUnaligned(Unsafe::As<Vector128<SByte>, Byte>(source), value);
+  return source;
+}
+
+Vector128<Single> Vector128<>::_CreateScalar_g__SoftwareFallback56_0(Single value) {
+  Vector128<Single> source = Vector128<Single>::get_Zero();
+  Unsafe::WriteUnaligned(Unsafe::As<Vector128<Single>, Byte>(source), value);
+  return source;
+}
+
+Vector128<UInt16> Vector128<>::_CreateScalar_g__SoftwareFallback57_0(UInt16 value) {
+  Vector128<UInt16> source = Vector128<UInt16>::get_Zero();
+  Unsafe::WriteUnaligned(Unsafe::As<Vector128<UInt16>, Byte>(source), value);
+  return source;
+}
+
+Vector128<UInt32> Vector128<>::_CreateScalar_g__SoftwareFallback58_0(UInt32 value) {
+  Vector128<UInt32> source = Vector128<UInt32>::get_Zero();
+  Unsafe::WriteUnaligned(Unsafe::As<Vector128<UInt32>, Byte>(source), value);
+  return source;
+}
+
+Vector128<UInt64> Vector128<>::_CreateScalar_g__SoftwareFallback59_0(UInt64 value) {
+  Vector128<UInt64> source = Vector128<UInt64>::get_Zero();
+  Unsafe::WriteUnaligned(Unsafe::As<Vector128<UInt64>, Byte>(source), value);
+  return source;
+}
+
 } // namespace System::Private::CoreLib::System::Runtime::Intrinsics::Vector128Namespace

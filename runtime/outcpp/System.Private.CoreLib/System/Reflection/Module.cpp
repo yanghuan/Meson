@@ -5,9 +5,26 @@
 #include <System.Private.CoreLib/System/Reflection/BindingFlags.h>
 #include <System.Private.CoreLib/System/Reflection/CallingConventions.h>
 #include <System.Private.CoreLib/System/Reflection/InvalidFilterCriteriaException-dep.h>
+#include <System.Private.CoreLib/System/Reflection/Module-dep.h>
 #include <System.Private.CoreLib/System/SR-dep.h>
+#include <System.Private.CoreLib/System/StringComparison.h>
 
 namespace System::Private::CoreLib::System::Reflection::ModuleNamespace {
+void Module___::__c___::cctor() {
+  <>9 = rt::newobj<__c>();
+}
+
+void Module___::__c___::ctor() {
+}
+
+Boolean Module___::__c___::_cctor_b__61_0(Type m, Object c) {
+  return FilterTypeNameImpl(m, c, StringComparison::Ordinal);
+}
+
+Boolean Module___::__c___::_cctor_b__61_1(Type m, Object c) {
+  return FilterTypeNameImpl(m, c, StringComparison::OrdinalIgnoreCase);
+}
+
 Assembly Module___::get_Assembly() {
   rt::throw_exception(NotImplemented::get_ByDesign());
 }
@@ -252,6 +269,8 @@ Boolean Module___::FilterTypeNameImpl(Type cls, Object filterCriteria, StringCom
 }
 
 void Module___::cctor() {
+  FilterTypeName = rt::newobj<TypeFilter>(&_cctor_b__61_0);
+  FilterTypeNameIgnoreCase = rt::newobj<TypeFilter>(&_cctor_b__61_1);
 }
 
 } // namespace System::Private::CoreLib::System::Reflection::ModuleNamespace

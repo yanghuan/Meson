@@ -63,6 +63,13 @@ CLASS(EventProvider) : public object {
     public: UInt32 Size;
     public: UInt32 Reserved;
   };
+  private: CLASS(__c) : public object {
+    public: static void cctor();
+    public: void ctor();
+    public: void _GetSessions_b__37_0(Int32 etwSessionId, Int64 matchAllKeywords, List<SessionInfo>& sessionList);
+    public: static __c __9;
+    public: static SessionInfoCallback __9__37_0;
+  };
   protected: EventLevel get_Level();
   protected: EventKeywords get_MatchAnyKeyword();
   public: void ctor(EventProviderType providerType);

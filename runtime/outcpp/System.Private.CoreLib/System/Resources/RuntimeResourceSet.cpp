@@ -64,6 +64,10 @@ IDictionaryEnumerator RuntimeResourceSet___::GetEnumerator() {
   return GetEnumeratorHelper();
 }
 
+IEnumerator RuntimeResourceSet___::GetEnumeratorOfIEnumerable() {
+  return GetEnumeratorHelper();
+}
+
 IDictionaryEnumerator RuntimeResourceSet___::GetEnumeratorHelper() {
   IResourceReader reader = Reader;
   if (reader == nullptr || _resCache == nullptr) {

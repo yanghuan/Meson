@@ -20,6 +20,7 @@ FORWARDS(Boolean)
 FORWARDS(Byte)
 FORWARDS(Char)
 FORWARDS(Currency)
+FORWARDS(DateTime)
 FORWARDS(Double)
 FORWARD_(IComparable, T1, T2)
 FORWARD(IConvertible)
@@ -35,6 +36,7 @@ FORWARDS(SByte)
 FORWARDS(Single)
 FORWARDS(Span, T)
 FORWARD(String)
+FORWARD(Type)
 FORWARDS(UInt16)
 namespace DecimalNamespace {
 using namespace System::Globalization;
@@ -156,12 +158,14 @@ struct Decimal : public valueType<Decimal> {
   public: explicit Decimal(Single value);
   public: explicit Decimal(Double value);
   private: explicit Decimal(SerializationInfo info, StreamingContext context);
+  private: void GetObjectDataOfISerializable(SerializationInfo info, StreamingContext context);
   public: static Decimal FromOACurrency(Int64 cy);
   public: static Int64 ToOACurrency(Decimal value);
   private: static Boolean IsValid(Int32 flags);
   public: explicit Decimal(Array<Int32> bits);
   public: explicit Decimal(ReadOnlySpan<Int32> bits);
   public: explicit Decimal(Int32 lo, Int32 mid, Int32 hi, Boolean isNegative, Byte scale);
+  private: void OnDeserializationOfIDeserializationCallback(Object sender);
   private: explicit Decimal(Int32 lo, Int32 mid, Int32 hi, Int32 flags);
   private: explicit Decimal(Decimal& d, Int32 flags);
   public: static Decimal Abs(Decimal& d);
@@ -258,6 +262,21 @@ struct Decimal : public valueType<Decimal> {
   public: static Boolean op_GreaterThan(Decimal d1, Decimal d2);
   public: static Boolean op_GreaterThanOrEqual(Decimal d1, Decimal d2);
   public: TypeCode GetTypeCode();
+  private: Boolean ToBooleanOfIConvertible(IFormatProvider provider);
+  private: Char ToCharOfIConvertible(IFormatProvider provider);
+  private: SByte ToSByteOfIConvertible(IFormatProvider provider);
+  private: Byte ToByteOfIConvertible(IFormatProvider provider);
+  private: Int16 ToInt16OfIConvertible(IFormatProvider provider);
+  private: UInt16 ToUInt16OfIConvertible(IFormatProvider provider);
+  private: Int32 ToInt32OfIConvertible(IFormatProvider provider);
+  private: UInt32 ToUInt32OfIConvertible(IFormatProvider provider);
+  private: Int64 ToInt64OfIConvertible(IFormatProvider provider);
+  private: UInt64 ToUInt64OfIConvertible(IFormatProvider provider);
+  private: Single ToSingleOfIConvertible(IFormatProvider provider);
+  private: Double ToDoubleOfIConvertible(IFormatProvider provider);
+  private: Decimal ToDecimalOfIConvertible(IFormatProvider provider);
+  private: DateTime ToDateTimeOfIConvertible(IFormatProvider provider);
+  private: Object ToTypeOfIConvertible(Type type, IFormatProvider provider);
   private: static DecCalc& AsMutable(Decimal& d);
   public: static UInt32 DecDivMod1E9(Decimal& value);
   public: static void cctor();

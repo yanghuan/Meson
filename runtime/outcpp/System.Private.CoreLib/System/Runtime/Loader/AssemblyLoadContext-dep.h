@@ -9,6 +9,10 @@
 #include <System.Private.CoreLib/System/Byte-dep.h>
 #include <System.Private.CoreLib/System/Collections/Generic/Dictionary-dep.h>
 #include <System.Private.CoreLib/System/Collections/Generic/IEnumerable.h>
+#include <System.Private.CoreLib/System/Collections/Generic/IEnumerator.h>
+#include <System.Private.CoreLib/System/Collections/Generic/List-dep.h>
+#include <System.Private.CoreLib/System/Collections/IEnumerable.h>
+#include <System.Private.CoreLib/System/Collections/IEnumerator.h>
 #include <System.Private.CoreLib/System/Func-dep.h>
 #include <System.Private.CoreLib/System/Guid-dep.h>
 #include <System.Private.CoreLib/System/IDisposable.h>

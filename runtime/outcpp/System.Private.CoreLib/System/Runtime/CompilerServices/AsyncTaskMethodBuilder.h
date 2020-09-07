@@ -53,6 +53,7 @@ struct AsyncTaskMethodBuilder<TResult> : public valueType<AsyncTaskMethodBuilder
     public: void ExecuteFromThreadPool(Thread threadPoolThread);
     public: void MoveNext();
     private: void MoveNext(Thread threadPoolThread);
+    private: IAsyncStateMachine GetStateMachineObjectOfIAsyncStateMachineBox();
     public: void ctor();
     public: static void cctor();
     private: static ContextCallback s_callback;

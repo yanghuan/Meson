@@ -2,12 +2,54 @@
 
 #include <System.Private.CoreLib/System/ArgumentNullException-dep.h>
 #include <System.Private.CoreLib/System/Collections/Generic/KeyNotFoundException-dep.h>
-#include <System.Private.CoreLib/System/Int32-dep.h>
+#include <System.Private.CoreLib/System/Diagnostics/Tracing/EventPayload-dep.h>
 #include <System.Private.CoreLib/System/NotSupportedException-dep.h>
 #include <System.Private.CoreLib/System/SR-dep.h>
 
 namespace System::Private::CoreLib::System::Diagnostics::Tracing::EventPayloadNamespace {
 using namespace System::Collections::Generic;
+
+KeyValuePair<String, Object> EventPayload___::_GetEnumerator_d__17___::get_CurrentOfObject() {
+  return <>2__current;
+}
+
+Object EventPayload___::_GetEnumerator_d__17___::get_CurrentOfIEnumerator() {
+  return <>2__current;
+}
+
+void EventPayload___::_GetEnumerator_d__17___::ctor(Int32 __1__state) {
+  this->__1__state = __1__state;
+}
+
+void EventPayload___::_GetEnumerator_d__17___::DisposeOfIDisposable() {
+}
+
+Boolean EventPayload___::_GetEnumerator_d__17___::MoveNext() {
+  Int32 num = <>1__state;
+  EventPayload eventPayload = <>4__this;
+  switch (num.get()) {
+    default:
+      return false;
+    case 0:
+      <>1__state = -1;
+      <i>5__2 = 0;
+      break;
+    case 1:
+      <>1__state = -1;
+      <i>5__2++;
+      break;
+  }
+  if (<i>5__2 < eventPayload->get_Keys()->get_Count()) {
+    <>2__current = KeyValuePair<String, Object>(eventPayload->m_names[<i>5__2], eventPayload->m_values[<i>5__2]);
+    <>1__state = 1;
+    return true;
+  }
+  return false;
+}
+
+void EventPayload___::_GetEnumerator_d__17___::ResetOfIEnumerator() {
+  rt::throw_exception<NotSupportedException>();
+}
 
 ICollection<String> EventPayload___::get_Keys() {
   return m_names;
@@ -79,6 +121,10 @@ Boolean EventPayload___::ContainsKey(String key) {
 IEnumerator<KeyValuePair<String, Object>> EventPayload___::GetEnumerator() {
   for (Int32 i = 0; i < get_Keys()->get_Count(); i++) {
   }
+}
+
+IEnumerator_ EventPayload___::GetEnumeratorOfIEnumerable() {
+  return ((IEnumerable<KeyValuePair<String, Object>>)(EventPayload)this)->GetEnumerator();
 }
 
 void EventPayload___::CopyTo(Array<KeyValuePair<String, Object>> payloadEntries, Int32 count) {

@@ -746,12 +746,34 @@ namespace Meson.Compiler {
       };
     }
 
-    public static bool CheckBadWord(ref string name) {
+    public static string CheckBadName(this string name) {
+      CheckBadName(ref name);
+      return name;
+    }
+
+    public static bool CheckBadName(ref string name) {
       if (Tokens.IsReservedWord(name)) {
         name += '一';
         return true;
       } else if (name.StartsWith('<')) {
-        name = name.Replace('<', '一').Replace('>', '一').Replace('.', '_');
+        StringBuilder sb = new StringBuilder(name.Length);
+        foreach (char ch in name) {
+          switch (ch) {
+            case '<':
+              sb.Append('_');
+              break;
+            case '>':
+              sb.Append('_');
+              break;
+            case '.':
+            case '|':
+              break;
+            default:
+              sb.Append(ch);
+              break;
+          }
+        }
+        name = sb.ToString();
         return true;
       }
       return false;

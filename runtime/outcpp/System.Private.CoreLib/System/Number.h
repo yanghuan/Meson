@@ -280,6 +280,15 @@ class Number {
   public: static Half NumberToHalf(NumberBuffer& number);
   public: static Single NumberToSingle(NumberBuffer& number);
   public: static void cctor();
+  public: static String _FormatInt32_g__FormatInt32Slow38_0(Int32 value, Int32 hexMask, String format, IFormatProvider provider);
+  public: static Boolean _TryFormatInt32_g__TryFormatInt32Slow39_0(Int32 value, Int32 hexMask, ReadOnlySpan<Char> format, IFormatProvider provider, Span<Char> destination, Int32& charsWritten);
+  public: static String _FormatUInt32_g__FormatUInt32Slow40_0(UInt32 value, String format, IFormatProvider provider);
+  public: static Boolean _TryFormatUInt32_g__TryFormatUInt32Slow41_0(UInt32 value, ReadOnlySpan<Char> format, IFormatProvider provider, Span<Char> destination, Int32& charsWritten);
+  public: static String _FormatInt64_g__FormatInt64Slow42_0(Int64 value, String format, IFormatProvider provider);
+  public: static Boolean _TryFormatInt64_g__TryFormatInt64Slow43_0(Int64 value, ReadOnlySpan<Char> format, IFormatProvider provider, Span<Char> destination, Int32& charsWritten);
+  public: static String _FormatUInt64_g__FormatUInt64Slow44_0(UInt64 value, String format, IFormatProvider provider);
+  public: static Boolean _TryFormatUInt64_g__TryFormatUInt64Slow45_0(UInt64 value, ReadOnlySpan<Char> format, IFormatProvider provider, Span<Char> destination, Int32& charsWritten);
+  public: static Boolean _RoundNumber_g__ShouldRoundUp78_0(Byte* dig, Int32 i, NumberBufferKind numberKind, Boolean isCorrectlyRounded);
   private: static Array<String> s_singleDigitStringCache;
   private: static Array<String> s_posCurrencyFormats;
   private: static Array<String> s_negCurrencyFormats;

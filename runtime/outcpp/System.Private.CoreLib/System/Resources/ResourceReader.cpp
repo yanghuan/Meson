@@ -1,5 +1,6 @@
 #include "ResourceReader-dep.h"
 
+#include <System.Private.CoreLib/System/Activator-dep.h>
 #include <System.Private.CoreLib/System/ArgumentException-dep.h>
 #include <System.Private.CoreLib/System/ArgumentNullException-dep.h>
 #include <System.Private.CoreLib/System/ArgumentOutOfRangeException-dep.h>
@@ -26,6 +27,8 @@
 #include <System.Private.CoreLib/System/IO/SeekOrigin.h>
 #include <System.Private.CoreLib/System/IO/UnmanagedMemoryStream-dep.h>
 #include <System.Private.CoreLib/System/NotSupportedException-dep.h>
+#include <System.Private.CoreLib/System/Reflection/BindingFlags.h>
+#include <System.Private.CoreLib/System/Reflection/MethodInfo-dep.h>
 #include <System.Private.CoreLib/System/Resources/FastResourceComparer-dep.h>
 #include <System.Private.CoreLib/System/Resources/ResourceLocator-dep.h>
 #include <System.Private.CoreLib/System/Resources/ResourceManager-dep.h>
@@ -36,15 +39,17 @@
 #include <System.Private.CoreLib/System/SR-dep.h>
 #include <System.Private.CoreLib/System/String-dep.h>
 #include <System.Private.CoreLib/System/Text/Encoding-dep.h>
+#include <System.Private.CoreLib/System/Threading/LazyInitializer-dep.h>
 #include <System.Private.CoreLib/System/TimeSpan-dep.h>
-#include <System.Private.CoreLib/System/Type-dep.h>
 #include <System.Private.CoreLib/System/UInt16-dep.h>
 #include <System.Private.CoreLib/System/UInt32-dep.h>
 #include <System.Private.CoreLib/System/UInt64-dep.h>
 
 namespace System::Private::CoreLib::System::Resources::ResourceReaderNamespace {
 using namespace System::IO;
+using namespace System::Reflection;
 using namespace System::Text;
+using namespace System::Threading;
 
 Object ResourceReader___::ResourceEnumerator___::get_Key() {
   if (_currentName == Int32::MinValue) {
@@ -134,6 +139,22 @@ void ResourceReader___::ResourceEnumerator___::Reset() {
   _currentName = -1;
 }
 
+void ResourceReader___::__c___::cctor() {
+  <>9 = rt::newobj<__c>();
+}
+
+void ResourceReader___::__c___::ctor() {
+}
+
+Type ResourceReader___::__c___::_InitializeBinaryFormatter_b__6_0() {
+  return Type::in::GetType("System.Runtime.Serialization.Formatters.Binary.BinaryFormatter, System.Runtime.Serialization.Formatters, Version=0.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a", true);
+}
+
+Func<Object, Stream, Object> ResourceReader___::__c___::_InitializeBinaryFormatter_b__6_1() {
+  MethodInfo method = s_binaryFormatterType->GetMethod("Deserialize", rt::newarr<Array<Type>>(1));
+  return (Func<Object, Stream, Object>)typeof<ResourceReader>()->GetMethod("CreateUntypedDelegate", BindingFlags::Static | BindingFlags::NonPublic)->MakeGenericMethod(s_binaryFormatterType)->Invoke(nullptr, rt::newarr<Array<Object>>(1));
+}
+
 void ResourceReader___::ctor(Stream stream, Dictionary<String, ResourceLocator> resCache, Boolean permitDeserialization) {
   _resCache = resCache;
   _store = rt::newobj<BinaryReader>(stream, Encoding::in::get_UTF8());
@@ -158,6 +179,12 @@ Object ResourceReader___::DeserializeObject(Int32 typeIndex) {
 }
 
 Boolean ResourceReader___::InitializeBinaryFormatter() {
+  Func<Type> as = __c::in::__9__6_0;
+  LazyInitializer::EnsureInitialized(s_binaryFormatterType, as != nullptr ? as : (__c::in::__9__6_0 = &__c::in::__9->_InitializeBinaryFormatter_b__6_0));
+  Func<Func<Object, Stream, Object>> is = __c::in::__9__6_1;
+  LazyInitializer::EnsureInitialized(s_deserializeMethod, is != nullptr ? is : (__c::in::__9__6_1 = &__c::in::__9->_InitializeBinaryFormatter_b__6_1));
+  _binaryFormatter = Activator::CreateInstance(s_binaryFormatterType);
+  return true;
 }
 
 Boolean ResourceReader___::ValidateReaderType(String readerType) {
@@ -287,6 +314,10 @@ Int32 ResourceReader___::GetNamePosition(Int32 index) {
     rt::throw_exception<FormatException>(SR::Format(SR::get_BadImageFormat_ResourcesNameInvalidOffset(), num));
   }
   return num;
+}
+
+IEnumerator ResourceReader___::GetEnumeratorOfIEnumerable() {
+  return GetEnumerator();
 }
 
 IDictionaryEnumerator ResourceReader___::GetEnumerator() {

@@ -181,6 +181,10 @@ void CompareInfo___::OnDeserializing(StreamingContext ctx) {
   m_name = nullptr;
 }
 
+void CompareInfo___::OnDeserializationOfIDeserializationCallback(Object sender) {
+  OnDeserialized();
+}
+
 void CompareInfo___::OnDeserialized(StreamingContext ctx) {
   OnDeserialized();
 }

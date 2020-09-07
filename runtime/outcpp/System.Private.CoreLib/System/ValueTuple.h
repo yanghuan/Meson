@@ -3,6 +3,7 @@
 #include <System.Private.CoreLib/System/ValueType.h>
 
 namespace System::Private::CoreLib::System::Collections {
+FORWARD(IComparer)
 FORWARD(IEqualityComparer)
 FORWARD(IStructuralComparable)
 FORWARD(IStructuralEquatable)
@@ -31,9 +32,15 @@ struct ValueTuple<> : public valueType<ValueTuple<>> {
   private: Object get_ItemOfITuple(Int32 index);
   public: Boolean Equals(Object obj);
   public: Boolean Equals(ValueTuple<> other);
+  private: Boolean EqualsOfIStructuralEquatable(Object other, IEqualityComparer comparer);
+  private: Int32 CompareToOfIComparable(Object other);
   public: Int32 CompareTo(ValueTuple<> other);
+  private: Int32 CompareToOfIStructuralComparable(Object other, IComparer comparer);
   public: Int32 GetHashCode();
+  private: Int32 GetHashCodeOfIStructuralEquatable(IEqualityComparer comparer);
+  private: Int32 GetHashCodeOfIValueTupleInternal(IEqualityComparer comparer);
   public: String ToString();
+  private: String ToStringEndOfIValueTupleInternal();
   public: static ValueTuple<> Create();
   public: template <class T1>
   static ValueTuple<T1> Create(T1 item1);
@@ -60,9 +67,15 @@ struct ValueTuple<T1> : public valueType<ValueTuple<T1>> {
   public: ValueTuple(T1 item1);
   public: Boolean Equals(Object obj);
   public: Boolean Equals(ValueTuple<T1> other);
+  private: Boolean EqualsOfIStructuralEquatable(Object other, IEqualityComparer comparer);
+  private: Int32 CompareToOfIComparable(Object other);
   public: Int32 CompareTo(ValueTuple<T1> other);
+  private: Int32 CompareToOfIStructuralComparable(Object other, IComparer comparer);
   public: Int32 GetHashCode();
+  private: Int32 GetHashCodeOfIStructuralEquatable(IEqualityComparer comparer);
+  private: Int32 GetHashCodeOfIValueTupleInternal(IEqualityComparer comparer);
   public: String ToString();
+  private: String ToStringEndOfIValueTupleInternal();
   public: ValueTuple() {}
   public: T1 Item1;
 };
@@ -74,10 +87,16 @@ struct ValueTuple<T1, T2> : public valueType<ValueTuple<T1, T2>> {
   public: ValueTuple(T1 item1, T2 item2);
   public: Boolean Equals(Object obj);
   public: Boolean Equals(ValueTuple<T1, T2> other);
+  private: Boolean EqualsOfIStructuralEquatable(Object other, IEqualityComparer comparer);
+  private: Int32 CompareToOfIComparable(Object other);
   public: Int32 CompareTo(ValueTuple<T1, T2> other);
+  private: Int32 CompareToOfIStructuralComparable(Object other, IComparer comparer);
   public: Int32 GetHashCode();
+  private: Int32 GetHashCodeOfIStructuralEquatable(IEqualityComparer comparer);
   private: Int32 GetHashCodeCore(IEqualityComparer comparer);
+  private: Int32 GetHashCodeOfIValueTupleInternal(IEqualityComparer comparer);
   public: String ToString();
+  private: String ToStringEndOfIValueTupleInternal();
   public: ValueTuple() {}
   public: T1 Item1;
   public: T2 Item2;
@@ -90,10 +109,16 @@ struct ValueTuple<T1, T2, T3> : public valueType<ValueTuple<T1, T2, T3>> {
   public: ValueTuple(T1 item1, T2 item2, T3 item3);
   public: Boolean Equals(Object obj);
   public: Boolean Equals(ValueTuple<T1, T2, T3> other);
+  private: Boolean EqualsOfIStructuralEquatable(Object other, IEqualityComparer comparer);
+  private: Int32 CompareToOfIComparable(Object other);
   public: Int32 CompareTo(ValueTuple<T1, T2, T3> other);
+  private: Int32 CompareToOfIStructuralComparable(Object other, IComparer comparer);
   public: Int32 GetHashCode();
+  private: Int32 GetHashCodeOfIStructuralEquatable(IEqualityComparer comparer);
   private: Int32 GetHashCodeCore(IEqualityComparer comparer);
+  private: Int32 GetHashCodeOfIValueTupleInternal(IEqualityComparer comparer);
   public: String ToString();
+  private: String ToStringEndOfIValueTupleInternal();
   public: ValueTuple() {}
   public: T1 Item1;
   public: T2 Item2;
@@ -107,10 +132,16 @@ struct ValueTuple<T1, T2, T3, T4> : public valueType<ValueTuple<T1, T2, T3, T4>>
   public: ValueTuple(T1 item1, T2 item2, T3 item3, T4 item4);
   public: Boolean Equals(Object obj);
   public: Boolean Equals(ValueTuple<T1, T2, T3, T4> other);
+  private: Boolean EqualsOfIStructuralEquatable(Object other, IEqualityComparer comparer);
+  private: Int32 CompareToOfIComparable(Object other);
   public: Int32 CompareTo(ValueTuple<T1, T2, T3, T4> other);
+  private: Int32 CompareToOfIStructuralComparable(Object other, IComparer comparer);
   public: Int32 GetHashCode();
+  private: Int32 GetHashCodeOfIStructuralEquatable(IEqualityComparer comparer);
   private: Int32 GetHashCodeCore(IEqualityComparer comparer);
+  private: Int32 GetHashCodeOfIValueTupleInternal(IEqualityComparer comparer);
   public: String ToString();
+  private: String ToStringEndOfIValueTupleInternal();
   public: ValueTuple() {}
   public: T1 Item1;
   public: T2 Item2;
@@ -125,10 +156,16 @@ struct ValueTuple<T1, T2, T3, T4, T5> : public valueType<ValueTuple<T1, T2, T3, 
   public: ValueTuple(T1 item1, T2 item2, T3 item3, T4 item4, T5 item5);
   public: Boolean Equals(Object obj);
   public: Boolean Equals(ValueTuple<T1, T2, T3, T4, T5> other);
+  private: Boolean EqualsOfIStructuralEquatable(Object other, IEqualityComparer comparer);
+  private: Int32 CompareToOfIComparable(Object other);
   public: Int32 CompareTo(ValueTuple<T1, T2, T3, T4, T5> other);
+  private: Int32 CompareToOfIStructuralComparable(Object other, IComparer comparer);
   public: Int32 GetHashCode();
+  private: Int32 GetHashCodeOfIStructuralEquatable(IEqualityComparer comparer);
   private: Int32 GetHashCodeCore(IEqualityComparer comparer);
+  private: Int32 GetHashCodeOfIValueTupleInternal(IEqualityComparer comparer);
   public: String ToString();
+  private: String ToStringEndOfIValueTupleInternal();
   public: ValueTuple() {}
   public: T1 Item1;
   public: T2 Item2;
@@ -144,10 +181,16 @@ struct ValueTuple<T1, T2, T3, T4, T5, T6> : public valueType<ValueTuple<T1, T2, 
   public: ValueTuple(T1 item1, T2 item2, T3 item3, T4 item4, T5 item5, T6 item6);
   public: Boolean Equals(Object obj);
   public: Boolean Equals(ValueTuple<T1, T2, T3, T4, T5, T6> other);
+  private: Boolean EqualsOfIStructuralEquatable(Object other, IEqualityComparer comparer);
+  private: Int32 CompareToOfIComparable(Object other);
   public: Int32 CompareTo(ValueTuple<T1, T2, T3, T4, T5, T6> other);
+  private: Int32 CompareToOfIStructuralComparable(Object other, IComparer comparer);
   public: Int32 GetHashCode();
+  private: Int32 GetHashCodeOfIStructuralEquatable(IEqualityComparer comparer);
   private: Int32 GetHashCodeCore(IEqualityComparer comparer);
+  private: Int32 GetHashCodeOfIValueTupleInternal(IEqualityComparer comparer);
   public: String ToString();
+  private: String ToStringEndOfIValueTupleInternal();
   public: ValueTuple() {}
   public: T1 Item1;
   public: T2 Item2;
@@ -164,10 +207,16 @@ struct ValueTuple<T1, T2, T3, T4, T5, T6, T7> : public valueType<ValueTuple<T1, 
   public: ValueTuple(T1 item1, T2 item2, T3 item3, T4 item4, T5 item5, T6 item6, T7 item7);
   public: Boolean Equals(Object obj);
   public: Boolean Equals(ValueTuple<T1, T2, T3, T4, T5, T6, T7> other);
+  private: Boolean EqualsOfIStructuralEquatable(Object other, IEqualityComparer comparer);
+  private: Int32 CompareToOfIComparable(Object other);
   public: Int32 CompareTo(ValueTuple<T1, T2, T3, T4, T5, T6, T7> other);
+  private: Int32 CompareToOfIStructuralComparable(Object other, IComparer comparer);
   public: Int32 GetHashCode();
+  private: Int32 GetHashCodeOfIStructuralEquatable(IEqualityComparer comparer);
   private: Int32 GetHashCodeCore(IEqualityComparer comparer);
+  private: Int32 GetHashCodeOfIValueTupleInternal(IEqualityComparer comparer);
   public: String ToString();
+  private: String ToStringEndOfIValueTupleInternal();
   public: ValueTuple() {}
   public: T1 Item1;
   public: T2 Item2;
@@ -185,10 +234,16 @@ struct ValueTuple<T1, T2, T3, T4, T5, T6, T7, TRest> : public valueType<ValueTup
   public: ValueTuple(T1 item1, T2 item2, T3 item3, T4 item4, T5 item5, T6 item6, T7 item7, TRest rest);
   public: Boolean Equals(Object obj);
   public: Boolean Equals(ValueTuple<T1, T2, T3, T4, T5, T6, T7, TRest> other);
+  private: Boolean EqualsOfIStructuralEquatable(Object other, IEqualityComparer comparer);
+  private: Int32 CompareToOfIComparable(Object other);
   public: Int32 CompareTo(ValueTuple<T1, T2, T3, T4, T5, T6, T7, TRest> other);
+  private: Int32 CompareToOfIStructuralComparable(Object other, IComparer comparer);
   public: Int32 GetHashCode();
+  private: Int32 GetHashCodeOfIStructuralEquatable(IEqualityComparer comparer);
   private: Int32 GetHashCodeCore(IEqualityComparer comparer);
+  private: Int32 GetHashCodeOfIValueTupleInternal(IEqualityComparer comparer);
   public: String ToString();
+  private: String ToStringEndOfIValueTupleInternal();
   public: ValueTuple() {}
   public: T1 Item1;
   public: T2 Item2;

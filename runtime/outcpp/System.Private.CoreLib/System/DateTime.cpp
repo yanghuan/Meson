@@ -12,6 +12,7 @@
 #include <System.Private.CoreLib/System/Globalization/CultureInfo-dep.h>
 #include <System.Private.CoreLib/System/Globalization/DateTimeFormatInfo-dep.h>
 #include <System.Private.CoreLib/System/Globalization/DateTimeStyles.h>
+#include <System.Private.CoreLib/System/InvalidCastException-dep.h>
 #include <System.Private.CoreLib/System/Math-dep.h>
 #include <System.Private.CoreLib/System/OverflowException-dep.h>
 #include <System.Private.CoreLib/System/Runtime/Serialization/SerializationException-dep.h>
@@ -572,6 +573,14 @@ DateTime DateTime::FromOADate(Double d) {
   return DateTime(DoubleDateToTicks(d), DateTimeKind::Unspecified);
 }
 
+void DateTime::GetObjectDataOfISerializable(SerializationInfo info, StreamingContext context) {
+  if (info == nullptr) {
+    rt::throw_exception<ArgumentNullException>("info");
+  }
+  info->AddValue("ticks", get_InternalTicks());
+  info->AddValue("dateData", _dateData);
+}
+
 Boolean DateTime::IsDaylightSavingTime() {
   if (get_Kind() == DateTimeKind::Utc) {
     return false;
@@ -1015,6 +1024,66 @@ Array<String> DateTime::GetDateTimeFormats(Char format, IFormatProvider provider
 
 TypeCode DateTime::GetTypeCode() {
   return TypeCode::DateTime;
+}
+
+Boolean DateTime::ToBooleanOfIConvertible(IFormatProvider provider) {
+  rt::throw_exception<InvalidCastException>(SR::Format(SR::get_InvalidCast_FromTo(), "DateTime", "Boolean"));
+}
+
+Char DateTime::ToCharOfIConvertible(IFormatProvider provider) {
+  rt::throw_exception<InvalidCastException>(SR::Format(SR::get_InvalidCast_FromTo(), "DateTime", "Char"));
+}
+
+SByte DateTime::ToSByteOfIConvertible(IFormatProvider provider) {
+  rt::throw_exception<InvalidCastException>(SR::Format(SR::get_InvalidCast_FromTo(), "DateTime", "SByte"));
+}
+
+Byte DateTime::ToByteOfIConvertible(IFormatProvider provider) {
+  rt::throw_exception<InvalidCastException>(SR::Format(SR::get_InvalidCast_FromTo(), "DateTime", "Byte"));
+}
+
+Int16 DateTime::ToInt16OfIConvertible(IFormatProvider provider) {
+  rt::throw_exception<InvalidCastException>(SR::Format(SR::get_InvalidCast_FromTo(), "DateTime", "Int16"));
+}
+
+UInt16 DateTime::ToUInt16OfIConvertible(IFormatProvider provider) {
+  rt::throw_exception<InvalidCastException>(SR::Format(SR::get_InvalidCast_FromTo(), "DateTime", "UInt16"));
+}
+
+Int32 DateTime::ToInt32OfIConvertible(IFormatProvider provider) {
+  rt::throw_exception<InvalidCastException>(SR::Format(SR::get_InvalidCast_FromTo(), "DateTime", "Int32"));
+}
+
+UInt32 DateTime::ToUInt32OfIConvertible(IFormatProvider provider) {
+  rt::throw_exception<InvalidCastException>(SR::Format(SR::get_InvalidCast_FromTo(), "DateTime", "UInt32"));
+}
+
+Int64 DateTime::ToInt64OfIConvertible(IFormatProvider provider) {
+  rt::throw_exception<InvalidCastException>(SR::Format(SR::get_InvalidCast_FromTo(), "DateTime", "Int64"));
+}
+
+UInt64 DateTime::ToUInt64OfIConvertible(IFormatProvider provider) {
+  rt::throw_exception<InvalidCastException>(SR::Format(SR::get_InvalidCast_FromTo(), "DateTime", "UInt64"));
+}
+
+Single DateTime::ToSingleOfIConvertible(IFormatProvider provider) {
+  rt::throw_exception<InvalidCastException>(SR::Format(SR::get_InvalidCast_FromTo(), "DateTime", "Single"));
+}
+
+Double DateTime::ToDoubleOfIConvertible(IFormatProvider provider) {
+  rt::throw_exception<InvalidCastException>(SR::Format(SR::get_InvalidCast_FromTo(), "DateTime", "Double"));
+}
+
+Decimal DateTime::ToDecimalOfIConvertible(IFormatProvider provider) {
+  rt::throw_exception<InvalidCastException>(SR::Format(SR::get_InvalidCast_FromTo(), "DateTime", "Decimal"));
+}
+
+DateTime DateTime::ToDateTimeOfIConvertible(IFormatProvider provider) {
+  return *this;
+}
+
+Object DateTime::ToTypeOfIConvertible(Type type, IFormatProvider provider) {
+  return Convert::DefaultToType(*this, type, provider);
 }
 
 Boolean DateTime::TryCreate(Int32 year, Int32 month, Int32 day, Int32 hour, Int32 minute, Int32 second, Int32 millisecond, DateTime& result) {

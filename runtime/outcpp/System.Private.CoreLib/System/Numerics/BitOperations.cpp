@@ -199,4 +199,18 @@ UInt64 BitOperations::RotateRight(UInt64 value, Int32 offset) {
   return (value >> offset) | (value << 64 - offset);
 }
 
+Int32 BitOperations::_PopCount_g__SoftwareFallback9_0(UInt32 value) {
+  value -= ((value >> 1) & 1431655765);
+  value = (value & 858993459) + ((value >> 2) & 858993459);
+  value = ((value + (value >> 4)) & 252645135) * 16843009 >> 24;
+  return (Int32)value;
+}
+
+Int32 BitOperations::_PopCount_g__SoftwareFallback10_0(UInt64 value) {
+  value -= ((value >> 1) & 6148914691236517205);
+  value = (value & 3689348814741910323) + ((value >> 2) & 3689348814741910323);
+  value = ((value + (value >> 4)) & 1085102592571150095) * 72340172838076673 >> 56;
+  return (Int32)value;
+}
+
 } // namespace System::Private::CoreLib::System::Numerics::BitOperationsNamespace

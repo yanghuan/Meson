@@ -12,6 +12,7 @@
 #include <System.Private.CoreLib/System/Collections/Generic/IReadOnlyList.h>
 #include <System.Private.CoreLib/System/Collections/ICollection.h>
 #include <System.Private.CoreLib/System/Collections/IEnumerable.h>
+#include <System.Private.CoreLib/System/Collections/IEnumerator.h>
 #include <System.Private.CoreLib/System/Collections/IList.h>
 #include <System.Private.CoreLib/System/Int32-dep.h>
 #include <System.Private.CoreLib/System/Object-dep.h>

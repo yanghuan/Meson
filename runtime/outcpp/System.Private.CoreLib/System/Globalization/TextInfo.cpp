@@ -13,6 +13,7 @@
 #include <System.Private.CoreLib/System/IntPtr-dep.h>
 #include <System.Private.CoreLib/System/InvalidOperationException-dep.h>
 #include <System.Private.CoreLib/System/MemoryExtensions-dep.h>
+#include <System.Private.CoreLib/System/PlatformNotSupportedException-dep.h>
 #include <System.Private.CoreLib/System/Runtime/InteropServices/MemoryMarshal-dep.h>
 #include <System.Private.CoreLib/System/SR-dep.h>
 #include <System.Private.CoreLib/System/StringComparison.h>
@@ -91,6 +92,10 @@ void TextInfo___::ctor(CultureData cultureData) {
 
 void TextInfo___::ctor(CultureData cultureData, Boolean readOnly) {
   SetReadOnlyState(readOnly);
+}
+
+void TextInfo___::OnDeserializationOfIDeserializationCallback(Object sender) {
+  rt::throw_exception<PlatformNotSupportedException>();
 }
 
 Object TextInfo___::Clone() {

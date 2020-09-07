@@ -1,12 +1,9 @@
 #include "CalendarData-dep.h"
 
 #include <System.Private.CoreLib/Internal/Runtime/CompilerServices/Unsafe-dep.h>
-#include <System.Private.CoreLib/Interop-dep.h>
 #include <System.Private.CoreLib/System/Byte-dep.h>
-#include <System.Private.CoreLib/System/Char-dep.h>
 #include <System.Private.CoreLib/System/Exception-dep.h>
 #include <System.Private.CoreLib/System/Globalization/CalendarData-dep.h>
-#include <System.Private.CoreLib/System/Globalization/CalendarDataType.h>
 #include <System.Private.CoreLib/System/Globalization/CultureData-dep.h>
 #include <System.Private.CoreLib/System/Globalization/CultureInfo-dep.h>
 #include <System.Private.CoreLib/System/Globalization/GlobalizationMode-dep.h>
@@ -15,7 +12,6 @@
 #include <System.Private.CoreLib/System/Math-dep.h>
 #include <System.Private.CoreLib/System/MemoryExtensions-dep.h>
 #include <System.Private.CoreLib/System/ReadOnlySpan-dep.h>
-#include <System.Private.CoreLib/System/Span-dep.h>
 #include <System.Private.CoreLib/System/Text/StringBuilder-dep.h>
 #include <System.Private.CoreLib/System/Text/StringBuilderCache-dep.h>
 #include <System.Private.CoreLib/System/UInt16-dep.h>
@@ -23,6 +19,20 @@
 namespace System::Private::CoreLib::System::Globalization::CalendarDataNamespace {
 using namespace Internal::Runtime::CompilerServices;
 using namespace System::Text;
+
+void CalendarData___::__c___::cctor() {
+  <>9 = rt::newobj<__c>();
+}
+
+void CalendarData___::__c___::ctor() {
+}
+
+Interop::Globalization::ResultCode CalendarData___::__c___::_GetCalendarInfo_b__33_0(Span<Char> buffer, String locale, CalendarId id, CalendarDataType type) {
+  {
+    Char* result = buffer;
+    return Interop::Globalization::GetCalendarInfo(locale, id, type, result, buffer.get_Length());
+  }
+}
 
 void CalendarData___::ctor() {
   iTwoDigitYearMax = 2029;
@@ -314,6 +324,8 @@ Boolean CalendarData___::IcuSystemSupportsTaiwaneseCalendar() {
 }
 
 Boolean CalendarData___::GetCalendarInfo(String localeName, CalendarId calendarId, CalendarDataType dataType, String& calendarString) {
+  SpanFunc<Char, String, CalendarId, CalendarDataType, Interop::Globalization::ResultCode> as = __c::in::__9__33_0;
+  return Interop::CallStringMethod(as != nullptr ? as : (__c::in::__9__33_0 = &__c::in::__9->_GetCalendarInfo_b__33_0), localeName, calendarId, dataType, calendarString);
 }
 
 Boolean CalendarData___::EnumDatePatterns(String localeName, CalendarId calendarId, CalendarDataType dataType, Array<String>& datePatterns) {

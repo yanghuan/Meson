@@ -56,6 +56,7 @@ CLASS(List, T) : public object {
     public: void Dispose();
     public: Boolean MoveNext();
     private: Boolean MoveNextRare();
+    private: void ResetOfIEnumerator();
     public: explicit Enumerator() {}
     private: List<T> _list;
     private: Int32 _index;
@@ -80,6 +81,7 @@ CLASS(List, T) : public object {
   private: static Boolean IsCompatibleObject(Object value);
   public: void Add(T item);
   private: void AddWithResize(T item);
+  private: Int32 AddOfIList(Object item);
   public: void AddRange(IEnumerable<T> collection);
   public: ReadOnlyCollection<T> AsReadOnly();
   public: Int32 BinarySearch(Int32 index, Int32 count, T item, IComparer<T> comparer);
@@ -87,9 +89,11 @@ CLASS(List, T) : public object {
   public: Int32 BinarySearch(T item, IComparer<T> comparer);
   public: void Clear();
   public: Boolean Contains(T item);
+  private: Boolean ContainsOfIList(Object item);
   public: template <class TOutput>
   List<TOutput> ConvertAll(Converter<T, TOutput> converter);
   public: void CopyTo(Array<T> array);
+  private: void CopyToOfICollection(Array<> array, Int32 arrayIndex);
   public: void CopyTo(Int32 index, Array<T> array, Int32 arrayIndex, Int32 count);
   public: void CopyTo(Array<T> array, Int32 arrayIndex);
   private: void EnsureCapacity(Int32 min);
@@ -105,16 +109,21 @@ CLASS(List, T) : public object {
   public: Int32 FindLastIndex(Int32 startIndex, Int32 count, Predicate<T> match);
   public: void ForEach(Action<T> action);
   public: Enumerator GetEnumerator();
+  private: IEnumerator<T> GetEnumeratorOfIEnumerableT();
+  private: IEnumerator_ GetEnumeratorOfIEnumerable();
   public: List<T> GetRange(Int32 index, Int32 count);
   public: Int32 IndexOf(T item);
+  private: Int32 IndexOfOfIList(Object item);
   public: Int32 IndexOf(T item, Int32 index);
   public: Int32 IndexOf(T item, Int32 index, Int32 count);
   public: void Insert(Int32 index, T item);
+  private: void InsertOfIList(Int32 index, Object item);
   public: void InsertRange(Int32 index, IEnumerable<T> collection);
   public: Int32 LastIndexOf(T item);
   public: Int32 LastIndexOf(T item, Int32 index);
   public: Int32 LastIndexOf(T item, Int32 index, Int32 count);
   public: Boolean Remove(T item);
+  private: void RemoveOfIList(Object item);
   public: Int32 RemoveAll(Predicate<T> match);
   public: void RemoveAt(Int32 index);
   public: void RemoveRange(Int32 index, Int32 count);

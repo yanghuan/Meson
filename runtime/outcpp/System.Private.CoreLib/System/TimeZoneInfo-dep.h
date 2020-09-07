@@ -10,6 +10,7 @@
 #include <System.Private.CoreLib/System/Char-dep.h>
 #include <System.Private.CoreLib/System/Collections/Generic/Dictionary-dep.h>
 #include <System.Private.CoreLib/System/Collections/ObjectModel/ReadOnlyCollection-dep.h>
+#include <System.Private.CoreLib/System/Comparison-dep.h>
 #include <System.Private.CoreLib/System/DateTime-dep.h>
 #include <System.Private.CoreLib/System/DateTimeKind.h>
 #include <System.Private.CoreLib/System/DateTimeOffset-dep.h>

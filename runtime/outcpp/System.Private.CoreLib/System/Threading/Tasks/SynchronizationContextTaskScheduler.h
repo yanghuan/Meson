@@ -1,5 +1,6 @@
 #pragma once
 
+#include <System.Private.CoreLib/System/Object.h>
 #include <System.Private.CoreLib/System/Threading/Tasks/TaskScheduler.h>
 
 namespace System::Private::CoreLib::System {
@@ -18,6 +19,12 @@ FORWARD_(Task, T1, T2)
 namespace SynchronizationContextTaskSchedulerNamespace {
 using namespace System::Collections::Generic;
 CLASS(SynchronizationContextTaskScheduler) : public TaskScheduler::in {
+  private: CLASS(__c) : public object {
+    public: static void cctor();
+    public: void ctor();
+    public: void _cctor_b__8_0(Object s);
+    public: static __c __9;
+  };
   public: Int32 get_MaximumConcurrencyLevel();
   public: void ctor();
   public: void QueueTask(Task<> task);

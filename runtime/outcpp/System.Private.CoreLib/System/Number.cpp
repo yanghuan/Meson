@@ -4798,4 +4798,236 @@ void Number::cctor() {
   s_Pow10DoubleTable = rt::newarr<Array<Double>>(23);
 }
 
+String Number::_FormatInt32_g__FormatInt32Slow38_0(Int32 value, Int32 hexMask, String format, IFormatProvider provider) {
+  ReadOnlySpan<Char> format2 = format;
+  Int32 digits;
+  Char c = ParseFormatSpecifier(format2, digits);
+  Char c2 = (Char)(c & 65503);
+  if ((c2 == 71) ? (Boolean)(digits < 1) : (Boolean)(c2 == 68)) {
+    if (value < 0) {
+      return NegativeInt32ToDecStr(value, digits, NumberFormatInfo::in::GetInstance(provider)->get_NegativeSign());
+    }
+    return UInt32ToDecStr((UInt32)value, digits);
+  }
+  if (c2 == 88) {
+    return Int32ToHexStr(value & hexMask, GetHexBase(c), digits);
+  }
+  NumberFormatInfo instance = NumberFormatInfo::in::GetInstance(provider);
+  Byte as[11] = {};
+  Byte* digits2 = as;
+  NumberBuffer number = NumberBuffer(NumberBufferKind::Integer, digits2, 11);
+  Int32ToNumber(value, number);
+  Char is[32] = {};
+  Char* pointer = is;
+  ValueStringBuilder sb = ValueStringBuilder(Span<Char>(pointer, 32));
+  if (c != 0) {
+    NumberToString(sb, number, c, digits, instance);
+  } else {
+    NumberToStringFormat(sb, number, format2, instance);
+  }
+  return sb.ToString();
+}
+
+Boolean Number::_TryFormatInt32_g__TryFormatInt32Slow39_0(Int32 value, Int32 hexMask, ReadOnlySpan<Char> format, IFormatProvider provider, Span<Char> destination, Int32& charsWritten) {
+  Int32 digits;
+  Char c = ParseFormatSpecifier(format, digits);
+  Char c2 = (Char)(c & 65503);
+  if ((c2 == 71) ? (Boolean)(digits < 1) : (Boolean)(c2 == 68)) {
+    if (value < 0) {
+      return TryNegativeInt32ToDecStr(value, digits, NumberFormatInfo::in::GetInstance(provider)->get_NegativeSign(), destination, charsWritten);
+    }
+    return TryUInt32ToDecStr((UInt32)value, digits, destination, charsWritten);
+  }
+  if (c2 == 88) {
+    return TryInt32ToHexStr(value & hexMask, GetHexBase(c), digits, destination, charsWritten);
+  }
+  NumberFormatInfo instance = NumberFormatInfo::in::GetInstance(provider);
+  Byte as[11] = {};
+  Byte* digits2 = as;
+  NumberBuffer number = NumberBuffer(NumberBufferKind::Integer, digits2, 11);
+  Int32ToNumber(value, number);
+  Char is[32] = {};
+  Char* pointer = is;
+  ValueStringBuilder sb = ValueStringBuilder(Span<Char>(pointer, 32));
+  if (c != 0) {
+    NumberToString(sb, number, c, digits, instance);
+  } else {
+    NumberToStringFormat(sb, number, format, instance);
+  }
+  return sb.TryCopyTo(destination, charsWritten);
+}
+
+String Number::_FormatUInt32_g__FormatUInt32Slow40_0(UInt32 value, String format, IFormatProvider provider) {
+  ReadOnlySpan<Char> format2 = format;
+  Int32 digits;
+  Char c = ParseFormatSpecifier(format2, digits);
+  Char c2 = (Char)(c & 65503);
+  if ((c2 == 71) ? (Boolean)(digits < 1) : (Boolean)(c2 == 68)) {
+    return UInt32ToDecStr(value, digits);
+  }
+  if (c2 == 88) {
+    return Int32ToHexStr((Int32)value, GetHexBase(c), digits);
+  }
+  NumberFormatInfo instance = NumberFormatInfo::in::GetInstance(provider);
+  Byte as[11] = {};
+  Byte* digits2 = as;
+  NumberBuffer number = NumberBuffer(NumberBufferKind::Integer, digits2, 11);
+  UInt32ToNumber(value, number);
+  Char is[32] = {};
+  Char* pointer = is;
+  ValueStringBuilder sb = ValueStringBuilder(Span<Char>(pointer, 32));
+  if (c != 0) {
+    NumberToString(sb, number, c, digits, instance);
+  } else {
+    NumberToStringFormat(sb, number, format2, instance);
+  }
+  return sb.ToString();
+}
+
+Boolean Number::_TryFormatUInt32_g__TryFormatUInt32Slow41_0(UInt32 value, ReadOnlySpan<Char> format, IFormatProvider provider, Span<Char> destination, Int32& charsWritten) {
+  Int32 digits;
+  Char c = ParseFormatSpecifier(format, digits);
+  Char c2 = (Char)(c & 65503);
+  if ((c2 == 71) ? (Boolean)(digits < 1) : (Boolean)(c2 == 68)) {
+    return TryUInt32ToDecStr(value, digits, destination, charsWritten);
+  }
+  if (c2 == 88) {
+    return TryInt32ToHexStr((Int32)value, GetHexBase(c), digits, destination, charsWritten);
+  }
+  NumberFormatInfo instance = NumberFormatInfo::in::GetInstance(provider);
+  Byte as[11] = {};
+  Byte* digits2 = as;
+  NumberBuffer number = NumberBuffer(NumberBufferKind::Integer, digits2, 11);
+  UInt32ToNumber(value, number);
+  Char is[32] = {};
+  Char* pointer = is;
+  ValueStringBuilder sb = ValueStringBuilder(Span<Char>(pointer, 32));
+  if (c != 0) {
+    NumberToString(sb, number, c, digits, instance);
+  } else {
+    NumberToStringFormat(sb, number, format, instance);
+  }
+  return sb.TryCopyTo(destination, charsWritten);
+}
+
+String Number::_FormatInt64_g__FormatInt64Slow42_0(Int64 value, String format, IFormatProvider provider) {
+  ReadOnlySpan<Char> format2 = format;
+  Int32 digits;
+  Char c = ParseFormatSpecifier(format2, digits);
+  Char c2 = (Char)(c & 65503);
+  if ((c2 == 71) ? (Boolean)(digits < 1) : (Boolean)(c2 == 68)) {
+    if (value < 0) {
+      return NegativeInt64ToDecStr(value, digits, NumberFormatInfo::in::GetInstance(provider)->get_NegativeSign());
+    }
+    return UInt64ToDecStr((UInt64)value, digits);
+  }
+  if (c2 == 88) {
+    return Int64ToHexStr(value, GetHexBase(c), digits);
+  }
+  NumberFormatInfo instance = NumberFormatInfo::in::GetInstance(provider);
+  Byte as[20] = {};
+  Byte* digits2 = as;
+  NumberBuffer number = NumberBuffer(NumberBufferKind::Integer, digits2, 20);
+  Int64ToNumber(value, number);
+  Char is[32] = {};
+  Char* pointer = is;
+  ValueStringBuilder sb = ValueStringBuilder(Span<Char>(pointer, 32));
+  if (c != 0) {
+    NumberToString(sb, number, c, digits, instance);
+  } else {
+    NumberToStringFormat(sb, number, format2, instance);
+  }
+  return sb.ToString();
+}
+
+Boolean Number::_TryFormatInt64_g__TryFormatInt64Slow43_0(Int64 value, ReadOnlySpan<Char> format, IFormatProvider provider, Span<Char> destination, Int32& charsWritten) {
+  Int32 digits;
+  Char c = ParseFormatSpecifier(format, digits);
+  Char c2 = (Char)(c & 65503);
+  if ((c2 == 71) ? (Boolean)(digits < 1) : (Boolean)(c2 == 68)) {
+    if (value < 0) {
+      return TryNegativeInt64ToDecStr(value, digits, NumberFormatInfo::in::GetInstance(provider)->get_NegativeSign(), destination, charsWritten);
+    }
+    return TryUInt64ToDecStr((UInt64)value, digits, destination, charsWritten);
+  }
+  if (c2 == 88) {
+    return TryInt64ToHexStr(value, GetHexBase(c), digits, destination, charsWritten);
+  }
+  NumberFormatInfo instance = NumberFormatInfo::in::GetInstance(provider);
+  Byte as[20] = {};
+  Byte* digits2 = as;
+  NumberBuffer number = NumberBuffer(NumberBufferKind::Integer, digits2, 20);
+  Int64ToNumber(value, number);
+  Char is[32] = {};
+  Char* pointer = is;
+  ValueStringBuilder sb = ValueStringBuilder(Span<Char>(pointer, 32));
+  if (c != 0) {
+    NumberToString(sb, number, c, digits, instance);
+  } else {
+    NumberToStringFormat(sb, number, format, instance);
+  }
+  return sb.TryCopyTo(destination, charsWritten);
+}
+
+String Number::_FormatUInt64_g__FormatUInt64Slow44_0(UInt64 value, String format, IFormatProvider provider) {
+  ReadOnlySpan<Char> format2 = format;
+  Int32 digits;
+  Char c = ParseFormatSpecifier(format2, digits);
+  Char c2 = (Char)(c & 65503);
+  if ((c2 == 71) ? (Boolean)(digits < 1) : (Boolean)(c2 == 68)) {
+    return UInt64ToDecStr(value, digits);
+  }
+  if (c2 == 88) {
+    return Int64ToHexStr((Int64)value, GetHexBase(c), digits);
+  }
+  NumberFormatInfo instance = NumberFormatInfo::in::GetInstance(provider);
+  Byte as[21] = {};
+  Byte* digits2 = as;
+  NumberBuffer number = NumberBuffer(NumberBufferKind::Integer, digits2, 21);
+  UInt64ToNumber(value, number);
+  Char is[32] = {};
+  Char* pointer = is;
+  ValueStringBuilder sb = ValueStringBuilder(Span<Char>(pointer, 32));
+  if (c != 0) {
+    NumberToString(sb, number, c, digits, instance);
+  } else {
+    NumberToStringFormat(sb, number, format2, instance);
+  }
+  return sb.ToString();
+}
+
+Boolean Number::_TryFormatUInt64_g__TryFormatUInt64Slow45_0(UInt64 value, ReadOnlySpan<Char> format, IFormatProvider provider, Span<Char> destination, Int32& charsWritten) {
+  Int32 digits;
+  Char c = ParseFormatSpecifier(format, digits);
+  Char c2 = (Char)(c & 65503);
+  if ((c2 == 71) ? (Boolean)(digits < 1) : (Boolean)(c2 == 68)) {
+    return TryUInt64ToDecStr(value, digits, destination, charsWritten);
+  }
+  if (c2 == 88) {
+    return TryInt64ToHexStr((Int64)value, GetHexBase(c), digits, destination, charsWritten);
+  }
+  NumberFormatInfo instance = NumberFormatInfo::in::GetInstance(provider);
+  Byte as[21] = {};
+  Byte* digits2 = as;
+  NumberBuffer number = NumberBuffer(NumberBufferKind::Integer, digits2, 21);
+  UInt64ToNumber(value, number);
+  Char is[32] = {};
+  Char* pointer = is;
+  ValueStringBuilder sb = ValueStringBuilder(Span<Char>(pointer, 32));
+  if (c != 0) {
+    NumberToString(sb, number, c, digits, instance);
+  } else {
+    NumberToStringFormat(sb, number, format, instance);
+  }
+  return sb.TryCopyTo(destination, charsWritten);
+}
+
+Boolean Number::_RoundNumber_g__ShouldRoundUp78_0(Byte* dig, Int32 i, NumberBufferKind numberKind, Boolean isCorrectlyRounded) {
+  Byte b = *(dig + i);
+  if (b == 0 || isCorrectlyRounded) {
+    return false;
+  }
+  return b >= 53;
+}
+
 } // namespace System::Private::CoreLib::System::NumberNamespace

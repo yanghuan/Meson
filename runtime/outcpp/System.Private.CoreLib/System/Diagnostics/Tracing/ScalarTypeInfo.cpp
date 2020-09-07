@@ -19,6 +19,17 @@
 #include <System.Private.CoreLib/System/UIntPtr-dep.h>
 
 namespace System::Private::CoreLib::System::Diagnostics::Tracing::ScalarTypeInfoNamespace {
+void ScalarTypeInfo___::__c___::cctor() {
+  <>9 = rt::newobj<__c>();
+}
+
+void ScalarTypeInfo___::__c___::ctor() {
+}
+
+TraceLoggingDataType ScalarTypeInfo___::__c___::_Guid_b__19_0(EventFieldFormat f, TraceLoggingDataType t) {
+  return Statics::MakeDataType(TraceLoggingDataType::Guid, f);
+}
+
 void ScalarTypeInfo___::ctor(Type type, Func<EventFieldFormat, TraceLoggingDataType, TraceLoggingDataType> formatFunc, TraceLoggingDataType nativeFormat) {
   this->formatFunc = formatFunc;
   this->nativeFormat = nativeFormat;
@@ -89,6 +100,8 @@ TraceLoggingTypeInfo ScalarTypeInfo___::Double() {
 }
 
 TraceLoggingTypeInfo ScalarTypeInfo___::Guid() {
+  Func<EventFieldFormat, TraceLoggingDataType, TraceLoggingDataType> as = __c::in::__9__19_0;
+  return rt::newobj<ScalarTypeInfo>(typeof<Guid>(), as != nullptr ? as : (__c::in::__9__19_0 = &__c::in::__9->_Guid_b__19_0), TraceLoggingDataType::Guid);
 }
 
 } // namespace System::Private::CoreLib::System::Diagnostics::Tracing::ScalarTypeInfoNamespace

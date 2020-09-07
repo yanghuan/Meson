@@ -1,9 +1,11 @@
 #include "UInt32-dep.h"
 
 #include <System.Private.CoreLib/System/ArgumentException-dep.h>
+#include <System.Private.CoreLib/System/Convert-dep.h>
 #include <System.Private.CoreLib/System/ExceptionArgument.h>
 #include <System.Private.CoreLib/System/Globalization/NumberFormatInfo-dep.h>
 #include <System.Private.CoreLib/System/Globalization/NumberStyles.h>
+#include <System.Private.CoreLib/System/InvalidCastException-dep.h>
 #include <System.Private.CoreLib/System/Number-dep.h>
 #include <System.Private.CoreLib/System/SR-dep.h>
 #include <System.Private.CoreLib/System/ThrowHelper-dep.h>
@@ -138,6 +140,66 @@ Boolean UInt32::TryParse(ReadOnlySpan<Char> s, NumberStyles style, IFormatProvid
 
 TypeCode UInt32::GetTypeCode() {
   return TypeCode::UInt32;
+}
+
+Boolean UInt32::ToBooleanOfIConvertible(IFormatProvider provider) {
+  return Convert::ToBoolean(*this);
+}
+
+Char UInt32::ToCharOfIConvertible(IFormatProvider provider) {
+  return Convert::ToChar(*this);
+}
+
+SByte UInt32::ToSByteOfIConvertible(IFormatProvider provider) {
+  return Convert::ToSByte(*this);
+}
+
+Byte UInt32::ToByteOfIConvertible(IFormatProvider provider) {
+  return Convert::ToByte(*this);
+}
+
+Int16 UInt32::ToInt16OfIConvertible(IFormatProvider provider) {
+  return Convert::ToInt16(*this);
+}
+
+UInt16 UInt32::ToUInt16OfIConvertible(IFormatProvider provider) {
+  return Convert::ToUInt16(*this);
+}
+
+Int32 UInt32::ToInt32OfIConvertible(IFormatProvider provider) {
+  return Convert::ToInt32(*this);
+}
+
+UInt32 UInt32::ToUInt32OfIConvertible(IFormatProvider provider) {
+  return *this;
+}
+
+Int64 UInt32::ToInt64OfIConvertible(IFormatProvider provider) {
+  return Convert::ToInt64(*this);
+}
+
+UInt64 UInt32::ToUInt64OfIConvertible(IFormatProvider provider) {
+  return Convert::ToUInt64(*this);
+}
+
+Single UInt32::ToSingleOfIConvertible(IFormatProvider provider) {
+  return Convert::ToSingle(*this);
+}
+
+Double UInt32::ToDoubleOfIConvertible(IFormatProvider provider) {
+  return Convert::ToDouble(*this);
+}
+
+Decimal UInt32::ToDecimalOfIConvertible(IFormatProvider provider) {
+  return Convert::ToDecimal(*this);
+}
+
+DateTime UInt32::ToDateTimeOfIConvertible(IFormatProvider provider) {
+  rt::throw_exception<InvalidCastException>(SR::Format(SR::get_InvalidCast_FromTo(), "UInt32", "DateTime"));
+}
+
+Object UInt32::ToTypeOfIConvertible(Type type, IFormatProvider provider) {
+  return Convert::DefaultToType(*this, type, provider);
 }
 
 } // namespace System::Private::CoreLib::System::UInt32Namespace

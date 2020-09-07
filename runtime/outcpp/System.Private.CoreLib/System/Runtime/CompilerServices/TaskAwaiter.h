@@ -1,5 +1,6 @@
 #pragma once
 
+#include <System.Private.CoreLib/System/Object.h>
 #include <System.Private.CoreLib/System/ValueType.h>
 
 namespace System::Private::CoreLib::System {
@@ -22,6 +23,13 @@ struct TaskAwaiter {
 template <>
 struct TaskAwaiter<> : public valueType<TaskAwaiter<>> {
   public: using interface = rt::TypeList<ICriticalNotifyCompletion, INotifyCompletion, ITaskAwaiter>;
+  private: CLASS(__c) : public object {
+    public: static void cctor();
+    public: void ctor();
+    public: void _OutputWaitEtwEvents_b__12_0(Action<> innerContinuation, Task<> innerTask);
+    public: static __c __9;
+    public: static Action<Action<>, Task<>> __9__12_0;
+  };
   public: Boolean get_IsCompleted();
   public: explicit TaskAwaiter(Task<> task);
   public: void OnCompleted(Action<> continuation);

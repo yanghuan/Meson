@@ -2,6 +2,7 @@
 
 #include "Stream.h"
 
+#include <System.Private.CoreLib/System/Action-dep.h>
 #include <System.Private.CoreLib/System/Array-dep.h>
 #include <System.Private.CoreLib/System/AsyncCallback-dep.h>
 #include <System.Private.CoreLib/System/Boolean-dep.h>
@@ -19,6 +20,11 @@
 #include <System.Private.CoreLib/System/Object-dep.h>
 #include <System.Private.CoreLib/System/ReadOnlyMemory-dep.h>
 #include <System.Private.CoreLib/System/ReadOnlySpan-dep.h>
+#include <System.Private.CoreLib/System/Runtime/CompilerServices/AsyncTaskMethodBuilder-dep.h>
+#include <System.Private.CoreLib/System/Runtime/CompilerServices/AsyncValueTaskMethodBuilder-dep.h>
+#include <System.Private.CoreLib/System/Runtime/CompilerServices/ConfiguredTaskAwaitable-dep.h>
+#include <System.Private.CoreLib/System/Runtime/CompilerServices/ConfiguredValueTaskAwaitable-dep.h>
+#include <System.Private.CoreLib/System/Runtime/CompilerServices/IAsyncStateMachine.h>
 #include <System.Private.CoreLib/System/Runtime/ExceptionServices/ExceptionDispatchInfo-dep.h>
 #include <System.Private.CoreLib/System/Span-dep.h>
 #include <System.Private.CoreLib/System/Threading/CancellationToken-dep.h>
@@ -29,5 +35,6 @@
 #include <System.Private.CoreLib/System/Threading/Tasks/ITaskCompletionAction.h>
 #include <System.Private.CoreLib/System/Threading/Tasks/Task-dep.h>
 #include <System.Private.CoreLib/System/Threading/Tasks/ValueTask-dep.h>
+#include <System.Private.CoreLib/System/Threading/Tasks/VoidTaskResult-dep.h>
 #include <System.Private.CoreLib/System/Threading/WaitHandle-dep.h>
 #include <System.Private.CoreLib/System/ValueType-dep.h>

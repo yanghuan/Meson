@@ -11,12 +11,17 @@
 #include <System.Private.CoreLib/System/IO/Stream-dep.h>
 #include <System.Private.CoreLib/System/IO/StreamHelpers-dep.h>
 #include <System.Private.CoreLib/System/Math-dep.h>
-#include <System.Private.CoreLib/System/Runtime/CompilerServices/AsyncTaskMethodBuilder-dep.h>
-#include <System.Private.CoreLib/System/Runtime/CompilerServices/AsyncValueTaskMethodBuilder-dep.h>
+#include <System.Private.CoreLib/System/Runtime/CompilerServices/ConfiguredTaskAwaitable-dep.h>
+#include <System.Private.CoreLib/System/Runtime/CompilerServices/ConfiguredValueTaskAwaitable-dep.h>
 #include <System.Private.CoreLib/System/Runtime/ExceptionServices/ExceptionDispatchInfo-dep.h>
 #include <System.Private.CoreLib/System/Runtime/InteropServices/MemoryMarshal-dep.h>
 #include <System.Private.CoreLib/System/SR-dep.h>
+#include <System.Private.CoreLib/System/Threading/ContextCallback-dep.h>
 #include <System.Private.CoreLib/System/Threading/ExecutionContext-dep.h>
+#include <System.Private.CoreLib/System/Threading/LazyInitializer-dep.h>
+#include <System.Private.CoreLib/System/Threading/Tasks/TaskContinuationOptions.h>
+#include <System.Private.CoreLib/System/Threading/Tasks/TaskCreationOptions.h>
+#include <System.Private.CoreLib/System/Threading/Tasks/TaskFactory-dep.h>
 #include <System.Private.CoreLib/System/Threading/Tasks/TaskScheduler-dep.h>
 #include <System.Private.CoreLib/System/UInt32-dep.h>
 
@@ -56,6 +61,20 @@ void Stream___::ReadWriteTask___::InvokeAsyncCallback(Object completedTask) {
   AsyncCallback callback = readWriteTask->_callback;
   readWriteTask->_callback = nullptr;
   callback(readWriteTask);
+}
+
+void Stream___::ReadWriteTask___::InvokeOfITaskCompletionAction(Task<> completingTask) {
+  ExecutionContext context = _context;
+  if (context == nullptr) {
+    AsyncCallback callback = _callback;
+    _callback = nullptr;
+    callback(completingTask);
+  } else {
+    _context = nullptr;
+    ContextCallback as = s_invokeAsyncCallback;
+    ContextCallback callback2 = as != nullptr ? as : (s_invokeAsyncCallback = &InvokeAsyncCallback);
+    ExecutionContext::in::RunInternal(context, callback2, (ReadWriteTask)this);
+  }
 }
 
 Boolean NullStream___::get_CanRead() {
@@ -193,11 +212,24 @@ void NullStream___::cctor() {
   s_zeroTask = Task<>::in::FromResult(0);
 }
 
+void Stream___::SynchronousAsyncResult___::__c___::cctor() {
+  <>9 = rt::newobj<__c>();
+}
+
+void Stream___::SynchronousAsyncResult___::__c___::ctor() {
+}
+
+ManualResetEvent Stream___::SynchronousAsyncResult___::__c___::_get_AsyncWaitHandle_b__12_0() {
+  return rt::newobj<ManualResetEvent>(true);
+}
+
 Boolean Stream___::SynchronousAsyncResult___::get_IsCompleted() {
   return true;
 }
 
 WaitHandle Stream___::SynchronousAsyncResult___::get_AsyncWaitHandle() {
+  Func<ManualResetEvent> as = __c::in::__9__12_0;
+  return LazyInitializer::EnsureInitialized(_waitHandle, as != nullptr ? as : (__c::in::__9__12_0 = &__c::in::__9->_get_AsyncWaitHandle_b__12_0));
 }
 
 Object Stream___::SynchronousAsyncResult___::get_AsyncState() {
@@ -447,6 +479,224 @@ void SyncStream___::EndWrite(IAsyncResult asyncResult) {
   }
 }
 
+void Stream___::__c___::cctor() {
+  <>9 = rt::newobj<__c>();
+}
+
+void Stream___::__c___::ctor() {
+}
+
+SemaphoreSlim Stream___::__c___::_EnsureAsyncActiveSemaphoreInitialized_b__5_0() {
+  return rt::newobj<SemaphoreSlim>(1, 1);
+}
+
+void Stream___::__c___::_FlushAsync_b__39_0(Object state) {
+  ((Stream)state)->Flush();
+}
+
+Int32 Stream___::__c___::_BeginReadInternal_b__42_0(Object _p0_) {
+  ReadWriteTask readWriteTask = rt::as<ReadWriteTask>(Task<>::in::get_InternalCurrent());
+  try {
+    return readWriteTask->_stream->Read(readWriteTask->_buffer, readWriteTask->_offset, readWriteTask->_count);
+  } catch (...) {
+  } finally: {
+    if (!readWriteTask->_apm) {
+      readWriteTask->_stream->FinishTrackingAsyncOperation(readWriteTask);
+    }
+    readWriteTask->ClearBeginState();
+  }
+}
+
+IAsyncResult Stream___::__c___::_BeginEndReadAsync_b__47_0(Stream stream, ReadWriteParameters args, AsyncCallback callback, Object state) {
+  return stream->BeginRead(args.Buffer, args.Offset, args.Count, callback, state);
+}
+
+Int32 Stream___::__c___::_BeginEndReadAsync_b__47_1(Stream stream, IAsyncResult asyncResult) {
+  return stream->EndRead(asyncResult);
+}
+
+Int32 Stream___::__c___::_BeginWriteInternal_b__50_0(Object _p0_) {
+  ReadWriteTask readWriteTask = rt::as<ReadWriteTask>(Task<>::in::get_InternalCurrent());
+  try {
+    readWriteTask->_stream->Write(readWriteTask->_buffer, readWriteTask->_offset, readWriteTask->_count);
+    return 0;
+  } catch (...) {
+  } finally: {
+    if (!readWriteTask->_apm) {
+      readWriteTask->_stream->FinishTrackingAsyncOperation(readWriteTask);
+    }
+    readWriteTask->ClearBeginState();
+  }
+}
+
+void Stream___::__c___::_RunReadWriteTaskWhenReady_b__51_0(Task<> t, Object state) {
+  ReadWriteTask readWriteTask = (ReadWriteTask)state;
+  readWriteTask->_stream->RunReadWriteTask(readWriteTask);
+}
+
+IAsyncResult Stream___::__c___::_BeginEndWriteAsync_b__60_0(Stream stream, ReadWriteParameters args, AsyncCallback callback, Object state) {
+  return stream->BeginWrite(args.Buffer, args.Offset, args.Count, callback, state);
+}
+
+VoidTaskResult Stream___::__c___::_BeginEndWriteAsync_b__60_1(Stream stream, IAsyncResult asyncResult) {
+  stream->EndWrite(asyncResult);
+  return rt::default__;
+}
+
+void Stream___::_CopyToAsyncInternal_d__29::MoveNext() {
+  Int32 num = <>1__state;
+  Stream stream = <>4__this;
+  try {
+    if ((UInt32)num > 1u) {
+      <buffer>5__2 = ArrayPool<Byte>::in::get_Shared()->Rent(bufferSize);
+    }
+    try {
+      ConfiguredValueTaskAwaitable<>::ConfiguredValueTaskAwaiter awaiter;
+      if (num != 0) {
+        if (num != 1) {
+          goto IL_0033;
+        }
+        awaiter = <>u__2;
+        <>u__2 = rt::default__;
+        num = (<>1__state = -1);
+        goto IL_0133;
+      }
+      ConfiguredValueTaskAwaitable<TResult>::ConfiguredValueTaskAwaiter awaiter2 = <>u__1;
+      <>u__1 = rt::default__;
+      num = (<>1__state = -1);
+      goto IL_00a9;
+
+    IL_00a9:
+      Int32 result = awaiter2.GetResult();
+      Int32 num2 = result;
+      if (num2 != 0) {
+        awaiter = destination->WriteAsync(ReadOnlyMemory<Byte>(<buffer>5__2, 0, num2), cancellationToken).ConfigureAwait(false).GetAwaiter();
+        if (!awaiter.get_IsCompleted()) {
+          num = (<>1__state = 1);
+          <>u__2 = awaiter;
+          <>t__builder.AwaitUnsafeOnCompleted(awaiter, *this);
+          return;
+        }
+        goto IL_0133;
+      }
+      goto end_IL_0029;
+
+    IL_0033:
+      awaiter2 = stream->ReadAsync(Memory<Byte>(<buffer>5__2), cancellationToken).ConfigureAwait(false).GetAwaiter();
+      if (!awaiter2.get_IsCompleted()) {
+        num = (<>1__state = 0);
+        <>u__1 = awaiter2;
+        <>t__builder.AwaitUnsafeOnCompleted(awaiter2, *this);
+        return;
+      }
+      goto IL_00a9;
+
+    IL_0133:
+      awaiter.GetResult();
+      goto IL_0033;
+
+    end_IL_0029:
+    } catch (...) {
+    } finally: {
+      if (num < 0) {
+        ArrayPool<Byte>::in::get_Shared()->Return(<buffer>5__2);
+      }
+    }
+  } catch (Exception exception) {
+    <>1__state = -2;
+    <buffer>5__2 = nullptr;
+    <>t__builder.SetException(exception);
+    return;
+  }
+  <>1__state = -2;
+  <buffer>5__2 = nullptr;
+  <>t__builder.SetResult();
+}
+
+void Stream___::_CopyToAsyncInternal_d__29::SetStateMachine(IAsyncStateMachine stateMachine) {
+  <>t__builder.SetStateMachine(stateMachine);
+}
+
+void Stream___::_FinishWriteAsync_d__59::MoveNext() {
+  Int32 num = <>1__state;
+  try {
+    try {
+      ConfiguredTaskAwaitable<>::ConfiguredTaskAwaiter awaiter;
+      if (num != 0) {
+        awaiter = writeTask->ConfigureAwait(false).GetAwaiter();
+        if (!awaiter.get_IsCompleted()) {
+          num = (<>1__state = 0);
+          <>u__1 = awaiter;
+          <>t__builder.AwaitUnsafeOnCompleted(awaiter, *this);
+          return;
+        }
+      } else {
+        awaiter = <>u__1;
+        <>u__1 = rt::default__;
+        num = (<>1__state = -1);
+      }
+      awaiter.GetResult();
+    } catch (...) {
+    } finally: {
+      if (num < 0) {
+        ArrayPool<Byte>::in::get_Shared()->Return(localBuffer);
+      }
+    }
+  } catch (Exception exception) {
+    <>1__state = -2;
+    <>t__builder.SetException(exception);
+    return;
+  }
+  <>1__state = -2;
+  <>t__builder.SetResult();
+}
+
+void Stream___::_FinishWriteAsync_d__59::SetStateMachine(IAsyncStateMachine stateMachine) {
+  <>t__builder.SetStateMachine(stateMachine);
+}
+
+void Stream___::__ReadAsync_g__FinishReadAsync46_0_d::MoveNext() {
+  Int32 num = <>1__state;
+  Int32 result2;
+  try {
+    try {
+      ConfiguredTaskAwaitable<TResult>::ConfiguredTaskAwaiter awaiter;
+      if (num != 0) {
+        awaiter = readTask->ConfigureAwait(false).GetAwaiter();
+        if (!awaiter.get_IsCompleted()) {
+          num = (<>1__state = 0);
+          <>u__1 = awaiter;
+          <>t__builder.AwaitUnsafeOnCompleted(awaiter, *this);
+          return;
+        }
+      } else {
+        awaiter = <>u__1;
+        <>u__1 = rt::default__;
+        num = (<>1__state = -1);
+      }
+      Int32 result = awaiter.GetResult();
+      Int32 num2 = result;
+      Span<Byte>(localBuffer, 0, num2).CopyTo(localDestination.get_Span());
+      result2 = num2;
+    } catch (...) {
+    } finally: {
+      if (num < 0) {
+        ArrayPool<Byte>::in::get_Shared()->Return(localBuffer);
+      }
+    }
+  } catch (Exception exception) {
+    <>1__state = -2;
+    <>t__builder.SetException(exception);
+    return;
+  }
+  <>1__state = -2;
+  <>t__builder.SetResult(result2);
+}
+
+void Stream___::__ReadAsync_g__FinishReadAsync46_0_d::SetStateMachine(IAsyncStateMachine stateMachine) {
+  <>t__builder.SetStateMachine(stateMachine);
+}
+
 Boolean Stream___::get_CanTimeout() {
   return false;
 }
@@ -468,6 +718,8 @@ void Stream___::set_WriteTimeout(Int32 value) {
 }
 
 SemaphoreSlim Stream___::EnsureAsyncActiveSemaphoreInitialized() {
+  Func<SemaphoreSlim> as = __c::in::__9__5_0;
+  return LazyInitializer::EnsureInitialized(_asyncActiveSemaphore, as != nullptr ? as : (__c::in::__9__5_0 = &__c::in::__9->_EnsureAsyncActiveSemaphoreInitialized_b__5_0));
 }
 
 Task<> Stream___::CopyToAsync(Stream destination) {
@@ -490,15 +742,15 @@ Task<> Stream___::CopyToAsync(Stream destination, Int32 bufferSize, Cancellation
 }
 
 Task<> Stream___::CopyToAsyncInternal(Stream destination, Int32 bufferSize, CancellationToken cancellationToken) {
-  一CopyToAsyncInternal一d__29 stateMachine;
-  stateMachine.一一t__builder = AsyncTaskMethodBuilder<>::Create();
-  stateMachine.一一4__this = (Stream)this;
+  _CopyToAsyncInternal_d__29 stateMachine;
+  stateMachine.__t__builder = AsyncTaskMethodBuilder<>::Create();
+  stateMachine.__4__this = (Stream)this;
   stateMachine.destination = destination;
   stateMachine.bufferSize = bufferSize;
   stateMachine.cancellationToken = cancellationToken;
-  stateMachine.一一1__state = -1;
-  stateMachine.一一t__builder.Start(stateMachine);
-  return stateMachine.一一t__builder.get_Task();
+  stateMachine.__1__state = -1;
+  stateMachine.__t__builder.Start(stateMachine);
+  return stateMachine.__t__builder.get_Task();
 }
 
 void Stream___::CopyTo(Stream destination) {
@@ -563,6 +815,8 @@ Task<> Stream___::FlushAsync() {
 }
 
 Task<> Stream___::FlushAsync(CancellationToken cancellationToken) {
+  Action<Object> as = __c::in::__9__39_0;
+  return Task<>::in::get_Factory()->StartNew(as != nullptr ? as : (__c::in::__9__39_0 = &__c::in::__9->_FlushAsync_b__39_0), (Stream)this, cancellationToken, TaskCreationOptions::DenyChildAttach, TaskScheduler::in::get_Default());
 }
 
 WaitHandle Stream___::CreateWaitHandle() {
@@ -584,6 +838,14 @@ IAsyncResult Stream___::BeginReadInternal(Array<Byte> buffer, Int32 offset, Int3
   } else {
     semaphoreSlim->Wait();
   }
+  Func<Object, Int32> as = __c::in::__9__42_0;
+  ReadWriteTask readWriteTask = rt::newobj<ReadWriteTask>(true, apm, as != nullptr ? as : (__c::in::__9__42_0 = &__c::in::__9->_BeginReadInternal_b__42_0), state, (Stream)this, buffer, offset, count, callback);
+  if (task != nullptr) {
+    RunReadWriteTaskWhenReady(task, readWriteTask);
+  } else {
+    RunReadWriteTask(readWriteTask);
+  }
+  return readWriteTask;
 }
 
 Int32 Stream___::EndRead(IAsyncResult asyncResult) {
@@ -622,14 +884,14 @@ Task<Int32> Stream___::ReadAsync(Array<Byte> buffer, Int32 offset, Int32 count, 
 template <>
 ValueTask<Int32> Stream___::ReadAsync(Memory<Byte> buffer, CancellationToken cancellationToken) {
   auto FinishReadAsync = [](Task<Int32> readTask, Array<Byte> localBuffer, Memory<Byte> localDestination) -> ValueTask<Int32> {
-    一一ReadAsync一g__FinishReadAsync|46_0一d stateMachine;
-    stateMachine.一一t__builder = AsyncValueTaskMethodBuilder<Int32>::Create();
+    __ReadAsync_g__FinishReadAsync46_0_d stateMachine;
+    stateMachine.__t__builder = AsyncValueTaskMethodBuilder<Int32>::Create();
     stateMachine.readTask = readTask;
     stateMachine.localBuffer = localBuffer;
     stateMachine.localDestination = localDestination;
-    stateMachine.一一1__state = -1;
-    stateMachine.一一t__builder.Start(stateMachine);
-    return stateMachine.一一t__builder.get_Task();
+    stateMachine.__1__state = -1;
+    stateMachine.__t__builder.Start(stateMachine);
+    return stateMachine.__t__builder.get_Task();
   };
   ArraySegment<Byte> segment;
   if (MemoryMarshal::TryGetArray(buffer, segment)) {
@@ -643,6 +905,9 @@ Task<Int32> Stream___::BeginEndReadAsync(Array<Byte> buffer, Int32 offset, Int32
   if (!HasOverriddenBeginEndRead()) {
     return (Task<Int32>)BeginReadInternal(buffer, offset, count, nullptr, nullptr, true, false);
   }
+  Func<Stream, ReadWriteParameters, AsyncCallback, Object, IAsyncResult> as = __c::in::__9__47_0;
+  Func<Stream, IAsyncResult, Int32> is = __c::in::__9__47_1;
+  return TaskFactory<Int32>::in::FromAsyncTrim((Stream)this, ReadWriteParameters(), as != nullptr ? as : (__c::in::__9__47_0 = &__c::in::__9->_BeginEndReadAsync_b__47_0), is != nullptr ? is : (__c::in::__9__47_1 = &__c::in::__9->_BeginEndReadAsync_b__47_1));
 }
 
 IAsyncResult Stream___::BeginWrite(Array<Byte> buffer, Int32 offset, Int32 count, AsyncCallback callback, Object state) {
@@ -660,12 +925,22 @@ IAsyncResult Stream___::BeginWriteInternal(Array<Byte> buffer, Int32 offset, Int
   } else {
     semaphoreSlim->Wait();
   }
+  Func<Object, Int32> as = __c::in::__9__50_0;
+  ReadWriteTask readWriteTask = rt::newobj<ReadWriteTask>(false, apm, as != nullptr ? as : (__c::in::__9__50_0 = &__c::in::__9->_BeginWriteInternal_b__50_0), state, (Stream)this, buffer, offset, count, callback);
+  if (task != nullptr) {
+    RunReadWriteTaskWhenReady(task, readWriteTask);
+  } else {
+    RunReadWriteTask(readWriteTask);
+  }
+  return readWriteTask;
 }
 
 void Stream___::RunReadWriteTaskWhenReady(Task<> asyncWaiter, ReadWriteTask readWriteTask) {
   if (asyncWaiter->get_IsCompleted()) {
     RunReadWriteTask(readWriteTask);
-    return;
+  } else {
+    Action<Task<>, Object> as = __c::in::__9__51_0;
+    asyncWaiter->ContinueWith(as != nullptr ? as : (__c::in::__9__51_0 = &__c::in::__9->_RunReadWriteTaskWhenReady_b__51_0), readWriteTask, rt::default__, TaskContinuationOptions::ExecuteSynchronously, TaskScheduler::in::get_Default());
   }
 }
 
@@ -724,19 +999,22 @@ ValueTask<> Stream___::WriteAsync(ReadOnlyMemory<Byte> buffer, CancellationToken
 }
 
 Task<> Stream___::FinishWriteAsync(Task<> writeTask, Array<Byte> localBuffer) {
-  一FinishWriteAsync一d__59 stateMachine;
-  stateMachine.一一t__builder = AsyncTaskMethodBuilder<>::Create();
+  _FinishWriteAsync_d__59 stateMachine;
+  stateMachine.__t__builder = AsyncTaskMethodBuilder<>::Create();
   stateMachine.writeTask = writeTask;
   stateMachine.localBuffer = localBuffer;
-  stateMachine.一一1__state = -1;
-  stateMachine.一一t__builder.Start(stateMachine);
-  return stateMachine.一一t__builder.get_Task();
+  stateMachine.__1__state = -1;
+  stateMachine.__t__builder.Start(stateMachine);
+  return stateMachine.__t__builder.get_Task();
 }
 
 Task<> Stream___::BeginEndWriteAsync(Array<Byte> buffer, Int32 offset, Int32 count) {
   if (!HasOverriddenBeginEndWrite()) {
     return (Task<>)BeginWriteInternal(buffer, offset, count, nullptr, nullptr, true, false);
   }
+  Func<Stream, ReadWriteParameters, AsyncCallback, Object, IAsyncResult> as = __c::in::__9__60_0;
+  Func<Stream, IAsyncResult, VoidTaskResult> is = __c::in::__9__60_1;
+  return TaskFactory<VoidTaskResult>::in::FromAsyncTrim((Stream)this, ReadWriteParameters(), as != nullptr ? as : (__c::in::__9__60_0 = &__c::in::__9->_BeginEndWriteAsync_b__60_0), is != nullptr ? is : (__c::in::__9__60_1 = &__c::in::__9->_BeginEndWriteAsync_b__60_1));
 }
 
 Int32 Stream___::Read(Span<Byte> buffer) {
@@ -831,6 +1109,17 @@ void Stream___::ctor() {
 
 void Stream___::cctor() {
   Null = rt::newobj<NullStream>();
+}
+
+ValueTask<Int32> Stream___::_ReadAsync_g__FinishReadAsync46_0(Task<Int32> readTask, Array<Byte> localBuffer, Memory<Byte> localDestination) {
+  __ReadAsync_g__FinishReadAsync46_0_d stateMachine;
+  stateMachine.__t__builder = AsyncValueTaskMethodBuilder<Int32>::Create();
+  stateMachine.readTask = readTask;
+  stateMachine.localBuffer = localBuffer;
+  stateMachine.localDestination = localDestination;
+  stateMachine.__1__state = -1;
+  stateMachine.__t__builder.Start(stateMachine);
+  return stateMachine.__t__builder.get_Task();
 }
 
 } // namespace System::Private::CoreLib::System::IO::StreamNamespace

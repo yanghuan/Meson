@@ -334,4 +334,9 @@ void Exception___::RestoreRemoteStackTrace(SerializationInfo info, StreamingCont
   }
 }
 
+void Exception___::_ToString_g__Write65_0(String source, Span<Char>& dest) {
+  MemoryExtensions::AsSpan(source).CopyTo(dest);
+  dest = dest.Slice(source->get_Length());
+}
+
 } // namespace System::Private::CoreLib::System::ExceptionNamespace

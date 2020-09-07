@@ -13,6 +13,7 @@ FORWARD(IReadOnlyList, T)
 namespace System::Private::CoreLib::System::Collections {
 FORWARD(ICollection)
 FORWARD(IEnumerable)
+FORWARD(IEnumerator)
 FORWARD(IList)
 } // namespace System::Private::CoreLib::System::Collections
 namespace System::Private::CoreLib::System {
@@ -34,6 +35,7 @@ using IList_ = Collections::IList;
 using ICollection_ = Collections::ICollection;
 template <class T>
 using IEnumerator = Generic::IEnumerator<T>;
+using IEnumerator_ = Collections::IEnumerator;
 CLASS(Collection, T) : public object {
   public: using interface = rt::TypeList<IList<T>, ICollection<T>, IEnumerable<T>, IEnumerable_, IList_, ICollection_, IReadOnlyList<T>, IReadOnlyCollection<T>>;
   public: Int32 get_Count();
@@ -62,6 +64,13 @@ CLASS(Collection, T) : public object {
   protected: void InsertItem(Int32 index, T item);
   protected: void RemoveItem(Int32 index);
   protected: void SetItem(Int32 index, T item);
+  private: IEnumerator_ GetEnumeratorOfIEnumerable();
+  private: void CopyToOfICollection(Array<> array, Int32 index);
+  private: Int32 AddOfIList(Object value);
+  private: Boolean ContainsOfIList(Object value);
+  private: Int32 IndexOfOfIList(Object value);
+  private: void InsertOfIList(Int32 index, Object value);
+  private: void RemoveOfIList(Object value);
   private: static Boolean IsCompatibleObject(Object value);
   private: IList<T> items;
 };

@@ -126,6 +126,9 @@ IPermission PermissionSet___::SetPermissionImpl(IPermission perm) {
   return nullptr;
 }
 
+void PermissionSet___::OnDeserializationOfIDeserializationCallback(Object sender) {
+}
+
 String PermissionSet___::ToString() {
   return Object::in::ToString();
 }

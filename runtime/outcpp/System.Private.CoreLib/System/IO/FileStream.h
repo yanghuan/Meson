@@ -7,12 +7,17 @@
 #include <System.Private.CoreLib/System/Int64.h>
 #include <System.Private.CoreLib/System/IO/Stream.h>
 #include <System.Private.CoreLib/System/Object.h>
+#include <System.Private.CoreLib/System/Runtime/CompilerServices/AsyncTaskMethodBuilder.h>
+#include <System.Private.CoreLib/System/Runtime/CompilerServices/AsyncValueTaskMethodBuilder.h>
+#include <System.Private.CoreLib/System/Runtime/CompilerServices/ConfiguredTaskAwaitable.h>
+#include <System.Private.CoreLib/System/Runtime/CompilerServices/ConfiguredValueTaskAwaitable.h>
+#include <System.Private.CoreLib/System/Threading/CancellationToken.h>
 #include <System.Private.CoreLib/System/Threading/CancellationTokenRegistration.h>
 #include <System.Private.CoreLib/System/Threading/Tasks/TaskCompletionSource.h>
 #include <System.Private.CoreLib/System/UInt32.h>
+#include <System.Private.CoreLib/System/ValueType.h>
 
 namespace System::Private::CoreLib::System::Threading {
-FORWARDS(CancellationToken)
 FORWARD(IOCompletionCallback)
 FORWARDS(NativeOverlapped)
 FORWARD(PreAllocatedOverlapped)
@@ -34,6 +39,7 @@ FORWARD(String)
 FORWARDS(UInt64)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Runtime::CompilerServices {
+FORWARD(IAsyncStateMachine)
 FORWARD(ICriticalNotifyCompletion)
 FORWARD(INotifyCompletion)
 } // namespace System::Private::CoreLib::System::Runtime::CompilerServices
@@ -76,6 +82,12 @@ CLASS(FileStream) : public Stream::in {
   };
   private: CLASS(AsyncCopyToAwaitable) : public object {
     public: using interface = rt::TypeList<ICriticalNotifyCompletion, INotifyCompletion>;
+    private: CLASS(__c) : public object {
+      public: static void cctor();
+      public: void ctor();
+      public: void _cctor_b__20_0();
+      public: static __c __9;
+    };
     public: Object get_CancellationLock();
     public: Boolean get_IsCompleted();
     public: void ctor(FileStream fileStream);
@@ -100,6 +112,41 @@ CLASS(FileStream) : public Stream::in {
     public: void ctor(FileStream stream, Int32 numBufferedBytes, ReadOnlyMemory<Byte> memory);
     public: void ReleaseNativeResource();
     private: MemoryHandle _handle;
+  };
+  private: struct _DisposeAsyncCore_d__99 : public valueType<_DisposeAsyncCore_d__99> {
+    public: using interface = rt::TypeList<IAsyncStateMachine>;
+    private: void MoveNext();
+    private: void SetStateMachine(IAsyncStateMachine stateMachine);
+    public: Int32 __1__state;
+    public: AsyncValueTaskMethodBuilder<> __t__builder;
+    public: FileStream __4__this;
+    private: ConfiguredTaskAwaitable<>::ConfiguredTaskAwaiter __u__1;
+  };
+  private: CLASS(__c) : public object {
+    public: static void cctor();
+    public: void ctor();
+    public: void _AsyncModeCopyToAsync_b__128_0(Object s);
+    public: static __c __9;
+    public: static Action<Object> __9__128_0;
+  };
+  private: struct _AsyncModeCopyToAsync_d__128 : public valueType<_AsyncModeCopyToAsync_d__128> {
+    public: using interface = rt::TypeList<IAsyncStateMachine>;
+    private: void MoveNext();
+    private: void SetStateMachine(IAsyncStateMachine stateMachine);
+    public: Int32 __1__state;
+    public: AsyncTaskMethodBuilder<> __t__builder;
+    public: FileStream __4__this;
+    public: CancellationToken cancellationToken;
+    public: Stream destination;
+    public: Int32 bufferSize;
+    private: AsyncCopyToAwaitable _readAwaitable_5__2;
+    private: Boolean _canSeek_5__3;
+    private: Array<Byte> _copyBuffer_5__4;
+    private: PreAllocatedOverlapped _awaitableOverlapped_5__5;
+    private: CancellationTokenRegistration _cancellationReg_5__6;
+    private: ConfiguredTaskAwaitable<>::ConfiguredTaskAwaiter __u__1;
+    private: ConfiguredValueTaskAwaitable<>::ConfiguredValueTaskAwaiter __u__2;
+    private: Object __u__3;
   };
   public: IntPtr get_Handle();
   public: Boolean get_CanRead();

@@ -6,4 +6,8 @@ void CompletionActionInvoker___::ctor(ITaskCompletionAction action, Task<> compl
   m_completingTask = completingTask;
 }
 
+void CompletionActionInvoker___::ExecuteOfIThreadPoolWorkItem() {
+  m_action->Invoke(m_completingTask);
+}
+
 } // namespace System::Private::CoreLib::System::Threading::Tasks::CompletionActionInvokerNamespace

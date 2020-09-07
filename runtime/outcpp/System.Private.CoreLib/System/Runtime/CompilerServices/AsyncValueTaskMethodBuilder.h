@@ -61,6 +61,8 @@ struct AsyncValueTaskMethodBuilder<TResult> : public valueType<AsyncValueTaskMet
     public: void SetException(Exception error);
     public: ValueTaskSourceStatus GetStatus(Int16 token);
     public: void OnCompleted(Action<Object> continuation, Object state, Int16 token, ValueTaskSourceOnCompletedFlags flags);
+    private: TResult GetResultOfIValueTaskSourceTResult(Int16 token);
+    private: void GetResultOfIValueTaskSource(Int16 token);
     public: void ctor();
     protected: Action<> _moveNextAction;
     public: ExecutionContext Context;
@@ -72,7 +74,11 @@ struct AsyncValueTaskMethodBuilder<TResult> : public valueType<AsyncValueTaskMet
     public: static StateMachineBox<TStateMachine> GetOrCreateBox();
     private: void ReturnOrDropBox();
     private: static void ExecutionContextCallback(Object s);
+    private: void ExecuteOfIThreadPoolWorkItem();
     public: void MoveNext();
+    private: TResult GetResultOfIValueTaskSourceTResult(Int16 token);
+    private: void GetResultOfIValueTaskSource(Int16 token);
+    private: IAsyncStateMachine GetStateMachineObjectOfIAsyncStateMachineBox();
     public: void ctor();
     public: static void cctor();
     private: static ContextCallback s_callback;

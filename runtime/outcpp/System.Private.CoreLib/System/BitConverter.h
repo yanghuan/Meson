@@ -1,7 +1,10 @@
 #pragma once
 
-#include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/Object.h>
 
+namespace System::Private::CoreLib::System::Buffers {
+FORWARD(SpanAction, T, TArg)
+} // namespace System::Private::CoreLib::System::Buffers
 namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)
 FORWARDS(Boolean)
@@ -19,8 +22,17 @@ FORWARD(String)
 FORWARDS(UInt16)
 FORWARDS(UInt32)
 FORWARDS(UInt64)
+FORWARDS_(ValueTuple, T1, T2, T3, T4, T5, T6, T7, T8, T9)
 namespace BitConverterNamespace {
+using namespace System::Buffers;
 class BitConverter {
+  private: CLASS(__c) : public object {
+    public: static void cctor();
+    public: void ctor();
+    public: void _ToString_b__39_0(Span<Char> dst, ValueTuple<Array<Byte>, Int32, Int32> state);
+    public: static __c __9;
+    public: static SpanAction<Char, ValueTuple<Array<Byte>, Int32, Int32>> __9__39_0;
+  };
   public: static Array<Byte> GetBytes(Boolean value);
   public: static Boolean TryWriteBytes(Span<Byte> destination, Boolean value);
   public: static Array<Byte> GetBytes(Char value);

@@ -8,6 +8,7 @@ namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)
 FORWARDS(Boolean)
 FORWARDS(Byte)
+FORWARD(Comparison, T)
 FORWARDS(Guid)
 FORWARD(String)
 FORWARD(Type)
@@ -15,6 +16,7 @@ FORWARD(Type)
 namespace System::Private::CoreLib::System::Collections::Generic {
 FORWARD(Dictionary, TKey, TValue)
 FORWARD(IList, T)
+FORWARDS_(KeyValuePair, T1, T2, T3)
 FORWARD(List, T)
 } // namespace System::Private::CoreLib::System::Collections::Generic
 namespace System::Private::CoreLib::System::Resources {
@@ -46,6 +48,13 @@ CLASS(ManifestBuilder) : public object {
     public: String Name;
     public: UInt64 Keywords;
     public: EventChannelAttribute Attribs;
+  };
+  private: CLASS(__c) : public object {
+    public: static void cctor();
+    public: void ctor();
+    public: Int32 _CreateManifestString_b__16_0(KeyValuePair<Int32, ChannelInfo> p1, KeyValuePair<Int32, ChannelInfo> p2);
+    public: static __c __9;
+    public: static Comparison<KeyValuePair<Int32, ChannelInfo>> __9__16_0;
   };
   public: IList<String> get_Errors();
   public: void ctor(String providerName, Guid providerGuid, String dllName, ResourceManager resources, EventManifestOptions flags);

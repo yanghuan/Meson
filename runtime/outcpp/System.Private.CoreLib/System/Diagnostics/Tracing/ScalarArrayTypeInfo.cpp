@@ -18,6 +18,17 @@
 #include <System.Private.CoreLib/System/UIntPtr-dep.h>
 
 namespace System::Private::CoreLib::System::Diagnostics::Tracing::ScalarArrayTypeInfoNamespace {
+void ScalarArrayTypeInfo___::__c___::cctor() {
+  <>9 = rt::newobj<__c>();
+}
+
+void ScalarArrayTypeInfo___::__c___::ctor() {
+}
+
+TraceLoggingDataType ScalarArrayTypeInfo___::__c___::_Guid_b__20_0(EventFieldFormat f, TraceLoggingDataType t) {
+  return Statics::MakeDataType(TraceLoggingDataType::Guid, f);
+}
+
 void ScalarArrayTypeInfo___::ctor(Type type, Func<EventFieldFormat, TraceLoggingDataType, TraceLoggingDataType> formatFunc, TraceLoggingDataType nativeFormat, System::Int32 elementSize) {
   this->formatFunc = formatFunc;
   this->nativeFormat = nativeFormat;
@@ -89,6 +100,8 @@ TraceLoggingTypeInfo ScalarArrayTypeInfo___::Double() {
 }
 
 TraceLoggingTypeInfo ScalarArrayTypeInfo___::Guid() {
+  Func<EventFieldFormat, TraceLoggingDataType, TraceLoggingDataType> as = __c::in::__9__20_0;
+  return rt::newobj<ScalarArrayTypeInfo>(typeof<Guid>(), as != nullptr ? as : (__c::in::__9__20_0 = &__c::in::__9->_Guid_b__20_0), TraceLoggingDataType::Guid, sizeof(Guid));
 }
 
 } // namespace System::Private::CoreLib::System::Diagnostics::Tracing::ScalarArrayTypeInfoNamespace

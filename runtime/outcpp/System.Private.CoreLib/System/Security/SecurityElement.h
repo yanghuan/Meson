@@ -18,6 +18,13 @@ namespace System::Private::CoreLib::System::Security {
 namespace SecurityElementNamespace {
 using namespace System::Collections;
 CLASS(SecurityElement) : public object {
+  private: CLASS(__c) : public object {
+    public: static void cctor();
+    public: void ctor();
+    public: void _ToString_b__38_0(Object obj, String str);
+    public: static __c __9;
+    public: static Action<Object, String> __9__38_0;
+  };
   public: String get_Tag();
   public: void set_Tag(String value);
   public: Hashtable get_Attributes();

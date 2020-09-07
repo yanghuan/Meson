@@ -3,8 +3,21 @@
 #include <System.Private.CoreLib/System/InvalidOperationException-dep.h>
 #include <System.Private.CoreLib/System/SR-dep.h>
 #include <System.Private.CoreLib/System/Threading/SynchronizationContext-dep.h>
+#include <System.Private.CoreLib/System/Threading/Tasks/SynchronizationContextTaskScheduler-dep.h>
+#include <System.Private.CoreLib/System/Threading/Tasks/Task-dep.h>
 
 namespace System::Private::CoreLib::System::Threading::Tasks::SynchronizationContextTaskSchedulerNamespace {
+void SynchronizationContextTaskScheduler___::__c___::cctor() {
+  <>9 = rt::newobj<__c>();
+}
+
+void SynchronizationContextTaskScheduler___::__c___::ctor() {
+}
+
+void SynchronizationContextTaskScheduler___::__c___::_cctor_b__8_0(Object s) {
+  ((Task<>)s)->ExecuteEntry();
+}
+
 Int32 SynchronizationContextTaskScheduler___::get_MaximumConcurrencyLevel() {
   return 1;
 }
@@ -33,6 +46,7 @@ IEnumerable<Task<>> SynchronizationContextTaskScheduler___::GetScheduledTasks() 
 }
 
 void SynchronizationContextTaskScheduler___::cctor() {
+  s_postCallback = &__c::in::__9->_cctor_b__8_0;
 }
 
 } // namespace System::Private::CoreLib::System::Threading::Tasks::SynchronizationContextTaskSchedulerNamespace

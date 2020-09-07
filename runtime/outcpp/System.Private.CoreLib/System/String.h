@@ -8,9 +8,11 @@
 
 namespace System::Private::CoreLib::System::Collections {
 FORWARD(IEnumerable)
+FORWARD(IEnumerator)
 } // namespace System::Private::CoreLib::System::Collections
 namespace System::Private::CoreLib::System::Collections::Generic {
 FORWARD(IEnumerable, T)
+FORWARD(IEnumerator, T)
 FORWARDS(ValueListBuilder, T)
 } // namespace System::Private::CoreLib::System::Collections::Generic
 namespace System::Private::CoreLib::System::Text {
@@ -34,16 +36,25 @@ FORWARD_(Array, T1, T2)
 FORWARDS(Boolean)
 FORWARDS(Byte)
 FORWARD(CharEnumerator)
+FORWARDS(DateTime)
+FORWARDS(Decimal)
+FORWARDS(Double)
 FORWARD(ICloneable)
 FORWARD_(IComparable, T1, T2)
 FORWARD(IConvertible)
 FORWARD(IEquatable, T)
 FORWARD(IFormatProvider)
+FORWARDS(Int16)
+FORWARDS(Int64)
 FORWARDS(IntPtr)
 FORWARDS(ParamsArray)
 FORWARDS(ReadOnlySpan, T)
 FORWARDS(SByte)
+FORWARDS(Single)
+FORWARD(Type)
+FORWARDS(UInt16)
 FORWARDS(UInt32)
+FORWARDS(UInt64)
 namespace StringNamespace {
 using namespace System::Buffers;
 using namespace System::Collections;
@@ -53,6 +64,9 @@ using namespace System::Text;
 using IEnumerable = Collections::IEnumerable;
 template <class T>
 using IEnumerable_ = Collections::Generic::IEnumerable<T>;
+template <class T>
+using IEnumerator = Collections::Generic::IEnumerator<T>;
+using IEnumerator_ = Collections::IEnumerator;
 CLASS(String) : public object {
   public: using interface = rt::TypeList<IComparable<>, IEnumerable, IConvertible, IEnumerable_<Char>, IComparable<String>, IEquatable<String>, ICloneable>;
   private: struct ProbabilisticMap : public valueType<ProbabilisticMap> {
@@ -142,11 +156,28 @@ CLASS(String) : public object {
   public: String ToString();
   public: String ToString(IFormatProvider provider);
   public: CharEnumerator GetEnumerator();
+  private: IEnumerator<Char> GetEnumeratorOfChar();
+  private: IEnumerator_ GetEnumeratorOfIEnumerable();
   public: StringRuneEnumerator EnumerateRunes();
   public: static Int32 wcslen(Char* ptr);
   public: static Int32 strlen(Byte* ptr);
   private: static void ThrowMustBeNullTerminatedString();
   public: TypeCode GetTypeCode();
+  private: Boolean ToBooleanOfIConvertible(IFormatProvider provider);
+  private: Char ToCharOfIConvertible(IFormatProvider provider);
+  private: SByte ToSByteOfIConvertible(IFormatProvider provider);
+  private: Byte ToByteOfIConvertible(IFormatProvider provider);
+  private: Int16 ToInt16OfIConvertible(IFormatProvider provider);
+  private: UInt16 ToUInt16OfIConvertible(IFormatProvider provider);
+  private: Int32 ToInt32OfIConvertible(IFormatProvider provider);
+  private: UInt32 ToUInt32OfIConvertible(IFormatProvider provider);
+  private: Int64 ToInt64OfIConvertible(IFormatProvider provider);
+  private: UInt64 ToUInt64OfIConvertible(IFormatProvider provider);
+  private: Single ToSingleOfIConvertible(IFormatProvider provider);
+  private: Double ToDoubleOfIConvertible(IFormatProvider provider);
+  private: Decimal ToDecimalOfIConvertible(IFormatProvider provider);
+  private: DateTime ToDateTimeOfIConvertible(IFormatProvider provider);
+  private: Object ToTypeOfIConvertible(Type type, IFormatProvider provider);
   public: Boolean IsNormalized();
   public: Boolean IsNormalized(NormalizationForm normalizationForm);
   public: String Normalize();

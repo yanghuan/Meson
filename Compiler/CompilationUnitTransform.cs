@@ -5,7 +5,6 @@ using System.Linq;
 
 using ICSharpCode.Decompiler.TypeSystem;
 using Meson.Compiler.CppAst;
-using Microsoft.VisualBasic.CompilerServices;
 
 namespace Meson.Compiler {
   internal sealed class ReferencePackage {
@@ -281,7 +280,7 @@ namespace Meson.Compiler {
     private ExpressionSyntax GetTypeBaseName(IType type) {
       if (type.DeclaringType != null) {
         string name = type.Name;
-        Utils.CheckBadWord(ref name);
+        Utils.CheckBadName(ref name);
         return name;
       }
 
@@ -357,7 +356,7 @@ namespace Meson.Compiler {
       if (typeDefinition != null) {
         var declaringType = typeDefinition.DeclaringTypeDefinition;
         if (declaringType != null && (args.Definition == null || !AssemblyTransform.IsInternalMemberType(typeDefinition, args.Definition))) {
-          var outTypeName = GetTypeName(args.With(declaringType, false));
+          var outTypeName = GetTypeName(args.With(args.Type.DeclaringType, false));
           if (declaringType.GetDefinition().IsRefType()) {
             outTypeName = outTypeName.WithIn();
           }

@@ -24,6 +24,7 @@ CLASS(MemoryManager, T) : public object {
   protected: Memory<T> CreateMemory(Int32 length);
   protected: Memory<T> CreateMemory(Int32 start, Int32 length);
   public: Boolean TryGetArray(ArraySegment<T>& segment);
+  private: void DisposeOfIDisposable();
   protected: void Dispose(Boolean disposing);
   public: void ctor();
 };

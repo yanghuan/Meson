@@ -25,6 +25,13 @@ namespace EventListenerNamespace {
 using namespace System::Collections::Generic;
 CLASS(EventListener) : public object {
   public: using interface = rt::TypeList<IDisposable>;
+  private: CLASS(__c) : public object {
+    public: static void cctor();
+    public: void ctor();
+    public: void _ctor_b__10_0(Object obj, EventSourceCreatedEventArgs args);
+    public: static __c __9;
+    public: static EventHandler<EventSourceCreatedEventArgs> __9__10_0;
+  };
   public: static Object get_EventListenersLock();
   public: static void cctor();
   public: void ctor();

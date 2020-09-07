@@ -296,7 +296,7 @@ namespace Meson.Compiler {
 
       string identifierName = identifierExpression.Identifier;
       if (symbol == null) {
-        Utils.CheckBadWord(ref identifierName);
+        Utils.CheckBadName(ref identifierName);
       }
       IdentifierSyntax identifier = identifierName;
       if (identifierExpression.TypeArguments.Count > 0) {
@@ -1162,7 +1162,7 @@ namespace Meson.Compiler {
     }
 
     private ExpressionSyntax GetDeclaringType(ITypeDefinition type) {
-      ExpressionSyntax name = type.IsRefType() ? type.Name.Wrap() : type.Name;
+      ExpressionSyntax name = type.IsRefType() ? type.Name.CheckBadName().Wrap() : type.Name.CheckBadName();
       if (Generator.IsVoidGenericType(type)) {
         name = name.Generic();
       }
@@ -1225,7 +1225,7 @@ namespace Meson.Compiler {
 
     public SyntaxNode VisitVariableInitializer(VariableInitializer variableInitializer) {
       string name = variableInitializer.Name;
-      Utils.CheckBadWord(ref name);
+      Utils.CheckBadName(ref name);
       var initializer = variableInitializer.Initializer is DefaultValueExpression ? null : variableInitializer.Initializer.AcceptExpression(this);
       return new VariableInitializerSyntax(name, initializer);
     }

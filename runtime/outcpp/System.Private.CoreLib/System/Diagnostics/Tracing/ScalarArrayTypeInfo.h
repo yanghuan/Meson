@@ -2,6 +2,7 @@
 
 #include <System.Private.CoreLib/System/Diagnostics/Tracing/TraceLoggingTypeInfo.h>
 #include <System.Private.CoreLib/System/Int32.h>
+#include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System {
 FORWARD_(Func, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18)
@@ -16,6 +17,13 @@ FORWARD(TraceLoggingDataCollector)
 FORWARD(TraceLoggingMetadataCollector)
 namespace ScalarArrayTypeInfoNamespace {
 CLASS(ScalarArrayTypeInfo) : public TraceLoggingTypeInfo::in {
+  private: CLASS(__c) : public object {
+    public: static void cctor();
+    public: void ctor();
+    public: TraceLoggingDataType _Guid_b__20_0(EventFieldFormat f, TraceLoggingDataType t);
+    public: static __c __9;
+    public: static Func<EventFieldFormat, TraceLoggingDataType, TraceLoggingDataType> __9__20_0;
+  };
   public: void ctor(Type type, Func<EventFieldFormat, TraceLoggingDataType, TraceLoggingDataType> formatFunc, TraceLoggingDataType nativeFormat, Int32 elementSize);
   public: void WriteMetadata(TraceLoggingMetadataCollector collector, String name, EventFieldFormat format);
   public: void WriteData(TraceLoggingDataCollector collector, PropertyValue value);

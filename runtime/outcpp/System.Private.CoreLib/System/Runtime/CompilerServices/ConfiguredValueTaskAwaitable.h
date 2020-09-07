@@ -8,6 +8,7 @@ FORWARD_(Action, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T1
 FORWARDS(Boolean)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Runtime::CompilerServices {
+FORWARD(IAsyncStateMachineBox)
 FORWARD(ICriticalNotifyCompletion)
 FORWARD(INotifyCompletion)
 FORWARD(IStateMachineBoxAwareAwaiter)
@@ -25,6 +26,7 @@ struct ConfiguredValueTaskAwaitable<> : public valueType<ConfiguredValueTaskAwai
     public: void GetResult();
     public: void OnCompleted(Action<> continuation);
     public: void UnsafeOnCompleted(Action<> continuation);
+    private: void AwaitUnsafeOnCompletedOfIStateMachineBoxAwareAwaiter(IAsyncStateMachineBox box);
     public: explicit ConfiguredValueTaskAwaiter() {}
     private: ValueTask<> _value;
   };
@@ -42,6 +44,7 @@ struct ConfiguredValueTaskAwaitable<TResult> : public valueType<ConfiguredValueT
     public: TResult GetResult();
     public: void OnCompleted(Action<> continuation);
     public: void UnsafeOnCompleted(Action<> continuation);
+    private: void AwaitUnsafeOnCompletedOfIStateMachineBoxAwareAwaiter(IAsyncStateMachineBox box);
     public: explicit ConfiguredValueTaskAwaiter() {}
     private: ValueTask<TResult> _value;
   };

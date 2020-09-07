@@ -10,16 +10,25 @@ namespace System::Private::CoreLib::System {
 enum class TypeCode : int32_t;
 FORWARDS(Boolean)
 FORWARDS(Byte)
+FORWARDS(DateTime)
+FORWARDS(Decimal)
 FORWARDS(Double)
 FORWARD_(IComparable, T1, T2)
 FORWARD(IConvertible)
 FORWARD(IEquatable, T)
 FORWARD(IFormatProvider)
+FORWARDS(Int16)
 FORWARDS(Int32)
+FORWARDS(Int64)
 FORWARD(Object)
 FORWARDS(ReadOnlySpan, T)
+FORWARDS(SByte)
+FORWARDS(Single)
 FORWARD(String)
+FORWARD(Type)
+FORWARDS(UInt16)
 FORWARDS(UInt32)
+FORWARDS(UInt64)
 namespace CharNamespace {
 using namespace System::Globalization;
 struct Char : public valueType<Char, rt::TypeCode::Char> {
@@ -58,6 +67,21 @@ struct Char : public valueType<Char, rt::TypeCode::Char> {
   public: static Char ToLower(Char c);
   public: static Char ToLowerInvariant(Char c);
   public: TypeCode GetTypeCode();
+  private: Boolean ToBooleanOfIConvertible(IFormatProvider provider);
+  private: Char ToCharOfIConvertible(IFormatProvider provider);
+  private: SByte ToSByteOfIConvertible(IFormatProvider provider);
+  private: Byte ToByteOfIConvertible(IFormatProvider provider);
+  private: Int16 ToInt16OfIConvertible(IFormatProvider provider);
+  private: UInt16 ToUInt16OfIConvertible(IFormatProvider provider);
+  private: Int32 ToInt32OfIConvertible(IFormatProvider provider);
+  private: UInt32 ToUInt32OfIConvertible(IFormatProvider provider);
+  private: Int64 ToInt64OfIConvertible(IFormatProvider provider);
+  private: UInt64 ToUInt64OfIConvertible(IFormatProvider provider);
+  private: Single ToSingleOfIConvertible(IFormatProvider provider);
+  private: Double ToDoubleOfIConvertible(IFormatProvider provider);
+  private: Decimal ToDecimalOfIConvertible(IFormatProvider provider);
+  private: DateTime ToDateTimeOfIConvertible(IFormatProvider provider);
+  private: Object ToTypeOfIConvertible(Type type, IFormatProvider provider);
   public: static Boolean IsControl(Char c);
   public: static Boolean IsControl(String s, Int32 index);
   public: static Boolean IsDigit(String s, Int32 index);

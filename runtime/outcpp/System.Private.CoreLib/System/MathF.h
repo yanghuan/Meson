@@ -51,6 +51,7 @@ class MathF {
   public: static Int32 Sign(Single x);
   public: static Single Truncate(Single x);
   public: static void cctor();
+  public: static Single _CopySign_g__SoftwareFallback36_0(Single x, Single y);
   public: static constexpr Single E = 2.7182817;
   public: static constexpr Single PI = 3.1415927;
   public: static constexpr Single Tau = 6.2831855;

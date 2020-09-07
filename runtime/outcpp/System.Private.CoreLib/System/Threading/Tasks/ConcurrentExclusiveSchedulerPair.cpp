@@ -5,6 +5,7 @@
 #include <System.Private.CoreLib/System/ArgumentOutOfRangeException-dep.h>
 #include <System.Private.CoreLib/System/Environment-dep.h>
 #include <System.Private.CoreLib/System/InvalidOperationException-dep.h>
+#include <System.Private.CoreLib/System/Threading/LazyInitializer-dep.h>
 #include <System.Private.CoreLib/System/Threading/Tasks/ConcurrentExclusiveSchedulerPair-dep.h>
 #include <System.Private.CoreLib/System/Threading/Tasks/IProducerConsumerQueue.h>
 #include <System.Private.CoreLib/System/Threading/Tasks/MultiProducerMultiConsumerQueue-dep.h>
@@ -21,6 +22,14 @@ void ConcurrentExclusiveSchedulerPair___::CompletionState___::ctor() {
 
 void ConcurrentExclusiveSchedulerPair___::SchedulerWorkItem___::ctor(ConcurrentExclusiveSchedulerPair pair) {
   _pair = pair;
+}
+
+void ConcurrentExclusiveSchedulerPair___::SchedulerWorkItem___::ExecuteOfIThreadPoolWorkItem() {
+  if (_pair->m_processingCount == -1) {
+    _pair->ProcessExclusiveTasks();
+  } else {
+    _pair->ProcessConcurrentTasks();
+  }
 }
 
 Int32 ConcurrentExclusiveSchedulerPair___::ConcurrentExclusiveTaskScheduler___::DebugView___::get_MaximumConcurrencyLevel() {
@@ -147,6 +156,32 @@ void ConcurrentExclusiveSchedulerPair___::DebugView___::ctor(ConcurrentExclusive
   m_pair = pair;
 }
 
+void ConcurrentExclusiveSchedulerPair___::__c___::cctor() {
+  <>9 = rt::newobj<__c>();
+}
+
+void ConcurrentExclusiveSchedulerPair___::__c___::ctor() {
+}
+
+ConcurrentExclusiveSchedulerPair::in::CompletionState ConcurrentExclusiveSchedulerPair___::__c___::_EnsureCompletionStateInitialized_b__23_0() {
+  return rt::newobj<CompletionState>();
+}
+
+void ConcurrentExclusiveSchedulerPair___::__c___::_CompleteTaskAsync_b__30_0(Object state) {
+  ConcurrentExclusiveSchedulerPair concurrentExclusiveSchedulerPair = (ConcurrentExclusiveSchedulerPair)state;
+  List<Exception> exceptions = concurrentExclusiveSchedulerPair->m_completionState->m_exceptions;
+  Boolean flag = (exceptions != nullptr && exceptions->get_Count() > 0) ? concurrentExclusiveSchedulerPair->m_completionState->TrySetException(exceptions) : concurrentExclusiveSchedulerPair->m_completionState->TrySetResult();
+  concurrentExclusiveSchedulerPair->m_threadProcessingMode->Dispose();
+}
+
+void ConcurrentExclusiveSchedulerPair___::__c___::_ProcessAsyncIfNecessary_b__40_0(Object thisPair) {
+  ((ConcurrentExclusiveSchedulerPair)thisPair)->ProcessExclusiveTasks();
+}
+
+void ConcurrentExclusiveSchedulerPair___::__c___::_ProcessAsyncIfNecessary_b__40_1(Object thisPair) {
+  ((ConcurrentExclusiveSchedulerPair)thisPair)->ProcessConcurrentTasks();
+}
+
 Int32 ConcurrentExclusiveSchedulerPair___::get_DefaultMaxConcurrencyLevel() {
   return Environment::get_ProcessorCount();
 }
@@ -262,6 +297,8 @@ void ConcurrentExclusiveSchedulerPair___::Complete() {
 }
 
 ConcurrentExclusiveSchedulerPair::in::CompletionState ConcurrentExclusiveSchedulerPair___::EnsureCompletionStateInitialized() {
+  Func<CompletionState> as = __c::in::__9__23_0;
+  return LazyInitializer::EnsureInitialized(m_completionState, as != nullptr ? as : (__c::in::__9__23_0 = &__c::in::__9->_EnsureCompletionStateInitialized_b__23_0));
 }
 
 void ConcurrentExclusiveSchedulerPair___::RequestCompletion() {
@@ -278,6 +315,8 @@ void ConcurrentExclusiveSchedulerPair___::CompleteTaskAsync() {
   CompletionState completionState = EnsureCompletionStateInitialized();
   if (!completionState->m_completionQueued) {
     completionState->m_completionQueued = true;
+    WaitCallback as = __c::in::__9__30_0;
+    ThreadPool::QueueUserWorkItem(as != nullptr ? as : (__c::in::__9__30_0 = &__c::in::__9->_CompleteTaskAsync_b__30_0), (ConcurrentExclusiveSchedulerPair)this);
   }
 }
 
@@ -301,6 +340,9 @@ void ConcurrentExclusiveSchedulerPair___::ProcessAsyncIfNecessary(Boolean fairly
     m_processingCount = -1;
     if (!TryQueueThreadPoolWorkItem(fairly)) {
       try {
+        Action<Object> as = __c::in::__9__40_0;
+        task = rt::newobj<Task<>>(as != nullptr ? as : (__c::in::__9__40_0 = &__c::in::__9->_ProcessAsyncIfNecessary_b__40_0), (ConcurrentExclusiveSchedulerPair)this, rt::default__, GetCreationOptionsForTask(fairly));
+        task->Start(m_underlyingTaskScheduler);
       } catch (Exception exception) {
         m_processingCount = 0;
         Task<> as = task;
@@ -315,14 +357,16 @@ void ConcurrentExclusiveSchedulerPair___::ProcessAsyncIfNecessary(Boolean fairly
           break;
         }
         m_processingCount++;
-        if (TryQueueThreadPoolWorkItem(fairly)) {
-          continue;
-        }
-        try {
-        } catch (Exception exception2) {
-          m_processingCount--;
-          Task<> as = task;
-          FaultWithTask(as != nullptr ? as : Task<>::in::FromException(exception2));
+        if (!TryQueueThreadPoolWorkItem(fairly)) {
+          try {
+            Action<Object> as = __c::in::__9__40_1;
+            task = rt::newobj<Task<>>(as != nullptr ? as : (__c::in::__9__40_1 = &__c::in::__9->_ProcessAsyncIfNecessary_b__40_1), (ConcurrentExclusiveSchedulerPair)this, rt::default__, GetCreationOptionsForTask(fairly));
+            task->Start(m_underlyingTaskScheduler);
+          } catch (Exception exception2) {
+            m_processingCount--;
+            Task<> as = task;
+            FaultWithTask(as != nullptr ? as : Task<>::in::FromException(exception2));
+          }
         }
       }
     }

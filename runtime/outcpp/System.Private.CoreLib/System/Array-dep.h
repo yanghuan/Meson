@@ -9,6 +9,7 @@
 #include <System.Private.CoreLib/System/Collections/IComparer.h>
 #include <System.Private.CoreLib/System/Collections/IEnumerable.h>
 #include <System.Private.CoreLib/System/Collections/IEnumerator.h>
+#include <System.Private.CoreLib/System/Collections/IEqualityComparer.h>
 #include <System.Private.CoreLib/System/Collections/IList.h>
 #include <System.Private.CoreLib/System/Collections/IStructuralComparable.h>
 #include <System.Private.CoreLib/System/Collections/IStructuralEquatable.h>

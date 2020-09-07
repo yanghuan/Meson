@@ -86,6 +86,13 @@ CLASS(ConditionalWeakTable, TKey, TValue) : public object {
     private: Boolean _finalized;
     private: Object _oldKeepAlive;
   };
+  private: CLASS(__c) : public object {
+    public: static void cctor();
+    public: void ctor();
+    public: TValue _GetOrCreateValue_b__12_0(TKey _);
+    public: static __c __9;
+    public: static CreateValueCallback __9__12_0;
+  };
   public: void ctor();
   public: Boolean TryGetValue(TKey key, TValue& value);
   public: void Add(TKey key, TValue value);
@@ -95,6 +102,8 @@ CLASS(ConditionalWeakTable, TKey, TValue) : public object {
   public: TValue GetValue(TKey key, CreateValueCallback createValueCallback);
   private: TValue GetValueLocked(TKey key, CreateValueCallback createValueCallback);
   public: TValue GetOrCreateValue(TKey key);
+  private: IEnumerator<KeyValuePair<TKey, TValue>> GetEnumeratorOfKeyValuePairTKeyTValue();
+  private: IEnumerator_ GetEnumeratorOfIEnumerable();
   private: void CreateEntry(TKey key, TValue value);
   private: Object _lock;
   private: Container _container;

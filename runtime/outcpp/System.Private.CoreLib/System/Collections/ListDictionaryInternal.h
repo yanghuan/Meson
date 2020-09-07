@@ -55,6 +55,8 @@ CLASS(ListDictionaryInternal) : public object {
     private: Boolean get_IsSynchronizedOfICollection();
     private: Object get_SyncRootOfICollection();
     public: void ctor(ListDictionaryInternal list, Boolean isKeys);
+    private: void CopyToOfICollection(Array<> array, Int32 index);
+    private: IEnumerator GetEnumeratorOfIEnumerable();
     private: ListDictionaryInternal list;
     private: Boolean isKeys;
   };
@@ -73,6 +75,7 @@ CLASS(ListDictionaryInternal) : public object {
   public: Boolean Contains(Object key);
   public: void CopyTo(Array<> array, Int32 index);
   public: IDictionaryEnumerator GetEnumerator();
+  private: IEnumerator GetEnumeratorOfIEnumerable();
   public: void Remove(Object key);
   private: DictionaryNode head;
   private: Int32 version;

@@ -3,6 +3,7 @@
 #include "ValueTuple.h"
 
 #include <System.Private.CoreLib/System/Boolean-dep.h>
+#include <System.Private.CoreLib/System/Collections/IComparer.h>
 #include <System.Private.CoreLib/System/Collections/IEqualityComparer.h>
 #include <System.Private.CoreLib/System/Collections/IStructuralComparable.h>
 #include <System.Private.CoreLib/System/Collections/IStructuralEquatable.h>

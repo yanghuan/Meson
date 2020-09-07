@@ -19,6 +19,7 @@ CLASS(PreAllocatedOverlapped) : public object {
   public: void Release();
   public: void Dispose();
   protected: void Finalize();
+  private: void OnFinalReleaseOfIDeferredDisposable(Boolean disposed);
   public: ThreadPoolBoundHandleOverlapped _overlapped;
   private: DeferredDisposableLifetime<PreAllocatedOverlapped> _lifetime;
 };

@@ -74,4 +74,8 @@ Int32 ISOWeek::GetWeekday(DayOfWeek dayOfWeek) {
   return 7;
 }
 
+Int32 ISOWeek::_GetWeeksInYear_g__P8_0(Int32 y) {
+  return (y + y / 4 - y / 100 + y / 400) % 7;
+}
+
 } // namespace System::Private::CoreLib::System::Globalization::ISOWeekNamespace

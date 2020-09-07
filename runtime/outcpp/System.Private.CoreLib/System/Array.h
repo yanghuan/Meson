@@ -8,6 +8,7 @@ FORWARD(ICollection)
 FORWARD(IComparer)
 FORWARD(IEnumerable)
 FORWARD(IEnumerator)
+FORWARD(IEqualityComparer)
 FORWARD(IList)
 FORWARD(IStructuralComparable)
 FORWARD(IStructuralEquatable)
@@ -41,6 +42,7 @@ using IList = Collections::IList;
 using ICollection = Collections::ICollection;
 using IEnumerable = Collections::IEnumerable;
 using IComparer = Collections::IComparer;
+using IEqualityComparer = Collections::IEqualityComparer;
 template <class T>
 using IComparer_ = Collections::Generic::IComparer<T>;
 using IEnumerator = Collections::IEnumerator;
@@ -142,7 +144,17 @@ CLASS_(Array) : public object {
   public: void SetValue(Object value, Array<Int64> indices);
   private: static Int32 GetMedian(Int32 low, Int32 hi);
   public: Int64 GetLongLength(Int32 dimension);
+  private: Int32 AddOfIList(Object value);
+  private: Boolean ContainsOfIList(Object value);
+  private: void ClearOfIList();
+  private: Int32 IndexOfOfIList(Object value);
+  private: void InsertOfIList(Int32 index, Object value);
+  private: void RemoveOfIList(Object value);
+  private: void RemoveAtOfIList(Int32 index);
   public: Object Clone();
+  private: Int32 CompareToOfIStructuralComparable(Object other, IComparer comparer);
+  private: Boolean EqualsOfIStructuralEquatable(Object other, IEqualityComparer comparer);
+  private: Int32 GetHashCodeOfIStructuralEquatable(IEqualityComparer comparer);
   public: static Int32 BinarySearch(Array<> array, Object value);
   public: static Int32 BinarySearch(Array<> array, Int32 index, Int32 length, Object value);
   public: static Int32 BinarySearch(Array<> array, Object value, IComparer comparer);
@@ -242,6 +254,14 @@ CLASS_(Array) : public object {
   private: template <class T>
   static Span<T> UnsafeArrayAsSpan(Array<> array, Int32 adjustedIndex, Int32 length);
   public: IEnumerator GetEnumerator();
+  public: template <class T>
+  static Int32 _BinarySearch_g__GenericBinarySearch81_0(Array<> array, Int32 adjustedIndex, Int32 length, Object value);
+  public: template <class T>
+  static Int32 _IndexOf_g__GenericIndexOf106_0(Array<> array, Object value, Int32 adjustedIndex, Int32 length);
+  public: template <class T>
+  static Int32 _LastIndexOf_g__GenericLastIndexOf112_0(Array<> array, Object value, Int32 adjustedIndex, Int32 length);
+  public: template <class T>
+  static void _Sort_g__GenericSort127_0(Array<> keys, Array<> items, Int32 adjustedIndex, Int32 length);
 };
 CLASS_(Array, T) : public rt::Array<T, Array<>::in> {
 };

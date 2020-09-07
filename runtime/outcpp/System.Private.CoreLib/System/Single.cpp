@@ -3,10 +3,12 @@
 #include <System.Private.CoreLib/Internal/Runtime/CompilerServices/Unsafe-dep.h>
 #include <System.Private.CoreLib/System/ArgumentException-dep.h>
 #include <System.Private.CoreLib/System/BitConverter-dep.h>
+#include <System.Private.CoreLib/System/Convert-dep.h>
 #include <System.Private.CoreLib/System/ExceptionArgument.h>
 #include <System.Private.CoreLib/System/Globalization/NumberFormatInfo-dep.h>
 #include <System.Private.CoreLib/System/Globalization/NumberStyles.h>
 #include <System.Private.CoreLib/System/Int32-dep.h>
+#include <System.Private.CoreLib/System/InvalidCastException-dep.h>
 #include <System.Private.CoreLib/System/Number-dep.h>
 #include <System.Private.CoreLib/System/Single-dep.h>
 #include <System.Private.CoreLib/System/SR-dep.h>
@@ -257,6 +259,66 @@ Boolean Single::TryParse(ReadOnlySpan<Char> s, NumberStyles style, NumberFormatI
 
 TypeCode Single::GetTypeCode() {
   return TypeCode::Single;
+}
+
+Boolean Single::ToBooleanOfIConvertible(IFormatProvider provider) {
+  return Convert::ToBoolean(*this);
+}
+
+Char Single::ToCharOfIConvertible(IFormatProvider provider) {
+  rt::throw_exception<InvalidCastException>(SR::Format(SR::get_InvalidCast_FromTo(), "Single", "Char"));
+}
+
+SByte Single::ToSByteOfIConvertible(IFormatProvider provider) {
+  return Convert::ToSByte(*this);
+}
+
+Byte Single::ToByteOfIConvertible(IFormatProvider provider) {
+  return Convert::ToByte(*this);
+}
+
+Int16 Single::ToInt16OfIConvertible(IFormatProvider provider) {
+  return Convert::ToInt16(*this);
+}
+
+UInt16 Single::ToUInt16OfIConvertible(IFormatProvider provider) {
+  return Convert::ToUInt16(*this);
+}
+
+Int32 Single::ToInt32OfIConvertible(IFormatProvider provider) {
+  return Convert::ToInt32(*this);
+}
+
+UInt32 Single::ToUInt32OfIConvertible(IFormatProvider provider) {
+  return Convert::ToUInt32(*this);
+}
+
+Int64 Single::ToInt64OfIConvertible(IFormatProvider provider) {
+  return Convert::ToInt64(*this);
+}
+
+UInt64 Single::ToUInt64OfIConvertible(IFormatProvider provider) {
+  return Convert::ToUInt64(*this);
+}
+
+Single Single::ToSingleOfIConvertible(IFormatProvider provider) {
+  return *this;
+}
+
+Double Single::ToDoubleOfIConvertible(IFormatProvider provider) {
+  return Convert::ToDouble(*this);
+}
+
+Decimal Single::ToDecimalOfIConvertible(IFormatProvider provider) {
+  return Convert::ToDecimal(*this);
+}
+
+DateTime Single::ToDateTimeOfIConvertible(IFormatProvider provider) {
+  rt::throw_exception<InvalidCastException>(SR::Format(SR::get_InvalidCast_FromTo(), "Single", "DateTime"));
+}
+
+Object Single::ToTypeOfIConvertible(Type type, IFormatProvider provider) {
+  return Convert::DefaultToType(*this, type, provider);
 }
 
 } // namespace System::Private::CoreLib::System::SingleNamespace

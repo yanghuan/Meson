@@ -73,6 +73,10 @@ IDictionaryEnumerator ResourceSet___::GetEnumerator() {
   return GetEnumeratorHelper();
 }
 
+IEnumerator ResourceSet___::GetEnumeratorOfIEnumerable() {
+  return GetEnumeratorHelper();
+}
+
 IDictionaryEnumerator ResourceSet___::GetEnumeratorHelper() {
   Hashtable table = Table;
   if (table == nullptr) {

@@ -194,6 +194,10 @@ Object SyncHashtable___::Clone() {
   }
 }
 
+IEnumerator SyncHashtable___::GetEnumeratorOfIEnumerable() {
+  return _table->GetEnumerator();
+}
+
 IDictionaryEnumerator SyncHashtable___::GetEnumerator() {
   return _table->GetEnumerator();
 }
@@ -680,6 +684,10 @@ void Hashtable___::rehash(Int32 newsize) {
   _loadsize = (Int32)(_loadFactor * (Single)newsize);
   UpdateVersion();
   _isWriterInProgress = false;
+}
+
+IEnumerator Hashtable___::GetEnumeratorOfIEnumerable() {
+  return rt::newobj<HashtableEnumerator>((Hashtable)this, 3);
 }
 
 IDictionaryEnumerator Hashtable___::GetEnumerator() {

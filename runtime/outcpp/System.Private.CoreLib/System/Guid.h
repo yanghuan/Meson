@@ -71,6 +71,7 @@ struct Guid : public valueType<Guid> {
   public: String ToString(String format, IFormatProvider provider);
   public: template <class T0 = ReadOnlySpan<Char>>
   Boolean TryFormat(Span<Char> destination, Int32& charsWritten, T0 format = rt::default__);
+  private: Boolean TryFormatOfISpanFormattable(Span<Char> destination, Int32& charsWritten, ReadOnlySpan<Char> format, IFormatProvider provider);
   public: static Guid NewGuid();
   public: explicit Guid() {}
   public: static Guid Empty;

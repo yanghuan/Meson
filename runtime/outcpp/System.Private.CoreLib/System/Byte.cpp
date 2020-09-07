@@ -3,9 +3,11 @@
 #include <System.Private.CoreLib/System/ArgumentException-dep.h>
 #include <System.Private.CoreLib/System/Byte-dep.h>
 #include <System.Private.CoreLib/System/Char-dep.h>
+#include <System.Private.CoreLib/System/Convert-dep.h>
 #include <System.Private.CoreLib/System/ExceptionArgument.h>
 #include <System.Private.CoreLib/System/Globalization/NumberFormatInfo-dep.h>
 #include <System.Private.CoreLib/System/Globalization/NumberStyles.h>
+#include <System.Private.CoreLib/System/InvalidCastException-dep.h>
 #include <System.Private.CoreLib/System/Number-dep.h>
 #include <System.Private.CoreLib/System/ReadOnlySpan-dep.h>
 #include <System.Private.CoreLib/System/SR-dep.h>
@@ -151,6 +153,66 @@ Boolean Byte::TryFormat(Span<Char> destination, Int32& charsWritten, ReadOnlySpa
 
 TypeCode Byte::GetTypeCode() {
   return TypeCode::Byte;
+}
+
+Boolean Byte::ToBooleanOfIConvertible(IFormatProvider provider) {
+  return Convert::ToBoolean(*this);
+}
+
+Char Byte::ToCharOfIConvertible(IFormatProvider provider) {
+  return Convert::ToChar(*this);
+}
+
+SByte Byte::ToSByteOfIConvertible(IFormatProvider provider) {
+  return Convert::ToSByte(*this);
+}
+
+Byte Byte::ToByteOfIConvertible(IFormatProvider provider) {
+  return *this;
+}
+
+Int16 Byte::ToInt16OfIConvertible(IFormatProvider provider) {
+  return Convert::ToInt16(*this);
+}
+
+UInt16 Byte::ToUInt16OfIConvertible(IFormatProvider provider) {
+  return Convert::ToUInt16(*this);
+}
+
+Int32 Byte::ToInt32OfIConvertible(IFormatProvider provider) {
+  return Convert::ToInt32(*this);
+}
+
+UInt32 Byte::ToUInt32OfIConvertible(IFormatProvider provider) {
+  return Convert::ToUInt32(*this);
+}
+
+Int64 Byte::ToInt64OfIConvertible(IFormatProvider provider) {
+  return Convert::ToInt64(*this);
+}
+
+UInt64 Byte::ToUInt64OfIConvertible(IFormatProvider provider) {
+  return Convert::ToUInt64(*this);
+}
+
+Single Byte::ToSingleOfIConvertible(IFormatProvider provider) {
+  return Convert::ToSingle(*this);
+}
+
+Double Byte::ToDoubleOfIConvertible(IFormatProvider provider) {
+  return Convert::ToDouble(*this);
+}
+
+Decimal Byte::ToDecimalOfIConvertible(IFormatProvider provider) {
+  return Convert::ToDecimal(*this);
+}
+
+DateTime Byte::ToDateTimeOfIConvertible(IFormatProvider provider) {
+  rt::throw_exception<InvalidCastException>(SR::Format(SR::get_InvalidCast_FromTo(), "Byte", "DateTime"));
+}
+
+Object Byte::ToTypeOfIConvertible(Type type, IFormatProvider provider) {
+  return Convert::DefaultToType(*this, type, provider);
 }
 
 } // namespace System::Private::CoreLib::System::ByteNamespace

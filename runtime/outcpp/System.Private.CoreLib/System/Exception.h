@@ -24,7 +24,9 @@ namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)
 FORWARDS(Boolean)
 FORWARDS(Byte)
+FORWARDS(Char)
 FORWARD(IRuntimeMethodInfo)
+FORWARDS(Span, T)
 FORWARD(String)
 FORWARD(Type)
 FORWARDS(UInt32)
@@ -90,6 +92,7 @@ CLASS(Exception) : public object {
   public: String ToString();
   public: Type GetType();
   private: void RestoreRemoteStackTrace(SerializationInfo info, StreamingContext context);
+  public: static void _ToString_g__Write65_0(String source, Span<Char>& dest);
   private: MethodBase _exceptionMethod;
   public: String _message;
   private: IDictionary _data;

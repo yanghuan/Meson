@@ -7,7 +7,9 @@
 #include <System.Private.CoreLib/System/Byte-dep.h>
 #include <System.Private.CoreLib/System/Collections/Generic/Dictionary-dep.h>
 #include <System.Private.CoreLib/System/Collections/Generic/IList.h>
+#include <System.Private.CoreLib/System/Collections/Generic/KeyValuePair-dep.h>
 #include <System.Private.CoreLib/System/Collections/Generic/List-dep.h>
+#include <System.Private.CoreLib/System/Comparison-dep.h>
 #include <System.Private.CoreLib/System/Diagnostics/Tracing/EventAttribute-dep.h>
 #include <System.Private.CoreLib/System/Diagnostics/Tracing/EventChannel.h>
 #include <System.Private.CoreLib/System/Diagnostics/Tracing/EventChannelAttribute-dep.h>

@@ -94,7 +94,7 @@ namespace Meson.Compiler {
 
     private void VisitStruct(ITypeDefinition type) {
       var template = type.GetTemplateSyntax();
-      ClassSyntax node = new ClassSyntax(type.Name, true) {
+      ClassSyntax node = new ClassSyntax(type.Name.CheckBadName(), true) {
         Template = template,
         Kind = GetClassKind(type),
         AccessibilityToken = GetAccessibilityString(type),
@@ -155,7 +155,7 @@ namespace Meson.Compiler {
 
     private void VistClass(ITypeDefinition type) {
       var template = type.GetTemplateSyntax();
-      ClassSyntax node = new ClassSyntax(type.Name) {
+      ClassSyntax node = new ClassSyntax(type.Name.CheckBadName()) {
         Template = template,
         Kind = GetClassKind(type),
         AccessibilityToken = GetAccessibilityString(type),
@@ -195,18 +195,11 @@ namespace Meson.Compiler {
     }
 
     private bool IsExportMethod(IMethod method) {
-      if (method.Name.Contains('<')) {
-        return false;
-      }
-
       if (method.IsConstructor) {
         if (method.DeclaringTypeDefinition.IsStringType()) {
           return false;
         }
-      } else if (method.Name.Contains('.')) {
-        return false;
-      }
-
+      } 
       return true;
     }
 
@@ -291,7 +284,7 @@ namespace Meson.Compiler {
           }
         } else {
           if (typeDefinition.TypeParameterCount == 0 && method.TypeParameters.Count == 0 && method.TypeArguments.Count == 0) {
-            new MethodTransform(this, method, node);
+            _ = new MethodTransform(this, method, node);
           }
         }
       } else {
@@ -552,6 +545,15 @@ namespace Meson.Compiler {
       return typesList.SelectMany(i => i).Distinct().ToList();
     }
 
+    private static bool IsExportNestedType(ITypeDefinition type) {
+      if (type.Name.StartsWith('<')) {
+        if (type.Name.EndsWith(">e__FixedBuffer")) {
+          return false;
+        }
+      }
+      return true;
+    }
+
     private IEnumerable<ITypeDefinition> GetNestedTypes(ITypeDefinition type) {
       IEnumerable<ITypeDefinition> types;
       if (type.NestedTypes.Count > 1) {
@@ -570,7 +572,7 @@ namespace Meson.Compiler {
       } else {
         types = type.NestedTypes;
       }
-      return types.Where(i => !i.Name.StartsWith('<'));
+      return types.Where(IsExportNestedType);
     }
 
     private ITypeDefinition GetNestedBrotherType(IEnumerable<ITypeDefinition> types, ClassSyntax node) {
@@ -598,7 +600,7 @@ namespace Meson.Compiler {
       foreach (var types in sameNameTypes) {
         var brotherType = GetNestedBrotherType(types, node);
         var block = brotherType != null ? GetBrotherTypeParnetBlock(brotherType) : node;
-        new TypeDefinitionTransform(CompilationUnit, block, types, this);
+        _ = new TypeDefinitionTransform(CompilationUnit, block, types, this);
       }
     }
 

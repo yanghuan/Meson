@@ -18,8 +18,10 @@ FORWARDS_(ValueTask, T1, T2)
 } // namespace System::Private::CoreLib::System::Threading::Tasks
 namespace System::Private::CoreLib::System::Threading {
 FORWARDS(CancellationToken)
+FORWARD(ContextCallback)
 FORWARD(ExecutionContext)
 FORWARD(ManualResetEvent)
+FORWARD(SendOrPostCallback)
 FORWARD(SynchronizationContext)
 FORWARD(TimerCallback)
 FORWARD(TimerQueueTimer)
@@ -30,6 +32,13 @@ CLASS(CancellationTokenSource) : public object {
   public: using interface = rt::TypeList<IDisposable>;
   public: FORWARDN(CallbackPartition)
   public: CLASS(CallbackNode) : public object {
+    private: CLASS(__c) : public object {
+      public: static void cctor();
+      public: void ctor();
+      public: void _ExecuteCallback_b__9_0(Object s);
+      public: static __c __9;
+      public: static ContextCallback __9__9_0;
+    };
     public: void ctor(CallbackPartition partition);
     public: void ExecuteCallback();
     public: CallbackPartition Partition;
@@ -52,6 +61,16 @@ CLASS(CancellationTokenSource) : public object {
     public: CallbackNode Callbacks;
     public: CallbackNode FreeNodeList;
     public: Int64 NextAvailableId;
+  };
+  private: CLASS(__c) : public object {
+    public: static void cctor();
+    public: void ctor();
+    public: void _ExecuteCallbackHandlers_b__44_0(Object s);
+    public: void _WaitForCallbackToCompleteAsync_b__50_0(Object s);
+    public: void _cctor_b__56_0(Object obj);
+    public: static __c __9;
+    public: static SendOrPostCallback __9__44_0;
+    public: static Action<Object> __9__50_0;
   };
   public: Boolean get_IsCancellationRequested();
   public: Boolean get_IsCancellationCompleted();
@@ -107,6 +126,12 @@ CLASS(Linked2CancellationTokenSource) : public CancellationTokenSource::in {
   private: CancellationTokenRegistration _reg2;
 };
 CLASS(LinkedNCancellationTokenSource) : public CancellationTokenSource::in {
+  private: CLASS(__c) : public object {
+    public: static void cctor();
+    public: void ctor();
+    public: void _cctor_b__4_0(Object s);
+    public: static __c __9;
+  };
   public: void ctor(Array<CancellationToken> tokens);
   protected: void Dispose(Boolean disposing);
   public: static void cctor();

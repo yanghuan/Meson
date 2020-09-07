@@ -13,7 +13,6 @@
 #include <System.Private.CoreLib/System/IRuntimeMethodInfo.h>
 #include <System.Private.CoreLib/System/MulticastDelegate-dep.h>
 #include <System.Private.CoreLib/System/NullReferenceException-dep.h>
-#include <System.Private.CoreLib/System/Object-dep.h>
 #include <System.Private.CoreLib/System/OutOfMemoryException-dep.h>
 #include <System.Private.CoreLib/System/Reflection/BindingFlags.h>
 #include <System.Private.CoreLib/System/Reflection/CustomAttributeExtensions-dep.h>
@@ -25,6 +24,7 @@
 #include <System.Private.CoreLib/System/Runtime/CompilerServices/RuntimeHelpers-dep.h>
 #include <System.Private.CoreLib/System/Runtime/InteropServices/ComTypes/IBindCtx.h>
 #include <System.Private.CoreLib/System/Runtime/InteropServices/ComTypes/IMoniker.h>
+#include <System.Private.CoreLib/System/Runtime/InteropServices/Marshal-dep.h>
 #include <System.Private.CoreLib/System/Runtime/InteropServices/ProgIdAttribute-dep.h>
 #include <System.Private.CoreLib/System/RuntimeType-dep.h>
 #include <System.Private.CoreLib/System/SByte-dep.h>
@@ -40,6 +40,45 @@ using namespace System::Reflection;
 using namespace System::Runtime::CompilerServices;
 using namespace System::Runtime::InteropServices::ComTypes;
 using namespace System::Text;
+
+void Marshal::__c___::cctor() {
+  <>9 = rt::newobj<__c>();
+}
+
+void Marshal::__c___::ctor() {
+}
+
+Byte Marshal::__c___::_ReadByte_b__4_0(IntPtr nativeHome, Int32 offset) {
+  return ReadByte(nativeHome, offset);
+}
+
+Int16 Marshal::__c___::_ReadInt16_b__5_0(IntPtr nativeHome, Int32 offset) {
+  return ReadInt16(nativeHome, offset);
+}
+
+Int32 Marshal::__c___::_ReadInt32_b__6_0(IntPtr nativeHome, Int32 offset) {
+  return ReadInt32(nativeHome, offset);
+}
+
+Int64 Marshal::__c___::_ReadInt64_b__7_0(IntPtr nativeHome, Int32 offset) {
+  return ReadInt64(nativeHome, offset);
+}
+
+void Marshal::__c___::_WriteByte_b__9_0(IntPtr nativeHome, Int32 offset, Byte value) {
+  WriteByte(nativeHome, offset, value);
+}
+
+void Marshal::__c___::_WriteInt16_b__10_0(IntPtr nativeHome, Int32 offset, Int16 value) {
+  WriteInt16(nativeHome, offset, value);
+}
+
+void Marshal::__c___::_WriteInt32_b__11_0(IntPtr nativeHome, Int32 offset, Int32 value) {
+  WriteInt32(nativeHome, offset, value);
+}
+
+void Marshal::__c___::_WriteInt64_b__12_0(IntPtr nativeHome, Int32 offset, Int64 value) {
+  WriteInt64(nativeHome, offset, value);
+}
 
 IntPtr Marshal::OffsetOf(Type t, String fieldName) {
   if ((Object)t == nullptr) {
@@ -57,27 +96,43 @@ IntPtr Marshal::OffsetOf(Type t, String fieldName) {
 }
 
 Byte Marshal::ReadByte(Object ptr, Int32 ofs) {
+  Func<IntPtr, Int32, Byte> as = __c::in::__9__4_0;
+  return ReadValueSlow(ptr, ofs, as != nullptr ? as : (__c::in::__9__4_0 = &__c::in::__9->_ReadByte_b__4_0));
 }
 
 Int16 Marshal::ReadInt16(Object ptr, Int32 ofs) {
+  Func<IntPtr, Int32, Int16> as = __c::in::__9__5_0;
+  return ReadValueSlow(ptr, ofs, as != nullptr ? as : (__c::in::__9__5_0 = &__c::in::__9->_ReadInt16_b__5_0));
 }
 
 Int32 Marshal::ReadInt32(Object ptr, Int32 ofs) {
+  Func<IntPtr, Int32, Int32> as = __c::in::__9__6_0;
+  return ReadValueSlow(ptr, ofs, as != nullptr ? as : (__c::in::__9__6_0 = &__c::in::__9->_ReadInt32_b__6_0));
 }
 
 Int64 Marshal::ReadInt64(Object ptr, Int32 ofs) {
+  Func<IntPtr, Int32, Int64> as = __c::in::__9__7_0;
+  return ReadValueSlow(ptr, ofs, as != nullptr ? as : (__c::in::__9__7_0 = &__c::in::__9->_ReadInt64_b__7_0));
 }
 
 void Marshal::WriteByte(Object ptr, Int32 ofs, Byte val) {
+  Action<IntPtr, Int32, Byte> as = __c::in::__9__9_0;
+  WriteValueSlow(ptr, ofs, val, as != nullptr ? as : (__c::in::__9__9_0 = &__c::in::__9->_WriteByte_b__9_0));
 }
 
 void Marshal::WriteInt16(Object ptr, Int32 ofs, Int16 val) {
+  Action<IntPtr, Int32, Int16> as = __c::in::__9__10_0;
+  WriteValueSlow(ptr, ofs, val, as != nullptr ? as : (__c::in::__9__10_0 = &__c::in::__9->_WriteInt16_b__10_0));
 }
 
 void Marshal::WriteInt32(Object ptr, Int32 ofs, Int32 val) {
+  Action<IntPtr, Int32, Int32> as = __c::in::__9__11_0;
+  WriteValueSlow(ptr, ofs, val, as != nullptr ? as : (__c::in::__9__11_0 = &__c::in::__9->_WriteInt32_b__11_0));
 }
 
 void Marshal::WriteInt64(Object ptr, Int32 ofs, Int64 val) {
+  Action<IntPtr, Int32, Int64> as = __c::in::__9__12_0;
+  WriteValueSlow(ptr, ofs, val, as != nullptr ? as : (__c::in::__9__12_0 = &__c::in::__9->_WriteInt64_b__12_0));
 }
 
 void Marshal::PrelinkCore(MethodInfo m) {

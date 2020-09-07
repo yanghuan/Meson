@@ -36,6 +36,7 @@ enum class DayOfWeek : int32_t;
 enum class TimeZoneInfoOptions : int32_t;
 FORWARD_(Array, T1, T2)
 FORWARDS(Char)
+FORWARD(Comparison, T)
 FORWARDS(DateTimeOffset)
 FORWARD(Exception)
 FORWARD(IEquatable, T)
@@ -74,6 +75,8 @@ CLASS(TimeZoneInfo) : public object {
     public: static TransitionTime CreateFixedDateRule(DateTime timeOfDay, Int32 month, Int32 day);
     public: static TransitionTime CreateFloatingDateRule(DateTime timeOfDay, Int32 month, Int32 week, DayOfWeek dayOfWeek);
     private: static void ValidateTransitionTime(DateTime timeOfDay, Int32 month, Int32 week, Int32 day, DayOfWeek dayOfWeek);
+    private: void OnDeserializationOfIDeserializationCallback(Object sender);
+    private: void GetObjectDataOfISerializable(SerializationInfo info, StreamingContext context);
     private: explicit TransitionTime(SerializationInfo info, StreamingContext context);
     public: explicit TransitionTime() {}
     private: DateTime _timeOfDay;
@@ -102,6 +105,8 @@ CLASS(TimeZoneInfo) : public object {
     public: Boolean IsEndDateMarkerForEndOfYear();
     private: static void ValidateAdjustmentRule(DateTime dateStart, DateTime dateEnd, TimeSpan daylightDelta, TransitionTime daylightTransitionStart, TransitionTime daylightTransitionEnd, Boolean noDaylightTransitions);
     private: static void AdjustDaylightDeltaToExpectedRange(TimeSpan& daylightDelta, TimeSpan& baseUtcOffsetDelta);
+    private: void OnDeserializationOfIDeserializationCallback(Object sender);
+    private: void GetObjectDataOfISerializable(SerializationInfo info, StreamingContext context);
     public: void ctor(SerializationInfo info, StreamingContext context);
     public: static void cctor();
     private: static TimeSpan DaylightDeltaAdjustment;
@@ -159,6 +164,13 @@ CLASS(TimeZoneInfo) : public object {
     private: Int32 _currentTokenStartIndex;
     private: State _state;
   };
+  private: CLASS(__c) : public object {
+    public: static void cctor();
+    public: void ctor();
+    public: Int32 _GetSystemTimeZones_b__62_0(TimeZoneInfo x, TimeZoneInfo y);
+    public: static __c __9;
+    public: static Comparison<TimeZoneInfo> __9__62_0;
+  };
   public: String get_Id();
   public: String get_DisplayName();
   public: String get_StandardName();
@@ -209,6 +221,8 @@ CLASS(TimeZoneInfo) : public object {
   public: static TimeZoneInfo CreateCustomTimeZone(String id, TimeSpan baseUtcOffset, String displayName, String standardDisplayName);
   public: static TimeZoneInfo CreateCustomTimeZone(String id, TimeSpan baseUtcOffset, String displayName, String standardDisplayName, String daylightDisplayName, Array<AdjustmentRule> adjustmentRules);
   public: static TimeZoneInfo CreateCustomTimeZone(String id, TimeSpan baseUtcOffset, String displayName, String standardDisplayName, String daylightDisplayName, Array<AdjustmentRule> adjustmentRules, Boolean disableDaylightSavingTime);
+  private: void OnDeserializationOfIDeserializationCallback(Object sender);
+  private: void GetObjectDataOfISerializable(SerializationInfo info, StreamingContext context);
   public: void ctor(SerializationInfo info, StreamingContext context);
   private: AdjustmentRule GetAdjustmentRuleForTime(DateTime dateTime, Nullable<Int32>& ruleIndex);
   private: AdjustmentRule GetAdjustmentRuleForTime(DateTime dateTime, Boolean dateTimeisUtc, Nullable<Int32>& ruleIndex);

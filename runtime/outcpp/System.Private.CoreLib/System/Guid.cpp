@@ -872,6 +872,10 @@ Boolean Guid::TryFormat(Span<Char> destination, Int32& charsWritten, ReadOnlySpa
   return true;
 }
 
+Boolean Guid::TryFormatOfISpanFormattable(Span<Char> destination, Int32& charsWritten, ReadOnlySpan<Char> format, IFormatProvider provider) {
+  return TryFormat(destination, charsWritten, format);
+}
+
 Guid Guid::NewGuid() {
   Guid guid;
   Int32 num = Interop::Ole32::CoCreateGuid(guid);

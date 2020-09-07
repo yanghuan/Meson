@@ -20,6 +20,7 @@ using namespace System;
 CLASS(RegistryKey) : public object {
   public: using interface = rt::TypeList<IDisposable>;
   public: void ctor(SafeRegistryHandle hkey);
+  private: void DisposeOfIDisposable();
   public: void DeleteValue(String name, Boolean throwOnMissingValue);
   public: static RegistryKey OpenBaseKey(IntPtr hKey);
   public: RegistryKey OpenSubKey(String name);

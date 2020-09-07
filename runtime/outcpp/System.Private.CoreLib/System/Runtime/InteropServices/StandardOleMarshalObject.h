@@ -32,6 +32,12 @@ CLASS(StandardOleMarshalObject) : public MarshalByRefObject::in {
   };
   public: void ctor();
   private: IntPtr GetStdMarshaler(Guid& riid, Int32 dwDestContext, Int32 mshlflags);
+  private: Int32 GetUnmarshalClassOfIMarshal(Guid& riid, IntPtr pv, Int32 dwDestContext, IntPtr pvDestContext, Int32 mshlflags, Guid& pCid);
+  private: Int32 GetMarshalSizeMaxOfIMarshal(Guid& riid, IntPtr pv, Int32 dwDestContext, IntPtr pvDestContext, Int32 mshlflags, Int32& pSize);
+  private: Int32 MarshalInterfaceOfIMarshal(IntPtr pStm, Guid& riid, IntPtr pv, Int32 dwDestContext, IntPtr pvDestContext, Int32 mshlflags);
+  private: Int32 UnmarshalInterfaceOfIMarshal(IntPtr pStm, Guid& riid, IntPtr& ppv);
+  private: Int32 ReleaseMarshalDataOfIMarshal(IntPtr pStm);
+  private: Int32 DisconnectObjectOfIMarshal(Int32 dwReserved);
   public: static void cctor();
   private: static Guid CLSID_StdMarshal;
 };

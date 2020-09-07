@@ -13,9 +13,13 @@ namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)
 FORWARDS(Char)
 FORWARDS(IntPtr)
+FORWARDS(Span, T)
 FORWARD(String)
 FORWARDS(UInt32)
 } // namespace System::Private::CoreLib::System
+namespace System::Private::CoreLib::System::Buffers {
+FORWARD(SpanFunc, TSpan, T1, T2, T3, TResult)
+} // namespace System::Private::CoreLib::System::Buffers
 namespace System::Private::CoreLib::System::Text {
 FORWARD(StringBuilder)
 } // namespace System::Private::CoreLib::System::Text
@@ -24,6 +28,7 @@ enum class CalendarDataType : int32_t;
 enum class CalendarId : uint16_t;
 FORWARD(Calendar)
 namespace CalendarDataNamespace {
+using namespace System::Buffers;
 using namespace System::Collections::Generic;
 using namespace System::Text;
 CLASS(CalendarData) : public object {
@@ -38,6 +43,13 @@ CLASS(CalendarData) : public object {
   public: struct NlsEnumCalendarsData : public valueType<NlsEnumCalendarsData> {
     public: Int32 userOverride;
     public: List<Int32> calendars;
+  };
+  private: CLASS(__c) : public object {
+    public: static void cctor();
+    public: void ctor();
+    public: Interop::Globalization::ResultCode _GetCalendarInfo_b__33_0(Span<Char> buffer, String locale, CalendarId id, CalendarDataType type);
+    public: static __c __9;
+    public: static SpanFunc<Char, String, CalendarId, CalendarDataType, Interop::Globalization::ResultCode> __9__33_0;
   };
   public: void ctor();
   private: static CalendarData CreateInvariant();

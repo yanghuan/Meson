@@ -13,11 +13,18 @@ namespace System::Private::CoreLib::System {
 enum class StringComparison : int32_t;
 FORWARD_(Array, T1, T2)
 FORWARDS(Boolean)
+FORWARDS(Byte)
 FORWARDS(Char)
 FORWARDS(Int32)
+FORWARDS(IntPtr)
 FORWARDS(ReadOnlySpan, T)
+FORWARDS(Span, T)
 FORWARD(String)
+FORWARDS_(ValueTuple, T1, T2, T3, T4, T5, T6, T7, T8, T9)
 } // namespace System::Private::CoreLib::System
+namespace System::Private::CoreLib::System::Buffers {
+FORWARD(SpanAction, T, TArg)
+} // namespace System::Private::CoreLib::System::Buffers
 namespace System::Private::Uri::System {
 enum class ParsingError : int32_t;
 enum class UriComponents : int32_t;
@@ -29,6 +36,7 @@ FORWARD(UriFormatException)
 FORWARD(UriParser)
 namespace UriNamespace {
 using namespace ::System::Private::CoreLib::System;
+using namespace ::System::Private::CoreLib::System::Buffers;
 using namespace ::System::Private::CoreLib::System::Runtime::Serialization;
 CLASS(Uri) : public object {
   public: using interface = rt::TypeList<ISerializable>;
@@ -130,6 +138,15 @@ CLASS(Uri) : public object {
     public: ::System::Private::CoreLib::System::String ScopeId;
     private: MoreInfo _moreInfo;
   };
+  private: CLASS(__c) : public object {
+    public: static void cctor();
+    public: void ctor();
+    public: void _HexEscape_b__119_0(Span<Char> chars, Byte b);
+    public: void _CheckSchemeSyntax_b__151_1(Span<Char> buffer, ValueTuple<IntPtr, Int32> state);
+    public: static __c __9;
+    public: static SpanAction<Char, Byte> __9__119_0;
+    public: static SpanAction<Char, ValueTuple<IntPtr, Int32>> __9__151_1;
+  };
   private: Boolean get_IsImplicitFile();
   private: Boolean get_IsUncOrDosPath();
   private: Boolean get_IsDosPath();
@@ -179,6 +196,7 @@ CLASS(Uri) : public object {
   public: void ctor(String uriString, UriKind uriKind);
   public: void ctor(Uri baseUri, String relativeUri);
   public: void ctor(SerializationInfo serializationInfo, StreamingContext streamingContext);
+  private: void GetObjectDataOfISerializable(SerializationInfo serializationInfo, StreamingContext streamingContext);
   protected: void GetObjectData(SerializationInfo serializationInfo, StreamingContext streamingContext);
   private: void CreateUri(Uri baseUri, String relativeUri, Boolean dontEscape);
   public: void ctor(Uri baseUri, Uri relativeUri);
@@ -260,6 +278,7 @@ CLASS(Uri) : public object {
   public: Boolean IsBaseOfHelper(Uri uriLink);
   private: void CreateThisFromUri(Uri otherUri);
   public: static void cctor();
+  public: static Char _CheckSchemeSyntax_g__ToLowerCaseAscii151_0(Char c);
   public: static String UriSchemeFile;
   public: static String UriSchemeFtp;
   public: static String UriSchemeGopher;

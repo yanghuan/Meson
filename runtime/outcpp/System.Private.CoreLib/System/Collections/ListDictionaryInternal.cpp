@@ -126,6 +126,29 @@ void ListDictionaryInternal___::NodeKeyValueCollection___::ctor(ListDictionaryIn
   this->isKeys = isKeys;
 }
 
+void ListDictionaryInternal___::NodeKeyValueCollection___::CopyToOfICollection(Array<> array, Int32 index) {
+  if (array == nullptr) {
+    rt::throw_exception<ArgumentNullException>("array");
+  }
+  if (array->get_Rank() != 1) {
+    rt::throw_exception<ArgumentException>(SR::get_Arg_RankMultiDimNotSupported());
+  }
+  if (index < 0) {
+    rt::throw_exception<ArgumentOutOfRangeException>("index", SR::get_ArgumentOutOfRange_NeedNonNegNum());
+  }
+  if (array->get_Length() - index < list->get_Count()) {
+    rt::throw_exception<ArgumentException>(SR::get_ArgumentOutOfRange_Index(), "index");
+  }
+  for (DictionaryNode dictionaryNode = list->head; dictionaryNode != nullptr; dictionaryNode = dictionaryNode->next) {
+    array->SetValue(isKeys ? dictionaryNode->key : dictionaryNode->value, index);
+    index++;
+  }
+}
+
+IEnumerator ListDictionaryInternal___::NodeKeyValueCollection___::GetEnumeratorOfIEnumerable() {
+  return rt::newobj<NodeKeyValueEnumerator>(list, isKeys);
+}
+
 Object ListDictionaryInternal___::get_Item(Object key) {
   if (key == nullptr) {
     rt::throw_exception<ArgumentNullException>("key", SR::get_ArgumentNull_Key());
@@ -261,6 +284,10 @@ void ListDictionaryInternal___::CopyTo(Array<> array, Int32 index) {
 }
 
 IDictionaryEnumerator ListDictionaryInternal___::GetEnumerator() {
+  return rt::newobj<NodeEnumerator>((ListDictionaryInternal)this);
+}
+
+IEnumerator ListDictionaryInternal___::GetEnumeratorOfIEnumerable() {
   return rt::newobj<NodeEnumerator>((ListDictionaryInternal)this);
 }
 

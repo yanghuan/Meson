@@ -3,7 +3,12 @@
 #include <System.Private.CoreLib/System/Boolean.h>
 #include <System.Private.CoreLib/System/Int32.h>
 #include <System.Private.CoreLib/System/Object.h>
+#include <System.Private.CoreLib/System/Runtime/CompilerServices/AsyncTaskMethodBuilder.h>
+#include <System.Private.CoreLib/System/Runtime/CompilerServices/ConfiguredTaskAwaitable.h>
+#include <System.Private.CoreLib/System/Threading/CancellationToken.h>
+#include <System.Private.CoreLib/System/Threading/CancellationTokenRegistration.h>
 #include <System.Private.CoreLib/System/Threading/Tasks/Task.h>
+#include <System.Private.CoreLib/System/ValueType.h>
 
 namespace System::Private::CoreLib::System {
 FORWARD_(Action, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17)
@@ -12,10 +17,11 @@ FORWARDS(TimeSpan)
 FORWARDS(UInt32)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Runtime::CompilerServices {
+FORWARD(IAsyncStateMachine)
 FORWARD(StrongBox, T)
 } // namespace System::Private::CoreLib::System::Runtime::CompilerServices
 namespace System::Private::CoreLib::System::Threading {
-FORWARDS(CancellationToken)
+FORWARD(CancellationTokenSource)
 FORWARD(ManualResetEvent)
 FORWARD(WaitHandle)
 namespace SemaphoreSlimNamespace {
@@ -27,6 +33,29 @@ CLASS(SemaphoreSlim) : public object {
     public: void ctor();
     public: TaskNode Prev;
     public: TaskNode Next;
+  };
+  private: CLASS(__c) : public object {
+    public: static void cctor();
+    public: void ctor();
+    public: void _WaitUntilCountOrTimeoutAsync_b__33_0(Object s);
+    public: static __c __9;
+    public: static Action<Object> __9__33_0;
+  };
+  private: struct _WaitUntilCountOrTimeoutAsync_d__33 : public valueType<_WaitUntilCountOrTimeoutAsync_d__33> {
+    public: using interface = rt::TypeList<IAsyncStateMachine>;
+    private: void MoveNext();
+    private: void SetStateMachine(IAsyncStateMachine stateMachine);
+    public: Int32 __1__state;
+    public: AsyncTaskMethodBuilder<Boolean> __t__builder;
+    public: Int32 millisecondsTimeout;
+    public: CancellationToken cancellationToken;
+    public: TaskNode asyncWaiter;
+    public: SemaphoreSlim __4__this;
+    private: CancellationTokenSource _cts_5__2;
+    private: Object __7__wrap2;
+    private: ConfiguredTaskAwaitable<Task<>>::ConfiguredTaskAwaiter __u__1;
+    private: CancellationTokenRegistration __7__wrap3;
+    private: ConfiguredTaskAwaitable<Boolean>::ConfiguredTaskAwaiter __u__2;
   };
   public: Int32 get_CurrentCount();
   public: WaitHandle get_AvailableWaitHandle();

@@ -588,4 +588,50 @@ void Console::cctor() {
   s_syncObject = rt::newobj<Object>();
 }
 
+TextReader Console::_get_In_g__EnsureInitialized13_0() {
+  ConsolePal::EnsureConsoleInitialized();
+  {
+    rt::lock(s_syncObject);
+    if (s_in == nullptr) {
+      Volatile::Write(s_in, ConsolePal::GetOrCreateReader());
+    }
+    return s_in;
+  }
+}
+
+TextWriter Console::_get_Out_g__EnsureInitialized25_0() {
+  {
+    rt::lock(s_syncObject);
+    if (s_out == nullptr) {
+      Volatile::Write(s_out, CreateOutputWriter(OpenStandardOutput()));
+    }
+    return s_out;
+  }
+}
+
+TextWriter Console::_get_Error_g__EnsureInitialized27_0() {
+  {
+    rt::lock(s_syncObject);
+    if (s_error == nullptr) {
+      Volatile::Write(s_error, CreateOutputWriter(OpenStandardError()));
+    }
+    return s_error;
+  }
+}
+
+StrongBox<Boolean> Console::_get_IsInputRedirected_g__EnsureInitialized33_0() {
+  Volatile::Write(_isStdInRedirected, rt::newobj<StrongBox<Boolean>>(ConsolePal::IsInputRedirectedCore()));
+  return _isStdInRedirected;
+}
+
+StrongBox<Boolean> Console::_get_IsOutputRedirected_g__EnsureInitialized35_0() {
+  Volatile::Write(_isStdOutRedirected, rt::newobj<StrongBox<Boolean>>(ConsolePal::IsOutputRedirectedCore()));
+  return _isStdOutRedirected;
+}
+
+StrongBox<Boolean> Console::_get_IsErrorRedirected_g__EnsureInitialized37_0() {
+  Volatile::Write(_isStdErrRedirected, rt::newobj<StrongBox<Boolean>>(ConsolePal::IsErrorRedirectedCore()));
+  return _isStdErrRedirected;
+}
+
 } // namespace System::Console::System::ConsoleNamespace

@@ -6,8 +6,8 @@
 #include <System.Private.CoreLib/System/ArgumentNullException-dep.h>
 #include <System.Private.CoreLib/System/ArgumentOutOfRangeException-dep.h>
 #include <System.Private.CoreLib/System/Buffer-dep.h>
-#include <System.Private.CoreLib/System/Collections/Generic/IEnumerator.h>
 #include <System.Private.CoreLib/System/Collections/Generic/ValueListBuilder-dep.h>
+#include <System.Private.CoreLib/System/Convert-dep.h>
 #include <System.Private.CoreLib/System/ExceptionArgument.h>
 #include <System.Private.CoreLib/System/ExceptionResource.h>
 #include <System.Private.CoreLib/System/Globalization/CompareInfo-dep.h>
@@ -35,7 +35,6 @@
 #include <System.Private.CoreLib/System/Text/TrimType.h>
 #include <System.Private.CoreLib/System/Text/ValueStringBuilder-dep.h>
 #include <System.Private.CoreLib/System/ThrowHelper-dep.h>
-#include <System.Private.CoreLib/System/UInt16-dep.h>
 #include <System.Private.CoreLib/System/UInt32-dep.h>
 #include <System.Private.CoreLib/System/UInt64-dep.h>
 #include <System.Private.CoreLib/System/UIntPtr-dep.h>
@@ -972,6 +971,14 @@ CharEnumerator String___::GetEnumerator() {
   return rt::newobj<CharEnumerator>((String)this);
 }
 
+IEnumerator<Char> String___::GetEnumeratorOfChar() {
+  return rt::newobj<CharEnumerator>((String)this);
+}
+
+IEnumerator_ String___::GetEnumeratorOfIEnumerable() {
+  return rt::newobj<CharEnumerator>((String)this);
+}
+
 StringRuneEnumerator String___::EnumerateRunes() {
   return StringRuneEnumerator((String)this);
 }
@@ -998,6 +1005,66 @@ void String___::ThrowMustBeNullTerminatedString() {
 
 TypeCode String___::GetTypeCode() {
   return TypeCode::String;
+}
+
+Boolean String___::ToBooleanOfIConvertible(IFormatProvider provider) {
+  return Convert::ToBoolean((String)this, provider);
+}
+
+Char String___::ToCharOfIConvertible(IFormatProvider provider) {
+  return Convert::ToChar((String)this, provider);
+}
+
+SByte String___::ToSByteOfIConvertible(IFormatProvider provider) {
+  return Convert::ToSByte((String)this, provider);
+}
+
+Byte String___::ToByteOfIConvertible(IFormatProvider provider) {
+  return Convert::ToByte((String)this, provider);
+}
+
+Int16 String___::ToInt16OfIConvertible(IFormatProvider provider) {
+  return Convert::ToInt16((String)this, provider);
+}
+
+UInt16 String___::ToUInt16OfIConvertible(IFormatProvider provider) {
+  return Convert::ToUInt16((String)this, provider);
+}
+
+Int32 String___::ToInt32OfIConvertible(IFormatProvider provider) {
+  return Convert::ToInt32((String)this, provider);
+}
+
+UInt32 String___::ToUInt32OfIConvertible(IFormatProvider provider) {
+  return Convert::ToUInt32((String)this, provider);
+}
+
+Int64 String___::ToInt64OfIConvertible(IFormatProvider provider) {
+  return Convert::ToInt64((String)this, provider);
+}
+
+UInt64 String___::ToUInt64OfIConvertible(IFormatProvider provider) {
+  return Convert::ToUInt64((String)this, provider);
+}
+
+Single String___::ToSingleOfIConvertible(IFormatProvider provider) {
+  return Convert::ToSingle((String)this, provider);
+}
+
+Double String___::ToDoubleOfIConvertible(IFormatProvider provider) {
+  return Convert::ToDouble((String)this, provider);
+}
+
+Decimal String___::ToDecimalOfIConvertible(IFormatProvider provider) {
+  return Convert::ToDecimal((String)this, provider);
+}
+
+DateTime String___::ToDateTimeOfIConvertible(IFormatProvider provider) {
+  return Convert::ToDateTime((String)this, provider);
+}
+
+Object String___::ToTypeOfIConvertible(Type type, IFormatProvider provider) {
+  return Convert::DefaultToType((String)this, type, provider);
 }
 
 Boolean String___::IsNormalized() {

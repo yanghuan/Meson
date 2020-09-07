@@ -1,6 +1,8 @@
 #pragma once
 
 #include <System.Private.CoreLib/System/Boolean.h>
+#include <System.Private.CoreLib/System/Collections/Generic/List.h>
+#include <System.Private.CoreLib/System/Int32.h>
 #include <System.Private.CoreLib/System/Int64.h>
 #include <System.Private.CoreLib/System/IntPtr.h>
 #include <System.Private.CoreLib/System/Object.h>
@@ -14,7 +16,6 @@ FORWARDS(Byte)
 FORWARD_(Func, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18)
 FORWARDS(Guid)
 FORWARD(IDisposable)
-FORWARDS(Int32)
 FORWARDS(ReadOnlySpan, T)
 FORWARD(ResolveEventHandler)
 FORWARD(String)
@@ -23,12 +24,17 @@ FORWARD_(WeakReference, T1, T2)
 namespace System::Private::CoreLib::System::Collections::Generic {
 FORWARD(Dictionary, TKey, TValue)
 FORWARD(IEnumerable, T)
+FORWARD(IEnumerator, T)
 } // namespace System::Private::CoreLib::System::Collections::Generic
 namespace System::Private::CoreLib::System::Reflection {
 FORWARD(Assembly)
 FORWARD(AssemblyName)
 FORWARD(RuntimeAssembly)
 } // namespace System::Private::CoreLib::System::Reflection
+namespace System::Private::CoreLib::System::Collections {
+FORWARD(IEnumerable)
+FORWARD(IEnumerator)
+} // namespace System::Private::CoreLib::System::Collections
 namespace System::Private::CoreLib::System::Runtime::CompilerServices {
 FORWARDS(ObjectHandleOnStack)
 FORWARDS(QCallAssembly)
@@ -41,11 +47,18 @@ FORWARD(AsyncLocal, T)
 } // namespace System::Private::CoreLib::System::Threading
 namespace System::Private::CoreLib::System::Runtime::Loader {
 namespace AssemblyLoadContextNamespace {
+using namespace System::Collections;
 using namespace System::Collections::Generic;
 using namespace System::IO;
 using namespace System::Reflection;
 using namespace System::Runtime::CompilerServices;
 using namespace System::Threading;
+template <class T>
+using IEnumerable = Collections::Generic::IEnumerable<T>;
+using IEnumerable_ = Collections::IEnumerable;
+template <class T>
+using IEnumerator = Collections::Generic::IEnumerator<T>;
+using IEnumerator_ = Collections::IEnumerator;
 CLASS(AssemblyLoadContext) : public object {
   private: enum class InternalState : int32_t {
     Alive = 0,
@@ -59,6 +72,39 @@ CLASS(AssemblyLoadContext) : public object {
     private: AssemblyLoadContext _activated;
     private: AssemblyLoadContext _predecessor;
     private: Boolean _initialized;
+  };
+  private: CLASS(_get_Assemblies_d__55) : public object {
+    public: using interface = rt::TypeList<IEnumerable<Assembly>, IEnumerable_, IEnumerator<Assembly>, IDisposable, IEnumerator_>;
+    private: Assembly get_CurrentOfAssembly();
+    private: Object get_CurrentOfIEnumerator();
+    public: void ctor(Int32 __1__state);
+    private: void DisposeOfIDisposable();
+    private: Boolean MoveNext();
+    private: void ResetOfIEnumerator();
+    private: IEnumerator<Assembly> GetEnumeratorOfAssembly();
+    private: IEnumerator_ GetEnumeratorOfIEnumerable();
+    private: Int32 __1__state;
+    private: Assembly __2__current;
+    private: Int32 __l__initialThreadId;
+    public: AssemblyLoadContext __4__this;
+    private: Array<Assembly> __7__wrap1;
+    private: Int32 __7__wrap2;
+  };
+  private: CLASS(_get_All_d__85) : public object {
+    public: using interface = rt::TypeList<IEnumerable<AssemblyLoadContext>, IEnumerable_, IEnumerator<AssemblyLoadContext>, IDisposable, IEnumerator_>;
+    private: AssemblyLoadContext get_CurrentOfAssemblyLoadContext();
+    private: Object get_CurrentOfIEnumerator();
+    public: void ctor(Int32 __1__state);
+    private: void DisposeOfIDisposable();
+    private: Boolean MoveNext();
+    private: void __m__Finally1();
+    private: void ResetOfIEnumerator();
+    private: IEnumerator<AssemblyLoadContext> GetEnumeratorOfAssemblyLoadContext();
+    private: IEnumerator_ GetEnumeratorOfIEnumerable();
+    private: Int32 __1__state;
+    private: AssemblyLoadContext __2__current;
+    private: Int32 __l__initialThreadId;
+    private: List<WeakReference<AssemblyLoadContext>>::in::Enumerator __7__wrap1;
   };
   public: IEnumerable<Assembly> get_Assemblies();
   public: static AssemblyLoadContext get_Default();

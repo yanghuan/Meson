@@ -1,9 +1,23 @@
 #include "HexConverter-dep.h"
 
-#include <System.Private.CoreLib/System/IntPtr-dep.h>
+#include <System.Private.CoreLib/System/Byte-dep.h>
+#include <System.Private.CoreLib/System/HexConverter-dep.h>
+#include <System.Private.CoreLib/System/ReadOnlySpan-dep.h>
 #include <System.Private.CoreLib/System/UInt32-dep.h>
 
 namespace System::Private::CoreLib::System::HexConverterNamespace {
+void HexConverter::__c___::cctor() {
+  <>9 = rt::newobj<__c>();
+}
+
+void HexConverter::__c___::ctor() {
+}
+
+void HexConverter::__c___::_ToString_b__4_0(Span<Char> chars, ValueTuple<IntPtr, Int32, Casing> args) {
+  ReadOnlySpan<Byte> bytes = ReadOnlySpan<Byte>((void*)args.Item1, args.Item2);
+  EncodeToUtf16(bytes, chars, args.Item3);
+}
+
 ReadOnlySpan<Byte> HexConverter::get_CharToHexLookup() {
   return rt::newarr<Array<Byte>>(256);
 }
@@ -31,6 +45,8 @@ void HexConverter::EncodeToUtf16(ReadOnlySpan<Byte> bytes, Span<Char> chars, Cas
 String HexConverter::ToString(ReadOnlySpan<Byte> bytes, Casing casing) {
   {
     Byte* value = bytes;
+    SpanAction<Char, ValueTuple<IntPtr, Int32, Casing>> as = __c::in::__9__4_0;
+    return String::in::Create(bytes.get_Length() * 2, {(IntPtr)(void*)value, bytes.get_Length(), casing}, as != nullptr ? as : (__c::in::__9__4_0 = rt::newobj<SpanAction<Char, ValueTuple<IntPtr, Int32, Casing>>>(&_ToString_b__4_0)));
   }
 }
 

@@ -17,12 +17,29 @@
 #include <System.Private.CoreLib/System/Threading/ManualResetEvent-dep.h>
 #include <System.Private.CoreLib/System/Threading/SpinLock-dep.h>
 #include <System.Private.CoreLib/System/Threading/SpinWait-dep.h>
+#include <System.Private.CoreLib/System/Threading/Tasks/Task-dep.h>
+#include <System.Private.CoreLib/System/Threading/Tasks/TaskCreationOptions.h>
+#include <System.Private.CoreLib/System/Threading/Tasks/TaskScheduler-dep.h>
 #include <System.Private.CoreLib/System/Threading/TimerQueueTimer-dep.h>
 #include <System.Private.CoreLib/System/Threading/Volatile-dep.h>
+#include <System.Private.CoreLib/System/Tuple-dep.h>
 #include <System.Private.CoreLib/System/UInt32-dep.h>
 
 namespace System::Private::CoreLib::System::Threading::CancellationTokenSourceNamespace {
 using namespace System::Collections::Generic;
+using namespace System::Threading::Tasks;
+
+void CancellationTokenSource___::CallbackNode___::__c___::cctor() {
+  <>9 = rt::newobj<__c>();
+}
+
+void CancellationTokenSource___::CallbackNode___::__c___::ctor() {
+}
+
+void CancellationTokenSource___::CallbackNode___::__c___::_ExecuteCallback_b__9_0(Object s) {
+  CallbackNode callbackNode = (CallbackNode)s;
+  callbackNode->Callback(callbackNode->CallbackState);
+}
 
 void CancellationTokenSource___::CallbackNode___::ctor(CallbackPartition partition) {
   Partition = partition;
@@ -31,6 +48,8 @@ void CancellationTokenSource___::CallbackNode___::ctor(CallbackPartition partiti
 void CancellationTokenSource___::CallbackNode___::ExecuteCallback() {
   ExecutionContext executionContext = ExecutionContext;
   if (executionContext != nullptr) {
+    ContextCallback as = __c::in::__9__9_0;
+    ExecutionContext::in::RunInternal(executionContext, as != nullptr ? as : (__c::in::__9__9_0 = &__c::in::__9->_ExecuteCallback_b__9_0), (CallbackNode)this);
   } else {
     Callback(CallbackState);
   }
@@ -60,6 +79,17 @@ void Linked2CancellationTokenSource___::Dispose(Boolean disposing) {
   }
 }
 
+void LinkedNCancellationTokenSource___::__c___::cctor() {
+  <>9 = rt::newobj<__c>();
+}
+
+void LinkedNCancellationTokenSource___::__c___::ctor() {
+}
+
+void LinkedNCancellationTokenSource___::__c___::_cctor_b__4_0(Object s) {
+  ((CancellationTokenSource)s)->NotifyCancellation(false);
+}
+
 void LinkedNCancellationTokenSource___::ctor(Array<CancellationToken> tokens) {
   _linkingRegistrations = rt::newarr<Array<CancellationTokenRegistration>>(tokens->get_Length());
   for (Int32 i = 0; i < tokens->get_Length(); i++) {
@@ -84,6 +114,7 @@ void LinkedNCancellationTokenSource___::Dispose(Boolean disposing) {
 }
 
 void LinkedNCancellationTokenSource___::cctor() {
+  s_linkedTokenCancelDelegate = &__c::in::__9->_cctor_b__4_0;
 }
 
 void CancellationTokenSource___::CallbackPartition___::ctor(CancellationTokenSource source) {
@@ -124,6 +155,28 @@ Boolean CancellationTokenSource___::CallbackPartition___::Unregister(Int64 id, C
   } finally: {
     Lock.Exit(false);
   }
+}
+
+void CancellationTokenSource___::__c___::cctor() {
+  <>9 = rt::newobj<__c>();
+}
+
+void CancellationTokenSource___::__c___::ctor() {
+}
+
+void CancellationTokenSource___::__c___::_ExecuteCallbackHandlers_b__44_0(Object s) {
+  CallbackNode callbackNode = (CallbackNode)s;
+  callbackNode->Partition->Source->set_ThreadIDExecutingCallbacks(Environment::get_CurrentManagedThreadId());
+  callbackNode->ExecuteCallback();
+}
+
+void CancellationTokenSource___::__c___::_WaitForCallbackToCompleteAsync_b__50_0(Object s) {
+  Tuple<CancellationTokenSource, Int64> tuple = (Tuple<CancellationTokenSource, Int64>)s;
+  tuple->get_Item1()->WaitForCallbackToComplete(tuple->get_Item2());
+}
+
+void CancellationTokenSource___::__c___::_cctor_b__56_0(Object obj) {
+  ((CancellationTokenSource)obj)->NotifyCancellation(false);
 }
 
 Boolean CancellationTokenSource___::get_IsCancellationRequested() {
@@ -380,6 +433,9 @@ void CancellationTokenSource___::ExecuteCallbackHandlers(Boolean throwOnFirstExc
       IL_00ad:
         try {
           if (callbacks->SynchronizationContext != nullptr) {
+            SendOrPostCallback as = __c::in::__9__44_0;
+            callbacks->SynchronizationContext->Send(as != nullptr ? as : (__c::in::__9__44_0 = &__c::in::__9->_ExecuteCallbackHandlers_b__44_0), callbacks);
+            get_ThreadIDExecutingCallbacks(Environment::get_CurrentManagedThreadId());
           } else {
             callbacks->ExecuteCallback();
           }
@@ -450,11 +506,16 @@ ValueTask<> CancellationTokenSource___::WaitForCallbackToCompleteAsync(Int64 id)
   if (get_ExecutingCallback() != id) {
     return rt::default__;
   }
+  Action<Object> as = __c::in::__9__50_0;
+  return ValueTask<>(Task<>::in::get_Factory()->StartNew(as != nullptr ? as : (__c::in::__9__50_0 = &__c::in::__9->_WaitForCallbackToCompleteAsync_b__50_0), Tuple<>::Create((CancellationTokenSource)this, id), CancellationToken::get_None(), TaskCreationOptions::None, TaskScheduler::in::get_Default()));
 }
 
 void CancellationTokenSource___::cctor() {
   s_canceledSource = rt::newobj<CancellationTokenSource>();
   s_neverCanceledSource = rt::newobj<CancellationTokenSource>();
+  s_timerCallback = &__c::in::__9->_cctor_b__56_0;
+  s_numPartitions = GetPartitionCount();
+  s_numPartitionsMask = s_numPartitions - 1;
 }
 
 } // namespace System::Private::CoreLib::System::Threading::CancellationTokenSourceNamespace

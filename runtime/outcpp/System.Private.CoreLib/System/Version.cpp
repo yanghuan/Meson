@@ -229,6 +229,10 @@ Boolean Version___::TryFormat(Span<Char> destination, Int32 fieldCount, Int32& c
       }}
 }
 
+Boolean Version___::TryFormatOfISpanFormattable(Span<Char> destination, Int32& charsWritten, ReadOnlySpan<Char> format, IFormatProvider provider) {
+  return TryFormat(destination, charsWritten);
+}
+
 StringBuilder Version___::ToCachedStringBuilder(Int32 fieldCount) {
   if (fieldCount == 2) {
     StringBuilder stringBuilder = StringBuilderCache::Acquire();

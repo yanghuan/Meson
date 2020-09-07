@@ -144,6 +144,28 @@ void TimeZoneInfo___::TransitionTime::ValidateTransitionTime(DateTime timeOfDay,
   }
 }
 
+void TimeZoneInfo___::TransitionTime::OnDeserializationOfIDeserializationCallback(Object sender) {
+  if (*this != rt::default__) {
+    try {
+      ValidateTransitionTime(_timeOfDay, _month, _week, _day, _dayOfWeek);
+    } catch (ArgumentException innerException) {
+      rt::throw_exception<SerializationException>(SR::get_Serialization_InvalidData(), innerException);
+    }
+  }
+}
+
+void TimeZoneInfo___::TransitionTime::GetObjectDataOfISerializable(SerializationInfo info, StreamingContext context) {
+  if (info == nullptr) {
+    rt::throw_exception<ArgumentNullException>("info");
+  }
+  info->AddValue("TimeOfDay", _timeOfDay);
+  info->AddValue("Month", _month);
+  info->AddValue("Week", _week);
+  info->AddValue("Day", _day);
+  info->AddValue("DayOfWeek", _dayOfWeek);
+  info->AddValue("IsFixedDateRule", _isFixedDateRule);
+}
+
 TimeZoneInfo___::TransitionTime::TransitionTime(SerializationInfo info, StreamingContext context) {
   if (info == nullptr) {
     rt::throw_exception<ArgumentNullException>("info");
@@ -275,6 +297,27 @@ void TimeZoneInfo___::AdjustmentRule___::AdjustDaylightDeltaToExpectedRange(Time
     baseUtcOffsetDelta -= DaylightDeltaAdjustment;
   }
 
+}
+
+void TimeZoneInfo___::AdjustmentRule___::OnDeserializationOfIDeserializationCallback(Object sender) {
+  try {
+    ValidateAdjustmentRule(_dateStart, _dateEnd, _daylightDelta, _daylightTransitionStart, _daylightTransitionEnd, _noDaylightTransitions);
+  } catch (ArgumentException innerException) {
+    rt::throw_exception<SerializationException>(SR::get_Serialization_InvalidData(), innerException);
+  }
+}
+
+void TimeZoneInfo___::AdjustmentRule___::GetObjectDataOfISerializable(SerializationInfo info, StreamingContext context) {
+  if (info == nullptr) {
+    rt::throw_exception<ArgumentNullException>("info");
+  }
+  info->AddValue("DateStart", _dateStart);
+  info->AddValue("DateEnd", _dateEnd);
+  info->AddValue("DaylightDelta", _daylightDelta);
+  info->AddValue("DaylightTransitionStart", _daylightTransitionStart);
+  info->AddValue("DaylightTransitionEnd", _daylightTransitionEnd);
+  info->AddValue("BaseUtcOffsetDelta", _baseUtcOffsetDelta);
+  info->AddValue("NoDaylightTransitions", _noDaylightTransitions);
 }
 
 void TimeZoneInfo___::AdjustmentRule___::ctor(SerializationInfo info, StreamingContext context) {
@@ -704,6 +747,21 @@ TimeZoneInfo::in::TransitionTime TimeZoneInfo___::StringSerializer::GetNextTrans
   return result;
 }
 
+void TimeZoneInfo___::__c___::cctor() {
+  <>9 = rt::newobj<__c>();
+}
+
+void TimeZoneInfo___::__c___::ctor() {
+}
+
+Int32 TimeZoneInfo___::__c___::_GetSystemTimeZones_b__62_0(TimeZoneInfo x, TimeZoneInfo y) {
+  Int32 num = x->get_BaseUtcOffset().CompareTo(y->get_BaseUtcOffset());
+  if (num != 0) {
+    return num;
+  }
+  return String::in::CompareOrdinal(x->get_DisplayName(), y->get_DisplayName());
+}
+
 String TimeZoneInfo___::get_Id() {
   return _id;
 }
@@ -1095,6 +1153,9 @@ ReadOnlyCollection<TimeZoneInfo> TimeZoneInfo___::GetSystemTimeZones() {
       PopulateAllSystemTimeZones(cachedData);
       cachedData->_allSystemTimeZonesRead = true;
       List<TimeZoneInfo> list = (cachedData->_systemTimeZones == nullptr) ? rt::newobj<List<TimeZoneInfo>>() : rt::newobj<List<TimeZoneInfo>>(cachedData->_systemTimeZones->get_Values());
+      Comparison<TimeZoneInfo> as = __c::in::__9__62_0;
+      list->Sort(as != nullptr ? as : (__c::in::__9__62_0 = &__c::in::__9->_GetSystemTimeZones_b__62_0));
+      cachedData->_readOnlySystemTimeZones = rt::newobj<ReadOnlyCollection<TimeZoneInfo>>(list);
     }
   }
   return cachedData->_readOnlySystemTimeZones;
@@ -1159,6 +1220,33 @@ TimeZoneInfo TimeZoneInfo___::CreateCustomTimeZone(String id, TimeSpan baseUtcOf
     adjustmentRules = (Array<AdjustmentRule>)adjustmentRules->Clone();
   }
   return rt::newobj<TimeZoneInfo>(id, baseUtcOffset, displayName, standardDisplayName, daylightDisplayName, adjustmentRules, disableDaylightSavingTime);
+}
+
+void TimeZoneInfo___::OnDeserializationOfIDeserializationCallback(Object sender) {
+  try {
+    Boolean adjustmentRulesSupportDst;
+    ValidateTimeZoneInfo(_id, _baseUtcOffset, _adjustmentRules, adjustmentRulesSupportDst);
+    if (adjustmentRulesSupportDst != _supportsDaylightSavingTime) {
+      rt::throw_exception<SerializationException>(SR::Format(SR::get_Serialization_CorruptField(), "SupportsDaylightSavingTime"));
+    }
+  } catch (ArgumentException innerException) {
+    rt::throw_exception<SerializationException>(SR::get_Serialization_InvalidData(), innerException);
+  } catch (InvalidTimeZoneException innerException2) {
+    rt::throw_exception<SerializationException>(SR::get_Serialization_InvalidData(), innerException2);
+  }
+}
+
+void TimeZoneInfo___::GetObjectDataOfISerializable(SerializationInfo info, StreamingContext context) {
+  if (info == nullptr) {
+    rt::throw_exception<ArgumentNullException>("info");
+  }
+  info->AddValue("Id", _id);
+  info->AddValue("DisplayName", _displayName);
+  info->AddValue("StandardName", _standardDisplayName);
+  info->AddValue("DaylightName", _daylightDisplayName);
+  info->AddValue("BaseUtcOffset", _baseUtcOffset);
+  info->AddValue("AdjustmentRules", _adjustmentRules);
+  info->AddValue("SupportsDaylightSavingTime", _supportsDaylightSavingTime);
 }
 
 void TimeZoneInfo___::ctor(SerializationInfo info, StreamingContext context) {

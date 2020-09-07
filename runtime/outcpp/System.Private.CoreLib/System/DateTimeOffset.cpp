@@ -12,6 +12,7 @@
 #include <System.Private.CoreLib/System/Globalization/DateTimeFormatInfo-dep.h>
 #include <System.Private.CoreLib/System/Globalization/DateTimeStyles.h>
 #include <System.Private.CoreLib/System/Int16-dep.h>
+#include <System.Private.CoreLib/System/Runtime/Serialization/SerializationException-dep.h>
 #include <System.Private.CoreLib/System/SR-dep.h>
 #include <System.Private.CoreLib/System/ThrowHelper-dep.h>
 #include <System.Private.CoreLib/System/TimeZoneInfo-dep.h>
@@ -20,6 +21,7 @@
 
 namespace System::Private::CoreLib::System::DateTimeOffsetNamespace {
 using namespace System::Globalization;
+using namespace System::Runtime::Serialization;
 
 DateTimeOffset DateTimeOffset::get_Now() {
   return ToLocalTime(DateTime::get_UtcNow(), true);
@@ -206,6 +208,24 @@ Int32 DateTimeOffset::Compare(DateTimeOffset first, DateTimeOffset second) {
   return DateTime::Compare(first.get_UtcDateTime(), second.get_UtcDateTime());
 }
 
+Int32 DateTimeOffset::CompareToOfIComparable(Object obj) {
+  if (obj == nullptr) {
+    return 1;
+  }
+  if (!rt::is<DateTimeOffset>(obj)) {
+    rt::throw_exception<ArgumentException>(SR::get_Arg_MustBeDateTimeOffset());
+  }
+  DateTime utcDateTime = ((DateTimeOffset)obj).get_UtcDateTime();
+  DateTime utcDateTime2 = get_UtcDateTime();
+  if (utcDateTime2 > utcDateTime) {
+    return 1;
+  }
+  if (utcDateTime2 < utcDateTime) {
+    return -1;
+  }
+  return 0;
+}
+
 Int32 DateTimeOffset::CompareTo(DateTimeOffset other) {
   DateTime utcDateTime = other.get_UtcDateTime();
   DateTime utcDateTime2 = get_UtcDateTime();
@@ -258,6 +278,23 @@ DateTimeOffset DateTimeOffset::FromUnixTimeMilliseconds(Int64 milliseconds) {
   }
   Int64 ticks = milliseconds * 10000 + 621355968000000000;
   return DateTimeOffset(ticks, TimeSpan::Zero);
+}
+
+void DateTimeOffset::OnDeserializationOfIDeserializationCallback(Object sender) {
+  try {
+    ValidateOffset(get_Offset());
+    ValidateDate(get_ClockDateTime(), get_Offset());
+  } catch (ArgumentException innerException) {
+    rt::throw_exception<SerializationException>(SR::get_Serialization_InvalidData(), innerException);
+  }
+}
+
+void DateTimeOffset::GetObjectDataOfISerializable(SerializationInfo info, StreamingContext context) {
+  if (info == nullptr) {
+    rt::throw_exception<ArgumentNullException>("info");
+  }
+  info->AddValue("DateTime", _dateTime);
+  info->AddValue("OffsetMinutes", _offsetMinutes);
 }
 
 DateTimeOffset::DateTimeOffset(SerializationInfo info, StreamingContext context) {

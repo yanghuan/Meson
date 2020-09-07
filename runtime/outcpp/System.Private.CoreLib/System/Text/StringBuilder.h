@@ -78,6 +78,7 @@ CLASS(StringBuilder) : public object {
   public: void ctor(String value, Int32 startIndex, Int32 length, Int32 capacity);
   public: void ctor(Int32 capacity, Int32 maxCapacity);
   public: void ctor(SerializationInfo info, StreamingContext context);
+  private: void GetObjectDataOfISerializable(SerializationInfo info, StreamingContext context);
   public: Int32 EnsureCapacity(Int32 capacity);
   public: String ToString();
   public: String ToString(Int32 startIndex, Int32 length);

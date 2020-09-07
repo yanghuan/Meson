@@ -225,7 +225,7 @@ IAsyncLocalValueMap AsyncLocalValueMap::ManyElementAsyncLocalValueMap___::Set(IA
   if (value != nullptr || !treatNullValueAsNonexistent) {
     ManyElementAsyncLocalValueMap manyElementAsyncLocalValueMap = rt::newobj<ManyElementAsyncLocalValueMap>(count + ((!flag) ? 1 : 0));
     {
-      Dictionary<TKey, TValue>::in::Enumerator enumerator = GetEnumerator();
+      Dictionary<IAsyncLocal, Object>::in::Enumerator enumerator = GetEnumerator();
       rt::Using(enumerator);
       while (enumerator.MoveNext()) {
         KeyValuePair<IAsyncLocal, Object> current = enumerator.get_Current();
@@ -240,7 +240,7 @@ IAsyncLocalValueMap AsyncLocalValueMap::ManyElementAsyncLocalValueMap___::Set(IA
       MultiElementAsyncLocalValueMap multiElementAsyncLocalValueMap = rt::newobj<MultiElementAsyncLocalValueMap>(16);
       Int32 num = 0;
       {
-        Dictionary<TKey, TValue>::in::Enumerator enumerator2 = GetEnumerator();
+        Dictionary<IAsyncLocal, Object>::in::Enumerator enumerator2 = GetEnumerator();
         rt::Using(enumerator2);
         while (enumerator2.MoveNext()) {
           KeyValuePair<IAsyncLocal, Object> current2 = enumerator2.get_Current();
@@ -253,7 +253,7 @@ IAsyncLocalValueMap AsyncLocalValueMap::ManyElementAsyncLocalValueMap___::Set(IA
     }
     ManyElementAsyncLocalValueMap manyElementAsyncLocalValueMap2 = rt::newobj<ManyElementAsyncLocalValueMap>(count - 1);
     {
-      Dictionary<TKey, TValue>::in::Enumerator enumerator3 = GetEnumerator();
+      Dictionary<IAsyncLocal, Object>::in::Enumerator enumerator3 = GetEnumerator();
       rt::Using(enumerator3);
       while (enumerator3.MoveNext()) {
         KeyValuePair<IAsyncLocal, Object> current3 = enumerator3.get_Current();

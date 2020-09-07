@@ -369,4 +369,154 @@ Vector64<UInt32> Vector64<>::CreateScalarUnsafe(UInt32 value) {
   return Unsafe::AsRef<Vector64<UInt32>>(ptr);
 }
 
+Vector64<Byte> Vector64<>::_Create_g__SoftwareFallback12_0(Byte value) {
+  Byte as[8] = {};
+  Byte* source = as;
+  return Unsafe::AsRef<Vector64<Byte>>(source);
+}
+
+Vector64<Double> Vector64<>::_Create_g__SoftwareFallback13_0(Double value) {
+  return Unsafe::As<Double, Vector64<Double>>(value);
+}
+
+Vector64<Int16> Vector64<>::_Create_g__SoftwareFallback14_0(Int16 value) {
+  Int16 as[4] = {};
+  Int16* source = as;
+  return Unsafe::AsRef<Vector64<Int16>>(source);
+}
+
+Vector64<Int32> Vector64<>::_Create_g__SoftwareFallback15_0(Int32 value) {
+  Int32 as[2] = {};
+  Int32* source = as;
+  return Unsafe::AsRef<Vector64<Int32>>(source);
+}
+
+Vector64<Int64> Vector64<>::_Create_g__SoftwareFallback16_0(Int64 value) {
+  return Unsafe::As<Int64, Vector64<Int64>>(value);
+}
+
+Vector64<SByte> Vector64<>::_Create_g__SoftwareFallback17_0(SByte value) {
+  SByte as[8] = {};
+  SByte* source = as;
+  return Unsafe::AsRef<Vector64<SByte>>(source);
+}
+
+Vector64<Single> Vector64<>::_Create_g__SoftwareFallback18_0(Single value) {
+  Single as[2] = {};
+  Single* source = as;
+  return Unsafe::AsRef<Vector64<Single>>(source);
+}
+
+Vector64<UInt16> Vector64<>::_Create_g__SoftwareFallback19_0(UInt16 value) {
+  UInt16 as[4] = {};
+  UInt16* source = as;
+  return Unsafe::AsRef<Vector64<UInt16>>(source);
+}
+
+Vector64<UInt32> Vector64<>::_Create_g__SoftwareFallback20_0(UInt32 value) {
+  UInt32 as[2] = {};
+  UInt32* source = as;
+  return Unsafe::AsRef<Vector64<UInt32>>(source);
+}
+
+Vector64<UInt64> Vector64<>::_Create_g__SoftwareFallback21_0(UInt64 value) {
+  return Unsafe::As<UInt64, Vector64<UInt64>>(value);
+}
+
+Vector64<Byte> Vector64<>::_Create_g__SoftwareFallback22_0(Byte e0, Byte e1, Byte e2, Byte e3, Byte e4, Byte e5, Byte e6, Byte e7) {
+  Byte as[8] = {};
+  Byte* source = as;
+  return Unsafe::AsRef<Vector64<Byte>>(source);
+}
+
+Vector64<Int16> Vector64<>::_Create_g__SoftwareFallback23_0(Int16 e0, Int16 e1, Int16 e2, Int16 e3) {
+  Int16 as[4] = {};
+  Int16* source = as;
+  return Unsafe::AsRef<Vector64<Int16>>(source);
+}
+
+Vector64<Int32> Vector64<>::_Create_g__SoftwareFallback24_0(Int32 e0, Int32 e1) {
+  Int32 as[2] = {};
+  Int32* source = as;
+  return Unsafe::AsRef<Vector64<Int32>>(source);
+}
+
+Vector64<SByte> Vector64<>::_Create_g__SoftwareFallback25_0(SByte e0, SByte e1, SByte e2, SByte e3, SByte e4, SByte e5, SByte e6, SByte e7) {
+  SByte as[8] = {};
+  SByte* source = as;
+  return Unsafe::AsRef<Vector64<SByte>>(source);
+}
+
+Vector64<Single> Vector64<>::_Create_g__SoftwareFallback26_0(Single e0, Single e1) {
+  Single as[2] = {};
+  Single* source = as;
+  return Unsafe::AsRef<Vector64<Single>>(source);
+}
+
+Vector64<UInt16> Vector64<>::_Create_g__SoftwareFallback27_0(UInt16 e0, UInt16 e1, UInt16 e2, UInt16 e3) {
+  UInt16 as[4] = {};
+  UInt16* source = as;
+  return Unsafe::AsRef<Vector64<UInt16>>(source);
+}
+
+Vector64<UInt32> Vector64<>::_Create_g__SoftwareFallback28_0(UInt32 e0, UInt32 e1) {
+  UInt32 as[2] = {};
+  UInt32* source = as;
+  return Unsafe::AsRef<Vector64<UInt32>>(source);
+}
+
+Vector64<Byte> Vector64<>::_CreateScalar_g__SoftwareFallback29_0(Byte value) {
+  Vector64<Byte> source = Vector64<Byte>::get_Zero();
+  Unsafe::WriteUnaligned(Unsafe::As<Vector64<Byte>, Byte>(source), value);
+  return source;
+}
+
+Vector64<Double> Vector64<>::_CreateScalar_g__SoftwareFallback30_0(Double value) {
+  return Unsafe::As<Double, Vector64<Double>>(value);
+}
+
+Vector64<Int16> Vector64<>::_CreateScalar_g__SoftwareFallback31_0(Int16 value) {
+  Vector64<Int16> source = Vector64<Int16>::get_Zero();
+  Unsafe::WriteUnaligned(Unsafe::As<Vector64<Int16>, Byte>(source), value);
+  return source;
+}
+
+Vector64<Int32> Vector64<>::_CreateScalar_g__SoftwareFallback32_0(Int32 value) {
+  Vector64<Int32> source = Vector64<Int32>::get_Zero();
+  Unsafe::WriteUnaligned(Unsafe::As<Vector64<Int32>, Byte>(source), value);
+  return source;
+}
+
+Vector64<Int64> Vector64<>::_CreateScalar_g__SoftwareFallback33_0(Int64 value) {
+  return Unsafe::As<Int64, Vector64<Int64>>(value);
+}
+
+Vector64<SByte> Vector64<>::_CreateScalar_g__SoftwareFallback34_0(SByte value) {
+  Vector64<SByte> source = Vector64<SByte>::get_Zero();
+  Unsafe::WriteUnaligned(Unsafe::As<Vector64<SByte>, Byte>(source), value);
+  return source;
+}
+
+Vector64<Single> Vector64<>::_CreateScalar_g__SoftwareFallback35_0(Single value) {
+  Vector64<Single> source = Vector64<Single>::get_Zero();
+  Unsafe::WriteUnaligned(Unsafe::As<Vector64<Single>, Byte>(source), value);
+  return source;
+}
+
+Vector64<UInt16> Vector64<>::_CreateScalar_g__SoftwareFallback36_0(UInt16 value) {
+  Vector64<UInt16> source = Vector64<UInt16>::get_Zero();
+  Unsafe::WriteUnaligned(Unsafe::As<Vector64<UInt16>, Byte>(source), value);
+  return source;
+}
+
+Vector64<UInt32> Vector64<>::_CreateScalar_g__SoftwareFallback37_0(UInt32 value) {
+  Vector64<UInt32> source = Vector64<UInt32>::get_Zero();
+  Unsafe::WriteUnaligned(Unsafe::As<Vector64<UInt32>, Byte>(source), value);
+  return source;
+}
+
+Vector64<UInt64> Vector64<>::_CreateScalar_g__SoftwareFallback38_0(UInt64 value) {
+  return Unsafe::As<UInt64, Vector64<UInt64>>(value);
+}
+
 } // namespace System::Private::CoreLib::System::Runtime::Intrinsics::Vector64Namespace

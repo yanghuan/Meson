@@ -5,8 +5,9 @@
 #include <System.Private.CoreLib/System/ArgumentOutOfRangeException-dep.h>
 #include <System.Private.CoreLib/System/Buffer-dep.h>
 #include <System.Private.CoreLib/System/Byte-dep.h>
-#include <System.Private.CoreLib/System/Char-dep.h>
+#include <System.Private.CoreLib/System/Exception-dep.h>
 #include <System.Private.CoreLib/System/GC-dep.h>
+#include <System.Private.CoreLib/System/Int32-dep.h>
 #include <System.Private.CoreLib/System/InvalidOperationException-dep.h>
 #include <System.Private.CoreLib/System/IO/EncodingCache-dep.h>
 #include <System.Private.CoreLib/System/IO/FileAccess.h>
@@ -18,11 +19,11 @@
 #include <System.Private.CoreLib/System/Math-dep.h>
 #include <System.Private.CoreLib/System/MemoryExtensions-dep.h>
 #include <System.Private.CoreLib/System/ObjectDisposedException-dep.h>
-#include <System.Private.CoreLib/System/ReadOnlyMemory-dep.h>
 #include <System.Private.CoreLib/System/ReadOnlySpan-dep.h>
-#include <System.Private.CoreLib/System/Runtime/CompilerServices/AsyncTaskMethodBuilder-dep.h>
-#include <System.Private.CoreLib/System/Runtime/CompilerServices/AsyncValueTaskMethodBuilder-dep.h>
+#include <System.Private.CoreLib/System/Runtime/CompilerServices/ConfiguredTaskAwaitable-dep.h>
+#include <System.Private.CoreLib/System/Runtime/CompilerServices/ConfiguredValueTaskAwaitable-dep.h>
 #include <System.Private.CoreLib/System/Runtime/InteropServices/MemoryMarshal-dep.h>
+#include <System.Private.CoreLib/System/Span-dep.h>
 #include <System.Private.CoreLib/System/SR-dep.h>
 #include <System.Private.CoreLib/System/Text/StringBuilder-dep.h>
 #include <System.Private.CoreLib/System/Text/StringBuilderCache-dep.h>
@@ -34,6 +35,501 @@ using namespace System::Runtime::CompilerServices;
 using namespace System::Runtime::InteropServices;
 using namespace System::Text;
 using namespace System::Threading::Tasks;
+
+void StreamWriter___::_DisposeAsyncCore_d__33::MoveNext() {
+  Int32 num = <>1__state;
+  StreamWriter streamWriter = <>4__this;
+  try {
+    try {
+      ConfiguredTaskAwaitable<>::ConfiguredTaskAwaiter awaiter;
+      if (num == 0) {
+        awaiter = <>u__1;
+        <>u__1 = rt::default__;
+        num = (<>1__state = -1);
+        goto IL_0076;
+      }
+      if (!streamWriter->_disposed) {
+        awaiter = streamWriter->FlushAsync()->ConfigureAwait(false).GetAwaiter();
+        if (!awaiter.get_IsCompleted()) {
+          num = (<>1__state = 0);
+          <>u__1 = awaiter;
+          <>t__builder.AwaitUnsafeOnCompleted(awaiter, *this);
+          return;
+        }
+        goto IL_0076;
+      }
+      goto end_IL_0011;
+
+    IL_0076:
+      awaiter.GetResult();
+
+    end_IL_0011:
+    } catch (...) {
+    } finally: {
+      if (num < 0) {
+        streamWriter->CloseStreamFromDispose(true);
+      }
+    }
+    GC::SuppressFinalize(streamWriter);
+  } catch (Exception exception) {
+    <>1__state = -2;
+    <>t__builder.SetException(exception);
+    return;
+  }
+  <>1__state = -2;
+  <>t__builder.SetResult();
+}
+
+void StreamWriter___::_DisposeAsyncCore_d__33::SetStateMachine(IAsyncStateMachine stateMachine) {
+  <>t__builder.SetStateMachine(stateMachine);
+}
+
+void StreamWriter___::_WriteAsyncInternal_d__61::MoveNext() {
+  Int32 num = <>1__state;
+  try {
+    ConfiguredTaskAwaitable<>::ConfiguredTaskAwaiter awaiter3;
+    ConfiguredTaskAwaitable<>::ConfiguredTaskAwaiter awaiter2;
+    ConfiguredTaskAwaitable<>::ConfiguredTaskAwaiter awaiter;
+    switch (num.get()) {
+      default:
+        if (charPos == charLen) {
+          awaiter3 = _this->FlushAsyncInternal(false, false, charBuffer, charPos)->ConfigureAwait(false).GetAwaiter();
+          if (!awaiter3.get_IsCompleted()) {
+            num = (<>1__state = 0);
+            <>u__1 = awaiter3;
+            <>t__builder.AwaitUnsafeOnCompleted(awaiter3, *this);
+            return;
+          }
+          goto IL_00a3;
+        }
+        goto IL_00b1;
+      case 0:
+        awaiter3 = <>u__1;
+        <>u__1 = rt::default__;
+        num = (<>1__state = -1);
+        goto IL_00a3;
+      case 1:
+        awaiter2 = <>u__1;
+        <>u__1 = rt::default__;
+        num = (<>1__state = -1);
+        goto IL_017a;
+      case 2:
+        {
+          awaiter = <>u__1;
+          <>u__1 = rt::default__;
+          num = (<>1__state = -1);
+          goto IL_025d;
+        }
+      IL_01d9:
+        if (!autoFlush) {
+          break;
+        }
+        awaiter = _this->FlushAsyncInternal(true, false, charBuffer, charPos)->ConfigureAwait(false).GetAwaiter();
+        if (!awaiter.get_IsCompleted()) {
+          num = (<>1__state = 2);
+          <>u__1 = awaiter;
+          <>t__builder.AwaitUnsafeOnCompleted(awaiter, *this);
+          return;
+        }
+        goto IL_025d;
+
+      IL_025d:
+        awaiter.GetResult();
+        charPos = 0;
+        break;
+
+      IL_00a3:
+        awaiter3.GetResult();
+        charPos = 0;
+        goto IL_00b1;
+
+      IL_00b1:
+        charBuffer[charPos] = value;
+        charPos++;
+        if (appendNewLine) {
+          <i>5__2 = 0;
+          goto IL_01c6;
+        }
+        goto IL_01d9;
+
+      IL_017a:
+        awaiter2.GetResult();
+        charPos = 0;
+        goto IL_0188;
+
+      IL_01c6:
+        if (<i>5__2 < coreNewLine->get_Length()) {
+          if (charPos == charLen) {
+            awaiter2 = _this->FlushAsyncInternal(false, false, charBuffer, charPos)->ConfigureAwait(false).GetAwaiter();
+            if (!awaiter2.get_IsCompleted()) {
+              num = (<>1__state = 1);
+              <>u__1 = awaiter2;
+              <>t__builder.AwaitUnsafeOnCompleted(awaiter2, *this);
+              return;
+            }
+            goto IL_017a;
+          }
+          goto IL_0188;
+        }
+        goto IL_01d9;
+
+      IL_0188:
+        charBuffer[charPos] = coreNewLine[<i>5__2];
+        charPos++;
+        <i>5__2++;
+        goto IL_01c6;
+    }
+    _this->_charPos = charPos;
+  } catch (Exception exception) {
+    <>1__state = -2;
+    <>t__builder.SetException(exception);
+    return;
+  }
+  <>1__state = -2;
+  <>t__builder.SetResult();
+}
+
+void StreamWriter___::_WriteAsyncInternal_d__61::SetStateMachine(IAsyncStateMachine stateMachine) {
+  <>t__builder.SetStateMachine(stateMachine);
+}
+
+void StreamWriter___::_WriteAsyncInternal_d__63::MoveNext() {
+  Int32 num = <>1__state;
+  try {
+    ConfiguredTaskAwaitable<>::ConfiguredTaskAwaiter awaiter3;
+    ConfiguredTaskAwaitable<>::ConfiguredTaskAwaiter awaiter2;
+    ConfiguredTaskAwaitable<>::ConfiguredTaskAwaiter awaiter;
+    Int32 num2;
+    switch (num.get()) {
+      default:
+        <count>5__2 = value->get_Length();
+        <index>5__3 = 0;
+        goto IL_0135;
+      case 0:
+        awaiter3 = <>u__1;
+        <>u__1 = rt::default__;
+        num = (<>1__state = -1);
+        goto IL_00c1;
+      case 1:
+        awaiter2 = <>u__1;
+        <>u__1 = rt::default__;
+        num = (<>1__state = -1);
+        goto IL_01e6;
+      case 2:
+        {
+          awaiter = <>u__1;
+          <>u__1 = rt::default__;
+          num = (<>1__state = -1);
+          goto IL_02ca;
+        }
+      IL_0135:
+        if (<count>5__2 > 0) {
+          if (charPos == charLen) {
+            awaiter3 = _this->FlushAsyncInternal(false, false, charBuffer, charPos)->ConfigureAwait(false).GetAwaiter();
+            if (!awaiter3.get_IsCompleted()) {
+              num = (<>1__state = 0);
+              <>u__1 = awaiter3;
+              <>t__builder.AwaitUnsafeOnCompleted(awaiter3, *this);
+              return;
+            }
+            goto IL_00c1;
+          }
+          goto IL_00cf;
+        }
+        if (appendNewLine) {
+          <i>5__4 = 0;
+          goto IL_0232;
+        }
+        goto IL_0245;
+
+      IL_01f4:
+        charBuffer[charPos] = coreNewLine[<i>5__4];
+        charPos++;
+        <i>5__4++;
+        goto IL_0232;
+
+      IL_00c1:
+        awaiter3.GetResult();
+        charPos = 0;
+        goto IL_00cf;
+
+      IL_0232:
+        if (<i>5__4 < coreNewLine->get_Length()) {
+          if (charPos == charLen) {
+            awaiter2 = _this->FlushAsyncInternal(false, false, charBuffer, charPos)->ConfigureAwait(false).GetAwaiter();
+            if (!awaiter2.get_IsCompleted()) {
+              num = (<>1__state = 1);
+              <>u__1 = awaiter2;
+              <>t__builder.AwaitUnsafeOnCompleted(awaiter2, *this);
+              return;
+            }
+            goto IL_01e6;
+          }
+          goto IL_01f4;
+        }
+        goto IL_0245;
+
+      IL_0245:
+        if (!autoFlush) {
+          break;
+        }
+        awaiter = _this->FlushAsyncInternal(true, false, charBuffer, charPos)->ConfigureAwait(false).GetAwaiter();
+        if (!awaiter.get_IsCompleted()) {
+          num = (<>1__state = 2);
+          <>u__1 = awaiter;
+          <>t__builder.AwaitUnsafeOnCompleted(awaiter, *this);
+          return;
+        }
+        goto IL_02ca;
+
+      IL_00cf:
+        num2 = charLen - charPos;
+        if (num2 > <count>5__2) {
+          num2 = <count>5__2;
+        }
+        value->CopyTo(<index>5__3, charBuffer, charPos, num2);
+        charPos += num2;
+        <index>5__3 += num2;
+        <count>5__2 -= num2;
+        goto IL_0135;
+
+      IL_02ca:
+        awaiter.GetResult();
+        charPos = 0;
+        break;
+
+      IL_01e6:
+        awaiter2.GetResult();
+        charPos = 0;
+        goto IL_01f4;
+    }
+    _this->_charPos = charPos;
+  } catch (Exception exception) {
+    <>1__state = -2;
+    <>t__builder.SetException(exception);
+    return;
+  }
+  <>1__state = -2;
+  <>t__builder.SetResult();
+}
+
+void StreamWriter___::_WriteAsyncInternal_d__63::SetStateMachine(IAsyncStateMachine stateMachine) {
+  <>t__builder.SetStateMachine(stateMachine);
+}
+
+void StreamWriter___::_WriteAsyncInternal_d__66::MoveNext() {
+  Int32 num = <>1__state;
+  try {
+    ConfiguredTaskAwaitable<>::ConfiguredTaskAwaiter awaiter3;
+    ConfiguredTaskAwaitable<>::ConfiguredTaskAwaiter awaiter2;
+    ConfiguredTaskAwaitable<>::ConfiguredTaskAwaiter awaiter;
+    Int32 num2;
+    ReadOnlySpan<Char> readOnlySpan;
+    switch (num.get()) {
+      default:
+        <copied>5__2 = 0;
+        goto IL_0131;
+      case 0:
+        awaiter3 = <>u__1;
+        <>u__1 = rt::default__;
+        num = (<>1__state = -1);
+        goto IL_00ac;
+      case 1:
+        awaiter2 = <>u__1;
+        <>u__1 = rt::default__;
+        num = (<>1__state = -1);
+        goto IL_01e8;
+      case 2:
+        {
+          awaiter = <>u__1;
+          <>u__1 = rt::default__;
+          num = (<>1__state = -1);
+          goto IL_02c8;
+        }
+      IL_0131:
+        if (<copied>5__2 < source.get_Length()) {
+          if (charPos == charLen) {
+            awaiter3 = _this->FlushAsyncInternal(false, false, charBuffer, charPos, cancellationToken)->ConfigureAwait(false).GetAwaiter();
+            if (!awaiter3.get_IsCompleted()) {
+              num = (<>1__state = 0);
+              <>u__1 = awaiter3;
+              <>t__builder.AwaitUnsafeOnCompleted(awaiter3, *this);
+              return;
+            }
+            goto IL_00ac;
+          }
+          goto IL_00ba;
+        }
+        if (appendNewLine) {
+          <i>5__3 = 0;
+          goto IL_0234;
+        }
+        goto IL_0247;
+
+      IL_01f6:
+        charBuffer[charPos] = coreNewLine[<i>5__3];
+        charPos++;
+        <i>5__3++;
+        goto IL_0234;
+
+      IL_00ac:
+        awaiter3.GetResult();
+        charPos = 0;
+        goto IL_00ba;
+
+      IL_0234:
+        if (<i>5__3 < coreNewLine->get_Length()) {
+          if (charPos == charLen) {
+            awaiter2 = _this->FlushAsyncInternal(false, false, charBuffer, charPos, cancellationToken)->ConfigureAwait(false).GetAwaiter();
+            if (!awaiter2.get_IsCompleted()) {
+              num = (<>1__state = 1);
+              <>u__1 = awaiter2;
+              <>t__builder.AwaitUnsafeOnCompleted(awaiter2, *this);
+              return;
+            }
+            goto IL_01e8;
+          }
+          goto IL_01f6;
+        }
+        goto IL_0247;
+
+      IL_0247:
+        if (!autoFlush) {
+          break;
+        }
+        awaiter = _this->FlushAsyncInternal(true, false, charBuffer, charPos, cancellationToken)->ConfigureAwait(false).GetAwaiter();
+        if (!awaiter.get_IsCompleted()) {
+          num = (<>1__state = 2);
+          <>u__1 = awaiter;
+          <>t__builder.AwaitUnsafeOnCompleted(awaiter, *this);
+          return;
+        }
+        goto IL_02c8;
+
+      IL_00ba:
+        num2 = Math::Min(charLen - charPos, source.get_Length() - <copied>5__2);
+        readOnlySpan = source.get_Span();
+        readOnlySpan = readOnlySpan.Slice(<copied>5__2, num2);
+        readOnlySpan.CopyTo(Span<Char>(charBuffer, charPos, num2));
+        charPos += num2;
+        <copied>5__2 += num2;
+        goto IL_0131;
+
+      IL_02c8:
+        awaiter.GetResult();
+        charPos = 0;
+        break;
+
+      IL_01e8:
+        awaiter2.GetResult();
+        charPos = 0;
+        goto IL_01f6;
+    }
+    _this->_charPos = charPos;
+  } catch (Exception exception) {
+    <>1__state = -2;
+    <>t__builder.SetException(exception);
+    return;
+  }
+  <>1__state = -2;
+  <>t__builder.SetResult();
+}
+
+void StreamWriter___::_WriteAsyncInternal_d__66::SetStateMachine(IAsyncStateMachine stateMachine) {
+  <>t__builder.SetStateMachine(stateMachine);
+}
+
+void StreamWriter___::_FlushAsyncInternal_d__74::MoveNext() {
+  Int32 num = <>1__state;
+  try {
+    ConfiguredValueTaskAwaitable<>::ConfiguredValueTaskAwaiter awaiter3;
+    ConfiguredValueTaskAwaitable<>::ConfiguredValueTaskAwaiter awaiter2;
+    ConfiguredTaskAwaitable<>::ConfiguredTaskAwaiter awaiter;
+    Int32 bytes;
+    switch (num.get()) {
+      default:
+        if (!haveWrittenPreamble) {
+          _this->_haveWrittenPreamble = true;
+          Array<Byte> preamble = encoding->GetPreamble();
+          if (preamble->get_Length() != 0) {
+            awaiter3 = stream->WriteAsync(ReadOnlyMemory<Byte>(preamble), cancellationToken).ConfigureAwait(false).GetAwaiter();
+            if (!awaiter3.get_IsCompleted()) {
+              num = (<>1__state = 0);
+              <>u__1 = awaiter3;
+              <>t__builder.AwaitUnsafeOnCompleted(awaiter3, *this);
+              return;
+            }
+            goto IL_00b3;
+          }
+        }
+        goto IL_00ba;
+      case 0:
+        awaiter3 = <>u__1;
+        <>u__1 = rt::default__;
+        num = (<>1__state = -1);
+        goto IL_00b3;
+      case 1:
+        awaiter2 = <>u__1;
+        <>u__1 = rt::default__;
+        num = (<>1__state = -1);
+        goto IL_0164;
+      case 2:
+        {
+          awaiter = <>u__2;
+          <>u__2 = rt::default__;
+          num = (<>1__state = -1);
+          break;
+        }
+      IL_00ba:
+        bytes = encoder->GetBytes(charBuffer, 0, charPos, byteBuffer, 0, flushEncoder);
+        if (bytes > 0) {
+          awaiter2 = stream->WriteAsync(ReadOnlyMemory<Byte>(byteBuffer, 0, bytes), cancellationToken).ConfigureAwait(false).GetAwaiter();
+          if (!awaiter2.get_IsCompleted()) {
+            num = (<>1__state = 1);
+            <>u__1 = awaiter2;
+            <>t__builder.AwaitUnsafeOnCompleted(awaiter2, *this);
+            return;
+          }
+          goto IL_0164;
+        }
+        goto IL_016b;
+
+      IL_0164:
+        awaiter2.GetResult();
+        goto IL_016b;
+
+      IL_016b:
+        if (flushStream) {
+          awaiter = stream->FlushAsync(cancellationToken)->ConfigureAwait(false).GetAwaiter();
+          if (!awaiter.get_IsCompleted()) {
+            num = (<>1__state = 2);
+            <>u__2 = awaiter;
+            <>t__builder.AwaitUnsafeOnCompleted(awaiter, *this);
+            return;
+          }
+          break;
+        }
+        goto end_IL_0007;
+
+      IL_00b3:
+        awaiter3.GetResult();
+        goto IL_00ba;
+    }
+    awaiter.GetResult();
+
+  end_IL_0007:
+  } catch (Exception exception) {
+    <>1__state = -2;
+    <>t__builder.SetException(exception);
+    return;
+  }
+  <>1__state = -2;
+  <>t__builder.SetResult();
+}
+
+void StreamWriter___::_FlushAsyncInternal_d__74::SetStateMachine(IAsyncStateMachine stateMachine) {
+  <>t__builder.SetStateMachine(stateMachine);
+}
 
 Encoding StreamWriter___::get_UTF8NoBOM() {
   return EncodingCache::UTF8NoBOM;
@@ -180,12 +676,12 @@ ValueTask<> StreamWriter___::DisposeAsync() {
 }
 
 ValueTask<> StreamWriter___::DisposeAsyncCore() {
-  一DisposeAsyncCore一d__33 stateMachine;
-  stateMachine.一一t__builder = AsyncValueTaskMethodBuilder<>::Create();
-  stateMachine.一一4__this = (StreamWriter)this;
-  stateMachine.一一1__state = -1;
-  stateMachine.一一t__builder.Start(stateMachine);
-  return stateMachine.一一t__builder.get_Task();
+  _DisposeAsyncCore_d__33 stateMachine;
+  stateMachine.__t__builder = AsyncValueTaskMethodBuilder<>::Create();
+  stateMachine.__4__this = (StreamWriter)this;
+  stateMachine.__1__state = -1;
+  stateMachine.__t__builder.Start(stateMachine);
+  return stateMachine.__t__builder.get_Task();
 }
 
 void StreamWriter___::Flush() {
@@ -412,8 +908,8 @@ Task<> StreamWriter___::WriteAsync(Char value) {
 }
 
 Task<> StreamWriter___::WriteAsyncInternal(StreamWriter _this, Char value, Array<Char> charBuffer, Int32 charPos, Int32 charLen, Array<Char> coreNewLine, Boolean autoFlush, Boolean appendNewLine) {
-  一WriteAsyncInternal一d__61 stateMachine;
-  stateMachine.一一t__builder = AsyncTaskMethodBuilder<>::Create();
+  _WriteAsyncInternal_d__61 stateMachine;
+  stateMachine.__t__builder = AsyncTaskMethodBuilder<>::Create();
   stateMachine._this = _this;
   stateMachine.value = value;
   stateMachine.charBuffer = charBuffer;
@@ -422,9 +918,9 @@ Task<> StreamWriter___::WriteAsyncInternal(StreamWriter _this, Char value, Array
   stateMachine.coreNewLine = coreNewLine;
   stateMachine.autoFlush = autoFlush;
   stateMachine.appendNewLine = appendNewLine;
-  stateMachine.一一1__state = -1;
-  stateMachine.一一t__builder.Start(stateMachine);
-  return stateMachine.一一t__builder.get_Task();
+  stateMachine.__1__state = -1;
+  stateMachine.__t__builder.Start(stateMachine);
+  return stateMachine.__t__builder.get_Task();
 }
 
 Task<> StreamWriter___::WriteAsync(String value) {
@@ -440,8 +936,8 @@ Task<> StreamWriter___::WriteAsync(String value) {
 }
 
 Task<> StreamWriter___::WriteAsyncInternal(StreamWriter _this, String value, Array<Char> charBuffer, Int32 charPos, Int32 charLen, Array<Char> coreNewLine, Boolean autoFlush, Boolean appendNewLine) {
-  一WriteAsyncInternal一d__63 stateMachine;
-  stateMachine.一一t__builder = AsyncTaskMethodBuilder<>::Create();
+  _WriteAsyncInternal_d__63 stateMachine;
+  stateMachine.__t__builder = AsyncTaskMethodBuilder<>::Create();
   stateMachine._this = _this;
   stateMachine.value = value;
   stateMachine.charBuffer = charBuffer;
@@ -450,9 +946,9 @@ Task<> StreamWriter___::WriteAsyncInternal(StreamWriter _this, String value, Arr
   stateMachine.coreNewLine = coreNewLine;
   stateMachine.autoFlush = autoFlush;
   stateMachine.appendNewLine = appendNewLine;
-  stateMachine.一一1__state = -1;
-  stateMachine.一一t__builder.Start(stateMachine);
-  return stateMachine.一一t__builder.get_Task();
+  stateMachine.__1__state = -1;
+  stateMachine.__t__builder.Start(stateMachine);
+  return stateMachine.__t__builder.get_Task();
 }
 
 Task<> StreamWriter___::WriteAsync(Array<Char> buffer, Int32 index, Int32 count) {
@@ -490,8 +986,8 @@ Task<> StreamWriter___::WriteAsync(ReadOnlyMemory<Char> buffer, CancellationToke
 }
 
 Task<> StreamWriter___::WriteAsyncInternal(StreamWriter _this, ReadOnlyMemory<Char> source, Array<Char> charBuffer, Int32 charPos, Int32 charLen, Array<Char> coreNewLine, Boolean autoFlush, Boolean appendNewLine, CancellationToken cancellationToken) {
-  一WriteAsyncInternal一d__66 stateMachine;
-  stateMachine.一一t__builder = AsyncTaskMethodBuilder<>::Create();
+  _WriteAsyncInternal_d__66 stateMachine;
+  stateMachine.__t__builder = AsyncTaskMethodBuilder<>::Create();
   stateMachine._this = _this;
   stateMachine.source = source;
   stateMachine.charBuffer = charBuffer;
@@ -501,9 +997,9 @@ Task<> StreamWriter___::WriteAsyncInternal(StreamWriter _this, ReadOnlyMemory<Ch
   stateMachine.autoFlush = autoFlush;
   stateMachine.appendNewLine = appendNewLine;
   stateMachine.cancellationToken = cancellationToken;
-  stateMachine.一一1__state = -1;
-  stateMachine.一一t__builder.Start(stateMachine);
-  return stateMachine.一一t__builder.get_Task();
+  stateMachine.__1__state = -1;
+  stateMachine.__t__builder.Start(stateMachine);
+  return stateMachine.__t__builder.get_Task();
 }
 
 Task<> StreamWriter___::WriteLineAsync() {
@@ -593,8 +1089,8 @@ Task<> StreamWriter___::FlushAsyncInternal(Boolean flushStream, Boolean flushEnc
 }
 
 Task<> StreamWriter___::FlushAsyncInternal(StreamWriter _this, Boolean flushStream, Boolean flushEncoder, Array<Char> charBuffer, Int32 charPos, Boolean haveWrittenPreamble, Encoding encoding, Encoder encoder, Array<Byte> byteBuffer, Stream stream, CancellationToken cancellationToken) {
-  一FlushAsyncInternal一d__74 stateMachine;
-  stateMachine.一一t__builder = AsyncTaskMethodBuilder<>::Create();
+  _FlushAsyncInternal_d__74 stateMachine;
+  stateMachine.__t__builder = AsyncTaskMethodBuilder<>::Create();
   stateMachine._this = _this;
   stateMachine.flushStream = flushStream;
   stateMachine.flushEncoder = flushEncoder;
@@ -606,9 +1102,9 @@ Task<> StreamWriter___::FlushAsyncInternal(StreamWriter _this, Boolean flushStre
   stateMachine.byteBuffer = byteBuffer;
   stateMachine.stream = stream;
   stateMachine.cancellationToken = cancellationToken;
-  stateMachine.一一1__state = -1;
-  stateMachine.一一t__builder.Start(stateMachine);
-  return stateMachine.一一t__builder.get_Task();
+  stateMachine.__1__state = -1;
+  stateMachine.__t__builder.Start(stateMachine);
+  return stateMachine.__t__builder.get_Task();
 }
 
 void StreamWriter___::ThrowIfDisposed() {
@@ -622,6 +1118,10 @@ void StreamWriter___::ThrowIfDisposed() {
 
 void StreamWriter___::cctor() {
   Null = rt::newobj<StreamWriter>(Stream::in::Null, get_UTF8NoBOM(), 128, true);
+}
+
+void StreamWriter___::_ThrowIfDisposed_g__ThrowObjectDisposedException75_0() {
+  rt::throw_exception<ObjectDisposedException>(GetType()->get_Name(), SR::get_ObjectDisposed_WriterClosed());
 }
 
 } // namespace System::Private::CoreLib::System::IO::StreamWriterNamespace

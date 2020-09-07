@@ -5,15 +5,17 @@
 #include <System.Private.CoreLib/System/ArgumentOutOfRangeException-dep.h>
 #include <System.Private.CoreLib/System/ArraySegment-dep.h>
 #include <System.Private.CoreLib/System/Buffers/ArrayPool-dep.h>
+#include <System.Private.CoreLib/System/Exception-dep.h>
 #include <System.Private.CoreLib/System/GC-dep.h>
 #include <System.Private.CoreLib/System/IO/IOException-dep.h>
 #include <System.Private.CoreLib/System/IO/TextReader-dep.h>
 #include <System.Private.CoreLib/System/Memory-dep.h>
-#include <System.Private.CoreLib/System/Runtime/CompilerServices/AsyncTaskMethodBuilder-dep.h>
-#include <System.Private.CoreLib/System/Runtime/CompilerServices/AsyncValueTaskMethodBuilder-dep.h>
+#include <System.Private.CoreLib/System/Runtime/CompilerServices/ConfiguredValueTaskAwaitable-dep.h>
 #include <System.Private.CoreLib/System/Runtime/InteropServices/MemoryMarshal-dep.h>
 #include <System.Private.CoreLib/System/SR-dep.h>
 #include <System.Private.CoreLib/System/Text/StringBuilder-dep.h>
+#include <System.Private.CoreLib/System/Threading/Tasks/TaskCreationOptions.h>
+#include <System.Private.CoreLib/System/Threading/Tasks/TaskScheduler-dep.h>
 #include <System.Private.CoreLib/System/Tuple-dep.h>
 #include <System.Private.CoreLib/System/UInt32-dep.h>
 
@@ -22,6 +24,7 @@ using namespace System::Buffers;
 using namespace System::Runtime::CompilerServices;
 using namespace System::Runtime::InteropServices;
 using namespace System::Text;
+using namespace System::Threading::Tasks;
 
 void NullTextReader___::ctor() {
 }
@@ -104,6 +107,139 @@ Task<Int32> SyncTextReader___::ReadAsync(Array<Char> buffer, Int32 index, Int32 
     rt::throw_exception<ArgumentException>(SR::get_Argument_InvalidOffLen());
   }
   return Task<>::in::FromResult(Read(buffer, index, count));
+}
+
+void TextReader___::__c___::cctor() {
+  <>9 = rt::newobj<__c>();
+}
+
+void TextReader___::__c___::ctor() {
+}
+
+String TextReader___::__c___::_ReadLineAsync_b__13_0(Object state) {
+  return ((TextReader)state)->ReadLine();
+}
+
+Int32 TextReader___::__c___::_ReadAsync_b__16_0(Object state) {
+  Tuple<TextReader, Memory<Char>> tuple = (Tuple<TextReader, Memory<Char>>)state;
+  return tuple->get_Item1()->Read(tuple->get_Item2().get_Span());
+}
+
+Int32 TextReader___::__c___::_ReadAsyncInternal_b__17_0(Object state) {
+  Tuple<TextReader, Memory<Char>> tuple = (Tuple<TextReader, Memory<Char>>)state;
+  return tuple->get_Item1()->Read(tuple->get_Item2().get_Span());
+}
+
+Int32 TextReader___::__c___::_ReadBlockAsync_b__19_0(Object state) {
+  Tuple<TextReader, Memory<Char>> tuple = (Tuple<TextReader, Memory<Char>>)state;
+  return tuple->get_Item1()->ReadBlock(tuple->get_Item2().get_Span());
+}
+
+void TextReader___::_ReadToEndAsync_d__14::MoveNext() {
+  Int32 num = <>1__state;
+  TextReader textReader = <>4__this;
+  String result2;
+  try {
+    if (num != 0) {
+      <sb>5__2 = rt::newobj<StringBuilder>(4096);
+      <chars>5__3 = ArrayPool<Char>::in::get_Shared()->Rent(4096);
+    }
+    try {
+      if (num != 0) {
+        goto IL_0050;
+      }
+      ConfiguredValueTaskAwaitable<TResult>::ConfiguredValueTaskAwaiter awaiter = <>u__1;
+      <>u__1 = rt::default__;
+      num = (<>1__state = -1);
+      goto IL_00ca;
+
+    IL_0050:
+      awaiter = textReader->ReadAsyncInternal(<chars>5__3, rt::default__).ConfigureAwait(false).GetAwaiter();
+      if (!awaiter.get_IsCompleted()) {
+        num = (<>1__state = 0);
+        <>u__1 = awaiter;
+        <>t__builder.AwaitUnsafeOnCompleted(awaiter, *this);
+        return;
+      }
+      goto IL_00ca;
+
+    IL_00ca:
+      Int32 result = awaiter.GetResult();
+      Int32 charCount;
+      if ((charCount = result) != 0) {
+        <sb>5__2->Append(<chars>5__3, 0, charCount);
+        goto IL_0050;
+      }
+    } catch (...) {
+    } finally: {
+      if (num < 0) {
+        ArrayPool<Char>::in::get_Shared()->Return(<chars>5__3);
+      }
+    }
+    result2 = <sb>5__2->ToString();
+  } catch (Exception exception) {
+    <>1__state = -2;
+    <sb>5__2 = nullptr;
+    <chars>5__3 = nullptr;
+    <>t__builder.SetException(exception);
+    return;
+  }
+  <>1__state = -2;
+  <sb>5__2 = nullptr;
+  <chars>5__3 = nullptr;
+  <>t__builder.SetResult(result2);
+}
+
+void TextReader___::_ReadToEndAsync_d__14::SetStateMachine(IAsyncStateMachine stateMachine) {
+  <>t__builder.SetStateMachine(stateMachine);
+}
+
+void TextReader___::_ReadBlockAsyncInternal_d__20::MoveNext() {
+  Int32 num = <>1__state;
+  TextReader textReader = <>4__this;
+  Int32 result2;
+  try {
+    if (num != 0) {
+      <n>5__2 = 0;
+      goto IL_0018;
+    }
+    ConfiguredValueTaskAwaitable<TResult>::ConfiguredValueTaskAwaiter awaiter = <>u__1;
+    <>u__1 = rt::default__;
+    num = (<>1__state = -1);
+    goto IL_0094;
+
+  IL_0094:
+    Int32 result = awaiter.GetResult();
+    Int32 num2 = result;
+    <n>5__2 += num2;
+    if (num2 > 0 && <n>5__2 < buffer.get_Length()) {
+      goto IL_0018;
+    }
+    result2 = <n>5__2;
+    goto end_IL_000e;
+
+  IL_0018:
+    awaiter = textReader->ReadAsyncInternal(buffer.Slice(<n>5__2), cancellationToken).ConfigureAwait(false).GetAwaiter();
+    if (!awaiter.get_IsCompleted()) {
+      num = (<>1__state = 0);
+      <>u__1 = awaiter;
+      <>t__builder.AwaitUnsafeOnCompleted(awaiter, *this);
+      return;
+    }
+    goto IL_0094;
+
+  end_IL_000e:
+  } catch (Exception exception) {
+    <>1__state = -2;
+    <>t__builder.SetException(exception);
+    return;
+  }
+  <>1__state = -2;
+  <>t__builder.SetResult(result2);
+}
+
+void TextReader___::_ReadBlockAsyncInternal_d__20::SetStateMachine(IAsyncStateMachine stateMachine) {
+  <>t__builder.SetStateMachine(stateMachine);
 }
 
 void TextReader___::ctor() {
@@ -225,15 +361,17 @@ String TextReader___::ReadLine() {
 }
 
 Task<String> TextReader___::ReadLineAsync() {
+  Func<Object, String> as = __c::in::__9__13_0;
+  return Task<String>::in::get_Factory()->StartNew(as != nullptr ? as : (__c::in::__9__13_0 = &__c::in::__9->_ReadLineAsync_b__13_0), (TextReader)this, CancellationToken::get_None(), TaskCreationOptions::DenyChildAttach, TaskScheduler::in::get_Default());
 }
 
 Task<String> TextReader___::ReadToEndAsync() {
-  一ReadToEndAsync一d__14 stateMachine;
-  stateMachine.一一t__builder = AsyncTaskMethodBuilder<String>::Create();
-  stateMachine.一一4__this = (TextReader)this;
-  stateMachine.一一1__state = -1;
-  stateMachine.一一t__builder.Start(stateMachine);
-  return stateMachine.一一t__builder.get_Task();
+  _ReadToEndAsync_d__14 stateMachine;
+  stateMachine.__t__builder = AsyncTaskMethodBuilder<String>::Create();
+  stateMachine.__4__this = (TextReader)this;
+  stateMachine.__1__state = -1;
+  stateMachine.__t__builder.Start(stateMachine);
+  return stateMachine.__t__builder.get_Task();
 }
 
 Task<Int32> TextReader___::ReadAsync(Array<Char> buffer, Int32 index, Int32 count) {
@@ -252,10 +390,14 @@ Task<Int32> TextReader___::ReadAsync(Array<Char> buffer, Int32 index, Int32 coun
 template <>
 ValueTask<Int32> TextReader___::ReadAsync(Memory<Char> buffer, CancellationToken cancellationToken) {
   ArraySegment<Char> segment;
+  Func<Object, Int32> as = __c::in::__9__16_0;
+  return ValueTask<Int32>(MemoryMarshal::TryGetArray(buffer, segment) ? ReadAsync(segment.get_Array(), segment.get_Offset(), segment.get_Count()) : Task<Int32>::in::get_Factory()->StartNew(as != nullptr ? as : (__c::in::__9__16_0 = &__c::in::__9->_ReadAsync_b__16_0), Tuple<>::Create((TextReader)this, buffer), cancellationToken, TaskCreationOptions::DenyChildAttach, TaskScheduler::in::get_Default()));
 }
 
 ValueTask<Int32> TextReader___::ReadAsyncInternal(Memory<Char> buffer, CancellationToken cancellationToken) {
-  Tuple<TextReader, Memory<Char>> state2 = rt::newobj<Tuple<TextReader, Memory<Char>>>((TextReader)this, buffer);
+  Tuple<TextReader, Memory<Char>> state = rt::newobj<Tuple<TextReader, Memory<Char>>>((TextReader)this, buffer);
+  Func<Object, Int32> as = __c::in::__9__17_0;
+  return ValueTask<Int32>(Task<Int32>::in::get_Factory()->StartNew(as != nullptr ? as : (__c::in::__9__17_0 = &__c::in::__9->_ReadAsyncInternal_b__17_0), state, cancellationToken, TaskCreationOptions::DenyChildAttach, TaskScheduler::in::get_Default()));
 }
 
 Task<Int32> TextReader___::ReadBlockAsync(Array<Char> buffer, Int32 index, Int32 count) {
@@ -274,17 +416,19 @@ Task<Int32> TextReader___::ReadBlockAsync(Array<Char> buffer, Int32 index, Int32
 template <>
 ValueTask<Int32> TextReader___::ReadBlockAsync(Memory<Char> buffer, CancellationToken cancellationToken) {
   ArraySegment<Char> segment;
+  Func<Object, Int32> as = __c::in::__9__19_0;
+  return ValueTask<Int32>(MemoryMarshal::TryGetArray(buffer, segment) ? ReadBlockAsync(segment.get_Array(), segment.get_Offset(), segment.get_Count()) : Task<Int32>::in::get_Factory()->StartNew(as != nullptr ? as : (__c::in::__9__19_0 = &__c::in::__9->_ReadBlockAsync_b__19_0), Tuple<>::Create((TextReader)this, buffer), cancellationToken, TaskCreationOptions::DenyChildAttach, TaskScheduler::in::get_Default()));
 }
 
 ValueTask<Int32> TextReader___::ReadBlockAsyncInternal(Memory<Char> buffer, CancellationToken cancellationToken) {
-  一ReadBlockAsyncInternal一d__20 stateMachine;
-  stateMachine.一一t__builder = AsyncValueTaskMethodBuilder<Int32>::Create();
-  stateMachine.一一4__this = (TextReader)this;
+  _ReadBlockAsyncInternal_d__20 stateMachine;
+  stateMachine.__t__builder = AsyncValueTaskMethodBuilder<Int32>::Create();
+  stateMachine.__4__this = (TextReader)this;
   stateMachine.buffer = buffer;
   stateMachine.cancellationToken = cancellationToken;
-  stateMachine.一一1__state = -1;
-  stateMachine.一一t__builder.Start(stateMachine);
-  return stateMachine.一一t__builder.get_Task();
+  stateMachine.__1__state = -1;
+  stateMachine.__t__builder.Start(stateMachine);
+  return stateMachine.__t__builder.get_Task();
 }
 
 TextReader TextReader___::Synchronized(TextReader reader) {

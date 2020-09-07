@@ -5,15 +5,11 @@
 #include <System.Private.CoreLib/System/ArgumentNullException-dep.h>
 #include <System.Private.CoreLib/System/ArgumentOutOfRangeException-dep.h>
 #include <System.Private.CoreLib/System/Buffer-dep.h>
-#include <System.Private.CoreLib/System/Byte-dep.h>
-#include <System.Private.CoreLib/System/Char-dep.h>
 #include <System.Private.CoreLib/System/Globalization/CultureInfo-dep.h>
 #include <System.Private.CoreLib/System/Int64-dep.h>
-#include <System.Private.CoreLib/System/IntPtr-dep.h>
 #include <System.Private.CoreLib/System/InvalidOperationException-dep.h>
 #include <System.Private.CoreLib/System/MemoryExtensions-dep.h>
 #include <System.Private.CoreLib/System/ReadOnlySpan-dep.h>
-#include <System.Private.CoreLib/System/Span-dep.h>
 #include <System.Private.CoreLib/System/StringComparison.h>
 #include <System.Private.CoreLib/System/Text/NormalizationForm.h>
 #include <System.Private.CoreLib/System/Text/StringBuilder-dep.h>
@@ -58,6 +54,22 @@ Uri::in::MoreInfo Uri___::UriInfo___::get_MoreInfo() {
 }
 
 void Uri___::UriInfo___::ctor() {
+}
+
+void Uri___::__c___::cctor() {
+  <>9 = rt::newobj<__c>();
+}
+
+void Uri___::__c___::ctor() {
+}
+
+void Uri___::__c___::_HexEscape_b__119_0(Span<Char> chars, Byte b) {
+  chars[0] = 37;
+  HexConverter::ToCharsBuffer(b, chars, 1);
+}
+
+void Uri___::__c___::_CheckSchemeSyntax_b__151_1(Span<Char> buffer, ValueTuple<IntPtr, Int32> state) {
+  Int32 num = MemoryExtensions::ToLowerInvariant(ReadOnlySpan<Char>((void*)state.Item1, state.Item2), buffer);
 }
 
 Boolean Uri___::get_IsImplicitFile() {
@@ -470,6 +482,10 @@ void Uri___::ctor(SerializationInfo serializationInfo, StreamingContext streamin
   CreateThis(string, false, UriKind::Relative);
 }
 
+void Uri___::GetObjectDataOfISerializable(SerializationInfo serializationInfo, StreamingContext streamingContext) {
+  GetObjectData(serializationInfo, streamingContext);
+}
+
 void Uri___::GetObjectData(SerializationInfo serializationInfo, StreamingContext streamingContext) {
   if (get_IsAbsoluteUri()) {
     serializationInfo->AddValue("AbsoluteUri", GetParts(UriComponents::SerializationInfoString, UriFormat::UriEscaped));
@@ -714,6 +730,8 @@ String Uri___::HexEscape(Char character) {
   if (character > 255) {
     rt::throw_exception<ArgumentOutOfRangeException>("character");
   }
+  SpanAction<Char, Byte> as = __c::in::__9__119_0;
+  return String::in::Create(3, (Byte)character, as != nullptr ? as : (__c::in::__9__119_0 = &__c::in::__9->_HexEscape_b__119_0));
 }
 
 Char Uri___::HexUnescape(String pattern, Int32& index) {
@@ -1914,6 +1932,8 @@ ParsingError Uri___::CheckSchemeSyntax(ReadOnlySpan<Char> span, UriParser& synta
   String lwrCaseScheme;
   {
     Char* value = span;
+    SpanAction<Char, ValueTuple<IntPtr, Int32>> as = __c::in::__9__151_1;
+    lwrCaseScheme = String::in::Create(span.get_Length(), {(IntPtr)(void*)value, span.get_Length()}, as != nullptr ? as : (__c::in::__9__151_1 = rt::newobj<SpanAction<Char, ValueTuple<IntPtr, Int32>>>(&_CheckSchemeSyntax_b__151_1)));
   }
   syntax = UriParser::in::FindOrFetchAsUnknownV1Syntax(lwrCaseScheme);
   return ParsingError::None;
@@ -3232,6 +3252,13 @@ void Uri___::cctor() {
   UriSchemeNetPipe = UriParser::in::NetPipeUri->get_SchemeName();
   SchemeDelimiter = "://";
   s_pathDelims = rt::newarr<Array<Char>>(5);
+}
+
+Char Uri___::_CheckSchemeSyntax_g__ToLowerCaseAscii151_0(Char c) {
+  if ((UInt32)(c - 65) > 25u) {
+    return c;
+  }
+  return (Char)(c | 32);
 }
 
 } // namespace System::Private::Uri::System::UriNamespace

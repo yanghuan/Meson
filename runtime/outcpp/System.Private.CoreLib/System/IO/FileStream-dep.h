@@ -26,6 +26,11 @@
 #include <System.Private.CoreLib/System/Object-dep.h>
 #include <System.Private.CoreLib/System/ReadOnlyMemory-dep.h>
 #include <System.Private.CoreLib/System/ReadOnlySpan-dep.h>
+#include <System.Private.CoreLib/System/Runtime/CompilerServices/AsyncTaskMethodBuilder-dep.h>
+#include <System.Private.CoreLib/System/Runtime/CompilerServices/AsyncValueTaskMethodBuilder-dep.h>
+#include <System.Private.CoreLib/System/Runtime/CompilerServices/ConfiguredTaskAwaitable-dep.h>
+#include <System.Private.CoreLib/System/Runtime/CompilerServices/ConfiguredValueTaskAwaitable-dep.h>
+#include <System.Private.CoreLib/System/Runtime/CompilerServices/IAsyncStateMachine.h>
 #include <System.Private.CoreLib/System/Runtime/CompilerServices/ICriticalNotifyCompletion.h>
 #include <System.Private.CoreLib/System/Runtime/CompilerServices/INotifyCompletion.h>
 #include <System.Private.CoreLib/System/Span-dep.h>
@@ -40,3 +45,4 @@
 #include <System.Private.CoreLib/System/Threading/Tasks/ValueTask-dep.h>
 #include <System.Private.CoreLib/System/UInt32-dep.h>
 #include <System.Private.CoreLib/System/UInt64-dep.h>
+#include <System.Private.CoreLib/System/ValueType-dep.h>

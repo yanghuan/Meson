@@ -33,4 +33,12 @@ void StrongNameKeyPair___::ctor(String keyPairContainer) {
   rt::throw_exception<PlatformNotSupportedException>(SR::get_PlatformNotSupported_StrongNameSigning());
 }
 
+void StrongNameKeyPair___::GetObjectDataOfISerializable(SerializationInfo info, StreamingContext context) {
+  rt::throw_exception<PlatformNotSupportedException>();
+}
+
+void StrongNameKeyPair___::OnDeserializationOfIDeserializationCallback(Object sender) {
+  rt::throw_exception<PlatformNotSupportedException>();
+}
+
 } // namespace System::Private::CoreLib::System::Reflection::StrongNameKeyPairNamespace

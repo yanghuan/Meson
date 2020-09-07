@@ -15,7 +15,6 @@
 #include <System.Private.CoreLib/System/MemoryExtensions-dep.h>
 #include <System.Private.CoreLib/System/NotImplemented-dep.h>
 #include <System.Private.CoreLib/System/NotSupportedException-dep.h>
-#include <System.Private.CoreLib/System/Object-dep.h>
 #include <System.Private.CoreLib/System/PlatformNotSupportedException-dep.h>
 #include <System.Private.CoreLib/System/ReadOnlySpan-dep.h>
 #include <System.Private.CoreLib/System/Reflection/BindingFlags.h>
@@ -31,6 +30,7 @@
 #include <System.Private.CoreLib/System/RuntimeTypeHandle-dep.h>
 #include <System.Private.CoreLib/System/SByte-dep.h>
 #include <System.Private.CoreLib/System/SR-dep.h>
+#include <System.Private.CoreLib/System/StringComparison.h>
 #include <System.Private.CoreLib/System/Threading/Interlocked-dep.h>
 #include <System.Private.CoreLib/System/Threading/StackCrawlMark.h>
 #include <System.Private.CoreLib/System/Type-dep.h>
@@ -46,6 +46,21 @@ using namespace System::Collections;
 using namespace System::Collections::Generic;
 using namespace System::Reflection;
 using namespace System::Threading;
+
+void Type___::__c___::cctor() {
+  <>9 = rt::newobj<__c>();
+}
+
+void Type___::__c___::ctor() {
+}
+
+Boolean Type___::__c___::_cctor_b__272_0(MemberInfo m, Object c) {
+  return FilterNameImpl(m, c, StringComparison::Ordinal);
+}
+
+Boolean Type___::__c___::_cctor_b__272_1(MemberInfo m, Object c) {
+  return FilterNameImpl(m, c, StringComparison::OrdinalIgnoreCase);
+}
 
 Boolean Type___::get_IsInterface() {
   RuntimeType runtimeType = rt::as<RuntimeType>((Type)this);
@@ -1253,6 +1268,8 @@ void Type___::cctor() {
   EmptyTypes = Array<>::in::Empty<Type>();
   Missing = Missing::in::Value;
   FilterAttribute = rt::newobj<MemberFilter>(&FilterAttributeImpl);
+  FilterName = rt::newobj<MemberFilter>(&_cctor_b__272_0);
+  FilterNameIgnoreCase = rt::newobj<MemberFilter>(&_cctor_b__272_1);
 }
 
 } // namespace System::Private::CoreLib::System::TypeNamespace

@@ -4,8 +4,8 @@
 #include <System.Private.CoreLib/System/ArgumentException-dep.h>
 #include <System.Private.CoreLib/System/Byte-dep.h>
 #include <System.Private.CoreLib/System/Char-dep.h>
+#include <System.Private.CoreLib/System/Collections/Generic/Comparer-dep.h>
 #include <System.Private.CoreLib/System/Collections/Generic/Dictionary-dep.h>
-#include <System.Private.CoreLib/System/Collections/Generic/KeyValuePair-dep.h>
 #include <System.Private.CoreLib/System/Collections/Generic/List-dep.h>
 #include <System.Private.CoreLib/System/Convert-dep.h>
 #include <System.Private.CoreLib/System/Diagnostics/Tracing/EventChannel.h>
@@ -15,7 +15,6 @@
 #include <System.Private.CoreLib/System/Enum-dep.h>
 #include <System.Private.CoreLib/System/FlagsAttribute-dep.h>
 #include <System.Private.CoreLib/System/Globalization/CultureInfo-dep.h>
-#include <System.Private.CoreLib/System/Int32-dep.h>
 #include <System.Private.CoreLib/System/Int64-dep.h>
 #include <System.Private.CoreLib/System/IntPtr-dep.h>
 #include <System.Private.CoreLib/System/Reflection/BindingFlags.h>
@@ -34,6 +33,17 @@ using namespace System::Reflection;
 using namespace System::Text;
 
 void ManifestBuilder___::ChannelInfo___::ctor() {
+}
+
+void ManifestBuilder___::__c___::cctor() {
+  <>9 = rt::newobj<__c>();
+}
+
+void ManifestBuilder___::__c___::ctor() {
+}
+
+Int32 ManifestBuilder___::__c___::_CreateManifestString_b__16_0(KeyValuePair<Int32, ChannelInfo> p1, KeyValuePair<Int32, ChannelInfo> p2) {
+  return -Comparer<UInt64>::in::get_Default()->Compare(p1.get_Value()->Keywords, p2.get_Value()->Keywords);
 }
 
 IList<String> ManifestBuilder___::get_Errors() {
@@ -267,6 +277,36 @@ String ManifestBuilder___::CreateManifestString() {
     for (KeyValuePair<Int32, ChannelInfo>&& item : *channelTab) {
       list->Add(item);
     }
+    Comparison<KeyValuePair<Int32, ChannelInfo>> as = __c::in::__9__16_0;
+    list->Sort(as != nullptr ? as : (__c::in::__9__16_0 = &__c::in::__9->_CreateManifestString_b__16_0));
+    for (KeyValuePair<Int32, ChannelInfo>&& item2 : *list) {
+      Int32 key = item2.get_Key();
+      ChannelInfo value = item2.get_Value();
+      String text = nullptr;
+      Boolean flag = false;
+      String text2 = nullptr;
+      if (value->Attribs != nullptr) {
+        EventChannelAttribute attribs = value->Attribs;
+        if (Enum::in::IsDefined(typeof<EventChannelType>(), attribs->get_EventChannelType())) {
+          text = attribs->get_EventChannelType()->ToString();
+        }
+        flag = attribs->set_Enabled();
+      }
+      if (text2 == nullptr) {
+        text2 = providerName + "/" + value->Name;
+      }
+      sb->Append("  <")->Append("channel");
+      sb->Append(" chid=\"")->Append(value->Name)->Append(34);
+      sb->Append(" name=\"")->Append(text2)->Append(34);
+      WriteMessageAttrib(sb, "channel", value->Name, nullptr);
+      sb->Append(" value=\"")->Append(key)->Append(34);
+      if (text != nullptr) {
+        sb->Append(" type=\"")->Append(text)->Append(34);
+      }
+      sb->Append(" enabled=\"")->Append(flag ? "true" : "false")->Append(34);
+      sb->AppendLine("/>");
+    }
+    sb->AppendLine(" </channels>");
   }
   if (taskTab != nullptr) {
     sb->AppendLine(" <tasks>");

@@ -1,37 +1,128 @@
 #pragma once
 
 #include <System.Private.CoreLib/System/Boolean.h>
+#include <System.Private.CoreLib/System/Char.h>
 #include <System.Private.CoreLib/System/Int32.h>
 #include <System.Private.CoreLib/System/IO/TextWriter.h>
+#include <System.Private.CoreLib/System/ReadOnlyMemory.h>
+#include <System.Private.CoreLib/System/Runtime/CompilerServices/AsyncTaskMethodBuilder.h>
+#include <System.Private.CoreLib/System/Runtime/CompilerServices/AsyncValueTaskMethodBuilder.h>
+#include <System.Private.CoreLib/System/Runtime/CompilerServices/ConfiguredTaskAwaitable.h>
+#include <System.Private.CoreLib/System/Runtime/CompilerServices/ConfiguredValueTaskAwaitable.h>
+#include <System.Private.CoreLib/System/Threading/CancellationToken.h>
+#include <System.Private.CoreLib/System/ValueType.h>
 
+namespace System::Private::CoreLib::System::Runtime::CompilerServices {
+FORWARD(IAsyncStateMachine)
+} // namespace System::Private::CoreLib::System::Runtime::CompilerServices
+namespace System::Private::CoreLib::System {
+FORWARD_(Array, T1, T2)
+FORWARDS(Byte)
+FORWARD(Object)
+FORWARDS(ParamsArray)
+FORWARDS(ReadOnlySpan, T)
+FORWARD(String)
+} // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Text {
 FORWARD(Encoder)
 FORWARD(Encoding)
 } // namespace System::Private::CoreLib::System::Text
-namespace System::Private::CoreLib::System {
-FORWARD_(Array, T1, T2)
-FORWARDS(Byte)
-FORWARDS(Char)
-FORWARD(Object)
-FORWARDS(ParamsArray)
-FORWARDS(ReadOnlyMemory, T)
-FORWARDS(ReadOnlySpan, T)
-FORWARD(String)
-} // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Threading::Tasks {
 FORWARD_(Task, T1, T2)
 FORWARDS_(ValueTask, T1, T2)
 } // namespace System::Private::CoreLib::System::Threading::Tasks
-namespace System::Private::CoreLib::System::Threading {
-FORWARDS(CancellationToken)
-} // namespace System::Private::CoreLib::System::Threading
 namespace System::Private::CoreLib::System::IO {
 FORWARD(Stream)
 namespace StreamWriterNamespace {
+using namespace System::Runtime::CompilerServices;
 using namespace System::Text;
 using namespace System::Threading;
 using namespace System::Threading::Tasks;
 CLASS(StreamWriter) : public TextWriter::in {
+  private: struct _DisposeAsyncCore_d__33 : public valueType<_DisposeAsyncCore_d__33> {
+    public: using interface = rt::TypeList<IAsyncStateMachine>;
+    private: void MoveNext();
+    private: void SetStateMachine(IAsyncStateMachine stateMachine);
+    public: Int32 __1__state;
+    public: AsyncValueTaskMethodBuilder<> __t__builder;
+    public: StreamWriter __4__this;
+    private: ConfiguredTaskAwaitable<>::ConfiguredTaskAwaiter __u__1;
+  };
+  private: struct _WriteAsyncInternal_d__61 : public valueType<_WriteAsyncInternal_d__61> {
+    public: using interface = rt::TypeList<IAsyncStateMachine>;
+    private: void MoveNext();
+    private: void SetStateMachine(IAsyncStateMachine stateMachine);
+    public: Int32 __1__state;
+    public: AsyncTaskMethodBuilder<> __t__builder;
+    public: Int32 charPos;
+    public: Int32 charLen;
+    public: StreamWriter _this;
+    public: Array<Char> charBuffer;
+    public: Char value;
+    public: Boolean appendNewLine;
+    public: Array<Char> coreNewLine;
+    public: Boolean autoFlush;
+    private: ConfiguredTaskAwaitable<>::ConfiguredTaskAwaiter __u__1;
+    private: Int32 _i_5__2;
+  };
+  private: struct _WriteAsyncInternal_d__63 : public valueType<_WriteAsyncInternal_d__63> {
+    public: using interface = rt::TypeList<IAsyncStateMachine>;
+    private: void MoveNext();
+    private: void SetStateMachine(IAsyncStateMachine stateMachine);
+    public: Int32 __1__state;
+    public: AsyncTaskMethodBuilder<> __t__builder;
+    public: String value;
+    public: Int32 charPos;
+    public: Int32 charLen;
+    public: StreamWriter _this;
+    public: Array<Char> charBuffer;
+    public: Boolean appendNewLine;
+    public: Array<Char> coreNewLine;
+    public: Boolean autoFlush;
+    private: Int32 _count_5__2;
+    private: Int32 _index_5__3;
+    private: ConfiguredTaskAwaitable<>::ConfiguredTaskAwaiter __u__1;
+    private: Int32 _i_5__4;
+  };
+  private: struct _WriteAsyncInternal_d__66 : public valueType<_WriteAsyncInternal_d__66> {
+    public: using interface = rt::TypeList<IAsyncStateMachine>;
+    private: void MoveNext();
+    private: void SetStateMachine(IAsyncStateMachine stateMachine);
+    public: Int32 __1__state;
+    public: AsyncTaskMethodBuilder<> __t__builder;
+    public: Int32 charPos;
+    public: Int32 charLen;
+    public: StreamWriter _this;
+    public: Array<Char> charBuffer;
+    public: CancellationToken cancellationToken;
+    public: ReadOnlyMemory<Char> source;
+    public: Boolean appendNewLine;
+    public: Array<Char> coreNewLine;
+    public: Boolean autoFlush;
+    private: Int32 _copied_5__2;
+    private: ConfiguredTaskAwaitable<>::ConfiguredTaskAwaiter __u__1;
+    private: Int32 _i_5__3;
+  };
+  private: struct _FlushAsyncInternal_d__74 : public valueType<_FlushAsyncInternal_d__74> {
+    public: using interface = rt::TypeList<IAsyncStateMachine>;
+    private: void MoveNext();
+    private: void SetStateMachine(IAsyncStateMachine stateMachine);
+    public: Int32 __1__state;
+    public: AsyncTaskMethodBuilder<> __t__builder;
+    public: Boolean haveWrittenPreamble;
+    public: StreamWriter _this;
+    public: Encoding encoding;
+    public: Stream stream;
+    public: CancellationToken cancellationToken;
+    public: Encoder encoder;
+    public: Array<Char> charBuffer;
+    public: Int32 charPos;
+    public: Array<Byte> byteBuffer;
+    public: Boolean flushEncoder;
+    public: Boolean flushStream;
+    private: ConfiguredValueTaskAwaitable<>::ConfiguredValueTaskAwaiter __u__1;
+    private: ConfiguredTaskAwaitable<>::ConfiguredTaskAwaiter __u__2;
+  };
   private: static Encoding get_UTF8NoBOM();
   public: Boolean get_AutoFlush();
   public: void set_AutoFlush(Boolean value);
@@ -92,6 +183,7 @@ CLASS(StreamWriter) : public TextWriter::in {
   private: static Task<> FlushAsyncInternal(StreamWriter _this, Boolean flushStream, Boolean flushEncoder, Array<Char> charBuffer, Int32 charPos, Boolean haveWrittenPreamble, Encoding encoding, Encoder encoder, Array<Byte> byteBuffer, Stream stream, CancellationToken cancellationToken);
   private: void ThrowIfDisposed();
   public: static void cctor();
+  private: void _ThrowIfDisposed_g__ThrowObjectDisposedException75_0();
   public: static StreamWriter Null;
   private: Stream _stream;
   private: Encoding _encoding;

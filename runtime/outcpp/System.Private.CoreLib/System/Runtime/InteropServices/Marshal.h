@@ -1,6 +1,6 @@
 #pragma once
 
-#include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System {
 FORWARD_(Action, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17)
@@ -18,7 +18,6 @@ FORWARDS(Int32)
 FORWARDS(Int64)
 FORWARDS(IntPtr)
 FORWARD(IRuntimeFieldInfo)
-FORWARD(Object)
 FORWARDS(ReadOnlySpan, T)
 FORWARDS(RuntimeMethodHandleInternal)
 FORWARDS(Single)
@@ -50,6 +49,27 @@ using namespace System::Runtime::CompilerServices;
 using namespace System::Runtime::InteropServices::ComTypes;
 using namespace System::Security;
 class Marshal {
+  private: CLASS(__c) : public object {
+    public: static void cctor();
+    public: void ctor();
+    public: Byte _ReadByte_b__4_0(IntPtr nativeHome, Int32 offset);
+    public: Int16 _ReadInt16_b__5_0(IntPtr nativeHome, Int32 offset);
+    public: Int32 _ReadInt32_b__6_0(IntPtr nativeHome, Int32 offset);
+    public: Int64 _ReadInt64_b__7_0(IntPtr nativeHome, Int32 offset);
+    public: void _WriteByte_b__9_0(IntPtr nativeHome, Int32 offset, Byte value);
+    public: void _WriteInt16_b__10_0(IntPtr nativeHome, Int32 offset, Int16 value);
+    public: void _WriteInt32_b__11_0(IntPtr nativeHome, Int32 offset, Int32 value);
+    public: void _WriteInt64_b__12_0(IntPtr nativeHome, Int32 offset, Int64 value);
+    public: static __c __9;
+    public: static Func<IntPtr, Int32, Byte> __9__4_0;
+    public: static Func<IntPtr, Int32, Int16> __9__5_0;
+    public: static Func<IntPtr, Int32, Int32> __9__6_0;
+    public: static Func<IntPtr, Int32, Int64> __9__7_0;
+    public: static Action<IntPtr, Int32, Byte> __9__9_0;
+    public: static Action<IntPtr, Int32, Int16> __9__10_0;
+    public: static Action<IntPtr, Int32, Int32> __9__11_0;
+    public: static Action<IntPtr, Int32, Int64> __9__12_0;
+  };
   public: static Int32 SizeOfHelper(Type t, Boolean throwIfNotMarshalable);
   public: static IntPtr OffsetOf(Type t, String fieldName);
   private: static IntPtr OffsetOfHelper(IRuntimeFieldInfo f);

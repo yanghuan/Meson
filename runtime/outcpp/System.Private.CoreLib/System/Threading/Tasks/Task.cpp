@@ -1,7 +1,7 @@
 #include "Task-dep.h"
 
+#include <System.Private.CoreLib/Internal/Runtime/CompilerServices/Unsafe-dep.h>
 #include <System.Private.CoreLib/System/ArgumentNullException-dep.h>
-#include <System.Private.CoreLib/System/Collections/Generic/Dictionary-dep.h>
 #include <System.Private.CoreLib/System/Collections/Generic/ICollection.h>
 #include <System.Private.CoreLib/System/Delegate-dep.h>
 #include <System.Private.CoreLib/System/Diagnostics/Debugger-dep.h>
@@ -18,6 +18,7 @@
 #include <System.Private.CoreLib/System/Runtime/CompilerServices/RuntimeHelpers-dep.h>
 #include <System.Private.CoreLib/System/Runtime/ExceptionServices/ExceptionDispatchInfo-dep.h>
 #include <System.Private.CoreLib/System/Threading/Interlocked-dep.h>
+#include <System.Private.CoreLib/System/Threading/LazyInitializer-dep.h>
 #include <System.Private.CoreLib/System/Threading/ManualResetEventSlim-dep.h>
 #include <System.Private.CoreLib/System/Threading/SpinWait-dep.h>
 #include <System.Private.CoreLib/System/Threading/Tasks/AsyncCausalityStatus.h>
@@ -31,6 +32,7 @@
 #include <System.Private.CoreLib/System/Threading/Tasks/SynchronizationContextAwaitTaskContinuation-dep.h>
 #include <System.Private.CoreLib/System/Threading/Tasks/Task-dep.h>
 #include <System.Private.CoreLib/System/Threading/Tasks/TaskCanceledException-dep.h>
+#include <System.Private.CoreLib/System/Threading/Tasks/TaskContinuation-dep.h>
 #include <System.Private.CoreLib/System/Threading/Tasks/TaskContinuationOptions.h>
 #include <System.Private.CoreLib/System/Threading/Tasks/TaskSchedulerAwaitTaskContinuation-dep.h>
 #include <System.Private.CoreLib/System/Threading/Tasks/TaskSchedulerException-dep.h>
@@ -41,15 +43,28 @@
 #include <System.Private.CoreLib/System/Threading/TimerQueueTimer-dep.h>
 #include <System.Private.CoreLib/System/Threading/Volatile-dep.h>
 #include <System.Private.CoreLib/System/ThrowHelper-dep.h>
+#include <System.Private.CoreLib/System/Tuple-dep.h>
 #include <System.Private.CoreLib/System/Type-dep.h>
 #include <System.Private.CoreLib/System/UInt32-dep.h>
 
 namespace System::Private::CoreLib::System::Threading::Tasks::TaskNamespace {
+using namespace Internal::Runtime::CompilerServices;
 using namespace System::Collections::Generic;
 using namespace System::Diagnostics;
 using namespace System::Diagnostics::Tracing;
 using namespace System::Runtime::CompilerServices;
 using namespace System::Runtime::ExceptionServices;
+
+void DelayPromise___::__c___::cctor() {
+  <>9 = rt::newobj<__c>();
+}
+
+void DelayPromise___::__c___::ctor() {
+}
+
+void DelayPromise___::__c___::_ctor_b__1_0(Object state) {
+  ((DelayPromise)state)->CompleteTimedOut();
+}
 
 void DelayPromise___::ctor(Int32 millisecondsDelay) {
   if (TplEventSource::in::Log->IsEnabled()) {
@@ -59,6 +74,11 @@ void DelayPromise___::ctor(Int32 millisecondsDelay) {
     AddToActiveTasks((DelayPromise)this);
   }
   if (millisecondsDelay != -1) {
+    TimerCallback as = __c::in::__9__1_0;
+    _timer = rt::newobj<TimerQueueTimer>(as != nullptr ? as : (__c::in::__9__1_0 = &__c::in::__9->_ctor_b__1_0), (DelayPromise)this, (UInt32)millisecondsDelay, UInt32::MaxValue, false);
+    if (Task<>::in::get_IsCanceled()) {
+      _timer->Close();
+    }
   }
 }
 
@@ -128,8 +148,21 @@ void Task___<>::SetOnCountdownMres___::Invoke(Task<> completingTask) {
   }
 }
 
+void DelayPromiseWithCancellation___::__c___::cctor() {
+  <>9 = rt::newobj<__c>();
+}
+
+void DelayPromiseWithCancellation___::__c___::ctor() {
+}
+
+void DelayPromiseWithCancellation___::__c___::_ctor_b__2_0(Object state) {
+  ((DelayPromiseWithCancellation)state)->CompleteCanceled();
+}
+
 void DelayPromiseWithCancellation___::ctor(Int32 millisecondsDelay, CancellationToken token) {
   _token = token;
+  Action<Object> as = __c::in::__9__2_0;
+  _registration = token.UnsafeRegister(as != nullptr ? as : (__c::in::__9__2_0 = &__c::in::__9->_ctor_b__2_0), (DelayPromiseWithCancellation)this);
 }
 
 void DelayPromiseWithCancellation___::CompleteCanceled() {
@@ -213,6 +246,53 @@ void WhenAllPromise___<>::Invoke(Task<> completedTask) {
     RemoveFromActiveTasks((WhenAllPromise<>)this);
   }
   TrySetResult();
+}
+
+void Task___<>::__c___::cctor() {
+  <>9 = rt::newobj<__c>();
+}
+
+void Task___<>::__c___::ctor() {
+}
+
+Dictionary<Int32, Task<>> Task___<>::__c___::_AddToActiveTasks_b__32_0() {
+  return rt::newobj<Dictionary<Int32, Task<>>>();
+}
+
+void Task___<>::__c___::_AssignCancellationToken_b__49_0(Object t) {
+  ((Task<>)t)->InternalCancel();
+}
+
+void Task___<>::__c___::_AssignCancellationToken_b__49_1(Object t) {
+  Tuple<Task<>, Task<>, TaskContinuation> tuple = (Tuple<Task<>, Task<>, TaskContinuation>)t;
+  Task<> item = tuple->get_Item1();
+  Task<> item2 = tuple->get_Item2();
+  item2->RemoveContinuation(tuple->get_Item3());
+  item->InternalCancel();
+}
+
+Task<>::in::ContingentProperties Task___<>::__c___::_EnsureContingentPropertiesInitialized_b__94_0() {
+  return rt::newobj<ContingentProperties>();
+}
+
+void Task___<>::__c___::_ThrowAsync_b__140_0(Object state) {
+  ((ExceptionDispatchInfo)state)->Throw();
+}
+
+void Task___<>::__c___::_ThrowAsync_b__140_1(Object state) {
+  ((ExceptionDispatchInfo)state)->Throw();
+}
+
+Boolean Task___<>::__c___::_FinishSlow_b__147_0(Task<> t) {
+  return t->get_IsExceptionObservedByParent();
+}
+
+Boolean Task___<>::__c___::_AddTaskContinuationComplex_b__218_0(Object l) {
+  return l == nullptr;
+}
+
+void Task___<>::__c___::_cctor_b__277_0(Object obj) {
+  Unsafe::As<Task<>>(obj)->InnerInvoke();
 }
 
 Task<> Task___<>::get_ParentForDebugger() {
@@ -420,6 +500,14 @@ Boolean Task___<>::get_IsDelegateInvoked() {
 }
 
 Boolean Task___<>::AddToActiveTasks(Task<> task) {
+  Func<Dictionary<Int32, Task<>>> as = __c::in::__9__32_0;
+  LazyInitializer::EnsureInitialized(s_currentActiveTasks, as != nullptr ? as : (__c::in::__9__32_0 = &__c::in::__9->_AddToActiveTasks_b__32_0));
+  Int32 id = task->get_Id();
+  {
+    rt::lock(s_currentActiveTasks);
+    s_currentActiveTasks[id] = task;
+  }
+  return true;
 }
 
 void Task___<>::RemoveFromActiveTasks(Task<> task) {
@@ -518,12 +606,15 @@ void Task___<>::AssignCancellationToken(CancellationToken cancellationToken, Tas
   ContingentProperties contingentProperties = EnsureContingentPropertiesInitializedUnsafe();
   contingentProperties->m_cancellationToken = cancellationToken;
   try {
-    if ((get_Options() & (TaskCreationOptions)13312) != 0) {
-      return;
-    }
-    if (cancellationToken.get_IsCancellationRequested()) {
-      InternalCancel();
-      return;
+    if ((get_Options() & (TaskCreationOptions)13312) == 0) {
+      if (cancellationToken.get_IsCancellationRequested()) {
+        InternalCancel();
+        return;
+      }
+      Action<Object> as = __c::in::__9__49_1;
+      Action<Object> is = __c::in::__9__49_0;
+      CancellationTokenRegistration value = (antecedent != nullptr) ? cancellationToken.UnsafeRegister(as != nullptr ? as : (__c::in::__9__49_1 = &__c::in::__9->_AssignCancellationToken_b__49_1), rt::newobj<Tuple<Task<>, Task<>, TaskContinuation>>((Task<>)this, antecedent, continuation)) : cancellationToken.UnsafeRegister(is != nullptr ? is : (__c::in::__9__49_0 = &__c::in::__9->_AssignCancellationToken_b__49_0), (Task<>)this);
+      contingentProperties->m_cancellationRegistration = rt::newobj<StrongBox<CancellationTokenRegistration>>(value);
     }
   } catch (...) {
     ContingentProperties contingentProperties2 = m_contingentProperties;
@@ -741,6 +832,8 @@ Task<> Task___<>::InternalCurrentIfAttached(TaskCreationOptions creationOptions)
 }
 
 Task<>::in::ContingentProperties Task___<>::EnsureContingentPropertiesInitialized() {
+  Func<ContingentProperties> as = __c::in::__9__94_0;
+  return LazyInitializer::EnsureInitialized(m_contingentProperties, as != nullptr ? as : (__c::in::__9__94_0 = &__c::in::__9->_EnsureContingentPropertiesInitialized_b__94_0));
 }
 
 Task<>::in::ContingentProperties Task___<>::EnsureContingentPropertiesInitializedUnsafe() {
@@ -872,13 +965,18 @@ void Task___<>::ThrowIfExceptional(Boolean includeTaskCanceledExceptions) {
 }
 
 void Task___<>::ThrowAsync(Exception exception, SynchronizationContext targetContext) {
-  ExceptionDispatchInfo state2 = ExceptionDispatchInfo::in::Capture(exception);
+  ExceptionDispatchInfo state = ExceptionDispatchInfo::in::Capture(exception);
   if (targetContext != nullptr) {
     try {
+      SendOrPostCallback as = __c::in::__9__140_0;
+      targetContext->Post(as != nullptr ? as : (__c::in::__9__140_0 = &__c::in::__9->_ThrowAsync_b__140_0), state);
+      return;
     } catch (Exception ex) {
-      state2 = ExceptionDispatchInfo::in::Capture(rt::newobj<AggregateException>(rt::newarr<Array<Exception>>(2, exception, ex)));
+      state = ExceptionDispatchInfo::in::Capture(rt::newobj<AggregateException>(rt::newarr<Array<Exception>>(2, exception, ex)));
     }
   }
+  WaitCallback as = __c::in::__9__140_1;
+  ThreadPool::QueueUserWorkItem(as != nullptr ? as : (__c::in::__9__140_1 = &__c::in::__9->_ThrowAsync_b__140_1), state);
 }
 
 void Task___<>::UpdateExceptionObservedStatus() {
@@ -909,11 +1007,12 @@ void Task___<>::FinishSlow(Boolean userDelegateExecute) {
     AtomicStateUpdate(8388608, 23068672);
   }
   List<Task<>> exceptionalChildren = contingentProperties->m_exceptionalChildren;
-  if (exceptionalChildren == nullptr) {
-    return;
-  }
-  {
-    rt::lock(exceptionalChildren);
+  if (exceptionalChildren != nullptr) {
+    {
+      rt::lock(exceptionalChildren);
+      Predicate<Task<>> as = __c::in::__9__147_0;
+      exceptionalChildren->RemoveAll(as != nullptr ? as : (__c::in::__9__147_0 = &__c::in::__9->_FinishSlow_b__147_0));
+    }
   }
 }
 
@@ -1665,6 +1764,8 @@ Boolean Task___<>::AddTaskContinuationComplex(Object tc, Boolean addBeforeOthers
       rt::lock(list);
       if (m_continuationObject != s_taskCompletionSentinel) {
         if (list->get_Count() == list->get_Capacity()) {
+          Predicate<Object> as = __c::in::__9__218_0;
+          list->RemoveAll(as != nullptr ? as : (__c::in::__9__218_0 = &__c::in::__9->_AddTaskContinuationComplex_b__218_0));
         }
         if (addBeforeOthers) {
           list->Insert(0, tc);
@@ -2149,6 +2250,7 @@ void Task___<>::cctor() {
   s_taskCompletionSentinel = rt::newobj<Object>();
   Factory = rt::newobj<TaskFactory<>>();
   s_cachedCompleted = rt::newobj<Task<VoidTaskResult>>(false, rt::default__, (TaskCreationOptions)16384, rt::default__);
+  s_ecCallback = &__c::in::__9->_cctor_b__277_0;
 }
 
 } // namespace System::Private::CoreLib::System::Threading::Tasks::TaskNamespace

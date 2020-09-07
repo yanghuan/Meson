@@ -1,6 +1,8 @@
 #include "DBNull-dep.h"
 
+#include <System.Private.CoreLib/System/Convert-dep.h>
 #include <System.Private.CoreLib/System/DBNull-dep.h>
+#include <System.Private.CoreLib/System/InvalidCastException-dep.h>
 #include <System.Private.CoreLib/System/NotSupportedException-dep.h>
 #include <System.Private.CoreLib/System/SR-dep.h>
 #include <System.Private.CoreLib/System/UnitySerializationHolder-dep.h>
@@ -27,6 +29,66 @@ String DBNull___::ToString(IFormatProvider provider) {
 
 TypeCode DBNull___::GetTypeCode() {
   return TypeCode::DBNull;
+}
+
+Boolean DBNull___::ToBooleanOfIConvertible(IFormatProvider provider) {
+  rt::throw_exception<InvalidCastException>(SR::get_InvalidCast_FromDBNull());
+}
+
+Char DBNull___::ToCharOfIConvertible(IFormatProvider provider) {
+  rt::throw_exception<InvalidCastException>(SR::get_InvalidCast_FromDBNull());
+}
+
+SByte DBNull___::ToSByteOfIConvertible(IFormatProvider provider) {
+  rt::throw_exception<InvalidCastException>(SR::get_InvalidCast_FromDBNull());
+}
+
+Byte DBNull___::ToByteOfIConvertible(IFormatProvider provider) {
+  rt::throw_exception<InvalidCastException>(SR::get_InvalidCast_FromDBNull());
+}
+
+Int16 DBNull___::ToInt16OfIConvertible(IFormatProvider provider) {
+  rt::throw_exception<InvalidCastException>(SR::get_InvalidCast_FromDBNull());
+}
+
+UInt16 DBNull___::ToUInt16OfIConvertible(IFormatProvider provider) {
+  rt::throw_exception<InvalidCastException>(SR::get_InvalidCast_FromDBNull());
+}
+
+Int32 DBNull___::ToInt32OfIConvertible(IFormatProvider provider) {
+  rt::throw_exception<InvalidCastException>(SR::get_InvalidCast_FromDBNull());
+}
+
+UInt32 DBNull___::ToUInt32OfIConvertible(IFormatProvider provider) {
+  rt::throw_exception<InvalidCastException>(SR::get_InvalidCast_FromDBNull());
+}
+
+Int64 DBNull___::ToInt64OfIConvertible(IFormatProvider provider) {
+  rt::throw_exception<InvalidCastException>(SR::get_InvalidCast_FromDBNull());
+}
+
+UInt64 DBNull___::ToUInt64OfIConvertible(IFormatProvider provider) {
+  rt::throw_exception<InvalidCastException>(SR::get_InvalidCast_FromDBNull());
+}
+
+Single DBNull___::ToSingleOfIConvertible(IFormatProvider provider) {
+  rt::throw_exception<InvalidCastException>(SR::get_InvalidCast_FromDBNull());
+}
+
+Double DBNull___::ToDoubleOfIConvertible(IFormatProvider provider) {
+  rt::throw_exception<InvalidCastException>(SR::get_InvalidCast_FromDBNull());
+}
+
+Decimal DBNull___::ToDecimalOfIConvertible(IFormatProvider provider) {
+  rt::throw_exception<InvalidCastException>(SR::get_InvalidCast_FromDBNull());
+}
+
+DateTime DBNull___::ToDateTimeOfIConvertible(IFormatProvider provider) {
+  rt::throw_exception<InvalidCastException>(SR::get_InvalidCast_FromDBNull());
+}
+
+Object DBNull___::ToTypeOfIConvertible(Type type, IFormatProvider provider) {
+  return Convert::DefaultToType((DBNull)this, type, provider);
 }
 
 void DBNull___::cctor() {

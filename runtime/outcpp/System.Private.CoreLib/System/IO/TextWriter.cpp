@@ -10,10 +10,12 @@
 #include <System.Private.CoreLib/System/Globalization/CultureInfo-dep.h>
 #include <System.Private.CoreLib/System/IFormattable.h>
 #include <System.Private.CoreLib/System/IO/TextWriter-dep.h>
-#include <System.Private.CoreLib/System/Runtime/CompilerServices/AsyncTaskMethodBuilder-dep.h>
+#include <System.Private.CoreLib/System/Runtime/CompilerServices/ConfiguredTaskAwaitable-dep.h>
 #include <System.Private.CoreLib/System/Runtime/InteropServices/MemoryMarshal-dep.h>
 #include <System.Private.CoreLib/System/Span-dep.h>
 #include <System.Private.CoreLib/System/SR-dep.h>
+#include <System.Private.CoreLib/System/Threading/Tasks/TaskCreationOptions.h>
+#include <System.Private.CoreLib/System/Threading/Tasks/TaskScheduler-dep.h>
 #include <System.Private.CoreLib/System/Tuple-dep.h>
 
 namespace System::Private::CoreLib::System::IO::TextWriterNamespace {
@@ -21,6 +23,7 @@ using namespace System::Buffers;
 using namespace System::Globalization;
 using namespace System::Runtime::CompilerServices;
 using namespace System::Runtime::InteropServices;
+using namespace System::Threading::Tasks;
 
 Encoding NullTextWriter___::get_Encoding() {
   return Encoding::in::get_Unicode();
@@ -318,6 +321,161 @@ Task<> SyncTextWriter___::FlushAsync() {
   return Task<>::in::get_CompletedTask();
 }
 
+void TextWriter___::__c___::cctor() {
+  <>9 = rt::newobj<__c>();
+}
+
+void TextWriter___::__c___::ctor() {
+}
+
+void TextWriter___::__c___::_WriteAsync_b__58_0(Object state) {
+  Tuple<TextWriter, Char> tuple = (Tuple<TextWriter, Char>)state;
+  tuple->get_Item1()->Write(tuple->get_Item2());
+}
+
+void TextWriter___::__c___::_WriteAsync_b__59_0(Object state) {
+  Tuple<TextWriter, String> tuple = (Tuple<TextWriter, String>)state;
+  tuple->get_Item1()->Write(tuple->get_Item2());
+}
+
+void TextWriter___::__c___::_WriteAsync_b__62_0(Object state) {
+  Tuple<TextWriter, Array<Char>, Int32, Int32> tuple = (Tuple<TextWriter, Array<Char>, Int32, Int32>)state;
+  tuple->get_Item1()->Write(tuple->get_Item2(), tuple->get_Item3(), tuple->get_Item4());
+}
+
+void TextWriter___::__c___::_WriteAsync_b__63_0(Object state) {
+  Tuple<TextWriter, ReadOnlyMemory<Char>> tuple = (Tuple<TextWriter, ReadOnlyMemory<Char>>)state;
+  tuple->get_Item1()->Write(tuple->get_Item2().get_Span());
+}
+
+void TextWriter___::__c___::_WriteLineAsync_b__64_0(Object state) {
+  Tuple<TextWriter, Char> tuple = (Tuple<TextWriter, Char>)state;
+  tuple->get_Item1()->WriteLine(tuple->get_Item2());
+}
+
+void TextWriter___::__c___::_WriteLineAsync_b__65_0(Object state) {
+  Tuple<TextWriter, String> tuple = (Tuple<TextWriter, String>)state;
+  tuple->get_Item1()->WriteLine(tuple->get_Item2());
+}
+
+void TextWriter___::__c___::_WriteLineAsync_b__68_0(Object state) {
+  Tuple<TextWriter, Array<Char>, Int32, Int32> tuple = (Tuple<TextWriter, Array<Char>, Int32, Int32>)state;
+  tuple->get_Item1()->WriteLine(tuple->get_Item2(), tuple->get_Item3(), tuple->get_Item4());
+}
+
+void TextWriter___::__c___::_WriteLineAsync_b__69_0(Object state) {
+  Tuple<TextWriter, ReadOnlyMemory<Char>> tuple = (Tuple<TextWriter, ReadOnlyMemory<Char>>)state;
+  tuple->get_Item1()->WriteLine(tuple->get_Item2().get_Span());
+}
+
+void TextWriter___::__c___::_FlushAsync_b__71_0(Object state) {
+  ((TextWriter)state)->Flush();
+}
+
+void TextWriter___::__WriteAsync_g__WriteAsyncCore60_0_d::MoveNext() {
+  Int32 num = <>1__state;
+  TextWriter textWriter = <>4__this;
+  try {
+    if (num != 0) {
+      <>7__wrap1 = sb->GetChunks().GetEnumerator();
+      goto IL_00a4;
+    }
+    ConfiguredTaskAwaitable<>::ConfiguredTaskAwaiter awaiter = <>u__1;
+    <>u__1 = rt::default__;
+    num = (<>1__state = -1);
+    goto IL_009d;
+
+  IL_009d:
+    awaiter.GetResult();
+    goto IL_00a4;
+
+  IL_00a4:
+    if (<>7__wrap1.MoveNext()) {
+      ReadOnlyMemory<Char> current = <>7__wrap1.get_Current();
+      awaiter = textWriter->WriteAsync(current, ct)->ConfigureAwait(false).GetAwaiter();
+      if (!awaiter.get_IsCompleted()) {
+        num = (<>1__state = 0);
+        <>u__1 = awaiter;
+        <>t__builder.AwaitUnsafeOnCompleted(awaiter, *this);
+        return;
+      }
+      goto IL_009d;
+    }
+    <>7__wrap1 = rt::default__;
+  } catch (Exception exception) {
+    <>1__state = -2;
+    <>t__builder.SetException(exception);
+    return;
+  }
+  <>1__state = -2;
+  <>t__builder.SetResult();
+}
+
+void TextWriter___::__WriteAsync_g__WriteAsyncCore60_0_d::SetStateMachine(IAsyncStateMachine stateMachine) {
+  <>t__builder.SetStateMachine(stateMachine);
+}
+
+void TextWriter___::__WriteLineAsync_g__WriteLineAsyncCore66_0_d::MoveNext() {
+  Int32 num = <>1__state;
+  TextWriter textWriter = <>4__this;
+  try {
+    ConfiguredTaskAwaitable<>::ConfiguredTaskAwaiter awaiter;
+    if (num != 0) {
+      if (num != 1) {
+        <>7__wrap1 = sb->GetChunks().GetEnumerator();
+        goto IL_00ae;
+      }
+      awaiter = <>u__1;
+      <>u__1 = rt::default__;
+      num = (<>1__state = -1);
+      goto IL_0139;
+    }
+    ConfiguredTaskAwaitable<>::ConfiguredTaskAwaiter awaiter2 = <>u__1;
+    <>u__1 = rt::default__;
+    num = (<>1__state = -1);
+    goto IL_00a7;
+
+  IL_00a7:
+    awaiter2.GetResult();
+    goto IL_00ae;
+
+  IL_00ae:
+    if (<>7__wrap1.MoveNext()) {
+      ReadOnlyMemory<Char> current = <>7__wrap1.get_Current();
+      awaiter2 = textWriter->WriteAsync(current, ct)->ConfigureAwait(false).GetAwaiter();
+      if (!awaiter2.get_IsCompleted()) {
+        num = (<>1__state = 0);
+        <>u__1 = awaiter2;
+        <>t__builder.AwaitUnsafeOnCompleted(awaiter2, *this);
+        return;
+      }
+      goto IL_00a7;
+    }
+    <>7__wrap1 = rt::default__;
+    awaiter = textWriter->WriteAsync(textWriter->CoreNewLine, ct)->ConfigureAwait(false).GetAwaiter();
+    if (!awaiter.get_IsCompleted()) {
+      num = (<>1__state = 1);
+      <>u__1 = awaiter;
+      <>t__builder.AwaitUnsafeOnCompleted(awaiter, *this);
+      return;
+    }
+    goto IL_0139;
+
+  IL_0139:
+    awaiter.GetResult();
+  } catch (Exception exception) {
+    <>1__state = -2;
+    <>t__builder.SetException(exception);
+    return;
+  }
+  <>1__state = -2;
+  <>t__builder.SetResult();
+}
+
+void TextWriter___::__WriteLineAsync_g__WriteLineAsyncCore66_0_d::SetStateMachine(IAsyncStateMachine stateMachine) {
+  <>t__builder.SetStateMachine(stateMachine);
+}
+
 IFormatProvider TextWriter___::get_FormatProvider() {
   if (_internalFormatProvider == nullptr) {
     return CultureInfo::in::get_CurrentCulture();
@@ -599,24 +757,28 @@ void TextWriter___::WriteLine(String format, Array<Object> arg) {
 }
 
 Task<> TextWriter___::WriteAsync(Char value) {
-  Tuple<TextWriter, Char> state2 = rt::newobj<Tuple<TextWriter, Char>>((TextWriter)this, value);
+  Tuple<TextWriter, Char> state = rt::newobj<Tuple<TextWriter, Char>>((TextWriter)this, value);
+  Action<Object> as = __c::in::__9__58_0;
+  return Task<>::in::get_Factory()->StartNew(as != nullptr ? as : (__c::in::__9__58_0 = &__c::in::__9->_WriteAsync_b__58_0), state, CancellationToken::get_None(), TaskCreationOptions::DenyChildAttach, TaskScheduler::in::get_Default());
 }
 
 Task<> TextWriter___::WriteAsync(String value) {
-  Tuple<TextWriter, String> state2 = rt::newobj<Tuple<TextWriter, String>>((TextWriter)this, value);
+  Tuple<TextWriter, String> state = rt::newobj<Tuple<TextWriter, String>>((TextWriter)this, value);
+  Action<Object> as = __c::in::__9__59_0;
+  return Task<>::in::get_Factory()->StartNew(as != nullptr ? as : (__c::in::__9__59_0 = &__c::in::__9->_WriteAsync_b__59_0), state, CancellationToken::get_None(), TaskCreationOptions::DenyChildAttach, TaskScheduler::in::get_Default());
 }
 
 template <>
 Task<> TextWriter___::WriteAsync(StringBuilder value, CancellationToken cancellationToken) {
   auto WriteAsyncCore = [](StringBuilder sb, CancellationToken ct) -> Task<> {
-    一一WriteAsync一g__WriteAsyncCore|60_0一d stateMachine;
-    stateMachine.一一t__builder = AsyncTaskMethodBuilder<>::Create();
-    stateMachine.一一4__this = (TextWriter)this;
+    __WriteAsync_g__WriteAsyncCore60_0_d stateMachine;
+    stateMachine.__t__builder = AsyncTaskMethodBuilder<>::Create();
+    stateMachine.__4__this = (TextWriter)this;
     stateMachine.sb = sb;
     stateMachine.ct = ct;
-    stateMachine.一一1__state = -1;
-    stateMachine.一一t__builder.Start(stateMachine);
-    return stateMachine.一一t__builder.get_Task();
+    stateMachine.__1__state = -1;
+    stateMachine.__t__builder.Start(stateMachine);
+    return stateMachine.__t__builder.get_Task();
   };
   if (!cancellationToken.get_IsCancellationRequested()) {
     if (value != nullptr) {
@@ -635,7 +797,9 @@ Task<> TextWriter___::WriteAsync(Array<Char> buffer) {
 }
 
 Task<> TextWriter___::WriteAsync(Array<Char> buffer, Int32 index, Int32 count) {
-  Tuple<TextWriter, Array<Char>, Int32, Int32> state2 = rt::newobj<Tuple<TextWriter, Array<Char>, Int32, Int32>>((TextWriter)this, buffer, index, count);
+  Tuple<TextWriter, Array<Char>, Int32, Int32> state = rt::newobj<Tuple<TextWriter, Array<Char>, Int32, Int32>>((TextWriter)this, buffer, index, count);
+  Action<Object> as = __c::in::__9__62_0;
+  return Task<>::in::get_Factory()->StartNew(as != nullptr ? as : (__c::in::__9__62_0 = &__c::in::__9->_WriteAsync_b__62_0), state, CancellationToken::get_None(), TaskCreationOptions::DenyChildAttach, TaskScheduler::in::get_Default());
 }
 
 template <>
@@ -643,6 +807,8 @@ Task<> TextWriter___::WriteAsync(ReadOnlyMemory<Char> buffer, CancellationToken 
   if (!cancellationToken.get_IsCancellationRequested()) {
     ArraySegment<Char> segment;
     if (!MemoryMarshal::TryGetArray(buffer, segment)) {
+      Action<Object> as = __c::in::__9__63_0;
+      return Task<>::in::get_Factory()->StartNew(as != nullptr ? as : (__c::in::__9__63_0 = &__c::in::__9->_WriteAsync_b__63_0), Tuple<>::Create((TextWriter)this, buffer), cancellationToken, TaskCreationOptions::DenyChildAttach, TaskScheduler::in::get_Default());
     }
     return WriteAsync(segment.get_Array(), segment.get_Offset(), segment.get_Count());
   }
@@ -650,24 +816,28 @@ Task<> TextWriter___::WriteAsync(ReadOnlyMemory<Char> buffer, CancellationToken 
 }
 
 Task<> TextWriter___::WriteLineAsync(Char value) {
-  Tuple<TextWriter, Char> state2 = rt::newobj<Tuple<TextWriter, Char>>((TextWriter)this, value);
+  Tuple<TextWriter, Char> state = rt::newobj<Tuple<TextWriter, Char>>((TextWriter)this, value);
+  Action<Object> as = __c::in::__9__64_0;
+  return Task<>::in::get_Factory()->StartNew(as != nullptr ? as : (__c::in::__9__64_0 = &__c::in::__9->_WriteLineAsync_b__64_0), state, CancellationToken::get_None(), TaskCreationOptions::DenyChildAttach, TaskScheduler::in::get_Default());
 }
 
 Task<> TextWriter___::WriteLineAsync(String value) {
-  Tuple<TextWriter, String> state2 = rt::newobj<Tuple<TextWriter, String>>((TextWriter)this, value);
+  Tuple<TextWriter, String> state = rt::newobj<Tuple<TextWriter, String>>((TextWriter)this, value);
+  Action<Object> as = __c::in::__9__65_0;
+  return Task<>::in::get_Factory()->StartNew(as != nullptr ? as : (__c::in::__9__65_0 = &__c::in::__9->_WriteLineAsync_b__65_0), state, CancellationToken::get_None(), TaskCreationOptions::DenyChildAttach, TaskScheduler::in::get_Default());
 }
 
 template <>
 Task<> TextWriter___::WriteLineAsync(StringBuilder value, CancellationToken cancellationToken) {
   auto WriteLineAsyncCore = [](StringBuilder sb, CancellationToken ct) -> Task<> {
-    一一WriteLineAsync一g__WriteLineAsyncCore|66_0一d stateMachine;
-    stateMachine.一一t__builder = AsyncTaskMethodBuilder<>::Create();
-    stateMachine.一一4__this = (TextWriter)this;
+    __WriteLineAsync_g__WriteLineAsyncCore66_0_d stateMachine;
+    stateMachine.__t__builder = AsyncTaskMethodBuilder<>::Create();
+    stateMachine.__4__this = (TextWriter)this;
     stateMachine.sb = sb;
     stateMachine.ct = ct;
-    stateMachine.一一1__state = -1;
-    stateMachine.一一t__builder.Start(stateMachine);
-    return stateMachine.一一t__builder.get_Task();
+    stateMachine.__1__state = -1;
+    stateMachine.__t__builder.Start(stateMachine);
+    return stateMachine.__t__builder.get_Task();
   };
   if (!cancellationToken.get_IsCancellationRequested()) {
     if (value != nullptr) {
@@ -686,7 +856,9 @@ Task<> TextWriter___::WriteLineAsync(Array<Char> buffer) {
 }
 
 Task<> TextWriter___::WriteLineAsync(Array<Char> buffer, Int32 index, Int32 count) {
-  Tuple<TextWriter, Array<Char>, Int32, Int32> state2 = rt::newobj<Tuple<TextWriter, Array<Char>, Int32, Int32>>((TextWriter)this, buffer, index, count);
+  Tuple<TextWriter, Array<Char>, Int32, Int32> state = rt::newobj<Tuple<TextWriter, Array<Char>, Int32, Int32>>((TextWriter)this, buffer, index, count);
+  Action<Object> as = __c::in::__9__68_0;
+  return Task<>::in::get_Factory()->StartNew(as != nullptr ? as : (__c::in::__9__68_0 = &__c::in::__9->_WriteLineAsync_b__68_0), state, CancellationToken::get_None(), TaskCreationOptions::DenyChildAttach, TaskScheduler::in::get_Default());
 }
 
 template <>
@@ -694,6 +866,8 @@ Task<> TextWriter___::WriteLineAsync(ReadOnlyMemory<Char> buffer, CancellationTo
   if (!cancellationToken.get_IsCancellationRequested()) {
     ArraySegment<Char> segment;
     if (!MemoryMarshal::TryGetArray(buffer, segment)) {
+      Action<Object> as = __c::in::__9__69_0;
+      return Task<>::in::get_Factory()->StartNew(as != nullptr ? as : (__c::in::__9__69_0 = &__c::in::__9->_WriteLineAsync_b__69_0), Tuple<>::Create((TextWriter)this, buffer), cancellationToken, TaskCreationOptions::DenyChildAttach, TaskScheduler::in::get_Default());
     }
     return WriteLineAsync(segment.get_Array(), segment.get_Offset(), segment.get_Count());
   }
@@ -705,6 +879,8 @@ Task<> TextWriter___::WriteLineAsync() {
 }
 
 Task<> TextWriter___::FlushAsync() {
+  Action<Object> as = __c::in::__9__71_0;
+  return Task<>::in::get_Factory()->StartNew(as != nullptr ? as : (__c::in::__9__71_0 = &__c::in::__9->_FlushAsync_b__71_0), (TextWriter)this, CancellationToken::get_None(), TaskCreationOptions::DenyChildAttach, TaskScheduler::in::get_Default());
 }
 
 TextWriter TextWriter___::Synchronized(TextWriter writer) {
@@ -720,6 +896,28 @@ TextWriter TextWriter___::Synchronized(TextWriter writer) {
 void TextWriter___::cctor() {
   Null = rt::newobj<NullTextWriter>();
   s_coreNewLine = "\r\n"->ToCharArray();
+}
+
+Task<> TextWriter___::_WriteAsync_g__WriteAsyncCore60_0(StringBuilder sb, CancellationToken ct) {
+  __WriteAsync_g__WriteAsyncCore60_0_d stateMachine;
+  stateMachine.__t__builder = AsyncTaskMethodBuilder<>::Create();
+  stateMachine.__4__this = (TextWriter)this;
+  stateMachine.sb = sb;
+  stateMachine.ct = ct;
+  stateMachine.__1__state = -1;
+  stateMachine.__t__builder.Start(stateMachine);
+  return stateMachine.__t__builder.get_Task();
+}
+
+Task<> TextWriter___::_WriteLineAsync_g__WriteLineAsyncCore66_0(StringBuilder sb, CancellationToken ct) {
+  __WriteLineAsync_g__WriteLineAsyncCore66_0_d stateMachine;
+  stateMachine.__t__builder = AsyncTaskMethodBuilder<>::Create();
+  stateMachine.__4__this = (TextWriter)this;
+  stateMachine.sb = sb;
+  stateMachine.ct = ct;
+  stateMachine.__1__state = -1;
+  stateMachine.__t__builder.Start(stateMachine);
+  return stateMachine.__t__builder.get_Task();
 }
 
 } // namespace System::Private::CoreLib::System::IO::TextWriterNamespace

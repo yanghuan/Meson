@@ -49,6 +49,17 @@ EventProvider___::SessionInfo::SessionInfo(Int32 sessionIdBit_, Int32 etwSession
   etwSessionId = etwSessionId_;
 }
 
+void EventProvider___::__c___::cctor() {
+  <>9 = rt::newobj<__c>();
+}
+
+void EventProvider___::__c___::ctor() {
+}
+
+void EventProvider___::__c___::_GetSessions_b__37_0(Int32 etwSessionId, Int64 matchAllKeywords, List<SessionInfo>& sessionList) {
+  GetSessionInfoCallback(etwSessionId, matchAllKeywords, sessionList);
+}
+
 EventLevel EventProvider___::get_Level() {
   return (EventLevel)m_level;
 }
@@ -186,7 +197,28 @@ Int32 EventProvider___::FindNull(Array<Byte> buffer, Int32 idx) {
 }
 
 List<Tuple<EventProvider::in::SessionInfo, Boolean>> EventProvider___::GetSessions() {
-  List<SessionInfo> sessionList2 = nullptr;
+  List<SessionInfo> sessionList = nullptr;
+  SessionInfoCallback as = __c::in::__9__37_0;
+  GetSessionInfo(as != nullptr ? as : (__c::in::__9__37_0 = &__c::in::__9->_GetSessions_b__37_0), sessionList);
+  List<Tuple<SessionInfo, Boolean>> list = rt::newobj<List<Tuple<SessionInfo, Boolean>>>();
+  if (m_liveSessions != nullptr) {
+    for (SessionInfo&& liveSession : *m_liveSessions) {
+      Int32 index;
+      if ((index = IndexOfSessionInList(sessionList, liveSession.etwSessionId)) < 0 || sessionList[index].sessionIdBit != liveSession.sessionIdBit) {
+        list->Add(Tuple<>::Create(liveSession, false));
+      }
+    }
+  }
+  if (sessionList != nullptr) {
+    for (SessionInfo&& item : *sessionList) {
+      Int32 index2;
+      if ((index2 = IndexOfSessionInList(m_liveSessions, item.etwSessionId)) < 0 || m_liveSessions[index2].sessionIdBit != item.sessionIdBit) {
+        list->Add(Tuple<>::Create(item, true));
+      }
+    }
+  }
+  m_liveSessions = sessionList;
+  return list;
 }
 
 void EventProvider___::GetSessionInfoCallback(Int32 etwSessionId, Int64 matchAllKeywords, List<SessionInfo>& sessionList) {

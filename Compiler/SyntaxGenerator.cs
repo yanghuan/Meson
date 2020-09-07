@@ -28,8 +28,8 @@ namespace Meson.Compiler {
       Discards = false,
       OutVariables = false,
       NamedArguments = false,
-      //UseLambdaSyntax = false,
-      //AnonymousMethods = false,
+      UseLambdaSyntax = false,
+      AnonymousMethods = false,
       QueryExpressions = false,
       ExtensionMethods = false,
       SwitchStatementOnString = false,
@@ -165,7 +165,8 @@ namespace Meson.Compiler {
       if (name == null) {
         string symbolName = symbol.Name;
         switch (symbol.SymbolKind) {
-          case SymbolKind.Accessor: {
+          case SymbolKind.Accessor:
+          case SymbolKind.Method: {
               var method = (IMethod)symbol;
               if (method.IsExplicitInterfaceImplementation) {
                 int i = symbolName.LastIndexOf('.');
@@ -208,7 +209,7 @@ namespace Meson.Compiler {
         case SymbolKind.Field:
         case SymbolKind.Method:
         case SymbolKind.Parameter: {
-            if (Utils.CheckBadWord(ref originalString)) {
+            if (Utils.CheckBadName(ref originalString)) {
               name.Update(originalString);
             }
             break;

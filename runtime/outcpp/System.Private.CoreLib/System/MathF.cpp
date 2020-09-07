@@ -229,4 +229,12 @@ void MathF::cctor() {
   roundPower10Single = rt::newarr<Array<Single>>(7);
 }
 
+Single MathF::_CopySign_g__SoftwareFallback36_0(Single x, Single y) {
+  Int32 num = BitConverter::SingleToInt32Bits(x);
+  Int32 num2 = BitConverter::SingleToInt32Bits(y);
+  num &= Int32::MaxValue;
+  num2 &= Int32::MinValue;
+  return BitConverter::Int32BitsToSingle(num | num2);
+}
+
 } // namespace System::Private::CoreLib::System::MathFNamespace

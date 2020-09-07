@@ -41,6 +41,7 @@ CLASS(DefaultValueAttribute) : public Attribute::in {
   public: Boolean Equals(Object obj);
   public: Int32 GetHashCode();
   protected: void SetValue(Object value);
+  public: static Boolean _ctor_g__TryConvertFromInvariantString2_0(Type typeToConvert, String stringValue, Object& conversionResult);
   private: Object _value;
   private: static Object s_convertFromInvariantString;
 };

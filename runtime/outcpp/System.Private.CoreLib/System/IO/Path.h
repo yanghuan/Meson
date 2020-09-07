@@ -1,6 +1,6 @@
 #pragma once
 
-#include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System {
 enum class StringComparison : int32_t;
@@ -9,17 +9,36 @@ FORWARDS(Boolean)
 FORWARDS(Byte)
 FORWARDS(Char)
 FORWARDS(Int32)
+FORWARDS(IntPtr)
 FORWARDS(ReadOnlySpan, T)
 FORWARDS(Span, T)
 FORWARD(String)
+FORWARDS_(ValueTuple, T1, T2, T3, T4, T5, T6, T7, T8, T9)
 } // namespace System::Private::CoreLib::System
+namespace System::Private::CoreLib::System::Buffers {
+FORWARD(SpanAction, T, TArg)
+} // namespace System::Private::CoreLib::System::Buffers
 namespace System::Private::CoreLib::System::Text {
 FORWARDS(ValueStringBuilder)
 } // namespace System::Private::CoreLib::System::Text
 namespace System::Private::CoreLib::System::IO {
 namespace PathNamespace {
+using namespace System::Buffers;
 using namespace System::Text;
 class Path {
+  private: CLASS(__c) : public object {
+    public: static void cctor();
+    public: void ctor();
+    public: void _GetRandomFileName_b__16_0(Span<Char> span, IntPtr key);
+    public: void _JoinInternal_b__37_0(Span<Char> destination, ValueTuple<IntPtr, Int32, IntPtr, Int32, Boolean> state);
+    public: void _JoinInternal_b__38_0(Span<Char> destination, ValueTuple<IntPtr, Int32, IntPtr, Int32, IntPtr, Int32, Boolean, Boolean> state);
+    public: void _JoinInternal_b__39_0(Span<Char> destination, ValueTuple<IntPtr, Int32, IntPtr, Int32, IntPtr, Int32, IntPtr, Int32, Boolean, Boolean, Boolean> state);
+    public: static __c __9;
+    public: static SpanAction<Char, IntPtr> __9__16_0;
+    public: static SpanAction<Char, ValueTuple<IntPtr, Int32, IntPtr, Int32, Boolean>> __9__37_0;
+    public: static SpanAction<Char, ValueTuple<IntPtr, Int32, IntPtr, Int32, IntPtr, Int32, Boolean, Boolean>> __9__38_0;
+    public: static SpanAction<Char, ValueTuple<IntPtr, Int32, IntPtr, Int32, IntPtr, Int32, IntPtr, Int32, Boolean, Boolean, Boolean>> __9__39_0;
+  };
   private: static ReadOnlySpan<Byte> get_Base32Char();
   public: static StringComparison get_StringComparison();
   public: static Boolean get_IsCaseSensitive();

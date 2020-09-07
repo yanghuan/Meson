@@ -21,6 +21,7 @@ CLASS(UriFormatException) : public FormatException::in {
   public: void ctor(String textString);
   public: void ctor(String textString, Exception e);
   public: void ctor(SerializationInfo serializationInfo, StreamingContext streamingContext);
+  private: void GetObjectDataOfISerializable(SerializationInfo serializationInfo, StreamingContext streamingContext);
 };
 } // namespace UriFormatExceptionNamespace
 using UriFormatException = UriFormatExceptionNamespace::UriFormatException;

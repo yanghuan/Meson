@@ -15,6 +15,17 @@ namespace System::Private::CoreLib::System::Security::SecurityElementNamespace {
 using namespace System::Collections;
 using namespace System::Text;
 
+void SecurityElement___::__c___::cctor() {
+  <>9 = rt::newobj<__c>();
+}
+
+void SecurityElement___::__c___::ctor() {
+}
+
+void SecurityElement___::__c___::_ToString_b__38_0(Object obj, String str) {
+  ((StringBuilder)obj)->Append(str);
+}
+
 String SecurityElement___::get_Tag() {
   return _tag;
 }
@@ -317,6 +328,9 @@ String SecurityElement___::Unescape(String str) {
 
 String SecurityElement___::ToString() {
   StringBuilder stringBuilder = rt::newobj<StringBuilder>();
+  Action<Object, String> as = __c::in::__9__38_0;
+  ToString(stringBuilder, as != nullptr ? as : (__c::in::__9__38_0 = &__c::in::__9->_ToString_b__38_0));
+  return stringBuilder->ToString();
 }
 
 void SecurityElement___::ToString(Object obj, Action<Object, String> write) {

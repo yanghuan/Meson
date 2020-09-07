@@ -91,6 +91,8 @@ struct Matrix4x4 : public valueType<Matrix4x4> {
   public: String ToString();
   public: Int32 GetHashCode();
   public: static void cctor();
+  public: static Boolean _Invert_g__SseImpl59_0(Matrix4x4 matrix, Matrix4x4& result);
+  public: static Boolean _Invert_g__SoftwareFallback59_1(Matrix4x4 matrix, Matrix4x4& result);
   public: explicit Matrix4x4() {}
   public: Single M11;
   public: Single M12;

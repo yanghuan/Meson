@@ -9,5 +9,6 @@
 #include <System.Private.CoreLib/System/Diagnostics/Tracing/TraceLoggingMetadataCollector-dep.h>
 #include <System.Private.CoreLib/System/Diagnostics/Tracing/TraceLoggingTypeInfo-dep.h>
 #include <System.Private.CoreLib/System/Func-dep.h>
+#include <System.Private.CoreLib/System/Object-dep.h>
 #include <System.Private.CoreLib/System/String-dep.h>
 #include <System.Private.CoreLib/System/Type-dep.h>

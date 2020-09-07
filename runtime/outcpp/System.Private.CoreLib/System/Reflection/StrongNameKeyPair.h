@@ -27,6 +27,8 @@ CLASS(StrongNameKeyPair) : public object {
   public: void ctor(Array<Byte> keyPairArray);
   public: void ctor(SerializationInfo info, StreamingContext context);
   public: void ctor(String keyPairContainer);
+  private: void GetObjectDataOfISerializable(SerializationInfo info, StreamingContext context);
+  private: void OnDeserializationOfIDeserializationCallback(Object sender);
 };
 } // namespace StrongNameKeyPairNamespace
 using StrongNameKeyPair = StrongNameKeyPairNamespace::StrongNameKeyPair;

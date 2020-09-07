@@ -137,4 +137,23 @@ void DefaultValueAttribute___::SetValue(Object value) {
   _value = value;
 }
 
+Boolean DefaultValueAttribute___::_ctor_g__TryConvertFromInvariantString2_0(Type typeToConvert, String stringValue, Object& conversionResult) {
+  conversionResult = nullptr;
+  if (s_convertFromInvariantString == nullptr) {
+    Type type = Type::in::GetType("System.ComponentModel.TypeDescriptor, System.ComponentModel.TypeConverter", false);
+    MethodInfo methodInfo = ((Object)type != nullptr) ? type->GetMethod("ConvertFromInvariantString", BindingFlags::Static | BindingFlags::NonPublic) : nullptr;
+    Volatile::Write(s_convertFromInvariantString, (methodInfo == nullptr) ? rt::newobj<Object>() : methodInfo->CreateDelegate(typeof<Func<Type, String, Object>>()));
+  }
+  Func<Type, String, Object> func = rt::as<Func<Type, String, Object>>(s_convertFromInvariantString);
+  if (func == nullptr) {
+    return false;
+  }
+  try {
+    conversionResult = func(typeToConvert, stringValue);
+  } catch (...) {
+    return false;
+  }
+  return true;
+}
+
 } // namespace System::Private::CoreLib::System::ComponentModel::DefaultValueAttributeNamespace

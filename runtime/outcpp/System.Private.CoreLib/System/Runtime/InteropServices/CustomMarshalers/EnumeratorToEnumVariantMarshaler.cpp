@@ -2,15 +2,24 @@
 
 #include <System.Private.CoreLib/System/ArgumentNullException-dep.h>
 #include <System.Private.CoreLib/System/Collections/IEnumerator.h>
-#include <System.Private.CoreLib/System/Runtime/InteropServices/ComTypes/IEnumVARIANT.h>
+#include <System.Private.CoreLib/System/Runtime/InteropServices/CustomMarshalers/ComDataHelpers-dep.h>
 #include <System.Private.CoreLib/System/Runtime/InteropServices/CustomMarshalers/EnumeratorToEnumVariantMarshaler-dep.h>
-#include <System.Private.CoreLib/System/Runtime/InteropServices/CustomMarshalers/EnumeratorViewOfEnumVariant-dep.h>
 #include <System.Private.CoreLib/System/Runtime/InteropServices/CustomMarshalers/EnumVariantViewOfEnumerator-dep.h>
 #include <System.Private.CoreLib/System/Runtime/InteropServices/Marshal-dep.h>
 
 namespace System::Private::CoreLib::System::Runtime::InteropServices::CustomMarshalers::EnumeratorToEnumVariantMarshalerNamespace {
 using namespace System::Collections;
-using namespace System::Runtime::InteropServices::ComTypes;
+
+void EnumeratorToEnumVariantMarshaler___::__c___::cctor() {
+  <>9 = rt::newobj<__c>();
+}
+
+void EnumeratorToEnumVariantMarshaler___::__c___::ctor() {
+}
+
+EnumeratorViewOfEnumVariant EnumeratorToEnumVariantMarshaler___::__c___::_MarshalNativeToManaged_b__7_0(IEnumVARIANT var) {
+  return rt::newobj<EnumeratorViewOfEnumVariant>(var);
+}
 
 ICustomMarshaler EnumeratorToEnumVariantMarshaler___::GetInstance(String cookie) {
   return s_enumeratorToEnumVariantMarshaler;
@@ -54,6 +63,8 @@ Object EnumeratorToEnumVariantMarshaler___::MarshalNativeToManaged(IntPtr pNativ
     }
     return rt::as<IEnumerator>(objectForIUnknown);
   }
+  Func<IEnumVARIANT, EnumeratorViewOfEnumVariant> as = __c::in::__9__7_0;
+  return ComDataHelpers::GetOrCreateManagedViewFromComData(objectForIUnknown, as != nullptr ? as : (__c::in::__9__7_0 = &__c::in::__9->_MarshalNativeToManaged_b__7_0));
 }
 
 void EnumeratorToEnumVariantMarshaler___::cctor() {

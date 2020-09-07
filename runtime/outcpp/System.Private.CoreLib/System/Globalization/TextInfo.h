@@ -50,6 +50,7 @@ CLASS(TextInfo) : public object {
   private: Boolean get_IsInvariant();
   public: void ctor(CultureData cultureData);
   public: void ctor(CultureData cultureData, Boolean readOnly);
+  private: void OnDeserializationOfIDeserializationCallback(Object sender);
   public: Object Clone();
   public: static TextInfo ReadOnly(TextInfo textInfo);
   private: void VerifyWritable();

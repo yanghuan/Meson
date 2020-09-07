@@ -25,6 +25,8 @@ CLASS(MultiProducerMultiConsumerQueue, T) : public ConcurrentQueue<T>::in {
   public: using interface = rt::TypeList<IProducerConsumerQueue<T>, IEnumerable<T>, IEnumerable_>;
   private: Boolean get_IsEmptyOfIProducerConsumerQueueT();
   private: Int32 get_CountOfIProducerConsumerQueueT();
+  private: void EnqueueOfIProducerConsumerQueueT(T item);
+  private: Boolean TryDequeueOfIProducerConsumerQueueT(T& result);
   public: void ctor();
 };
 } // namespace MultiProducerMultiConsumerQueueNamespace

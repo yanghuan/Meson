@@ -6,6 +6,7 @@
 #include <System.Private.CoreLib/System/ArgumentOutOfRangeException-dep.h>
 #include <System.Private.CoreLib/System/Buffers/Binary/BinaryPrimitives-dep.h>
 #include <System.Private.CoreLib/System/Byte-dep.h>
+#include <System.Private.CoreLib/System/Convert-dep.h>
 #include <System.Private.CoreLib/System/Decimal-dep.h>
 #include <System.Private.CoreLib/System/DivideByZeroException-dep.h>
 #include <System.Private.CoreLib/System/ExceptionArgument.h>
@@ -13,6 +14,7 @@
 #include <System.Private.CoreLib/System/Globalization/NumberStyles.h>
 #include <System.Private.CoreLib/System/Int32-dep.h>
 #include <System.Private.CoreLib/System/Int64-dep.h>
+#include <System.Private.CoreLib/System/InvalidCastException-dep.h>
 #include <System.Private.CoreLib/System/Math-dep.h>
 #include <System.Private.CoreLib/System/MidpointRounding.h>
 #include <System.Private.CoreLib/System/Number-dep.h>
@@ -20,6 +22,7 @@
 #include <System.Private.CoreLib/System/OverflowException-dep.h>
 #include <System.Private.CoreLib/System/ReadOnlySpan-dep.h>
 #include <System.Private.CoreLib/System/Runtime/Intrinsics/X86/Sse41-dep.h>
+#include <System.Private.CoreLib/System/Runtime/Serialization/SerializationException-dep.h>
 #include <System.Private.CoreLib/System/SByte-dep.h>
 #include <System.Private.CoreLib/System/SR-dep.h>
 #include <System.Private.CoreLib/System/ThrowHelper-dep.h>
@@ -31,6 +34,7 @@ using namespace System::Buffers::Binary;
 using namespace System::Globalization;
 using namespace System::Numerics;
 using namespace System::Runtime::Intrinsics::X86;
+using namespace System::Runtime::Serialization;
 
 UInt64 Decimal::DecCalc::Buf24::get_Low64() {
   return ulo64LE;
@@ -1661,6 +1665,16 @@ Decimal::Decimal(SerializationInfo info, StreamingContext context) {
   _lo64 = (UInt64)((UInt32)info->GetInt32("lo") + ((Int64)info->GetInt32("mid") << 32));
 }
 
+void Decimal::GetObjectDataOfISerializable(SerializationInfo info, StreamingContext context) {
+  if (info == nullptr) {
+    rt::throw_exception<ArgumentNullException>("info");
+  }
+  info->AddValue("flags", _flags);
+  info->AddValue("hi", (Int32)get_High());
+  info->AddValue("lo", (Int32)get_Low());
+  info->AddValue("mid", (Int32)get_Mid());
+}
+
 Decimal Decimal::FromOACurrency(Int64 cy) {
   Boolean isNegative = false;
   UInt64 num;
@@ -1720,6 +1734,12 @@ Decimal::Decimal(Int32 lo, Int32 mid, Int32 hi, Boolean isNegative, Byte scale) 
   _flags = scale << 16;
   if (isNegative) {
     _flags |= Int32::MinValue;
+  }
+}
+
+void Decimal::OnDeserializationOfIDeserializationCallback(Object sender) {
+  if (!IsValid(_flags)) {
+    rt::throw_exception<SerializationException>(SR::get_Overflow_Decimal());
   }
 }
 
@@ -2296,6 +2316,66 @@ Boolean Decimal::op_GreaterThanOrEqual(Decimal d1, Decimal d2) {
 
 TypeCode Decimal::GetTypeCode() {
   return TypeCode::Decimal;
+}
+
+Boolean Decimal::ToBooleanOfIConvertible(IFormatProvider provider) {
+  return Convert::ToBoolean(*this);
+}
+
+Char Decimal::ToCharOfIConvertible(IFormatProvider provider) {
+  rt::throw_exception<InvalidCastException>(SR::Format(SR::get_InvalidCast_FromTo(), "Decimal", "Char"));
+}
+
+SByte Decimal::ToSByteOfIConvertible(IFormatProvider provider) {
+  return Convert::ToSByte(*this);
+}
+
+Byte Decimal::ToByteOfIConvertible(IFormatProvider provider) {
+  return Convert::ToByte(*this);
+}
+
+Int16 Decimal::ToInt16OfIConvertible(IFormatProvider provider) {
+  return Convert::ToInt16(*this);
+}
+
+UInt16 Decimal::ToUInt16OfIConvertible(IFormatProvider provider) {
+  return Convert::ToUInt16(*this);
+}
+
+Int32 Decimal::ToInt32OfIConvertible(IFormatProvider provider) {
+  return Convert::ToInt32(*this);
+}
+
+UInt32 Decimal::ToUInt32OfIConvertible(IFormatProvider provider) {
+  return Convert::ToUInt32(*this);
+}
+
+Int64 Decimal::ToInt64OfIConvertible(IFormatProvider provider) {
+  return Convert::ToInt64(*this);
+}
+
+UInt64 Decimal::ToUInt64OfIConvertible(IFormatProvider provider) {
+  return Convert::ToUInt64(*this);
+}
+
+Single Decimal::ToSingleOfIConvertible(IFormatProvider provider) {
+  return DecCalc::VarR4FromDec(*this);
+}
+
+Double Decimal::ToDoubleOfIConvertible(IFormatProvider provider) {
+  return DecCalc::VarR8FromDec(*this);
+}
+
+Decimal Decimal::ToDecimalOfIConvertible(IFormatProvider provider) {
+  return *this;
+}
+
+DateTime Decimal::ToDateTimeOfIConvertible(IFormatProvider provider) {
+  rt::throw_exception<InvalidCastException>(SR::Format(SR::get_InvalidCast_FromTo(), "Decimal", "DateTime"));
+}
+
+Object Decimal::ToTypeOfIConvertible(Type type, IFormatProvider provider) {
+  return Convert::DefaultToType(*this, type, provider);
 }
 
 Decimal::DecCalc& Decimal::AsMutable(Decimal& d) {

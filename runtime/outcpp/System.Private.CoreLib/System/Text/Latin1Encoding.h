@@ -1,5 +1,6 @@
 #pragma once
 
+#include <System.Private.CoreLib/System/Object.h>
 #include <System.Private.CoreLib/System/Text/Encoding.h>
 
 namespace System::Private::CoreLib::System {
@@ -8,13 +9,14 @@ FORWARDS(Boolean)
 FORWARDS(Byte)
 FORWARDS(Char)
 FORWARDS(Int32)
-FORWARD(Object)
 FORWARDS(ReadOnlySpan, T)
 FORWARDS(Span, T)
 FORWARD(String)
+FORWARDS_(ValueTuple, T1, T2, T3, T4, T5, T6, T7, T8, T9)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Buffers {
 enum class OperationStatus : int32_t;
+FORWARD(SpanAction, T, TArg)
 } // namespace System::Private::CoreLib::System::Buffers
 namespace System::Private::CoreLib::System::Text {
 enum class NormalizationForm : int32_t;
@@ -27,6 +29,15 @@ namespace Latin1EncodingNamespace {
 using namespace System::Buffers;
 CLASS(Latin1Encoding) : public Encoding::in {
   public: FRIENDN(Latin1EncodingSealed)
+  private: CLASS(__c) : public object {
+    public: static void cctor();
+    public: void ctor();
+    public: void _GetString_b__29_0(Span<Char> chars, ValueTuple<Latin1Encoding, Array<Byte>> args);
+    public: void _GetString_b__30_0(Span<Char> chars, ValueTuple<Latin1Encoding, Array<Byte>, Int32> args);
+    public: static __c __9;
+    public: static SpanAction<Char, ValueTuple<Latin1Encoding, Array<Byte>>> __9__29_0;
+    public: static SpanAction<Char, ValueTuple<Latin1Encoding, Array<Byte>, Int32>> __9__30_0;
+  };
   public: ReadOnlySpan<Byte> get_Preamble();
   public: Boolean get_IsSingleByte();
   public: void ctor();

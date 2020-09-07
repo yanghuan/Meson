@@ -34,4 +34,20 @@ Boolean StringRuneEnumerator::MoveNext() {
   return true;
 }
 
+void StringRuneEnumerator::DisposeOfIDisposable() {
+}
+
+IEnumerator_ StringRuneEnumerator::GetEnumeratorOfIEnumerable() {
+  return *this;
+}
+
+IEnumerator<Rune> StringRuneEnumerator::GetEnumeratorOfRune() {
+  return *this;
+}
+
+void StringRuneEnumerator::ResetOfIEnumerator() {
+  _current = rt::default__;
+  _nextIndex = 0;
+}
+
 } // namespace System::Private::CoreLib::System::Text::StringRuneEnumeratorNamespace

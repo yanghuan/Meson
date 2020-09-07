@@ -145,6 +145,12 @@ class Console {
   public: static void Write(String value);
   public: static Boolean HandleBreakEvent(ConsoleSpecialKey controlKey);
   public: static void cctor();
+  public: static TextReader _get_In_g__EnsureInitialized13_0();
+  public: static TextWriter _get_Out_g__EnsureInitialized25_0();
+  public: static TextWriter _get_Error_g__EnsureInitialized27_0();
+  public: static StrongBox<Boolean> _get_IsInputRedirected_g__EnsureInitialized33_0();
+  public: static StrongBox<Boolean> _get_IsOutputRedirected_g__EnsureInitialized35_0();
+  public: static StrongBox<Boolean> _get_IsErrorRedirected_g__EnsureInitialized37_0();
   private: static Object s_syncObject;
   private: static TextReader s_in;
   private: static TextWriter s_out;

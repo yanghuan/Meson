@@ -58,6 +58,20 @@ CLASS(ResourceReader) : public object {
     private: Int32 _currentName;
     private: Int32 _dataPosition;
   };
+  private: CLASS(__c) : public object {
+    public: static void cctor();
+    public: void ctor();
+    public: Type _InitializeBinaryFormatter_b__6_0();
+    public: Func<Object, Stream, Object> _InitializeBinaryFormatter_b__6_1();
+    public: static __c __9;
+    public: static Func<Type> __9__6_0;
+    public: static Func<Func<Object, Stream, Object>> __9__6_1;
+  };
+  private: CLASS(__c__DisplayClass7_0, TInstance) : public object {
+    public: void ctor();
+    public: Object _CreateUntypedDelegate_b__0(Object obj, Stream stream);
+    public: Func<TInstance, Stream, Object> typedDelegate;
+  };
   public: void ctor(Stream stream, Dictionary<String, ResourceLocator> resCache, Boolean permitDeserialization);
   private: Object DeserializeObject(Int32 typeIndex);
   private: Boolean InitializeBinaryFormatter();
@@ -74,6 +88,7 @@ CLASS(ResourceReader) : public object {
   private: void SkipString();
   private: Int32 GetNameHash(Int32 index);
   private: Int32 GetNamePosition(Int32 index);
+  private: IEnumerator GetEnumeratorOfIEnumerable();
   public: IDictionaryEnumerator GetEnumerator();
   public: ResourceEnumerator GetEnumeratorInternal();
   public: Int32 FindPosForResource(String name);

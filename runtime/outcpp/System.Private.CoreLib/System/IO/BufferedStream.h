@@ -1,26 +1,35 @@
 #pragma once
 
+#include <System.Private.CoreLib/System/Byte.h>
 #include <System.Private.CoreLib/System/Int32.h>
 #include <System.Private.CoreLib/System/IO/Stream.h>
+#include <System.Private.CoreLib/System/Memory.h>
+#include <System.Private.CoreLib/System/Object.h>
+#include <System.Private.CoreLib/System/ReadOnlyMemory.h>
+#include <System.Private.CoreLib/System/Runtime/CompilerServices/AsyncTaskMethodBuilder.h>
+#include <System.Private.CoreLib/System/Runtime/CompilerServices/AsyncValueTaskMethodBuilder.h>
+#include <System.Private.CoreLib/System/Runtime/CompilerServices/ConfiguredTaskAwaitable.h>
+#include <System.Private.CoreLib/System/Runtime/CompilerServices/ConfiguredValueTaskAwaitable.h>
+#include <System.Private.CoreLib/System/Threading/CancellationToken.h>
+#include <System.Private.CoreLib/System/ValueType.h>
 
+namespace System::Private::CoreLib::System::Threading {
+FORWARD(SemaphoreSlim)
+} // namespace System::Private::CoreLib::System::Threading
 namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)
 FORWARD(AsyncCallback)
 FORWARDS(Boolean)
-FORWARDS(Byte)
 FORWARD(Exception)
+FORWARD_(Func, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18)
 FORWARD(IAsyncResult)
 FORWARDS(Int64)
-FORWARDS(Memory, T)
-FORWARD(Object)
-FORWARDS(ReadOnlyMemory, T)
 FORWARDS(ReadOnlySpan, T)
 FORWARDS(Span, T)
 } // namespace System::Private::CoreLib::System
-namespace System::Private::CoreLib::System::Threading {
-FORWARDS(CancellationToken)
-FORWARD(SemaphoreSlim)
-} // namespace System::Private::CoreLib::System::Threading
+namespace System::Private::CoreLib::System::Runtime::CompilerServices {
+FORWARD(IAsyncStateMachine)
+} // namespace System::Private::CoreLib::System::Runtime::CompilerServices
 namespace System::Private::CoreLib::System::Threading::Tasks {
 FORWARD_(Task, T1, T2)
 FORWARDS_(ValueTask, T1, T2)
@@ -28,9 +37,94 @@ FORWARDS_(ValueTask, T1, T2)
 namespace System::Private::CoreLib::System::IO {
 enum class SeekOrigin : int32_t;
 namespace BufferedStreamNamespace {
+using namespace System::Runtime::CompilerServices;
 using namespace System::Threading;
 using namespace System::Threading::Tasks;
 CLASS(BufferedStream) : public Stream::in {
+  private: CLASS(__c) : public object {
+    public: static void cctor();
+    public: void ctor();
+    public: SemaphoreSlim _LazyEnsureAsyncActiveSemaphoreInitialized_b__10_0();
+    public: static __c __9;
+    public: static Func<SemaphoreSlim> __9__10_0;
+  };
+  private: struct _DisposeAsync_d__35 : public valueType<_DisposeAsync_d__35> {
+    public: using interface = rt::TypeList<IAsyncStateMachine>;
+    private: void MoveNext();
+    private: void SetStateMachine(IAsyncStateMachine stateMachine);
+    public: Int32 __1__state;
+    public: AsyncValueTaskMethodBuilder<> __t__builder;
+    public: BufferedStream __4__this;
+    private: Object __7__wrap1;
+    private: Int32 __7__wrap2;
+    private: ConfiguredTaskAwaitable<>::ConfiguredTaskAwaiter __u__1;
+    private: ConfiguredValueTaskAwaitable<>::ConfiguredValueTaskAwaiter __u__2;
+  };
+  private: struct _FlushAsyncInternal_d__38 : public valueType<_FlushAsyncInternal_d__38> {
+    public: using interface = rt::TypeList<IAsyncStateMachine>;
+    private: void MoveNext();
+    private: void SetStateMachine(IAsyncStateMachine stateMachine);
+    public: Int32 __1__state;
+    public: AsyncTaskMethodBuilder<> __t__builder;
+    public: BufferedStream __4__this;
+    public: CancellationToken cancellationToken;
+    private: SemaphoreSlim _sem_5__2;
+    private: ConfiguredTaskAwaitable<>::ConfiguredTaskAwaiter __u__1;
+    private: ConfiguredValueTaskAwaitable<>::ConfiguredValueTaskAwaiter __u__2;
+  };
+  private: struct _FlushWriteAsync_d__42 : public valueType<_FlushWriteAsync_d__42> {
+    public: using interface = rt::TypeList<IAsyncStateMachine>;
+    private: void MoveNext();
+    private: void SetStateMachine(IAsyncStateMachine stateMachine);
+    public: Int32 __1__state;
+    public: AsyncValueTaskMethodBuilder<> __t__builder;
+    public: BufferedStream __4__this;
+    public: CancellationToken cancellationToken;
+    private: ConfiguredValueTaskAwaitable<>::ConfiguredValueTaskAwaiter __u__1;
+    private: ConfiguredTaskAwaitable<>::ConfiguredTaskAwaiter __u__2;
+  };
+  private: struct _ReadFromUnderlyingStreamAsync_d__51 : public valueType<_ReadFromUnderlyingStreamAsync_d__51> {
+    public: using interface = rt::TypeList<IAsyncStateMachine>;
+    private: void MoveNext();
+    private: void SetStateMachine(IAsyncStateMachine stateMachine);
+    public: Int32 __1__state;
+    public: AsyncValueTaskMethodBuilder<Int32> __t__builder;
+    public: Task<> semaphoreLockTask;
+    public: BufferedStream __4__this;
+    public: Memory<Byte> buffer;
+    public: Int32 bytesAlreadySatisfied;
+    public: CancellationToken cancellationToken;
+    private: ConfiguredTaskAwaitable<>::ConfiguredTaskAwaiter __u__1;
+    private: ConfiguredValueTaskAwaitable<>::ConfiguredValueTaskAwaiter __u__2;
+    private: Int32 __7__wrap1;
+    private: ConfiguredValueTaskAwaitable<Int32>::ConfiguredValueTaskAwaiter __u__3;
+  };
+  private: struct _WriteToUnderlyingStreamAsync_d__62 : public valueType<_WriteToUnderlyingStreamAsync_d__62> {
+    public: using interface = rt::TypeList<IAsyncStateMachine>;
+    private: void MoveNext();
+    private: void SetStateMachine(IAsyncStateMachine stateMachine);
+    public: Int32 __1__state;
+    public: AsyncValueTaskMethodBuilder<> __t__builder;
+    public: Task<> semaphoreLockTask;
+    public: BufferedStream __4__this;
+    public: ReadOnlyMemory<Byte> buffer;
+    public: CancellationToken cancellationToken;
+    private: ConfiguredTaskAwaitable<>::ConfiguredTaskAwaiter __u__1;
+    private: ConfiguredValueTaskAwaitable<>::ConfiguredValueTaskAwaiter __u__2;
+  };
+  private: struct _CopyToAsyncCore_d__70 : public valueType<_CopyToAsyncCore_d__70> {
+    public: using interface = rt::TypeList<IAsyncStateMachine>;
+    private: void MoveNext();
+    private: void SetStateMachine(IAsyncStateMachine stateMachine);
+    public: Int32 __1__state;
+    public: AsyncTaskMethodBuilder<> __t__builder;
+    public: BufferedStream __4__this;
+    public: CancellationToken cancellationToken;
+    public: Stream destination;
+    public: Int32 bufferSize;
+    private: ConfiguredTaskAwaitable<>::ConfiguredTaskAwaiter __u__1;
+    private: ConfiguredValueTaskAwaitable<>::ConfiguredValueTaskAwaiter __u__2;
+  };
   public: Stream get_UnderlyingStream();
   public: Int32 get_BufferSize();
   public: Boolean get_CanRead();

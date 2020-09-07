@@ -128,6 +128,7 @@ CLASS(Hashtable) : public object {
   private: void rehash();
   private: void UpdateVersion();
   private: void rehash(Int32 newsize);
+  private: IEnumerator GetEnumeratorOfIEnumerable();
   public: IDictionaryEnumerator GetEnumerator();
   protected: Int32 GetHash(Object key);
   protected: Boolean KeyEquals(Object item, Object key);
@@ -168,6 +169,7 @@ CLASS(SyncHashtable) : public Hashtable::in {
   public: Boolean ContainsValue(Object key);
   public: void CopyTo(Array<> array, Int32 arrayIndex);
   public: Object Clone();
+  private: IEnumerator GetEnumeratorOfIEnumerable();
   public: IDictionaryEnumerator GetEnumerator();
   public: void Remove(Object key);
   public: void OnDeserialization(Object sender);

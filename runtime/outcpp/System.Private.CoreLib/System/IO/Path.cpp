@@ -3,17 +3,14 @@
 #include <System.Private.CoreLib/Interop-dep.h>
 #include <System.Private.CoreLib/System/ArgumentException-dep.h>
 #include <System.Private.CoreLib/System/ArgumentNullException-dep.h>
-#include <System.Private.CoreLib/System/Boolean-dep.h>
-#include <System.Private.CoreLib/System/Char-dep.h>
-#include <System.Private.CoreLib/System/Int32-dep.h>
-#include <System.Private.CoreLib/System/IntPtr-dep.h>
+#include <System.Private.CoreLib/System/Byte-dep.h>
+#include <System.Private.CoreLib/System/IO/Path-dep.h>
 #include <System.Private.CoreLib/System/IO/PathHelper-dep.h>
 #include <System.Private.CoreLib/System/IO/PathInternal-dep.h>
 #include <System.Private.CoreLib/System/IO/Win32Marshal-dep.h>
 #include <System.Private.CoreLib/System/Math-dep.h>
 #include <System.Private.CoreLib/System/MemoryExtensions-dep.h>
 #include <System.Private.CoreLib/System/Runtime/InteropServices/MemoryMarshal-dep.h>
-#include <System.Private.CoreLib/System/Span-dep.h>
 #include <System.Private.CoreLib/System/SR-dep.h>
 #include <System.Private.CoreLib/System/Text/ValueStringBuilder-dep.h>
 #include <System.Private.CoreLib/System/UInt32-dep.h>
@@ -21,6 +18,53 @@
 namespace System::Private::CoreLib::System::IO::PathNamespace {
 using namespace System::Runtime::InteropServices;
 using namespace System::Text;
+
+void Path::__c___::cctor() {
+  <>9 = rt::newobj<__c>();
+}
+
+void Path::__c___::ctor() {
+}
+
+void Path::__c___::_GetRandomFileName_b__16_0(Span<Char> span, IntPtr key) {
+  Populate83FileNameFromRandomBytes((Byte*)(void*)key, 8, span);
+}
+
+void Path::__c___::_JoinInternal_b__37_0(Span<Char> destination, ValueTuple<IntPtr, Int32, IntPtr, Int32, Boolean> state) {
+  Span<Char>((void*)state.Item1, state.Item2).CopyTo(destination);
+  if (!state.Item5) {
+    destination[state.Item2] = 92;
+  }
+  Span<Char>((void*)state.Item3, state.Item4).CopyTo(destination.Slice(state.Item2 + ((!state.Item5) ? 1 : 0)));
+}
+
+void Path::__c___::_JoinInternal_b__38_0(Span<Char> destination, ValueTuple<IntPtr, Int32, IntPtr, Int32, IntPtr, Int32, Boolean, Boolean> state) {
+  Span<Char>((void*)state.Item1, state.Item2).CopyTo(destination);
+  if (!state.Item7) {
+    destination[state.Item2] = 92;
+  }
+  Span<Char>((void*)state.Item3, state.Item4).CopyTo(destination.Slice(state.Item2 + ((!state.Item7) ? 1 : 0)));
+  if (!state.Rest.Item1) {
+    destination[destination.get_Length() - state.Item6 - 1] = 92;
+  }
+  Span<Char>((void*)state.Item5, state.Item6).CopyTo(destination.Slice(destination.get_Length() - state.Item6));
+}
+
+void Path::__c___::_JoinInternal_b__39_0(Span<Char> destination, ValueTuple<IntPtr, Int32, IntPtr, Int32, IntPtr, Int32, IntPtr, Int32, Boolean, Boolean, Boolean> state) {
+  Span<Char>((void*)state.Item1, state.Item2).CopyTo(destination);
+  if (!state.Rest.Item2) {
+    destination[state.Item2] = 92;
+  }
+  Span<Char>((void*)state.Item3, state.Item4).CopyTo(destination.Slice(state.Item2 + ((!state.Rest.Item2) ? 1 : 0)));
+  if (!state.Rest.Item3) {
+    destination[state.Item2 + state.Item4 + ((!state.Rest.Item2) ? 1 : 0)] = 92;
+  }
+  Span<Char>((void*)state.Item5, state.Item6).CopyTo(destination.Slice(state.Item2 + state.Item4 + ((!state.Rest.Item2) ? 1 : 0) + ((!state.Rest.Item3) ? 1 : 0)));
+  if (!state.Rest.Item4) {
+    destination[destination.get_Length() - state.Rest.Item1 - 1] = 92;
+  }
+  Span<Char>((void*)state.Item7, state.Rest.Item1).CopyTo(destination.Slice(destination.get_Length() - state.Rest.Item1));
+}
 
 ReadOnlySpan<Byte> Path::get_Base32Char() {
   return rt::newarr<Array<Byte>>(32);
@@ -169,6 +213,8 @@ String Path::GetRandomFileName() {
   Byte as[8] = {};
   Byte* ptr = as;
   Interop::GetRandomBytes(ptr, 8);
+  SpanAction<Char, IntPtr> is = __c::in::__9__16_0;
+  return String::in::Create(12, (IntPtr)(void*)ptr, is != nullptr ? is : (__c::in::__9__16_0 = &__c::in::__9->_GetRandomFileName_b__16_0));
 }
 
 Boolean Path::IsPathFullyQualified(String path) {
@@ -473,6 +519,8 @@ String Path::JoinInternal(ReadOnlySpan<Char> first, ReadOnlySpan<Char> second) {
     Char* value = &MemoryMarshal::GetReference(first);
     {
       Char* value2 = &MemoryMarshal::GetReference(second);
+      SpanAction<Char, ValueTuple<IntPtr, Int32, IntPtr, Int32, Boolean>> as = __c::in::__9__37_0;
+      return String::in::Create(first.get_Length() + second.get_Length() + ((!flag) ? 1 : 0), {(IntPtr)(void*)value, first.get_Length(), (IntPtr)(void*)value2, second.get_Length(), flag}, as != nullptr ? as : (__c::in::__9__37_0 = rt::newobj<SpanAction<Char, ValueTuple<IntPtr, Int32, IntPtr, Int32, Boolean>>>(&_JoinInternal_b__37_0)));
     }
   }
 }
@@ -486,6 +534,8 @@ String Path::JoinInternal(ReadOnlySpan<Char> first, ReadOnlySpan<Char> second, R
       Char* value2 = &MemoryMarshal::GetReference(second);
       {
         Char* value3 = &MemoryMarshal::GetReference(third);
+        SpanAction<Char, ValueTuple<IntPtr, Int32, IntPtr, Int32, IntPtr, Int32, Boolean, Boolean>> as = __c::in::__9__38_0;
+        return String::in::Create(first.get_Length() + second.get_Length() + third.get_Length() + ((!flag) ? 1 : 0) + ((!flag2) ? 1 : 0), {(IntPtr)(void*)value, first.get_Length(), (IntPtr)(void*)value2, second.get_Length(), (IntPtr)(void*)value3, third.get_Length(), flag, flag2}, as != nullptr ? as : (__c::in::__9__38_0 = rt::newobj<SpanAction<Char, ValueTuple<IntPtr, Int32, IntPtr, Int32, IntPtr, Int32, Boolean, Boolean>>>(&_JoinInternal_b__38_0)));
       }
     }
   }
@@ -503,6 +553,8 @@ String Path::JoinInternal(ReadOnlySpan<Char> first, ReadOnlySpan<Char> second, R
         Char* value3 = &MemoryMarshal::GetReference(third);
         {
           Char* value4 = &MemoryMarshal::GetReference(fourth);
+          SpanAction<Char, ValueTuple<IntPtr, Int32, IntPtr, Int32, IntPtr, Int32, IntPtr, Int32, Boolean, Boolean, Boolean>> as = __c::in::__9__39_0;
+          return String::in::Create(first.get_Length() + second.get_Length() + third.get_Length() + fourth.get_Length() + ((!flag) ? 1 : 0) + ((!flag2) ? 1 : 0) + ((!flag3) ? 1 : 0), {(IntPtr)(void*)value, first.get_Length(), (IntPtr)(void*)value2, second.get_Length(), (IntPtr)(void*)value3, third.get_Length(), (IntPtr)(void*)value4, fourth.get_Length(), flag, flag2, flag3}, as != nullptr ? as : (__c::in::__9__39_0 = rt::newobj<SpanAction<Char, ValueTuple<IntPtr, Int32, IntPtr, Int32, IntPtr, Int32, IntPtr, Int32, Boolean, Boolean, Boolean>>>(&_JoinInternal_b__39_0)));
         }
       }
     }

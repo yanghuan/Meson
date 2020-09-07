@@ -4,6 +4,8 @@
 
 namespace System::Private::CoreLib::System::Runtime::Serialization {
 FORWARD(ISerializable)
+FORWARD(SerializationInfo)
+FORWARDS(StreamingContext)
 } // namespace System::Private::CoreLib::System::Runtime::Serialization
 namespace System::Private::CoreLib::System {
 FORWARDS(IntPtr)
@@ -17,6 +19,7 @@ CLASS(Pointer) : public object {
   public: void ctor(void* ptr, Type ptrType);
   public: static Object Box(void* ptr, Type type);
   public: static void* Unbox(Object ptr);
+  private: void GetObjectDataOfISerializable(SerializationInfo info, StreamingContext context);
   public: Type GetPointerType();
   public: IntPtr GetPointerValue();
   private: void* _ptr;

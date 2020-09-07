@@ -37,6 +37,7 @@ CLASS(EmptyReadOnlyDictionaryInternal) : public object {
   public: Boolean get_IsReadOnly();
   public: Boolean get_IsFixedSize();
   public: void ctor();
+  private: IEnumerator GetEnumeratorOfIEnumerable();
   public: void CopyTo(Array<> array, Int32 index);
   public: Boolean Contains(Object key);
   public: void Add(Object key, Object value);

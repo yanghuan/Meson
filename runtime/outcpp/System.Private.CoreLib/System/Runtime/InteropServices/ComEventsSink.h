@@ -5,9 +5,18 @@
 #include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System::Runtime::InteropServices::ComTypes {
+FORWARDS(DISPPARAMS)
 FORWARD(IConnectionPoint)
+FORWARD(ITypeInfo)
 } // namespace System::Private::CoreLib::System::Runtime::InteropServices::ComTypes
+namespace System::Private::CoreLib::System {
+FORWARD_(Array, T1, T2)
+FORWARDS(IntPtr)
+FORWARD(String)
+} // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Runtime::InteropServices {
+enum class CustomQueryInterfaceResult : int32_t;
+enum class InvokeFlags : int16_t;
 FORWARD(ComEventsMethod)
 FORWARD(ICustomQueryInterface)
 FORWARD(IDispatch)
@@ -25,7 +34,12 @@ CLASS(ComEventsSink) : public object {
   public: ComEventsMethod RemoveMethod(ComEventsMethod method);
   public: ComEventsMethod FindMethod(Int32 dispid);
   public: ComEventsMethod AddMethod(Int32 dispid);
+  private: Int32 GetTypeInfoCountOfIDispatch();
+  private: ITypeInfo GetTypeInfoOfIDispatch(Int32 iTInfo, Int32 lcid);
+  private: void GetIDsOfNamesOfIDispatch(Guid& iid, Array<String> names, Int32 cNames, Int32 lcid, Array<Int32> rgDispId);
   private: static Variant& GetVariant(Variant& pSrc);
+  private: void InvokeOfIDispatch(Int32 dispid, Guid& riid, Int32 lcid, InvokeFlags wFlags, DISPPARAMS& pDispParams, IntPtr pVarResult, IntPtr pExcepInfo, IntPtr puArgErr);
+  private: CustomQueryInterfaceResult GetInterfaceOfICustomQueryInterface(Guid& iid, IntPtr& ppv);
   private: void Advise(Object rcw);
   private: void Unadvise();
   private: Guid _iidSourceItf;

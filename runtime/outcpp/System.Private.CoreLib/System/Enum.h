@@ -17,6 +17,9 @@ namespace System::Private::CoreLib::System {
 enum class TypeCode : int32_t;
 FORWARD_(Array, T1, T2)
 FORWARDS(Byte)
+FORWARDS(DateTime)
+FORWARDS(Decimal)
+FORWARDS(Double)
 FORWARD_(IComparable, T1, T2)
 FORWARD(IConvertible)
 FORWARD(IFormatProvider)
@@ -27,6 +30,7 @@ FORWARDS(Int64)
 FORWARDS(ReadOnlySpan, T)
 FORWARD(RuntimeType)
 FORWARDS(SByte)
+FORWARDS(Single)
 FORWARD(String)
 FORWARD(Type)
 FORWARDS(UInt16)
@@ -108,6 +112,21 @@ CLASS(Enum) : public ValueType::in {
   public: String ToString(String format);
   public: String ToString(IFormatProvider provider);
   public: TypeCode GetTypeCode();
+  private: Boolean ToBooleanOfIConvertible(IFormatProvider provider);
+  private: Char ToCharOfIConvertible(IFormatProvider provider);
+  private: SByte ToSByteOfIConvertible(IFormatProvider provider);
+  private: Byte ToByteOfIConvertible(IFormatProvider provider);
+  private: Int16 ToInt16OfIConvertible(IFormatProvider provider);
+  private: UInt16 ToUInt16OfIConvertible(IFormatProvider provider);
+  private: Int32 ToInt32OfIConvertible(IFormatProvider provider);
+  private: UInt32 ToUInt32OfIConvertible(IFormatProvider provider);
+  private: Int64 ToInt64OfIConvertible(IFormatProvider provider);
+  private: UInt64 ToUInt64OfIConvertible(IFormatProvider provider);
+  private: Single ToSingleOfIConvertible(IFormatProvider provider);
+  private: Double ToDoubleOfIConvertible(IFormatProvider provider);
+  private: Decimal ToDecimalOfIConvertible(IFormatProvider provider);
+  private: DateTime ToDateTimeOfIConvertible(IFormatProvider provider);
+  private: Object ToTypeOfIConvertible(Type type, IFormatProvider provider);
   public: static Object ToObject(Type enumType, SByte value);
   public: static Object ToObject(Type enumType, Int16 value);
   public: static Object ToObject(Type enumType, Int32 value);

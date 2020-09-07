@@ -3,9 +3,21 @@
 #include <System.Private.CoreLib/System/ArgumentNullException-dep.h>
 #include <System.Private.CoreLib/System/Threading/SynchronizationContext-dep.h>
 #include <System.Private.CoreLib/System/Threading/Thread-dep.h>
+#include <System.Private.CoreLib/System/Threading/ThreadPool-dep.h>
 #include <System.Private.CoreLib/System/Threading/WaitHandle-dep.h>
 
 namespace System::Private::CoreLib::System::Threading::SynchronizationContextNamespace {
+void SynchronizationContext___::__c___::cctor() {
+  <>9 = rt::newobj<__c>();
+}
+
+void SynchronizationContext___::__c___::ctor() {
+}
+
+void SynchronizationContext___::__c___::_Post_b__8_0(ValueTuple<SendOrPostCallback, Object> s) {
+  s.Item1(s.Item2);
+}
+
 SynchronizationContext SynchronizationContext___::get_Current() {
   return Thread::in::get_CurrentThread()->_synchronizationContext;
 }
@@ -30,6 +42,8 @@ void SynchronizationContext___::Send(SendOrPostCallback d, Object state) {
 }
 
 void SynchronizationContext___::Post(SendOrPostCallback d, Object state) {
+  Action<ValueTuple<SendOrPostCallback, Object>> as = __c::in::__9__8_0;
+  ThreadPool::QueueUserWorkItem(as != nullptr ? as : (__c::in::__9__8_0 = rt::newobj<Action<ValueTuple<SendOrPostCallback, Object>>>(&_Post_b__8_0)), {d, state}, false);
 }
 
 void SynchronizationContext___::OperationStarted() {

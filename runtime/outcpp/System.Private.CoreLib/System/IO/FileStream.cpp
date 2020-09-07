@@ -7,6 +7,7 @@
 #include <System.Private.CoreLib/System/ArgumentOutOfRangeException-dep.h>
 #include <System.Private.CoreLib/System/ArraySegment-dep.h>
 #include <System.Private.CoreLib/System/Buffer-dep.h>
+#include <System.Private.CoreLib/System/Buffers/ArrayPool-dep.h>
 #include <System.Private.CoreLib/System/Exception-dep.h>
 #include <System.Private.CoreLib/System/GC-dep.h>
 #include <System.Private.CoreLib/System/Int64-dep.h>
@@ -26,15 +27,17 @@
 #include <System.Private.CoreLib/System/Nullable-dep.h>
 #include <System.Private.CoreLib/System/Object-dep.h>
 #include <System.Private.CoreLib/System/ObjectDisposedException-dep.h>
+#include <System.Private.CoreLib/System/OperationCanceledException-dep.h>
 #include <System.Private.CoreLib/System/ReadOnlySpan-dep.h>
-#include <System.Private.CoreLib/System/Runtime/CompilerServices/AsyncTaskMethodBuilder-dep.h>
-#include <System.Private.CoreLib/System/Runtime/CompilerServices/AsyncValueTaskMethodBuilder-dep.h>
+#include <System.Private.CoreLib/System/Runtime/CompilerServices/ConfiguredTaskAwaitable-dep.h>
+#include <System.Private.CoreLib/System/Runtime/CompilerServices/ConfiguredValueTaskAwaitable-dep.h>
 #include <System.Private.CoreLib/System/Runtime/InteropServices/Marshal-dep.h>
 #include <System.Private.CoreLib/System/Runtime/InteropServices/MemoryMarshal-dep.h>
 #include <System.Private.CoreLib/System/Runtime/Serialization/SerializationInfo-dep.h>
 #include <System.Private.CoreLib/System/Span-dep.h>
 #include <System.Private.CoreLib/System/SR-dep.h>
 #include <System.Private.CoreLib/System/Threading/Interlocked-dep.h>
+#include <System.Private.CoreLib/System/Threading/Monitor-dep.h>
 #include <System.Private.CoreLib/System/Threading/PreAllocatedOverlapped-dep.h>
 #include <System.Private.CoreLib/System/Threading/Tasks/Task-dep.h>
 #include <System.Private.CoreLib/System/Threading/Tasks/TaskStatus.h>
@@ -45,6 +48,7 @@
 #include <System.Private.CoreLib/System/UnauthorizedAccessException-dep.h>
 
 namespace System::Private::CoreLib::System::IO::FileStreamNamespace {
+using namespace System::Buffers;
 using namespace System::Runtime::CompilerServices;
 using namespace System::Runtime::InteropServices;
 using namespace System::Runtime::Serialization;
@@ -69,7 +73,8 @@ void FileStream___::FileStreamCompletionSource___::SetCompletedSynchronously(Int
 
 void FileStream___::FileStreamCompletionSource___::RegisterForCancellation(CancellationToken cancellationToken) {
   if (_overlapped != nullptr) {
-    Action<Object> callback = Cancel;
+    Action<Object> as = s_cancelCallback;
+    Action<Object> callback = as != nullptr ? as : (s_cancelCallback = &Cancel);
     Int64 num = Interlocked::CompareExchange(_result, 17179869184, 0);
     switch (num.get()) {
       case 0:
@@ -143,6 +148,16 @@ FileStream::in::FileStreamCompletionSource FileStream___::FileStreamCompletionSo
   return rt::newobj<FileStreamCompletionSource>(stream, numBufferedBytesRead, segment.get_Array());
 }
 
+void FileStream___::AsyncCopyToAwaitable___::__c___::cctor() {
+  <>9 = rt::newobj<__c>();
+}
+
+void FileStream___::AsyncCopyToAwaitable___::__c___::ctor() {
+}
+
+void FileStream___::AsyncCopyToAwaitable___::__c___::_cctor_b__20_0() {
+}
+
 Object FileStream___::AsyncCopyToAwaitable___::get_CancellationLock() {
   return (AsyncCopyToAwaitable)this;
 }
@@ -194,6 +209,8 @@ void FileStream___::AsyncCopyToAwaitable___::UnsafeOnCompleted(Action<> continua
 }
 
 void FileStream___::AsyncCopyToAwaitable___::cctor() {
+  s_sentinel = &__c::in::__9->_cctor_b__20_0;
+  s_callback = &IOCallback;
 }
 
 void FileStream___::MemoryFileStreamCompletionSource___::ctor(FileStream stream, Int32 numBufferedBytes, ReadOnlyMemory<Byte> memory) {
@@ -203,6 +220,296 @@ void FileStream___::MemoryFileStreamCompletionSource___::ctor(FileStream stream,
 void FileStream___::MemoryFileStreamCompletionSource___::ReleaseNativeResource() {
   _handle.Dispose();
   FileStreamCompletionSource::in::ReleaseNativeResource();
+}
+
+void FileStream___::_DisposeAsyncCore_d__99::MoveNext() {
+  Int32 num = <>1__state;
+  FileStream fileStream = <>4__this;
+  try {
+    try {
+      ConfiguredTaskAwaitable<>::ConfiguredTaskAwaiter awaiter;
+      if (num == 0) {
+        awaiter = <>u__1;
+        <>u__1 = rt::default__;
+        num = (<>1__state = -1);
+        goto IL_009c;
+      }
+      if (fileStream->_fileHandle != nullptr && !fileStream->_fileHandle->get_IsClosed() && fileStream->_writePos > 0) {
+        awaiter = fileStream->FlushAsyncInternal(rt::default__)->ConfigureAwait(false).GetAwaiter();
+        if (!awaiter.get_IsCompleted()) {
+          num = (<>1__state = 0);
+          <>u__1 = awaiter;
+          <>t__builder.AwaitUnsafeOnCompleted(awaiter, *this);
+          return;
+        }
+        goto IL_009c;
+      }
+      goto end_IL_0011;
+
+    IL_009c:
+      awaiter.GetResult();
+
+    end_IL_0011:
+    } catch (...) {
+    } finally: {
+      if (num < 0) {
+        if (fileStream->_fileHandle != nullptr && !fileStream->_fileHandle->get_IsClosed()) {
+          ThreadPoolBoundHandle threadPoolBinding = fileStream->_fileHandle->get_ThreadPoolBinding();
+          if (threadPoolBinding != nullptr) {
+            threadPoolBinding->Dispose();
+          }
+          fileStream->_fileHandle->Dispose();
+        }
+        PreAllocatedOverlapped preallocatedOverlapped = fileStream->_preallocatedOverlapped;
+        if (preallocatedOverlapped != nullptr) {
+          preallocatedOverlapped->Dispose();
+        }
+        fileStream->_canSeek = false;
+        GC::SuppressFinalize(fileStream);
+      }
+    }
+  } catch (Exception exception) {
+    <>1__state = -2;
+    <>t__builder.SetException(exception);
+    return;
+  }
+  <>1__state = -2;
+  <>t__builder.SetResult();
+}
+
+void FileStream___::_DisposeAsyncCore_d__99::SetStateMachine(IAsyncStateMachine stateMachine) {
+  <>t__builder.SetStateMachine(stateMachine);
+}
+
+void FileStream___::__c___::cctor() {
+  <>9 = rt::newobj<__c>();
+}
+
+void FileStream___::__c___::ctor() {
+}
+
+void FileStream___::__c___::_AsyncModeCopyToAsync_b__128_0(Object s) {
+  AsyncCopyToAwaitable asyncCopyToAwaitable = (AsyncCopyToAwaitable)s;
+  {
+    rt::lock(asyncCopyToAwaitable->get_CancellationLock());
+    if (asyncCopyToAwaitable->_nativeOverlapped != nullptr) {
+      Interop::Kernel32::CancelIoEx(asyncCopyToAwaitable->_fileStream->_fileHandle, asyncCopyToAwaitable->_nativeOverlapped);
+    }
+  }
+}
+
+void FileStream___::_AsyncModeCopyToAsync_d__128::MoveNext() {
+  Int32 num = <>1__state;
+  FileStream fileStream = <>4__this;
+  try {
+    ConfiguredTaskAwaitable<>::ConfiguredTaskAwaiter awaiter2;
+    ConfiguredValueTaskAwaitable<>::ConfiguredValueTaskAwaiter awaiter;
+    switch (num.get()) {
+      default:
+        if (fileStream->_writePos > 0) {
+          awaiter2 = fileStream->FlushWriteAsync(cancellationToken)->ConfigureAwait(false).GetAwaiter();
+          if (!awaiter2.get_IsCompleted()) {
+            num = (<>1__state = 0);
+            <>u__1 = awaiter2;
+            <>t__builder.AwaitUnsafeOnCompleted(awaiter2, *this);
+            return;
+          }
+          goto IL_0090;
+        }
+        goto IL_0097;
+      case 0:
+        awaiter2 = <>u__1;
+        <>u__1 = rt::default__;
+        num = (<>1__state = -1);
+        goto IL_0090;
+      case 1:
+        awaiter = <>u__2;
+        <>u__2 = rt::default__;
+        num = (<>1__state = -1);
+        goto IL_013c;
+      case 2:
+      case 3:
+        break;
+
+      IL_0155:
+        <readAwaitable>5__2 = rt::newobj<AsyncCopyToAwaitable>(fileStream);
+        <canSeek>5__3 = fileStream->get_CanSeek();
+        if (<canSeek>5__3) {
+          fileStream->VerifyOSHandlePosition();
+          <readAwaitable>5__2->_position = fileStream->_filePosition;
+        }
+        <copyBuffer>5__4 = ArrayPool<Byte>::in::get_Shared()->Rent(bufferSize);
+        <awaitableOverlapped>5__5 = rt::newobj<PreAllocatedOverlapped>(AsyncCopyToAwaitable::in::s_callback, <readAwaitable>5__2, <copyBuffer>5__4);
+        <cancellationReg>5__6 = rt::default__;
+        break;
+
+      IL_013c:
+        awaiter.GetResult();
+        fileStream->_readPos = (fileStream->_readLength = 0);
+        goto IL_0155;
+
+      IL_0090:
+        awaiter2.GetResult();
+        goto IL_0097;
+
+      IL_0097:
+        if (fileStream->GetBuffer() != nullptr) {
+          Int32 num2 = fileStream->_readLength - fileStream->_readPos;
+          if (num2 > 0) {
+            awaiter = destination->WriteAsync(ReadOnlyMemory<Byte>(fileStream->GetBuffer(), fileStream->_readPos, num2), cancellationToken).ConfigureAwait(false).GetAwaiter();
+            if (!awaiter.get_IsCompleted()) {
+              num = (<>1__state = 1);
+              <>u__2 = awaiter;
+              <>t__builder.AwaitUnsafeOnCompleted(awaiter, *this);
+              return;
+            }
+            goto IL_013c;
+          }
+        }
+        goto IL_0155;
+    }
+    try {
+      if (num == 2) {
+        goto IL_022f;
+      }
+      if (num != 3) {
+        if (cancellationToken.get_CanBeCanceled()) {
+          Action<Object> as = __c::in::__9__128_0;
+          <cancellationReg>5__6 = cancellationToken.UnsafeRegister(as != nullptr ? as : (__c::in::__9__128_0 = &__c::in::__9->_AsyncModeCopyToAsync_b__128_0), <readAwaitable>5__2);
+        }
+        goto IL_0219;
+      }
+      ConfiguredValueTaskAwaitable<>::ConfiguredValueTaskAwaiter awaiter3 = <>u__2;
+      <>u__2 = rt::default__;
+      num = (<>1__state = -1);
+      goto IL_04df;
+
+    IL_0219:
+      cancellationToken.ThrowIfCancellationRequested();
+      <readAwaitable>5__2->ResetForNextOperation();
+      goto IL_022f;
+
+    IL_022f:
+      try {
+        AsyncCopyToAwaitable awaiter4;
+        if (num != 2) {
+          <readAwaitable>5__2->_nativeOverlapped = fileStream->_fileHandle->get_ThreadPoolBinding()->AllocateNativeOverlapped(<awaitableOverlapped>5__5);
+          if (<canSeek>5__3) {
+            <readAwaitable>5__2->_nativeOverlapped->OffsetLow = (Int32)<readAwaitable>5__2->_position;
+            <readAwaitable>5__2->_nativeOverlapped->OffsetHigh = (Int32)(<readAwaitable>5__2->_position >> 32);
+          }
+          Int32 errorCode;
+          if (fileStream->ReadFileNative(fileStream->_fileHandle, <copyBuffer>5__4, <readAwaitable>5__2->_nativeOverlapped, errorCode) < 0) {
+            switch (errorCode.get()) {
+              case 38:
+              case 109:
+                <readAwaitable>5__2->MarkCompleted();
+                break;
+              default:
+                rt::throw_exception(Win32Marshal::GetExceptionForWin32Error(errorCode, fileStream->_path));
+              case 997:
+                break;
+            }
+          }
+          awaiter4 = <readAwaitable>5__2->GetAwaiter();
+          if (!awaiter4->get_IsCompleted()) {
+            num = (<>1__state = 2);
+            <>u__3 = awaiter4;
+            <>t__builder.AwaitUnsafeOnCompleted(awaiter4, *this);
+            return;
+          }
+        } else {
+          awaiter4 = (AsyncCopyToAwaitable)<>u__3;
+          <>u__3 = nullptr;
+          num = (<>1__state = -1);
+        }
+        awaiter4->GetResult();
+        switch (<readAwaitable>5__2->_errorCode.get()) {
+          case 995u:
+            rt::throw_exception<OperationCanceledException>(cancellationToken.get_IsCancellationRequested() ? cancellationToken : CancellationToken(true));
+          default:
+            rt::throw_exception(Win32Marshal::GetExceptionForWin32Error((Int32)<readAwaitable>5__2->_errorCode, fileStream->_path));
+          case 0u:
+          case 38u:
+          case 109u:
+            {
+              Int32 numBytes = (Int32)<readAwaitable>5__2->_numBytes;
+              if (numBytes == 0) {
+                break;
+              }
+              if (<canSeek>5__3) {
+                <readAwaitable>5__2->_position += numBytes;
+              }
+              goto IL_0458;
+            }}
+      } catch (...) {
+      } finally: {
+        if (num < 0) {
+          Object cancellationLock = <readAwaitable>5__2->get_CancellationLock();
+          Boolean lockTaken = false;
+          NativeOverlapped* nativeOverlapped;
+          try {
+            Monitor::Enter(cancellationLock, lockTaken);
+            nativeOverlapped = <readAwaitable>5__2->_nativeOverlapped;
+            <readAwaitable>5__2->_nativeOverlapped = nullptr;
+          } catch (...) {
+          } finally: {
+            if (num < 0 && lockTaken) {
+              Monitor::Exit(cancellationLock);
+            }
+          }
+          if (nativeOverlapped != nullptr) {
+            fileStream->_fileHandle->get_ThreadPoolBinding()->FreeNativeOverlapped(nativeOverlapped);
+          }
+        }
+      }
+      goto end_IL_01cb;
+
+    IL_0458:
+      awaiter3 = destination->WriteAsync(ReadOnlyMemory<Byte>(<copyBuffer>5__4, 0, (Int32)<readAwaitable>5__2->_numBytes), cancellationToken).ConfigureAwait(false).GetAwaiter();
+      if (!awaiter3.get_IsCompleted()) {
+        num = (<>1__state = 3);
+        <>u__2 = awaiter3;
+        <>t__builder.AwaitUnsafeOnCompleted(awaiter3, *this);
+        return;
+      }
+      goto IL_04df;
+
+    IL_04df:
+      awaiter3.GetResult();
+      goto IL_0219;
+
+    end_IL_01cb:
+    } catch (...) {
+    } finally: {
+      if (num < 0) {
+        <cancellationReg>5__6.Dispose();
+        <awaitableOverlapped>5__5->Dispose();
+        ArrayPool<Byte>::in::get_Shared()->Return(<copyBuffer>5__4);
+        if (!fileStream->_fileHandle->get_IsClosed() && fileStream->get_CanSeek()) {
+          fileStream->SeekCore(fileStream->_fileHandle, 0, SeekOrigin::End);
+        }
+      }
+    }
+  } catch (Exception exception) {
+    <>1__state = -2;
+    <readAwaitable>5__2 = nullptr;
+    <copyBuffer>5__4 = nullptr;
+    <awaitableOverlapped>5__5 = nullptr;
+    <cancellationReg>5__6 = rt::default__;
+    <>t__builder.SetException(exception);
+    return;
+  }
+  <>1__state = -2;
+  <readAwaitable>5__2 = nullptr;
+  <copyBuffer>5__4 = nullptr;
+  <awaitableOverlapped>5__5 = nullptr;
+  <cancellationReg>5__6 = rt::default__;
+  <>t__builder.SetResult();
+}
+
+void FileStream___::_AsyncModeCopyToAsync_d__128::SetStateMachine(IAsyncStateMachine stateMachine) {
+  <>t__builder.SetStateMachine(stateMachine);
 }
 
 IntPtr FileStream___::get_Handle() {
@@ -921,12 +1228,12 @@ ValueTask<> FileStream___::DisposeAsync() {
 }
 
 ValueTask<> FileStream___::DisposeAsyncCore() {
-  一DisposeAsyncCore一d__99 stateMachine;
-  stateMachine.一一t__builder = AsyncValueTaskMethodBuilder<>::Create();
-  stateMachine.一一4__this = (FileStream)this;
-  stateMachine.一一1__state = -1;
-  stateMachine.一一t__builder.Start(stateMachine);
-  return stateMachine.一一t__builder.get_Task();
+  _DisposeAsyncCore_d__99 stateMachine;
+  stateMachine.__t__builder = AsyncValueTaskMethodBuilder<>::Create();
+  stateMachine.__4__this = (FileStream)this;
+  stateMachine.__1__state = -1;
+  stateMachine.__t__builder.Start(stateMachine);
+  return stateMachine.__t__builder.get_Task();
 }
 
 void FileStream___::FlushOSBuffer() {
@@ -1397,15 +1704,15 @@ Task<> FileStream___::CopyToAsync(Stream destination, Int32 bufferSize, Cancella
 }
 
 Task<> FileStream___::AsyncModeCopyToAsync(Stream destination, Int32 bufferSize, CancellationToken cancellationToken) {
-  一AsyncModeCopyToAsync一d__128 stateMachine;
-  stateMachine.一一t__builder = AsyncTaskMethodBuilder<>::Create();
-  stateMachine.一一4__this = (FileStream)this;
+  _AsyncModeCopyToAsync_d__128 stateMachine;
+  stateMachine.__t__builder = AsyncTaskMethodBuilder<>::Create();
+  stateMachine.__4__this = (FileStream)this;
   stateMachine.destination = destination;
   stateMachine.bufferSize = bufferSize;
   stateMachine.cancellationToken = cancellationToken;
-  stateMachine.一一1__state = -1;
-  stateMachine.一一t__builder.Start(stateMachine);
-  return stateMachine.一一t__builder.get_Task();
+  stateMachine.__1__state = -1;
+  stateMachine.__t__builder.Start(stateMachine);
+  return stateMachine.__t__builder.get_Task();
 }
 
 Task<> FileStream___::FlushAsyncInternal(CancellationToken cancellationToken) {

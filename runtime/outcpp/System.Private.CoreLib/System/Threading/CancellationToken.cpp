@@ -1,7 +1,7 @@
 #include "CancellationToken-dep.h"
 
+#include <System.Private.CoreLib/System/Action-dep.h>
 #include <System.Private.CoreLib/System/ArgumentNullException-dep.h>
-#include <System.Private.CoreLib/System/Object-dep.h>
 #include <System.Private.CoreLib/System/OperationCanceledException-dep.h>
 #include <System.Private.CoreLib/System/SR-dep.h>
 #include <System.Private.CoreLib/System/Threading/CancellationToken-dep.h>
@@ -10,6 +10,17 @@
 #include <System.Private.CoreLib/System/Threading/SynchronizationContext-dep.h>
 
 namespace System::Private::CoreLib::System::Threading::CancellationTokenNamespace {
+void CancellationToken::__c___::cctor() {
+  <>9 = rt::newobj<__c>();
+}
+
+void CancellationToken::__c___::ctor() {
+}
+
+void CancellationToken::__c___::_cctor_b__26_0(Object obj) {
+  ((Action<>)obj)();
+}
+
 CancellationToken CancellationToken::get_None() {
   return rt::default__;
 }
@@ -111,6 +122,7 @@ void CancellationToken::ThrowOperationCanceledException() {
 }
 
 void CancellationToken::cctor() {
+  s_actionToActionObjShunt = &__c::in::__9->_cctor_b__26_0;
 }
 
 } // namespace System::Private::CoreLib::System::Threading::CancellationTokenNamespace

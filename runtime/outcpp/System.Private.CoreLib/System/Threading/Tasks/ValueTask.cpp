@@ -1,9 +1,12 @@
 #include "ValueTask-dep.h"
 
 #include <System.Private.CoreLib/Internal/Runtime/CompilerServices/Unsafe-dep.h>
+#include <System.Private.CoreLib/System/Exception-dep.h>
 #include <System.Private.CoreLib/System/ExceptionArgument.h>
 #include <System.Private.CoreLib/System/OperationCanceledException-dep.h>
 #include <System.Private.CoreLib/System/Runtime/CompilerServices/TaskAwaiter-dep.h>
+#include <System.Private.CoreLib/System/Threading/CancellationToken-dep.h>
+#include <System.Private.CoreLib/System/Threading/Tasks/Sources/IValueTaskSource.h>
 #include <System.Private.CoreLib/System/Threading/Tasks/Sources/ValueTaskSourceOnCompletedFlags.h>
 #include <System.Private.CoreLib/System/Threading/Tasks/Sources/ValueTaskSourceStatus.h>
 #include <System.Private.CoreLib/System/Threading/Tasks/ValueTask-dep.h>
@@ -14,6 +17,41 @@ using namespace Internal::Runtime::CompilerServices;
 using namespace System::Runtime::CompilerServices;
 using namespace System::Threading::Tasks::Sources;
 
+void ValueTask<>::ValueTaskSourceAsTask___::__c___::cctor() {
+  <>9 = rt::newobj<__c>();
+}
+
+void ValueTask<>::ValueTaskSourceAsTask___::__c___::ctor() {
+}
+
+void ValueTask<>::ValueTaskSourceAsTask___::__c___::_cctor_b__4_0(Object state) {
+  ValueTaskSourceAsTask valueTaskSourceAsTask = rt::as<ValueTaskSourceAsTask>(state);
+  if (valueTaskSourceAsTask != nullptr) {
+    IValueTaskSource<> source = valueTaskSourceAsTask->_source;
+    if (source != nullptr) {
+      valueTaskSourceAsTask->_source = nullptr;
+      ValueTaskSourceStatus status = source->GetStatus(valueTaskSourceAsTask->_token);
+      try {
+        source->GetResult(valueTaskSourceAsTask->_token);
+        valueTaskSourceAsTask->TrySetResult();
+      } catch (Exception ex) {
+        if (status == ValueTaskSourceStatus::Canceled) {
+          OperationCanceledException ex2 = rt::as<OperationCanceledException>(ex);
+          if (ex2 != nullptr) {
+            valueTaskSourceAsTask->TrySetCanceled(ex2->get_CancellationToken(), ex2);
+          } else {
+            valueTaskSourceAsTask->TrySetCanceled(CancellationToken(true));
+          }
+        } else {
+          valueTaskSourceAsTask->TrySetException(ex);
+        }
+      }
+      return;
+    }
+  }
+  ThrowHelper::ThrowArgumentOutOfRangeException(ExceptionArgument::state);
+}
+
 void ValueTask<>::ValueTaskSourceAsTask___::ctor(IValueTaskSource<> source, Int16 token) {
   _token = token;
   _source = source;
@@ -21,6 +59,7 @@ void ValueTask<>::ValueTaskSourceAsTask___::ctor(IValueTaskSource<> source, Int1
 }
 
 void ValueTask<>::ValueTaskSourceAsTask___::cctor() {
+  s_completionAction = &__c::in::__9->_cctor_b__4_0;
 }
 
 ValueTask<> ValueTask<>::get_CompletedTask() {

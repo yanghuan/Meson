@@ -12,6 +12,7 @@ namespace CompletionActionInvokerNamespace {
 CLASS(CompletionActionInvoker) : public object {
   public: using interface = rt::TypeList<IThreadPoolWorkItem>;
   public: void ctor(ITaskCompletionAction action, Task<> completingTask);
+  private: void ExecuteOfIThreadPoolWorkItem();
   private: ITaskCompletionAction m_action;
   private: Task<> m_completingTask;
 };

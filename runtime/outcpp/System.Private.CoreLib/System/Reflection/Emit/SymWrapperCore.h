@@ -6,8 +6,10 @@
 #include <System.Private.CoreLib/System/ValueType.h>
 
 namespace System::Private::CoreLib::System::Diagnostics::SymbolStore {
+enum class SymAddressKind : int32_t;
 FORWARD(ISymbolDocumentWriter)
 FORWARD(ISymbolWriter)
+FORWARDS(SymbolToken)
 } // namespace System::Private::CoreLib::System::Diagnostics::SymbolStore
 namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)
@@ -20,6 +22,9 @@ FORWARDS(Int32)
 FORWARD(String)
 FORWARDS(UInt32)
 } // namespace System::Private::CoreLib::System
+namespace System::Private::CoreLib::System::Reflection {
+enum class FieldAttributes : int32_t;
+} // namespace System::Private::CoreLib::System::Reflection
 namespace System::Private::CoreLib::System::Reflection::Emit {
 FORWARD(PunkSafeHandle)
 namespace SymWrapperCoreNamespace {
@@ -46,6 +51,8 @@ CLASS(SymWrapperCore) : public object {
     };
     public: void ctor(PunkSafeHandle pDocumentWriterSafeHandle);
     public: PunkSafeHandle GetUnmanaged();
+    private: void SetSourceOfISymbolDocumentWriter(Array<Byte> source);
+    private: void SetCheckSumOfISymbolDocumentWriter(Guid algorithmId, Array<Byte> checkSum);
     private: PunkSafeHandle m_pDocumentWriterSafeHandle;
     private: ISymUnmanagedDocumentWriter* m_pDocWriter;
     private: ISymUnmanagedDocumentWriterVTable m_vtable;
@@ -187,6 +194,14 @@ CLASS(SymWrapperCore) : public object {
     };
     public: static ISymbolWriter CreateSymWriter();
     public: void ctor();
+    private: ISymbolDocumentWriter DefineDocumentOfISymbolWriter(String url, Guid language, Guid languageVendor, Guid documentType);
+    private: void OpenMethodOfISymbolWriter(SymbolToken method);
+    private: void CloseMethodOfISymbolWriter();
+    private: void DefineSequencePointsOfISymbolWriter(ISymbolDocumentWriter document, Array<Int32> offsets, Array<Int32> lines, Array<Int32> columns, Array<Int32> endLines, Array<Int32> endColumns);
+    private: Int32 OpenScopeOfISymbolWriter(Int32 startOffset);
+    private: void CloseScopeOfISymbolWriter(Int32 endOffset);
+    private: void DefineLocalVariableOfISymbolWriter(String name, FieldAttributes attributes, Array<Byte> signature, SymAddressKind addrKind, Int32 addr1, Int32 addr2, Int32 addr3, Int32 startOffset, Int32 endOffset);
+    private: void UsingNamespaceOfISymbolWriter(String name);
     public: void InternalSetUnderlyingWriter(IntPtr ppUnderlyingWriter);
     private: ISymUnmanagedWriter* m_pWriter;
     private: ISymUnmanagedWriterVTable m_vtable;

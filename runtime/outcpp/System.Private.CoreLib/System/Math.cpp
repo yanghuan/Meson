@@ -712,4 +712,24 @@ void Math::cctor() {
   roundPower10Double = rt::newarr<Array<Double>>(16);
 }
 
+UInt64 Math::_BigMul_g__SoftwareFallback42_0(UInt64 a, UInt64 b, UInt64& low) {
+  UInt32 num = (UInt32)a;
+  UInt32 num2 = (UInt32)(a >> 32);
+  UInt32 num3 = (UInt32)b;
+  UInt32 num4 = (UInt32)(b >> 32);
+  UInt64 num5 = (UInt64)num * (UInt64)num3;
+  UInt64 num6 = (UInt64)((Int64)num2 * (Int64)num3) + (num5 >> 32);
+  UInt64 num7 = (UInt64)((Int64)num * (Int64)num4 + (UInt32)num6);
+  low = ((num7 << 32) | (UInt32)num5);
+  return (UInt64)((Int64)num2 * (Int64)num4 + (Int64)(num6 >> 32)) + (num7 >> 32);
+}
+
+Double Math::_CopySign_g__SoftwareFallback46_0(Double x, Double y) {
+  Int64 num = BitConverter::DoubleToInt64Bits(x);
+  Int64 num2 = BitConverter::DoubleToInt64Bits(y);
+  num &= Int64::MaxValue;
+  num2 &= Int64::MinValue;
+  return BitConverter::Int64BitsToDouble(num | num2);
+}
+
 } // namespace System::Private::CoreLib::System::MathNamespace

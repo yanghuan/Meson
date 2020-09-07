@@ -2,6 +2,7 @@
 
 #include <System.Private.CoreLib/System/ArgumentNullException-dep.h>
 #include <System.Private.CoreLib/System/GC-dep.h>
+#include <System.Private.CoreLib/System/Threading/Overlapped-dep.h>
 #include <System.Private.CoreLib/System/Threading/PreAllocatedOverlapped-dep.h>
 #include <System.Private.CoreLib/System/Threading/ThreadPoolBoundHandleOverlapped-dep.h>
 
@@ -28,6 +29,18 @@ void PreAllocatedOverlapped___::Dispose() {
 
 void PreAllocatedOverlapped___::Finalize() {
   Dispose();
+}
+
+void PreAllocatedOverlapped___::OnFinalReleaseOfIDeferredDisposable(Boolean disposed) {
+  if (_overlapped != nullptr) {
+    if (disposed) {
+      Overlapped::in::Free(_overlapped->_nativeOverlapped);
+      return;
+    }
+    _overlapped->_boundHandle = nullptr;
+    _overlapped->_completed = false;
+    *_overlapped->_nativeOverlapped = rt::default__;
+  }
 }
 
 } // namespace System::Private::CoreLib::System::Threading::PreAllocatedOverlappedNamespace

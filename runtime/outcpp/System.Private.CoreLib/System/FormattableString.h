@@ -16,6 +16,7 @@ CLASS(FormattableString) : public object {
   public: Array<Object> GetArguments();
   public: Object GetArgument(Int32 index);
   public: String ToString(IFormatProvider formatProvider);
+  private: String ToStringOfIFormattable(String ignored, IFormatProvider formatProvider);
   public: static String Invariant(FormattableString formattable);
   public: static String CurrentCulture(FormattableString formattable);
   public: String ToString();

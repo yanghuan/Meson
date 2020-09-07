@@ -42,6 +42,7 @@ struct ArraySegment : public valueType<ArraySegment<T>> {
     private: Object get_CurrentOfIEnumerator();
     public: explicit Enumerator(ArraySegment<T> arraySegment);
     public: Boolean MoveNext();
+    private: void ResetOfIEnumerator();
     public: void Dispose();
     public: explicit Enumerator() {}
     private: Array<T> _array;
@@ -74,6 +75,15 @@ struct ArraySegment : public valueType<ArraySegment<T>> {
   public: static Boolean op_Equality(ArraySegment<T> a, ArraySegment<T> b);
   public: static Boolean op_Inequality(ArraySegment<T> a, ArraySegment<T> b);
   public: static ArraySegment<T> op_Implicit(Array<T> array);
+  private: Int32 IndexOfOfIListT(T item);
+  private: void InsertOfIListT(Int32 index, T item);
+  private: void RemoveAtOfIListT(Int32 index);
+  private: void AddOfICollectionT(T item);
+  private: void ClearOfICollectionT();
+  private: Boolean ContainsOfICollectionT(T item);
+  private: Boolean RemoveOfICollectionT(T item);
+  private: IEnumerator<T> GetEnumeratorOfIEnumerableT();
+  private: IEnumerator_ GetEnumeratorOfIEnumerable();
   private: void ThrowInvalidOperationIfDefault();
   public: static void cctor();
   public: explicit ArraySegment() {}

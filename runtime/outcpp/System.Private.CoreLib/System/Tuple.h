@@ -3,12 +3,17 @@
 #include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System::Collections {
+FORWARD(IComparer)
+FORWARD(IEqualityComparer)
 FORWARD(IStructuralComparable)
 FORWARD(IStructuralEquatable)
 } // namespace System::Private::CoreLib::System::Collections
 namespace System::Private::CoreLib::System::Runtime::CompilerServices {
 FORWARD(ITuple)
 } // namespace System::Private::CoreLib::System::Runtime::CompilerServices
+namespace System::Private::CoreLib::System::Text {
+FORWARD(StringBuilder)
+} // namespace System::Private::CoreLib::System::Text
 namespace System::Private::CoreLib::System {
 FORWARDS(Boolean)
 FORWARD_(IComparable, T1, T2)
@@ -18,6 +23,7 @@ FORWARD(String)
 namespace TupleNamespace {
 using namespace System::Collections;
 using namespace System::Runtime::CompilerServices;
+using namespace System::Text;
 CLASS_FORWARD(Tuple, T1, T2, T3, T4, T5, T6, T7, T8, T9)
 CLASS_(Tuple) {
   public: template <class T1>
@@ -51,8 +57,14 @@ CLASS_(Tuple, T1) : public object {
   private: Object get_ItemOfITuple(Int32 index);
   public: void ctor(T1 item1);
   public: Boolean Equals(Object obj);
+  private: Boolean EqualsOfIStructuralEquatable(Object other, IEqualityComparer comparer);
+  private: Int32 CompareToOfIComparable(Object obj);
+  private: Int32 CompareToOfIStructuralComparable(Object other, IComparer comparer);
   public: Int32 GetHashCode();
+  private: Int32 GetHashCodeOfIStructuralEquatable(IEqualityComparer comparer);
+  private: Int32 GetHashCodeOfITupleInternal(IEqualityComparer comparer);
   public: String ToString();
+  private: String ToStringOfITupleInternal(StringBuilder sb);
   private: T1 m_Item1;
 };
 CLASS_(Tuple, T1, T2) : public object {
@@ -63,8 +75,14 @@ CLASS_(Tuple, T1, T2) : public object {
   private: Object get_ItemOfITuple(Int32 index);
   public: void ctor(T1 item1, T2 item2);
   public: Boolean Equals(Object obj);
+  private: Boolean EqualsOfIStructuralEquatable(Object other, IEqualityComparer comparer);
+  private: Int32 CompareToOfIComparable(Object obj);
+  private: Int32 CompareToOfIStructuralComparable(Object other, IComparer comparer);
   public: Int32 GetHashCode();
+  private: Int32 GetHashCodeOfIStructuralEquatable(IEqualityComparer comparer);
+  private: Int32 GetHashCodeOfITupleInternal(IEqualityComparer comparer);
   public: String ToString();
+  private: String ToStringOfITupleInternal(StringBuilder sb);
   private: T1 m_Item1;
   private: T2 m_Item2;
 };
@@ -77,8 +95,14 @@ CLASS_(Tuple, T1, T2, T3) : public object {
   private: Object get_ItemOfITuple(Int32 index);
   public: void ctor(T1 item1, T2 item2, T3 item3);
   public: Boolean Equals(Object obj);
+  private: Boolean EqualsOfIStructuralEquatable(Object other, IEqualityComparer comparer);
+  private: Int32 CompareToOfIComparable(Object obj);
+  private: Int32 CompareToOfIStructuralComparable(Object other, IComparer comparer);
   public: Int32 GetHashCode();
+  private: Int32 GetHashCodeOfIStructuralEquatable(IEqualityComparer comparer);
+  private: Int32 GetHashCodeOfITupleInternal(IEqualityComparer comparer);
   public: String ToString();
+  private: String ToStringOfITupleInternal(StringBuilder sb);
   private: T1 m_Item1;
   private: T2 m_Item2;
   private: T3 m_Item3;
@@ -93,8 +117,14 @@ CLASS_(Tuple, T1, T2, T3, T4) : public object {
   private: Object get_ItemOfITuple(Int32 index);
   public: void ctor(T1 item1, T2 item2, T3 item3, T4 item4);
   public: Boolean Equals(Object obj);
+  private: Boolean EqualsOfIStructuralEquatable(Object other, IEqualityComparer comparer);
+  private: Int32 CompareToOfIComparable(Object obj);
+  private: Int32 CompareToOfIStructuralComparable(Object other, IComparer comparer);
   public: Int32 GetHashCode();
+  private: Int32 GetHashCodeOfIStructuralEquatable(IEqualityComparer comparer);
+  private: Int32 GetHashCodeOfITupleInternal(IEqualityComparer comparer);
   public: String ToString();
+  private: String ToStringOfITupleInternal(StringBuilder sb);
   private: T1 m_Item1;
   private: T2 m_Item2;
   private: T3 m_Item3;
@@ -111,8 +141,14 @@ CLASS_(Tuple, T1, T2, T3, T4, T5) : public object {
   private: Object get_ItemOfITuple(Int32 index);
   public: void ctor(T1 item1, T2 item2, T3 item3, T4 item4, T5 item5);
   public: Boolean Equals(Object obj);
+  private: Boolean EqualsOfIStructuralEquatable(Object other, IEqualityComparer comparer);
+  private: Int32 CompareToOfIComparable(Object obj);
+  private: Int32 CompareToOfIStructuralComparable(Object other, IComparer comparer);
   public: Int32 GetHashCode();
+  private: Int32 GetHashCodeOfIStructuralEquatable(IEqualityComparer comparer);
+  private: Int32 GetHashCodeOfITupleInternal(IEqualityComparer comparer);
   public: String ToString();
+  private: String ToStringOfITupleInternal(StringBuilder sb);
   private: T1 m_Item1;
   private: T2 m_Item2;
   private: T3 m_Item3;
@@ -131,8 +167,14 @@ CLASS_(Tuple, T1, T2, T3, T4, T5, T6) : public object {
   private: Object get_ItemOfITuple(Int32 index);
   public: void ctor(T1 item1, T2 item2, T3 item3, T4 item4, T5 item5, T6 item6);
   public: Boolean Equals(Object obj);
+  private: Boolean EqualsOfIStructuralEquatable(Object other, IEqualityComparer comparer);
+  private: Int32 CompareToOfIComparable(Object obj);
+  private: Int32 CompareToOfIStructuralComparable(Object other, IComparer comparer);
   public: Int32 GetHashCode();
+  private: Int32 GetHashCodeOfIStructuralEquatable(IEqualityComparer comparer);
+  private: Int32 GetHashCodeOfITupleInternal(IEqualityComparer comparer);
   public: String ToString();
+  private: String ToStringOfITupleInternal(StringBuilder sb);
   private: T1 m_Item1;
   private: T2 m_Item2;
   private: T3 m_Item3;
@@ -153,8 +195,14 @@ CLASS_(Tuple, T1, T2, T3, T4, T5, T6, T7) : public object {
   private: Object get_ItemOfITuple(Int32 index);
   public: void ctor(T1 item1, T2 item2, T3 item3, T4 item4, T5 item5, T6 item6, T7 item7);
   public: Boolean Equals(Object obj);
+  private: Boolean EqualsOfIStructuralEquatable(Object other, IEqualityComparer comparer);
+  private: Int32 CompareToOfIComparable(Object obj);
+  private: Int32 CompareToOfIStructuralComparable(Object other, IComparer comparer);
   public: Int32 GetHashCode();
+  private: Int32 GetHashCodeOfIStructuralEquatable(IEqualityComparer comparer);
+  private: Int32 GetHashCodeOfITupleInternal(IEqualityComparer comparer);
   public: String ToString();
+  private: String ToStringOfITupleInternal(StringBuilder sb);
   private: T1 m_Item1;
   private: T2 m_Item2;
   private: T3 m_Item3;
@@ -177,8 +225,14 @@ CLASS_(Tuple, T1, T2, T3, T4, T5, T6, T7, TRest) : public object {
   private: Object get_ItemOfITuple(Int32 index);
   public: void ctor(T1 item1, T2 item2, T3 item3, T4 item4, T5 item5, T6 item6, T7 item7, TRest rest);
   public: Boolean Equals(Object obj);
+  private: Boolean EqualsOfIStructuralEquatable(Object other, IEqualityComparer comparer);
+  private: Int32 CompareToOfIComparable(Object obj);
+  private: Int32 CompareToOfIStructuralComparable(Object other, IComparer comparer);
   public: Int32 GetHashCode();
+  private: Int32 GetHashCodeOfIStructuralEquatable(IEqualityComparer comparer);
+  private: Int32 GetHashCodeOfITupleInternal(IEqualityComparer comparer);
   public: String ToString();
+  private: String ToStringOfITupleInternal(StringBuilder sb);
   private: T1 m_Item1;
   private: T2 m_Item2;
   private: T3 m_Item3;

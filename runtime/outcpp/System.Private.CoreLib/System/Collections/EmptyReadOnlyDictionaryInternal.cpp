@@ -86,6 +86,10 @@ Boolean EmptyReadOnlyDictionaryInternal___::get_IsFixedSize() {
 void EmptyReadOnlyDictionaryInternal___::ctor() {
 }
 
+IEnumerator EmptyReadOnlyDictionaryInternal___::GetEnumeratorOfIEnumerable() {
+  return rt::newobj<NodeEnumerator>();
+}
+
 void EmptyReadOnlyDictionaryInternal___::CopyTo(Array<> array, Int32 index) {
   if (array == nullptr) {
     rt::throw_exception<ArgumentNullException>("array");

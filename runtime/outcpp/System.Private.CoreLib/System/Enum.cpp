@@ -15,6 +15,7 @@
 #include <System.Private.CoreLib/System/Int16-dep.h>
 #include <System.Private.CoreLib/System/Int32-dep.h>
 #include <System.Private.CoreLib/System/IntPtr-dep.h>
+#include <System.Private.CoreLib/System/InvalidCastException-dep.h>
 #include <System.Private.CoreLib/System/InvalidOperationException-dep.h>
 #include <System.Private.CoreLib/System/MemoryExtensions-dep.h>
 #include <System.Private.CoreLib/System/Number-dep.h>
@@ -835,6 +836,66 @@ TypeCode Enum___::GetTypeCode() {
     default:
       rt::throw_exception<InvalidOperationException>(SR::get_InvalidOperation_UnknownEnumType());
   }
+}
+
+Boolean Enum___::ToBooleanOfIConvertible(IFormatProvider provider) {
+  return Convert::ToBoolean(GetValue());
+}
+
+Char Enum___::ToCharOfIConvertible(IFormatProvider provider) {
+  return Convert::ToChar(GetValue());
+}
+
+SByte Enum___::ToSByteOfIConvertible(IFormatProvider provider) {
+  return Convert::ToSByte(GetValue());
+}
+
+Byte Enum___::ToByteOfIConvertible(IFormatProvider provider) {
+  return Convert::ToByte(GetValue());
+}
+
+Int16 Enum___::ToInt16OfIConvertible(IFormatProvider provider) {
+  return Convert::ToInt16(GetValue());
+}
+
+UInt16 Enum___::ToUInt16OfIConvertible(IFormatProvider provider) {
+  return Convert::ToUInt16(GetValue());
+}
+
+Int32 Enum___::ToInt32OfIConvertible(IFormatProvider provider) {
+  return Convert::ToInt32(GetValue());
+}
+
+UInt32 Enum___::ToUInt32OfIConvertible(IFormatProvider provider) {
+  return Convert::ToUInt32(GetValue());
+}
+
+Int64 Enum___::ToInt64OfIConvertible(IFormatProvider provider) {
+  return Convert::ToInt64(GetValue());
+}
+
+UInt64 Enum___::ToUInt64OfIConvertible(IFormatProvider provider) {
+  return Convert::ToUInt64(GetValue());
+}
+
+Single Enum___::ToSingleOfIConvertible(IFormatProvider provider) {
+  return Convert::ToSingle(GetValue());
+}
+
+Double Enum___::ToDoubleOfIConvertible(IFormatProvider provider) {
+  return Convert::ToDouble(GetValue());
+}
+
+Decimal Enum___::ToDecimalOfIConvertible(IFormatProvider provider) {
+  return Convert::ToDecimal(GetValue());
+}
+
+DateTime Enum___::ToDateTimeOfIConvertible(IFormatProvider provider) {
+  rt::throw_exception<InvalidCastException>(SR::Format(SR::get_InvalidCast_FromTo(), "Enum", "DateTime"));
+}
+
+Object Enum___::ToTypeOfIConvertible(Type type, IFormatProvider provider) {
+  return Convert::DefaultToType((Enum)this, type, provider);
 }
 
 Object Enum___::ToObject(Type enumType, SByte value) {

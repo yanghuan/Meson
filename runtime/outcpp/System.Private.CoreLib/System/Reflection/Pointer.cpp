@@ -2,6 +2,7 @@
 
 #include <System.Private.CoreLib/System/ArgumentException-dep.h>
 #include <System.Private.CoreLib/System/ArgumentNullException-dep.h>
+#include <System.Private.CoreLib/System/PlatformNotSupportedException-dep.h>
 #include <System.Private.CoreLib/System/Reflection/Pointer-dep.h>
 #include <System.Private.CoreLib/System/SR-dep.h>
 
@@ -29,6 +30,10 @@ void* Pointer___::Unbox(Object ptr) {
     rt::throw_exception<ArgumentException>(SR::get_Arg_MustBePointer(), "ptr");
   }
   return ((Pointer)ptr)->_ptr;
+}
+
+void Pointer___::GetObjectDataOfISerializable(SerializationInfo info, StreamingContext context) {
+  rt::throw_exception<PlatformNotSupportedException>();
 }
 
 Type Pointer___::GetPointerType() {

@@ -7,6 +7,7 @@
 #include <System.Private.CoreLib/System/Byte-dep.h>
 #include <System.Private.CoreLib/System/Char-dep.h>
 #include <System.Private.CoreLib/System/Currency-dep.h>
+#include <System.Private.CoreLib/System/DateTime-dep.h>
 #include <System.Private.CoreLib/System/Double-dep.h>
 #include <System.Private.CoreLib/System/Globalization/NumberStyles.h>
 #include <System.Private.CoreLib/System/IComparable.h>
@@ -29,6 +30,7 @@
 #include <System.Private.CoreLib/System/Single-dep.h>
 #include <System.Private.CoreLib/System/Span-dep.h>
 #include <System.Private.CoreLib/System/String-dep.h>
+#include <System.Private.CoreLib/System/Type-dep.h>
 #include <System.Private.CoreLib/System/TypeCode.h>
 #include <System.Private.CoreLib/System/UInt16-dep.h>
 #include <System.Private.CoreLib/System/UInt32-dep.h>

@@ -30,6 +30,8 @@ class BitOperations {
   public: static UInt64 RotateLeft(UInt64 value, Int32 offset);
   public: static UInt32 RotateRight(UInt32 value, Int32 offset);
   public: static UInt64 RotateRight(UInt64 value, Int32 offset);
+  public: static Int32 _PopCount_g__SoftwareFallback9_0(UInt32 value);
+  public: static Int32 _PopCount_g__SoftwareFallback10_0(UInt64 value);
 };
 } // namespace BitOperationsNamespace
 using BitOperations = BitOperationsNamespace::BitOperations;

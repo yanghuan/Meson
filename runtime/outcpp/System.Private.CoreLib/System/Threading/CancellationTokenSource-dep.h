@@ -11,8 +11,10 @@
 #include <System.Private.CoreLib/System/Object-dep.h>
 #include <System.Private.CoreLib/System/Threading/CancellationToken-dep.h>
 #include <System.Private.CoreLib/System/Threading/CancellationTokenRegistration-dep.h>
+#include <System.Private.CoreLib/System/Threading/ContextCallback-dep.h>
 #include <System.Private.CoreLib/System/Threading/ExecutionContext-dep.h>
 #include <System.Private.CoreLib/System/Threading/ManualResetEvent-dep.h>
+#include <System.Private.CoreLib/System/Threading/SendOrPostCallback-dep.h>
 #include <System.Private.CoreLib/System/Threading/SpinLock-dep.h>
 #include <System.Private.CoreLib/System/Threading/SynchronizationContext-dep.h>
 #include <System.Private.CoreLib/System/Threading/Tasks/ValueTask-dep.h>

@@ -554,4 +554,29 @@ void NumberFormatInfo___::ValidateParseStyleFloatingPoint(NumberStyles style) {
   }
 }
 
+NumberFormatInfo NumberFormatInfo___::_GetInstance_g__GetProviderNonNull42_0(IFormatProvider provider) {
+  CultureInfo cultureInfo = rt::as<CultureInfo>(provider);
+  if (cultureInfo != nullptr && !cultureInfo->_isInherited) {
+    NumberFormatInfo as = cultureInfo->_numInfo;
+    return as != nullptr ? as : cultureInfo->get_NumberFormat();
+  }
+  NumberFormatInfo as = (rt::as<NumberFormatInfo>(provider->GetFormat(typeof<NumberFormatInfo>())));
+  NumberFormatInfo is = (rt::as<NumberFormatInfo>(provider));
+  return is != nullptr ? is : as != nullptr ? as : get_CurrentInfo();
+}
+
+void NumberFormatInfo___::_ValidateParseStyleInteger_g__throwInvalid133_0(NumberStyles value) {
+  if ((value & ~(NumberStyles::AllowLeadingWhite | NumberStyles::AllowTrailingWhite | NumberStyles::AllowLeadingSign | NumberStyles::AllowTrailingSign | NumberStyles::AllowParentheses | NumberStyles::AllowDecimalPoint | NumberStyles::AllowThousands | NumberStyles::AllowExponent | NumberStyles::AllowCurrencySymbol | NumberStyles::AllowHexSpecifier)) != 0) {
+    rt::throw_exception<ArgumentException>(SR::get_Argument_InvalidNumberStyles(), "style");
+  }
+  rt::throw_exception<ArgumentException>(SR::get_Arg_InvalidHexStyle());
+}
+
+void NumberFormatInfo___::_ValidateParseStyleFloatingPoint_g__throwInvalid134_0(NumberStyles value) {
+  if ((value & ~(NumberStyles::AllowLeadingWhite | NumberStyles::AllowTrailingWhite | NumberStyles::AllowLeadingSign | NumberStyles::AllowTrailingSign | NumberStyles::AllowParentheses | NumberStyles::AllowDecimalPoint | NumberStyles::AllowThousands | NumberStyles::AllowExponent | NumberStyles::AllowCurrencySymbol | NumberStyles::AllowHexSpecifier)) != 0) {
+    rt::throw_exception<ArgumentException>(SR::get_Argument_InvalidNumberStyles(), "style");
+  }
+  rt::throw_exception<ArgumentException>(SR::get_Arg_HexStyleNotSupported());
+}
+
 } // namespace System::Private::CoreLib::System::Globalization::NumberFormatInfoNamespace

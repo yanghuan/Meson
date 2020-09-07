@@ -1,8 +1,16 @@
 #pragma once
 
+#include <System.Private.CoreLib/System/Int32.h>
 #include <System.Private.CoreLib/System/MarshalByRefObject.h>
+#include <System.Private.CoreLib/System/Object.h>
+#include <System.Private.CoreLib/System/Runtime/CompilerServices/AsyncTaskMethodBuilder.h>
+#include <System.Private.CoreLib/System/Runtime/CompilerServices/ConfiguredTaskAwaitable.h>
+#include <System.Private.CoreLib/System/Text/StringBuilder.h>
+#include <System.Private.CoreLib/System/Threading/CancellationToken.h>
+#include <System.Private.CoreLib/System/ValueType.h>
 
 namespace System::Private::CoreLib::System {
+FORWARD_(Action, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17)
 FORWARD_(Array, T1, T2)
 FORWARDS(Boolean)
 FORWARDS(Char)
@@ -11,9 +19,7 @@ FORWARDS(Double)
 FORWARD(IAsyncDisposable)
 FORWARD(IDisposable)
 FORWARD(IFormatProvider)
-FORWARDS(Int32)
 FORWARDS(Int64)
-FORWARD(Object)
 FORWARDS(ReadOnlyMemory, T)
 FORWARDS(ReadOnlySpan, T)
 FORWARDS(Single)
@@ -23,17 +29,17 @@ FORWARDS(UInt64)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Text {
 FORWARD(Encoding)
-FORWARD(StringBuilder)
 } // namespace System::Private::CoreLib::System::Text
 namespace System::Private::CoreLib::System::Threading::Tasks {
 FORWARD_(Task, T1, T2)
 FORWARDS_(ValueTask, T1, T2)
 } // namespace System::Private::CoreLib::System::Threading::Tasks
-namespace System::Private::CoreLib::System::Threading {
-FORWARDS(CancellationToken)
-} // namespace System::Private::CoreLib::System::Threading
+namespace System::Private::CoreLib::System::Runtime::CompilerServices {
+FORWARD(IAsyncStateMachine)
+} // namespace System::Private::CoreLib::System::Runtime::CompilerServices
 namespace System::Private::CoreLib::System::IO {
 namespace TextWriterNamespace {
+using namespace System::Runtime::CompilerServices;
 using namespace System::Text;
 using namespace System::Threading;
 using namespace System::Threading::Tasks;
@@ -41,6 +47,53 @@ CLASS(TextWriter) : public MarshalByRefObject::in {
   public: using interface = rt::TypeList<IDisposable, IAsyncDisposable>;
   private: FRIENDN(NullTextWriter)
   public: FRIENDN(SyncTextWriter)
+  private: CLASS(__c) : public object {
+    public: static void cctor();
+    public: void ctor();
+    public: void _WriteAsync_b__58_0(Object state);
+    public: void _WriteAsync_b__59_0(Object state);
+    public: void _WriteAsync_b__62_0(Object state);
+    public: void _WriteAsync_b__63_0(Object state);
+    public: void _WriteLineAsync_b__64_0(Object state);
+    public: void _WriteLineAsync_b__65_0(Object state);
+    public: void _WriteLineAsync_b__68_0(Object state);
+    public: void _WriteLineAsync_b__69_0(Object state);
+    public: void _FlushAsync_b__71_0(Object state);
+    public: static __c __9;
+    public: static Action<Object> __9__58_0;
+    public: static Action<Object> __9__59_0;
+    public: static Action<Object> __9__62_0;
+    public: static Action<Object> __9__63_0;
+    public: static Action<Object> __9__64_0;
+    public: static Action<Object> __9__65_0;
+    public: static Action<Object> __9__68_0;
+    public: static Action<Object> __9__69_0;
+    public: static Action<Object> __9__71_0;
+  };
+  private: struct __WriteAsync_g__WriteAsyncCore60_0_d : public valueType<__WriteAsync_g__WriteAsyncCore60_0_d> {
+    public: using interface = rt::TypeList<IAsyncStateMachine>;
+    private: void MoveNext();
+    private: void SetStateMachine(IAsyncStateMachine stateMachine);
+    public: Int32 __1__state;
+    public: AsyncTaskMethodBuilder<> __t__builder;
+    public: StringBuilder sb;
+    public: TextWriter __4__this;
+    public: CancellationToken ct;
+    private: StringBuilder::in::ChunkEnumerator __7__wrap1;
+    private: ConfiguredTaskAwaitable<>::ConfiguredTaskAwaiter __u__1;
+  };
+  private: struct __WriteLineAsync_g__WriteLineAsyncCore66_0_d : public valueType<__WriteLineAsync_g__WriteLineAsyncCore66_0_d> {
+    public: using interface = rt::TypeList<IAsyncStateMachine>;
+    private: void MoveNext();
+    private: void SetStateMachine(IAsyncStateMachine stateMachine);
+    public: Int32 __1__state;
+    public: AsyncTaskMethodBuilder<> __t__builder;
+    public: StringBuilder sb;
+    public: TextWriter __4__this;
+    public: CancellationToken ct;
+    private: StringBuilder::in::ChunkEnumerator __7__wrap1;
+    private: ConfiguredTaskAwaitable<>::ConfiguredTaskAwaiter __u__1;
+  };
   public: IFormatProvider get_FormatProvider();
   public: Encoding get_Encoding();
   public: String get_NewLine();
@@ -111,6 +164,8 @@ CLASS(TextWriter) : public MarshalByRefObject::in {
   public: Task<> FlushAsync();
   public: static TextWriter Synchronized(TextWriter writer);
   public: static void cctor();
+  private: Task<> _WriteAsync_g__WriteAsyncCore60_0(StringBuilder sb, CancellationToken ct);
+  private: Task<> _WriteLineAsync_g__WriteLineAsyncCore66_0(StringBuilder sb, CancellationToken ct);
   public: static TextWriter Null;
   private: static Array<Char> s_coreNewLine;
   protected: Array<Char> CoreNewLine;

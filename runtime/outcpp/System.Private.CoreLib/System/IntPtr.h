@@ -32,6 +32,7 @@ struct IntPtr : public valueType<IntPtr> {
   public: explicit IntPtr(Int64 value);
   public: explicit IntPtr(void* value);
   private: explicit IntPtr(SerializationInfo info, StreamingContext context);
+  private: void GetObjectDataOfISerializable(SerializationInfo info, StreamingContext context);
   public: Boolean Equals(Object obj);
   public: Int32 GetHashCode();
   public: Int32 ToInt32();

@@ -6,6 +6,7 @@
 #include <System.Private.CoreLib/System/Collections/Generic/Dictionary-dep.h>
 #include <System.Private.CoreLib/System/Collections/IDictionaryEnumerator.h>
 #include <System.Private.CoreLib/System/Collections/IEnumerable.h>
+#include <System.Private.CoreLib/System/Collections/IEnumerator.h>
 #include <System.Private.CoreLib/System/IO/Stream-dep.h>
 #include <System.Private.CoreLib/System/Object-dep.h>
 #include <System.Private.CoreLib/System/Resources/ResourceLocator-dep.h>

@@ -11,12 +11,14 @@ FORWARD(IEnumerable, T)
 FORWARD(List, T)
 } // namespace System::Private::CoreLib::System::Collections::Generic
 namespace System::Private::CoreLib::System {
+FORWARD_(Action, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17)
 FORWARD(Exception)
 FORWARD_(Func, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Threading {
 FORWARD(IThreadPoolWorkItem)
 FORWARD(ThreadLocal, T)
+FORWARD(WaitCallback)
 } // namespace System::Private::CoreLib::System::Threading
 namespace System::Private::CoreLib::System::Threading::Tasks {
 enum class TaskCreationOptions : int32_t;
@@ -40,6 +42,7 @@ CLASS(ConcurrentExclusiveSchedulerPair) : public object {
   private: CLASS(SchedulerWorkItem) : public object {
     public: using interface = rt::TypeList<IThreadPoolWorkItem>;
     public: void ctor(ConcurrentExclusiveSchedulerPair pair);
+    private: void ExecuteOfIThreadPoolWorkItem();
     private: ConcurrentExclusiveSchedulerPair _pair;
   };
   private: CLASS(ConcurrentExclusiveTaskScheduler) : public TaskScheduler::in {
@@ -74,6 +77,19 @@ CLASS(ConcurrentExclusiveSchedulerPair) : public object {
     public: TaskScheduler get_TargetScheduler();
     public: void ctor(ConcurrentExclusiveSchedulerPair pair);
     private: ConcurrentExclusiveSchedulerPair m_pair;
+  };
+  private: CLASS(__c) : public object {
+    public: static void cctor();
+    public: void ctor();
+    public: CompletionState _EnsureCompletionStateInitialized_b__23_0();
+    public: void _CompleteTaskAsync_b__30_0(Object state);
+    public: void _ProcessAsyncIfNecessary_b__40_0(Object thisPair);
+    public: void _ProcessAsyncIfNecessary_b__40_1(Object thisPair);
+    public: static __c __9;
+    public: static Func<CompletionState> __9__23_0;
+    public: static WaitCallback __9__30_0;
+    public: static Action<Object> __9__40_0;
+    public: static Action<Object> __9__40_1;
   };
   private: static Int32 get_DefaultMaxConcurrencyLevel();
   private: Object get_ValueLock();

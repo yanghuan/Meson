@@ -10,9 +10,7 @@
 #include <System.Private.CoreLib/System/Diagnostics/Tracing/EventPipeEventDispatcher-dep.h>
 #include <System.Private.CoreLib/System/Diagnostics/Tracing/EventProviderType.h>
 #include <System.Private.CoreLib/System/Diagnostics/Tracing/EventSource-dep.h>
-#include <System.Private.CoreLib/System/Diagnostics/Tracing/EventSourceCreatedEventArgs-dep.h>
 #include <System.Private.CoreLib/System/Diagnostics/Tracing/NativeRuntimeEventSource-dep.h>
-#include <System.Private.CoreLib/System/EventHandler-dep.h>
 #include <System.Private.CoreLib/System/GC-dep.h>
 #include <System.Private.CoreLib/System/InvalidOperationException-dep.h>
 #include <System.Private.CoreLib/System/SR-dep.h>
@@ -23,6 +21,17 @@
 namespace System::Private::CoreLib::System::Diagnostics::Tracing::EventListenerNamespace {
 using namespace System::Collections::Generic;
 using namespace System::Threading;
+
+void EventListener___::__c___::cctor() {
+  <>9 = rt::newobj<__c>();
+}
+
+void EventListener___::__c___::ctor() {
+}
+
+void EventListener___::__c___::_ctor_b__10_0(Object obj, EventSourceCreatedEventArgs args) {
+  args->get_EventSource()->AddListener((EventListener)obj);
+}
 
 Object EventListener___::get_EventListenersLock() {
   if (s_EventSources == nullptr) {
@@ -36,6 +45,8 @@ void EventListener___::cctor() {
 }
 
 void EventListener___::ctor() {
+  EventHandler<EventSourceCreatedEventArgs> as = __c::in::__9__10_0;
+  CallBackForExistingEventSources(true, as != nullptr ? as : (__c::in::__9__10_0 = &__c::in::__9->_ctor_b__10_0));
 }
 
 void EventListener___::Dispose() {

@@ -13,4 +13,8 @@ void UriFormatException___::ctor(String textString, Exception e) {
 void UriFormatException___::ctor(SerializationInfo serializationInfo, StreamingContext streamingContext) {
 }
 
+void UriFormatException___::GetObjectDataOfISerializable(SerializationInfo serializationInfo, StreamingContext streamingContext) {
+  Exception::in::GetObjectData(serializationInfo, streamingContext);
+}
+
 } // namespace System::Private::Uri::System::UriFormatExceptionNamespace

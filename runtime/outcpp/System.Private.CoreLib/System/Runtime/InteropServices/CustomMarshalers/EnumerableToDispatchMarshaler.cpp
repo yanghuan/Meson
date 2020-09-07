@@ -2,11 +2,23 @@
 
 #include <System.Private.CoreLib/System/ArgumentNullException-dep.h>
 #include <System.Private.CoreLib/System/Collections/IEnumerable.h>
+#include <System.Private.CoreLib/System/Runtime/InteropServices/CustomMarshalers/ComDataHelpers-dep.h>
 #include <System.Private.CoreLib/System/Runtime/InteropServices/CustomMarshalers/EnumerableToDispatchMarshaler-dep.h>
 #include <System.Private.CoreLib/System/Runtime/InteropServices/Marshal-dep.h>
 
 namespace System::Private::CoreLib::System::Runtime::InteropServices::CustomMarshalers::EnumerableToDispatchMarshalerNamespace {
 using namespace System::Collections;
+
+void EnumerableToDispatchMarshaler___::__c___::cctor() {
+  <>9 = rt::newobj<__c>();
+}
+
+void EnumerableToDispatchMarshaler___::__c___::ctor() {
+}
+
+EnumerableViewOfDispatch EnumerableToDispatchMarshaler___::__c___::_MarshalNativeToManaged_b__7_0(Object obj) {
+  return rt::newobj<EnumerableViewOfDispatch>(obj);
+}
 
 ICustomMarshaler EnumerableToDispatchMarshaler___::GetInstance(String cookie) {
   return s_enumerableToDispatchMarshaler;
@@ -38,6 +50,8 @@ Object EnumerableToDispatchMarshaler___::MarshalNativeToManaged(IntPtr pNativeDa
     rt::throw_exception<ArgumentNullException>("pNativeData");
   }
   Object objectForIUnknown = Marshal::GetObjectForIUnknown(pNativeData);
+  Func<Object, EnumerableViewOfDispatch> as = __c::in::__9__7_0;
+  return ComDataHelpers::GetOrCreateManagedViewFromComData(objectForIUnknown, as != nullptr ? as : (__c::in::__9__7_0 = &__c::in::__9->_MarshalNativeToManaged_b__7_0));
 }
 
 void EnumerableToDispatchMarshaler___::cctor() {

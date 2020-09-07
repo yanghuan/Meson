@@ -64,6 +64,7 @@ CLASS(PermissionSet) : public object {
   public: static void RevertAssert();
   public: IPermission SetPermission(IPermission perm);
   protected: IPermission SetPermissionImpl(IPermission perm);
+  private: void OnDeserializationOfIDeserializationCallback(Object sender);
   public: String ToString();
   public: SecurityElement ToXml();
   public: PermissionSet Union(PermissionSet other);

@@ -35,6 +35,10 @@ struct StringRuneEnumerator : public valueType<StringRuneEnumerator> {
   public: explicit StringRuneEnumerator(String value);
   public: StringRuneEnumerator GetEnumerator();
   public: Boolean MoveNext();
+  private: void DisposeOfIDisposable();
+  private: IEnumerator_ GetEnumeratorOfIEnumerable();
+  private: IEnumerator<Rune> GetEnumeratorOfRune();
+  private: void ResetOfIEnumerator();
   public: explicit StringRuneEnumerator() {}
   private: String _string;
   private: Rune _current;

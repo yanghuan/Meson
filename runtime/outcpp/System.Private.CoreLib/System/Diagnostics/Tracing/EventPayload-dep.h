@@ -11,6 +11,8 @@
 #include <System.Private.CoreLib/System/Collections/Generic/KeyValuePair-dep.h>
 #include <System.Private.CoreLib/System/Collections/Generic/List-dep.h>
 #include <System.Private.CoreLib/System/Collections/IEnumerable.h>
+#include <System.Private.CoreLib/System/Collections/IEnumerator.h>
+#include <System.Private.CoreLib/System/IDisposable.h>
 #include <System.Private.CoreLib/System/Int32-dep.h>
 #include <System.Private.CoreLib/System/Object-dep.h>
 #include <System.Private.CoreLib/System/String-dep.h>

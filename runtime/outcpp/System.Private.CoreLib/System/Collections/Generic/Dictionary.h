@@ -69,6 +69,7 @@ CLASS(Dictionary, TKey, TValue) : public object {
     public: explicit Enumerator(Dictionary<TKey, TValue> dictionary, Int32 getEnumeratorRetType);
     public: Boolean MoveNext();
     public: void Dispose();
+    private: void ResetOfIEnumerator();
     public: explicit Enumerator() {}
     private: Dictionary<TKey, TValue> _dictionary;
     private: Int32 _version;
@@ -85,6 +86,7 @@ CLASS(Dictionary, TKey, TValue) : public object {
       public: explicit Enumerator(Dictionary<TKey, TValue> dictionary);
       public: void Dispose();
       public: Boolean MoveNext();
+      private: void ResetOfIEnumerator();
       public: explicit Enumerator() {}
       private: Dictionary<TKey, TValue> _dictionary;
       private: Int32 _index;
@@ -98,6 +100,13 @@ CLASS(Dictionary, TKey, TValue) : public object {
     public: void ctor(Dictionary<TKey, TValue> dictionary);
     public: Enumerator GetEnumerator();
     public: void CopyTo(Array<TKey> array, Int32 index);
+    private: void AddOfICollectionTKey(TKey item);
+    private: void ClearOfICollectionTKey();
+    private: Boolean ContainsOfICollectionTKey(TKey item);
+    private: Boolean RemoveOfICollectionTKey(TKey item);
+    private: IEnumerator<TKey> GetEnumeratorOfIEnumerableTKey();
+    private: IEnumerator_ GetEnumeratorOfIEnumerable();
+    private: void CopyToOfICollection(Array<> array, Int32 index);
     private: Dictionary<TKey, TValue> _dictionary;
   };
   public: CLASS(ValueCollection) : public object {
@@ -109,6 +118,7 @@ CLASS(Dictionary, TKey, TValue) : public object {
       public: explicit Enumerator(Dictionary<TKey, TValue> dictionary);
       public: void Dispose();
       public: Boolean MoveNext();
+      private: void ResetOfIEnumerator();
       public: explicit Enumerator() {}
       private: Dictionary<TKey, TValue> _dictionary;
       private: Int32 _index;
@@ -122,6 +132,13 @@ CLASS(Dictionary, TKey, TValue) : public object {
     public: void ctor(Dictionary<TKey, TValue> dictionary);
     public: Enumerator GetEnumerator();
     public: void CopyTo(Array<TValue> array, Int32 index);
+    private: void AddOfICollectionTValue(TValue item);
+    private: Boolean RemoveOfICollectionTValue(TValue item);
+    private: void ClearOfICollectionTValue();
+    private: Boolean ContainsOfICollectionTValue(TValue item);
+    private: IEnumerator<TValue> GetEnumeratorOfIEnumerableTValue();
+    private: IEnumerator_ GetEnumeratorOfIEnumerable();
+    private: void CopyToOfICollection(Array<> array, Int32 index);
     private: Dictionary<TKey, TValue> _dictionary;
   };
   public: IEqualityComparer<TKey> get_Comparer();
@@ -153,11 +170,15 @@ CLASS(Dictionary, TKey, TValue) : public object {
   public: void ctor(IEnumerable<KeyValuePair<TKey, TValue>> collection, IEqualityComparer<TKey> comparer);
   public: void ctor(SerializationInfo info, StreamingContext context);
   public: void Add(TKey key, TValue value);
+  private: void AddOfKeyValuePairTKeyTValue(KeyValuePair<TKey, TValue> keyValuePair);
+  private: Boolean ContainsOfKeyValuePairTKeyTValue(KeyValuePair<TKey, TValue> keyValuePair);
+  private: Boolean RemoveOfKeyValuePairTKeyTValue(KeyValuePair<TKey, TValue> keyValuePair);
   public: void Clear();
   public: Boolean ContainsKey(TKey key);
   public: Boolean ContainsValue(TValue value);
   private: void CopyTo(Array<KeyValuePair<TKey, TValue>> array, Int32 index);
   public: Enumerator GetEnumerator();
+  private: IEnumerator<KeyValuePair<TKey, TValue>> GetEnumeratorOfKeyValuePairTKeyTValue();
   public: void GetObjectData(SerializationInfo info, StreamingContext context);
   private: TValue& FindValue(TKey key);
   private: Int32 Initialize(Int32 capacity);
@@ -169,10 +190,17 @@ CLASS(Dictionary, TKey, TValue) : public object {
   public: Boolean Remove(TKey key, TValue& value);
   public: Boolean TryGetValue(TKey key, TValue& value);
   public: Boolean TryAdd(TKey key, TValue value);
+  private: void CopyToOfKeyValuePairTKeyTValue(Array<KeyValuePair<TKey, TValue>> array, Int32 index);
+  private: void CopyToOfICollection(Array<> array, Int32 index);
+  private: IEnumerator_ GetEnumeratorOfIEnumerable();
   public: Int32 EnsureCapacity(Int32 capacity);
   public: void TrimExcess();
   public: void TrimExcess(Int32 capacity);
   private: static Boolean IsCompatibleKey(Object key);
+  private: void AddOfIDictionary(Object key, Object value);
+  private: Boolean ContainsOfIDictionary(Object key);
+  private: IDictionaryEnumerator GetEnumeratorOfIDictionary();
+  private: void RemoveOfIDictionary(Object key);
   private: Int32& GetBucket(UInt32 hashCode);
   private: Array<Int32> _buckets;
   private: Array<Entry> _entries;

@@ -1,6 +1,7 @@
 #pragma once
 
 #include <System.Private.CoreLib/System/MulticastDelegate.h>
+#include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System {
 FORWARD(AsyncCallback)
@@ -8,9 +9,12 @@ FORWARD(Delegate)
 FORWARD(IAsyncResult)
 FORWARDS(Int32)
 FORWARDS(IntPtr)
-FORWARD(Object)
 FORWARD(String)
 } // namespace System::Private::CoreLib::System
+namespace System::Private::CoreLib::System::Reflection {
+FORWARD(Assembly)
+FORWARD(AssemblyName)
+} // namespace System::Private::CoreLib::System::Reflection
 namespace System::Private::CoreLib::System::Runtime::Loader {
 FORWARD(AssemblyLoadContext)
 } // namespace System::Private::CoreLib::System::Runtime::Loader
@@ -22,6 +26,7 @@ FORWARD(IsolatedComponentLoadContext)
 namespace ComponentActivatorNamespace {
 using namespace System;
 using namespace System::Collections::Generic;
+using namespace System::Reflection;
 using namespace System::Runtime::Loader;
 class ComponentActivator {
   public: CLASS(ComponentEntryPoint) : public MulticastDelegate::in {
@@ -30,6 +35,11 @@ class ComponentActivator {
     public: IAsyncResult BeginInvoke(IntPtr args, Int32 sizeBytes, AsyncCallback callback, Object object);
     public: Int32 EndInvoke(IAsyncResult result);
     public: static constexpr rt::TypeCode code = rt::TypeCode::Delegate;
+  };
+  private: CLASS(__c__DisplayClass7_0) : public object {
+    public: void ctor();
+    public: Assembly _InternalGetFunctionPointer_b__0(AssemblyName name);
+    public: AssemblyLoadContext alc;
   };
   private: static String MarshalToString(IntPtr arg, String argName);
   public: static Int32 LoadAssemblyAndGetFunctionPointer(IntPtr assemblyPathNative, IntPtr typeNameNative, IntPtr methodNameNative, IntPtr delegateTypeNative, IntPtr reserved, IntPtr functionHandle);

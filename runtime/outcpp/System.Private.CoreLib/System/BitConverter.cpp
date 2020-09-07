@@ -2,8 +2,11 @@
 
 #include <System.Private.CoreLib/Internal/Runtime/CompilerServices/Unsafe-dep.h>
 #include <System.Private.CoreLib/System/ArgumentOutOfRangeException-dep.h>
+#include <System.Private.CoreLib/System/BitConverter-dep.h>
 #include <System.Private.CoreLib/System/ExceptionArgument.h>
 #include <System.Private.CoreLib/System/ExceptionResource.h>
+#include <System.Private.CoreLib/System/HexConverter-dep.h>
+#include <System.Private.CoreLib/System/ReadOnlySpan-dep.h>
 #include <System.Private.CoreLib/System/Runtime/InteropServices/MemoryMarshal-dep.h>
 #include <System.Private.CoreLib/System/Runtime/Intrinsics/Vector128-dep.h>
 #include <System.Private.CoreLib/System/Runtime/Intrinsics/X86/Sse2-dep.h>
@@ -15,6 +18,28 @@ using namespace Internal::Runtime::CompilerServices;
 using namespace System::Runtime::InteropServices;
 using namespace System::Runtime::Intrinsics;
 using namespace System::Runtime::Intrinsics::X86;
+
+void BitConverter::__c___::cctor() {
+  <>9 = rt::newobj<__c>();
+}
+
+void BitConverter::__c___::ctor() {
+}
+
+void BitConverter::__c___::_ToString_b__39_0(Span<Char> dst, ValueTuple<Array<Byte>, Int32, Int32> state) {
+  ReadOnlySpan<Byte> readOnlySpan = ReadOnlySpan<Byte>(state.Item1, state.Item2, state.Item3);
+  Int32 num = 0;
+  Int32 num2 = 0;
+  Byte b = readOnlySpan[num++];
+  dst[num2++] = HexConverter::ToCharUpper(b >> 4);
+  dst[num2++] = HexConverter::ToCharUpper(b);
+  while (num < readOnlySpan.get_Length()) {
+    b = readOnlySpan[num++];
+    dst[num2++] = 45;
+    dst[num2++] = HexConverter::ToCharUpper(b >> 4);
+    dst[num2++] = HexConverter::ToCharUpper(b);
+  }
+}
 
 Array<Byte> BitConverter::GetBytes(Boolean value) {
   return rt::newarr<Array<Byte>>(1);
@@ -299,6 +324,8 @@ String BitConverter::ToString(Array<Byte> value, Int32 startIndex, Int32 length)
   if (length > 715827882) {
     rt::throw_exception<ArgumentOutOfRangeException>("length", SR::Format(SR::get_ArgumentOutOfRange_LengthTooLarge(), 715827882));
   }
+  SpanAction<Char, ValueTuple<Array<Byte>, Int32, Int32>> as = __c::in::__9__39_0;
+  return String::in::Create(length * 3 - 1, {value, startIndex, length}, as != nullptr ? as : (__c::in::__9__39_0 = rt::newobj<SpanAction<Char, ValueTuple<Array<Byte>, Int32, Int32>>>(&_ToString_b__39_0)));
 }
 
 String BitConverter::ToString(Array<Byte> value) {

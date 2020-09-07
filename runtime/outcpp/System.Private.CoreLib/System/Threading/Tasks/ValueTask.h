@@ -2,6 +2,7 @@
 
 #include <System.Private.CoreLib/System/Boolean.h>
 #include <System.Private.CoreLib/System/Int16.h>
+#include <System.Private.CoreLib/System/Object.h>
 #include <System.Private.CoreLib/System/Threading/Tasks/Task.h>
 #include <System.Private.CoreLib/System/ValueType.h>
 
@@ -10,7 +11,6 @@ FORWARD_(Action, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T1
 FORWARD(Exception)
 FORWARD(IEquatable, T)
 FORWARDS(Int32)
-FORWARD(Object)
 FORWARD(String)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Threading::Tasks::Sources {
@@ -34,6 +34,12 @@ template <>
 struct ValueTask<> : public valueType<ValueTask<>> {
   public: using interface = rt::TypeList<IEquatable<ValueTask<>>>;
   private: CLASS(ValueTaskSourceAsTask) : public Task<>::in {
+    private: CLASS(__c) : public object {
+      public: static void cctor();
+      public: void ctor();
+      public: void _cctor_b__4_0(Object state);
+      public: static __c __9;
+    };
     public: void ctor(IValueTaskSource<> source, Int16 token);
     public: static void cctor();
     private: static Action<Object> s_completionAction;
@@ -78,6 +84,12 @@ template <class TResult>
 struct ValueTask<TResult> : public valueType<ValueTask<TResult>> {
   public: using interface = rt::TypeList<IEquatable<ValueTask<TResult>>>;
   private: CLASS(ValueTaskSourceAsTask) : public Task<TResult>::in {
+    private: CLASS(__c) : public object {
+      public: static void cctor();
+      public: void ctor();
+      public: void _cctor_b__4_0(Object state);
+      public: static __c __9;
+    };
     public: void ctor(IValueTaskSource<TResult> source, Int16 token);
     public: static void cctor();
     private: static Action<Object> s_completionAction;

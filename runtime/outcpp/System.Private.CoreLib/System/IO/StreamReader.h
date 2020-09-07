@@ -1,36 +1,93 @@
 #pragma once
 
 #include <System.Private.CoreLib/System/Boolean.h>
+#include <System.Private.CoreLib/System/Char.h>
 #include <System.Private.CoreLib/System/Int32.h>
 #include <System.Private.CoreLib/System/IO/TextReader.h>
+#include <System.Private.CoreLib/System/Memory.h>
+#include <System.Private.CoreLib/System/Runtime/CompilerServices/AsyncTaskMethodBuilder.h>
+#include <System.Private.CoreLib/System/Runtime/CompilerServices/AsyncValueTaskMethodBuilder.h>
+#include <System.Private.CoreLib/System/Runtime/CompilerServices/ConfiguredValueTaskAwaitable.h>
+#include <System.Private.CoreLib/System/Threading/CancellationToken.h>
+#include <System.Private.CoreLib/System/ValueType.h>
 
 namespace System::Private::CoreLib::System::Text {
 FORWARD(Decoder)
 FORWARD(Encoding)
+FORWARD(StringBuilder)
 } // namespace System::Private::CoreLib::System::Text
 namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)
 FORWARDS(Byte)
-FORWARDS(Char)
-FORWARDS(Memory, T)
 FORWARDS(Span, T)
 FORWARD(String)
 } // namespace System::Private::CoreLib::System
+namespace System::Private::CoreLib::System::Runtime::CompilerServices {
+FORWARD(IAsyncStateMachine)
+} // namespace System::Private::CoreLib::System::Runtime::CompilerServices
 namespace System::Private::CoreLib::System::Threading::Tasks {
 FORWARD_(Task, T1, T2)
 FORWARDS_(ValueTask, T1, T2)
 } // namespace System::Private::CoreLib::System::Threading::Tasks
-namespace System::Private::CoreLib::System::Threading {
-FORWARDS(CancellationToken)
-} // namespace System::Private::CoreLib::System::Threading
 namespace System::Private::CoreLib::System::IO {
 FORWARD(Stream)
 namespace StreamReaderNamespace {
+using namespace System::Runtime::CompilerServices;
 using namespace System::Text;
 using namespace System::Threading;
 using namespace System::Threading::Tasks;
 CLASS(StreamReader) : public TextReader::in {
   private: FRIENDN(NullStreamReader)
+  private: struct _ReadLineAsyncInternal_d__59 : public valueType<_ReadLineAsyncInternal_d__59> {
+    public: using interface = rt::TypeList<IAsyncStateMachine>;
+    private: void MoveNext();
+    private: void SetStateMachine(IAsyncStateMachine stateMachine);
+    public: Int32 __1__state;
+    public: AsyncTaskMethodBuilder<String> __t__builder;
+    public: StreamReader __4__this;
+    private: StringBuilder _sb_5__2;
+    private: ConfiguredValueTaskAwaitable<Int32>::ConfiguredValueTaskAwaiter __u__1;
+    private: String _s_5__3;
+  };
+  private: struct _ReadToEndAsyncInternal_d__61 : public valueType<_ReadToEndAsyncInternal_d__61> {
+    public: using interface = rt::TypeList<IAsyncStateMachine>;
+    private: void MoveNext();
+    private: void SetStateMachine(IAsyncStateMachine stateMachine);
+    public: Int32 __1__state;
+    public: AsyncTaskMethodBuilder<String> __t__builder;
+    public: StreamReader __4__this;
+    private: StringBuilder _sb_5__2;
+    private: ConfiguredValueTaskAwaitable<Int32>::ConfiguredValueTaskAwaiter __u__1;
+  };
+  private: struct _ReadAsyncInternal_d__64 : public valueType<_ReadAsyncInternal_d__64> {
+    public: using interface = rt::TypeList<IAsyncStateMachine>;
+    private: void MoveNext();
+    private: void SetStateMachine(IAsyncStateMachine stateMachine);
+    public: Int32 __1__state;
+    public: AsyncValueTaskMethodBuilder<Int32> __t__builder;
+    public: StreamReader __4__this;
+    public: CancellationToken cancellationToken;
+    public: Memory<Char> buffer;
+    private: Int32 _charsRead_5__2;
+    private: Boolean _readToUserBuffer_5__3;
+    private: Array<Byte> _tmpByteBuffer_5__4;
+    private: Stream _tmpStream_5__5;
+    private: Int32 _count_5__6;
+    private: ConfiguredValueTaskAwaitable<Int32>::ConfiguredValueTaskAwaiter __u__1;
+    private: Int32 _n_5__7;
+  };
+  private: struct _ReadBufferAsync_d__67 : public valueType<_ReadBufferAsync_d__67> {
+    public: using interface = rt::TypeList<IAsyncStateMachine>;
+    private: void MoveNext();
+    private: void SetStateMachine(IAsyncStateMachine stateMachine);
+    public: Int32 __1__state;
+    public: AsyncValueTaskMethodBuilder<Int32> __t__builder;
+    public: StreamReader __4__this;
+    public: CancellationToken cancellationToken;
+    private: Array<Byte> _tmpByteBuffer_5__2;
+    private: Stream _tmpStream_5__3;
+    private: ConfiguredValueTaskAwaitable<Int32>::ConfiguredValueTaskAwaiter __u__1;
+  };
   public: Encoding get_CurrentEncoding();
   public: Stream get_BaseStream();
   public: Boolean get_EndOfStream();
@@ -80,6 +137,7 @@ CLASS(StreamReader) : public TextReader::in {
   private: ValueTask<Int32> ReadBufferAsync(CancellationToken cancellationToken);
   private: void ThrowIfDisposed();
   public: static void cctor();
+  private: void _ThrowIfDisposed_g__ThrowObjectDisposedException68_0();
   public: static StreamReader Null;
   private: Stream _stream;
   private: Encoding _encoding;

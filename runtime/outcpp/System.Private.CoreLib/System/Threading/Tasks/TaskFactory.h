@@ -208,6 +208,58 @@ CLASS_(TaskFactory, TResult) : public object {
     private: TInstance m_thisRef;
     private: Func<TInstance, IAsyncResult, TResult> m_endMethod;
   };
+  private: CLASS(__c__DisplayClass32_0) : public object {
+    public: void ctor();
+    public: void _FromAsyncImpl_b__0(Object _p0_);
+    public: void _FromAsyncImpl_b__1(Object _p0_, Boolean _p1_);
+    public: IAsyncResult asyncResult;
+    public: Func<IAsyncResult, TResult> endFunction;
+    public: Action<IAsyncResult> endAction;
+    public: Task<TResult> promise;
+    public: Task<> t;
+    public: TaskScheduler scheduler;
+  };
+  private: CLASS(__c__DisplayClass35_0) : public object {
+    public: void ctor();
+    public: void _FromAsyncImpl_b__0(IAsyncResult iar);
+    public: Func<IAsyncResult, TResult> endFunction;
+    public: Action<IAsyncResult> endAction;
+    public: Task<TResult> promise;
+  };
+  private: CLASS(__c__DisplayClass38_0, TArg1) : public object {
+    public: void ctor();
+    public: void _FromAsyncImpl_b__0(IAsyncResult iar);
+    public: Func<IAsyncResult, TResult> endFunction;
+    public: Action<IAsyncResult> endAction;
+    public: Task<TResult> promise;
+  };
+  private: CLASS(__c__DisplayClass41_0, TArg1, TArg2) : public object {
+    public: void ctor();
+    public: void _FromAsyncImpl_b__0(IAsyncResult iar);
+    public: Func<IAsyncResult, TResult> endFunction;
+    public: Action<IAsyncResult> endAction;
+    public: Task<TResult> promise;
+  };
+  private: CLASS(__c__DisplayClass44_0, TArg1, TArg2, TArg3) : public object {
+    public: void ctor();
+    public: void _FromAsyncImpl_b__0(IAsyncResult iar);
+    public: Func<IAsyncResult, TResult> endFunction;
+    public: Action<IAsyncResult> endAction;
+    public: Task<TResult> promise;
+  };
+  private: CLASS(__c) : public object {
+    public: static void cctor();
+    public: void ctor();
+    public: TResult _ContinueWhenAllImpl_b__57_0(Task<Array<Task<>>> completedTasks, Object state);
+    public: TResult _ContinueWhenAllImpl_b__57_1(Task<Array<Task<>>> completedTasks, Object state);
+    public: TResult _ContinueWhenAnyImpl_b__66_0(Task<Task<>> completedTask, Object state);
+    public: TResult _ContinueWhenAnyImpl_b__66_1(Task<Task<>> completedTask, Object state);
+    public: static __c __9;
+    public: static Func<Task<Array<Task<>>>, Object, TResult> __9__57_0;
+    public: static Func<Task<Array<Task<>>>, Object, TResult> __9__57_1;
+    public: static Func<Task<Task<>>, Object, TResult> __9__66_0;
+    public: static Func<Task<Task<>>, Object, TResult> __9__66_1;
+  };
   private: TaskScheduler get_DefaultScheduler();
   public: CancellationToken get_CancellationToken();
   public: TaskScheduler get_Scheduler();

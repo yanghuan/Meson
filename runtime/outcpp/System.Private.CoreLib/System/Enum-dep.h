@@ -7,6 +7,9 @@
 #include <System.Private.CoreLib/System/Boolean-dep.h>
 #include <System.Private.CoreLib/System/Byte-dep.h>
 #include <System.Private.CoreLib/System/Char-dep.h>
+#include <System.Private.CoreLib/System/DateTime-dep.h>
+#include <System.Private.CoreLib/System/Decimal-dep.h>
+#include <System.Private.CoreLib/System/Double-dep.h>
 #include <System.Private.CoreLib/System/IComparable.h>
 #include <System.Private.CoreLib/System/IConvertible.h>
 #include <System.Private.CoreLib/System/IFormatProvider.h>
@@ -21,6 +24,7 @@
 #include <System.Private.CoreLib/System/Runtime/CompilerServices/QCallTypeHandle-dep.h>
 #include <System.Private.CoreLib/System/RuntimeType-dep.h>
 #include <System.Private.CoreLib/System/SByte-dep.h>
+#include <System.Private.CoreLib/System/Single-dep.h>
 #include <System.Private.CoreLib/System/String-dep.h>
 #include <System.Private.CoreLib/System/Type-dep.h>
 #include <System.Private.CoreLib/System/TypeCode.h>

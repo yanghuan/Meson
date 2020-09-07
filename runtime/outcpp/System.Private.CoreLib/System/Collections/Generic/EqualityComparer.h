@@ -23,6 +23,8 @@ CLASS(EqualityComparer, T) : public object {
   public: Int32 LastIndexOf(Array<T> array, T value, Int32 startIndex, Int32 count);
   public: Boolean Equals(T x, T y);
   public: Int32 GetHashCode(T obj);
+  private: Int32 GetHashCodeOfIEqualityComparer(Object obj);
+  private: Boolean EqualsOfIEqualityComparer(Object x, Object y);
   public: void ctor();
   public: static void cctor();
   private: static EqualityComparer<T> Default;

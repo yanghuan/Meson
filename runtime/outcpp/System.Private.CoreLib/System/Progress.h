@@ -17,6 +17,7 @@ CLASS(Progress, T) : public object {
   public: void ctor();
   public: void ctor(Action<T> handler);
   protected: void OnReport(T value);
+  private: void ReportOfIProgressT(T value);
   private: void InvokeHandlers(Object state);
   private: SynchronizationContext _synchronizationContext;
   private: Action<T> _handler;

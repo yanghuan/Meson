@@ -94,6 +94,8 @@ class GC {
   static Array<T> AllocateUninitializedArray(Int32 length, Boolean pinned = false);
   public: template <class T>
   static Array<T> AllocateArray(Int32 length, Boolean pinned = false);
+  public: template <class T>
+  static Array<T> _AllocateUninitializedArray_g__AllocateNewUninitializedArray66_0(Int32 length, Boolean pinned);
 };
 } // namespace GCNamespace
 using GC = GCNamespace::GC;

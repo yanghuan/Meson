@@ -33,6 +33,7 @@ struct UIntPtr : public valueType<UIntPtr> {
   public: explicit UIntPtr(UInt64 value);
   public: explicit UIntPtr(void* value);
   private: explicit UIntPtr(SerializationInfo info, StreamingContext context);
+  private: void GetObjectDataOfISerializable(SerializationInfo info, StreamingContext context);
   public: Boolean Equals(Object obj);
   public: Int32 GetHashCode();
   public: UInt32 ToUInt32();

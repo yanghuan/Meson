@@ -18,6 +18,7 @@ class ISOWeek {
   public: static DateTime ToDateTime(Int32 year, Int32 week, DayOfWeek dayOfWeek);
   private: static Int32 GetWeekNumber(DateTime date);
   private: static Int32 GetWeekday(DayOfWeek dayOfWeek);
+  public: static Int32 _GetWeeksInYear_g__P8_0(Int32 y);
 };
 } // namespace ISOWeekNamespace
 using ISOWeek = ISOWeekNamespace::ISOWeek;

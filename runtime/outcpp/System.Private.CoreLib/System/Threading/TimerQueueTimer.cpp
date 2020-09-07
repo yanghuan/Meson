@@ -20,6 +20,18 @@ namespace System::Private::CoreLib::System::Threading::TimerQueueTimerNamespace 
 using namespace System::Diagnostics::Tracing;
 using namespace System::Threading::Tasks;
 
+void TimerQueueTimer___::__c___::cctor() {
+  <>9 = rt::newobj<__c>();
+}
+
+void TimerQueueTimer___::__c___::ctor() {
+}
+
+void TimerQueueTimer___::__c___::_cctor_b__23_0(Object state) {
+  TimerQueueTimer timerQueueTimer = (TimerQueueTimer)state;
+  timerQueueTimer->_timerCallback(timerQueueTimer->_state);
+}
+
 void TimerQueueTimer___::ctor(TimerCallback timerCallback, Object state, UInt32 dueTime, UInt32 period, Boolean flowExecutionContext) {
   _timerCallback = timerCallback;
   _state = state;
@@ -107,6 +119,10 @@ ValueTask<> TimerQueueTimer___::CloseAsync() {
   }
 }
 
+void TimerQueueTimer___::ExecuteOfIThreadPoolWorkItem() {
+  Fire(true);
+}
+
 void TimerQueueTimer___::Fire(Boolean isThreadPool) {
   Boolean flag = false;
   {
@@ -159,6 +175,7 @@ void TimerQueueTimer___::CallCallback(Boolean isThreadPool) {
 }
 
 void TimerQueueTimer___::cctor() {
+  s_callCallbackInContext = &__c::in::__9->_cctor_b__23_0;
 }
 
 } // namespace System::Private::CoreLib::System::Threading::TimerQueueTimerNamespace

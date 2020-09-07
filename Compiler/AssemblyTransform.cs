@@ -42,7 +42,7 @@ namespace Meson.Compiler {
         return false;
       }
 
-      if (type.Name[0] == '<') {
+      if (type.DeclaringType == null && type.Name[0] == '<') {
         return false;
       }
 

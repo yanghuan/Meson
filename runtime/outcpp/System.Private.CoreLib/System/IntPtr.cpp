@@ -2,6 +2,7 @@
 
 #include <System.Private.CoreLib/Internal/Runtime/CompilerServices/Unsafe-dep.h>
 #include <System.Private.CoreLib/System/ArgumentException-dep.h>
+#include <System.Private.CoreLib/System/ArgumentNullException-dep.h>
 #include <System.Private.CoreLib/System/Int64-dep.h>
 #include <System.Private.CoreLib/System/IntPtr-dep.h>
 #include <System.Private.CoreLib/System/SR-dep.h>
@@ -38,6 +39,13 @@ IntPtr::IntPtr(SerializationInfo info, StreamingContext context) {
   if (get_Size() == 4) {
   }
   _value = (void*)int一;
+}
+
+void IntPtr::GetObjectDataOfISerializable(SerializationInfo info, StreamingContext context) {
+  if (info == nullptr) {
+    rt::throw_exception<ArgumentNullException>("info");
+  }
+  info->AddValue("value", ToInt64());
 }
 
 Boolean IntPtr::Equals(Object obj) {

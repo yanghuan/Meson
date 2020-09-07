@@ -1,13 +1,143 @@
 #include "TypeInfo-dep.h"
 
+#include <System.Private.CoreLib/System/Environment-dep.h>
 #include <System.Private.CoreLib/System/IndexOutOfRangeException-dep.h>
-#include <System.Private.CoreLib/System/Int32-dep.h>
-#include <System.Private.CoreLib/System/Object-dep.h>
+#include <System.Private.CoreLib/System/NotSupportedException-dep.h>
 #include <System.Private.CoreLib/System/Reflection/BindingFlags.h>
 #include <System.Private.CoreLib/System/Reflection/IntrospectionExtensions-dep.h>
 #include <System.Private.CoreLib/System/Reflection/TypeInfo-dep.h>
 
 namespace System::Private::CoreLib::System::Reflection::TypeInfoNamespace {
+MethodInfo TypeInfo___::_GetDeclaredMethods_d__10___::get_CurrentOfMethodInfo() {
+  return <>2__current;
+}
+
+Object TypeInfo___::_GetDeclaredMethods_d__10___::get_CurrentOfIEnumerator() {
+  return <>2__current;
+}
+
+void TypeInfo___::_GetDeclaredMethods_d__10___::ctor(Int32 __1__state) {
+  this->__1__state = __1__state;
+  <>l__initialThreadId = Environment::get_CurrentManagedThreadId();
+}
+
+void TypeInfo___::_GetDeclaredMethods_d__10___::DisposeOfIDisposable() {
+}
+
+Boolean TypeInfo___::_GetDeclaredMethods_d__10___::MoveNext() {
+  Int32 num = <>1__state;
+  TypeInfo typeInfo = <>4__this;
+  if (num != 0) {
+    if (num != 1) {
+      return false;
+    }
+    <>1__state = -1;
+    goto IL_006d;
+  }
+  <>1__state = -1;
+  <>7__wrap1 = typeInfo->GetMethods(BindingFlags::DeclaredOnly | BindingFlags::Instance | BindingFlags::Static | BindingFlags::Public | BindingFlags::NonPublic);
+  <>7__wrap2 = 0;
+  goto IL_007b;
+
+IL_006d:
+  <>7__wrap2++;
+  goto IL_007b;
+
+IL_007b:
+  if (<>7__wrap2 < <>7__wrap1->get_Length()) {
+    MethodInfo methodInfo = <>7__wrap1[<>7__wrap2];
+    if (methodInfo->get_Name() == name) {
+      <>2__current = methodInfo;
+      <>1__state = 1;
+      return true;
+    }
+    goto IL_006d;
+  }
+  <>7__wrap1 = nullptr;
+  return false;
+}
+
+void TypeInfo___::_GetDeclaredMethods_d__10___::ResetOfIEnumerator() {
+  rt::throw_exception<NotSupportedException>();
+}
+
+IEnumerator<MethodInfo> TypeInfo___::_GetDeclaredMethods_d__10___::GetEnumeratorOfMethodInfo() {
+  _GetDeclaredMethods_d__10 _GetDeclaredMethods_d__;
+  if (<>1__state == -2 && <>l__initialThreadId == Environment::get_CurrentManagedThreadId()) {
+    <>1__state = 0;
+    _GetDeclaredMethods_d__ = (_GetDeclaredMethods_d__10)this;
+  } else {
+    _GetDeclaredMethods_d__ = rt::newobj<_GetDeclaredMethods_d__10>(0);
+  }
+  _GetDeclaredMethods_d__->name = <>3__name;
+  return _GetDeclaredMethods_d__;
+}
+
+IEnumerator_ TypeInfo___::_GetDeclaredMethods_d__10___::GetEnumeratorOfIEnumerable() {
+  return ((IEnumerable<MethodInfo>)(_GetDeclaredMethods_d__10)this)->GetEnumerator();
+}
+
+TypeInfo TypeInfo___::_get_DeclaredNestedTypes_d__22___::get_CurrentOfTypeInfo() {
+  return <>2__current;
+}
+
+Object TypeInfo___::_get_DeclaredNestedTypes_d__22___::get_CurrentOfIEnumerator() {
+  return <>2__current;
+}
+
+void TypeInfo___::_get_DeclaredNestedTypes_d__22___::ctor(Int32 __1__state) {
+  this->__1__state = __1__state;
+  <>l__initialThreadId = Environment::get_CurrentManagedThreadId();
+}
+
+void TypeInfo___::_get_DeclaredNestedTypes_d__22___::DisposeOfIDisposable() {
+}
+
+Boolean TypeInfo___::_get_DeclaredNestedTypes_d__22___::MoveNext() {
+  Int32 num = <>1__state;
+  TypeInfo typeInfo = <>4__this;
+  switch (num.get()) {
+    default:
+      return false;
+    case 0:
+      <>1__state = -1;
+      <>7__wrap1 = typeInfo->GetNestedTypes(BindingFlags::DeclaredOnly | BindingFlags::Instance | BindingFlags::Static | BindingFlags::Public | BindingFlags::NonPublic);
+      <>7__wrap2 = 0;
+      break;
+    case 1:
+      <>1__state = -1;
+      <>7__wrap2++;
+      break;
+  }
+  if (<>7__wrap2 < <>7__wrap1->get_Length()) {
+    Type type = <>7__wrap1[<>7__wrap2];
+    <>2__current = IntrospectionExtensions::GetTypeInfo(type);
+    <>1__state = 1;
+    return true;
+  }
+  <>7__wrap1 = nullptr;
+  return false;
+}
+
+void TypeInfo___::_get_DeclaredNestedTypes_d__22___::ResetOfIEnumerator() {
+  rt::throw_exception<NotSupportedException>();
+}
+
+IEnumerator<TypeInfo> TypeInfo___::_get_DeclaredNestedTypes_d__22___::GetEnumeratorOfTypeInfo() {
+  _get_DeclaredNestedTypes_d__22 result;
+  if (<>1__state == -2 && <>l__initialThreadId == Environment::get_CurrentManagedThreadId()) {
+    <>1__state = 0;
+    result = (_get_DeclaredNestedTypes_d__22)this;
+  } else {
+    result = rt::newobj<_get_DeclaredNestedTypes_d__22>(0);
+  }
+  return result;
+}
+
+IEnumerator_ TypeInfo___::_get_DeclaredNestedTypes_d__22___::GetEnumeratorOfIEnumerable() {
+  return ((IEnumerable<TypeInfo>)(_get_DeclaredNestedTypes_d__22)this)->GetEnumerator();
+}
+
 Array<Type> TypeInfo___::get_GenericTypeParameters() {
   if (!get_IsGenericTypeDefinition()) {
     return Type::in::EmptyTypes;
@@ -50,6 +180,10 @@ IEnumerable<Type> TypeInfo___::get_ImplementedInterfaces() {
 }
 
 void TypeInfo___::ctor() {
+}
+
+TypeInfo TypeInfo___::GetTypeInfoOfIReflectableType() {
+  return (TypeInfo)this;
 }
 
 Type TypeInfo___::AsType() {

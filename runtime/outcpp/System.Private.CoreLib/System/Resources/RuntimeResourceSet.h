@@ -6,6 +6,7 @@
 namespace System::Private::CoreLib::System::Collections {
 FORWARD(IDictionaryEnumerator)
 FORWARD(IEnumerable)
+FORWARD(IEnumerator)
 } // namespace System::Private::CoreLib::System::Collections
 namespace System::Private::CoreLib::System {
 FORWARD(Object)
@@ -25,12 +26,14 @@ using namespace System::Collections;
 using namespace System::Collections::Generic;
 using namespace System::IO;
 using IEnumerable = Collections::IEnumerable;
+using IEnumerator = Collections::IEnumerator;
 CLASS(RuntimeResourceSet) : public ResourceSet::in {
   public: using interface = rt::TypeList<IEnumerable>;
   public: void ctor(String fileName);
   public: void ctor(Stream stream, Boolean permitDeserialization = false);
   protected: void Dispose(Boolean disposing);
   public: IDictionaryEnumerator GetEnumerator();
+  private: IEnumerator GetEnumeratorOfIEnumerable();
   private: IDictionaryEnumerator GetEnumeratorHelper();
   public: String GetString(String key);
   public: String GetString(String key, Boolean ignoreCase);

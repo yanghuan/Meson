@@ -18,15 +18,19 @@ FORWARD(IAsyncResult)
 FORWARD(IDisposable)
 FORWARDS_(Nullable, T1, T2)
 FORWARD(OperationCanceledException)
+FORWARD(Predicate, T)
 FORWARD(String)
 FORWARDS(TimeSpan)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Threading {
 FORWARD(ContextCallback)
 FORWARD(ExecutionContext)
+FORWARD(SendOrPostCallback)
 FORWARD(SynchronizationContext)
 FORWARD(Thread)
+FORWARD(TimerCallback)
 FORWARD(TimerQueueTimer)
+FORWARD(WaitCallback)
 FORWARD(WaitHandle)
 } // namespace System::Private::CoreLib::System::Threading
 namespace System::Private::CoreLib::System::Runtime::CompilerServices {
@@ -96,6 +100,28 @@ CLASS_(Task) : public object {
   };
   private: FRIENDN(DelayPromiseWithCancellation)
   private: FRIENDN(TwoTaskWhenAnyPromise, TTask)
+  private: CLASS(__c) : public object {
+    public: static void cctor();
+    public: void ctor();
+    public: Dictionary<Int32, Task<>> _AddToActiveTasks_b__32_0();
+    public: void _AssignCancellationToken_b__49_0(Object t);
+    public: void _AssignCancellationToken_b__49_1(Object t);
+    public: ContingentProperties _EnsureContingentPropertiesInitialized_b__94_0();
+    public: void _ThrowAsync_b__140_0(Object state);
+    public: void _ThrowAsync_b__140_1(Object state);
+    public: Boolean _FinishSlow_b__147_0(Task<> t);
+    public: Boolean _AddTaskContinuationComplex_b__218_0(Object l);
+    public: void _cctor_b__277_0(Object obj);
+    public: static __c __9;
+    public: static Func<Dictionary<Int32, Task<>>> __9__32_0;
+    public: static Action<Object> __9__49_0;
+    public: static Action<Object> __9__49_1;
+    public: static Func<ContingentProperties> __9__94_0;
+    public: static SendOrPostCallback __9__140_0;
+    public: static WaitCallback __9__140_1;
+    public: static Predicate<Task<>> __9__147_0;
+    public: static Predicate<Object> __9__218_0;
+  };
   private: Task<> get_ParentForDebugger();
   private: Int32 get_StateFlagsForDebugger();
   private: String get_DebuggerDisplayMethodDescription();
@@ -348,12 +374,26 @@ CLASS_(Task) : public object {
   private: static ContextCallback s_ecCallback;
 };
 CLASS(DelayPromise) : public Task<>::in {
+  private: CLASS(__c) : public object {
+    public: static void cctor();
+    public: void ctor();
+    public: void _ctor_b__1_0(Object state);
+    public: static __c __9;
+    public: static TimerCallback __9__1_0;
+  };
   public: void ctor(Int32 millisecondsDelay);
   private: void CompleteTimedOut();
   protected: void Cleanup();
   private: TimerQueueTimer _timer;
 };
 CLASS(DelayPromiseWithCancellation) : public Task<>::in::DelayPromise::in {
+  private: CLASS(__c) : public object {
+    public: static void cctor();
+    public: void ctor();
+    public: void _ctor_b__2_0(Object state);
+    public: static __c __9;
+    public: static Action<Object> __9__2_0;
+  };
   public: void ctor(Int32 millisecondsDelay, CancellationToken token);
   private: void CompleteCanceled();
   protected: void Cleanup();
@@ -389,6 +429,12 @@ CLASS(TwoTaskWhenAnyPromise, TTask) : public Task<TTask>::in {
 };
 CLASS_(Task, TResult) : public Task<>::in {
   public: class TaskWhenAnyCast {
+    private: CLASS(__c) : public object {
+      public: static void cctor();
+      public: void ctor();
+      public: Task<TResult> _cctor_b__1_0(Task<Task<>> completed);
+      public: static __c __9;
+    };
     public: static void cctor();
     public: static Func<Task<Task<>>, Task<TResult>> Value;
   };

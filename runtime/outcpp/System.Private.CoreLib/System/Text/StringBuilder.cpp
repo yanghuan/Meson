@@ -380,6 +380,16 @@ void StringBuilder___::ctor(SerializationInfo info, StreamingContext context) {
   m_ChunkLength = text->get_Length();
 }
 
+void StringBuilder___::GetObjectDataOfISerializable(SerializationInfo info, StreamingContext context) {
+  if (info == nullptr) {
+    rt::throw_exception<ArgumentNullException>("info");
+  }
+  info->AddValue("m_MaxCapacity", m_MaxCapacity);
+  info->AddValue("Capacity", get_Capacity());
+  info->AddValue("m_StringValue", ToString());
+  info->AddValue("m_currentThread", (Int32)0);
+}
+
 Int32 StringBuilder___::EnsureCapacity(Int32 capacity) {
   if (capacity < 0) {
     rt::throw_exception<ArgumentOutOfRangeException>("capacity", SR::get_ArgumentOutOfRange_NegativeCapacity());

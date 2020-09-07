@@ -12,6 +12,7 @@ namespace System::Private::CoreLib::System::Collections {
 FORWARD(Hashtable)
 FORWARD(IDictionaryEnumerator)
 FORWARD(IEnumerable)
+FORWARD(IEnumerator)
 } // namespace System::Private::CoreLib::System::Collections
 namespace System::Private::CoreLib::System::IO {
 FORWARD(Stream)
@@ -34,6 +35,7 @@ CLASS(ResourceSet) : public object {
   public: Type GetDefaultReader();
   public: Type GetDefaultWriter();
   public: IDictionaryEnumerator GetEnumerator();
+  private: IEnumerator GetEnumeratorOfIEnumerable();
   private: IDictionaryEnumerator GetEnumeratorHelper();
   public: String GetString(String name);
   public: String GetString(String name, Boolean ignoreCase);

@@ -14,6 +14,7 @@
 #include <System.Private.CoreLib/System/Exception-dep.h>
 #include <System.Private.CoreLib/System/ExceptionArgument.h>
 #include <System.Private.CoreLib/System/ExceptionResource.h>
+#include <System.Private.CoreLib/System/HashCode-dep.h>
 #include <System.Private.CoreLib/System/IndexOutOfRangeException-dep.h>
 #include <System.Private.CoreLib/System/Int16-dep.h>
 #include <System.Private.CoreLib/System/IntPtr-dep.h>
@@ -942,8 +943,90 @@ Int64 Array___<>::GetLongLength(Int32 dimension) {
   return GetLength(dimension);
 }
 
+Int32 Array___<>::AddOfIList(Object value) {
+  ThrowHelper::ThrowNotSupportedException(ExceptionResource::NotSupported_FixedSizeCollection);
+  return 0;
+}
+
+Boolean Array___<>::ContainsOfIList(Object value) {
+  return IndexOf((Array<>)this, value) >= GetLowerBound(0);
+}
+
+void Array___<>::ClearOfIList() {
+  Clear((Array<>)this, GetLowerBound(0), get_Length());
+}
+
+Int32 Array___<>::IndexOfOfIList(Object value) {
+  return IndexOf((Array<>)this, value);
+}
+
+void Array___<>::InsertOfIList(Int32 index, Object value) {
+  ThrowHelper::ThrowNotSupportedException(ExceptionResource::NotSupported_FixedSizeCollection);
+}
+
+void Array___<>::RemoveOfIList(Object value) {
+  ThrowHelper::ThrowNotSupportedException(ExceptionResource::NotSupported_FixedSizeCollection);
+}
+
+void Array___<>::RemoveAtOfIList(Int32 index) {
+  ThrowHelper::ThrowNotSupportedException(ExceptionResource::NotSupported_FixedSizeCollection);
+}
+
 Object Array___<>::Clone() {
   return MemberwiseClone();
+}
+
+Int32 Array___<>::CompareToOfIStructuralComparable(Object other, IComparer comparer) {
+  if (other == nullptr) {
+    return 1;
+  }
+  Array<> array = rt::as<Array<>>(other);
+  if (array == nullptr || get_Length() != array->get_Length()) {
+    ThrowHelper::ThrowArgumentException(ExceptionResource::ArgumentException_OtherNotArrayOfCorrectLength, ExceptionArgument::other);
+  }
+  Int32 i = 0;
+  Int32 num = 0;
+  for (; i < array->get_Length(); i++) {
+    if (num != 0) {
+      break;
+    }
+    Object value = GetValue(i);
+    Object value2 = array->GetValue(i);
+    num = comparer->Compare(value, value2);
+  }
+  return num;
+}
+
+Boolean Array___<>::EqualsOfIStructuralEquatable(Object other, IEqualityComparer comparer) {
+  if (other == nullptr) {
+    return false;
+  }
+  if ((Array<>)this == other) {
+    return true;
+  }
+  Array<> array = rt::as<Array<>>(other);
+  if (array == nullptr || array->get_Length() != get_Length()) {
+    return false;
+  }
+  for (Int32 i = 0; i < array->get_Length(); i++) {
+    Object value = GetValue(i);
+    Object value2 = array->GetValue(i);
+    if (!comparer->Equals(value, value2)) {
+      return false;
+    }
+  }
+  return true;
+}
+
+Int32 Array___<>::GetHashCodeOfIStructuralEquatable(IEqualityComparer comparer) {
+  if (comparer == nullptr) {
+    ThrowHelper::ThrowArgumentNullException(ExceptionArgument::comparer);
+  }
+  HashCode hashCode;
+  for (Int32 i = (get_Length() >= 8) ? (get_Length() - 8) : 0; i < get_Length(); i++) {
+    hashCode.Add<Int32>(comparer->GetHashCode(GetValue(i)));
+  }
+  return hashCode.ToHashCode();
 }
 
 Int32 Array___<>::BinarySearch(Array<> array, Object value) {

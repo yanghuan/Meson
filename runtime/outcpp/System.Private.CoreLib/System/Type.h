@@ -1,5 +1,6 @@
 #pragma once
 
+#include <System.Private.CoreLib/System/Object.h>
 #include <System.Private.CoreLib/System/Reflection/MemberInfo.h>
 
 namespace System::Private::CoreLib::System::Reflection {
@@ -40,7 +41,6 @@ FORWARD_(Func, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15,
 FORWARDS(Guid)
 FORWARDS(Int32)
 FORWARDS(IntPtr)
-FORWARD(Object)
 FORWARD(RuntimeType)
 FORWARDS(RuntimeTypeHandle)
 FORWARD(String)
@@ -50,6 +50,13 @@ using namespace System::Reflection;
 using namespace System::Runtime::InteropServices;
 CLASS(Type) : public MemberInfo::in {
   public: using interface = rt::TypeList<IReflect>;
+  private: CLASS(__c) : public object {
+    public: static void cctor();
+    public: void ctor();
+    public: Boolean _cctor_b__272_0(MemberInfo m, Object c);
+    public: Boolean _cctor_b__272_1(MemberInfo m, Object c);
+    public: static __c __9;
+  };
   public: Boolean get_IsInterface();
   public: MemberTypes get_MemberType();
   public: String get_Namespace();

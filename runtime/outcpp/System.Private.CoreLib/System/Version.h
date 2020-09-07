@@ -12,6 +12,7 @@ FORWARDS(Char)
 FORWARD(ICloneable)
 FORWARD_(IComparable, T1, T2)
 FORWARD(IEquatable, T)
+FORWARD(IFormatProvider)
 FORWARDS(Int16)
 FORWARD(ISpanFormattable)
 FORWARDS(ReadOnlySpan, T)
@@ -44,6 +45,7 @@ CLASS(Version) : public object {
   public: String ToString(Int32 fieldCount);
   public: Boolean TryFormat(Span<Char> destination, Int32& charsWritten);
   public: Boolean TryFormat(Span<Char> destination, Int32 fieldCount, Int32& charsWritten);
+  private: Boolean TryFormatOfISpanFormattable(Span<Char> destination, Int32& charsWritten, ReadOnlySpan<Char> format, IFormatProvider provider);
   private: StringBuilder ToCachedStringBuilder(Int32 fieldCount);
   public: static Version Parse(String input);
   public: static Version Parse(ReadOnlySpan<Char> input);

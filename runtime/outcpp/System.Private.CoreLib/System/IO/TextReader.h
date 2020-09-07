@@ -1,14 +1,21 @@
 #pragma once
 
+#include <System.Private.CoreLib/System/Char.h>
+#include <System.Private.CoreLib/System/Int32.h>
 #include <System.Private.CoreLib/System/MarshalByRefObject.h>
+#include <System.Private.CoreLib/System/Memory.h>
+#include <System.Private.CoreLib/System/Object.h>
+#include <System.Private.CoreLib/System/Runtime/CompilerServices/AsyncTaskMethodBuilder.h>
+#include <System.Private.CoreLib/System/Runtime/CompilerServices/AsyncValueTaskMethodBuilder.h>
+#include <System.Private.CoreLib/System/Runtime/CompilerServices/ConfiguredValueTaskAwaitable.h>
+#include <System.Private.CoreLib/System/Threading/CancellationToken.h>
+#include <System.Private.CoreLib/System/ValueType.h>
 
 namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)
 FORWARDS(Boolean)
-FORWARDS(Char)
+FORWARD_(Func, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18)
 FORWARD(IDisposable)
-FORWARDS(Int32)
-FORWARDS(Memory, T)
 FORWARDS(Span, T)
 FORWARD(String)
 } // namespace System::Private::CoreLib::System
@@ -16,17 +23,58 @@ namespace System::Private::CoreLib::System::Threading::Tasks {
 FORWARD_(Task, T1, T2)
 FORWARDS_(ValueTask, T1, T2)
 } // namespace System::Private::CoreLib::System::Threading::Tasks
-namespace System::Private::CoreLib::System::Threading {
-FORWARDS(CancellationToken)
-} // namespace System::Private::CoreLib::System::Threading
+namespace System::Private::CoreLib::System::Runtime::CompilerServices {
+FORWARD(IAsyncStateMachine)
+} // namespace System::Private::CoreLib::System::Runtime::CompilerServices
+namespace System::Private::CoreLib::System::Text {
+FORWARD(StringBuilder)
+} // namespace System::Private::CoreLib::System::Text
 namespace System::Private::CoreLib::System::IO {
 namespace TextReaderNamespace {
+using namespace System::Runtime::CompilerServices;
+using namespace System::Text;
 using namespace System::Threading;
 using namespace System::Threading::Tasks;
 CLASS(TextReader) : public MarshalByRefObject::in {
   public: using interface = rt::TypeList<IDisposable>;
   private: FRIENDN(NullTextReader)
   public: FRIENDN(SyncTextReader)
+  private: CLASS(__c) : public object {
+    public: static void cctor();
+    public: void ctor();
+    public: String _ReadLineAsync_b__13_0(Object state);
+    public: Int32 _ReadAsync_b__16_0(Object state);
+    public: Int32 _ReadAsyncInternal_b__17_0(Object state);
+    public: Int32 _ReadBlockAsync_b__19_0(Object state);
+    public: static __c __9;
+    public: static Func<Object, String> __9__13_0;
+    public: static Func<Object, Int32> __9__16_0;
+    public: static Func<Object, Int32> __9__17_0;
+    public: static Func<Object, Int32> __9__19_0;
+  };
+  private: struct _ReadToEndAsync_d__14 : public valueType<_ReadToEndAsync_d__14> {
+    public: using interface = rt::TypeList<IAsyncStateMachine>;
+    private: void MoveNext();
+    private: void SetStateMachine(IAsyncStateMachine stateMachine);
+    public: Int32 __1__state;
+    public: AsyncTaskMethodBuilder<String> __t__builder;
+    public: TextReader __4__this;
+    private: StringBuilder _sb_5__2;
+    private: Array<Char> _chars_5__3;
+    private: ConfiguredValueTaskAwaitable<Int32>::ConfiguredValueTaskAwaiter __u__1;
+  };
+  private: struct _ReadBlockAsyncInternal_d__20 : public valueType<_ReadBlockAsyncInternal_d__20> {
+    public: using interface = rt::TypeList<IAsyncStateMachine>;
+    private: void MoveNext();
+    private: void SetStateMachine(IAsyncStateMachine stateMachine);
+    public: Int32 __1__state;
+    public: AsyncValueTaskMethodBuilder<Int32> __t__builder;
+    public: TextReader __4__this;
+    public: Memory<Char> buffer;
+    public: CancellationToken cancellationToken;
+    private: Int32 _n_5__2;
+    private: ConfiguredValueTaskAwaitable<Int32>::ConfiguredValueTaskAwaiter __u__1;
+  };
   public: void ctor();
   public: void Close();
   public: void Dispose();

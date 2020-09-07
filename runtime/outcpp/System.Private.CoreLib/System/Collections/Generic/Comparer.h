@@ -20,6 +20,7 @@ CLASS(Comparer, T) : public object {
   public: static Comparer<T> get_Default() { return Default; }
   public: static Comparer<T> Create(Comparison<T> comparison);
   public: Int32 Compare(T x, T y);
+  private: Int32 CompareOfIComparer(Object x, Object y);
   public: void ctor();
   public: static void cctor();
   private: static Comparer<T> Default;

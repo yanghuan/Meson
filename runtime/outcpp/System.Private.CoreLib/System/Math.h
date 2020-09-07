@@ -120,6 +120,8 @@ class Math {
   private: template <class T>
   static void ThrowMinMaxException(T min, T max);
   public: static void cctor();
+  public: static UInt64 _BigMul_g__SoftwareFallback42_0(UInt64 a, UInt64 b, UInt64& low);
+  public: static Double _CopySign_g__SoftwareFallback46_0(Double x, Double y);
   public: static constexpr Double E = 2.718281828459045;
   public: static constexpr Double PI = 3.141592653589793;
   public: static constexpr Double Tau = 6.283185307179586;

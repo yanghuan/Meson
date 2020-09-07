@@ -56,6 +56,7 @@ CLASS(HashSet, T) : public object {
     public: explicit Enumerator(HashSet<T> hashSet);
     public: Boolean MoveNext();
     public: void Dispose();
+    private: void ResetOfIEnumerator();
     public: explicit Enumerator() {}
     private: HashSet<T> _hashSet;
     private: Int32 _version;
@@ -73,12 +74,15 @@ CLASS(HashSet, T) : public object {
   public: void ctor(Int32 capacity, IEqualityComparer<T> comparer);
   public: void ctor(SerializationInfo info, StreamingContext context);
   private: void ConstructFrom(HashSet<T> source);
+  private: void AddOfICollectionT(T item);
   public: void Clear();
   public: Boolean Contains(T item);
   private: Int32 FindItemIndex(T item);
   private: Int32& GetBucketRef(Int32 hashCode);
   public: Boolean Remove(T item);
   public: Enumerator GetEnumerator();
+  private: IEnumerator<T> GetEnumeratorOfIEnumerableT();
+  private: IEnumerator_ GetEnumeratorOfIEnumerable();
   public: void GetObjectData(SerializationInfo info, StreamingContext context);
   public: void OnDeserialization(Object sender);
   public: Boolean Add(T item);

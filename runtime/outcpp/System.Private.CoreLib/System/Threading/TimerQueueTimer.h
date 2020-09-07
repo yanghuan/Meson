@@ -20,11 +20,18 @@ namespace TimerQueueTimerNamespace {
 using namespace System::Threading::Tasks;
 CLASS(TimerQueueTimer) : public object {
   public: using interface = rt::TypeList<IThreadPoolWorkItem>;
+  private: CLASS(__c) : public object {
+    public: static void cctor();
+    public: void ctor();
+    public: void _cctor_b__23_0(Object state);
+    public: static __c __9;
+  };
   public: void ctor(TimerCallback timerCallback, Object state, UInt32 dueTime, UInt32 period, Boolean flowExecutionContext);
   public: Boolean Change(UInt32 dueTime, UInt32 period);
   public: void Close();
   public: Boolean Close(WaitHandle toSignal);
   public: ValueTask<> CloseAsync();
+  private: void ExecuteOfIThreadPoolWorkItem();
   public: void Fire(Boolean isThreadPool = false);
   public: void SignalNoCallbacksRunning();
   public: void CallCallback(Boolean isThreadPool);

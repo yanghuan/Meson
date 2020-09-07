@@ -1,12 +1,12 @@
 #pragma once
 
+#include <System.Private.CoreLib/System/Object.h>
 #include <System.Private.CoreLib/System/ValueType.h>
 
 namespace System::Private::CoreLib::System {
 FORWARD_(Action, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17)
 FORWARDS(Boolean)
 FORWARDS(Int32)
-FORWARD(Object)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Threading {
 FORWARDS(CancellationTokenRegistration)
@@ -14,6 +14,12 @@ FORWARD(CancellationTokenSource)
 FORWARD(WaitHandle)
 namespace CancellationTokenNamespace {
 struct CancellationToken : public valueType<CancellationToken> {
+  private: CLASS(__c) : public object {
+    public: static void cctor();
+    public: void ctor();
+    public: void _cctor_b__26_0(Object obj);
+    public: static __c __9;
+  };
   public: static CancellationToken get_None();
   public: Boolean get_IsCancellationRequested();
   public: Boolean get_CanBeCanceled();

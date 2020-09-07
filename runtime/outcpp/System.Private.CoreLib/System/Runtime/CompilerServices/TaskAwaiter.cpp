@@ -1,18 +1,54 @@
 #include "TaskAwaiter-dep.h"
 
 #include <System.Private.CoreLib/System/ArgumentNullException-dep.h>
+#include <System.Private.CoreLib/System/Boolean-dep.h>
 #include <System.Private.CoreLib/System/Collections/ObjectModel/ReadOnlyCollection-dep.h>
+#include <System.Private.CoreLib/System/Diagnostics/Tracing/EventSource-dep.h>
+#include <System.Private.CoreLib/System/Guid-dep.h>
 #include <System.Private.CoreLib/System/Runtime/CompilerServices/AsyncMethodBuilderCore-dep.h>
+#include <System.Private.CoreLib/System/Runtime/CompilerServices/TaskAwaiter-dep.h>
 #include <System.Private.CoreLib/System/Runtime/ExceptionServices/ExceptionDispatchInfo-dep.h>
 #include <System.Private.CoreLib/System/Threading/Tasks/TaskCanceledException-dep.h>
+#include <System.Private.CoreLib/System/Threading/Tasks/TaskCreationOptions.h>
 #include <System.Private.CoreLib/System/Threading/Tasks/TaskScheduler-dep.h>
 #include <System.Private.CoreLib/System/Threading/Tasks/TaskStatus.h>
 #include <System.Private.CoreLib/System/Threading/Tasks/TplEventSource-dep.h>
 
 namespace System::Private::CoreLib::System::Runtime::CompilerServices::TaskAwaiterNamespace {
 using namespace System::Collections::ObjectModel;
+using namespace System::Diagnostics::Tracing;
 using namespace System::Runtime::ExceptionServices;
 using namespace System::Threading::Tasks;
+
+void TaskAwaiter<>::__c___::cctor() {
+  <>9 = rt::newobj<__c>();
+}
+
+void TaskAwaiter<>::__c___::ctor() {
+}
+
+void TaskAwaiter<>::__c___::_OutputWaitEtwEvents_b__12_0(Action<> innerContinuation, Task<> innerTask) {
+  if (Task<>::in::s_asyncDebuggingEnabled) {
+    Task<>::in::RemoveFromActiveTasks(innerTask);
+  }
+  TplEventSource log = TplEventSource::in::Log;
+  Guid oldActivityThatWillContinue;
+  Boolean flag = log->IsEnabled();
+  if (flag) {
+    Task<> internalCurrent = Task<>::in::get_InternalCurrent();
+    log->TaskWaitEnd((internalCurrent != nullptr) ? internalCurrent->m_taskScheduler->get_Id() : TaskScheduler::in::get_Default()->get_Id(), (internalCurrent != nullptr) ? internalCurrent->get_Id() : 0, innerTask->get_Id());
+    if (log->TasksSetActivityIds && (innerTask->get_Options() & (TaskCreationOptions)1024) != 0) {
+      EventSource::in::SetCurrentThreadActivityId(TplEventSource::in::CreateGuidForTaskID(innerTask->get_Id()), oldActivityThatWillContinue);
+    }
+  }
+  innerContinuation();
+  if (flag) {
+    log->TaskWaitContinuationComplete(innerTask->get_Id());
+    if (log->TasksSetActivityIds && (innerTask->get_Options() & (TaskCreationOptions)1024) != 0) {
+      EventSource::in::SetCurrentThreadActivityId(oldActivityThatWillContinue);
+    }
+  }
+}
 
 Boolean TaskAwaiter<>::get_IsCompleted() {
   return m_task->get_IsCompleted();
@@ -98,6 +134,8 @@ Action<> TaskAwaiter<>::OutputWaitEtwEvents(Task<> task, Action<> continuation) 
     Task<> task2 = AsyncMethodBuilderCore::TryGetContinuationTask(continuation);
     log->TaskWaitBegin((internalCurrent != nullptr) ? internalCurrent->m_taskScheduler->get_Id() : TaskScheduler::in::get_Default()->get_Id(), (internalCurrent != nullptr) ? internalCurrent->get_Id() : 0, task->get_Id(), TplEventSource::in::TaskWaitBehavior::Asynchronous, (task2 != nullptr) ? task2->get_Id() : 0);
   }
+  Action<Action<>, Task<>> as = __c::in::__9__12_0;
+  return AsyncMethodBuilderCore::CreateContinuationWrapper(continuation, as != nullptr ? as : (__c::in::__9__12_0 = &__c::in::__9->_OutputWaitEtwEvents_b__12_0), task);
 }
 
 } // namespace System::Private::CoreLib::System::Runtime::CompilerServices::TaskAwaiterNamespace

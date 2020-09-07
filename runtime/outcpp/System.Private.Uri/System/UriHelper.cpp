@@ -2,10 +2,9 @@
 
 #include <System.Private.CoreLib/System/ArgumentNullException-dep.h>
 #include <System.Private.CoreLib/System/Byte-dep.h>
-#include <System.Private.CoreLib/System/IntPtr-dep.h>
 #include <System.Private.CoreLib/System/MemoryExtensions-dep.h>
+#include <System.Private.CoreLib/System/ReadOnlySpan-dep.h>
 #include <System.Private.CoreLib/System/Runtime/InteropServices/MemoryMarshal-dep.h>
-#include <System.Private.CoreLib/System/Span-dep.h>
 #include <System.Private.CoreLib/System/Text/DecoderReplacementFallback-dep.h>
 #include <System.Private.CoreLib/System/Text/EncoderReplacementFallback-dep.h>
 #include <System.Private.CoreLib/System/Text/Encoding-dep.h>
@@ -18,12 +17,31 @@
 #include <System.Private.Uri/System/Text/ValueStringBuilder-dep.h>
 #include <System.Private.Uri/System/Uri-dep.h>
 #include <System.Private.Uri/System/UriFormatException-dep.h>
+#include <System.Private.Uri/System/UriHelper-dep.h>
 
 namespace System::Private::Uri::System::UriHelperNamespace {
 using namespace ::System::Private::CoreLib::System;
 using namespace ::System::Private::CoreLib::System::Runtime::InteropServices;
 using namespace ::System::Private::CoreLib::System::Text;
 using namespace System::Text;
+
+void UriHelper::__c___::cctor() {
+  <>9 = rt::newobj<__c>();
+}
+
+void UriHelper::__c___::ctor() {
+}
+
+void UriHelper::__c___::_StripBidiControlCharacters_b__27_0(Span<Char> buffer, ValueTuple<IntPtr, Int32> state) {
+  ReadOnlySpan<Char> readOnlySpan = ReadOnlySpan<Char>((void*)state.Item1, state.Item2);
+  Int32 num = 0;
+  ReadOnlySpan<Char> readOnlySpan2 = readOnlySpan;
+  for (Char&& c : *readOnlySpan2) {
+    if ((UInt32)(c - 8206) > 32u || !IsBidiControlCharacter(c)) {
+      buffer[num++] = c;
+    }
+  }
+}
 
 ReadOnlySpan<Boolean> UriHelper::get_UnreservedReservedTable() {
   return rt::newarr<Array<Boolean>>(128);
@@ -464,12 +482,20 @@ String UriHelper::StripBidiControlCharacters(ReadOnlySpan<Char> strToClean, Stri
   }
   {
     Char* value = &MemoryMarshal::GetReference(strToClean);
+    SpanAction<Char, ValueTuple<IntPtr, Int32>> as = __c::in::__9__27_0;
+    return String::in::Create(strToClean.get_Length() - num, {(IntPtr)(void*)value, strToClean.get_Length()}, as != nullptr ? as : (__c::in::__9__27_0 = rt::newobj<SpanAction<Char, ValueTuple<IntPtr, Int32>>>(&_StripBidiControlCharacters_b__27_0)));
   }
 }
 
 void UriHelper::cctor() {
   s_noFallbackCharUTF8 = Encoding::in::GetEncoding(Encoding::in::get_UTF8()->get_CodePage(), rt::newobj<EncoderReplacementFallback>(""), rt::newobj<DecoderReplacementFallback>(""));
   s_WSchars = rt::newarr<Array<Char>>(4);
+}
+
+void UriHelper::_EscapeString_g__EnsureCapacity3_0(Array<Char> dest, Int32 destSize, Int32 requiredSize) {
+  if (dest == nullptr || dest->get_Length() - destSize < requiredSize) {
+    Array<>::in::Resize(dest, destSize + requiredSize + 120);
+  }
 }
 
 } // namespace System::Private::Uri::System::UriHelperNamespace

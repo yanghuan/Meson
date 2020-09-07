@@ -19,6 +19,7 @@
 #include <System.Private.CoreLib/System/Nullable-dep.h>
 #include <System.Private.CoreLib/System/Object-dep.h>
 #include <System.Private.CoreLib/System/OperationCanceledException-dep.h>
+#include <System.Private.CoreLib/System/Predicate-dep.h>
 #include <System.Private.CoreLib/System/Runtime/CompilerServices/ConfiguredTaskAwaitable-dep.h>
 #include <System.Private.CoreLib/System/Runtime/CompilerServices/IAsyncStateMachineBox.h>
 #include <System.Private.CoreLib/System/Runtime/CompilerServices/StrongBox-dep.h>
@@ -31,6 +32,7 @@
 #include <System.Private.CoreLib/System/Threading/ContextCallback-dep.h>
 #include <System.Private.CoreLib/System/Threading/ExecutionContext-dep.h>
 #include <System.Private.CoreLib/System/Threading/ManualResetEventSlim-dep.h>
+#include <System.Private.CoreLib/System/Threading/SendOrPostCallback-dep.h>
 #include <System.Private.CoreLib/System/Threading/SynchronizationContext-dep.h>
 #include <System.Private.CoreLib/System/Threading/Tasks/InternalTaskOptions.h>
 #include <System.Private.CoreLib/System/Threading/Tasks/ITaskCompletionAction.h>
@@ -43,6 +45,8 @@
 #include <System.Private.CoreLib/System/Threading/Tasks/TaskStatus.h>
 #include <System.Private.CoreLib/System/Threading/Tasks/VoidTaskResult-dep.h>
 #include <System.Private.CoreLib/System/Threading/Thread-dep.h>
+#include <System.Private.CoreLib/System/Threading/TimerCallback-dep.h>
 #include <System.Private.CoreLib/System/Threading/TimerQueueTimer-dep.h>
+#include <System.Private.CoreLib/System/Threading/WaitCallback-dep.h>
 #include <System.Private.CoreLib/System/Threading/WaitHandle-dep.h>
 #include <System.Private.CoreLib/System/TimeSpan-dep.h>
