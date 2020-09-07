@@ -362,7 +362,7 @@ String TextReader___::ReadLine() {
 
 Task<String> TextReader___::ReadLineAsync() {
   Func<Object, String> as = __c::in::__9__13_0;
-  return Task<String>::in::get_Factory()->StartNew(as != nullptr ? as : (__c::in::__9__13_0 = &__c::in::__9->_ReadLineAsync_b__13_0), (TextReader)this, CancellationToken::get_None(), TaskCreationOptions::DenyChildAttach, TaskScheduler::in::get_Default());
+  return Task<String>::in::get_Factory()->StartNew(as != nullptr ? as : (__c::in::__9__13_0 = {__c::in::__9, &__c::in::_ReadLineAsync_b__13_0}), (TextReader)this, CancellationToken::get_None(), TaskCreationOptions::DenyChildAttach, TaskScheduler::in::get_Default());
 }
 
 Task<String> TextReader___::ReadToEndAsync() {
@@ -391,13 +391,13 @@ template <>
 ValueTask<Int32> TextReader___::ReadAsync(Memory<Char> buffer, CancellationToken cancellationToken) {
   ArraySegment<Char> segment;
   Func<Object, Int32> as = __c::in::__9__16_0;
-  return ValueTask<Int32>(MemoryMarshal::TryGetArray(buffer, segment) ? ReadAsync(segment.get_Array(), segment.get_Offset(), segment.get_Count()) : Task<Int32>::in::get_Factory()->StartNew(as != nullptr ? as : (__c::in::__9__16_0 = &__c::in::__9->_ReadAsync_b__16_0), Tuple<>::Create((TextReader)this, buffer), cancellationToken, TaskCreationOptions::DenyChildAttach, TaskScheduler::in::get_Default()));
+  return ValueTask<Int32>(MemoryMarshal::TryGetArray(buffer, segment) ? ReadAsync(segment.get_Array(), segment.get_Offset(), segment.get_Count()) : Task<Int32>::in::get_Factory()->StartNew(as != nullptr ? as : (__c::in::__9__16_0 = {__c::in::__9, &__c::in::_ReadAsync_b__16_0}), Tuple<>::Create((TextReader)this, buffer), cancellationToken, TaskCreationOptions::DenyChildAttach, TaskScheduler::in::get_Default()));
 }
 
 ValueTask<Int32> TextReader___::ReadAsyncInternal(Memory<Char> buffer, CancellationToken cancellationToken) {
   Tuple<TextReader, Memory<Char>> state = rt::newobj<Tuple<TextReader, Memory<Char>>>((TextReader)this, buffer);
   Func<Object, Int32> as = __c::in::__9__17_0;
-  return ValueTask<Int32>(Task<Int32>::in::get_Factory()->StartNew(as != nullptr ? as : (__c::in::__9__17_0 = &__c::in::__9->_ReadAsyncInternal_b__17_0), state, cancellationToken, TaskCreationOptions::DenyChildAttach, TaskScheduler::in::get_Default()));
+  return ValueTask<Int32>(Task<Int32>::in::get_Factory()->StartNew(as != nullptr ? as : (__c::in::__9__17_0 = {__c::in::__9, &__c::in::_ReadAsyncInternal_b__17_0}), state, cancellationToken, TaskCreationOptions::DenyChildAttach, TaskScheduler::in::get_Default()));
 }
 
 Task<Int32> TextReader___::ReadBlockAsync(Array<Char> buffer, Int32 index, Int32 count) {
@@ -417,7 +417,7 @@ template <>
 ValueTask<Int32> TextReader___::ReadBlockAsync(Memory<Char> buffer, CancellationToken cancellationToken) {
   ArraySegment<Char> segment;
   Func<Object, Int32> as = __c::in::__9__19_0;
-  return ValueTask<Int32>(MemoryMarshal::TryGetArray(buffer, segment) ? ReadBlockAsync(segment.get_Array(), segment.get_Offset(), segment.get_Count()) : Task<Int32>::in::get_Factory()->StartNew(as != nullptr ? as : (__c::in::__9__19_0 = &__c::in::__9->_ReadBlockAsync_b__19_0), Tuple<>::Create((TextReader)this, buffer), cancellationToken, TaskCreationOptions::DenyChildAttach, TaskScheduler::in::get_Default()));
+  return ValueTask<Int32>(MemoryMarshal::TryGetArray(buffer, segment) ? ReadBlockAsync(segment.get_Array(), segment.get_Offset(), segment.get_Count()) : Task<Int32>::in::get_Factory()->StartNew(as != nullptr ? as : (__c::in::__9__19_0 = {__c::in::__9, &__c::in::_ReadBlockAsync_b__19_0}), Tuple<>::Create((TextReader)this, buffer), cancellationToken, TaskCreationOptions::DenyChildAttach, TaskScheduler::in::get_Default()));
 }
 
 ValueTask<Int32> TextReader___::ReadBlockAsyncInternal(Memory<Char> buffer, CancellationToken cancellationToken) {

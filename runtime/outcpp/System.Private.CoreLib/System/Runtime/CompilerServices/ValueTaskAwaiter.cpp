@@ -85,7 +85,7 @@ void ValueTaskAwaiter<>::AwaitUnsafeOnCompletedOfIStateMachineBoxAwareAwaiter(IA
 }
 
 void ValueTaskAwaiter<>::cctor() {
-  s_invokeActionDelegate = &__c::in::__9->_cctor_b__10_0;
+  s_invokeActionDelegate = {__c::in::__9, &__c::in::_cctor_b__10_0};
 }
 
 } // namespace System::Private::CoreLib::System::Runtime::CompilerServices::ValueTaskAwaiterNamespace

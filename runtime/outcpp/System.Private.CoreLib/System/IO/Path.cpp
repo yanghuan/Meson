@@ -214,7 +214,7 @@ String Path::GetRandomFileName() {
   Byte* ptr = as;
   Interop::GetRandomBytes(ptr, 8);
   SpanAction<Char, IntPtr> is = __c::in::__9__16_0;
-  return String::in::Create(12, (IntPtr)(void*)ptr, is != nullptr ? is : (__c::in::__9__16_0 = &__c::in::__9->_GetRandomFileName_b__16_0));
+  return String::in::Create(12, (IntPtr)(void*)ptr, is != nullptr ? is : (__c::in::__9__16_0 = {__c::in::__9, &__c::in::_GetRandomFileName_b__16_0}));
 }
 
 Boolean Path::IsPathFullyQualified(String path) {

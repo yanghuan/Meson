@@ -314,7 +314,7 @@ void RuntimeType___::ActivatorCache___::Initialize() {
     _ctorAttributes = RuntimeMethodHandle::GetAttributes(_hCtorMethodHandle);
     ConstructorInfo as = s_delegateCtorInfo;
     ConstructorInfo constructorInfo = as != nullptr ? as : (s_delegateCtorInfo = typeof<CtorDelegate>()->GetConstructor(rt::newarr<Array<Type>>(2)));
-    _ctor = &(CtorDelegate)constructorInfo->Invoke(rt::newarr<Array<Object>>(2));
+    _ctor = (CtorDelegate)constructorInfo->Invoke(rt::newarr<Array<Object>>(2));
   }
   _isFullyInitialized = true;
 }

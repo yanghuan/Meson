@@ -50,7 +50,7 @@ void AssemblyDependencyResolver___::ctor(String componentAssemblyPath) {
   Int32 num = 0;
   __c__DisplayClass6_->errorMessage = rt::newobj<StringBuilder>();
   try {
-    Interop::HostPolicy::corehost_error_writer_fn corehost_error_writer_fn = __c__DisplayClass6_->_ctor_b__0;
+    Interop::HostPolicy::corehost_error_writer_fn corehost_error_writer_fn = {__c__DisplayClass6_, &__c__DisplayClass6_0::in::_ctor_b__0};
     IntPtr functionPointerForDelegate = Marshal::GetFunctionPointerForDelegate(corehost_error_writer_fn);
     IntPtr errorWriter = Interop::HostPolicy::corehost_set_error_writer(functionPointerForDelegate);
     try {

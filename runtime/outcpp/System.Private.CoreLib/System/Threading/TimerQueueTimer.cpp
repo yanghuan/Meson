@@ -175,7 +175,7 @@ void TimerQueueTimer___::CallCallback(Boolean isThreadPool) {
 }
 
 void TimerQueueTimer___::cctor() {
-  s_callCallbackInContext = &__c::in::__9->_cctor_b__23_0;
+  s_callCallbackInContext = {__c::in::__9, &__c::in::_cctor_b__23_0};
 }
 
 } // namespace System::Private::CoreLib::System::Threading::TimerQueueTimerNamespace

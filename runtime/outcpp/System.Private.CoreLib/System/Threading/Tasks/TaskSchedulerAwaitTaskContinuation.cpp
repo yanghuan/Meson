@@ -35,7 +35,7 @@ void TaskSchedulerAwaitTaskContinuation___::Run(Task<> ignored, Boolean canInlin
   }
   Boolean flag = canInlineContinuationTask && (TaskScheduler::in::get_InternalCurrent() == m_scheduler || Thread::in::get_CurrentThread()->get_IsThreadPoolThread());
   Action<Object> as = __c::in::__9__2_0;
-  Task<> task = CreateTask(as != nullptr ? as : (__c::in::__9__2_0 = &__c::in::__9->_Run_b__2_0), m_action, m_scheduler);
+  Task<> task = CreateTask(as != nullptr ? as : (__c::in::__9__2_0 = {__c::in::__9, &__c::in::_Run_b__2_0}), m_action, m_scheduler);
   if (flag) {
     TaskContinuation::in::InlineIfPossibleOrElseQueue(task, false);
     return;

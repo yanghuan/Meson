@@ -180,8 +180,8 @@ Array<Delegate> AwaitTaskContinuation___::GetDelegateContinuationsForDebugger() 
 }
 
 void AwaitTaskContinuation___::cctor() {
-  s_invokeContextCallback = &__c::in::__9->_cctor_b__17_0;
-  s_invokeAction = &__c::in::__9->_cctor_b__17_1;
+  s_invokeContextCallback = {__c::in::__9, &__c::in::_cctor_b__17_0};
+  s_invokeAction = {__c::in::__9, &__c::in::_cctor_b__17_1};
 }
 
 } // namespace System::Private::CoreLib::System::Threading::Tasks::AwaitTaskContinuationNamespace

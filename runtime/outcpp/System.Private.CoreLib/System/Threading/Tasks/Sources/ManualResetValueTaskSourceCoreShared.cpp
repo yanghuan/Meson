@@ -8,7 +8,7 @@ void ManualResetValueTaskSourceCoreShared::CompletionSentinel(Object _) {
 }
 
 void ManualResetValueTaskSourceCoreShared::cctor() {
-  s_sentinel = &CompletionSentinel;
+  s_sentinel = CompletionSentinel;
 }
 
 } // namespace System::Private::CoreLib::System::Threading::Tasks::Sources::ManualResetValueTaskSourceCoreSharedNamespace

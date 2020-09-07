@@ -759,13 +759,13 @@ void TextWriter___::WriteLine(String format, Array<Object> arg) {
 Task<> TextWriter___::WriteAsync(Char value) {
   Tuple<TextWriter, Char> state = rt::newobj<Tuple<TextWriter, Char>>((TextWriter)this, value);
   Action<Object> as = __c::in::__9__58_0;
-  return Task<>::in::get_Factory()->StartNew(as != nullptr ? as : (__c::in::__9__58_0 = &__c::in::__9->_WriteAsync_b__58_0), state, CancellationToken::get_None(), TaskCreationOptions::DenyChildAttach, TaskScheduler::in::get_Default());
+  return Task<>::in::get_Factory()->StartNew(as != nullptr ? as : (__c::in::__9__58_0 = {__c::in::__9, &__c::in::_WriteAsync_b__58_0}), state, CancellationToken::get_None(), TaskCreationOptions::DenyChildAttach, TaskScheduler::in::get_Default());
 }
 
 Task<> TextWriter___::WriteAsync(String value) {
   Tuple<TextWriter, String> state = rt::newobj<Tuple<TextWriter, String>>((TextWriter)this, value);
   Action<Object> as = __c::in::__9__59_0;
-  return Task<>::in::get_Factory()->StartNew(as != nullptr ? as : (__c::in::__9__59_0 = &__c::in::__9->_WriteAsync_b__59_0), state, CancellationToken::get_None(), TaskCreationOptions::DenyChildAttach, TaskScheduler::in::get_Default());
+  return Task<>::in::get_Factory()->StartNew(as != nullptr ? as : (__c::in::__9__59_0 = {__c::in::__9, &__c::in::_WriteAsync_b__59_0}), state, CancellationToken::get_None(), TaskCreationOptions::DenyChildAttach, TaskScheduler::in::get_Default());
 }
 
 template <>
@@ -799,7 +799,7 @@ Task<> TextWriter___::WriteAsync(Array<Char> buffer) {
 Task<> TextWriter___::WriteAsync(Array<Char> buffer, Int32 index, Int32 count) {
   Tuple<TextWriter, Array<Char>, Int32, Int32> state = rt::newobj<Tuple<TextWriter, Array<Char>, Int32, Int32>>((TextWriter)this, buffer, index, count);
   Action<Object> as = __c::in::__9__62_0;
-  return Task<>::in::get_Factory()->StartNew(as != nullptr ? as : (__c::in::__9__62_0 = &__c::in::__9->_WriteAsync_b__62_0), state, CancellationToken::get_None(), TaskCreationOptions::DenyChildAttach, TaskScheduler::in::get_Default());
+  return Task<>::in::get_Factory()->StartNew(as != nullptr ? as : (__c::in::__9__62_0 = {__c::in::__9, &__c::in::_WriteAsync_b__62_0}), state, CancellationToken::get_None(), TaskCreationOptions::DenyChildAttach, TaskScheduler::in::get_Default());
 }
 
 template <>
@@ -808,7 +808,7 @@ Task<> TextWriter___::WriteAsync(ReadOnlyMemory<Char> buffer, CancellationToken 
     ArraySegment<Char> segment;
     if (!MemoryMarshal::TryGetArray(buffer, segment)) {
       Action<Object> as = __c::in::__9__63_0;
-      return Task<>::in::get_Factory()->StartNew(as != nullptr ? as : (__c::in::__9__63_0 = &__c::in::__9->_WriteAsync_b__63_0), Tuple<>::Create((TextWriter)this, buffer), cancellationToken, TaskCreationOptions::DenyChildAttach, TaskScheduler::in::get_Default());
+      return Task<>::in::get_Factory()->StartNew(as != nullptr ? as : (__c::in::__9__63_0 = {__c::in::__9, &__c::in::_WriteAsync_b__63_0}), Tuple<>::Create((TextWriter)this, buffer), cancellationToken, TaskCreationOptions::DenyChildAttach, TaskScheduler::in::get_Default());
     }
     return WriteAsync(segment.get_Array(), segment.get_Offset(), segment.get_Count());
   }
@@ -818,13 +818,13 @@ Task<> TextWriter___::WriteAsync(ReadOnlyMemory<Char> buffer, CancellationToken 
 Task<> TextWriter___::WriteLineAsync(Char value) {
   Tuple<TextWriter, Char> state = rt::newobj<Tuple<TextWriter, Char>>((TextWriter)this, value);
   Action<Object> as = __c::in::__9__64_0;
-  return Task<>::in::get_Factory()->StartNew(as != nullptr ? as : (__c::in::__9__64_0 = &__c::in::__9->_WriteLineAsync_b__64_0), state, CancellationToken::get_None(), TaskCreationOptions::DenyChildAttach, TaskScheduler::in::get_Default());
+  return Task<>::in::get_Factory()->StartNew(as != nullptr ? as : (__c::in::__9__64_0 = {__c::in::__9, &__c::in::_WriteLineAsync_b__64_0}), state, CancellationToken::get_None(), TaskCreationOptions::DenyChildAttach, TaskScheduler::in::get_Default());
 }
 
 Task<> TextWriter___::WriteLineAsync(String value) {
   Tuple<TextWriter, String> state = rt::newobj<Tuple<TextWriter, String>>((TextWriter)this, value);
   Action<Object> as = __c::in::__9__65_0;
-  return Task<>::in::get_Factory()->StartNew(as != nullptr ? as : (__c::in::__9__65_0 = &__c::in::__9->_WriteLineAsync_b__65_0), state, CancellationToken::get_None(), TaskCreationOptions::DenyChildAttach, TaskScheduler::in::get_Default());
+  return Task<>::in::get_Factory()->StartNew(as != nullptr ? as : (__c::in::__9__65_0 = {__c::in::__9, &__c::in::_WriteLineAsync_b__65_0}), state, CancellationToken::get_None(), TaskCreationOptions::DenyChildAttach, TaskScheduler::in::get_Default());
 }
 
 template <>
@@ -858,7 +858,7 @@ Task<> TextWriter___::WriteLineAsync(Array<Char> buffer) {
 Task<> TextWriter___::WriteLineAsync(Array<Char> buffer, Int32 index, Int32 count) {
   Tuple<TextWriter, Array<Char>, Int32, Int32> state = rt::newobj<Tuple<TextWriter, Array<Char>, Int32, Int32>>((TextWriter)this, buffer, index, count);
   Action<Object> as = __c::in::__9__68_0;
-  return Task<>::in::get_Factory()->StartNew(as != nullptr ? as : (__c::in::__9__68_0 = &__c::in::__9->_WriteLineAsync_b__68_0), state, CancellationToken::get_None(), TaskCreationOptions::DenyChildAttach, TaskScheduler::in::get_Default());
+  return Task<>::in::get_Factory()->StartNew(as != nullptr ? as : (__c::in::__9__68_0 = {__c::in::__9, &__c::in::_WriteLineAsync_b__68_0}), state, CancellationToken::get_None(), TaskCreationOptions::DenyChildAttach, TaskScheduler::in::get_Default());
 }
 
 template <>
@@ -867,7 +867,7 @@ Task<> TextWriter___::WriteLineAsync(ReadOnlyMemory<Char> buffer, CancellationTo
     ArraySegment<Char> segment;
     if (!MemoryMarshal::TryGetArray(buffer, segment)) {
       Action<Object> as = __c::in::__9__69_0;
-      return Task<>::in::get_Factory()->StartNew(as != nullptr ? as : (__c::in::__9__69_0 = &__c::in::__9->_WriteLineAsync_b__69_0), Tuple<>::Create((TextWriter)this, buffer), cancellationToken, TaskCreationOptions::DenyChildAttach, TaskScheduler::in::get_Default());
+      return Task<>::in::get_Factory()->StartNew(as != nullptr ? as : (__c::in::__9__69_0 = {__c::in::__9, &__c::in::_WriteLineAsync_b__69_0}), Tuple<>::Create((TextWriter)this, buffer), cancellationToken, TaskCreationOptions::DenyChildAttach, TaskScheduler::in::get_Default());
     }
     return WriteLineAsync(segment.get_Array(), segment.get_Offset(), segment.get_Count());
   }
@@ -880,7 +880,7 @@ Task<> TextWriter___::WriteLineAsync() {
 
 Task<> TextWriter___::FlushAsync() {
   Action<Object> as = __c::in::__9__71_0;
-  return Task<>::in::get_Factory()->StartNew(as != nullptr ? as : (__c::in::__9__71_0 = &__c::in::__9->_FlushAsync_b__71_0), (TextWriter)this, CancellationToken::get_None(), TaskCreationOptions::DenyChildAttach, TaskScheduler::in::get_Default());
+  return Task<>::in::get_Factory()->StartNew(as != nullptr ? as : (__c::in::__9__71_0 = {__c::in::__9, &__c::in::_FlushAsync_b__71_0}), (TextWriter)this, CancellationToken::get_None(), TaskCreationOptions::DenyChildAttach, TaskScheduler::in::get_Default());
 }
 
 TextWriter TextWriter___::Synchronized(TextWriter writer) {

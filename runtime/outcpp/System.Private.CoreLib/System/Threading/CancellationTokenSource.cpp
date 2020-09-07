@@ -49,7 +49,7 @@ void CancellationTokenSource___::CallbackNode___::ExecuteCallback() {
   ExecutionContext executionContext = ExecutionContext;
   if (executionContext != nullptr) {
     ContextCallback as = __c::in::__9__9_0;
-    ExecutionContext::in::RunInternal(executionContext, as != nullptr ? as : (__c::in::__9__9_0 = &__c::in::__9->_ExecuteCallback_b__9_0), (CallbackNode)this);
+    ExecutionContext::in::RunInternal(executionContext, as != nullptr ? as : (__c::in::__9__9_0 = {__c::in::__9, &__c::in::_ExecuteCallback_b__9_0}), (CallbackNode)this);
   } else {
     Callback(CallbackState);
   }
@@ -114,7 +114,7 @@ void LinkedNCancellationTokenSource___::Dispose(Boolean disposing) {
 }
 
 void LinkedNCancellationTokenSource___::cctor() {
-  s_linkedTokenCancelDelegate = &__c::in::__9->_cctor_b__4_0;
+  s_linkedTokenCancelDelegate = {__c::in::__9, &__c::in::_cctor_b__4_0};
 }
 
 void CancellationTokenSource___::CallbackPartition___::ctor(CancellationTokenSource source) {
@@ -434,7 +434,7 @@ void CancellationTokenSource___::ExecuteCallbackHandlers(Boolean throwOnFirstExc
         try {
           if (callbacks->SynchronizationContext != nullptr) {
             SendOrPostCallback as = __c::in::__9__44_0;
-            callbacks->SynchronizationContext->Send(as != nullptr ? as : (__c::in::__9__44_0 = &__c::in::__9->_ExecuteCallbackHandlers_b__44_0), callbacks);
+            callbacks->SynchronizationContext->Send(as != nullptr ? as : (__c::in::__9__44_0 = {__c::in::__9, &__c::in::_ExecuteCallbackHandlers_b__44_0}), callbacks);
             get_ThreadIDExecutingCallbacks(Environment::get_CurrentManagedThreadId());
           } else {
             callbacks->ExecuteCallback();
@@ -507,13 +507,13 @@ ValueTask<> CancellationTokenSource___::WaitForCallbackToCompleteAsync(Int64 id)
     return rt::default__;
   }
   Action<Object> as = __c::in::__9__50_0;
-  return ValueTask<>(Task<>::in::get_Factory()->StartNew(as != nullptr ? as : (__c::in::__9__50_0 = &__c::in::__9->_WaitForCallbackToCompleteAsync_b__50_0), Tuple<>::Create((CancellationTokenSource)this, id), CancellationToken::get_None(), TaskCreationOptions::None, TaskScheduler::in::get_Default()));
+  return ValueTask<>(Task<>::in::get_Factory()->StartNew(as != nullptr ? as : (__c::in::__9__50_0 = {__c::in::__9, &__c::in::_WaitForCallbackToCompleteAsync_b__50_0}), Tuple<>::Create((CancellationTokenSource)this, id), CancellationToken::get_None(), TaskCreationOptions::None, TaskScheduler::in::get_Default()));
 }
 
 void CancellationTokenSource___::cctor() {
   s_canceledSource = rt::newobj<CancellationTokenSource>();
   s_neverCanceledSource = rt::newobj<CancellationTokenSource>();
-  s_timerCallback = &__c::in::__9->_cctor_b__56_0;
+  s_timerCallback = {__c::in::__9, &__c::in::_cctor_b__56_0};
   s_numPartitions = GetPartitionCount();
   s_numPartitionsMask = s_numPartitions - 1;
 }

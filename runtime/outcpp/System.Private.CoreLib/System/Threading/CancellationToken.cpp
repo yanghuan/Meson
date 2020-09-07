@@ -122,7 +122,7 @@ void CancellationToken::ThrowOperationCanceledException() {
 }
 
 void CancellationToken::cctor() {
-  s_actionToActionObjShunt = &__c::in::__9->_cctor_b__26_0;
+  s_actionToActionObjShunt = {__c::in::__9, &__c::in::_cctor_b__26_0};
 }
 
 } // namespace System::Private::CoreLib::System::Threading::CancellationTokenNamespace

@@ -44,64 +44,64 @@ void ScalarTypeInfo___::WriteData(TraceLoggingDataCollector collector, PropertyV
 }
 
 TraceLoggingTypeInfo ScalarTypeInfo___::Boolean() {
-  return rt::newobj<ScalarTypeInfo>(typeof<Boolean>(), Statics::Format8, TraceLoggingDataType::Boolean8);
+  return rt::newobj<ScalarTypeInfo>(typeof<Boolean>(), &Statics::Format8, TraceLoggingDataType::Boolean8);
 }
 
 TraceLoggingTypeInfo ScalarTypeInfo___::Byte() {
-  return rt::newobj<ScalarTypeInfo>(typeof<Byte>(), Statics::Format8, TraceLoggingDataType::UInt8);
+  return rt::newobj<ScalarTypeInfo>(typeof<Byte>(), &Statics::Format8, TraceLoggingDataType::UInt8);
 }
 
 TraceLoggingTypeInfo ScalarTypeInfo___::SByte() {
-  return rt::newobj<ScalarTypeInfo>(typeof<SByte>(), Statics::Format8, TraceLoggingDataType::Int8);
+  return rt::newobj<ScalarTypeInfo>(typeof<SByte>(), &Statics::Format8, TraceLoggingDataType::Int8);
 }
 
 TraceLoggingTypeInfo ScalarTypeInfo___::Char() {
-  return rt::newobj<ScalarTypeInfo>(typeof<Char>(), Statics::Format16, TraceLoggingDataType::Char16);
+  return rt::newobj<ScalarTypeInfo>(typeof<Char>(), &Statics::Format16, TraceLoggingDataType::Char16);
 }
 
 TraceLoggingTypeInfo ScalarTypeInfo___::Int16() {
-  return rt::newobj<ScalarTypeInfo>(typeof<Int16>(), Statics::Format16, TraceLoggingDataType::Int16);
+  return rt::newobj<ScalarTypeInfo>(typeof<Int16>(), &Statics::Format16, TraceLoggingDataType::Int16);
 }
 
 TraceLoggingTypeInfo ScalarTypeInfo___::UInt16() {
-  return rt::newobj<ScalarTypeInfo>(typeof<UInt16>(), Statics::Format16, TraceLoggingDataType::UInt16);
+  return rt::newobj<ScalarTypeInfo>(typeof<UInt16>(), &Statics::Format16, TraceLoggingDataType::UInt16);
 }
 
 TraceLoggingTypeInfo ScalarTypeInfo___::Int32() {
-  return rt::newobj<ScalarTypeInfo>(typeof<Int32>(), Statics::Format32, TraceLoggingDataType::Int32);
+  return rt::newobj<ScalarTypeInfo>(typeof<Int32>(), &Statics::Format32, TraceLoggingDataType::Int32);
 }
 
 TraceLoggingTypeInfo ScalarTypeInfo___::UInt32() {
-  return rt::newobj<ScalarTypeInfo>(typeof<UInt32>(), Statics::Format32, TraceLoggingDataType::UInt32);
+  return rt::newobj<ScalarTypeInfo>(typeof<UInt32>(), &Statics::Format32, TraceLoggingDataType::UInt32);
 }
 
 TraceLoggingTypeInfo ScalarTypeInfo___::Int64() {
-  return rt::newobj<ScalarTypeInfo>(typeof<Int64>(), Statics::Format64, TraceLoggingDataType::Int64);
+  return rt::newobj<ScalarTypeInfo>(typeof<Int64>(), &Statics::Format64, TraceLoggingDataType::Int64);
 }
 
 TraceLoggingTypeInfo ScalarTypeInfo___::UInt64() {
-  return rt::newobj<ScalarTypeInfo>(typeof<UInt64>(), Statics::Format64, TraceLoggingDataType::UInt64);
+  return rt::newobj<ScalarTypeInfo>(typeof<UInt64>(), &Statics::Format64, TraceLoggingDataType::UInt64);
 }
 
 TraceLoggingTypeInfo ScalarTypeInfo___::IntPtr() {
-  return rt::newobj<ScalarTypeInfo>(typeof<IntPtr>(), Statics::FormatPtr, Statics::IntPtrType);
+  return rt::newobj<ScalarTypeInfo>(typeof<IntPtr>(), &Statics::FormatPtr, Statics::IntPtrType);
 }
 
 TraceLoggingTypeInfo ScalarTypeInfo___::UIntPtr() {
-  return rt::newobj<ScalarTypeInfo>(typeof<UIntPtr>(), Statics::FormatPtr, Statics::UIntPtrType);
+  return rt::newobj<ScalarTypeInfo>(typeof<UIntPtr>(), &Statics::FormatPtr, Statics::UIntPtrType);
 }
 
 TraceLoggingTypeInfo ScalarTypeInfo___::Single() {
-  return rt::newobj<ScalarTypeInfo>(typeof<Single>(), Statics::Format32, TraceLoggingDataType::Float);
+  return rt::newobj<ScalarTypeInfo>(typeof<Single>(), &Statics::Format32, TraceLoggingDataType::Float);
 }
 
 TraceLoggingTypeInfo ScalarTypeInfo___::Double() {
-  return rt::newobj<ScalarTypeInfo>(typeof<Double>(), Statics::Format64, TraceLoggingDataType::Double);
+  return rt::newobj<ScalarTypeInfo>(typeof<Double>(), &Statics::Format64, TraceLoggingDataType::Double);
 }
 
 TraceLoggingTypeInfo ScalarTypeInfo___::Guid() {
   Func<EventFieldFormat, TraceLoggingDataType, TraceLoggingDataType> as = __c::in::__9__19_0;
-  return rt::newobj<ScalarTypeInfo>(typeof<Guid>(), as != nullptr ? as : (__c::in::__9__19_0 = &__c::in::__9->_Guid_b__19_0), TraceLoggingDataType::Guid);
+  return rt::newobj<ScalarTypeInfo>(typeof<Guid>(), as != nullptr ? as : (__c::in::__9__19_0 = {__c::in::__9, &__c::in::_Guid_b__19_0}), TraceLoggingDataType::Guid);
 }
 
 } // namespace System::Private::CoreLib::System::Diagnostics::Tracing::ScalarTypeInfoNamespace

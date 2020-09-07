@@ -29,7 +29,7 @@ void QueueUserWorkItemCallback___<>::Execute() {
 }
 
 void QueueUserWorkItemCallback___<>::cctor() {
-  s_executionContextShim = &__c::in::__9->_cctor_b__6_0;
+  s_executionContextShim = {__c::in::__9, &__c::in::_cctor_b__6_0};
 }
 
 } // namespace System::Private::CoreLib::System::Threading::QueueUserWorkItemCallbackNamespace

@@ -739,7 +739,7 @@ void BufferedStream___::set_Position(Int64 value) {
 
 SemaphoreSlim BufferedStream___::LazyEnsureAsyncActiveSemaphoreInitialized() {
   Func<SemaphoreSlim> as = __c::in::__9__10_0;
-  return LazyInitializer::EnsureInitialized(_asyncActiveSemaphore, as != nullptr ? as : (__c::in::__9__10_0 = &__c::in::__9->_LazyEnsureAsyncActiveSemaphoreInitialized_b__10_0));
+  return LazyInitializer::EnsureInitialized(_asyncActiveSemaphore, as != nullptr ? as : (__c::in::__9__10_0 = {__c::in::__9, &__c::in::_LazyEnsureAsyncActiveSemaphoreInitialized_b__10_0}));
 }
 
 void BufferedStream___::ctor(Stream stream) {

@@ -64,7 +64,7 @@ Object EnumeratorToEnumVariantMarshaler___::MarshalNativeToManaged(IntPtr pNativ
     return rt::as<IEnumerator>(objectForIUnknown);
   }
   Func<IEnumVARIANT, EnumeratorViewOfEnumVariant> as = __c::in::__9__7_0;
-  return ComDataHelpers::GetOrCreateManagedViewFromComData(objectForIUnknown, as != nullptr ? as : (__c::in::__9__7_0 = &__c::in::__9->_MarshalNativeToManaged_b__7_0));
+  return ComDataHelpers::GetOrCreateManagedViewFromComData(objectForIUnknown, as != nullptr ? as : (__c::in::__9__7_0 = {__c::in::__9, &__c::in::_MarshalNativeToManaged_b__7_0}));
 }
 
 void EnumeratorToEnumVariantMarshaler___::cctor() {

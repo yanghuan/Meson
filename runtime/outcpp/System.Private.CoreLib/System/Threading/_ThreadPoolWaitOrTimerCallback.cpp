@@ -36,8 +36,8 @@ void _ThreadPoolWaitOrTimerCallback___::PerformWaitOrTimerCallback(_ThreadPoolWa
 }
 
 void _ThreadPoolWaitOrTimerCallback___::cctor() {
-  _ccbt = &WaitOrTimerCallback_Context_t;
-  _ccbf = &WaitOrTimerCallback_Context_f;
+  _ccbt = WaitOrTimerCallback_Context_t;
+  _ccbf = WaitOrTimerCallback_Context_f;
 }
 
 } // namespace System::Private::CoreLib::System::Threading::_ThreadPoolWaitOrTimerCallbackNamespace

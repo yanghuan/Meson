@@ -97,42 +97,42 @@ IntPtr Marshal::OffsetOf(Type t, String fieldName) {
 
 Byte Marshal::ReadByte(Object ptr, Int32 ofs) {
   Func<IntPtr, Int32, Byte> as = __c::in::__9__4_0;
-  return ReadValueSlow(ptr, ofs, as != nullptr ? as : (__c::in::__9__4_0 = &__c::in::__9->_ReadByte_b__4_0));
+  return ReadValueSlow(ptr, ofs, as != nullptr ? as : (__c::in::__9__4_0 = {__c::in::__9, &__c::in::_ReadByte_b__4_0}));
 }
 
 Int16 Marshal::ReadInt16(Object ptr, Int32 ofs) {
   Func<IntPtr, Int32, Int16> as = __c::in::__9__5_0;
-  return ReadValueSlow(ptr, ofs, as != nullptr ? as : (__c::in::__9__5_0 = &__c::in::__9->_ReadInt16_b__5_0));
+  return ReadValueSlow(ptr, ofs, as != nullptr ? as : (__c::in::__9__5_0 = {__c::in::__9, &__c::in::_ReadInt16_b__5_0}));
 }
 
 Int32 Marshal::ReadInt32(Object ptr, Int32 ofs) {
   Func<IntPtr, Int32, Int32> as = __c::in::__9__6_0;
-  return ReadValueSlow(ptr, ofs, as != nullptr ? as : (__c::in::__9__6_0 = &__c::in::__9->_ReadInt32_b__6_0));
+  return ReadValueSlow(ptr, ofs, as != nullptr ? as : (__c::in::__9__6_0 = {__c::in::__9, &__c::in::_ReadInt32_b__6_0}));
 }
 
 Int64 Marshal::ReadInt64(Object ptr, Int32 ofs) {
   Func<IntPtr, Int32, Int64> as = __c::in::__9__7_0;
-  return ReadValueSlow(ptr, ofs, as != nullptr ? as : (__c::in::__9__7_0 = &__c::in::__9->_ReadInt64_b__7_0));
+  return ReadValueSlow(ptr, ofs, as != nullptr ? as : (__c::in::__9__7_0 = {__c::in::__9, &__c::in::_ReadInt64_b__7_0}));
 }
 
 void Marshal::WriteByte(Object ptr, Int32 ofs, Byte val) {
   Action<IntPtr, Int32, Byte> as = __c::in::__9__9_0;
-  WriteValueSlow(ptr, ofs, val, as != nullptr ? as : (__c::in::__9__9_0 = &__c::in::__9->_WriteByte_b__9_0));
+  WriteValueSlow(ptr, ofs, val, as != nullptr ? as : (__c::in::__9__9_0 = {__c::in::__9, &__c::in::_WriteByte_b__9_0}));
 }
 
 void Marshal::WriteInt16(Object ptr, Int32 ofs, Int16 val) {
   Action<IntPtr, Int32, Int16> as = __c::in::__9__10_0;
-  WriteValueSlow(ptr, ofs, val, as != nullptr ? as : (__c::in::__9__10_0 = &__c::in::__9->_WriteInt16_b__10_0));
+  WriteValueSlow(ptr, ofs, val, as != nullptr ? as : (__c::in::__9__10_0 = {__c::in::__9, &__c::in::_WriteInt16_b__10_0}));
 }
 
 void Marshal::WriteInt32(Object ptr, Int32 ofs, Int32 val) {
   Action<IntPtr, Int32, Int32> as = __c::in::__9__11_0;
-  WriteValueSlow(ptr, ofs, val, as != nullptr ? as : (__c::in::__9__11_0 = &__c::in::__9->_WriteInt32_b__11_0));
+  WriteValueSlow(ptr, ofs, val, as != nullptr ? as : (__c::in::__9__11_0 = {__c::in::__9, &__c::in::_WriteInt32_b__11_0}));
 }
 
 void Marshal::WriteInt64(Object ptr, Int32 ofs, Int64 val) {
   Action<IntPtr, Int32, Int64> as = __c::in::__9__12_0;
-  WriteValueSlow(ptr, ofs, val, as != nullptr ? as : (__c::in::__9__12_0 = &__c::in::__9->_WriteInt64_b__12_0));
+  WriteValueSlow(ptr, ofs, val, as != nullptr ? as : (__c::in::__9__12_0 = {__c::in::__9, &__c::in::_WriteInt64_b__12_0}));
 }
 
 void Marshal::PrelinkCore(MethodInfo m) {

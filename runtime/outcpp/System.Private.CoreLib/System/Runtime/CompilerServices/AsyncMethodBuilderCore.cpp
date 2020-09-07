@@ -55,7 +55,7 @@ String AsyncMethodBuilderCore::GetAsyncStateMachineDescription(IAsyncStateMachin
 }
 
 Action<> AsyncMethodBuilderCore::CreateContinuationWrapper(Action<> continuation, Action<Action<>, Task<>> invokeAction, Task<> innerTask) {
-  return rt::newobj<ContinuationWrapper>(continuation, invokeAction, innerTask)->Invoke;
+  return {rt::newobj<ContinuationWrapper>(continuation, invokeAction, innerTask), &ContinuationWrapper::in::Invoke};
 }
 
 Action<> AsyncMethodBuilderCore::TryGetStateMachineForDebugger(Action<> action) {
@@ -68,7 +68,7 @@ Action<> AsyncMethodBuilderCore::TryGetStateMachineForDebugger(Action<> action) 
     }
     return TryGetStateMachineForDebugger(continuationWrapper->_continuation);
   }
-  return asyncStateMachineBox->GetStateMachineObject()->MoveNext;
+  return {asyncStateMachineBox->GetStateMachineObject(), &IAsyncStateMachine::in::MoveNext};
 }
 
 Task<> AsyncMethodBuilderCore::TryGetContinuationTask(Action<> continuation) {

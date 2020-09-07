@@ -119,6 +119,13 @@ namespace rt {
   template <class T>
   static constexpr bool IsObject = CodeOf<T> == TypeCode::Object;
 
+  template <typename T>
+  struct IsFunctionPointerType : std::integral_constant<bool, std::is_pointer_v<T> && std::is_function_v<typename std::remove_pointer_t<T>>> {
+  };
+
+  template <typename T>
+  static constexpr bool IsFunctionPointer = IsFunctionPointerType<T>::value;
+
   template <class T>
   class GCObject : public GCObjectHead {
   public:
@@ -277,6 +284,16 @@ namespace rt {
       moveOf(std::move(other));
     }
 
+    template <class T1, class T2, class T3 = T> requires(std::is_member_function_pointer_v<T2> && IsDelegate<T3>)
+    ref(T1 target, T2 ptr) noexcept {
+      //TODO 
+    }
+
+    template <class T1, class T2 = T> requires(IsFunctionPointer<T1> && IsDelegate<T2>)
+    ref(T1 ptr) noexcept {
+      //TODO 
+    }
+
     ~ref() noexcept {
       if (p_) {
         p_->release();
@@ -295,7 +312,7 @@ namespace rt {
       return *this;
     }
 
-    template <class T1, class T2 = T> requires(std::is_pointer_v<T1> && IsDelegate<T2>)
+    template <class T1, class T2 = T> requires(IsFunctionPointer<T1> && IsDelegate<T2>)
     ref& operator =(const T1& right) noexcept {
       //TODO
       return *this;

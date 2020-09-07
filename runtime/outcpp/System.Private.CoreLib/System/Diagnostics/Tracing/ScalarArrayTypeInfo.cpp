@@ -44,64 +44,64 @@ void ScalarArrayTypeInfo___::WriteData(TraceLoggingDataCollector collector, Prop
 }
 
 TraceLoggingTypeInfo ScalarArrayTypeInfo___::Boolean() {
-  return rt::newobj<ScalarArrayTypeInfo>(typeof<Array<Boolean>>(), Statics::Format8, TraceLoggingDataType::Boolean8, 1);
+  return rt::newobj<ScalarArrayTypeInfo>(typeof<Array<Boolean>>(), &Statics::Format8, TraceLoggingDataType::Boolean8, 1);
 }
 
 TraceLoggingTypeInfo ScalarArrayTypeInfo___::Byte() {
-  return rt::newobj<ScalarArrayTypeInfo>(typeof<Array<Byte>>(), Statics::Format8, TraceLoggingDataType::UInt8, 1);
+  return rt::newobj<ScalarArrayTypeInfo>(typeof<Array<Byte>>(), &Statics::Format8, TraceLoggingDataType::UInt8, 1);
 }
 
 TraceLoggingTypeInfo ScalarArrayTypeInfo___::SByte() {
-  return rt::newobj<ScalarArrayTypeInfo>(typeof<Array<SByte>>(), Statics::Format8, TraceLoggingDataType::Int8, 1);
+  return rt::newobj<ScalarArrayTypeInfo>(typeof<Array<SByte>>(), &Statics::Format8, TraceLoggingDataType::Int8, 1);
 }
 
 TraceLoggingTypeInfo ScalarArrayTypeInfo___::Char() {
-  return rt::newobj<ScalarArrayTypeInfo>(typeof<Array<Char>>(), Statics::Format16, TraceLoggingDataType::Char16, 2);
+  return rt::newobj<ScalarArrayTypeInfo>(typeof<Array<Char>>(), &Statics::Format16, TraceLoggingDataType::Char16, 2);
 }
 
 TraceLoggingTypeInfo ScalarArrayTypeInfo___::Int16() {
-  return rt::newobj<ScalarArrayTypeInfo>(typeof<Array<Int16>>(), Statics::Format16, TraceLoggingDataType::Int16, 2);
+  return rt::newobj<ScalarArrayTypeInfo>(typeof<Array<Int16>>(), &Statics::Format16, TraceLoggingDataType::Int16, 2);
 }
 
 TraceLoggingTypeInfo ScalarArrayTypeInfo___::UInt16() {
-  return rt::newobj<ScalarArrayTypeInfo>(typeof<Array<UInt16>>(), Statics::Format16, TraceLoggingDataType::UInt16, 2);
+  return rt::newobj<ScalarArrayTypeInfo>(typeof<Array<UInt16>>(), &Statics::Format16, TraceLoggingDataType::UInt16, 2);
 }
 
 TraceLoggingTypeInfo ScalarArrayTypeInfo___::Int32() {
-  return rt::newobj<ScalarArrayTypeInfo>(typeof<Array<Int32>>(), Statics::Format32, TraceLoggingDataType::Int32, 4);
+  return rt::newobj<ScalarArrayTypeInfo>(typeof<Array<Int32>>(), &Statics::Format32, TraceLoggingDataType::Int32, 4);
 }
 
 TraceLoggingTypeInfo ScalarArrayTypeInfo___::UInt32() {
-  return rt::newobj<ScalarArrayTypeInfo>(typeof<Array<UInt32>>(), Statics::Format32, TraceLoggingDataType::UInt32, 4);
+  return rt::newobj<ScalarArrayTypeInfo>(typeof<Array<UInt32>>(), &Statics::Format32, TraceLoggingDataType::UInt32, 4);
 }
 
 TraceLoggingTypeInfo ScalarArrayTypeInfo___::Int64() {
-  return rt::newobj<ScalarArrayTypeInfo>(typeof<Array<Int64>>(), Statics::Format64, TraceLoggingDataType::Int64, 8);
+  return rt::newobj<ScalarArrayTypeInfo>(typeof<Array<Int64>>(), &Statics::Format64, TraceLoggingDataType::Int64, 8);
 }
 
 TraceLoggingTypeInfo ScalarArrayTypeInfo___::UInt64() {
-  return rt::newobj<ScalarArrayTypeInfo>(typeof<Array<UInt64>>(), Statics::Format64, TraceLoggingDataType::UInt64, 8);
+  return rt::newobj<ScalarArrayTypeInfo>(typeof<Array<UInt64>>(), &Statics::Format64, TraceLoggingDataType::UInt64, 8);
 }
 
 TraceLoggingTypeInfo ScalarArrayTypeInfo___::IntPtr() {
-  return rt::newobj<ScalarArrayTypeInfo>(typeof<Array<IntPtr>>(), Statics::FormatPtr, Statics::IntPtrType, IntPtr::get_Size());
+  return rt::newobj<ScalarArrayTypeInfo>(typeof<Array<IntPtr>>(), &Statics::FormatPtr, Statics::IntPtrType, IntPtr::get_Size());
 }
 
 TraceLoggingTypeInfo ScalarArrayTypeInfo___::UIntPtr() {
-  return rt::newobj<ScalarArrayTypeInfo>(typeof<Array<UIntPtr>>(), Statics::FormatPtr, Statics::UIntPtrType, IntPtr::get_Size());
+  return rt::newobj<ScalarArrayTypeInfo>(typeof<Array<UIntPtr>>(), &Statics::FormatPtr, Statics::UIntPtrType, IntPtr::get_Size());
 }
 
 TraceLoggingTypeInfo ScalarArrayTypeInfo___::Single() {
-  return rt::newobj<ScalarArrayTypeInfo>(typeof<Array<Single>>(), Statics::Format32, TraceLoggingDataType::Float, 4);
+  return rt::newobj<ScalarArrayTypeInfo>(typeof<Array<Single>>(), &Statics::Format32, TraceLoggingDataType::Float, 4);
 }
 
 TraceLoggingTypeInfo ScalarArrayTypeInfo___::Double() {
-  return rt::newobj<ScalarArrayTypeInfo>(typeof<Array<Double>>(), Statics::Format64, TraceLoggingDataType::Double, 8);
+  return rt::newobj<ScalarArrayTypeInfo>(typeof<Array<Double>>(), &Statics::Format64, TraceLoggingDataType::Double, 8);
 }
 
 TraceLoggingTypeInfo ScalarArrayTypeInfo___::Guid() {
   Func<EventFieldFormat, TraceLoggingDataType, TraceLoggingDataType> as = __c::in::__9__20_0;
-  return rt::newobj<ScalarArrayTypeInfo>(typeof<Guid>(), as != nullptr ? as : (__c::in::__9__20_0 = &__c::in::__9->_Guid_b__20_0), TraceLoggingDataType::Guid, sizeof(Guid));
+  return rt::newobj<ScalarArrayTypeInfo>(typeof<Guid>(), as != nullptr ? as : (__c::in::__9__20_0 = {__c::in::__9, &__c::in::_Guid_b__20_0}), TraceLoggingDataType::Guid, sizeof(Guid));
 }
 
 } // namespace System::Private::CoreLib::System::Diagnostics::Tracing::ScalarArrayTypeInfoNamespace

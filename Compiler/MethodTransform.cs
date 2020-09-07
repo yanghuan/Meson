@@ -163,13 +163,14 @@ namespace Meson.Compiler {
               break;
             }
           case SymbolKind.Field: {
+              /*
               var field = (IField)leftSymbol;
               if (field.Type.Kind == TypeKind.Delegate) {
                 var rightSymbol = assignmentExpression.Right.GetSymbol();
                 if (rightSymbol != null && rightSymbol.SymbolKind == SymbolKind.Method) {
                   right = new AddressExpressionSyntax(right);
                 }
-              }
+              }*/
               break;
             }
         }
@@ -402,7 +403,6 @@ namespace Meson.Compiler {
                 }
                 break;
             }
-
             switch (parameter.Type.Kind) {
               case TypeKind.NInt:
               case TypeKind.NUInt:
@@ -537,7 +537,27 @@ namespace Meson.Compiler {
       throw new NotImplementedException();
     }
 
-    private MemberAccessExpressionSyntax BuildMemberAccessExpression(ExpressionSyntax target, ISymbol symbol, AstNode node, IReadOnlyCollection<AstType> typeArguments, MemberAccessKind kind = MemberAccessKind.None) {
+    private bool IsDelegateExpression(AstNode node, IMethod symbol, ExpressionSyntax target, ExpressionSyntax name, out ExpressionSyntax delegateExpression) {
+      if (!(node.Parent is InvocationExpression)) {
+        if (symbol.IsStatic) {
+          if (symbol.DeclaringTypeDefinition.IsRefType()) {
+            target = target.WithIn();
+          }
+          delegateExpression = target.TwoColon(name).Address();
+        } else {
+          var typeName = GetTypeName(symbol.DeclaringTypeDefinition);
+          if (symbol.DeclaringTypeDefinition.IsRefType()) {
+            typeName = typeName.WithIn();
+          }
+          delegateExpression = new InitializationExpressionSyntax(target, typeName.TwoColon(name).Address());
+        }
+        return true;
+      }
+      delegateExpression = null;
+      return false;
+    }
+
+    private ExpressionSyntax BuildMemberAccessExpression(ExpressionSyntax target, ISymbol symbol, AstNode node, IReadOnlyCollection<AstType> typeArguments, MemberAccessKind kind = MemberAccessKind.None) {
       switch (symbol.SymbolKind) {
         case SymbolKind.Field:
         case SymbolKind.Property:
@@ -556,10 +576,14 @@ namespace Meson.Compiler {
                   break;
                 }
               case SymbolKind.Method: {
+                  var method = (IMethod)symbol;
                   name = GetMemberName(member);
                   if (typeArguments.Count > 0) {
                     var types = typeArguments.Select(i => i.AcceptExpression(this));
                     name = name.Generic(types);
+                  }
+                  if (IsDelegateExpression(node, method, target, name, out var delegateExpression)) {
+                    return delegateExpression;
                   }
                   break;
                 }

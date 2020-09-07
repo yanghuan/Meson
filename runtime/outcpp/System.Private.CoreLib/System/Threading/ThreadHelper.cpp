@@ -60,7 +60,7 @@ void ThreadHelper___::ThreadStart() {
 }
 
 void ThreadHelper___::cctor() {
-  s_threadStartContextCallback = &ThreadStart_Context;
+  s_threadStartContextCallback = ThreadStart_Context;
 }
 
 } // namespace System::Private::CoreLib::System::Threading::ThreadHelperNamespace

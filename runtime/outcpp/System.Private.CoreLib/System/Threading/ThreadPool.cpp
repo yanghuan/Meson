@@ -485,7 +485,7 @@ Array<Object> ThreadPool::GetLocallyQueuedWorkItemsForDebugger() {
 void ThreadPool::cctor() {
   EnableWorkerTracking = GetEnableWorkerTracking();
   s_workQueue = rt::newobj<ThreadPoolWorkQueue>();
-  s_invokeAsyncStateMachineBox = &__c::in::__9->_cctor_b__60_0;
+  s_invokeAsyncStateMachineBox = {__c::in::__9, &__c::in::_cctor_b__60_0};
 }
 
 } // namespace System::Private::CoreLib::System::Threading::ThreadPoolNamespace

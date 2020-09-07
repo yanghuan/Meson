@@ -67,16 +67,16 @@ Action<> SynchronizationContextAwaitTaskContinuation___::GetActionLogDelegate(In
   __c__DisplayClass6_0 __c__DisplayClass6_ = rt::newobj<__c__DisplayClass6_0>();
   __c__DisplayClass6_->continuationId = continuationId;
   __c__DisplayClass6_->action = action;
-  return __c__DisplayClass6_->_GetActionLogDelegate_b__0;
+  return {__c__DisplayClass6_, &__c__DisplayClass6_0::in::_GetActionLogDelegate_b__0};
 }
 
 ContextCallback SynchronizationContextAwaitTaskContinuation___::GetPostActionCallback() {
   ContextCallback as = s_postActionCallback;
-  return as != nullptr ? as : (s_postActionCallback = &PostAction);
+  return as != nullptr ? as : (s_postActionCallback = PostAction);
 }
 
 void SynchronizationContextAwaitTaskContinuation___::cctor() {
-  s_postCallback = &__c::in::__9->_cctor_b__8_0;
+  s_postCallback = {__c::in::__9, &__c::in::_cctor_b__8_0};
 }
 
 } // namespace System::Private::CoreLib::System::Threading::Tasks::SynchronizationContextAwaitTaskContinuationNamespace

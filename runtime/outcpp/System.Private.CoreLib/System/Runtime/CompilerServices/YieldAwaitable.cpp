@@ -92,7 +92,7 @@ void YieldAwaitable::YieldAwaiter::AwaitUnsafeOnCompletedOfIStateMachineBoxAware
   SynchronizationContext current = SynchronizationContext::in::get_Current();
   if (current != nullptr && current->GetType() != typeof<SynchronizationContext>()) {
     SendOrPostCallback as = __c::in::__9__5_0;
-    current->Post(as != nullptr ? as : (__c::in::__9__5_0 = &__c::in::__9->_SystemRuntimeCompilerServicesIStateMachineBoxAwareAwaiterAwaitUnsafeOnCompleted_b__5_0), box);
+    current->Post(as != nullptr ? as : (__c::in::__9__5_0 = {__c::in::__9, &__c::in::_SystemRuntimeCompilerServicesIStateMachineBoxAwareAwaiterAwaitUnsafeOnCompleted_b__5_0}), box);
     return;
   }
   TaskScheduler current2 = TaskScheduler::in::get_Current();
@@ -100,7 +100,7 @@ void YieldAwaitable::YieldAwaiter::AwaitUnsafeOnCompletedOfIStateMachineBoxAware
     ThreadPool::UnsafeQueueUserWorkItemInternal(box, false);
   } else {
     Action<Object> as = __c::in::__9__5_1;
-    Task<>::in::get_Factory()->StartNew(as != nullptr ? as : (__c::in::__9__5_1 = &__c::in::__9->_SystemRuntimeCompilerServicesIStateMachineBoxAwareAwaiterAwaitUnsafeOnCompleted_b__5_1), box, rt::default__, TaskCreationOptions::PreferFairness, current2);
+    Task<>::in::get_Factory()->StartNew(as != nullptr ? as : (__c::in::__9__5_1 = {__c::in::__9, &__c::in::_SystemRuntimeCompilerServicesIStateMachineBoxAwareAwaiterAwaitUnsafeOnCompleted_b__5_1}), box, rt::default__, TaskCreationOptions::PreferFairness, current2);
   }
 }
 
@@ -109,7 +109,7 @@ Action<> YieldAwaitable::YieldAwaiter::OutputCorrelationEtwEvent(Action<> contin
   Task<> internalCurrent = Task<>::in::get_InternalCurrent();
   TplEventSource::in::Log->AwaitTaskContinuationScheduled(TaskScheduler::in::get_Current()->get_Id(), (internalCurrent != nullptr) ? internalCurrent->get_Id() : 0, num);
   Action<Action<>, Task<>> as = __c::in::__9__6_0;
-  return AsyncMethodBuilderCore::CreateContinuationWrapper(continuation, as != nullptr ? as : (__c::in::__9__6_0 = &__c::in::__9->_OutputCorrelationEtwEvent_b__6_0), Task<>::in::FromResult(num));
+  return AsyncMethodBuilderCore::CreateContinuationWrapper(continuation, as != nullptr ? as : (__c::in::__9__6_0 = {__c::in::__9, &__c::in::_OutputCorrelationEtwEvent_b__6_0}), Task<>::in::FromResult(num));
 }
 
 void YieldAwaitable::YieldAwaiter::RunAction(Object state) {
@@ -120,8 +120,8 @@ void YieldAwaitable::YieldAwaiter::GetResult() {
 }
 
 void YieldAwaitable::YieldAwaiter::cctor() {
-  s_waitCallbackRunAction = &RunAction;
-  s_sendOrPostCallbackRunAction = &RunAction;
+  s_waitCallbackRunAction = RunAction;
+  s_sendOrPostCallbackRunAction = RunAction;
 }
 
 YieldAwaitable::YieldAwaiter YieldAwaitable::GetAwaiter() {

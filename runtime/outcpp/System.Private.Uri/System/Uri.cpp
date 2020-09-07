@@ -731,7 +731,7 @@ String Uri___::HexEscape(Char character) {
     rt::throw_exception<ArgumentOutOfRangeException>("character");
   }
   SpanAction<Char, Byte> as = __c::in::__9__119_0;
-  return String::in::Create(3, (Byte)character, as != nullptr ? as : (__c::in::__9__119_0 = &__c::in::__9->_HexEscape_b__119_0));
+  return String::in::Create(3, (Byte)character, as != nullptr ? as : (__c::in::__9__119_0 = {__c::in::__9, &__c::in::_HexEscape_b__119_0}));
 }
 
 Char Uri___::HexUnescape(String pattern, Int32& index) {

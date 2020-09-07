@@ -16,9 +16,12 @@
 #include <System.Private.CoreLib/System/String-dep.h>
 #include <System.Private.CoreLib/System/Threading/Volatile-dep.h>
 #include <System.Private.CoreLib/System/ArgumentException-dep.h>
+#include <System.Private.CoreLib/System/Action-dep.h>
+#include <System.Private.CoreLib/System/Reflection/MethodInfo-dep.h>
 
 using namespace System::Private::CoreLib::System;
 using namespace ::System::Private::CoreLib::System::Threading;
+using namespace Reflection;
 
 class No_Complete;
 
@@ -81,12 +84,7 @@ void TestStrDefault(String s, String ss = nullptr) {
   a.f();
 }
 
-struct TestA {
-};
-
-int main() {
-  //using aa = decltype(int);
-
+void TestInterfaces() {
   using To = IConvertible::in;
   using From = String::in;
   using Interfaces = typename rt::InterfaceOf<From>;
@@ -94,12 +92,24 @@ int main() {
   constexpr bool b = rt::IsInterfacesContains<Interfaces, To>;
   using Interface = typename std::tuple_element_t<6, Interfaces>;
   static constexpr bool value = std::is_same_v<Interface, To>;
-  Array<Object> o(false);
-  //auto i = o[0];
-
-  //constexpr bool b = rt::IsInterfaceConvertible<To, From>::value;
-
   std::printf("N:%d, N1:%d \n", b, b);
+}
+
+void TestAction() {
+  Object o = nullptr;
+  Action<> a = { o, &Object::in::GetHashCode };
+}
+
+void TestMethodInfo(MemberInfo a) {
+}
+
+void TestMethodInfo() {
+   MethodInfo method = nullptr;
+   MemberInfo i = method;
+   TestMethodInfo(method);
+}
+
+int main() {
   return 0;
 }
 

@@ -280,7 +280,7 @@ Int32 ManualResetEventSlim___::ExtractStatePortion(Int32 state, Int32 mask) {
 }
 
 void ManualResetEventSlim___::cctor() {
-  s_cancellationTokenCallback = &CancellationTokenCallback;
+  s_cancellationTokenCallback = CancellationTokenCallback;
 }
 
 } // namespace System::Private::CoreLib::System::Threading::ManualResetEventSlimNamespace

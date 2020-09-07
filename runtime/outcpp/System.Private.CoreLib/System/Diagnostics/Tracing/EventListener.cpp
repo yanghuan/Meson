@@ -46,7 +46,7 @@ void EventListener___::cctor() {
 
 void EventListener___::ctor() {
   EventHandler<EventSourceCreatedEventArgs> as = __c::in::__9__10_0;
-  CallBackForExistingEventSources(true, as != nullptr ? as : (__c::in::__9__10_0 = &__c::in::__9->_ctor_b__10_0));
+  CallBackForExistingEventSources(true, as != nullptr ? as : (__c::in::__9__10_0 = {__c::in::__9, &__c::in::_ctor_b__10_0}));
 }
 
 void EventListener___::Dispose() {

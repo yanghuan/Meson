@@ -46,7 +46,7 @@ IEnumerable<Task<>> SynchronizationContextTaskScheduler___::GetScheduledTasks() 
 }
 
 void SynchronizationContextTaskScheduler___::cctor() {
-  s_postCallback = &__c::in::__9->_cctor_b__8_0;
+  s_postCallback = {__c::in::__9, &__c::in::_cctor_b__8_0};
 }
 
 } // namespace System::Private::CoreLib::System::Threading::Tasks::SynchronizationContextTaskSchedulerNamespace

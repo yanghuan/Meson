@@ -325,7 +325,7 @@ Boolean CalendarData___::IcuSystemSupportsTaiwaneseCalendar() {
 
 Boolean CalendarData___::GetCalendarInfo(String localeName, CalendarId calendarId, CalendarDataType dataType, String& calendarString) {
   SpanFunc<Char, String, CalendarId, CalendarDataType, Interop::Globalization::ResultCode> as = __c::in::__9__33_0;
-  return Interop::CallStringMethod(as != nullptr ? as : (__c::in::__9__33_0 = &__c::in::__9->_GetCalendarInfo_b__33_0), localeName, calendarId, dataType, calendarString);
+  return Interop::CallStringMethod(as != nullptr ? as : (__c::in::__9__33_0 = {__c::in::__9, &__c::in::_GetCalendarInfo_b__33_0}), localeName, calendarId, dataType, calendarString);
 }
 
 Boolean CalendarData___::EnumDatePatterns(String localeName, CalendarId calendarId, CalendarDataType dataType, Array<String>& datePatterns) {

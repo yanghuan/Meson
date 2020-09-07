@@ -284,6 +284,10 @@ namespace Meson.Compiler.CppAst {
       Expressions.AddRange(expressions);
     }
 
+    public InitializationExpressionSyntax(params ExpressionSyntax[] expressions) {
+      Expressions.AddRange(expressions);
+    }
+
     internal override void Render(CppRenderer renderer) {
       renderer.Render(this);
     }

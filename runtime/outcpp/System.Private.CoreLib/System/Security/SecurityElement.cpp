@@ -329,7 +329,7 @@ String SecurityElement___::Unescape(String str) {
 String SecurityElement___::ToString() {
   StringBuilder stringBuilder = rt::newobj<StringBuilder>();
   Action<Object, String> as = __c::in::__9__38_0;
-  ToString(stringBuilder, as != nullptr ? as : (__c::in::__9__38_0 = &__c::in::__9->_ToString_b__38_0));
+  ToString(stringBuilder, as != nullptr ? as : (__c::in::__9__38_0 = {__c::in::__9, &__c::in::_ToString_b__38_0}));
   return stringBuilder->ToString();
 }
 

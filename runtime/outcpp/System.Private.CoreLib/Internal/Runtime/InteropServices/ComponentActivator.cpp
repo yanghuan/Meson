@@ -93,7 +93,7 @@ IsolatedComponentLoadContext ComponentActivator::GetIsolatedComponentLoadContext
 IntPtr ComponentActivator::InternalGetFunctionPointer(AssemblyLoadContext alc, String typeName, String methodName, IntPtr delegateTypeNative) {
   __c__DisplayClass7_0 __c__DisplayClass7_ = rt::newobj<__c__DisplayClass7_0>();
   __c__DisplayClass7_->alc = alc;
-  Func<AssemblyName, Assembly> assemblyResolver = __c__DisplayClass7_->_InternalGetFunctionPointer_b__0;
+  Func<AssemblyName, Assembly> assemblyResolver = {__c__DisplayClass7_, &__c__DisplayClass7_0::in::_InternalGetFunctionPointer_b__0};
   Type type;
   if (delegateTypeNative == IntPtr::Zero) {
     type = typeof<ComponentEntryPoint>();

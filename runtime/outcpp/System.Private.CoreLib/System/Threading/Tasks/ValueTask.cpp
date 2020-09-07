@@ -59,7 +59,7 @@ void ValueTask<>::ValueTaskSourceAsTask___::ctor(IValueTaskSource<> source, Int1
 }
 
 void ValueTask<>::ValueTaskSourceAsTask___::cctor() {
-  s_completionAction = &__c::in::__9->_cctor_b__4_0;
+  s_completionAction = {__c::in::__9, &__c::in::_cctor_b__4_0};
 }
 
 ValueTask<> ValueTask<>::get_CompletedTask() {

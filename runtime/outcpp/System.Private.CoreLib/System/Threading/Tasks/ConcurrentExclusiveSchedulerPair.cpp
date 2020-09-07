@@ -126,7 +126,7 @@ IEnumerable<Task<>> ConcurrentExclusiveSchedulerPair___::ConcurrentExclusiveTask
 }
 
 void ConcurrentExclusiveSchedulerPair___::ConcurrentExclusiveTaskScheduler___::cctor() {
-  s_tryExecuteTaskShim = &TryExecuteTaskShim;
+  s_tryExecuteTaskShim = TryExecuteTaskShim;
 }
 
 ConcurrentExclusiveSchedulerPair::in::ProcessingMode ConcurrentExclusiveSchedulerPair___::DebugView___::get_Mode() {
@@ -298,7 +298,7 @@ void ConcurrentExclusiveSchedulerPair___::Complete() {
 
 ConcurrentExclusiveSchedulerPair::in::CompletionState ConcurrentExclusiveSchedulerPair___::EnsureCompletionStateInitialized() {
   Func<CompletionState> as = __c::in::__9__23_0;
-  return LazyInitializer::EnsureInitialized(m_completionState, as != nullptr ? as : (__c::in::__9__23_0 = &__c::in::__9->_EnsureCompletionStateInitialized_b__23_0));
+  return LazyInitializer::EnsureInitialized(m_completionState, as != nullptr ? as : (__c::in::__9__23_0 = {__c::in::__9, &__c::in::_EnsureCompletionStateInitialized_b__23_0}));
 }
 
 void ConcurrentExclusiveSchedulerPair___::RequestCompletion() {
@@ -316,7 +316,7 @@ void ConcurrentExclusiveSchedulerPair___::CompleteTaskAsync() {
   if (!completionState->m_completionQueued) {
     completionState->m_completionQueued = true;
     WaitCallback as = __c::in::__9__30_0;
-    ThreadPool::QueueUserWorkItem(as != nullptr ? as : (__c::in::__9__30_0 = &__c::in::__9->_CompleteTaskAsync_b__30_0), (ConcurrentExclusiveSchedulerPair)this);
+    ThreadPool::QueueUserWorkItem(as != nullptr ? as : (__c::in::__9__30_0 = {__c::in::__9, &__c::in::_CompleteTaskAsync_b__30_0}), (ConcurrentExclusiveSchedulerPair)this);
   }
 }
 
@@ -341,7 +341,7 @@ void ConcurrentExclusiveSchedulerPair___::ProcessAsyncIfNecessary(Boolean fairly
     if (!TryQueueThreadPoolWorkItem(fairly)) {
       try {
         Action<Object> as = __c::in::__9__40_0;
-        task = rt::newobj<Task<>>(as != nullptr ? as : (__c::in::__9__40_0 = &__c::in::__9->_ProcessAsyncIfNecessary_b__40_0), (ConcurrentExclusiveSchedulerPair)this, rt::default__, GetCreationOptionsForTask(fairly));
+        task = rt::newobj<Task<>>(as != nullptr ? as : (__c::in::__9__40_0 = {__c::in::__9, &__c::in::_ProcessAsyncIfNecessary_b__40_0}), (ConcurrentExclusiveSchedulerPair)this, rt::default__, GetCreationOptionsForTask(fairly));
         task->Start(m_underlyingTaskScheduler);
       } catch (Exception exception) {
         m_processingCount = 0;
@@ -360,7 +360,7 @@ void ConcurrentExclusiveSchedulerPair___::ProcessAsyncIfNecessary(Boolean fairly
         if (!TryQueueThreadPoolWorkItem(fairly)) {
           try {
             Action<Object> as = __c::in::__9__40_1;
-            task = rt::newobj<Task<>>(as != nullptr ? as : (__c::in::__9__40_1 = &__c::in::__9->_ProcessAsyncIfNecessary_b__40_1), (ConcurrentExclusiveSchedulerPair)this, rt::default__, GetCreationOptionsForTask(fairly));
+            task = rt::newobj<Task<>>(as != nullptr ? as : (__c::in::__9__40_1 = {__c::in::__9, &__c::in::_ProcessAsyncIfNecessary_b__40_1}), (ConcurrentExclusiveSchedulerPair)this, rt::default__, GetCreationOptionsForTask(fairly));
             task->Start(m_underlyingTaskScheduler);
           } catch (Exception exception2) {
             m_processingCount--;

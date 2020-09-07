@@ -18,7 +18,7 @@ Boolean PunkSafeHandle___::ReleaseHandle() {
 }
 
 void PunkSafeHandle___::cctor() {
-  m_Release = &(DRelease)Marshal::GetDelegateForFunctionPointer(nGetDReleaseTarget(), typeof<DRelease>());
+  m_Release = (DRelease)Marshal::GetDelegateForFunctionPointer(nGetDReleaseTarget(), typeof<DRelease>());
   m_Release((IntPtr)(Int32)0);
 }
 

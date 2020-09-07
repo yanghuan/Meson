@@ -154,7 +154,7 @@ void ThreadPoolTaskScheduler___::NotifyWorkItemProgress() {
 }
 
 void ThreadPoolTaskScheduler___::cctor() {
-  s_longRunningThreadWork = &__c::in::__9->_cctor_b__10_0;
+  s_longRunningThreadWork = {__c::in::__9, &__c::in::_cctor_b__10_0};
 }
 
 } // namespace System::Private::CoreLib::System::Threading::Tasks::ThreadPoolTaskSchedulerNamespace

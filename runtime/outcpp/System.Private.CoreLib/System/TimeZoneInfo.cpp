@@ -1154,7 +1154,7 @@ ReadOnlyCollection<TimeZoneInfo> TimeZoneInfo___::GetSystemTimeZones() {
       cachedData->_allSystemTimeZonesRead = true;
       List<TimeZoneInfo> list = (cachedData->_systemTimeZones == nullptr) ? rt::newobj<List<TimeZoneInfo>>() : rt::newobj<List<TimeZoneInfo>>(cachedData->_systemTimeZones->get_Values());
       Comparison<TimeZoneInfo> as = __c::in::__9__62_0;
-      list->Sort(as != nullptr ? as : (__c::in::__9__62_0 = &__c::in::__9->_GetSystemTimeZones_b__62_0));
+      list->Sort(as != nullptr ? as : (__c::in::__9__62_0 = {__c::in::__9, &__c::in::_GetSystemTimeZones_b__62_0}));
       cachedData->_readOnlySystemTimeZones = rt::newobj<ReadOnlyCollection<TimeZoneInfo>>(list);
     }
   }

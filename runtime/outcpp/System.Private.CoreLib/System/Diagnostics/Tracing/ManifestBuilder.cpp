@@ -278,7 +278,7 @@ String ManifestBuilder___::CreateManifestString() {
       list->Add(item);
     }
     Comparison<KeyValuePair<Int32, ChannelInfo>> as = __c::in::__9__16_0;
-    list->Sort(as != nullptr ? as : (__c::in::__9__16_0 = &__c::in::__9->_CreateManifestString_b__16_0));
+    list->Sort(as != nullptr ? as : (__c::in::__9__16_0 = {__c::in::__9, &__c::in::_CreateManifestString_b__16_0}));
     for (KeyValuePair<Int32, ChannelInfo>&& item2 : *list) {
       Int32 key = item2.get_Key();
       ChannelInfo value = item2.get_Value();

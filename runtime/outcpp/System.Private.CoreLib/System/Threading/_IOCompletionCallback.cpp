@@ -32,7 +32,7 @@ void _IOCompletionCallback___::PerformIOCompletionCallback(UInt32 errorCode, UIn
 }
 
 void _IOCompletionCallback___::cctor() {
-  _ccb = &IOCompletionCallback_Context;
+  _ccb = IOCompletionCallback_Context;
 }
 
 } // namespace System::Private::CoreLib::System::Threading::_IOCompletionCallbackNamespace

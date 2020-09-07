@@ -3051,7 +3051,7 @@ Exception DateTimeParse::GetDateTimeParseException(DateTimeResult& result) {
 }
 
 void DateTimeParse::cctor() {
-  s_hebrewNumberParser = &MatchHebrewDigits;
+  s_hebrewNumberParser = MatchHebrewDigits;
   s_dateParsingStates = rt::newarr<Array<Array<DS>>>(20);
 }
 

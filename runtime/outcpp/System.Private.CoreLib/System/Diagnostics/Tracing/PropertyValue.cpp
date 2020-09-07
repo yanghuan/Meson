@@ -193,82 +193,82 @@ PropertyValue::PropertyValue(Decimal value) {
 Func<Object, PropertyValue> PropertyValue::GetFactory(Type type) {
   if (type == typeof<Boolean>()) {
     Func<Object, PropertyValue> as = __c::in::__9__25_0;
-    return as != nullptr ? as : (__c::in::__9__25_0 = &__c::in::__9->_GetFactory_b__25_0);
+    return as != nullptr ? as : (__c::in::__9__25_0 = {__c::in::__9, &__c::in::_GetFactory_b__25_0});
   }
   if (type == typeof<Byte>()) {
     Func<Object, PropertyValue> as = __c::in::__9__25_1;
-    return as != nullptr ? as : (__c::in::__9__25_1 = &__c::in::__9->_GetFactory_b__25_1);
+    return as != nullptr ? as : (__c::in::__9__25_1 = {__c::in::__9, &__c::in::_GetFactory_b__25_1});
   }
   if (type == typeof<SByte>()) {
     Func<Object, PropertyValue> as = __c::in::__9__25_2;
-    return as != nullptr ? as : (__c::in::__9__25_2 = &__c::in::__9->_GetFactory_b__25_2);
+    return as != nullptr ? as : (__c::in::__9__25_2 = {__c::in::__9, &__c::in::_GetFactory_b__25_2});
   }
   if (type == typeof<Char>()) {
     Func<Object, PropertyValue> as = __c::in::__9__25_3;
-    return as != nullptr ? as : (__c::in::__9__25_3 = &__c::in::__9->_GetFactory_b__25_3);
+    return as != nullptr ? as : (__c::in::__9__25_3 = {__c::in::__9, &__c::in::_GetFactory_b__25_3});
   }
   if (type == typeof<Int16>()) {
     Func<Object, PropertyValue> as = __c::in::__9__25_4;
-    return as != nullptr ? as : (__c::in::__9__25_4 = &__c::in::__9->_GetFactory_b__25_4);
+    return as != nullptr ? as : (__c::in::__9__25_4 = {__c::in::__9, &__c::in::_GetFactory_b__25_4});
   }
   if (type == typeof<UInt16>()) {
     Func<Object, PropertyValue> as = __c::in::__9__25_5;
-    return as != nullptr ? as : (__c::in::__9__25_5 = &__c::in::__9->_GetFactory_b__25_5);
+    return as != nullptr ? as : (__c::in::__9__25_5 = {__c::in::__9, &__c::in::_GetFactory_b__25_5});
   }
   if (type == typeof<Int32>()) {
     Func<Object, PropertyValue> as = __c::in::__9__25_6;
-    return as != nullptr ? as : (__c::in::__9__25_6 = &__c::in::__9->_GetFactory_b__25_6);
+    return as != nullptr ? as : (__c::in::__9__25_6 = {__c::in::__9, &__c::in::_GetFactory_b__25_6});
   }
   if (type == typeof<UInt32>()) {
     Func<Object, PropertyValue> as = __c::in::__9__25_7;
-    return as != nullptr ? as : (__c::in::__9__25_7 = &__c::in::__9->_GetFactory_b__25_7);
+    return as != nullptr ? as : (__c::in::__9__25_7 = {__c::in::__9, &__c::in::_GetFactory_b__25_7});
   }
   if (type == typeof<Int64>()) {
     Func<Object, PropertyValue> as = __c::in::__9__25_8;
-    return as != nullptr ? as : (__c::in::__9__25_8 = &__c::in::__9->_GetFactory_b__25_8);
+    return as != nullptr ? as : (__c::in::__9__25_8 = {__c::in::__9, &__c::in::_GetFactory_b__25_8});
   }
   if (type == typeof<UInt64>()) {
     Func<Object, PropertyValue> as = __c::in::__9__25_9;
-    return as != nullptr ? as : (__c::in::__9__25_9 = &__c::in::__9->_GetFactory_b__25_9);
+    return as != nullptr ? as : (__c::in::__9__25_9 = {__c::in::__9, &__c::in::_GetFactory_b__25_9});
   }
   if (type == typeof<IntPtr>()) {
     Func<Object, PropertyValue> as = __c::in::__9__25_10;
-    return as != nullptr ? as : (__c::in::__9__25_10 = &__c::in::__9->_GetFactory_b__25_10);
+    return as != nullptr ? as : (__c::in::__9__25_10 = {__c::in::__9, &__c::in::_GetFactory_b__25_10});
   }
   if (type == typeof<UIntPtr>()) {
     Func<Object, PropertyValue> as = __c::in::__9__25_11;
-    return as != nullptr ? as : (__c::in::__9__25_11 = &__c::in::__9->_GetFactory_b__25_11);
+    return as != nullptr ? as : (__c::in::__9__25_11 = {__c::in::__9, &__c::in::_GetFactory_b__25_11});
   }
   if (type == typeof<Single>()) {
     Func<Object, PropertyValue> as = __c::in::__9__25_12;
-    return as != nullptr ? as : (__c::in::__9__25_12 = &__c::in::__9->_GetFactory_b__25_12);
+    return as != nullptr ? as : (__c::in::__9__25_12 = {__c::in::__9, &__c::in::_GetFactory_b__25_12});
   }
   if (type == typeof<Double>()) {
     Func<Object, PropertyValue> as = __c::in::__9__25_13;
-    return as != nullptr ? as : (__c::in::__9__25_13 = &__c::in::__9->_GetFactory_b__25_13);
+    return as != nullptr ? as : (__c::in::__9__25_13 = {__c::in::__9, &__c::in::_GetFactory_b__25_13});
   }
   if (type == typeof<Guid>()) {
     Func<Object, PropertyValue> as = __c::in::__9__25_14;
-    return as != nullptr ? as : (__c::in::__9__25_14 = &__c::in::__9->_GetFactory_b__25_14);
+    return as != nullptr ? as : (__c::in::__9__25_14 = {__c::in::__9, &__c::in::_GetFactory_b__25_14});
   }
   if (type == typeof<DateTime>()) {
     Func<Object, PropertyValue> as = __c::in::__9__25_15;
-    return as != nullptr ? as : (__c::in::__9__25_15 = &__c::in::__9->_GetFactory_b__25_15);
+    return as != nullptr ? as : (__c::in::__9__25_15 = {__c::in::__9, &__c::in::_GetFactory_b__25_15});
   }
   if (type == typeof<DateTimeOffset>()) {
     Func<Object, PropertyValue> as = __c::in::__9__25_16;
-    return as != nullptr ? as : (__c::in::__9__25_16 = &__c::in::__9->_GetFactory_b__25_16);
+    return as != nullptr ? as : (__c::in::__9__25_16 = {__c::in::__9, &__c::in::_GetFactory_b__25_16});
   }
   if (type == typeof<TimeSpan>()) {
     Func<Object, PropertyValue> as = __c::in::__9__25_17;
-    return as != nullptr ? as : (__c::in::__9__25_17 = &__c::in::__9->_GetFactory_b__25_17);
+    return as != nullptr ? as : (__c::in::__9__25_17 = {__c::in::__9, &__c::in::_GetFactory_b__25_17});
   }
   if (type == typeof<Decimal>()) {
     Func<Object, PropertyValue> as = __c::in::__9__25_18;
-    return as != nullptr ? as : (__c::in::__9__25_18 = &__c::in::__9->_GetFactory_b__25_18);
+    return as != nullptr ? as : (__c::in::__9__25_18 = {__c::in::__9, &__c::in::_GetFactory_b__25_18});
   }
   Func<Object, PropertyValue> as = __c::in::__9__25_19;
-  return as != nullptr ? as : (__c::in::__9__25_19 = &__c::in::__9->_GetFactory_b__25_19);
+  return as != nullptr ? as : (__c::in::__9__25_19 = {__c::in::__9, &__c::in::_GetFactory_b__25_19});
 }
 
 Func<PropertyValue, PropertyValue> PropertyValue::GetPropertyGetter(PropertyInfo property) {
@@ -285,8 +285,8 @@ Func<PropertyValue, PropertyValue> PropertyValue::GetBoxedValueTypePropertyGette
   if (IntrospectionExtensions::GetTypeInfo(type)->get_IsEnum()) {
     type = Enum::in::GetUnderlyingType(type);
   }
-  __c__DisplayClass33_->factory = &GetFactory(type);
-  return __c__DisplayClass33_->_GetBoxedValueTypePropertyGetter_b__0;
+  __c__DisplayClass33_->factory = GetFactory(type);
+  return {__c__DisplayClass33_, &__c__DisplayClass33_0::in::_GetBoxedValueTypePropertyGetter_b__0};
 }
 
 Func<PropertyValue, PropertyValue> PropertyValue::GetReferenceTypePropertyGetter(PropertyInfo property) {

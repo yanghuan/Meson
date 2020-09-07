@@ -72,7 +72,7 @@ void Stream___::ReadWriteTask___::InvokeOfITaskCompletionAction(Task<> completin
   } else {
     _context = nullptr;
     ContextCallback as = s_invokeAsyncCallback;
-    ContextCallback callback2 = as != nullptr ? as : (s_invokeAsyncCallback = &InvokeAsyncCallback);
+    ContextCallback callback2 = as != nullptr ? as : (s_invokeAsyncCallback = InvokeAsyncCallback);
     ExecutionContext::in::RunInternal(context, callback2, (ReadWriteTask)this);
   }
 }
@@ -229,7 +229,7 @@ Boolean Stream___::SynchronousAsyncResult___::get_IsCompleted() {
 
 WaitHandle Stream___::SynchronousAsyncResult___::get_AsyncWaitHandle() {
   Func<ManualResetEvent> as = __c::in::__9__12_0;
-  return LazyInitializer::EnsureInitialized(_waitHandle, as != nullptr ? as : (__c::in::__9__12_0 = &__c::in::__9->_get_AsyncWaitHandle_b__12_0));
+  return LazyInitializer::EnsureInitialized(_waitHandle, as != nullptr ? as : (__c::in::__9__12_0 = {__c::in::__9, &__c::in::_get_AsyncWaitHandle_b__12_0}));
 }
 
 Object Stream___::SynchronousAsyncResult___::get_AsyncState() {
@@ -719,7 +719,7 @@ void Stream___::set_WriteTimeout(Int32 value) {
 
 SemaphoreSlim Stream___::EnsureAsyncActiveSemaphoreInitialized() {
   Func<SemaphoreSlim> as = __c::in::__9__5_0;
-  return LazyInitializer::EnsureInitialized(_asyncActiveSemaphore, as != nullptr ? as : (__c::in::__9__5_0 = &__c::in::__9->_EnsureAsyncActiveSemaphoreInitialized_b__5_0));
+  return LazyInitializer::EnsureInitialized(_asyncActiveSemaphore, as != nullptr ? as : (__c::in::__9__5_0 = {__c::in::__9, &__c::in::_EnsureAsyncActiveSemaphoreInitialized_b__5_0}));
 }
 
 Task<> Stream___::CopyToAsync(Stream destination) {
@@ -816,7 +816,7 @@ Task<> Stream___::FlushAsync() {
 
 Task<> Stream___::FlushAsync(CancellationToken cancellationToken) {
   Action<Object> as = __c::in::__9__39_0;
-  return Task<>::in::get_Factory()->StartNew(as != nullptr ? as : (__c::in::__9__39_0 = &__c::in::__9->_FlushAsync_b__39_0), (Stream)this, cancellationToken, TaskCreationOptions::DenyChildAttach, TaskScheduler::in::get_Default());
+  return Task<>::in::get_Factory()->StartNew(as != nullptr ? as : (__c::in::__9__39_0 = {__c::in::__9, &__c::in::_FlushAsync_b__39_0}), (Stream)this, cancellationToken, TaskCreationOptions::DenyChildAttach, TaskScheduler::in::get_Default());
 }
 
 WaitHandle Stream___::CreateWaitHandle() {
@@ -839,7 +839,7 @@ IAsyncResult Stream___::BeginReadInternal(Array<Byte> buffer, Int32 offset, Int3
     semaphoreSlim->Wait();
   }
   Func<Object, Int32> as = __c::in::__9__42_0;
-  ReadWriteTask readWriteTask = rt::newobj<ReadWriteTask>(true, apm, as != nullptr ? as : (__c::in::__9__42_0 = &__c::in::__9->_BeginReadInternal_b__42_0), state, (Stream)this, buffer, offset, count, callback);
+  ReadWriteTask readWriteTask = rt::newobj<ReadWriteTask>(true, apm, as != nullptr ? as : (__c::in::__9__42_0 = {__c::in::__9, &__c::in::_BeginReadInternal_b__42_0}), state, (Stream)this, buffer, offset, count, callback);
   if (task != nullptr) {
     RunReadWriteTaskWhenReady(task, readWriteTask);
   } else {
@@ -907,7 +907,7 @@ Task<Int32> Stream___::BeginEndReadAsync(Array<Byte> buffer, Int32 offset, Int32
   }
   Func<Stream, ReadWriteParameters, AsyncCallback, Object, IAsyncResult> as = __c::in::__9__47_0;
   Func<Stream, IAsyncResult, Int32> is = __c::in::__9__47_1;
-  return TaskFactory<Int32>::in::FromAsyncTrim((Stream)this, ReadWriteParameters(), as != nullptr ? as : (__c::in::__9__47_0 = &__c::in::__9->_BeginEndReadAsync_b__47_0), is != nullptr ? is : (__c::in::__9__47_1 = &__c::in::__9->_BeginEndReadAsync_b__47_1));
+  return TaskFactory<Int32>::in::FromAsyncTrim((Stream)this, ReadWriteParameters(), as != nullptr ? as : (__c::in::__9__47_0 = {__c::in::__9, &__c::in::_BeginEndReadAsync_b__47_0}), is != nullptr ? is : (__c::in::__9__47_1 = {__c::in::__9, &__c::in::_BeginEndReadAsync_b__47_1}));
 }
 
 IAsyncResult Stream___::BeginWrite(Array<Byte> buffer, Int32 offset, Int32 count, AsyncCallback callback, Object state) {
@@ -926,7 +926,7 @@ IAsyncResult Stream___::BeginWriteInternal(Array<Byte> buffer, Int32 offset, Int
     semaphoreSlim->Wait();
   }
   Func<Object, Int32> as = __c::in::__9__50_0;
-  ReadWriteTask readWriteTask = rt::newobj<ReadWriteTask>(false, apm, as != nullptr ? as : (__c::in::__9__50_0 = &__c::in::__9->_BeginWriteInternal_b__50_0), state, (Stream)this, buffer, offset, count, callback);
+  ReadWriteTask readWriteTask = rt::newobj<ReadWriteTask>(false, apm, as != nullptr ? as : (__c::in::__9__50_0 = {__c::in::__9, &__c::in::_BeginWriteInternal_b__50_0}), state, (Stream)this, buffer, offset, count, callback);
   if (task != nullptr) {
     RunReadWriteTaskWhenReady(task, readWriteTask);
   } else {
@@ -940,7 +940,7 @@ void Stream___::RunReadWriteTaskWhenReady(Task<> asyncWaiter, ReadWriteTask read
     RunReadWriteTask(readWriteTask);
   } else {
     Action<Task<>, Object> as = __c::in::__9__51_0;
-    asyncWaiter->ContinueWith(as != nullptr ? as : (__c::in::__9__51_0 = &__c::in::__9->_RunReadWriteTaskWhenReady_b__51_0), readWriteTask, rt::default__, TaskContinuationOptions::ExecuteSynchronously, TaskScheduler::in::get_Default());
+    asyncWaiter->ContinueWith(as != nullptr ? as : (__c::in::__9__51_0 = {__c::in::__9, &__c::in::_RunReadWriteTaskWhenReady_b__51_0}), readWriteTask, rt::default__, TaskContinuationOptions::ExecuteSynchronously, TaskScheduler::in::get_Default());
   }
 }
 
@@ -1014,7 +1014,7 @@ Task<> Stream___::BeginEndWriteAsync(Array<Byte> buffer, Int32 offset, Int32 cou
   }
   Func<Stream, ReadWriteParameters, AsyncCallback, Object, IAsyncResult> as = __c::in::__9__60_0;
   Func<Stream, IAsyncResult, VoidTaskResult> is = __c::in::__9__60_1;
-  return TaskFactory<VoidTaskResult>::in::FromAsyncTrim((Stream)this, ReadWriteParameters(), as != nullptr ? as : (__c::in::__9__60_0 = &__c::in::__9->_BeginEndWriteAsync_b__60_0), is != nullptr ? is : (__c::in::__9__60_1 = &__c::in::__9->_BeginEndWriteAsync_b__60_1));
+  return TaskFactory<VoidTaskResult>::in::FromAsyncTrim((Stream)this, ReadWriteParameters(), as != nullptr ? as : (__c::in::__9__60_0 = {__c::in::__9, &__c::in::_BeginEndWriteAsync_b__60_0}), is != nullptr ? is : (__c::in::__9__60_1 = {__c::in::__9, &__c::in::_BeginEndWriteAsync_b__60_1}));
 }
 
 Int32 Stream___::Read(Span<Byte> buffer) {

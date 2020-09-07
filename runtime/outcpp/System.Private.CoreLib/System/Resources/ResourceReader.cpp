@@ -180,9 +180,9 @@ Object ResourceReader___::DeserializeObject(Int32 typeIndex) {
 
 Boolean ResourceReader___::InitializeBinaryFormatter() {
   Func<Type> as = __c::in::__9__6_0;
-  LazyInitializer::EnsureInitialized(s_binaryFormatterType, as != nullptr ? as : (__c::in::__9__6_0 = &__c::in::__9->_InitializeBinaryFormatter_b__6_0));
+  LazyInitializer::EnsureInitialized(s_binaryFormatterType, as != nullptr ? as : (__c::in::__9__6_0 = {__c::in::__9, &__c::in::_InitializeBinaryFormatter_b__6_0}));
   Func<Func<Object, Stream, Object>> is = __c::in::__9__6_1;
-  LazyInitializer::EnsureInitialized(s_deserializeMethod, is != nullptr ? is : (__c::in::__9__6_1 = &__c::in::__9->_InitializeBinaryFormatter_b__6_1));
+  LazyInitializer::EnsureInitialized(s_deserializeMethod, is != nullptr ? is : (__c::in::__9__6_1 = {__c::in::__9, &__c::in::_InitializeBinaryFormatter_b__6_1}));
   _binaryFormatter = Activator::CreateInstance(s_binaryFormatterType);
   return true;
 }
