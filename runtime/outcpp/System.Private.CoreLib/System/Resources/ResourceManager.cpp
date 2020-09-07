@@ -347,7 +347,7 @@ Version ResourceManager___::GetSatelliteContractVersion(Assembly a) {
   if (a == nullptr) {
     rt::throw_exception<ArgumentNullException>("a", SR::get_ArgumentNull_Assembly());
   }
-  SatelliteContractVersionAttribute customAttribute = CustomAttributeExtensions::GetCustomAttribute(a);
+  SatelliteContractVersionAttribute customAttribute = CustomAttributeExtensions::GetCustomAttribute<SatelliteContractVersionAttribute>(a);
   String text = (customAttribute != nullptr) ? customAttribute->get_Version() : nullptr;
   if (text == nullptr) {
     return nullptr;

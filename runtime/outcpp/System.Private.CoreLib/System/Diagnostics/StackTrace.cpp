@@ -297,7 +297,7 @@ Boolean StackTrace___::TryResolveStateMachineMethod(MethodBase& method, Type& de
   }
   Array<MethodInfo> array = methods;
   for (MethodInfo&& methodInfo : *array) {
-    IEnumerable<StateMachineAttribute> customAttributes = CustomAttributeExtensions::GetCustomAttributes(methodInfo, false);
+    IEnumerable<StateMachineAttribute> customAttributes = CustomAttributeExtensions::GetCustomAttributes<StateMachineAttribute>(methodInfo, false);
     if (customAttributes == nullptr) {
       continue;
     }

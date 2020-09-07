@@ -135,7 +135,7 @@ OperatingSystem Environment::get_OSVersion() {
 }
 
 Version Environment::get_Version() {
-  AssemblyInformationalVersionAttribute customAttribute = CustomAttributeExtensions::GetCustomAttribute(typeof<Object>()->get_Assembly());
+  AssemblyInformationalVersionAttribute customAttribute = CustomAttributeExtensions::GetCustomAttribute<AssemblyInformationalVersionAttribute>(typeof<Object>()->get_Assembly());
   String text = (customAttribute != nullptr) ? customAttribute->get_InformationalVersion() : nullptr;
   ReadOnlySpan<Char> readOnlySpan = MemoryExtensions::AsSpan(text);
   Int32 num = MemoryExtensions::IndexOfAny(readOnlySpan, 45, 43, 32);

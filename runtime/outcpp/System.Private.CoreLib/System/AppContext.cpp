@@ -33,7 +33,7 @@ String AppContext::get_TargetFrameworkName() {
   if ((Object)entryAssembly == nullptr) {
     return nullptr;
   }
-  TargetFrameworkAttribute customAttribute = CustomAttributeExtensions::GetCustomAttribute(entryAssembly);
+  TargetFrameworkAttribute customAttribute = CustomAttributeExtensions::GetCustomAttribute<TargetFrameworkAttribute>(entryAssembly);
   if (customAttribute == nullptr) {
     return nullptr;
   }

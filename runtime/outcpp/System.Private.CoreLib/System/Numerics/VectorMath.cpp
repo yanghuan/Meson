@@ -1,5 +1,6 @@
 #include "VectorMath-dep.h"
 
+#include <System.Private.CoreLib/System/Byte-dep.h>
 #include <System.Private.CoreLib/System/Runtime/Intrinsics/Arm/AdvSimd-dep.h>
 #include <System.Private.CoreLib/System/Runtime/Intrinsics/X86/Sse-dep.h>
 #include <System.Private.CoreLib/System/Runtime/Intrinsics/X86/Sse2-dep.h>
@@ -25,7 +26,7 @@ Vector128<Single> VectorMath::ConditionalSelectBitwise(Vector128<Single> selecto
     return Sse::in::Or(Sse::in::And(ifTrue, selector), Sse::in::AndNot(selector, ifFalse));
   }
   if (AdvSimd::in::get_IsSupported()) {
-    return Vector128<>::As(AdvSimd::in::BitwiseSelect(Vector128<>::AsByte(selector), Vector128<>::AsByte(ifTrue), Vector128<>::AsByte(ifFalse)));
+    return Vector128<>::As<Byte, Single>(AdvSimd::in::BitwiseSelect(Vector128<>::AsByte(selector), Vector128<>::AsByte(ifTrue), Vector128<>::AsByte(ifFalse)));
   }
   return rt::default__;
 }
@@ -35,10 +36,10 @@ Vector128<Double> VectorMath::ConditionalSelectBitwise(Vector128<Double> selecto
     return Sse2::in::Or(Sse2::in::And(ifTrue, selector), Sse2::in::AndNot(selector, ifFalse));
   }
   if (Sse::in::get_IsSupported()) {
-    return Vector128<>::As(Sse::in::Or(Sse::in::And(Vector128<>::AsSingle(ifTrue), Vector128<>::AsSingle(selector)), Sse::in::AndNot(Vector128<>::AsSingle(selector), Vector128<>::AsSingle(ifFalse))));
+    return Vector128<>::As<Single, Double>(Sse::in::Or(Sse::in::And(Vector128<>::AsSingle(ifTrue), Vector128<>::AsSingle(selector)), Sse::in::AndNot(Vector128<>::AsSingle(selector), Vector128<>::AsSingle(ifFalse))));
   }
   if (AdvSimd::in::get_IsSupported()) {
-    return Vector128<>::As(AdvSimd::in::BitwiseSelect(Vector128<>::AsByte(selector), Vector128<>::AsByte(ifTrue), Vector128<>::AsByte(ifFalse)));
+    return Vector128<>::As<Byte, Double>(AdvSimd::in::BitwiseSelect(Vector128<>::AsByte(selector), Vector128<>::AsByte(ifTrue), Vector128<>::AsByte(ifFalse)));
   }
   return rt::default__;
 }

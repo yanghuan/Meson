@@ -88,7 +88,7 @@ CultureInfo ManifestBasedResourceGroveler___::UltimateFallbackFixup(CultureInfo 
 }
 
 CultureInfo ManifestBasedResourceGroveler___::GetNeutralResourcesLanguage(Assembly a, UltimateResourceFallbackLocation& fallbackLocation) {
-  NeutralResourcesLanguageAttribute customAttribute = CustomAttributeExtensions::GetCustomAttribute(a);
+  NeutralResourcesLanguageAttribute customAttribute = CustomAttributeExtensions::GetCustomAttribute<NeutralResourcesLanguageAttribute>(a);
   if (customAttribute == nullptr) {
     fallbackLocation = UltimateResourceFallbackLocation::MainAssembly;
     return CultureInfo::in::get_InvariantCulture();

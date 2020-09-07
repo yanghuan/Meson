@@ -368,7 +368,7 @@ Boolean String___::EndsWith(String value, StringComparison comparisonType) {
       {
         Int32 num = get_Length() - value->get_Length();
         if ((UInt32)num <= (UInt32)get_Length()) {
-          return MemoryExtensions::SequenceEqual(MemoryExtensions::AsSpan((String)this, num), value);
+          return MemoryExtensions::SequenceEqual(MemoryExtensions::AsSpan(this, num), value);
         }
         return false;
       }case StringComparison::OrdinalIgnoreCase:
@@ -1842,14 +1842,14 @@ String String___::ReplaceHelper(Int32 oldValueLength, String newValue, ReadOnlyS
   for (Int32&& num4 : *indices) {
     Int32 num5 = num4 - num2;
     if (num5 != 0) {
-      MemoryExtensions::AsSpan((String)this, num2, num5).CopyTo(span.Slice(num3));
+      MemoryExtensions::AsSpan(this, num2, num5).CopyTo(span.Slice(num3));
       num3 += num5;
     }
     num2 = num4 + oldValueLength;
     MemoryExtensions::AsSpan(newValue).CopyTo(span.Slice(num3));
     num3 += newValue->get_Length();
   }
-  MemoryExtensions::AsSpan((String)this, num2).CopyTo(span.Slice(num3));
+  MemoryExtensions::AsSpan(this, num2).CopyTo(span.Slice(num3));
   return text;
 }
 
@@ -2035,7 +2035,7 @@ Array<String> String___::SplitWithPostProcessing(ReadOnlySpan<Int32> sepList, Re
   Int32 num3 = 0;
   ReadOnlySpan<Char> span;
   for (Int32 i = 0; i < length; i++) {
-    span = MemoryExtensions::AsSpan((String)this, num2, sepList[i] - num2);
+    span = MemoryExtensions::AsSpan(this, num2, sepList[i] - num2);
     if ((options & StringSplitOptions::TrimEntries) != 0) {
       span = MemoryExtensions::Trim(span);
     }
@@ -2050,7 +2050,7 @@ Array<String> String___::SplitWithPostProcessing(ReadOnlySpan<Int32> sepList, Re
       break;
     }
     while (++i < length) {
-      span = MemoryExtensions::AsSpan((String)this, num2, sepList[i] - num2);
+      span = MemoryExtensions::AsSpan(this, num2, sepList[i] - num2);
       if ((options & StringSplitOptions::TrimEntries) != 0) {
         span = MemoryExtensions::Trim(span);
       }
@@ -2061,7 +2061,7 @@ Array<String> String___::SplitWithPostProcessing(ReadOnlySpan<Int32> sepList, Re
     }
     break;
   }
-  span = MemoryExtensions::AsSpan((String)this, num2);
+  span = MemoryExtensions::AsSpan(this, num2);
   if ((options & StringSplitOptions::TrimEntries) != 0) {
     span = MemoryExtensions::Trim(span);
   }
@@ -2129,7 +2129,7 @@ void String___::MakeSeparatorList(ReadOnlySpan<Char> separators, ValueListBuilde
 void String___::MakeSeparatorList(String separator, ValueListBuilder<Int32>& sepListBuilder) {
   Int32 length = separator->get_Length();
   for (Int32 i = 0; i < get_Length(); i++) {
-    if ((String)this[i] == separator[0] && length <= get_Length() - i && (length == 1 || MemoryExtensions::SequenceEqual(MemoryExtensions::AsSpan((String)this, i, length), separator))) {
+    if ((String)this[i] == separator[0] && length <= get_Length() - i && (length == 1 || MemoryExtensions::SequenceEqual(MemoryExtensions::AsSpan(this, i, length), separator))) {
       sepListBuilder.Append(i);
       i += length - 1;
     }
@@ -2141,7 +2141,7 @@ void String___::MakeSeparatorList(Array<String> separators, ValueListBuilder<Int
     for (String&& text : *separators) {
       if (!IsNullOrEmpty(text)) {
         Int32 length = text->get_Length();
-        if ((String)this[i] == text[0] && length <= get_Length() - i && (length == 1 || MemoryExtensions::SequenceEqual(MemoryExtensions::AsSpan((String)this, i, length), text))) {
+        if ((String)this[i] == text[0] && length <= get_Length() - i && (length == 1 || MemoryExtensions::SequenceEqual(MemoryExtensions::AsSpan(this, i, length), text))) {
           sepListBuilder.Append(i);
           lengthListBuilder.Append(length);
           i += length - 1;

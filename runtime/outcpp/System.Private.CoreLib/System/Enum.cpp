@@ -57,7 +57,7 @@ Enum::in::EnumInfo Enum___::GetEnumInfo(RuntimeType enumType, Boolean getNames) 
 }
 
 String Enum___::ValueToString() {
-  Byte& rawData = RuntimeHelpers::GetRawData((Enum)this);
+  Byte& rawData = RuntimeHelpers::GetRawData(this);
   switch (InternalGetCorElementType()) {
     case CorElementType::ELEMENT_TYPE_I1:
       return Unsafe::As<Byte, SByte>(rawData).ToString();
@@ -93,7 +93,7 @@ String Enum___::ValueToString() {
 }
 
 String Enum___::ValueToHexString() {
-  Byte& rawData = RuntimeHelpers::GetRawData((Enum)this);
+  Byte& rawData = RuntimeHelpers::GetRawData(this);
   switch (InternalGetCorElementType()) {
     case CorElementType::ELEMENT_TYPE_I1:
     case CorElementType::ELEMENT_TYPE_U1:
@@ -628,7 +628,7 @@ String Enum___::Format(Type enumType, Object value, String format) {
 }
 
 Object Enum___::GetValue() {
-  Byte& rawData = RuntimeHelpers::GetRawData((Enum)this);
+  Byte& rawData = RuntimeHelpers::GetRawData(this);
   switch (InternalGetCorElementType()) {
     case CorElementType::ELEMENT_TYPE_I1:
       return Unsafe::As<Byte, SByte>(rawData);
@@ -664,7 +664,7 @@ Object Enum___::GetValue() {
 }
 
 UInt64 Enum___::ToUInt64() {
-  Byte& rawData = RuntimeHelpers::GetRawData((Enum)this);
+  Byte& rawData = RuntimeHelpers::GetRawData(this);
   switch (InternalGetCorElementType()) {
     case CorElementType::ELEMENT_TYPE_I1:
       return (UInt64)Unsafe::As<Byte, SByte>(rawData);
@@ -697,7 +697,7 @@ UInt64 Enum___::ToUInt64() {
 }
 
 Int32 Enum___::GetHashCode() {
-  Byte& rawData = RuntimeHelpers::GetRawData((Enum)this);
+  Byte& rawData = RuntimeHelpers::GetRawData(this);
   switch (InternalGetCorElementType()) {
     case CorElementType::ELEMENT_TYPE_I1:
       return Unsafe::As<Byte, SByte>(rawData).GetHashCode();
@@ -747,7 +747,7 @@ Int32 Enum___::CompareTo(Object target) {
   if (GetType() != target->GetType()) {
     rt::throw_exception<ArgumentException>(SR::Format(SR::get_Arg_EnumAndObjectMustBeSameType(), target->GetType(), GetType()));
   }
-  Byte& rawData = RuntimeHelpers::GetRawData((Enum)this);
+  Byte& rawData = RuntimeHelpers::GetRawData(this);
   Byte& rawData2 = RuntimeHelpers::GetRawData(target);
   switch (InternalGetCorElementType()) {
     case CorElementType::ELEMENT_TYPE_I1:

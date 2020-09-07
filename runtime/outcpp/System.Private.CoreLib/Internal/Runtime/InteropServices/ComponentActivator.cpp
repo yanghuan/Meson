@@ -13,6 +13,7 @@
 #include <System.Private.CoreLib/System/Reflection/CustomAttributeExtensions-dep.h>
 #include <System.Private.CoreLib/System/Reflection/MethodInfo-dep.h>
 #include <System.Private.CoreLib/System/Runtime/InteropServices/Marshal-dep.h>
+#include <System.Private.CoreLib/System/Runtime/InteropServices/UnmanagedCallersOnlyAttribute-dep.h>
 #include <System.Private.CoreLib/System/SR-dep.h>
 #include <System.Private.CoreLib/System/StringComparer-dep.h>
 #include <System.Private.CoreLib/System/Type-dep.h>
@@ -111,7 +112,7 @@ IntPtr ComponentActivator::InternalGetFunctionPointer(AssemblyLoadContext alc, S
     if (method == nullptr) {
       rt::throw_exception<MissingMethodException>(typeName, methodName);
     }
-    if (CustomAttributeExtensions::GetCustomAttribute(method) == nullptr) {
+    if (CustomAttributeExtensions::GetCustomAttribute<UnmanagedCallersOnlyAttribute>(method) == nullptr) {
       rt::throw_exception<InvalidOperationException>(SR::get_InvalidOperation_FunctionMissingUnmanagedCallersOnly());
     }
     return method->get_MethodHandle().GetFunctionPointer();

@@ -463,12 +463,10 @@ namespace Meson.Compiler {
     public SyntaxNode VisitInvocationExpression(InvocationExpression invocationExpression) {
       var symbol = (IMethod)invocationExpression.GetSymbol();
       var arguments = BuildInvocationArguments(symbol, invocationExpression);
-      if (symbol != null && invocationExpression.Target is MemberReferenceExpression memberReference) {
-        if (symbol.IsExtensionMethod) {
-          var memberReferenceTarget = memberReference.Target.AcceptExpression(this);
-          arguments.Insert(0, memberReferenceTarget);
-          return GetTypeName(symbol.DeclaringTypeDefinition).TwoColon(GetMemberName(symbol)).Invation(arguments);
-        }
+      if (symbol != null && symbol.IsExtensionMethod && invocationExpression.Target is MemberReferenceExpression memberReference) {
+        var memberAccessExpression = memberReference.Accept<MemberAccessExpressionSyntax>(this);
+        arguments.Insert(0, memberAccessExpression.Expression);
+        return GetTypeName(symbol.DeclaringTypeDefinition).TwoColon(memberAccessExpression.Name).Invation(arguments);
       }
       var target = invocationExpression.Target.AcceptExpression(this);
       CheckNoVisibleMethod(symbol, invocationExpression, ref target, arguments);

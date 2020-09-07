@@ -898,7 +898,7 @@ String Marshal::GenerateProgIdForType(Type type) {
   if (type->get_IsGenericType()) {
     rt::throw_exception<ArgumentException>(SR::get_Argument_NeedNonGenericType(), "type");
   }
-  ProgIdAttribute customAttribute = CustomAttributeExtensions::GetCustomAttribute(type);
+  ProgIdAttribute customAttribute = CustomAttributeExtensions::GetCustomAttribute<ProgIdAttribute>(type);
   if (customAttribute != nullptr) {
     String as = customAttribute->get_Value();
     return as != nullptr ? as : String::in::Empty;
