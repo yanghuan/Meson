@@ -1,9 +1,8 @@
 #pragma once
 
-#include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/Boolean.h>
 
 namespace System::Private::CoreLib::System {
-FORWARDS(Boolean)
 FORWARDS(Char)
 FORWARDS(IntPtr)
 FORWARDS(ReadOnlySpan, T)

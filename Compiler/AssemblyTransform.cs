@@ -11,7 +11,7 @@ namespace Meson.Compiler {
     private readonly Dictionary<ITypeDefinition, ITypeDefinition> nestedBrotherTypes_ = new Dictionary<ITypeDefinition, ITypeDefinition>();
     private IEnumerable<CompilationUnitTransform> compilationUnits_;
 
-    private readonly static HashSet<string> ignoreDefinitionTypes_ = new HashSet<string>() {
+    private static readonly HashSet<string> ignoreDefinitionTypes_ = new HashSet<string>() {
       "System.Runtime.CompilerServices.NullablePublicOnlyAttribute",
       "System.Runtime.CompilerServices.NullableContextAttribute",
       "System.Runtime.CompilerServices.NullableAttribute",

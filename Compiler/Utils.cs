@@ -398,6 +398,10 @@ namespace Meson.Compiler {
       return type.FullName == "System.ValueTuple";
     }
 
+    public static bool IsDictionaryType(this ITypeDefinition type) {
+      return type.FullTypeName.ReflectionName == "System.Collections.Generic.Dictionary`2";
+    }
+
     public static bool IsArrayType(this ITypeDefinition type) {
       return type.KnownTypeCode == KnownTypeCode.Array;
     }

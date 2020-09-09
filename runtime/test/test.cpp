@@ -18,10 +18,12 @@
 #include <System.Private.CoreLib/System/ArgumentException-dep.h>
 #include <System.Private.CoreLib/System/Action-dep.h>
 #include <System.Private.CoreLib/System/Reflection/MethodInfo-dep.h>
+#include <System.Private.CoreLib/System/Text/StringBuilder-dep.h>
 
 using namespace System::Private::CoreLib::System;
 using namespace ::System::Private::CoreLib::System::Threading;
 using namespace Reflection;
+using namespace Text;
 
 class No_Complete;
 
@@ -96,8 +98,8 @@ void TestInterfaces() {
 }
 
 void TestAction() {
-  Object o = nullptr;
-  Action<> a = { o, &Object::in::GetHashCode };
+  //Object o = nullptr;
+  //Action<> a = { o, &Object::in::GetHashCode };
 }
 
 void TestMethodInfo(MemberInfo a) {
@@ -109,7 +111,16 @@ void TestMethodInfo() {
    TestMethodInfo(method);
 }
 
+void TestStringBuffer() {
+  StringBuilder sb = nullptr;
+  sb->Append(10);
+}
+
 int main() {
+  Boolean a = false;
+  void* p = true;
+  int f = false;
+  //Array<Object> arr(false);
   return 0;
 }
 

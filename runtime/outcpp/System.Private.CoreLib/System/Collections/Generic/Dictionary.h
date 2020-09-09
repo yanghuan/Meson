@@ -212,6 +212,7 @@ CLASS(Dictionary, TKey, TValue) : public object {
   private: IEqualityComparer<TKey> _comparer;
   private: KeyCollection _keys;
   private: ValueCollection _values;
+  public: TValue& operator [](TKey key);
 };
 } // namespace DictionaryNamespace
 template <class TKey, class TValue>

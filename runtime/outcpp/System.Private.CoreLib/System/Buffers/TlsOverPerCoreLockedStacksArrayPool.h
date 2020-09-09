@@ -1,5 +1,6 @@
 #pragma once
 
+#include <System.Private.CoreLib/System/Boolean.h>
 #include <System.Private.CoreLib/System/Buffers/ArrayPool.h>
 #include <System.Private.CoreLib/System/Int32.h>
 #include <System.Private.CoreLib/System/Object.h>
@@ -7,7 +8,6 @@
 
 namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)
-FORWARDS(Boolean)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Runtime::CompilerServices {
 FORWARD(ConditionalWeakTable, TKey, TValue)

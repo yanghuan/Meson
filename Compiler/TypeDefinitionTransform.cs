@@ -199,7 +199,7 @@ namespace Meson.Compiler {
         if (method.DeclaringTypeDefinition.IsStringType()) {
           return false;
         }
-      } 
+      }
       return true;
     }
 
@@ -351,8 +351,12 @@ namespace Meson.Compiler {
       return defaultValue;
     }
 
+    private static bool IsConstantValueImportType(IType type) {
+      return type.Kind == TypeKind.Enum || type.IsKnownType(KnownTypeCode.String) || type.IsKnownType(KnownTypeCode.Boolean);
+    }
+
     private ParameterSyntax GetParameterSyntax(IParameter parameter, IMethod method, ITypeDefinition typeDefinition) {
-      bool isConstValueImport = parameter.HasConstantValueInSignature && (parameter.Type.Kind == TypeKind.Enum || parameter.Type.IsKnownType(KnownTypeCode.String));
+      bool isConstValueImport = parameter.HasConstantValueInSignature && IsConstantValueImportType(parameter.Type);
       var type = CompilationUnit.GetTypeName(new TypeNameArgs {
         Type = parameter.Type,
         Definition = typeDefinition,
@@ -701,7 +705,7 @@ namespace Meson.Compiler {
               node.Add(getValueConst);
             } else if (type.IsStringType()) {
               var field = type.Fields.First(i => !i.IsStatic && i.Type.IsKnownType(KnownTypeCode.Int32));
-              var getAllocSize = new MethodDefinitionSyntax(nameof(IdentifierSyntax.GetAllocSize), null, "size_t") { 
+              var getAllocSize = new MethodDefinitionSyntax(nameof(IdentifierSyntax.GetAllocSize), null, "size_t") {
                 Accessibility = Accessibility.Public,
                 IsConst = true,
                 IsNoexcept = true,
@@ -713,9 +717,19 @@ namespace Meson.Compiler {
             }
             break;
           }
+        case KnownTypeCode.NullableOfT: {
+            var defaultConstructor = new MethodDefinitionSyntax(node.Name, new ParameterSyntax("std::nullptr_t", null).ArrayOf()) {
+              AccessibilityToken = Accessibility.Public.ToTokenString(),
+              Body = BlockSyntax.EmptyBlock,
+              IsConstexpr = true,
+              IsNoexcept = true,
+            };
+            node.Add(defaultConstructor);
+            break;
+          }
         case KnownTypeCode.SpanOfT:
         case KnownTypeCode.ReadOnlySpanOfT: {
-            var method = new MethodDefinitionSyntax(type.Name, new ParameterSyntax(IdentifierSyntax.T, "(&array)[N]").ArrayOf()) { 
+            var method = new MethodDefinitionSyntax(type.Name, new ParameterSyntax(IdentifierSyntax.T, "(&array)[N]").ArrayOf()) {
               Template = new TemplateSyntax(new TemplateTypenameSyntax(IdentifierSyntax.N) { ClassToken = "int" }),
               AccessibilityToken = Accessibility.Public.ToTokenString(),
               Body = new BlockSyntax() { IsSingleLine = true },
@@ -725,15 +739,30 @@ namespace Meson.Compiler {
             break;
           }
         default: {
-            if (type.Kind == TypeKind.Interface || type.Kind == TypeKind.Delegate) {
-              node.Add(new FieldDefinitionSyntax(IdentifierSyntax.TypeCode, IdentifierSyntax.code, true, Accessibility.Public.ToTokenString()) {
-                IsConstexpr = true,
-                ConstantValue = IdentifierSyntax.TypeCode.TwoColon(type.Kind.ToString()),
-              });
+            switch (type.Kind) {
+              case TypeKind.Interface:
+              case TypeKind.Delegate:
+                AddTypeCode(node, type.Kind);
+                break;
+              case TypeKind.Class:
+                if (type.IsDictionaryType()) {
+                  var operatorGetItem = new MethodDefinitionSyntax("operator []", new ParameterSyntax(type.TypeParameters[0].Name, "key").ArrayOf(), new RefExpressionSyntax(type.TypeParameters[1].Name)) {
+                    AccessibilityToken = Accessibility.Public.ToTokenString(),
+                  };
+                  node.Add(operatorGetItem);
+                }
+                break;
             }
             break;
-          }
+        }
       }
+    }
+
+    private static void AddTypeCode(ClassSyntax node, TypeKind kind) {
+      node.Add(new FieldDefinitionSyntax(IdentifierSyntax.TypeCode, IdentifierSyntax.code, true, Accessibility.Public.ToTokenString()) {
+        IsConstexpr = true,
+        ConstantValue = IdentifierSyntax.TypeCode.TwoColon(kind.ToString()),
+      });
     }
 
     private BlockSyntax GetBrotherTypeParnetBlock(ITypeDefinition brotherType) {

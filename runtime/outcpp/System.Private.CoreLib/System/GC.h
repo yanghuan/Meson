@@ -1,13 +1,12 @@
 #pragma once
 
-#include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/Boolean.h>
 
 namespace System::Private::CoreLib::System {
 enum class GCCollectionMode : int32_t;
 enum class GCKind : int32_t;
 enum class GCNotificationStatus : int32_t;
 FORWARD_(Array, T1, T2)
-FORWARDS(Boolean)
 FORWARDS(GCMemoryInfo)
 FORWARD(GCMemoryInfoData)
 FORWARDS(Int32)

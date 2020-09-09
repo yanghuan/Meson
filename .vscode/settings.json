@@ -92,7 +92,8 @@
     "xhash": "cpp",
     "xstddef": "cpp",
     "xtree": "cpp",
-    "resumable": "cpp"
+    "resumable": "cpp",
+    "coroutine": "cpp"
   },
   "python.pythonPath": "d:\\tools\\python36\\python.exe",
   "xmake.runningTargetsArguments": {

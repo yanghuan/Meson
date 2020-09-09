@@ -1,10 +1,10 @@
 #pragma once
 
+#include <System.Private.CoreLib/System/Boolean.h>
 #include <System.Private.CoreLib/System/Int32.h>
 #include <System.Private.CoreLib/System/ValueType.h>
 
 namespace System::Private::CoreLib::System {
-FORWARDS(Boolean)
 FORWARD(IEquatable, T)
 FORWARD(Object)
 FORWARD(String)

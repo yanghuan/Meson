@@ -32,12 +32,12 @@ class Path {
     public: void _GetRandomFileName_b__16_0(Span<Char> span, IntPtr key);
     public: void _JoinInternal_b__37_0(Span<Char> destination, ValueTuple<IntPtr, Int32, IntPtr, Int32, Boolean> state);
     public: void _JoinInternal_b__38_0(Span<Char> destination, ValueTuple<IntPtr, Int32, IntPtr, Int32, IntPtr, Int32, Boolean, Boolean> state);
-    public: void _JoinInternal_b__39_0(Span<Char> destination, ValueTuple<IntPtr, Int32, IntPtr, Int32, IntPtr, Int32, IntPtr, Int32, Boolean, Boolean, Boolean> state);
+    public: void _JoinInternal_b__39_0(Span<Char> destination, ValueTuple<IntPtr, Int32, IntPtr, Int32, IntPtr, Int32, IntPtr, ValueTuple<Int32, Boolean, Boolean, Boolean>> state);
     public: static __c __9;
     public: static SpanAction<Char, IntPtr> __9__16_0;
     public: static SpanAction<Char, ValueTuple<IntPtr, Int32, IntPtr, Int32, Boolean>> __9__37_0;
     public: static SpanAction<Char, ValueTuple<IntPtr, Int32, IntPtr, Int32, IntPtr, Int32, Boolean, Boolean>> __9__38_0;
-    public: static SpanAction<Char, ValueTuple<IntPtr, Int32, IntPtr, Int32, IntPtr, Int32, IntPtr, Int32, Boolean, Boolean, Boolean>> __9__39_0;
+    public: static SpanAction<Char, ValueTuple<IntPtr, Int32, IntPtr, Int32, IntPtr, Int32, IntPtr, ValueTuple<Int32, Boolean, Boolean, Boolean>>> __9__39_0;
   };
   private: static ReadOnlySpan<Byte> get_Base32Char();
   public: static StringComparison get_StringComparison();

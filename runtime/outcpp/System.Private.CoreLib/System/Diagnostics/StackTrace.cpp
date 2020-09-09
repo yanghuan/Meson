@@ -11,6 +11,7 @@
 #include <System.Private.CoreLib/System/Globalization/CultureInfo-dep.h>
 #include <System.Private.CoreLib/System/Reflection/BindingFlags.h>
 #include <System.Private.CoreLib/System/Reflection/CustomAttributeExtensions-dep.h>
+#include <System.Private.CoreLib/System/Reflection/MemberInfo-dep.h>
 #include <System.Private.CoreLib/System/Reflection/MethodBase-dep.h>
 #include <System.Private.CoreLib/System/Reflection/MethodImplAttributes.h>
 #include <System.Private.CoreLib/System/Reflection/MethodInfo-dep.h>
@@ -297,7 +298,7 @@ Boolean StackTrace___::TryResolveStateMachineMethod(MethodBase& method, Type& de
   }
   Array<MethodInfo> array = methods;
   for (MethodInfo&& methodInfo : *array) {
-    IEnumerable<StateMachineAttribute> customAttributes = CustomAttributeExtensions::GetCustomAttributes<StateMachineAttribute>(methodInfo, false);
+    IEnumerable<StateMachineAttribute> customAttributes = CustomAttributeExtensions::GetCustomAttributes<StateMachineAttribute>(methodInfo, (MemberInfo)false);
     if (customAttributes == nullptr) {
       continue;
     }

@@ -35,6 +35,7 @@ struct Nullable<T> : public valueType<Nullable<T>> {
   public: explicit Nullable() {}
   private: Boolean hasValue;
   public: T value;
+  public: constexpr Nullable(std::nullptr_t) noexcept {}
 };
 } // namespace NullableNamespace
 template <class T1 = void, class T2 = void>

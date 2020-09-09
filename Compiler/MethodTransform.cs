@@ -402,6 +402,15 @@ namespace Meson.Compiler {
                   }
                 }
                 break;
+              case KnownTypeCode.Boolean: {
+                  if (expression is BooleanLiteralExpressionSyntax boolLiteral) {
+                    bool exists = symbol.DeclaringTypeDefinition.Methods.Any(i => i != symbol && i.Name == symbol.Name && IsMethodSimilar(symbol, i, index, !boolLiteral.Value));
+                    if (exists) {
+                      goto Cast;
+                    }
+                  }
+                  break;
+                }
             }
             switch (parameter.Type.Kind) {
               case TypeKind.NInt:

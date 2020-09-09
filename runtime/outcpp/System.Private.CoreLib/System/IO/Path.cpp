@@ -50,7 +50,7 @@ void Path::__c___::_JoinInternal_b__38_0(Span<Char> destination, ValueTuple<IntP
   Span<Char>((void*)state.Item5, state.Item6).CopyTo(destination.Slice(destination.get_Length() - state.Item6));
 }
 
-void Path::__c___::_JoinInternal_b__39_0(Span<Char> destination, ValueTuple<IntPtr, Int32, IntPtr, Int32, IntPtr, Int32, IntPtr, Int32, Boolean, Boolean, Boolean> state) {
+void Path::__c___::_JoinInternal_b__39_0(Span<Char> destination, ValueTuple<IntPtr, Int32, IntPtr, Int32, IntPtr, Int32, IntPtr, ValueTuple<Int32, Boolean, Boolean, Boolean>> state) {
   Span<Char>((void*)state.Item1, state.Item2).CopyTo(destination);
   if (!state.Rest.Item2) {
     destination[state.Item2] = 92;
@@ -553,8 +553,8 @@ String Path::JoinInternal(ReadOnlySpan<Char> first, ReadOnlySpan<Char> second, R
         Char* value3 = &MemoryMarshal::GetReference(third);
         {
           Char* value4 = &MemoryMarshal::GetReference(fourth);
-          SpanAction<Char, ValueTuple<IntPtr, Int32, IntPtr, Int32, IntPtr, Int32, IntPtr, Int32, Boolean, Boolean, Boolean>> as = __c::in::__9__39_0;
-          return String::in::Create(first.get_Length() + second.get_Length() + third.get_Length() + fourth.get_Length() + ((!flag) ? 1 : 0) + ((!flag2) ? 1 : 0) + ((!flag3) ? 1 : 0), {(IntPtr)(void*)value, first.get_Length(), (IntPtr)(void*)value2, second.get_Length(), (IntPtr)(void*)value3, third.get_Length(), (IntPtr)(void*)value4, fourth.get_Length(), flag, flag2, flag3}, as != nullptr ? as : (__c::in::__9__39_0 = rt::newobj<SpanAction<Char, ValueTuple<IntPtr, Int32, IntPtr, Int32, IntPtr, Int32, IntPtr, Int32, Boolean, Boolean, Boolean>>>(&_JoinInternal_b__39_0)));
+          SpanAction<Char, ValueTuple<IntPtr, Int32, IntPtr, Int32, IntPtr, Int32, IntPtr, ValueTuple<Int32, Boolean, Boolean, Boolean>>> as = __c::in::__9__39_0;
+          return String::in::Create(first.get_Length() + second.get_Length() + third.get_Length() + fourth.get_Length() + ((!flag) ? 1 : 0) + ((!flag2) ? 1 : 0) + ((!flag3) ? 1 : 0), {(IntPtr)(void*)value, first.get_Length(), (IntPtr)(void*)value2, second.get_Length(), (IntPtr)(void*)value3, third.get_Length(), (IntPtr)(void*)value4, fourth.get_Length(), flag, flag2, flag3}, as != nullptr ? as : (__c::in::__9__39_0 = rt::newobj<SpanAction<Char, ValueTuple<IntPtr, Int32, IntPtr, Int32, IntPtr, Int32, IntPtr, ValueTuple<Int32, Boolean, Boolean, Boolean>>>>(&_JoinInternal_b__39_0)));
         }
       }
     }

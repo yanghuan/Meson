@@ -312,6 +312,13 @@ namespace rt {
       return *this;
     }
 
+    template <class T1 = T> requires(IsString<T1>)
+    ref& operator +=(const char* str) {
+      ref other = *this + str;
+      moveOf(std::move(other));
+      return *this;
+    }
+    
     template <class T1, class T2 = T> requires(IsFunctionPointer<T1> && IsDelegate<T2>)
     ref& operator =(const T1& right) noexcept {
       //TODO

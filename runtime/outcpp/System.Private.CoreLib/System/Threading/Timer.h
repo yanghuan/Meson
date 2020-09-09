@@ -1,9 +1,9 @@
 #pragma once
 
+#include <System.Private.CoreLib/System/Boolean.h>
 #include <System.Private.CoreLib/System/MarshalByRefObject.h>
 
 namespace System::Private::CoreLib::System {
-FORWARDS(Boolean)
 FORWARD(IAsyncDisposable)
 FORWARD(IDisposable)
 FORWARDS(Int32)

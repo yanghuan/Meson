@@ -347,6 +347,7 @@ namespace Meson.Compiler {
       if (args.Type.TypeArguments.Count > 0 || args.Type.Kind == TypeKind.Tuple) {
         var typeArguments = args.Type.GetTypeArguments().Select(i => GetTypeName(args.With(i, args.IsForward || i.IsRefType(), i))).ToList();
         if (typeArguments.Count > 0) {
+          CheckTupleTypeArgumentCount(args.Type, typeName, ref typeArguments);
           typeName = new GenericIdentifierSyntax(typeName, typeArguments);
           isGeneric = true;
         }
@@ -380,6 +381,18 @@ namespace Meson.Compiler {
         }
       }
       return typeName;
+    }
+
+    private void CheckTupleTypeArgumentCount(IType type, ExpressionSyntax typeName, ref List<ExpressionSyntax> typeArguments) {
+      const int kMaxTypeArgumentCount = 8;
+      if (type.Kind == TypeKind.Tuple && typeArguments.Count > kMaxTypeArgumentCount) {
+        var newTypeArguments = new List<ExpressionSyntax>(kMaxTypeArgumentCount);
+        newTypeArguments.AddRange(typeArguments.Take(kMaxTypeArgumentCount - 1));
+        var remians = typeArguments.Skip(kMaxTypeArgumentCount - 1).ToList();
+        CheckTupleTypeArgumentCount(type, typeName, ref remians);
+        newTypeArguments.Add(typeName.Generic(remians));
+        typeArguments = newTypeArguments;
+      }
     }
 
     internal NestedCycleRefTypeNameSyntax GetNestedCycleRefTypeName(ISymbol symbol) {
