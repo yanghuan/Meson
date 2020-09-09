@@ -816,6 +816,11 @@ namespace rt {
     operator bool() const noexcept {
       return static_cast<const T*>(this)->get();
     }
+
+    template <class R, class T1 = T> requires(std::is_same_v<R, decltype(R::op_Implicit(T1()))>)
+    operator R() {
+      return R::op_Implicit(*static_cast<T*>(this));
+    }
   };
 
   template <class T, class Base, TypeCode code>
