@@ -16,9 +16,9 @@ using namespace ::System::Private::CoreLib::System::Text;
 using namespace System::Text;
 
 Boolean IriHelper::CheckIriUnicodeRange(Char unicode, Boolean isQuery) {
-  if ((unicode < 160 || unicode > 55295) && (unicode < 63744 || unicode > 64975) && (unicode < 65008 || unicode > 65519)) {
-    if (isQuery && unicode >= 57344) {
-      return unicode <= 63743;
+  if ((unicode < ' ' || unicode > 'ÿ') && (unicode < '\0' || unicode > 'Ï') && (unicode < 'ð' || unicode > 'ï')) {
+    if (isQuery && unicode >= '\0') {
+      return unicode <= 'ÿ';
     }
     return false;
   }
@@ -61,16 +61,16 @@ String IriHelper::EscapeUnescapeIri(Char* pInput, Int32 start, Int32 end, UriCom
   Span<Byte> destination = span;
   for (; i < end; i++) {
     Char c;
-    if ((c = *(pInput + i)) == 37) {
+    if ((c = *(pInput + i)) == '%') {
       if (i + 2 < end) {
         c = UriHelper::DecodeHexChars(*(pInput + i + 1), *(pInput + i + 2));
-        if (c == 65535 || c == 37 || CheckIsReserved(c, component) || UriHelper::IsNotSafeForUnescape(c)) {
+        if (c == 'ÿ' || c == '%' || CheckIsReserved(c, component) || UriHelper::IsNotSafeForUnescape(c)) {
           dest.Append(*(pInput + i++));
           dest.Append(*(pInput + i++));
           dest.Append(*(pInput + i));
           continue;
         }
-        if (c <= 127) {
+        if (c <= '') {
           dest.Append(c);
           i += 2;
           continue;
@@ -82,14 +82,14 @@ String IriHelper::EscapeUnescapeIri(Char* pInput, Int32 start, Int32 end, UriCom
         }
         array[0] = (Byte)c;
         for (i += 3; i < end; i += 3) {
-          if ((c = *(pInput + i)) != 37) {
+          if ((c = *(pInput + i)) != '%') {
             break;
           }
           if (i + 2 >= end) {
             break;
           }
           c = UriHelper::DecodeHexChars(*(pInput + i + 1), *(pInput + i + 2));
-          if (c == 65535 || c < 128) {
+          if (c == 'ÿ' || c < '') {
             break;
           }
           array[byteCount++] = (Byte)c;
@@ -108,9 +108,9 @@ String IriHelper::EscapeUnescapeIri(Char* pInput, Int32 start, Int32 end, UriCom
       } else {
         dest.Append(*(pInput + i));
       }
-    } else if (c > 127) {
+    } else if (c > '') {
       Boolean isSurrogatePair = false;
-      Char c2 = 0;
+      Char c2 = '\0';
       Boolean flag;
       if (Char::IsHighSurrogate(c) && i + 1 < end) {
         c2 = *(pInput + i + 1);

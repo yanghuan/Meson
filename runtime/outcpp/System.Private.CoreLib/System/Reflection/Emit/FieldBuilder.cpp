@@ -59,7 +59,7 @@ void FieldBuilder___::ctor(TypeBuilder typeBuilder, String fieldName, Type type,
   if (fieldName->get_Length() == 0) {
     rt::throw_exception<ArgumentException>(SR::get_Argument_EmptyName(), "fieldName");
   }
-  if (fieldName[0] == 0) {
+  if (fieldName[0] == '\0') {
     rt::throw_exception<ArgumentException>(SR::get_Argument_IllegalName(), "fieldName");
   }
   if (type == nullptr) {

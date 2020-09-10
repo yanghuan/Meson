@@ -451,7 +451,7 @@ Boolean Latin1Encoding___::FallbackSupportsFastGetByteCount(EncoderFallback fall
     return true;
   }
   EncoderReplacementFallback encoderReplacementFallback = rt::as<EncoderReplacementFallback>(fallback);
-  if (encoderReplacementFallback != nullptr && encoderReplacementFallback->get_MaxCharCount() == 1 && encoderReplacementFallback->get_DefaultString()[0] <= 255) {
+  if (encoderReplacementFallback != nullptr && encoderReplacementFallback->get_MaxCharCount() == 1 && encoderReplacementFallback->get_DefaultString()[0] <= 'ÿ') {
     return true;
   }
   return false;

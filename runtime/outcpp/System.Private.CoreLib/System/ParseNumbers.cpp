@@ -36,7 +36,7 @@ Int64 ParseNumbers::StringToLong(ReadOnlySpan<Char> s, Int32 radix, Int32 flags,
     }
   }
   Int32 num2 = 1;
-  if (s[i] == 45) {
+  if (s[i] == '-') {
     if (num != 10) {
       rt::throw_exception<ArgumentException>(SR::get_Arg_CannotHaveNegativeValue());
     }
@@ -45,11 +45,11 @@ Int64 ParseNumbers::StringToLong(ReadOnlySpan<Char> s, Int32 radix, Int32 flags,
     }
     num2 = -1;
     i++;
-  } else if (s[i] == 43) {
+  } else if (s[i] == '+') {
     i++;
   }
 
-  if ((radix == -1 || radix == 16) && i + 1 < length && s[i] == 48 && (s[i + 1] == 120 || s[i + 1] == 88)) {
+  if ((radix == -1 || radix == 16) && i + 1 < length && s[i] == '0' && (s[i + 1] == 'x' || s[i + 1] == 'X')) {
     num = 16;
     i += 2;
   }
@@ -93,7 +93,7 @@ Int32 ParseNumbers::StringToInt(ReadOnlySpan<Char> s, Int32 radix, Int32 flags, 
     }
   }
   Int32 num2 = 1;
-  if (s[i] == 45) {
+  if (s[i] == '-') {
     if (num != 10) {
       rt::throw_exception<ArgumentException>(SR::get_Arg_CannotHaveNegativeValue());
     }
@@ -102,11 +102,11 @@ Int32 ParseNumbers::StringToInt(ReadOnlySpan<Char> s, Int32 radix, Int32 flags, 
     }
     num2 = -1;
     i++;
-  } else if (s[i] == 43) {
+  } else if (s[i] == '+') {
     i++;
   }
 
-  if ((radix == -1 || radix == 16) && i + 1 < length && s[i] == 48 && (s[i + 1] == 120 || s[i + 1] == 88)) {
+  if ((radix == -1 || radix == 16) && i + 1 < length && s[i] == '0' && (s[i + 1] == 'x' || s[i + 1] == 'X')) {
     num = 16;
     i += 2;
   }
@@ -160,7 +160,7 @@ String ParseNumbers::IntToString(Int32 n, Int32 radix, Int32 width, Char padding
 
   Int32 num2;
   if (num == 0) {
-    span[0] = 48;
+    span[0] = '0';
     num2 = 1;
   } else {
     num2 = 0;
@@ -177,20 +177,20 @@ String ParseNumbers::IntToString(Int32 n, Int32 radix, Int32 width, Char padding
   }
   if (radix != 10 && (flags & 32) != 0) {
     if (16 == radix) {
-      span[num2++] = 120;
-      span[num2++] = 48;
+      span[num2++] = 'x';
+      span[num2++] = '0';
     } else if (8 == radix) {
-      span[num2++] = 48;
+      span[num2++] = '0';
     }
 
   }
   if (10 == radix) {
     if (flag) {
-      span[num2++] = 45;
+      span[num2++] = '-';
     } else if ((flags & 16) != 0) {
-      span[num2++] = 43;
+      span[num2++] = '+';
     } else if ((flags & 8) != 0) {
-      span[num2++] = 32;
+      span[num2++] = ' ';
     }
 
 
@@ -253,7 +253,7 @@ String ParseNumbers::LongToString(Int64 n, Int32 radix, Int32 width, Char paddin
 
   Int32 num2;
   if (num == 0) {
-    span[0] = 48;
+    span[0] = '0';
     num2 = 1;
   } else {
     num2 = 0;
@@ -270,12 +270,12 @@ String ParseNumbers::LongToString(Int64 n, Int32 radix, Int32 width, Char paddin
   }
   if (radix != 10 && (flags & 32) != 0) {
     if (16 == radix) {
-      span[num2++] = 120;
-      span[num2++] = 48;
+      span[num2++] = 'x';
+      span[num2++] = '0';
     } else if (8 == radix) {
-      span[num2++] = 48;
+      span[num2++] = '0';
     } else if ((flags & 16384) != 0) {
-      span[num2++] = 35;
+      span[num2++] = '#';
       span[num2++] = (Char)(radix % 10 + 48);
       span[num2++] = (Char)(radix / 10 + 48);
     }
@@ -284,11 +284,11 @@ String ParseNumbers::LongToString(Int64 n, Int32 radix, Int32 width, Char paddin
   }
   if (10 == radix) {
     if (flag) {
-      span[num2++] = 45;
+      span[num2++] = '-';
     } else if ((flags & 16) != 0) {
-      span[num2++] = 43;
+      span[num2++] = '+';
     } else if ((flags & 8) != 0) {
-      span[num2++] = 32;
+      span[num2++] = ' ';
     }
 
 
@@ -432,72 +432,72 @@ Int32 ParseNumbers::GrabInts(Int32 radix, ReadOnlySpan<Char> s, Int32& i, Boolea
 Boolean ParseNumbers::IsDigit(Char c, Int32 radix, Int32& result) {
   Int32 num;
   switch (c.get()) {
-    case 48:
-    case 49:
-    case 50:
-    case 51:
-    case 52:
-    case 53:
-    case 54:
-    case 55:
-    case 56:
-    case 57:
+    case '0':
+    case '1':
+    case '2':
+    case '3':
+    case '4':
+    case '5':
+    case '6':
+    case '7':
+    case '8':
+    case '9':
       num = (result = c - 48);
       break;
-    case 65:
-    case 66:
-    case 67:
-    case 68:
-    case 69:
-    case 70:
-    case 71:
-    case 72:
-    case 73:
-    case 74:
-    case 75:
-    case 76:
-    case 77:
-    case 78:
-    case 79:
-    case 80:
-    case 81:
-    case 82:
-    case 83:
-    case 84:
-    case 85:
-    case 86:
-    case 87:
-    case 88:
-    case 89:
-    case 90:
+    case 'A':
+    case 'B':
+    case 'C':
+    case 'D':
+    case 'E':
+    case 'F':
+    case 'G':
+    case 'H':
+    case 'I':
+    case 'J':
+    case 'K':
+    case 'L':
+    case 'M':
+    case 'N':
+    case 'O':
+    case 'P':
+    case 'Q':
+    case 'R':
+    case 'S':
+    case 'T':
+    case 'U':
+    case 'V':
+    case 'W':
+    case 'X':
+    case 'Y':
+    case 'Z':
       num = (result = c - 65 + 10);
       break;
-    case 97:
-    case 98:
-    case 99:
-    case 100:
-    case 101:
-    case 102:
-    case 103:
-    case 104:
-    case 105:
-    case 106:
-    case 107:
-    case 108:
-    case 109:
-    case 110:
-    case 111:
-    case 112:
-    case 113:
-    case 114:
-    case 115:
-    case 116:
-    case 117:
-    case 118:
-    case 119:
-    case 120:
-    case 121:
-    case 122:
+    case 'a':
+    case 'b':
+    case 'c':
+    case 'd':
+    case 'e':
+    case 'f':
+    case 'g':
+    case 'h':
+    case 'i':
+    case 'j':
+    case 'k':
+    case 'l':
+    case 'm':
+    case 'n':
+    case 'o':
+    case 'p':
+    case 'q':
+    case 'r':
+    case 's':
+    case 't':
+    case 'u':
+    case 'v':
+    case 'w':
+    case 'x':
+    case 'y':
+    case 'z':
       num = (result = c - 97 + 10);
       break;
     default:

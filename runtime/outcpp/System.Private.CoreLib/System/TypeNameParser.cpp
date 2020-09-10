@@ -27,7 +27,7 @@ Type TypeNameParser___::GetType(String typeName, Func<AssemblyName, Assembly> as
   if (typeName == nullptr) {
     rt::throw_exception<ArgumentNullException>("typeName");
   }
-  if (typeName->get_Length() > 0 && typeName[0] == 0) {
+  if (typeName->get_Length() > 0 && typeName[0] == '\0') {
     rt::throw_exception<ArgumentException>(SR::get_Format_StringZeroLength());
   }
   Type result = nullptr;
@@ -152,7 +152,7 @@ String TypeNameParser___::EscapeTypeName(String name) {
   ValueStringBuilder valueStringBuilder = ValueStringBuilder(initialBuffer);
   for (Char&& c : *name) {
     if (Array<>::in::IndexOf(SPECIAL_CHARS, c) >= 0) {
-      valueStringBuilder.Append(92);
+      valueStringBuilder.Append('\\');
     }
     valueStringBuilder.Append(c);
   }

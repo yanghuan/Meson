@@ -59,7 +59,7 @@ void PropertyBuilder___::ctor(ModuleBuilder mod, String name, SignatureHelper si
   if (name->get_Length() == 0) {
     rt::throw_exception<ArgumentException>(SR::get_Argument_EmptyName(), "name");
   }
-  if (name[0] == 0) {
+  if (name[0] == '\0') {
     rt::throw_exception<ArgumentException>(SR::get_Argument_IllegalName(), "name");
   }
   m_name = name;

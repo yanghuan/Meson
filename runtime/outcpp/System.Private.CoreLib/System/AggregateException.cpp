@@ -29,9 +29,9 @@ String AggregateException___::get_Message() {
   }
   StringBuilder stringBuilder = StringBuilderCache::Acquire();
   stringBuilder->Append(Exception::in::get_Message());
-  stringBuilder->Append(32);
+  stringBuilder->Append(' ');
   for (Int32 i = 0; i < m_innerExceptions->get_Count(); i++) {
-    stringBuilder->Append(40);
+    stringBuilder->Append('(');
     stringBuilder->Append(m_innerExceptions[i]->get_Message());
     stringBuilder->Append(") ");
   }

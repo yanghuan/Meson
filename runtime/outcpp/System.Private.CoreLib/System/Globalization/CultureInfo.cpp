@@ -396,7 +396,7 @@ CultureInfo CultureInfo___::CreateSpecificCulture(String name) {
   } catch (ArgumentException) {
     cultureInfo = nullptr;
     for (Int32 i = 0; i < name->get_Length(); i++) {
-      if (45 == name[i]) {
+      if ('-' == name[i]) {
         try {
           cultureInfo = rt::newobj<CultureInfo>(name->Substring(0, i));
         } catch (ArgumentException) {
@@ -417,7 +417,7 @@ CultureInfo CultureInfo___::CreateSpecificCulture(String name) {
 
 Boolean CultureInfo___::VerifyCultureName(String cultureName, Boolean throwException) {
   for (Char&& c : *cultureName) {
-    if (!Char::IsLetterOrDigit(c) && c != 45 && c != 95) {
+    if (!Char::IsLetterOrDigit(c) && c != '-' && c != '_') {
       if (throwException) {
         rt::throw_exception<ArgumentException>(SR::Format(SR::get_Argument_InvalidResourceCultureName(), cultureName));
       }

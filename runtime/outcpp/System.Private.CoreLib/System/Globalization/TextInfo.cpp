@@ -151,7 +151,7 @@ String TextInfo___::ToLower(String str) {
 }
 
 Char TextInfo___::ChangeCase(Char c, Boolean toUpper) {
-  Char result = 0;
+  Char result = '\0';
   ChangeCaseCore(&c, 1, &result, 1, toUpper);
   return result;
 }
@@ -308,7 +308,7 @@ String TextInfo___::ToTitleCase(String str) {
     Int32 charLength;
     UnicodeCategory unicodeCategoryInternal = CharUnicodeInfo::GetUnicodeCategoryInternal(str, num, charLength);
     if (Char::CheckLetter(unicodeCategoryInternal)) {
-      if (flag && num < str->get_Length() - 1 && (str[num] == 105 || str[num] == 73) && (str[num + 1] == 106 || str[num + 1] == 74)) {
+      if (flag && num < str->get_Length() - 1 && (str[num] == 'i' || str[num] == 'I') && (str[num + 1] == 'j' || str[num + 1] == 'J')) {
         result->Append("IJ");
         num += 2;
       } else {
@@ -323,7 +323,7 @@ String TextInfo___::ToTitleCase(String str) {
             flag2 = true;
           }
           num += charLength;
-        } else if (str[num] == 39) {
+        } else if (str[num] == '\'') {
           num++;
           if (flag2) {
             if (text == nullptr) {
@@ -388,25 +388,25 @@ Int32 TextInfo___::AddTitlecaseLetter(StringBuilder& result, String& input, Int3
     inputIndex++;
   } else {
     switch (input[inputIndex].get()) {
-      case 452:
-      case 453:
-      case 454:
-        result->Append(453);
+      case 'Ä':
+      case 'Å':
+      case 'Æ':
+        result->Append('Å');
         break;
-      case 455:
-      case 456:
-      case 457:
-        result->Append(456);
+      case 'Ç':
+      case 'È':
+      case 'É':
+        result->Append('È');
         break;
-      case 458:
-      case 459:
-      case 460:
-        result->Append(459);
+      case 'Ê':
+      case 'Ë':
+      case 'Ì':
+        result->Append('Ë');
         break;
-      case 497:
-      case 498:
-      case 499:
-        result->Append(498);
+      case 'ñ':
+      case 'ò':
+      case 'ó':
+        result->Append('ò');
         break;
       default:
         result->Append(ToUpper(input[inputIndex]));

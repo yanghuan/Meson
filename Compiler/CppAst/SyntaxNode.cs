@@ -146,6 +146,7 @@ namespace Meson.Compiler.CppAst {
     public const string BitOr = "|";
     public const string Exclamation = "!";
     public const string Quote = "\"";
+    public const string SingleQuote = "'";
     public const string Arrow = "->";
     public const string TwoColon = "::";
     public const string Less = "<";

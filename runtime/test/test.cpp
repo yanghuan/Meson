@@ -102,25 +102,12 @@ void TestAction() {
   //Action<> a = { o, &Object::in::GetHashCode };
 }
 
-void TestMethodInfo(MemberInfo a) {
-}
-
-void TestMethodInfo() {
-   MethodInfo method = nullptr;
-   MemberInfo i = method;
-   TestMethodInfo(method);
-}
-
 void TestStringBuffer() {
-  StringBuilder sb = nullptr;
-  sb->Append(10);
 }
 
 int main() {
   Boolean a = false;
-  void* p = true;
-  int f = false;
-  //Array<Object> arr(false);
+  String p = '\0';
   return 0;
 }
 

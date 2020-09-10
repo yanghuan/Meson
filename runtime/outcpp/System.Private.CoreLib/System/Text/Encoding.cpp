@@ -243,7 +243,7 @@ void Encoding___::EncodingByteBuffer___::MovePrevious(Boolean bThrow) {
 
 Char Encoding___::EncodingByteBuffer___::GetNextChar() {
   Char c = fallbackBuffer->InternalGetNextChar();
-  if (c == 0 && _chars < _charEnd) {
+  if (c == '\0' && _chars < _charEnd) {
     Char* chars = _chars;
     _chars = chars + 1;
     c = *chars;

@@ -19,10 +19,10 @@ Boolean CLRConfig::GetBoolValueWithFallbacks(String switchName, String environme
   Span<Char> buffer = as;
   switch (Interop::Kernel32::GetEnvironmentVariable(environmentName, buffer).get()) {
     case 1:
-      if (buffer[0] == 48) {
+      if (buffer[0] == '0') {
         return false;
       }
-      if (buffer[0] == 49) {
+      if (buffer[0] == '1') {
         return true;
       }
       break;

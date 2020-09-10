@@ -262,7 +262,7 @@ UIntPtr ASCIIUtility::GetIndexOfFirstNonAsciiChar_Default(Char* pBuffer, UIntPtr
       }
       pBuffer += 2;
     }
-    if ((bufferLength & 1) != 0 && *pBuffer <= 127) {
+    if ((bufferLength & 1) != 0 && *pBuffer <= '') {
       pBuffer++;
     }
     break;
@@ -362,7 +362,7 @@ UIntPtr ASCIIUtility::GetIndexOfFirstNonAsciiChar_Sse2(Char* pBuffer, UIntPtr bu
     }
     pBuffer += 2;
   }
-  if ((bufferLength & 1) != 0 && *pBuffer <= 127) {
+  if ((bufferLength & 1) != 0 && *pBuffer <= '') {
     pBuffer++;
   }
   goto IL_01bf;

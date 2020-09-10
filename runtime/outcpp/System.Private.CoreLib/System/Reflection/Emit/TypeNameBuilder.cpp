@@ -20,9 +20,9 @@ void TypeNameBuilder___::OpenGenericArguments() {
   _instNesting++;
   _firstInstArg = true;
   if (_useAngleBracketsForGenerics) {
-    Append(60);
+    Append('<');
   } else {
-    Append(91);
+    Append('[');
   }
 }
 
@@ -31,9 +31,9 @@ void TypeNameBuilder___::CloseGenericArguments() {
   if (_firstInstArg) {
     _str->Remove(_str->get_Length() - 1, 1);
   } else if (_useAngleBracketsForGenerics) {
-    Append(62);
+    Append('>');
   } else {
-    Append(93);
+    Append(']');
   }
 
 }
@@ -41,13 +41,13 @@ void TypeNameBuilder___::CloseGenericArguments() {
 void TypeNameBuilder___::OpenGenericArgument() {
   _nestedName = false;
   if (!_firstInstArg) {
-    Append(44);
+    Append(',');
   }
   _firstInstArg = false;
   if (_useAngleBracketsForGenerics) {
-    Append(60);
+    Append('<');
   } else {
-    Append(91);
+    Append('[');
   }
   PushOpenGenericArgument();
 }
@@ -55,9 +55,9 @@ void TypeNameBuilder___::OpenGenericArgument() {
 void TypeNameBuilder___::CloseGenericArgument() {
   if (_hasAssemblySpec) {
     if (_useAngleBracketsForGenerics) {
-      Append(62);
+      Append('>');
     } else {
-      Append(93);
+      Append(']');
     }
   }
   PopOpenGenericArgument();
@@ -65,7 +65,7 @@ void TypeNameBuilder___::CloseGenericArgument() {
 
 void TypeNameBuilder___::AddName(String name) {
   if (_nestedName) {
-    Append(43);
+    Append('+');
   }
   _nestedName = true;
   EscapeName(name);
@@ -77,14 +77,14 @@ void TypeNameBuilder___::AddArray(Int32 rank) {
     return;
   }
   if (rank > 64) {
-    _str->Append(91)->Append(rank)->Append(93);
+    _str->Append('[')->Append(rank)->Append(']');
     return;
   }
-  Append(91);
+  Append('[');
   for (Int32 i = 1; i < rank; i++) {
-    Append(44);
+    Append(',');
   }
-  Append(93);
+  Append(']');
 }
 
 void TypeNameBuilder___::AddAssemblySpec(String assemblySpec) {
@@ -105,7 +105,7 @@ String TypeNameBuilder___::ToString() {
 
 Boolean TypeNameBuilder___::ContainsReservedChar(String name) {
   for (Char&& c : *name) {
-    if (c == 0) {
+    if (c == '\0') {
       break;
     }
     if (IsTypeNameReservedChar(c)) {
@@ -117,13 +117,13 @@ Boolean TypeNameBuilder___::ContainsReservedChar(String name) {
 
 Boolean TypeNameBuilder___::IsTypeNameReservedChar(Char ch) {
   switch (ch.get()) {
-    case 38:
-    case 42:
-    case 43:
-    case 44:
-    case 91:
-    case 92:
-    case 93:
+    case '&':
+    case '*':
+    case '+':
+    case ',':
+    case '[':
+    case '\\':
+    case ']':
       return true;
     default:
       return false;
@@ -135,7 +135,7 @@ void TypeNameBuilder___::EscapeName(String name) {
     for (Char&& c : *name) {
       if (c != 0) {
         if (IsTypeNameReservedChar(c)) {
-          _str->Append(92);
+          _str->Append('\\');
         }
         _str->Append(c);
         continue;
@@ -152,10 +152,10 @@ void TypeNameBuilder___::EscapeAssemblyName(String name) {
 }
 
 void TypeNameBuilder___::EscapeEmbeddedAssemblyName(String name) {
-  if (name->Contains(93)) {
+  if (name->Contains(']')) {
     for (Char&& c : *name) {
-      if (c == 93) {
-        Append(92);
+      if (c == ']') {
+        Append('\\');
       }
       Append(c);
     }
@@ -205,9 +205,9 @@ void TypeNameBuilder___::AddElementType(Type type) {
   if (type->get_HasElementType()) {
     AddElementType(type->GetElementType());
     if (type->get_IsPointer()) {
-      Append(42);
+      Append('*');
     } else if (type->get_IsByRef()) {
-      Append(38);
+      Append('&');
     } else if (type->get_IsSZArray()) {
       Append("[]");
     } else if (type->get_IsArray()) {

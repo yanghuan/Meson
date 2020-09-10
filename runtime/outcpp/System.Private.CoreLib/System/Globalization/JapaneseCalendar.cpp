@@ -314,7 +314,7 @@ EraInfo JapaneseCalendar___::GetEraFromValue(String value, String data) {
   if (!Int32::TryParse(readOnlySpan.Slice(0, 4), NumberStyles::None, NumberFormatInfo::in::get_InvariantInfo(), result) || !Int32::TryParse(readOnlySpan.Slice(5, 2), NumberStyles::None, NumberFormatInfo::in::get_InvariantInfo(), result2) || !Int32::TryParse(readOnlySpan.Slice(8, 2), NumberStyles::None, NumberFormatInfo::in::get_InvariantInfo(), result3)) {
     return nullptr;
   }
-  Array<String> array = data->Split(95);
+  Array<String> array = data->Split('_');
   if (array->get_Length() != 4) {
     return nullptr;
   }

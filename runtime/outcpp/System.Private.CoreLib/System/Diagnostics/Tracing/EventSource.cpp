@@ -1822,7 +1822,7 @@ Array<Byte> EventSource___::CreateManifestAndDescriptors(Type eventSourceType, S
           continue;
         }
 
-        if (methodInfo->get_Name()->LastIndexOf(46) >= 0) {
+        if (methodInfo->get_Name()->LastIndexOf('.') >= 0) {
           manifestBuilder->ManifestError(SR::Format(SR::get_EventSource_EventMustNotBeExplicitImplementation(), methodInfo->get_Name(), eventAttribute->get_EventId()));
         }
         num++;
@@ -2463,16 +2463,16 @@ Int32 EventSource___::AddValueToMetaData(List<Byte> metaData, String value) {
   Int32 count = metaData->get_Count();
   Char c = value[0];
   switch (c.get()) {
-    case 64:
+    case '@':
       metaData->AddRange(Encoding::in::get_UTF8()->GetBytes(value->Substring(1)));
       break;
-    case 123:
+    case '{':
       metaData->AddRange(Guid(value).ToByteArray());
       break;
-    case 35:
+    case '#':
       {
         for (Int32 i = 1; i < value->get_Length(); i++) {
-          if (value[i] != 32) {
+          if (value[i] != ' ') {
             if (i + 1 >= value->get_Length()) {
               rt::throw_exception<ArgumentException>(SR::get_EventSource_EvenHexDigits(), "traits");
             }
@@ -2482,7 +2482,7 @@ Int32 EventSource___::AddValueToMetaData(List<Byte> metaData, String value) {
         }
         break;
       }default:
-      if (65 <= c || 32 == c) {
+      if ('A' <= c || ' ' == c) {
         metaData->AddRange(Encoding::in::get_UTF8()->GetBytes(value));
         break;
       }
@@ -2492,13 +2492,13 @@ Int32 EventSource___::AddValueToMetaData(List<Byte> metaData, String value) {
 }
 
 Int32 EventSource___::HexDigit(Char c) {
-  if (48 <= c && c <= 57) {
+  if ('0' <= c && c <= '9') {
     return c - 48;
   }
-  if (97 <= c) {
+  if ('a' <= c) {
     c = (Char)(c - 32);
   }
-  if (65 <= c && c <= 70) {
+  if ('A' <= c && c <= 'F') {
     return c - 65 + 10;
   }
   rt::throw_exception<ArgumentException>(SR::Format(SR::get_EventSource_BadHexDigit(), c), "traits");

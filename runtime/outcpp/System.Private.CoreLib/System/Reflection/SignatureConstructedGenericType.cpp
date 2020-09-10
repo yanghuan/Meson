@@ -124,14 +124,14 @@ Array<Type> SignatureConstructedGenericType___::GetGenericArguments() {
 String SignatureConstructedGenericType___::ToString() {
   StringBuilder stringBuilder = rt::newobj<StringBuilder>();
   stringBuilder->Append(_genericTypeDefinition->ToString());
-  stringBuilder->Append(91);
+  stringBuilder->Append('[');
   for (Int32 i = 0; i < _genericTypeArguments->get_Length(); i++) {
     if (i != 0) {
-      stringBuilder->Append(44);
+      stringBuilder->Append(',');
     }
     stringBuilder->Append(_genericTypeArguments[i]->ToString());
   }
-  stringBuilder->Append(93);
+  stringBuilder->Append(']');
   return stringBuilder->ToString();
 }
 

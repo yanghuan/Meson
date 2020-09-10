@@ -55,7 +55,7 @@ Boolean GlobalizationMode::TryGetStringValue(String switchName, String envVariab
 
 void GlobalizationMode::LoadAppLocalIcu(String icuSuffixAndVersion) {
   ReadOnlySpan<Char> suffix;
-  Int32 num = icuSuffixAndVersion->IndexOf(58);
+  Int32 num = icuSuffixAndVersion->IndexOf(':');
   ReadOnlySpan<Char> version;
   if (num >= 0) {
     ReadOnlySpan<Char> readOnlySpan = MemoryExtensions::AsSpan(icuSuffixAndVersion);
@@ -95,7 +95,7 @@ Boolean GlobalizationMode::LoadIcu() {
 void GlobalizationMode::LoadAppLocalIcuCore(ReadOnlySpan<Char> version, ReadOnlySpan<Char> suffix) {
   IntPtr intPtr = IntPtr::Zero;
   IntPtr intPtr2 = IntPtr::Zero;
-  Int32 num = MemoryExtensions::IndexOf(version, 46);
+  Int32 num = MemoryExtensions::IndexOf(version, '.');
   if (num > 0) {
     ReadOnlySpan<Char> version2 = version.Slice(0, num);
     intPtr = LoadLibrary(CreateLibraryName("icuuc", suffix, ".dll", version2), false);

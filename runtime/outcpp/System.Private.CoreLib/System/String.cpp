@@ -984,7 +984,7 @@ StringRuneEnumerator String___::EnumerateRunes() {
 }
 
 Int32 String___::wcslen(Char* ptr) {
-  Int32 num = SpanHelpers::IndexOf(*ptr, 0, Int32::MaxValue);
+  Int32 num = SpanHelpers::IndexOf(*ptr, '\0', Int32::MaxValue);
   if (num < 0) {
     ThrowMustBeNullTerminatedString();
   }
@@ -1597,7 +1597,7 @@ String String___::JoinCore(Char* separator, Int32 separatorLength, Array<String>
 }
 
 String String___::PadLeft(Int32 totalWidth) {
-  return PadLeft(totalWidth, 32);
+  return PadLeft(totalWidth, ' ');
 }
 
 String String___::PadLeft(Int32 totalWidth, Char paddingChar) {
@@ -1624,7 +1624,7 @@ String String___::PadLeft(Int32 totalWidth, Char paddingChar) {
 }
 
 String String___::PadRight(Int32 totalWidth) {
-  return PadRight(totalWidth, 32);
+  return PadRight(totalWidth, ' ');
 }
 
 String String___::PadRight(Int32 totalWidth, Char paddingChar) {

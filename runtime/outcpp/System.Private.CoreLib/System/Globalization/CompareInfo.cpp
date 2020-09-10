@@ -347,7 +347,7 @@ Int32 CompareInfo___::CompareOrdinalIgnoreCase(Char& strA, Int32 lengthA, Char& 
   Int32 num2 = num;
   Char& reference = strA;
   Char& reference2 = strB;
-  Char c = GlobalizationMode::get_Invariant() ? 65535 : 127;
+  Char c = GlobalizationMode::get_Invariant() ? 'ÿ' : '';
   while (num != 0 && reference <= c && reference2 <= c) {
     if (reference == reference2 || ((reference | 32) == (reference2 | 32) && (UInt32)((reference | 32) - 97) <= 25u)) {
       num--;
@@ -985,7 +985,7 @@ void CompareInfo___::IcuInitSortHandle() {
     _isAsciiEqualityOrdinal = true;
     return;
   }
-  _isAsciiEqualityOrdinal = (_sortName->get_Length() == 0 || (_sortName->get_Length() >= 2 && _sortName[0] == 101 && _sortName[1] == 110 && (_sortName->get_Length() == 2 || _sortName[2] == 45)));
+  _isAsciiEqualityOrdinal = (_sortName->get_Length() == 0 || (_sortName->get_Length() >= 2 && _sortName[0] == 'e' && _sortName[1] == 'n' && (_sortName->get_Length() == 2 || _sortName[2] == '-')));
   _sortHandle = SortHandleCache::GetCachedSortHandle(_sortName);
 }
 
@@ -1078,7 +1078,7 @@ Int32 CompareInfo___::IndexOfOrdinalIgnoreCaseHelper(ReadOnlySpan<Char> source, 
       while (true) {
         if (num < target.get_Length()) {
           Char c = *(ptr4 + num);
-          if (c >= 128 || get_HighCharTable()[c]) {
+          if (c >= '' || get_HighCharTable()[c]) {
             break;
           }
           num++;
@@ -1089,7 +1089,7 @@ Int32 CompareInfo___::IndexOfOrdinalIgnoreCaseHelper(ReadOnlySpan<Char> source, 
           while (true) {
             if (num2 < source.get_Length()) {
               Char c2 = *(ptr2 + num2);
-              if (c2 >= 128 || get_HighCharTable()[c2]) {
+              if (c2 >= '' || get_HighCharTable()[c2]) {
                 break;
               }
               num2++;
@@ -1121,7 +1121,7 @@ Int32 CompareInfo___::IndexOfOrdinalIgnoreCaseHelper(ReadOnlySpan<Char> source, 
               if (num7 < target.get_Length()) {
                 Char c3 = *(ptr2 + num8);
                 Char c4 = *(ptr4 + num7);
-                if (c3 >= 128 || get_HighCharTable()[c3]) {
+                if (c3 >= '' || get_HighCharTable()[c3]) {
                   break;
                 }
                 if (c3 == c4) {
@@ -1138,7 +1138,7 @@ Int32 CompareInfo___::IndexOfOrdinalIgnoreCaseHelper(ReadOnlySpan<Char> source, 
                 }
                 goto IL_0163;
               }
-              if (num8 < source.get_Length() && *(ptr2 + num8) >= 128) {
+              if (num8 < source.get_Length() && *(ptr2 + num8) >= '') {
                 break;
               }
               if (matchLengthPtr != nullptr) {
@@ -1155,7 +1155,7 @@ Int32 CompareInfo___::IndexOfOrdinalIgnoreCaseHelper(ReadOnlySpan<Char> source, 
           return -1;
 
         IL_0163:
-          if (num8 < source.get_Length() - 1 && (ptr2 + num8)[1] >= 128) {
+          if (num8 < source.get_Length() - 1 && (ptr2 + num8)[1] >= '') {
             break;
           }
           num6 += num5;
@@ -1181,7 +1181,7 @@ Int32 CompareInfo___::IndexOfOrdinalHelper(ReadOnlySpan<Char> source, ReadOnlySp
       while (true) {
         if (num < target.get_Length()) {
           Char c = *(ptr4 + num);
-          if (c >= 128 || get_HighCharTable()[c]) {
+          if (c >= '' || get_HighCharTable()[c]) {
             break;
           }
           num++;
@@ -1192,7 +1192,7 @@ Int32 CompareInfo___::IndexOfOrdinalHelper(ReadOnlySpan<Char> source, ReadOnlySp
           while (true) {
             if (num2 < source.get_Length()) {
               Char c2 = *(ptr2 + num2);
-              if (c2 >= 128 || get_HighCharTable()[c2]) {
+              if (c2 >= '' || get_HighCharTable()[c2]) {
                 break;
               }
               num2++;
@@ -1224,7 +1224,7 @@ Int32 CompareInfo___::IndexOfOrdinalHelper(ReadOnlySpan<Char> source, ReadOnlySp
               if (num7 < target.get_Length()) {
                 Char c3 = *(ptr2 + num8);
                 Char c4 = *(ptr4 + num7);
-                if (c3 >= 128 || get_HighCharTable()[c3]) {
+                if (c3 >= '' || get_HighCharTable()[c3]) {
                   break;
                 }
                 if (c3 == c4) {
@@ -1234,7 +1234,7 @@ Int32 CompareInfo___::IndexOfOrdinalHelper(ReadOnlySpan<Char> source, ReadOnlySp
                 }
                 goto IL_0135;
               }
-              if (num8 < source.get_Length() && *(ptr2 + num8) >= 128) {
+              if (num8 < source.get_Length() && *(ptr2 + num8) >= '') {
                 break;
               }
               if (matchLengthPtr != nullptr) {
@@ -1247,7 +1247,7 @@ Int32 CompareInfo___::IndexOfOrdinalHelper(ReadOnlySpan<Char> source, ReadOnlySp
           return -1;
 
         IL_0135:
-          if (num8 < source.get_Length() - 1 && (ptr2 + num8)[1] >= 128) {
+          if (num8 < source.get_Length() - 1 && (ptr2 + num8)[1] >= '') {
             break;
           }
           num6 += num5;
@@ -1311,18 +1311,18 @@ Boolean CompareInfo___::StartsWithOrdinalIgnoreCaseHelper(ReadOnlySpan<Char> sou
             num--;
             continue;
           }
-          if ((ptr2 < ptr + source.get_Length() - 1 && ptr2[1] >= 128) || (ptr4 < ptr3 + prefix.get_Length() - 1 && ptr4[1] >= 128)) {
+          if ((ptr2 < ptr + source.get_Length() - 1 && ptr2[1] >= '') || (ptr4 < ptr3 + prefix.get_Length() - 1 && ptr4[1] >= '')) {
             break;
           }
           return false;
         }
         if (source.get_Length() < prefix.get_Length()) {
-          if (*ptr4 >= 128) {
+          if (*ptr4 >= '') {
             break;
           }
           return false;
         }
-        if (source.get_Length() > prefix.get_Length() && *ptr2 >= 128) {
+        if (source.get_Length() > prefix.get_Length() && *ptr2 >= '') {
           break;
         }
         return true;
@@ -1353,18 +1353,18 @@ Boolean CompareInfo___::StartsWithOrdinalHelper(ReadOnlySpan<Char> source, ReadO
             num--;
             continue;
           }
-          if ((ptr2 < ptr + source.get_Length() - 1 && ptr2[1] >= 128) || (ptr4 < ptr3 + prefix.get_Length() - 1 && ptr4[1] >= 128)) {
+          if ((ptr2 < ptr + source.get_Length() - 1 && ptr2[1] >= '') || (ptr4 < ptr3 + prefix.get_Length() - 1 && ptr4[1] >= '')) {
             break;
           }
           return false;
         }
         if (source.get_Length() < prefix.get_Length()) {
-          if (*ptr4 >= 128) {
+          if (*ptr4 >= '') {
             break;
           }
           return false;
         }
-        if (source.get_Length() > prefix.get_Length() && *ptr2 >= 128) {
+        if (source.get_Length() > prefix.get_Length() && *ptr2 >= '') {
           break;
         }
         return true;
@@ -1423,18 +1423,18 @@ Boolean CompareInfo___::EndsWithOrdinalIgnoreCaseHelper(ReadOnlySpan<Char> sourc
             num--;
             continue;
           }
-          if ((ptr2 > ptr && *(ptr2 - 1) >= 128) || (ptr4 > ptr3 && *(ptr4 - 1) >= 128)) {
+          if ((ptr2 > ptr && *(ptr2 - 1) >= '') || (ptr4 > ptr3 && *(ptr4 - 1) >= '')) {
             break;
           }
           return false;
         }
         if (source.get_Length() < suffix.get_Length()) {
-          if (*ptr4 >= 128) {
+          if (*ptr4 >= '') {
             break;
           }
           return false;
         }
-        if (source.get_Length() > suffix.get_Length() && *ptr2 >= 128) {
+        if (source.get_Length() > suffix.get_Length() && *ptr2 >= '') {
           break;
         }
         return true;
@@ -1465,18 +1465,18 @@ Boolean CompareInfo___::EndsWithOrdinalHelper(ReadOnlySpan<Char> source, ReadOnl
             num--;
             continue;
           }
-          if ((ptr2 > ptr && *(ptr2 - 1) >= 128) || (ptr4 > ptr3 && *(ptr4 - 1) >= 128)) {
+          if ((ptr2 > ptr && *(ptr2 - 1) >= '') || (ptr4 > ptr3 && *(ptr4 - 1) >= '')) {
             break;
           }
           return false;
         }
         if (source.get_Length() < suffix.get_Length()) {
-          if (*ptr4 >= 128) {
+          if (*ptr4 >= '') {
             break;
           }
           return false;
         }
-        if (source.get_Length() > suffix.get_Length() && *ptr2 >= 128) {
+        if (source.get_Length() > suffix.get_Length() && *ptr2 >= '') {
           break;
         }
         return true;
@@ -1774,7 +1774,7 @@ IntPtr CompareInfo___::NlsGetSortHandle(String cultureName) {
   Int32 num = Interop::Kernel32::LCMapStringEx(cultureName, 536870912u, nullptr, 0, &intPtr, IntPtr::get_Size(), nullptr, nullptr, IntPtr::Zero);
   if (num > 0) {
     Int32 num2 = 0;
-    Char c = 97;
+    Char c = 'a';
     num = Interop::Kernel32::LCMapStringEx(nullptr, 262144u, &c, 1, &num2, 4, nullptr, nullptr, intPtr);
     if (num > 1) {
       return intPtr;

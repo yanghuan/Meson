@@ -159,7 +159,7 @@ ModuleBuilder AssemblyBuilder___::DefineDynamicModuleInternalNoLock(String name,
   if (name->get_Length() == 0) {
     rt::throw_exception<ArgumentException>(SR::get_Argument_EmptyName(), "name");
   }
-  if (name[0] == 0) {
+  if (name[0] == '\0') {
     rt::throw_exception<ArgumentException>(SR::get_Argument_InvalidName(), "name");
   }
   if (_isManifestModuleUsedAsDefinedModule) {

@@ -205,26 +205,26 @@ void StackTrace___::ToString(TraceFormat traceFormat, StringBuilder sb) {
     if (declaringType != nullptr) {
       String fullName = declaringType->get_FullName();
       for (Char&& c : *fullName) {
-        sb->Append((c == 43) ? 46 : c);
+        sb->Append((c == '+') ? '.' : c);
       }
-      sb->Append(46);
+      sb->Append('.');
     }
     sb->Append(method->get_Name());
     MethodInfo methodInfo = rt::as<MethodInfo>(method);
     if ((Object)methodInfo != nullptr && methodInfo->get_IsGenericMethod()) {
       Array<Type> genericArguments = methodInfo->GetGenericArguments();
-      sb->Append(91);
+      sb->Append('[');
       Int32 k = 0;
       Boolean flag4 = true;
       for (; k < genericArguments->get_Length(); k++) {
         if (!flag4) {
-          sb->Append(44);
+          sb->Append(',');
         } else {
           flag4 = false;
         }
         sb->Append(genericArguments[k]->get_Name());
       }
-      sb->Append(93);
+      sb->Append(']');
     }
     Array<ParameterInfo> array = nullptr;
     try {
@@ -232,7 +232,7 @@ void StackTrace___::ToString(TraceFormat traceFormat, StringBuilder sb) {
     } catch (...) {
     }
     if (array != nullptr) {
-      sb->Append(40);
+      sb->Append('(');
       Boolean flag5 = true;
       for (Int32 l = 0; l < array->get_Length(); l++) {
         if (!flag5) {
@@ -245,20 +245,20 @@ void StackTrace___::ToString(TraceFormat traceFormat, StringBuilder sb) {
           value = array[l]->get_ParameterType()->get_Name();
         }
         sb->Append(value);
-        sb->Append(32);
+        sb->Append(' ');
         sb->Append(array[l]->get_Name());
       }
-      sb->Append(41);
+      sb->Append(')');
     }
     if (flag3) {
-      sb->Append(43);
+      sb->Append('+');
       sb->Append(name);
-      sb->Append(40)->Append(41);
+      sb->Append('(')->Append(')');
     }
     if (frame->GetILOffset() != -1) {
       String fileName = frame->GetFileName();
       if (fileName != nullptr) {
-        sb->Append(32);
+        sb->Append(' ');
         sb->AppendFormat(CultureInfo::in::get_InvariantCulture(), resourceString2, fileName, frame->GetFileLineNumber());
       }
     }

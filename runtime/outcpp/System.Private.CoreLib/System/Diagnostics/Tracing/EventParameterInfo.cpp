@@ -47,7 +47,7 @@ Boolean EventParameterInfo::GenerateMetadata(Byte* pMetadataBlob, UInt32& offset
     } else {
       EventPipeMetadataGenerator::in::WriteToBuffer(pMetadataBlob, blobSize, offset, 0u);
     }
-    EventPipeMetadataGenerator::in::WriteToBuffer(pMetadataBlob, blobSize, offset, 0);
+    EventPipeMetadataGenerator::in::WriteToBuffer(pMetadataBlob, blobSize, offset, '\0');
   } else {
     EventPipeMetadataGenerator::in::WriteToBuffer(pMetadataBlob, blobSize, offset, (UInt32)typeCodeExtended);
     {

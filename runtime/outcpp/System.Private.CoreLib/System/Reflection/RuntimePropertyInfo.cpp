@@ -116,14 +116,14 @@ Boolean RuntimePropertyInfo___::EqualsSig(RuntimePropertyInfo target) {
 String RuntimePropertyInfo___::ToString() {
   ValueStringBuilder sbParamList = ValueStringBuilder(100);
   sbParamList.Append(get_PropertyType()->FormatTypeName());
-  sbParamList.Append(32);
+  sbParamList.Append(' ');
   sbParamList.Append(get_Name());
   Array<RuntimeType> arguments = get_Signature()->get_Arguments();
   if (arguments->get_Length() != 0) {
     sbParamList.Append(" [");
     Array<Type> parameterTypes = arguments;
     MethodBase::in::AppendParameters(sbParamList, parameterTypes, get_Signature()->get_CallingConvention());
-    sbParamList.Append(93);
+    sbParamList.Append(']');
   }
   return sbParamList.ToString();
 }

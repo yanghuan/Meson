@@ -116,10 +116,10 @@ void Normalization::ValidateArguments(String strInput, NormalizationForm normali
 Boolean Normalization::HasInvalidUnicodeSequence(String s) {
   for (Int32 i = 0; i < s->get_Length(); i++) {
     Char c = s[i];
-    if (c < 55296) {
+    if (c < '\0') {
       continue;
     }
-    if (c == 65534) {
+    if (c == 'þ') {
       return true;
     }
     if (Char::IsLowSurrogate(c)) {

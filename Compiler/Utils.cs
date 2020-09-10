@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
+using System.Diagnostics.SymbolStore;
 using System.Linq;
 using System.Text;
 
@@ -507,10 +508,42 @@ namespace Meson.Compiler {
       }
     }
 
+    private static string DecodeCharacter(char ch) {
+      if (ch > byte.MaxValue) {
+        ch = (char)(byte)ch;
+      }
+
+      switch (ch) {
+        case '\0':
+          return "\\0";
+        case '\a':
+          return "\\a";
+        case '\b':
+          return "\\b";
+        case '\f':
+          return "\\f";
+        case '\n':
+          return "\\n";
+        case '\r':
+          return "\\r";
+        case '\v':
+          return "\\v";
+        case '\\':
+          return "\\\\";
+        case '\'':
+          return "\\'";
+      }
+
+      return ch.ToString();
+    }
+
     private static string DecodeCharacters(string s) {
       StringBuilder sb = new StringBuilder();
       foreach (char ch in s) {
         switch (ch) {
+          case '\0':
+            sb.Append("\\0");
+            break;
           case '\a':
             sb.Append("\\a");
             break;
@@ -552,7 +585,7 @@ namespace Meson.Compiler {
       switch (code) {
         case TypeCode.Char: {
             char v = (char)value;
-            return new NumberLiteralExpressionSyntax(((int)v).ToString());
+            return new CharLiteralExpressionSyntax(v, DecodeCharacter(v));
           }
         case TypeCode.String: {
             return new StringLiteralExpressionSyntax(DecodeCharacters((string)value));

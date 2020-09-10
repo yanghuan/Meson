@@ -118,8 +118,8 @@ struct Char : public valueType<Char, rt::TypeCode::Char> {
   private: static void ConvertToUtf32_ThrowInvalidArgs(UInt32 highSurrogateOffset);
   public: static Int32 ConvertToUtf32(String s, Int32 index);
   private: char8_t m_value;
-  public: static constexpr char8_t MaxValue = 65535;
-  public: static constexpr char8_t MinValue = 0;
+  public: static constexpr char8_t MaxValue = 'ÿ';
+  public: static constexpr char8_t MinValue = '\0';
   public: constexpr Char() noexcept : m_value(0) {}
   public: constexpr Char(char8_t value) noexcept : m_value(value) {}
   public: template <class T> requires(std::is_enum_v<T>)

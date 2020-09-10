@@ -224,7 +224,7 @@ void MethodBase___::AppendParameters(ValueStringBuilder& sbParamList, Array<Type
     sbParamList.Append(s);
     String text = type->FormatTypeName();
     if (type->get_IsByRef()) {
-      sbParamList.Append(MemoryExtensions::TrimEnd(MemoryExtensions::AsSpan(text), 38));
+      sbParamList.Append(MemoryExtensions::TrimEnd(MemoryExtensions::AsSpan(text), '&'));
       sbParamList.Append(" ByRef");
     } else {
       sbParamList.Append(text);

@@ -25,7 +25,7 @@ __DTString::__DTString(ReadOnlySpan<Char> str, DateTimeFormatInfo dtfi, Boolean 
 __DTString::__DTString(ReadOnlySpan<Char> str, DateTimeFormatInfo dtfi) {
   Index = -1;
   Value = str;
-  m_current = 0;
+  m_current = '\0';
   m_info = dtfi->get_CompareInfo();
   m_checkDigitToken = ((dtfi->get_FormatFlags() & DateTimeFormatFlags::UseDigitPrefixInTokens) != 0);
 }
@@ -296,7 +296,7 @@ void __DTString::RemoveTrailingInQuoteSpaces() {
     return;
   }
   Char c = Value[num];
-  if ((c == 39 || c == 34) && Char::IsWhiteSpace(Value[num - 1])) {
+  if ((c == '\'' || c == '"') && Char::IsWhiteSpace(Value[num - 1])) {
     num--;
     while (num >= 1 && Char::IsWhiteSpace(Value[num - 1])) {
       num--;
@@ -314,7 +314,7 @@ void __DTString::RemoveLeadingInQuoteSpaces() {
   }
   Int32 i = 0;
   Char c = Value[i];
-  if (c == 39 || c == 34) {
+  if (c == '\'' || c == '"') {
     for (; i + 1 < get_Length() && Char::IsWhiteSpace(Value[i + 1]); i++) {
     }
     if (i != 0) {
@@ -332,7 +332,7 @@ DTSubString __DTString::GetSubString() {
   result.s = Value;
   while (Index + result.length < get_Length()) {
     Char c = Value[Index + result.length];
-    DTSubStringType dTSubStringType = (c < 48 || c > 57) ? DTSubStringType::Other : DTSubStringType::Number;
+    DTSubStringType dTSubStringType = (c < '0' || c > '9') ? DTSubStringType::Other : DTSubStringType::Number;
     if (result.length == 0) {
       result.type = dTSubStringType;
     } else if (result.type != dTSubStringType) {

@@ -309,7 +309,7 @@ String SecurityElement___::Unescape(String str) {
   Int32 length = str->get_Length();
   Int32 newIndex = 0;
   while (true) {
-    Int32 num = str->IndexOf(38, newIndex);
+    Int32 num = str->IndexOf('&', newIndex);
     if (num == -1) {
       break;
     }

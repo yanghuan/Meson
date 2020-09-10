@@ -14,11 +14,11 @@ using namespace ::System::Private::CoreLib::System::Globalization;
 String DomainNameHelper::ParseCanonicalName(String str, Int32 start, Int32 end, Boolean& loopback) {
   String text = nullptr;
   for (Int32 num = end - 1; num >= start; num--) {
-    if (str[num] >= 65 && str[num] <= 90) {
+    if (str[num] >= 'A' && str[num] <= 'Z') {
       text = str->Substring(start, end - start)->ToLowerInvariant();
       break;
     }
-    if (str[num] == 58) {
+    if (str[num] == ':') {
       end = num;
     }
   }
@@ -38,10 +38,10 @@ Boolean DomainNameHelper::IsValid(Char* name, Int32 pos, Int32& returnedEnd, Boo
   Char* ptr3;
   for (ptr3 = name + returnedEnd; ptr2 < ptr3; ptr2++) {
     Char c = *ptr2;
-    if (c > 127) {
+    if (c > '') {
       return false;
     }
-    if (c < 97 && (c == 47 || c == 92 || (notImplicitFile && (c == 58 || c == 63 || c == 35)))) {
+    if (c < 'a' && (c == '/' || c == '\\' || (notImplicitFile && (c == ':' || c == '?' || c == '#')))) {
       ptr3 = ptr2;
       break;
     }
@@ -50,7 +50,7 @@ Boolean DomainNameHelper::IsValid(Char* name, Int32 pos, Int32& returnedEnd, Boo
     return false;
   }
   while (true) {
-    for (ptr2 = ptr; ptr2 < ptr3 && *ptr2 != 46; ptr2++) {
+    for (ptr2 = ptr; ptr2 < ptr3 && *ptr2 != '.'; ptr2++) {
     }
     if (ptr != ptr2 && ptr2 - ptr <= 63) {
       Char* intPtr = ptr;
@@ -83,7 +83,7 @@ Boolean DomainNameHelper::IsValidByIri(Char* name, Int32 pos, Int32& returnedEnd
   Int32 num = 0;
   for (; ptr2 < ptr3; ptr2++) {
     Char c = *ptr2;
-    if (c == 47 || c == 92 || (notImplicitFile && (c == 58 || c == 63 || c == 35))) {
+    if (c == '/' || c == '\\' || (notImplicitFile && (c == ':' || c == '?' || c == '#'))) {
       ptr3 = ptr2;
       break;
     }
@@ -95,23 +95,23 @@ Boolean DomainNameHelper::IsValidByIri(Char* name, Int32 pos, Int32& returnedEnd
     ptr2 = ptr;
     num = 0;
     Boolean flag = false;
-    for (; ptr2 < ptr3 && *ptr2 != 46 && *ptr2 != 12290 && *ptr2 != 65294 && *ptr2 != 65377; ptr2++) {
+    for (; ptr2 < ptr3 && *ptr2 != '.' && *ptr2 != '' && *ptr2 != '' && *ptr2 != 'a'; ptr2++) {
       num++;
-      if (*ptr2 > 255) {
+      if (*ptr2 > 'ÿ') {
         num++;
       }
-      if (*ptr2 >= 160) {
+      if (*ptr2 >= ' ') {
         flag = true;
       }
     }
     if (ptr != ptr2 && (flag ? (num + 4) : num) <= 63) {
       Char* intPtr = ptr;
       ptr = intPtr + 1;
-      if (*intPtr >= 160 || IsASCIILetterOrDigit(*(ptr - 1), notCanonical)) {
+      if (*intPtr >= ' ' || IsASCIILetterOrDigit(*(ptr - 1), notCanonical)) {
         while (ptr < ptr2) {
           Char* intPtr2 = ptr;
           ptr = intPtr2 + 1;
-          if (*intPtr2 < 160 && !IsValidDomainLabelCharacter(*(ptr - 1), notCanonical)) {
+          if (*intPtr2 < ' ' && !IsValidDomainLabelCharacter(*(ptr - 1), notCanonical)) {
             return false;
           }
         }
@@ -134,7 +134,7 @@ String DomainNameHelper::IdnEquivalent(String hostname) {
   }
   Boolean flag = true;
   for (Char&& c : *hostname) {
-    if (c > 127) {
+    if (c > '') {
       flag = false;
       break;
     }
@@ -155,7 +155,7 @@ String DomainNameHelper::IdnEquivalent(String hostname) {
 }
 
 Boolean DomainNameHelper::IsIdnAce(String input, Int32 index) {
-  if (input[index] == 120 && input[index + 1] == 110 && input[index + 2] == 45 && input[index + 3] == 45) {
+  if (input[index] == 'x' && input[index + 1] == 'n' && input[index + 2] == '-' && input[index + 3] == '-') {
     return true;
   }
   return false;
@@ -186,15 +186,15 @@ String DomainNameHelper::UnicodeEquivalent(Char* hostname, Int32 start, Int32 en
       Char c = text[num2];
       if (!flag3) {
         flag3 = true;
-        if (num2 + 3 < length && c == 120 && IsIdnAce(text, num2)) {
+        if (num2 + 3 < length && c == 'x' && IsIdnAce(text, num2)) {
           flag2 = true;
         }
       }
-      if (flag && c > 127) {
+      if (flag && c > '') {
         flag = false;
         allAscii = false;
       }
-      if (c == 46 || c == 12290 || c == 65294 || c == 65377) {
+      if (c == '.' || c == '' || c == '' || c == 'a') {
         flag4 = true;
         break;
       }
@@ -237,69 +237,69 @@ String DomainNameHelper::UnicodeEquivalent(Char* hostname, Int32 start, Int32 en
 
 Boolean DomainNameHelper::IsASCIILetterOrDigit(Char character, Boolean& notCanonical) {
   switch (character.get()) {
-    case 48:
-    case 49:
-    case 50:
-    case 51:
-    case 52:
-    case 53:
-    case 54:
-    case 55:
-    case 56:
-    case 57:
-    case 97:
-    case 98:
-    case 99:
-    case 100:
-    case 101:
-    case 102:
-    case 103:
-    case 104:
-    case 105:
-    case 106:
-    case 107:
-    case 108:
-    case 109:
-    case 110:
-    case 111:
-    case 112:
-    case 113:
-    case 114:
-    case 115:
-    case 116:
-    case 117:
-    case 118:
-    case 119:
-    case 120:
-    case 121:
-    case 122:
+    case '0':
+    case '1':
+    case '2':
+    case '3':
+    case '4':
+    case '5':
+    case '6':
+    case '7':
+    case '8':
+    case '9':
+    case 'a':
+    case 'b':
+    case 'c':
+    case 'd':
+    case 'e':
+    case 'f':
+    case 'g':
+    case 'h':
+    case 'i':
+    case 'j':
+    case 'k':
+    case 'l':
+    case 'm':
+    case 'n':
+    case 'o':
+    case 'p':
+    case 'q':
+    case 'r':
+    case 's':
+    case 't':
+    case 'u':
+    case 'v':
+    case 'w':
+    case 'x':
+    case 'y':
+    case 'z':
       return true;
-    case 65:
-    case 66:
-    case 67:
-    case 68:
-    case 69:
-    case 70:
-    case 71:
-    case 72:
-    case 73:
-    case 74:
-    case 75:
-    case 76:
-    case 77:
-    case 78:
-    case 79:
-    case 80:
-    case 81:
-    case 82:
-    case 83:
-    case 84:
-    case 85:
-    case 86:
-    case 87:
-    case 88:
-    case 89:
-    case 90:
+    case 'A':
+    case 'B':
+    case 'C':
+    case 'D':
+    case 'E':
+    case 'F':
+    case 'G':
+    case 'H':
+    case 'I':
+    case 'J':
+    case 'K':
+    case 'L':
+    case 'M':
+    case 'N':
+    case 'O':
+    case 'P':
+    case 'Q':
+    case 'R':
+    case 'S':
+    case 'T':
+    case 'U':
+    case 'V':
+    case 'W':
+    case 'X':
+    case 'Y':
+    case 'Z':
       notCanonical = true;
       return true;
     default:
@@ -309,71 +309,71 @@ Boolean DomainNameHelper::IsASCIILetterOrDigit(Char character, Boolean& notCanon
 
 Boolean DomainNameHelper::IsValidDomainLabelCharacter(Char character, Boolean& notCanonical) {
   switch (character.get()) {
-    case 45:
-    case 48:
-    case 49:
-    case 50:
-    case 51:
-    case 52:
-    case 53:
-    case 54:
-    case 55:
-    case 56:
-    case 57:
-    case 95:
-    case 97:
-    case 98:
-    case 99:
-    case 100:
-    case 101:
-    case 102:
-    case 103:
-    case 104:
-    case 105:
-    case 106:
-    case 107:
-    case 108:
-    case 109:
-    case 110:
-    case 111:
-    case 112:
-    case 113:
-    case 114:
-    case 115:
-    case 116:
-    case 117:
-    case 118:
-    case 119:
-    case 120:
-    case 121:
-    case 122:
+    case '-':
+    case '0':
+    case '1':
+    case '2':
+    case '3':
+    case '4':
+    case '5':
+    case '6':
+    case '7':
+    case '8':
+    case '9':
+    case '_':
+    case 'a':
+    case 'b':
+    case 'c':
+    case 'd':
+    case 'e':
+    case 'f':
+    case 'g':
+    case 'h':
+    case 'i':
+    case 'j':
+    case 'k':
+    case 'l':
+    case 'm':
+    case 'n':
+    case 'o':
+    case 'p':
+    case 'q':
+    case 'r':
+    case 's':
+    case 't':
+    case 'u':
+    case 'v':
+    case 'w':
+    case 'x':
+    case 'y':
+    case 'z':
       return true;
-    case 65:
-    case 66:
-    case 67:
-    case 68:
-    case 69:
-    case 70:
-    case 71:
-    case 72:
-    case 73:
-    case 74:
-    case 75:
-    case 76:
-    case 77:
-    case 78:
-    case 79:
-    case 80:
-    case 81:
-    case 82:
-    case 83:
-    case 84:
-    case 85:
-    case 86:
-    case 87:
-    case 88:
-    case 89:
-    case 90:
+    case 'A':
+    case 'B':
+    case 'C':
+    case 'D':
+    case 'E':
+    case 'F':
+    case 'G':
+    case 'H':
+    case 'I':
+    case 'J':
+    case 'K':
+    case 'L':
+    case 'M':
+    case 'N':
+    case 'O':
+    case 'P':
+    case 'Q':
+    case 'R':
+    case 'S':
+    case 'T':
+    case 'U':
+    case 'V':
+    case 'W':
+    case 'X':
+    case 'Y':
+    case 'Z':
       notCanonical = true;
       return true;
     default:

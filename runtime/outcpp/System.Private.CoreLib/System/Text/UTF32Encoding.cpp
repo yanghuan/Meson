@@ -260,7 +260,7 @@ Int32 UTF32Encoding___::GetByteCount(Char* chars, Int32 count, EncoderNLS encode
   Char* ptr = chars + count;
   Char* charStart = chars;
   Int32 num = 0;
-  Char c = 0;
+  Char c = '\0';
   EncoderFallbackBuffer encoderFallbackBuffer = nullptr;
   if (encoder != nullptr) {
     c = encoder->_charLeftOver;
@@ -279,13 +279,13 @@ Int32 UTF32Encoding___::GetByteCount(Char* chars, Int32 count, EncoderNLS encode
   while (true) {
     Char c2;
     if ((c2 = encoderFallbackBuffer->InternalGetNextChar()) != 0 || chars < ptr) {
-      if (c2 == 0) {
+      if (c2 == '\0') {
         c2 = *chars;
         chars++;
       }
       if (c != 0) {
         if (Char::IsLowSurrogate(c2)) {
-          c = 0;
+          c = '\0';
           num += 4;
           continue;
         }
@@ -293,7 +293,7 @@ Int32 UTF32Encoding___::GetByteCount(Char* chars, Int32 count, EncoderNLS encode
         Char* chars2 = chars;
         encoderFallbackBuffer->InternalFallback(c, chars2);
         chars = chars2;
-        c = 0;
+        c = '\0';
       } else if (Char::IsHighSurrogate(c2)) {
         c = c2;
       } else if (Char::IsLowSurrogate(c2)) {
@@ -306,13 +306,13 @@ Int32 UTF32Encoding___::GetByteCount(Char* chars, Int32 count, EncoderNLS encode
 
 
     } else {
-      if ((encoder != nullptr && !encoder->get_MustFlush()) || c <= 0) {
+      if ((encoder != nullptr && !encoder->get_MustFlush()) || c <= '\0') {
         break;
       }
       Char* chars2 = chars;
       encoderFallbackBuffer->InternalFallback(c, chars2);
       chars = chars2;
-      c = 0;
+      c = '\0';
     }
   }
   if (num < 0) {
@@ -326,7 +326,7 @@ Int32 UTF32Encoding___::GetBytes(Char* chars, Int32 charCount, Byte* bytes, Int3
   Char* ptr2 = chars + charCount;
   Byte* ptr3 = bytes;
   Byte* ptr4 = bytes + byteCount;
-  Char c = 0;
+  Char c = '\0';
   EncoderFallbackBuffer encoderFallbackBuffer = nullptr;
   if (encoder != nullptr) {
     c = encoder->_charLeftOver;
@@ -345,7 +345,7 @@ Int32 UTF32Encoding___::GetBytes(Char* chars, Int32 charCount, Byte* bytes, Int3
     Char c2;
     Char* chars2;
     if ((c2 = encoderFallbackBuffer->InternalGetNextChar()) != 0 || chars < ptr2) {
-      if (c2 == 0) {
+      if (c2 == '\0') {
         c2 = *chars;
         chars++;
       }
@@ -355,11 +355,11 @@ Int32 UTF32Encoding___::GetBytes(Char* chars, Int32 charCount, Byte* bytes, Int3
           chars2 = chars;
           encoderFallbackBuffer->InternalFallback(c, chars2);
           chars = chars2;
-          c = 0;
+          c = '\0';
           continue;
         }
         UInt32 surrogate = GetSurrogate(c, c2);
-        c = 0;
+        c = '\0';
         if (bytes + 3 < ptr4) {
           if (_bigEndian) {
             *(bytes++) = 0;
@@ -381,7 +381,7 @@ Int32 UTF32Encoding___::GetBytes(Char* chars, Int32 charCount, Byte* bytes, Int3
           chars -= 2;
         }
         ThrowBytesOverflow(encoder, bytes == ptr3);
-        c = 0;
+        c = '\0';
       } else {
         if (Char::IsHighSurrogate(c2)) {
           c = c2;
@@ -415,13 +415,13 @@ Int32 UTF32Encoding___::GetBytes(Char* chars, Int32 charCount, Byte* bytes, Int3
         ThrowBytesOverflow(encoder, bytes == ptr3);
       }
     }
-    if ((encoder != nullptr && !encoder->get_MustFlush()) || c <= 0) {
+    if ((encoder != nullptr && !encoder->get_MustFlush()) || c <= '\0') {
       break;
     }
     chars2 = chars;
     encoderFallbackBuffer->InternalFallback(c, chars2);
     chars = chars2;
-    c = 0;
+    c = '\0';
   }
   if (encoder != nullptr) {
     encoder->_charLeftOver = c;

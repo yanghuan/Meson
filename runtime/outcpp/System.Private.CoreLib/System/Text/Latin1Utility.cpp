@@ -70,7 +70,7 @@ UInt64 Latin1Utility::GetIndexOfFirstNonLatin1Char_Default(Char* pBuffer, UInt64
       }
       pBuffer += 2;
     }
-    if ((bufferLength & 1) != 0 && *pBuffer <= 255) {
+    if ((bufferLength & 1) != 0 && *pBuffer <= 'ÿ') {
       pBuffer++;
     }
     break;
@@ -179,7 +179,7 @@ UInt64 Latin1Utility::GetIndexOfFirstNonLatin1Char_Sse2(Char* pBuffer, UInt64 bu
     }
     pBuffer += 2;
   }
-  if ((bufferLength & 1) != 0 && *pBuffer <= 255) {
+  if ((bufferLength & 1) != 0 && *pBuffer <= 'ÿ') {
     pBuffer++;
   }
   goto IL_01a6;

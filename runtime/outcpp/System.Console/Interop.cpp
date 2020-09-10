@@ -56,7 +56,7 @@ String Interop::Kernel32::GetMessage(Int32 errorCode, IntPtr moduleHandle) {
 
 String Interop::Kernel32::GetAndTrimString(Span<Char> buffer) {
   Int32 num = buffer.get_Length();
-  while (num > 0 && buffer[num - 1] <= 32) {
+  while (num > 0 && buffer[num - 1] <= ' ') {
     num--;
   }
   return buffer.Slice(0, num).ToString();

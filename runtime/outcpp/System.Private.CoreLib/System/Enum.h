@@ -139,7 +139,7 @@ CLASS(Enum) : public ValueType::in {
   private: static Object ToObject(Type enumType, Boolean value);
   private: static RuntimeType ValidateRuntimeType(Type enumType);
   public: void ctor();
-  private: static constexpr Char EnumSeparatorChar = 44;
+  private: static constexpr Char EnumSeparatorChar = ',';
 };
 } // namespace EnumNamespace
 using Enum = EnumNamespace::Enum;

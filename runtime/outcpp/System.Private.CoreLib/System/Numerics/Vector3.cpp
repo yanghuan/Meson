@@ -58,15 +58,15 @@ String Vector3::ToString(String format) {
 String Vector3::ToString(String format, IFormatProvider formatProvider) {
   StringBuilder stringBuilder = rt::newobj<StringBuilder>();
   String numberGroupSeparator = NumberFormatInfo::in::GetInstance(formatProvider)->get_NumberGroupSeparator();
-  stringBuilder->Append(60);
+  stringBuilder->Append('<');
   stringBuilder->Append(((IFormattable)X)->ToString(format, formatProvider));
   stringBuilder->Append(numberGroupSeparator);
-  stringBuilder->Append(32);
+  stringBuilder->Append(' ');
   stringBuilder->Append(((IFormattable)Y)->ToString(format, formatProvider));
   stringBuilder->Append(numberGroupSeparator);
-  stringBuilder->Append(32);
+  stringBuilder->Append(' ');
   stringBuilder->Append(((IFormattable)Z)->ToString(format, formatProvider));
-  stringBuilder->Append(62);
+  stringBuilder->Append('>');
   return stringBuilder->ToString();
 }
 

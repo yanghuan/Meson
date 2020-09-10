@@ -12,17 +12,17 @@ using namespace System::Text;
 Int32 DateTimeFormatInfoScanner___::SkipWhiteSpacesAndNonLetter(String pattern, Int32 currentIndex) {
   while (currentIndex < pattern->get_Length()) {
     Char c = pattern[currentIndex];
-    if (c == 92) {
+    if (c == '\\') {
       currentIndex++;
       if (currentIndex >= pattern->get_Length()) {
         break;
       }
       c = pattern[currentIndex];
-      if (c == 39) {
+      if (c == '\'') {
         continue;
       }
     }
-    if (Char::IsLetter(c) || c == 39 || c == 46) {
+    if (Char::IsLetter(c) || c == '\'' || c == '.') {
       break;
     }
     currentIndex++;
@@ -36,23 +36,23 @@ void DateTimeFormatInfoScanner___::AddDateWordOrPostfix(String formatPostfix, St
   }
   if (str->get_Length() == 1) {
     switch (str[0].get()) {
-      case 45:
-      case 47:
-      case 20998:
-      case 24180:
-      case 26085:
-      case 26102:
-      case 26178:
-      case 26376:
-      case 31186:
-      case 45380:
-      case 48516:
-      case 49884:
-      case 50900:
-      case 51068:
-      case 52488:
+      case '-':
+      case '/':
+      case '':
+      case 't':
+      case 'å':
+      case 'ö':
+      case 'B':
+      case '\b':
+      case 'Ò':
+      case 'D':
+      case '':
+      case 'Ü':
+      case 'Ô':
+      case '|':
+      case '\b':
         return;
-      case 46:
+      case '.':
         AddIgnorableSymbols(".");
         return;
     }
@@ -82,9 +82,9 @@ Int32 DateTimeFormatInfoScanner___::AddDateWords(String pattern, Int32 index, St
   while (index < pattern->get_Length()) {
     Char c = pattern[index];
     switch (c.get()) {
-      case 39:
+      case '\'':
         break;
-      case 92:
+      case '\\':
         index++;
         if (index < pattern->get_Length()) {
           stringBuilder->Append(pattern[index]);
@@ -137,32 +137,32 @@ void DateTimeFormatInfoScanner___::ScanDateWord(String pattern) {
     Char c = pattern[num];
     Int32 count;
     switch (c.get()) {
-      case 39:
+      case '\'':
         num = AddDateWords(pattern, num + 1, nullptr);
         break;
-      case 77:
-        num = ScanRepeatChar(pattern, 77, num, count);
-        if (count >= 4 && num < pattern->get_Length() && pattern[num] == 39) {
+      case 'M':
+        num = ScanRepeatChar(pattern, 'M', num, count);
+        if (count >= 4 && num < pattern->get_Length() && pattern[num] == '\'') {
           num = AddDateWords(pattern, num + 1, "MMMM");
         }
         _ymdFlags |= FoundDatePattern::FoundMonthPatternFlag;
         break;
-      case 121:
+      case 'y':
         {
           Int32 count2;
-          num = ScanRepeatChar(pattern, 121, num, count2);
+          num = ScanRepeatChar(pattern, 'y', num, count2);
           _ymdFlags |= FoundDatePattern::FoundYearPatternFlag;
           break;
-        }case 100:
-        num = ScanRepeatChar(pattern, 100, num, count);
+        }case 'd':
+        num = ScanRepeatChar(pattern, 'd', num, count);
         if (count <= 2) {
           _ymdFlags |= FoundDatePattern::FoundDayPatternFlag;
         }
         break;
-      case 92:
+      case '\\':
         num += 2;
         break;
-      case 46:
+      case '.':
         if (_ymdFlags == FoundDatePattern::FoundYMDPatternFlag) {
           AddIgnorableSymbols(".");
           _ymdFlags = FoundDatePattern::None;
@@ -180,24 +180,24 @@ void DateTimeFormatInfoScanner___::ScanDateWord(String pattern) {
 }
 
 Array<String> DateTimeFormatInfoScanner___::GetDateWordsOfDTFI(DateTimeFormatInfo dtfi) {
-  Array<String> allDateTimePatterns = dtfi->GetAllDateTimePatterns(68);
+  Array<String> allDateTimePatterns = dtfi->GetAllDateTimePatterns('D');
   for (Int32 i = 0; i < allDateTimePatterns->get_Length(); i++) {
     ScanDateWord(allDateTimePatterns[i]);
   }
-  allDateTimePatterns = dtfi->GetAllDateTimePatterns(100);
+  allDateTimePatterns = dtfi->GetAllDateTimePatterns('d');
   for (Int32 i = 0; i < allDateTimePatterns->get_Length(); i++) {
     ScanDateWord(allDateTimePatterns[i]);
   }
-  allDateTimePatterns = dtfi->GetAllDateTimePatterns(121);
+  allDateTimePatterns = dtfi->GetAllDateTimePatterns('y');
   for (Int32 i = 0; i < allDateTimePatterns->get_Length(); i++) {
     ScanDateWord(allDateTimePatterns[i]);
   }
   ScanDateWord(dtfi->get_MonthDayPattern());
-  allDateTimePatterns = dtfi->GetAllDateTimePatterns(84);
+  allDateTimePatterns = dtfi->GetAllDateTimePatterns('T');
   for (Int32 i = 0; i < allDateTimePatterns->get_Length(); i++) {
     ScanDateWord(allDateTimePatterns[i]);
   }
-  allDateTimePatterns = dtfi->GetAllDateTimePatterns(116);
+  allDateTimePatterns = dtfi->GetAllDateTimePatterns('t');
   for (Int32 i = 0; i < allDateTimePatterns->get_Length(); i++) {
     ScanDateWord(allDateTimePatterns[i]);
   }
@@ -266,22 +266,22 @@ Boolean DateTimeFormatInfoScanner___::ArrayElementsHaveSpace(Array<String> array
 
 Boolean DateTimeFormatInfoScanner___::ArrayElementsBeginWithDigit(Array<String> array) {
   for (Int32 i = 0; i < array->get_Length(); i++) {
-    if (array[i]->get_Length() <= 0 || array[i][0] < 48 || array[i][0] > 57) {
+    if (array[i]->get_Length() <= 0 || array[i][0] < '0' || array[i][0] > '9') {
       continue;
     }
     Int32 j;
-    for (j = 1; j < array[i]->get_Length() && array[i][j] >= 48 && array[i][j] <= 57; j++) {
+    for (j = 1; j < array[i]->get_Length() && array[i][j] >= '0' && array[i][j] <= '9'; j++) {
     }
     if (j == array[i]->get_Length()) {
       return false;
     }
     if (j == array[i]->get_Length() - 1) {
       Char c = array[i][j];
-      if (c == 26376 || c == 50900) {
+      if (c == '\b' || c == 'Ô') {
         return false;
       }
     }
-    if (j == array[i]->get_Length() - 4 && array[i][j] == 39 && array[i][j + 1] == 32 && array[i][j + 2] == 26376 && array[i][j + 3] == 39) {
+    if (j == array[i]->get_Length() - 4 && array[i][j] == '\'' && array[i][j + 1] == ' ' && array[i][j + 2] == '\b' && array[i][j + 3] == '\'') {
       return false;
     }
     return true;

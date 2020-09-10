@@ -351,15 +351,15 @@ String DateTimeFormatInfo___::get_DateTimeOffsetPattern() {
   if (dateTimeOffsetPattern == nullptr) {
     Boolean flag = false;
     Boolean flag2 = false;
-    Char c = 39;
+    Char c = '\'';
     Int32 num = 0;
     while (!flag && num < get_LongTimePattern()->get_Length()) {
       switch (get_LongTimePattern()[num].get()) {
-        case 122:
+        case 'z':
           flag = !flag2;
           break;
-        case 34:
-        case 39:
+        case '"':
+        case '\'':
           if (flag2 && c == get_LongTimePattern()[num]) {
             flag2 = false;
           } else if (!flag2) {
@@ -368,8 +368,8 @@ String DateTimeFormatInfo___::get_DateTimeOffsetPattern() {
           }
 
           break;
-        case 37:
-        case 92:
+        case '%':
+        case '\\':
           num++;
           break;
       }
@@ -944,38 +944,38 @@ Array<String> DateTimeFormatInfo___::GetAllDateTimePatterns() {
 
 Array<String> DateTimeFormatInfo___::GetAllDateTimePatterns(Char format) {
   switch (format.get()) {
-    case 100:
+    case 'd':
       return get_AllShortDatePatterns();
-    case 68:
+    case 'D':
       return get_AllLongDatePatterns();
-    case 102:
+    case 'f':
       return GetCombinedPatterns(get_AllLongDatePatterns(), get_AllShortTimePatterns(), " ");
-    case 70:
-    case 85:
+    case 'F':
+    case 'U':
       return GetCombinedPatterns(get_AllLongDatePatterns(), get_AllLongTimePatterns(), " ");
-    case 103:
+    case 'g':
       return GetCombinedPatterns(get_AllShortDatePatterns(), get_AllShortTimePatterns(), " ");
-    case 71:
+    case 'G':
       return GetCombinedPatterns(get_AllShortDatePatterns(), get_AllLongTimePatterns(), " ");
-    case 77:
-    case 109:
+    case 'M':
+    case 'm':
       return rt::newarr<Array<String>>(1);
-    case 79:
-    case 111:
+    case 'O':
+    case 'o':
       return rt::newarr<Array<String>>(1);
-    case 82:
-    case 114:
+    case 'R':
+    case 'r':
       return rt::newarr<Array<String>>(1);
-    case 115:
+    case 's':
       return rt::newarr<Array<String>>(1);
-    case 116:
+    case 't':
       return get_AllShortTimePatterns();
-    case 84:
+    case 'T':
       return get_AllLongTimePatterns();
-    case 117:
+    case 'u':
       return rt::newarr<Array<String>>(1);
-    case 89:
-    case 121:
+    case 'Y':
+    case 'y':
       return get_AllYearMonthPatterns();
     default:
       rt::throw_exception<ArgumentException>(SR::Format(SR::get_Format_BadFormatSpecifier(), format), "format");
@@ -1051,28 +1051,28 @@ void DateTimeFormatInfo___::SetAllDateTimePatterns(Array<String> patterns, Char 
     }
   }
   switch (format.get()) {
-    case 100:
+    case 'd':
       allShortDatePatterns = patterns;
       shortDatePattern = allShortDatePatterns[0];
       OnShortDatePatternChanged();
       break;
-    case 68:
+    case 'D':
       allLongDatePatterns = patterns;
       longDatePattern = allLongDatePatterns[0];
       OnLongDatePatternChanged();
       break;
-    case 116:
+    case 't':
       allShortTimePatterns = patterns;
       shortTimePattern = allShortTimePatterns[0];
       OnShortTimePatternChanged();
       break;
-    case 84:
+    case 'T':
       allLongTimePatterns = patterns;
       longTimePattern = allLongTimePatterns[0];
       OnLongTimePatternChanged();
       break;
-    case 89:
-    case 121:
+    case 'Y':
+    case 'y':
       allYearMonthPatterns = patterns;
       yearMonthPattern = allYearMonthPatterns[0];
       OnYearMonthPatternChanged();
@@ -1196,12 +1196,12 @@ Array<DateTimeFormatInfo::in::TokenHashValue> DateTimeFormatInfo___::CreateToken
     if (dateWordsOfDTFI != nullptr) {
       for (Int32 i = 0; i < dateWordsOfDTFI->get_Length(); i++) {
         switch (dateWordsOfDTFI[i][0].get()) {
-          case 57344:
+          case '\0':
             {
               ReadOnlySpan<Char> monthPostfix = MemoryExtensions::AsSpan(dateWordsOfDTFI[i], 1);
               AddMonthNames(array, monthPostfix);
               break;
-            }case 57345:
+            }case '':
             {
               String text = dateWordsOfDTFI[i]->Substring(1);
               InsertHash(array, text, TokenType::IgnorableSymbol, 0);
@@ -1341,8 +1341,8 @@ Boolean DateTimeFormatInfo___::TryParseHebrewNumber(__DTString& str, Boolean& ba
 }
 
 Boolean DateTimeFormatInfo___::IsHebrewChar(Char ch) {
-  if (ch >= 1424) {
-    return ch <= 1535;
+  if (ch >= '') {
+    return ch <= 'ÿ';
   }
   return false;
 }

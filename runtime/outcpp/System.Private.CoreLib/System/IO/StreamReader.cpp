@@ -154,7 +154,7 @@ void StreamReader___::_ReadLineAsyncInternal_d__59::MoveNext() {
       IL_01e6:
         if (flag4) {
           charPos = streamReader->_charPos;
-          if (streamReader->_charBuffer[charPos] == 10) {
+          if (streamReader->_charBuffer[charPos] == '\n') {
             charPos = (streamReader->_charPos = charPos + 1);
           }
         }
@@ -172,7 +172,7 @@ void StreamReader___::_ReadLineAsyncInternal_d__59::MoveNext() {
         num2 = charPos;
         while (true) {
           c = charBuffer[num2];
-          if (c == 13 || c == 10) {
+          if (c == '\r' || c == '\n') {
             break;
           }
           num2++;
@@ -188,7 +188,7 @@ void StreamReader___::_ReadLineAsyncInternal_d__59::MoveNext() {
           <s>5__3 = rt::newstr<String>(charBuffer, charPos, num2 - charPos);
         }
         charPos = (streamReader->_charPos = num2 + 1);
-        flag5 = (c == 13);
+        flag5 = (c == '\r');
         flag4 = flag5;
         if (flag4) {
           Boolean flag6 = charPos < charLen;
@@ -1000,7 +1000,7 @@ String StreamReader___::ReadLine() {
     Int32 num = _charPos;
     do {
       Char c = _charBuffer[num];
-      if (c == 13 || c == 10) {
+      if (c == '\r' || c == '\n') {
         String result;
         if (stringBuilder != nullptr) {
           stringBuilder->Append(_charBuffer, _charPos, num - _charPos);
@@ -1009,7 +1009,7 @@ String StreamReader___::ReadLine() {
           result = rt::newstr<String>(_charBuffer, _charPos, num - _charPos);
         }
         _charPos = num + 1;
-        if (c == 13 && (_charPos < _charLen || ReadBuffer() > 0) && _charBuffer[_charPos] == 10) {
+        if (c == '\r' && (_charPos < _charLen || ReadBuffer() > 0) && _charBuffer[_charPos] == '\n') {
           _charPos++;
         }
         return result;

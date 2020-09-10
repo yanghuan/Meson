@@ -666,6 +666,12 @@ namespace Meson.Compiler {
       WriteNewLine();
     }
 
+    internal void Render(CharLiteralExpressionSyntax node) {
+      Write(Tokens.SingleQuote);
+      Write(node.ValueText);
+      Write(Tokens.SingleQuote);
+    }
+
     internal void Render(StringLiteralExpressionSyntax node) {
       Write(Tokens.Quote);
       Write(node.Value);

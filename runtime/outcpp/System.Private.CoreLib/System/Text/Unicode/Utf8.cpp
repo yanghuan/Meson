@@ -74,7 +74,7 @@ OperationStatus Utf8::ToUtf16(ReadOnlySpan<Byte> source, Span<Char> destination,
           operationStatus = OperationStatus::DestinationTooSmall;
           break;
         }
-        destination[0] = 65533;
+        destination[0] = 'ý';
         destination = destination.Slice(1);
         source = source.Slice((Int32)(pInputBufferRemaining - (Byte*)Unsafe::AsPointer(MemoryMarshal::GetReference(source))));
         Rune result;

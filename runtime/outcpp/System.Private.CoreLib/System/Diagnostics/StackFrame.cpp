@@ -112,18 +112,18 @@ String StackFrame___::ToString() {
     MethodInfo methodInfo = rt::as<MethodInfo>(_method);
     if ((Object)methodInfo != nullptr && methodInfo->get_IsGenericMethod()) {
       Array<Type> genericArguments = methodInfo->GetGenericArguments();
-      stringBuilder->Append(60);
+      stringBuilder->Append('<');
       Int32 i = 0;
       Boolean flag = true;
       for (; i < genericArguments->get_Length(); i++) {
         if (!flag) {
-          stringBuilder->Append(44);
+          stringBuilder->Append(',');
         } else {
           flag = false;
         }
         stringBuilder->Append(genericArguments[i]->get_Name());
       }
-      stringBuilder->Append(62);
+      stringBuilder->Append('>');
     }
     flag2 = true;
   } else {
@@ -139,9 +139,9 @@ String StackFrame___::ToString() {
     stringBuilder->Append(" in file:line:column ");
     String as = _fileName;
     stringBuilder->Append(as != nullptr ? as : "<filename unknown>");
-    stringBuilder->Append(58);
+    stringBuilder->Append(':');
     stringBuilder->Append(_lineNumber);
-    stringBuilder->Append(58);
+    stringBuilder->Append(':');
     stringBuilder->Append(_columnNumber);
   } else {
     stringBuilder->Append("<null>");

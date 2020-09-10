@@ -209,8 +209,8 @@ String Enum___::InternalFlagsFormat(RuntimeType enumType, EnumInfo enumInfo, UIn
   MemoryExtensions::AsSpan(text2).CopyTo(destination);
   destination = destination.Slice(text2->get_Length());
   while (--num3 >= 0) {
-    destination[0] = 44;
-    destination[1] = 32;
+    destination[0] = ',';
+    destination[1] = ' ';
     destination = destination.Slice(2);
     text2 = names[span[num3]];
     MemoryExtensions::AsSpan(text2).CopyTo(destination);
@@ -500,7 +500,7 @@ Boolean Enum___::TryParseByName(RuntimeType enumType, String originalValueString
   Boolean flag = true;
   UInt64 num = 0;
   while (value.get_Length() > 0) {
-    Int32 num2 = MemoryExtensions::IndexOf(value, 44);
+    Int32 num2 = MemoryExtensions::IndexOf(value, ',');
     ReadOnlySpan<Char> span;
     if (num2 == -1) {
       span = MemoryExtensions::Trim(value);
@@ -548,8 +548,8 @@ Boolean Enum___::TryParseByName(RuntimeType enumType, String originalValueString
 }
 
 Boolean Enum___::StartsNumber(Char c) {
-  if (!Char::IsInRange(c, 48, 57) && c != 45) {
-    return c == 43;
+  if (!Char::IsInRange(c, '0', '9') && c != '-') {
+    return c == '+';
   }
   return true;
 }
@@ -610,17 +610,17 @@ String Enum___::Format(Type enumType, Object value, String format) {
     String as = GetEnumName(enumType2, ToUInt64(value));
     String is = InternalFlagsFormat(enumType2, ToUInt64(value));
     switch (format[0].get()) {
-      case 71:
-      case 103:
+      case 'G':
+      case 'g':
         return as != nullptr ? as : value->ToString();
-      case 68:
-      case 100:
+      case 'D':
+      case 'd':
         return value->ToString();
-      case 88:
-      case 120:
+      case 'X':
+      case 'x':
         return ValueToHexString(value);
-      case 70:
-      case 102:
+      case 'F':
+      case 'f':
         return is != nullptr ? is : value->ToString();
     }
   }
@@ -790,17 +790,17 @@ String Enum___::ToString(String format) {
   if (format->get_Length() == 1) {
     String as = InternalFlagsFormat((RuntimeType)GetType(), ToUInt64());
     switch (format[0].get()) {
-      case 71:
-      case 103:
+      case 'G':
+      case 'g':
         return ToString();
-      case 68:
-      case 100:
+      case 'D':
+      case 'd':
         return ValueToString();
-      case 88:
-      case 120:
+      case 'X':
+      case 'x':
         return ValueToHexString();
-      case 70:
-      case 102:
+      case 'F':
+      case 'f':
         return as != nullptr ? as : ValueToString();
     }
   }

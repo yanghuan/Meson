@@ -142,6 +142,20 @@ namespace Meson.Compiler.CppAst {
   internal abstract class LiteralExpressionSyntax : ExpressionSyntax {
   }
 
+  internal sealed class CharLiteralExpressionSyntax : LiteralExpressionSyntax {
+    public char Value { get; }
+    public string ValueText { get; }
+
+    public CharLiteralExpressionSyntax(char value, string valueText) {
+      Value = value;
+      ValueText = valueText;
+    }
+
+    internal override void Render(CppRenderer renderer) {
+      renderer.Render(this);
+    }
+  }
+
   internal sealed class StringLiteralExpressionSyntax : LiteralExpressionSyntax {
     public string Value { get; }
 

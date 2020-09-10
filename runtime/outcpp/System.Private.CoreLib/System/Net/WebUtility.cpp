@@ -67,13 +67,13 @@ Char WebUtility::HtmlEntities::Lookup(ReadOnlySpan<Char> entity) {
     s_lookupTable->TryGetValue(ToUInt64Key(entity), value);
     return value;
   }
-  return 0;
+  return '\0';
 }
 
 UInt64 WebUtility::HtmlEntities::ToUInt64Key(ReadOnlySpan<Char> entity) {
   UInt64 num = 0;
   for (Int32 i = 0; i < entity.get_Length(); i++) {
-    if (entity[i] > 255) {
+    if (entity[i] > 'ÿ') {
       return 0;
     }
     num = ((num << 8) | entity[i]);
@@ -140,21 +140,21 @@ void WebUtility::HtmlEncode(String value, TextWriter output) {
 void WebUtility::HtmlEncode(ReadOnlySpan<Char> input, ValueStringBuilder& output) {
   for (Int32 i = 0; i < input.get_Length(); i++) {
     Char c = input[i];
-    if (c <= 62) {
+    if (c <= '>') {
       switch (c.get()) {
-        case 60:
+        case '<':
           output.Append("&lt;");
           break;
-        case 62:
+        case '>':
           output.Append("&gt;");
           break;
-        case 34:
+        case '"':
           output.Append("&quot;");
           break;
-        case 39:
+        case '\'':
           output.Append("&#39;");
           break;
-        case 38:
+        case '&':
           output.Append("&amp;");
           break;
         default:
@@ -164,7 +164,7 @@ void WebUtility::HtmlEncode(ReadOnlySpan<Char> input, ValueStringBuilder& output
       continue;
     }
     Int32 num = -1;
-    if (c >= 160 && c < 256) {
+    if (c >= ' ' && c < '\0') {
       num = c;
     } else if (Char::IsSurrogate(c)) {
       Int32 nextUnicodeScalarValueFromUtf16Surrogate = GetNextUnicodeScalarValueFromUtf16Surrogate(input, i);
@@ -181,7 +181,7 @@ void WebUtility::HtmlEncode(ReadOnlySpan<Char> input, ValueStringBuilder& output
       Int32 charsWritten;
       num.TryFormat(destination, charsWritten);
       output.set_Length(10 - charsWritten);
-      output.Append(59);
+      output.Append(';');
     } else {
       output.Append(c);
     }
@@ -243,14 +243,14 @@ void WebUtility::HtmlDecode(String value, TextWriter output) {
 void WebUtility::HtmlDecode(ReadOnlySpan<Char> input, ValueStringBuilder& output) {
   for (Int32 i = 0; i < input.get_Length(); i++) {
     Char c = input[i];
-    if (c == 38) {
+    if (c == '&') {
       ReadOnlySpan<Char> span = input.Slice(i + 1);
-      Int32 num = MemoryExtensions::IndexOfAny(span, 59, 38);
-      if (num >= 0 && span[num] == 59) {
+      Int32 num = MemoryExtensions::IndexOfAny(span, ';', '&');
+      if (num >= 0 && span[num] == ';') {
         Int32 num2 = i + 1 + num;
-        if (num > 1 && span[0] == 35) {
+        if (num > 1 && span[0] == '#') {
           UInt32 result;
-          Boolean flag = (span[1] == 120 || span[1] == 88) ? UInt32::TryParse(span.Slice(2, num - 2), NumberStyles::AllowHexSpecifier, CultureInfo::in::get_InvariantCulture(), result) : UInt32::TryParse(span.Slice(1, num - 1), NumberStyles::Integer, CultureInfo::in::get_InvariantCulture(), result);
+          Boolean flag = (span[1] == 'x' || span[1] == 'X') ? UInt32::TryParse(span.Slice(2, num - 2), NumberStyles::AllowHexSpecifier, CultureInfo::in::get_InvariantCulture(), result) : UInt32::TryParse(span.Slice(1, num - 1), NumberStyles::Integer, CultureInfo::in::get_InvariantCulture(), result);
           if (flag) {
             flag = (result < 55296 || (57343 < result && result <= 1114111));
           }
@@ -271,10 +271,10 @@ void WebUtility::HtmlDecode(ReadOnlySpan<Char> input, ValueStringBuilder& output
           ReadOnlySpan<Char> readOnlySpan = span.Slice(0, num);
           i = num2;
           Char c2 = HtmlEntities::Lookup(readOnlySpan);
-          if (c2 == 0) {
-            output.Append(38);
+          if (c2 == '\0') {
+            output.Append('&');
             output.Append(readOnlySpan);
-            output.Append(59);
+            output.Append(';');
             continue;
           }
           c = c2;
@@ -288,18 +288,18 @@ void WebUtility::HtmlDecode(ReadOnlySpan<Char> input, ValueStringBuilder& output
 Int32 WebUtility::IndexOfHtmlEncodingChars(ReadOnlySpan<Char> input) {
   for (Int32 i = 0; i < input.get_Length(); i++) {
     Char c = input[i];
-    if (c <= 62) {
+    if (c <= '>') {
       switch (c.get()) {
-        case 34:
-        case 38:
-        case 39:
-        case 60:
-        case 62:
+        case '"':
+        case '&':
+        case '\'':
+        case '<':
+        case '>':
           return i;
       }
       continue;
     }
-    if (c >= 160 && c < 256) {
+    if (c >= ' ' && c < '\0') {
       return i;
     }
     if (Char::IsSurrogate(c)) {
@@ -319,7 +319,7 @@ void WebUtility::GetEncodedBytes(Array<Byte> originalBytes, Int32 offset, Int32 
       expandedBytes[num++] = b;
       continue;
     }
-    if (c == 32) {
+    if (c == ' ') {
       expandedBytes[num++] = 43;
       continue;
     }
@@ -339,7 +339,7 @@ String WebUtility::UrlEncode(String value) {
     Char c = value[i];
     if (IsUrlSafeChar(c)) {
       num++;
-    } else if (c == 32) {
+    } else if (c == ' ') {
       num2++;
     }
 
@@ -347,7 +347,7 @@ String WebUtility::UrlEncode(String value) {
   Int32 num3 = num + num2;
   if (num3 == value->get_Length()) {
     if (num2 != 0) {
-      return value->Replace(32, 43);
+      return value->Replace(' ', '+');
     }
     return value;
   }
@@ -368,7 +368,7 @@ Array<Byte> WebUtility::UrlEncodeToBytes(Array<Byte> value, Int32 offset, Int32 
   Int32 num = 0;
   for (Int32 i = 0; i < count; i++) {
     Char c = (Char)value[offset + i];
-    if (c == 32) {
+    if (c == ' ') {
       flag = true;
     } else if (!IsUrlSafeChar(c)) {
       num++;
@@ -396,11 +396,11 @@ String WebUtility::UrlDecodeInternal(String value, Encoding encoding) {
   for (Int32 i = 0; i < length; i++) {
     Char c = value[i];
     switch (c.get()) {
-      case 43:
+      case '+':
         flag2 = true;
-        c = 32;
+        c = ' ';
         break;
-      case 37:
+      case '%':
         if (i < length - 2) {
           Int32 num = HexConverter::FromChar(value[i + 1]);
           Int32 num2 = HexConverter::FromChar(value[i + 2]);
@@ -422,7 +422,7 @@ String WebUtility::UrlDecodeInternal(String value, Encoding encoding) {
   }
   if (!flag) {
     if (flag2) {
-      return value->Replace(43, 32);
+      return value->Replace('+', ' ');
     }
     return value;
   }
@@ -490,7 +490,7 @@ Int32 WebUtility::GetNextUnicodeScalarValueFromUtf16Surrogate(ReadOnlySpan<Char>
 
 Boolean WebUtility::IsUrlSafeChar(Char ch) {
   if ((UInt32)(ch - 97) > 25u && (UInt32)(ch - 65) > 25u && ((UInt32)(ch - 32) > 25u || ((1 << ch - 32) & 67069698) == 0)) {
-    return ch == 95;
+    return ch == '_';
   }
   return true;
 }
@@ -514,7 +514,7 @@ Boolean WebUtility::ValidateUrlEncodingParameters(Array<Byte> bytes, Int32 offse
 Int32 WebUtility::IndexOfHtmlDecodingChars(ReadOnlySpan<Char> input) {
   for (Int32 i = 0; i < input.get_Length(); i++) {
     Char c = input[i];
-    if (c == 38 || Char::IsSurrogate(c)) {
+    if (c == '&' || Char::IsSurrogate(c)) {
       return i;
     }
   }

@@ -370,6 +370,10 @@ namespace Meson.Compiler {
       return true;
     }
 
+    private static bool HasMethodSimilar(IMethod symbol, int index, bool isZero) {
+      return symbol.DeclaringTypeDefinition.Methods.Any(i => i != symbol && i.Name == symbol.Name && IsMethodSimilar(symbol, i, index, isZero)); ;
+    }
+
     private void CheckInvokeArgumentType(IMethod symbol, IParameter parameter, int index, IType type, ref ExpressionSyntax expression) {
       switch (type.Kind) {
         case TypeKind.Array:
@@ -396,16 +400,22 @@ namespace Meson.Compiler {
             switch (typeDefinition.KnownTypeCode) {
               case KnownTypeCode.Int32:
                 if (expression is NumberLiteralExpressionSyntax numberLiteral) {
-                  bool exists = symbol.DeclaringTypeDefinition.Methods.Any(i => i != symbol && i.Name == symbol.Name && IsMethodSimilar(symbol, i, index, numberLiteral.IsZero));
-                  if (exists) {
+                  if (HasMethodSimilar(symbol, index, numberLiteral.IsZero)) {
                     goto Cast;
                   }
                 }
                 break;
               case KnownTypeCode.Boolean: {
                   if (expression is BooleanLiteralExpressionSyntax boolLiteral) {
-                    bool exists = symbol.DeclaringTypeDefinition.Methods.Any(i => i != symbol && i.Name == symbol.Name && IsMethodSimilar(symbol, i, index, !boolLiteral.Value));
-                    if (exists) {
+                    if (HasMethodSimilar(symbol, index, !boolLiteral.Value)) {
+                      goto Cast;
+                    }
+                  }
+                  break;
+                }
+              case KnownTypeCode.Char: {
+                  if (expression is CharLiteralExpressionSyntax boolLiteral) {
+                    if (HasMethodSimilar(symbol, index, boolLiteral.Value == 0)) {
                       goto Cast;
                     }
                   }

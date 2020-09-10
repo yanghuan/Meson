@@ -32,19 +32,19 @@ String Boolean::ToString(IFormatProvider provider) {
 Boolean Boolean::TryFormat(Span<Char> destination, Int32& charsWritten) {
   if (*this) {
     if ((UInt32)destination.get_Length() > 3u) {
-      destination[0] = 84;
-      destination[1] = 114;
-      destination[2] = 117;
-      destination[3] = 101;
+      destination[0] = 'T';
+      destination[1] = 'r';
+      destination[2] = 'u';
+      destination[3] = 'e';
       charsWritten = 4;
       return true;
     }
   } else if ((UInt32)destination.get_Length() > 4u) {
-    destination[0] = 70;
-    destination[1] = 97;
-    destination[2] = 108;
-    destination[3] = 115;
-    destination[4] = 101;
+    destination[0] = 'F';
+    destination[1] = 'a';
+    destination[2] = 'l';
+    destination[3] = 's';
+    destination[4] = 'e';
     charsWritten = 5;
     return true;
   }
@@ -91,9 +91,9 @@ Int32 Boolean::CompareTo(Boolean value) {
 }
 
 Boolean Boolean::IsTrueStringIgnoreCase(ReadOnlySpan<Char> value) {
-  if (value.get_Length() == 4 && (value[0] == 116 || value[0] == 84) && (value[1] == 114 || value[1] == 82) && (value[2] == 117 || value[2] == 85)) {
-    if (value[3] != 101) {
-      return value[3] == 69;
+  if (value.get_Length() == 4 && (value[0] == 't' || value[0] == 'T') && (value[1] == 'r' || value[1] == 'R') && (value[2] == 'u' || value[2] == 'U')) {
+    if (value[3] != 'e') {
+      return value[3] == 'E';
     }
     return true;
   }
@@ -101,9 +101,9 @@ Boolean Boolean::IsTrueStringIgnoreCase(ReadOnlySpan<Char> value) {
 }
 
 Boolean Boolean::IsFalseStringIgnoreCase(ReadOnlySpan<Char> value) {
-  if (value.get_Length() == 5 && (value[0] == 102 || value[0] == 70) && (value[1] == 97 || value[1] == 65) && (value[2] == 108 || value[2] == 76) && (value[3] == 115 || value[3] == 83)) {
-    if (value[4] != 101) {
-      return value[4] == 69;
+  if (value.get_Length() == 5 && (value[0] == 'f' || value[0] == 'F') && (value[1] == 'a' || value[1] == 'A') && (value[2] == 'l' || value[2] == 'L') && (value[3] == 's' || value[3] == 'S')) {
+    if (value[4] != 'e') {
+      return value[4] == 'E';
     }
     return true;
   }
@@ -157,10 +157,10 @@ Boolean Boolean::TryParse(ReadOnlySpan<Char> value, Boolean& result) {
 
 ReadOnlySpan<Char> Boolean::TrimWhiteSpaceAndNull(ReadOnlySpan<Char> value) {
   Int32 i;
-  for (i = 0; i < value.get_Length() && (Char::IsWhiteSpace(value[i]) || value[i] == 0); i++) {
+  for (i = 0; i < value.get_Length() && (Char::IsWhiteSpace(value[i]) || value[i] == '\0'); i++) {
   }
   Int32 num = value.get_Length() - 1;
-  while (num >= i && (Char::IsWhiteSpace(value[num]) || value[num] == 0)) {
+  while (num >= i && (Char::IsWhiteSpace(value[num]) || value[num] == '\0')) {
     num--;
   }
   return value.Slice(i, num - i + 1);

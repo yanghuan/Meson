@@ -11,7 +11,7 @@ void FixedWSTRMarshaler::ConvertToNative(String strManaged, IntPtr nativeHome, I
   Span<Char> destination = Span<Char>((void*)nativeHome, length);
   Int32 num = Math::Min(readOnlySpan.get_Length(), length - 1);
   readOnlySpan.Slice(0, num).CopyTo(destination);
-  destination[num] = 0;
+  destination[num] = '\0';
 }
 
 } // namespace System::Private::CoreLib::System::StubHelpers::FixedWSTRMarshalerNamespace

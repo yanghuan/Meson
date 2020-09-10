@@ -45,7 +45,7 @@ void CharEnumerator___::Dispose() {
 }
 
 void CharEnumerator___::Reset() {
-  _currentElement = 0;
+  _currentElement = '\0';
   _index = -1;
 }
 

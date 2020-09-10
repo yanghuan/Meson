@@ -23,41 +23,41 @@ String IPv6AddressHelper::ParseCanonicalName(String str, Int32 start, Boolean& i
   Boolean flag = ShouldHaveIpv4Embedded(span);
   Char is[48] = {};
   Span<Char> span2 = is;
-  span2[0] = 91;
+  span2[0] = '[';
   Int32 num = 1;
   for (Int32 i = 0; i < 8; i++) {
     Int32 charsWritten;
     if (flag && i == 6) {
-      span2[num++] = 58;
+      span2[num++] = ':';
       Boolean flag2 = (span[i] >> 8).TryFormat(span2.Slice(num), charsWritten);
       num += charsWritten;
-      span2[num++] = 46;
+      span2[num++] = '.';
       flag2 = (span[i] & 255).TryFormat(span2.Slice(num), charsWritten);
       num += charsWritten;
-      span2[num++] = 46;
+      span2[num++] = '.';
       flag2 = (span[i + 1] >> 8).TryFormat(span2.Slice(num), charsWritten);
       num += charsWritten;
-      span2[num++] = 46;
+      span2[num++] = '.';
       flag2 = (span[i + 1] & 255).TryFormat(span2.Slice(num), charsWritten);
       num += charsWritten;
       break;
     }
     if (item == i) {
-      span2[num++] = 58;
+      span2[num++] = ':';
     }
     if (item <= i && item2 == 8) {
-      span2[num++] = 58;
+      span2[num++] = ':';
       break;
     }
     if (item > i || i >= item2) {
       if (i != 0) {
-        span2[num++] = 58;
+        span2[num++] = ':';
       }
       Boolean flag2 = span[i].TryFormat(span2.Slice(num), charsWritten, "x");
       num += charsWritten;
     }
   }
-  span2[num++] = 93;
+  span2[num++] = ']';
   return rt::newstr<String>(span2.Slice(0, num));
 }
 
@@ -85,12 +85,12 @@ Boolean IPv6AddressHelper::InternalIsValid(Char* name, Int32 start, Int32& end, 
   Boolean flag3 = false;
   Boolean flag4 = true;
   Int32 start2 = 1;
-  if (*(name + start) == 58 && (start + 1 >= end || *(name + start + 1) != 58)) {
+  if (*(name + start) == ':' && (start + 1 >= end || *(name + start + 1) != ':')) {
     return false;
   }
   Int32 i;
   for (i = start; i < end; i++) {
-    if ((!flag3) ? Uri::in::IsHexDigit(*(name + i)) : (Boolean)(*(name + i) >= 48 && *(name + i) <= 57)) {
+    if ((!flag3) ? Uri::in::IsHexDigit(*(name + i)) : (Boolean)(*(name + i) >= '0' && *(name + i) <= '9')) {
       num2++;
       flag4 = false;
       continue;
@@ -104,22 +104,22 @@ Boolean IPv6AddressHelper::InternalIsValid(Char* name, Int32 start, Int32& end, 
     }
     Char c = *(name + i);
     if ((UInt32)c <= 46u) {
-      if (c == 37) {
+      if (c == '%') {
         while (true) {
           if (++i == end) {
             return false;
           }
-          if (*(name + i) == 93) {
+          if (*(name + i) == ']') {
             break;
           }
-          if (*(name + i) != 47) {
+          if (*(name + i) != '/') {
             continue;
           }
           goto IL_011c;
         }
         goto IL_00ee;
       }
-      if (c != 46) {
+      if (c != '.') {
         goto IL_015c;
       }
       if (flag2) {
@@ -133,16 +133,16 @@ Boolean IPv6AddressHelper::InternalIsValid(Char* name, Int32 start, Int32& end, 
       flag2 = true;
       i--;
     } else {
-      if (c == 47) {
+      if (c == '/') {
         goto IL_011c;
       }
-      if (c != 58) {
-        if (c == 93) {
+      if (c != ':') {
+        if (c == ']') {
           goto IL_00ee;
         }
         goto IL_015c;
       }
-      if (i > 0 && *(name + i - 1) == 58) {
+      if (i > 0 && *(name + i - 1) == ':') {
         if (flag) {
           return false;
         }
@@ -237,39 +237,39 @@ void IPv6AddressHelper::Parse(ReadOnlySpan<Char> address, Span<UInt16> numbers, 
   Int32 num3 = -1;
   Boolean flag = true;
   Int32 num4 = 0;
-  if (address[start] == 91) {
+  if (address[start] == '[') {
     start++;
   }
   Int32 i = start;
-  while (i < address.get_Length() && address[i] != 93) {
+  while (i < address.get_Length() && address[i] != ']') {
     switch (address[i].get()) {
-      case 37:
+      case '%':
         if (flag) {
           numbers[num2++] = (UInt16)num;
           flag = false;
         }
         start = i;
-        for (i++; i < address.get_Length() && address[i] != 93 && address[i] != 47; i++) {
+        for (i++; i < address.get_Length() && address[i] != ']' && address[i] != '/'; i++) {
         }
         scopeId = rt::newstr<String>(address.Slice(start, i - start));
-        for (; i < address.get_Length() && address[i] != 93; i++) {
+        for (; i < address.get_Length() && address[i] != ']'; i++) {
         }
         break;
-      case 58:
+      case ':':
         {
           numbers[num2++] = (UInt16)num;
           num = 0;
           i++;
-          if (address[i] == 58) {
+          if (address[i] == ':') {
             num3 = num2;
             i++;
           } else if (num3 < 0 && num2 < 6) {
             break;
           }
 
-          for (Int32 j = i; j < address.get_Length() && address[j] != 93 && address[j] != 58 && address[j] != 37 && address[j] != 47 && j < i + 4; j++) {
-            if (address[j] == 46) {
-              for (; j < address.get_Length() && address[j] != 93 && address[j] != 47 && address[j] != 37; j++) {
+          for (Int32 j = i; j < address.get_Length() && address[j] != ']' && address[j] != ':' && address[j] != '%' && address[j] != '/' && j < i + 4; j++) {
+            if (address[j] == '.') {
+              for (; j < address.get_Length() && address[j] != ']' && address[j] != '/' && address[j] != '%'; j++) {
               }
               num = IPv4AddressHelper::ParseHostNumber(address, i, j);
               numbers[num2++] = (UInt16)(num >> 16);
@@ -281,12 +281,12 @@ void IPv6AddressHelper::Parse(ReadOnlySpan<Char> address, Span<UInt16> numbers, 
             }
           }
           break;
-        }case 47:
+        }case '/':
         if (flag) {
           numbers[num2++] = (UInt16)num;
           flag = false;
         }
-        for (i++; address[i] != 93; i++) {
+        for (i++; address[i] != ']'; i++) {
           num4 = num4 * 10 + (address[i] - 48);
         }
         break;

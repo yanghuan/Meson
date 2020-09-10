@@ -120,7 +120,7 @@ Assembly Assembly___::LoadWithPartialName(String partialName) {
   if (partialName == nullptr) {
     rt::throw_exception<ArgumentNullException>("partialName");
   }
-  if (partialName->get_Length() == 0 || partialName[0] == 0) {
+  if (partialName->get_Length() == 0 || partialName[0] == '\0') {
     rt::throw_exception<ArgumentException>(SR::get_Format_StringZeroLength(), "partialName");
   }
   try {

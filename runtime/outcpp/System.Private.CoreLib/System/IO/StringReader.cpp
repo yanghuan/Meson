@@ -114,10 +114,10 @@ String StringReader___::ReadLine() {
   Int32 i;
   for (i = _pos; i < _length; i++) {
     Char c = _s[i];
-    if (c == 13 || c == 10) {
+    if (c == '\r' || c == '\n') {
       String result = _s->Substring(_pos, i - _pos);
       _pos = i + 1;
-      if (c == 13 && _pos < _length && _s[_pos] == 10) {
+      if (c == '\r' && _pos < _length && _s[_pos] == '\n') {
         _pos++;
       }
       return result;

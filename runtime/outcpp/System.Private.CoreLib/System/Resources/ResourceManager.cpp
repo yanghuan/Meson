@@ -365,7 +365,7 @@ CultureInfo ResourceManager___::GetNeutralResourcesLanguage(Assembly a) {
 }
 
 Boolean ResourceManager___::IsDefaultType(String asmTypeName, String typeName) {
-  Int32 num = asmTypeName->IndexOf(44);
+  Int32 num = asmTypeName->IndexOf(',');
   if (((num == -1) ? asmTypeName->get_Length() : num) != typeName->get_Length()) {
     return false;
   }

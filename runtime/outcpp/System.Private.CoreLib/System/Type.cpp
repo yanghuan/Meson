@@ -1254,9 +1254,9 @@ Boolean Type___::FilterNameImpl(MemberInfo m, Object filterCriteria, StringCompa
   ReadOnlySpan<Char> readOnlySpan = MemoryExtensions::Trim(MemoryExtensions::AsSpan(text));
   ReadOnlySpan<Char> span = m->get_Name();
   if (m->get_MemberType() == MemberTypes::NestedType) {
-    span = span.Slice(MemoryExtensions::LastIndexOf(span, 43) + 1);
+    span = span.Slice(MemoryExtensions::LastIndexOf(span, '+') + 1);
   }
-  if (readOnlySpan.get_Length() > 0 && readOnlySpan[readOnlySpan.get_Length() - 1] == 42) {
+  if (readOnlySpan.get_Length() > 0 && readOnlySpan[readOnlySpan.get_Length() - 1] == '*') {
     readOnlySpan = readOnlySpan.Slice(0, readOnlySpan.get_Length() - 1);
     return MemoryExtensions::StartsWith(span, readOnlySpan, comparison);
   }
@@ -1264,7 +1264,7 @@ Boolean Type___::FilterNameImpl(MemberInfo m, Object filterCriteria, StringCompa
 }
 
 void Type___::cctor() {
-  Delimiter = 46;
+  Delimiter = '.';
   EmptyTypes = Array<>::in::Empty<Type>();
   Missing = Missing::in::Value;
   FilterAttribute = rt::newobj<MemberFilter>(&FilterAttributeImpl);

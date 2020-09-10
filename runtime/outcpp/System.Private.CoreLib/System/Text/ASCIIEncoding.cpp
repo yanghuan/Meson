@@ -98,7 +98,7 @@ Int32 ASCIIEncoding___::GetByteCountCommon(Char* pChars, Int32 charCount) {
 Int32 ASCIIEncoding___::GetByteCountFast(Char* pChars, Int32 charsLength, EncoderFallback fallback, Int32& charsConsumed) {
   Int32 num = charsLength;
   EncoderReplacementFallback encoderReplacementFallback = rt::as<EncoderReplacementFallback>(fallback);
-  if (encoderReplacementFallback == nullptr || encoderReplacementFallback->get_MaxCharCount() != 1 || encoderReplacementFallback->get_DefaultString()[0] > 127) {
+  if (encoderReplacementFallback == nullptr || encoderReplacementFallback->get_MaxCharCount() != 1 || encoderReplacementFallback->get_DefaultString()[0] > '') {
     num = (Int32)ASCIIUtility::GetIndexOfFirstNonAsciiChar(pChars, (UIntPtr)(UInt32)charsLength);
   }
   charsConsumed = num;
@@ -185,7 +185,7 @@ Int32 ASCIIEncoding___::GetBytesFast(Char* pChars, Int32 charsLength, Byte* pByt
 
 Int32 ASCIIEncoding___::GetBytesWithFallback(ReadOnlySpan<Char> chars, Int32 originalCharsLength, Span<Byte> bytes, Int32 originalBytesLength, EncoderNLS encoder) {
   EncoderReplacementFallback encoderReplacementFallback = rt::as<EncoderReplacementFallback>(((encoder == nullptr) ? Encoding::in::get_EncoderFallback() : encoder->get_Fallback()));
-  if (encoderReplacementFallback != nullptr && encoderReplacementFallback->get_MaxCharCount() == 1 && encoderReplacementFallback->get_DefaultString()[0] <= 127) {
+  if (encoderReplacementFallback != nullptr && encoderReplacementFallback->get_MaxCharCount() == 1 && encoderReplacementFallback->get_DefaultString()[0] <= '') {
     Byte b = (Byte)encoderReplacementFallback->get_DefaultString()[0];
     Int32 num = Math::Min(chars.get_Length(), bytes.get_Length());
     Int32 num2 = 0;

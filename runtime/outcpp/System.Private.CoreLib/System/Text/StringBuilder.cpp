@@ -139,7 +139,7 @@ void StringBuilder___::set_Length(Int32 value) {
   }
   Int32 num = value - get_Length();
   if (num > 0) {
-    Append(0, num);
+    Append('\0', num);
     return;
   }
   StringBuilder stringBuilder = FindChunkForIndex(value);
@@ -1031,7 +1031,7 @@ StringBuilder StringBuilder___::AppendFormatHelper(IFormatProvider provider, Str
   }
   Int32 num = 0;
   Int32 length = format->get_Length();
-  Char c = 0;
+  Char c = '\0';
   ICustomFormatter customFormatter = nullptr;
   if (provider != nullptr) {
     customFormatter = (ICustomFormatter)provider->GetFormat(typeof<ICustomFormatter>());
@@ -1040,14 +1040,14 @@ StringBuilder StringBuilder___::AppendFormatHelper(IFormatProvider provider, Str
     if (num < length) {
       c = format[num];
       num++;
-      if (c == 125) {
-        if (num < length && format[num] == 125) {
+      if (c == '}') {
+        if (num < length && format[num] == '}') {
           num++;
         } else {
           FormatError();
         }
-      } else if (c == 123) {
-        if (num >= length || format[num] != 123) {
+      } else if (c == '{') {
+        if (num >= length || format[num] != '{') {
           num--;
           goto IL_008f;
         }
@@ -1064,7 +1064,7 @@ StringBuilder StringBuilder___::AppendFormatHelper(IFormatProvider provider, Str
       break;
     }
     num++;
-    if (num == length || (c = format[num]) < 48 || c > 57) {
+    if (num == length || (c = format[num]) < '0' || c > '9') {
       FormatError();
     }
     Int32 num2 = 0;
@@ -1075,25 +1075,25 @@ StringBuilder StringBuilder___::AppendFormatHelper(IFormatProvider provider, Str
         FormatError();
       }
       c = format[num];
-    } while (c >= 48 && c <= 57 && num2 < 1000000)
+    } while (c >= '0' && c <= '9' && num2 < 1000000)
     if (num2 >= args.get_Length()) {
       rt::throw_exception<FormatException>(SR::get_Format_IndexOutOfRange());
     }
     for (; num < length; num++) {
-      if ((c = format[num]) != 32) {
+      if ((c = format[num]) != ' ') {
         break;
       }
     }
     Boolean flag = false;
     Int32 num3 = 0;
-    if (c == 44) {
-      for (num++; num < length && format[num] == 32; num++) {
+    if (c == ',') {
+      for (num++; num < length && format[num] == ' '; num++) {
       }
       if (num == length) {
         FormatError();
       }
       c = format[num];
-      if (c == 45) {
+      if (c == '-') {
         flag = true;
         num++;
         if (num == length) {
@@ -1101,7 +1101,7 @@ StringBuilder StringBuilder___::AppendFormatHelper(IFormatProvider provider, Str
         }
         c = format[num];
       }
-      if (c < 48 || c > 57) {
+      if (c < '0' || c > '9') {
         FormatError();
       }
       do {
@@ -1111,17 +1111,17 @@ StringBuilder StringBuilder___::AppendFormatHelper(IFormatProvider provider, Str
           FormatError();
         }
         c = format[num];
-      } while (c >= 48 && c <= 57 && num3 < 1000000)
+      } while (c >= '0' && c <= '9' && num3 < 1000000)
     }
     for (; num < length; num++) {
-      if ((c = format[num]) != 32) {
+      if ((c = format[num]) != ' ') {
         break;
       }
     }
     Object obj = args[num2];
     ReadOnlySpan<Char> readOnlySpan;
     switch (c.get()) {
-      case 58:
+      case ':':
         {
           num++;
           Int32 num4 = num;
@@ -1131,12 +1131,12 @@ StringBuilder StringBuilder___::AppendFormatHelper(IFormatProvider provider, Str
             }
             c = format[num];
             switch (c.get()) {
-              case 123:
+              case '{':
                 FormatError();
                 goto IL_0205;
               default:
                 goto IL_0205;
-              case 125:
+              case '}':
                 break;
             }
             break;
@@ -1151,7 +1151,7 @@ StringBuilder StringBuilder___::AppendFormatHelper(IFormatProvider provider, Str
         }default:
         FormatError();
         break;
-      case 125:
+      case '}':
         break;
     }
     num++;
@@ -1170,7 +1170,7 @@ StringBuilder StringBuilder___::AppendFormatHelper(IFormatProvider provider, Str
         m_ChunkLength += charsWritten;
         Int32 num5 = num3 - charsWritten;
         if (flag && num5 > 0) {
-          Append(32, num5);
+          Append(' ', num5);
         }
         continue;
       }
@@ -1190,11 +1190,11 @@ StringBuilder StringBuilder___::AppendFormatHelper(IFormatProvider provider, Str
     }
     Int32 num6 = num3 - text->get_Length();
     if (!flag && num6 > 0) {
-      Append(32, num6);
+      Append(' ', num6);
     }
     Append(text);
     if (flag && num6 > 0) {
-      Append(32, num6);
+      Append(' ', num6);
     }
   }
   return (StringBuilder)this;

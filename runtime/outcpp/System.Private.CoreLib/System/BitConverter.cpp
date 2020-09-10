@@ -35,7 +35,7 @@ void BitConverter::__c___::_ToString_b__39_0(Span<Char> dst, ValueTuple<Array<By
   dst[num2++] = HexConverter::ToCharUpper(b);
   while (num < readOnlySpan.get_Length()) {
     b = readOnlySpan[num++];
-    dst[num2++] = 45;
+    dst[num2++] = '-';
     dst[num2++] = HexConverter::ToCharUpper(b >> 4);
     dst[num2++] = HexConverter::ToCharUpper(b);
   }

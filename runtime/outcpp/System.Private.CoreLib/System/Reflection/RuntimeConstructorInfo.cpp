@@ -153,9 +153,9 @@ String RuntimeConstructorInfo___::ToString() {
     ValueStringBuilder sbParamList = ValueStringBuilder(100);
     sbParamList.Append("Void ");
     sbParamList.Append(get_Name());
-    sbParamList.Append(40);
+    sbParamList.Append('(');
     MethodBase::in::AppendParameters(sbParamList, GetParameterTypes(), get_CallingConvention());
-    sbParamList.Append(41);
+    sbParamList.Append(')');
     m_toString = sbParamList.ToString();
   }
   return m_toString;

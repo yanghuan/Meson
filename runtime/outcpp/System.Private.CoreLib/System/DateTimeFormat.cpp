@@ -51,7 +51,7 @@ void DateTimeFormat::FormatDigits(StringBuilder outputBuffer, Int32 value, Int32
     if (ptr2 <= ptr) {
       break;
     }
-    *(--ptr2) = 48;
+    *(--ptr2) = '0';
   }
   outputBuffer->Append(ptr2, i);
 }
@@ -106,7 +106,7 @@ Int32 DateTimeFormat::ParseQuoteString(ReadOnlySpan<Char> format, Int32 pos, Str
       flag = true;
       break;
     }
-    if (c2 == 92) {
+    if (c2 == '\\') {
       if (pos >= length) {
         rt::throw_exception<FormatException>(SR::get_Format_InvalidString());
       }
@@ -170,11 +170,11 @@ StringBuilder DateTimeFormat::FormatCustomized(DateTime dateTime, ReadOnlySpan<C
   for (Int32 i = 0; i < format.get_Length(); i += num) {
     Char c = format[i];
     switch (c.get()) {
-      case 103:
+      case 'g':
         num = ParseRepeatPattern(format, i, c);
         result->Append(dtfi->GetEraName(calendar->GetEra(dateTime)));
         break;
-      case 104:
+      case 'h':
         {
           num = ParseRepeatPattern(format, i, c);
           Int32 num3 = dateTime.get_Hour() % 12;
@@ -183,25 +183,25 @@ StringBuilder DateTimeFormat::FormatCustomized(DateTime dateTime, ReadOnlySpan<C
           }
           FormatDigits(result, num3, num);
           break;
-        }case 72:
+        }case 'H':
         num = ParseRepeatPattern(format, i, c);
         FormatDigits(result, dateTime.get_Hour(), num);
         break;
-      case 109:
+      case 'm':
         num = ParseRepeatPattern(format, i, c);
         FormatDigits(result, dateTime.get_Minute(), num);
         break;
-      case 115:
+      case 's':
         num = ParseRepeatPattern(format, i, c);
         FormatDigits(result, dateTime.get_Second(), num);
         break;
-      case 70:
-      case 102:
+      case 'F':
+      case 'f':
         num = ParseRepeatPattern(format, i, c);
         if (num <= 7) {
           Int64 num4 = dateTime.get_Ticks() % 10000000;
           num4 /= (Int64)Math::Pow(10, 7 - num);
-          if (c == 102) {
+          if (c == 'f') {
             result->AppendSpanFormattable((Int32)num4, fixedNumberFormats[num - 1], CultureInfo::in::get_InvariantCulture());
             break;
           }
@@ -212,7 +212,7 @@ StringBuilder DateTimeFormat::FormatCustomized(DateTime dateTime, ReadOnlySpan<C
           }
           if (num5 > 0) {
             result->AppendSpanFormattable((Int32)num4, fixedNumberFormats[num5 - 1], CultureInfo::in::get_InvariantCulture());
-          } else if (result->get_Length() > 0 && result[result->get_Length() - 1] == 46) {
+          } else if (result->get_Length() > 0 && result[result->get_Length() - 1] == '.') {
             result->Remove(result->get_Length() - 1, 1);
           }
 
@@ -222,7 +222,7 @@ StringBuilder DateTimeFormat::FormatCustomized(DateTime dateTime, ReadOnlySpan<C
           StringBuilderCache::Release(result);
         }
         rt::throw_exception<FormatException>(SR::get_Format_InvalidString());
-      case 116:
+      case 't':
         num = ParseRepeatPattern(format, i, c);
         if (num == 1) {
           if (dateTime.get_Hour() < 12) {
@@ -237,7 +237,7 @@ StringBuilder DateTimeFormat::FormatCustomized(DateTime dateTime, ReadOnlySpan<C
           result->Append((dateTime.get_Hour() < 12) ? dtfi->get_AMDesignator() : dtfi->get_PMDesignator());
         }
         break;
-      case 100:
+      case 'd':
         num = ParseRepeatPattern(format, i, c);
         if (num <= 2) {
           Int32 dayOfMonth = calendar->GetDayOfMonth(dateTime);
@@ -252,7 +252,7 @@ StringBuilder DateTimeFormat::FormatCustomized(DateTime dateTime, ReadOnlySpan<C
         }
         timeOnly = false;
         break;
-      case 77:
+      case 'M':
         {
           num = ParseRepeatPattern(format, i, c);
           Int32 month = calendar->GetMonth(dateTime);
@@ -265,7 +265,7 @@ StringBuilder DateTimeFormat::FormatCustomized(DateTime dateTime, ReadOnlySpan<C
           } else if (flag2) {
             result->Append(FormatHebrewMonthName(dateTime, month, num, dtfi));
           } else if ((dtfi->get_FormatFlags() & DateTimeFormatFlags::UseGenitiveMonth) != 0) {
-            result->Append(dtfi->InternalGetMonthName(month, IsUseGenitiveForm(format, i, num, 100) ? MonthNameStyles::Genitive : MonthNameStyles::Regular, num == 3));
+            result->Append(dtfi->InternalGetMonthName(month, IsUseGenitiveForm(format, i, num, 'd') ? MonthNameStyles::Genitive : MonthNameStyles::Regular, num == 3));
           } else {
             result->Append(FormatMonth(month, num, dtfi));
           }
@@ -273,11 +273,11 @@ StringBuilder DateTimeFormat::FormatCustomized(DateTime dateTime, ReadOnlySpan<C
 
           timeOnly = false;
           break;
-        }case 121:
+        }case 'y':
         {
           Int32 year = calendar->GetYear(dateTime);
           num = ParseRepeatPattern(format, i, c);
-          if (flag3 && !LocalAppContextSwitches::get_FormatJapaneseFirstYearAsANumber() && year == 1 && ((i + num < format.get_Length() && format[i + num] == 24180) || (i + num < format.get_Length() - 1 && format[i + num] == 39 && format[i + num + 1] == 24180))) {
+          if (flag3 && !LocalAppContextSwitches::get_FormatJapaneseFirstYearAsANumber() && year == 1 && ((i + num < format.get_Length() && format[i + num] == 't') || (i + num < format.get_Length() - 1 && format[i + num] == '\'' && format[i + num + 1] == 't'))) {
             result->Append("元"[0]);
           } else if (dtfi->get_HasForceTwoDigitYears()) {
             FormatDigits(result, year, (num <= 2) ? num : 2);
@@ -296,27 +296,27 @@ StringBuilder DateTimeFormat::FormatCustomized(DateTime dateTime, ReadOnlySpan<C
 
           timeOnly = false;
           break;
-        }case 122:
+        }case 'z':
         num = ParseRepeatPattern(format, i, c);
         FormatCustomizedTimeZone(dateTime, offset, num, timeOnly, result);
         break;
-      case 75:
+      case 'K':
         num = 1;
         FormatCustomizedRoundripTimeZone(dateTime, offset, result);
         break;
-      case 58:
+      case ':':
         result->Append(dtfi->get_TimeSeparator());
         num = 1;
         break;
-      case 47:
+      case '/':
         result->Append(dtfi->get_DateSeparator());
         num = 1;
         break;
-      case 34:
-      case 39:
+      case '"':
+      case '\'':
         num = ParseQuoteString(format, i, result);
         break;
-      case 37:
+      case '%':
         {
           Int32 num2 = ParseNextChar(format, i);
           if (num2 >= 0 && num2 != 37) {
@@ -329,7 +329,7 @@ StringBuilder DateTimeFormat::FormatCustomized(DateTime dateTime, ReadOnlySpan<C
             StringBuilderCache::Release(result);
           }
           rt::throw_exception<FormatException>(SR::get_Format_InvalidString());
-        }case 92:
+        }case '\\':
         {
           Int32 num2 = ParseNextChar(format, i);
           if (num2 >= 0) {
@@ -355,9 +355,9 @@ void DateTimeFormat::FormatCustomizedTimeZone(DateTime dateTime, TimeSpan offset
     offset = ((timeOnly && dateTime.get_Ticks() < 864000000000) ? TimeZoneInfo::in::GetLocalUtcOffset(DateTime::get_Now(), TimeZoneInfoOptions::NoThrowOnInvalidTime) : ((dateTime.get_Kind() != DateTimeKind::Utc) ? TimeZoneInfo::in::GetLocalUtcOffset(dateTime, TimeZoneInfoOptions::NoThrowOnInvalidTime) : rt::default__));
   }
   if (offset.get_Ticks() >= 0) {
-    result->Append(43);
+    result->Append('+');
   } else {
-    result->Append(45);
+    result->Append('-');
     offset = offset.Negate();
   }
   if (tokenLen <= 1) {
@@ -378,19 +378,19 @@ void DateTimeFormat::FormatCustomizedRoundripTimeZone(DateTime dateTime, TimeSpa
       case DateTimeKind::Local:
         break;
       case DateTimeKind::Utc:
-        result->Append(90);
+        result->Append('Z');
         return;
     }
     offset = TimeZoneInfo::in::GetLocalUtcOffset(dateTime, TimeZoneInfoOptions::NoThrowOnInvalidTime);
   }
   if (offset.get_Ticks() >= 0) {
-    result->Append(43);
+    result->Append('+');
   } else {
-    result->Append(45);
+    result->Append('-');
     offset = offset.Negate();
   }
   Append2DigitNumber(result, offset.get_Hours());
-  result->Append(58);
+  result->Append(':');
   Append2DigitNumber(result, offset.get_Minutes());
 }
 
@@ -401,39 +401,39 @@ void DateTimeFormat::Append2DigitNumber(StringBuilder result, Int32 val) {
 
 String DateTimeFormat::GetRealFormat(ReadOnlySpan<Char> format, DateTimeFormatInfo dtfi) {
   switch (format[0].get()) {
-    case 100:
+    case 'd':
       return dtfi->get_ShortDatePattern();
-    case 68:
+    case 'D':
       return dtfi->get_LongDatePattern();
-    case 102:
+    case 'f':
       return dtfi->get_LongDatePattern() + " " + dtfi->get_ShortTimePattern();
-    case 70:
+    case 'F':
       return dtfi->get_FullDateTimePattern();
-    case 103:
+    case 'g':
       return dtfi->get_GeneralShortTimePattern();
-    case 71:
+    case 'G':
       return dtfi->get_GeneralLongTimePattern();
-    case 77:
-    case 109:
+    case 'M':
+    case 'm':
       return dtfi->get_MonthDayPattern();
-    case 79:
-    case 111:
+    case 'O':
+    case 'o':
       return "yyyy'-'MM'-'dd'T'HH':'mm':'ss.fffffffK";
-    case 82:
-    case 114:
+    case 'R':
+    case 'r':
       return dtfi->get_RFC1123Pattern();
-    case 115:
+    case 's':
       return dtfi->get_SortableDateTimePattern();
-    case 116:
+    case 't':
       return dtfi->get_ShortTimePattern();
-    case 84:
+    case 'T':
       return dtfi->get_LongTimePattern();
-    case 117:
+    case 'u':
       return dtfi->get_UniversalSortableDateTimePattern();
-    case 85:
+    case 'U':
       return dtfi->get_FullDateTimePattern();
-    case 89:
-    case 121:
+    case 'Y':
+    case 'y':
       return dtfi->get_YearMonthPattern();
     default:
       rt::throw_exception<FormatException>(SR::get_Format_InvalidString());
@@ -442,22 +442,22 @@ String DateTimeFormat::GetRealFormat(ReadOnlySpan<Char> format, DateTimeFormatIn
 
 String DateTimeFormat::ExpandPredefinedFormat(ReadOnlySpan<Char> format, DateTime& dateTime, DateTimeFormatInfo& dtfi, TimeSpan offset) {
   switch (format[0].get()) {
-    case 79:
-    case 111:
+    case 'O':
+    case 'o':
       dtfi = DateTimeFormatInfo::in::get_InvariantInfo();
       break;
-    case 82:
-    case 114:
-    case 117:
+    case 'R':
+    case 'r':
+    case 'u':
       if (offset.get_Ticks() != Int64::MinValue) {
         dateTime -= offset;
       }
       dtfi = DateTimeFormatInfo::in::get_InvariantInfo();
       break;
-    case 115:
+    case 's':
       dtfi = DateTimeFormatInfo::in::get_InvariantInfo();
       break;
-    case 85:
+    case 'U':
       if (offset.get_Ticks() != Int64::MinValue) {
         rt::throw_exception<FormatException>(SR::get_Format_InvalidString());
       }
@@ -478,16 +478,16 @@ String DateTimeFormat::Format(DateTime dateTime, String format, IFormatProvider 
 String DateTimeFormat::Format(DateTime dateTime, String format, IFormatProvider provider, TimeSpan offset) {
   if (format != nullptr && format->get_Length() == 1) {
     switch (format[0].get()) {
-      case 79:
-      case 111:
+      case 'O':
+      case 'o':
         {
           Char as[33] = {};
           Span<Char> destination = as;
           Int32 charsWritten2;
           TryFormatO(dateTime, offset, destination, charsWritten2);
           return destination.Slice(0, charsWritten2).ToString();
-        }case 82:
-      case 114:
+        }case 'R':
+      case 'r':
         {
           String text = String::in::FastAllocateString(29);
           Int32 charsWritten;
@@ -506,11 +506,11 @@ Boolean DateTimeFormat::TryFormat(DateTime dateTime, Span<Char> destination, Int
 Boolean DateTimeFormat::TryFormat(DateTime dateTime, Span<Char> destination, Int32& charsWritten, ReadOnlySpan<Char> format, IFormatProvider provider, TimeSpan offset) {
   if (format.get_Length() == 1) {
     switch (format[0].get()) {
-      case 79:
-      case 111:
+      case 'O':
+      case 'o':
         return TryFormatO(dateTime, offset, destination, charsWritten);
-      case 82:
-      case 114:
+      case 'R':
+      case 'r':
         return TryFormatR(dateTime, offset, destination, charsWritten);
     }
   }
@@ -585,17 +585,17 @@ Boolean DateTimeFormat::TryFormatO(DateTime dateTime, TimeSpan offset, Span<Char
   Int32 tick;
   dateTime.GetTimePrecise(hour, minute, second, tick);
   WriteFourDecimalDigits((UInt32)year, destination);
-  destination[4] = 45;
+  destination[4] = '-';
   WriteTwoDecimalDigits((UInt32)month, destination, 5);
-  destination[7] = 45;
+  destination[7] = '-';
   WriteTwoDecimalDigits((UInt32)day, destination, 8);
-  destination[10] = 84;
+  destination[10] = 'T';
   WriteTwoDecimalDigits((UInt32)hour, destination, 11);
-  destination[13] = 58;
+  destination[13] = ':';
   WriteTwoDecimalDigits((UInt32)minute, destination, 14);
-  destination[16] = 58;
+  destination[16] = ':';
   WriteTwoDecimalDigits((UInt32)second, destination, 17);
-  destination[19] = 46;
+  destination[19] = '.';
   WriteDigits((UInt32)tick, destination.Slice(20, 7));
   switch (dateTimeKind) {
     case DateTimeKind::Local:
@@ -603,20 +603,20 @@ Boolean DateTimeFormat::TryFormatO(DateTime dateTime, TimeSpan offset, Span<Char
         Int32 num2 = (Int32)(offset.get_Ticks() / 600000000);
         Char c;
         if (num2 < 0) {
-          c = 45;
+          c = '-';
           num2 = -num2;
         } else {
-          c = 43;
+          c = '+';
         }
         Int32 result;
         Int32 value = Math::DivRem(num2, 60, result);
         WriteTwoDecimalDigits((UInt32)result, destination, 31);
-        destination[30] = 58;
+        destination[30] = ':';
         WriteTwoDecimalDigits((UInt32)value, destination, 28);
         destination[27] = c;
         break;
       }case DateTimeKind::Utc:
-      destination[27] = 90;
+      destination[27] = 'Z';
       break;
   }
   return true;
@@ -643,25 +643,25 @@ Boolean DateTimeFormat::TryFormatR(DateTime dateTime, TimeSpan offset, Span<Char
   destination[0] = text[0];
   destination[1] = text[1];
   destination[2] = text[2];
-  destination[3] = 44;
-  destination[4] = 32;
+  destination[3] = ',';
+  destination[4] = ' ';
   WriteTwoDecimalDigits((UInt32)day, destination, 5);
-  destination[7] = 32;
+  destination[7] = ' ';
   destination[8] = text2[0];
   destination[9] = text2[1];
   destination[10] = text2[2];
-  destination[11] = 32;
+  destination[11] = ' ';
   WriteFourDecimalDigits((UInt32)year, destination, 12);
-  destination[16] = 32;
+  destination[16] = ' ';
   WriteTwoDecimalDigits((UInt32)hour, destination, 17);
-  destination[19] = 58;
+  destination[19] = ':';
   WriteTwoDecimalDigits((UInt32)minute, destination, 20);
-  destination[22] = 58;
+  destination[22] = ':';
   WriteTwoDecimalDigits((UInt32)second, destination, 23);
-  destination[25] = 32;
-  destination[26] = 71;
-  destination[27] = 77;
-  destination[28] = 84;
+  destination[25] = ' ';
+  destination[26] = 'G';
+  destination[27] = 'M';
+  destination[28] = 'T';
   charsWritten = 29;
   return true;
 }
@@ -698,18 +698,18 @@ void DateTimeFormat::WriteDigits(UInt64 value, Span<Char> buffer) {
 Array<String> DateTimeFormat::GetAllDateTimes(DateTime dateTime, Char format, DateTimeFormatInfo dtfi) {
   Array<String> array;
   switch (format.get()) {
-    case 68:
-    case 70:
-    case 71:
-    case 77:
-    case 84:
-    case 89:
-    case 100:
-    case 102:
-    case 103:
-    case 109:
-    case 116:
-    case 121:
+    case 'D':
+    case 'F':
+    case 'G':
+    case 'M':
+    case 'T':
+    case 'Y':
+    case 'd':
+    case 'f':
+    case 'g':
+    case 'm':
+    case 't':
+    case 'y':
       {
         Array<String> allDateTimePatterns = dtfi->GetAllDateTimePatterns(format);
         array = rt::newarr<Array<String>>(allDateTimePatterns->get_Length());
@@ -717,7 +717,7 @@ Array<String> DateTimeFormat::GetAllDateTimes(DateTime dateTime, Char format, Da
           array[j] = Format(dateTime, allDateTimePatterns[j], dtfi);
         }
         break;
-      }case 85:
+      }case 'U':
       {
         DateTime dateTime2 = dateTime.ToUniversalTime();
         Array<String> allDateTimePatterns = dtfi->GetAllDateTimePatterns(format);
@@ -726,12 +726,12 @@ Array<String> DateTimeFormat::GetAllDateTimes(DateTime dateTime, Char format, Da
           array[i] = Format(dateTime2, allDateTimePatterns[i], dtfi);
         }
         break;
-      }case 79:
-    case 82:
-    case 111:
-    case 114:
-    case 115:
-    case 117:
+      }case 'O':
+    case 'R':
+    case 'o':
+    case 'r':
+    case 's':
+    case 'u':
       array = rt::newarr<Array<String>>(1);
       break;
     default:

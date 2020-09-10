@@ -137,7 +137,7 @@ Utf8Parser::ComponentParseResult Utf8Parser::TimeSpanSplitter::ParseComponent(Re
 }
 
 Boolean Utf8Parser::TryParse(ReadOnlySpan<Byte> source, Boolean& value, Int32& bytesConsumed, Char standardFormat) {
-  if (standardFormat != 0 && standardFormat != 71 && standardFormat != 108) {
+  if (standardFormat != 0 && standardFormat != 'G' && standardFormat != 'l') {
     ThrowHelper::ThrowFormatException_BadFormatSpecifier();
   }
   if (source.get_Length() >= 4) {
@@ -160,7 +160,7 @@ Boolean Utf8Parser::TryParse(ReadOnlySpan<Byte> source, Boolean& value, Int32& b
 
 Boolean Utf8Parser::TryParse(ReadOnlySpan<Byte> source, DateTime& value, Int32& bytesConsumed, Char standardFormat) {
   switch (standardFormat.get()) {
-    case 82:
+    case 'R':
       {
         DateTimeOffset dateTimeOffset;
         if (!TryParseDateTimeOffsetR(source, 0u, dateTimeOffset, bytesConsumed)) {
@@ -169,7 +169,7 @@ Boolean Utf8Parser::TryParse(ReadOnlySpan<Byte> source, DateTime& value, Int32& 
         }
         value = dateTimeOffset.get_DateTime();
         return true;
-      }case 108:
+      }case 'l':
       {
         DateTimeOffset dateTimeOffset2;
         if (!TryParseDateTimeOffsetR(source, 32u, dateTimeOffset2, bytesConsumed)) {
@@ -178,7 +178,7 @@ Boolean Utf8Parser::TryParse(ReadOnlySpan<Byte> source, DateTime& value, Int32& 
         }
         value = dateTimeOffset2.get_DateTime();
         return true;
-      }case 79:
+      }case 'O':
       {
         DateTimeOffset value2;
         DateTimeKind kind;
@@ -199,8 +199,8 @@ Boolean Utf8Parser::TryParse(ReadOnlySpan<Byte> source, DateTime& value, Int32& 
             break;
         }
         return true;
-      }case 0:
-    case 71:
+      }case '\0':
+    case 'G':
       {
         DateTimeOffset valueAsOffset;
         return TryParseDateTimeG(source, value, valueAsOffset, bytesConsumed);
@@ -211,17 +211,17 @@ Boolean Utf8Parser::TryParse(ReadOnlySpan<Byte> source, DateTime& value, Int32& 
 
 Boolean Utf8Parser::TryParse(ReadOnlySpan<Byte> source, DateTimeOffset& value, Int32& bytesConsumed, Char standardFormat) {
   switch (standardFormat.get()) {
-    case 82:
+    case 'R':
       return TryParseDateTimeOffsetR(source, 0u, value, bytesConsumed);
-    case 108:
+    case 'l':
       return TryParseDateTimeOffsetR(source, 32u, value, bytesConsumed);
-    case 79:
+    case 'O':
       {
         DateTimeKind kind;
         return TryParseDateTimeOffsetO(source, value, bytesConsumed, kind);
-      }case 0:
+      }case '\0':
       return TryParseDateTimeOffsetDefault(source, value, bytesConsumed);
-    case 71:
+    case 'G':
       {
         DateTime value2;
         return TryParseDateTimeG(source, value2, value, bytesConsumed);
@@ -836,15 +836,15 @@ Boolean Utf8Parser::TryParseDateTimeOffsetR(ReadOnlySpan<Byte> source, UInt32 ca
 Boolean Utf8Parser::TryParse(ReadOnlySpan<Byte> source, Decimal& value, Int32& bytesConsumed, Char standardFormat) {
   ParseNumberOptions options;
   switch (standardFormat.get()) {
-    case 0:
-    case 69:
-    case 71:
-    case 101:
-    case 103:
+    case '\0':
+    case 'E':
+    case 'G':
+    case 'e':
+    case 'g':
       options = ParseNumberOptions::AllowExponent;
       break;
-    case 70:
-    case 102:
+    case 'F':
+    case 'f':
       options = (ParseNumberOptions)0;
       break;
     default:
@@ -858,7 +858,7 @@ Boolean Utf8Parser::TryParse(ReadOnlySpan<Byte> source, Decimal& value, Int32& b
     value = rt::default__;
     return false;
   }
-  if (!textUsedExponentNotation && (standardFormat == 69 || standardFormat == 101)) {
+  if (!textUsedExponentNotation && (standardFormat == 'E' || standardFormat == 'e')) {
     value = rt::default__;
     bytesConsumed = 0;
     return false;
@@ -897,15 +897,15 @@ Boolean Utf8Parser::TryParse(ReadOnlySpan<Byte> source, Double& value, Int32& by
 Boolean Utf8Parser::TryParseNormalAsFloatingPoint(ReadOnlySpan<Byte> source, Number::NumberBuffer& number, Int32& bytesConsumed, Char standardFormat) {
   ParseNumberOptions options;
   switch (standardFormat.get()) {
-    case 0:
-    case 69:
-    case 71:
-    case 101:
-    case 103:
+    case '\0':
+    case 'E':
+    case 'G':
+    case 'e':
+    case 'g':
       options = ParseNumberOptions::AllowExponent;
       break;
-    case 70:
-    case 102:
+    case 'F':
+    case 'f':
       options = (ParseNumberOptions)0;
       break;
     default:
@@ -915,7 +915,7 @@ Boolean Utf8Parser::TryParseNormalAsFloatingPoint(ReadOnlySpan<Byte> source, Num
   if (!TryParseNumber(source, number, bytesConsumed, options, textUsedExponentNotation)) {
     return false;
   }
-  if (!textUsedExponentNotation && (standardFormat == 69 || standardFormat == 101)) {
+  if (!textUsedExponentNotation && (standardFormat == 'E' || standardFormat == 'e')) {
     bytesConsumed = 0;
     return false;
   }
@@ -925,20 +925,20 @@ Boolean Utf8Parser::TryParseNormalAsFloatingPoint(ReadOnlySpan<Byte> source, Num
 Boolean Utf8Parser::TryParse(ReadOnlySpan<Byte> source, Guid& value, Int32& bytesConsumed, Char standardFormat) {
   while (true) {
     switch (standardFormat.get()) {
-      case 0:
+      case '\0':
         return TryParseGuidCore(source, value, bytesConsumed, 0);
-      case 68:
+      case 'D':
         break;
-      case 66:
+      case 'B':
         return TryParseGuidCore(source, value, bytesConsumed, 32123);
-      case 80:
+      case 'P':
         return TryParseGuidCore(source, value, bytesConsumed, 10536);
-      case 78:
+      case 'N':
         return TryParseGuidN(source, value, bytesConsumed);
       default:
         return ParserHelpers::TryParseThrowFormatException(source, value, bytesConsumed);
     }
-    standardFormat = 0;
+    standardFormat = '\0';
   }
 }
 
@@ -1104,7 +1104,7 @@ Boolean Utf8Parser::TryParse(ReadOnlySpan<Byte> source, SByte& value, Int32& byt
       default:
         return ParserHelpers::TryParseThrowFormatException(source, value, bytesConsumed);
     }
-    standardFormat = 0;
+    standardFormat = '\0';
   }
   return TryParseSByteD(source, value, bytesConsumed);
 }
@@ -1123,7 +1123,7 @@ Boolean Utf8Parser::TryParse(ReadOnlySpan<Byte> source, Int16& value, Int32& byt
       default:
         return ParserHelpers::TryParseThrowFormatException(source, value, bytesConsumed);
     }
-    standardFormat = 0;
+    standardFormat = '\0';
   }
   return TryParseInt16D(source, value, bytesConsumed);
 }
@@ -1142,7 +1142,7 @@ Boolean Utf8Parser::TryParse(ReadOnlySpan<Byte> source, Int32& value, Int32& byt
       default:
         return ParserHelpers::TryParseThrowFormatException(source, value, bytesConsumed);
     }
-    standardFormat = 0;
+    standardFormat = '\0';
   }
   return TryParseInt32D(source, value, bytesConsumed);
 }
@@ -1161,7 +1161,7 @@ Boolean Utf8Parser::TryParse(ReadOnlySpan<Byte> source, Int64& value, Int32& byt
       default:
         return ParserHelpers::TryParseThrowFormatException(source, value, bytesConsumed);
     }
-    standardFormat = 0;
+    standardFormat = '\0';
   }
   return TryParseInt64D(source, value, bytesConsumed);
 }
@@ -1940,7 +1940,7 @@ Boolean Utf8Parser::TryParse(ReadOnlySpan<Byte> source, Byte& value, Int32& byte
       default:
         return ParserHelpers::TryParseThrowFormatException(source, value, bytesConsumed);
     }
-    standardFormat = 0;
+    standardFormat = '\0';
   }
   return TryParseByteD(source, value, bytesConsumed);
 }
@@ -1958,7 +1958,7 @@ Boolean Utf8Parser::TryParse(ReadOnlySpan<Byte> source, UInt16& value, Int32& by
       default:
         return ParserHelpers::TryParseThrowFormatException(source, value, bytesConsumed);
     }
-    standardFormat = 0;
+    standardFormat = '\0';
   }
   return TryParseUInt16D(source, value, bytesConsumed);
 }
@@ -1976,7 +1976,7 @@ Boolean Utf8Parser::TryParse(ReadOnlySpan<Byte> source, UInt32& value, Int32& by
       default:
         return ParserHelpers::TryParseThrowFormatException(source, value, bytesConsumed);
     }
-    standardFormat = 0;
+    standardFormat = '\0';
   }
   return TryParseUInt32D(source, value, bytesConsumed);
 }
@@ -1994,7 +1994,7 @@ Boolean Utf8Parser::TryParse(ReadOnlySpan<Byte> source, UInt64& value, Int32& by
       default:
         return ParserHelpers::TryParseThrowFormatException(source, value, bytesConsumed);
     }
-    standardFormat = 0;
+    standardFormat = '\0';
   }
   return TryParseUInt64D(source, value, bytesConsumed);
 }
@@ -3188,14 +3188,14 @@ Boolean Utf8Parser::TryParseTimeSpanC(ReadOnlySpan<Byte> source, TimeSpan& value
 
 Boolean Utf8Parser::TryParse(ReadOnlySpan<Byte> source, TimeSpan& value, Int32& bytesConsumed, Char standardFormat) {
   switch (standardFormat.get()) {
-    case 0:
-    case 84:
-    case 99:
-    case 116:
+    case '\0':
+    case 'T':
+    case 'c':
+    case 't':
       return TryParseTimeSpanC(source, value, bytesConsumed);
-    case 71:
+    case 'G':
       return TryParseTimeSpanBigG(source, value, bytesConsumed);
-    case 103:
+    case 'g':
       return TryParseTimeSpanLittleG(source, value, bytesConsumed);
     default:
       return ParserHelpers::TryParseThrowFormatException(value, bytesConsumed);

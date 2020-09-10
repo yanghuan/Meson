@@ -43,16 +43,16 @@ String Range::ToString() {
   Span<Char> span = as;
   Int32 num = 0;
   if (Start.get_IsFromEnd()) {
-    span[0] = 94;
+    span[0] = '^';
     num = 1;
   }
   Int32 charsWritten;
   Boolean flag = ((UInt32)Start.get_Value()).TryFormat(span.Slice(num), charsWritten);
   num += charsWritten;
-  span[num++] = 46;
-  span[num++] = 46;
+  span[num++] = '.';
+  span[num++] = '.';
   if (End.get_IsFromEnd()) {
-    span[num++] = 94;
+    span[num++] = '^';
   }
   flag = ((UInt32)End.get_Value()).TryFormat(span.Slice(num), charsWritten);
 }

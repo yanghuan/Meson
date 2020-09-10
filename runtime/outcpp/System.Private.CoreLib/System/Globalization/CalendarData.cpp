@@ -359,27 +359,27 @@ void CalendarData___::FixDefaultShortDatePattern(List<String> shortDatePatterns)
   Span<Char> span = as;
   Int32 i;
   for (i = 0; i < text->get_Length(); i++) {
-    if (text[i] == 39) {
+    if (text[i] == '\'') {
       do {
         span[i] = text[i];
         i++;
-      } while (i < text->get_Length() && text[i] != 39)
+      } while (i < text->get_Length() && text[i] != '\'')
       if (i >= text->get_Length()) {
         return;
       }
-    } else if (text[i] == 121) {
-      span[i] = 121;
+    } else if (text[i] == 'y') {
+      span[i] = 'y';
       break;
     }
 
     span[i] = text[i];
   }
-  if (i >= text->get_Length() - 1 || text[i + 1] != 121 || (i + 2 < text->get_Length() && text[i + 2] == 121)) {
+  if (i >= text->get_Length() - 1 || text[i + 1] != 'y' || (i + 2 < text->get_Length() && text[i + 2] == 'y')) {
     return;
   }
-  span[i + 1] = 121;
-  span[i + 2] = 121;
-  span[i + 3] = 121;
+  span[i + 1] = 'y';
+  span[i + 2] = 'y';
+  span[i + 3] = 'y';
   for (i += 2; i < text->get_Length(); i++) {
     span[i + 2] = text[i];
   }
@@ -398,42 +398,42 @@ String CalendarData___::NormalizeDatePattern(String input) {
   Int32 index = 0;
   while (index < input->get_Length()) {
     switch (input[index].get()) {
-      case 39:
+      case '\'':
         stringBuilder->Append(input[index++]);
         while (index < input->get_Length()) {
           Char c = input[index++];
           stringBuilder->Append(c);
-          if (c == 39) {
+          if (c == '\'') {
             break;
           }
         }
         break;
-      case 69:
-      case 99:
-      case 101:
+      case 'E':
+      case 'c':
+      case 'e':
         NormalizeDayOfWeek(input, stringBuilder, index);
         break;
-      case 76:
-      case 77:
+      case 'L':
+      case 'M':
         {
           Int32 num = CountOccurrences(input, input[index], index);
           if (num > 4) {
             num = 3;
           }
-          stringBuilder->Append(77, num);
+          stringBuilder->Append('M', num);
           break;
-        }case 71:
+        }case 'G':
         {
-          Int32 num = CountOccurrences(input, 71, index);
-          stringBuilder->Append(103);
+          Int32 num = CountOccurrences(input, 'G', index);
+          stringBuilder->Append('g');
           break;
-        }case 121:
+        }case 'y':
         {
-          Int32 num = CountOccurrences(input, 121, index);
+          Int32 num = CountOccurrences(input, 'y', index);
           if (num == 1) {
             num = 4;
           }
-          stringBuilder->Append(121, num);
+          stringBuilder->Append('y', num);
           break;
         }default:
         stringBuilder->Append(input[index++]);
@@ -450,7 +450,7 @@ void CalendarData___::NormalizeDayOfWeek(String input, StringBuilder destination
   if (val > 4) {
     val = 3;
   }
-  destination->Append(100, val);
+  destination->Append('d', val);
 }
 
 Int32 CalendarData___::CountOccurrences(String input, Char value, Int32& index) {
@@ -548,7 +548,7 @@ Boolean CalendarData___::CallGetCalendarInfoEx(String localeName, CalendarId cal
   Char* ptr = as;
   Int32 num = Interop::Kernel32::GetCalendarInfoEx(localeName, (UInt32)calendar, IntPtr::Zero, calType, (IntPtr)(void*)ptr, 80, IntPtr::Zero);
   if (num > 0) {
-    if (*(ptr + num - 1) == 0) {
+    if (*(ptr + num - 1) == '\0') {
       num--;
     }
     data = rt::newstr<String>(ptr, 0, num);
