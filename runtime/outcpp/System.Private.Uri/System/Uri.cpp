@@ -2594,7 +2594,7 @@ String Uri___::CombineUri(Uri basePart, String relativePart, UriFormat uriFormat
   }
 
   array = Compress(array, basePart->get_SecuredPathIndex(), num2, basePart->get_Syntax());
-  return String::in::Concat(text2, MemoryExtensions::AsSpan(array, (Array<Char>)0, num2), readOnlySpan);
+  return String::in::Concat(text2, MemoryExtensions::AsSpan(array, 0, num2), readOnlySpan);
 }
 
 String Uri___::PathDifference(String path1, String path2, Boolean compareCase) {

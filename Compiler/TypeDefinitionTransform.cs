@@ -194,15 +194,6 @@ namespace Meson.Compiler {
       VisitMembers(type, node);
     }
 
-    private bool IsExportMethod(IMethod method) {
-      if (method.IsConstructor) {
-        if (method.DeclaringTypeDefinition.IsStringType()) {
-          return false;
-        }
-      }
-      return true;
-    }
-
     internal void CheckOperatorParameters(IMethod method, List<ParameterSyntax> parameters, ExpressionSyntax returnType) {
       if (method.SymbolKind == SymbolKind.Operator && method.Name == "op_Explicit") {
         if (method.DeclaringTypeDefinition.Methods.Any(i => i != method && i.Name == method.Name && i.Parameters.First().Type == method.Parameters.First().Type)) {
@@ -294,8 +285,15 @@ namespace Meson.Compiler {
       }
     }
 
+    private static IEnumerable<IMethod> GetMethods(ITypeDefinition typeDefinition) {
+      if (typeDefinition.Kind == TypeKind.Interface) {
+        return typeDefinition.GetMethods(i => i.DeclaringType.Kind == TypeKind.Interface);
+      }
+      return typeDefinition.Methods;
+    }
+
     private void VisitMethods(ITypeDefinition typeDefinition, ClassSyntax node) {
-      foreach (var method in typeDefinition.Methods.Where(IsExportMethod)) {
+      foreach (var method in GetMethods(typeDefinition)) {
         VisitMethod(method, typeDefinition, node);
       }
     }
@@ -608,8 +606,15 @@ namespace Meson.Compiler {
       }
     }
 
+    private static IEnumerable<IProperty> GetPropertys(ITypeDefinition typeDefinition) {
+      if (typeDefinition.Kind == TypeKind.Interface) {
+        return typeDefinition.GetProperties(i => i.DeclaringType.Kind == TypeKind.Interface);
+      }
+      return typeDefinition.Properties;
+    }
+
     private void VisitPropertys(ITypeDefinition typeDefinition, ClassSyntax node) {
-      foreach (var property in typeDefinition.Properties) {
+      foreach (var property in GetPropertys(typeDefinition)) {
         if (property.CanGet) {
           VisitMethod(property.Getter, typeDefinition, node);
         }
@@ -663,14 +668,26 @@ namespace Meson.Compiler {
               defaultConstructor.AddInitializationList(fieldName, field.Type.GetDefinition().GetPrimitiveTypeDefaultValue());
               node.Add(defaultConstructor);
 
-              var underlyingTypeConstructor = new MethodDefinitionSyntax(node.Name, new ParameterSyntax(typeName, IdentifierSyntax.Value).ArrayOf()) {
-                AccessibilityToken = accessibilityToken,
-                Body = BlockSyntax.EmptyBlock,
-                IsConstexpr = true,
-                IsNoexcept = true,
-              };
-              underlyingTypeConstructor.AddInitializationList(fieldName, IdentifierSyntax.Value);
-              node.Add(underlyingTypeConstructor);
+              if (type.KnownTypeCode == KnownTypeCode.Boolean) {
+                var underlyingTypeConstructor = new MethodDefinitionSyntax(node.Name, new ParameterSyntax(IdentifierSyntax.T, IdentifierSyntax.Value).ArrayOf()) {
+                  AccessibilityToken = accessibilityToken,
+                  Body = BlockSyntax.EmptyBlock,
+                  IsConstexpr = true,
+                  IsNoexcept = true,
+                  Template = new TemplateSyntax(TemplateTypenameSyntax.T) { Requires = IdentifierSyntax.IsBoolType.Generic(IdentifierSyntax.T) },
+                };
+                underlyingTypeConstructor.AddInitializationList(fieldName, IdentifierSyntax.Value);
+                node.Add(underlyingTypeConstructor);
+              } else {
+                var underlyingTypeConstructor = new MethodDefinitionSyntax(node.Name, new ParameterSyntax(typeName, IdentifierSyntax.Value).ArrayOf()) {
+                  AccessibilityToken = accessibilityToken,
+                  Body = BlockSyntax.EmptyBlock,
+                  IsConstexpr = true,
+                  IsNoexcept = true,
+                };
+                underlyingTypeConstructor.AddInitializationList(fieldName, IdentifierSyntax.Value);
+                node.Add(underlyingTypeConstructor);
+              }
 
               if (type.IsNumberType()) {
                 var enumTypeConstructor = new MethodDefinitionSyntax(node.Name, new ParameterSyntax(IdentifierSyntax.T, IdentifierSyntax.Value).ArrayOf()) {

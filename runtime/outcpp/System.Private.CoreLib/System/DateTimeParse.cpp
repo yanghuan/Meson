@@ -1829,7 +1829,7 @@ Boolean DateTimeParse::ParseISO8601(DateTimeRawInfo& raw, __DTString& str, DateT
       }
       str.SkipWhiteSpaces();
     }
-    if (str.Match((Char)'\0') && !VerifyValidPunctuation(str)) {
+    if (str.Match('\0') && !VerifyValidPunctuation(str)) {
       result.SetBadDateTimeFailure();
       return false;
     }

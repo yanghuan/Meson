@@ -2,7 +2,6 @@
 
 #include <System.Private.CoreLib/System/ArgumentException-dep.h>
 #include <System.Private.CoreLib/System/ArgumentNullException-dep.h>
-#include <System.Private.CoreLib/System/Boolean-dep.h>
 #include <System.Private.CoreLib/System/NotSupportedException-dep.h>
 #include <System.Private.CoreLib/System/PlatformNotSupportedException-dep.h>
 #include <System.Private.CoreLib/System/Reflection/Assembly-dep.h>
@@ -34,7 +33,7 @@ Object Activator::CreateInstance(Type type, Array<Object> args, Array<Object> ac
 }
 
 Object Activator::CreateInstance(Type type) {
-  return CreateInstance(type, (Boolean)false);
+  return CreateInstance(type, false);
 }
 
 ObjectHandle Activator::CreateInstanceFrom(String assemblyFile, String typeName) {

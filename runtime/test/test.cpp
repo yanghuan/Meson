@@ -103,18 +103,16 @@ void TestAction() {
 }
 
 void TestStringBuffer() {
+  //String s = 0;
 }
 
-void TestF(Object i) {
-}
-
-void TestF(Int32 i) {
-}
+struct Q {};
+struct S : Q { };
+struct T : Q { };
+struct U : S, T { };         // not a standard-layout class
 
 int main() {
-  Boolean a = false;
-  String p = '\0';
-  TestF(2);
+  constexpr size_t s = sizeof(U);
   return 0;
 }
 

@@ -16,6 +16,8 @@ using namespace System::Collections;
 using namespace System::Runtime::CompilerServices;
 CLASS(IValueTupleInternal) : public object {
   public: using interface = rt::TypeList<ITuple>;
+  public: Int32 get_Length();
+  public: Object get_Item(Int32 index);
   public: Int32 GetHashCode(IEqualityComparer comparer);
   public: String ToStringEnd();
   public: static constexpr rt::TypeCode code = rt::TypeCode::Interface;

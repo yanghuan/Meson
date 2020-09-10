@@ -341,7 +341,7 @@ namespace Meson.Compiler {
       return stringTypeName.WithIn().TwoColon("Format").Invation(new ExpressionSyntax[] { new StringLiteralExpressionSyntax(sb.ToString()) }.Concat(expressions));
     }
 
-    private static bool IsMethodSimilar(IMethod symbol, IMethod other, int index, bool isZero) {
+    private static bool IsMethodSimilar(IMethod symbol, IMethod other, int index) {
       if (symbol.TypeParameters.Count != other.TypeParameters.Count) {
         return false;
       }
@@ -354,11 +354,6 @@ namespace Meson.Compiler {
         var t1 = symbol.Parameters[i].Type;
         var t2 = other.Parameters[i].Type;
         if (i == index) {
-          if (isZero) {
-            if (t2.IsReferenceType == true) {
-              continue;
-            }
-          }
           if (!t1.IsNumberImplicit(t2)) {
             return false;
           }
@@ -370,8 +365,8 @@ namespace Meson.Compiler {
       return true;
     }
 
-    private static bool HasMethodSimilar(IMethod symbol, int index, bool isZero) {
-      return symbol.DeclaringTypeDefinition.Methods.Any(i => i != symbol && i.Name == symbol.Name && IsMethodSimilar(symbol, i, index, isZero)); ;
+    private static bool HasMethodSimilar(IMethod symbol, int index) {
+      return symbol.DeclaringTypeDefinition.Methods.Any(i => i != symbol && i.Name == symbol.Name && IsMethodSimilar(symbol, i, index)); ;
     }
 
     private void CheckInvokeArgumentType(IMethod symbol, IParameter parameter, int index, IType type, ref ExpressionSyntax expression) {
@@ -398,29 +393,15 @@ namespace Meson.Compiler {
           var typeDefinition = type.GetDefinition();
           if (typeDefinition != null) {
             switch (typeDefinition.KnownTypeCode) {
+              case KnownTypeCode.Boolean:
+              case KnownTypeCode.Char:
               case KnownTypeCode.Int32:
-                if (expression is NumberLiteralExpressionSyntax numberLiteral) {
-                  if (HasMethodSimilar(symbol, index, numberLiteral.IsZero)) {
+                if (expression is LiteralExpressionSyntax) {
+                  if (HasMethodSimilar(symbol, index)) {
                     goto Cast;
                   }
                 }
                 break;
-              case KnownTypeCode.Boolean: {
-                  if (expression is BooleanLiteralExpressionSyntax boolLiteral) {
-                    if (HasMethodSimilar(symbol, index, !boolLiteral.Value)) {
-                      goto Cast;
-                    }
-                  }
-                  break;
-                }
-              case KnownTypeCode.Char: {
-                  if (expression is CharLiteralExpressionSyntax boolLiteral) {
-                    if (HasMethodSimilar(symbol, index, boolLiteral.Value == 0)) {
-                      goto Cast;
-                    }
-                  }
-                  break;
-                }
             }
             switch (parameter.Type.Kind) {
               case TypeKind.NInt:

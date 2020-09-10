@@ -102,7 +102,7 @@ void TranscodingStream___::__ReadAsync_g__ReadAsyncCore41_0_d::MoveNext() {
     try {
       ConfiguredValueTaskAwaitable<TResult>::ConfiguredValueTaskAwaiter awaiter;
       if (num != 0) {
-        awaiter = transcodingStream->_innerStream->ReadAsync(MemoryExtensions::AsMemory(<rentedBytes>5__2, (Array<Byte>)0, 4096), cancellationToken).ConfigureAwait(false).GetAwaiter();
+        awaiter = transcodingStream->_innerStream->ReadAsync(MemoryExtensions::AsMemory(<rentedBytes>5__2, 0, 4096), cancellationToken).ConfigureAwait(false).GetAwaiter();
         if (!awaiter.get_IsCompleted()) {
           num = (<>1__state = 0);
           <>u__1 = awaiter;

@@ -65,7 +65,7 @@ void DataCollector::AddNullTerminatedString(String value) {
   if (value == nullptr) {
     value = String::in::Empty;
   }
-  Int32 num = value->IndexOf((Char)'\0');
+  Int32 num = value->IndexOf('\0');
   if (num < 0) {
     num = value->get_Length();
   }

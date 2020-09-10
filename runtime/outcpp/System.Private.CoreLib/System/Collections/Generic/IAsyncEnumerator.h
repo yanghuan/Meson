@@ -15,6 +15,7 @@ using namespace System::Threading::Tasks;
 CLASS(IAsyncEnumerator, T) : public object {
   public: using interface = rt::TypeList<IAsyncDisposable>;
   public: T get_Current();
+  public: ValueTask<> DisposeAsync();
   public: ValueTask<Boolean> MoveNextAsync();
   public: static constexpr rt::TypeCode code = rt::TypeCode::Interface;
 };

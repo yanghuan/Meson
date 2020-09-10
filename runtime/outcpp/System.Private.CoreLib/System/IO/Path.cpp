@@ -686,7 +686,7 @@ String Path::GetFullPath(String path) {
   if (PathInternal::IsEffectivelyEmpty(MemoryExtensions::AsSpan(path))) {
     rt::throw_exception<ArgumentException>(SR::get_Arg_PathEmpty(), "path");
   }
-  if (path->Contains((Char)'\0')) {
+  if (path->Contains('\0')) {
     rt::throw_exception<ArgumentException>(SR::get_Argument_InvalidPathChars(), "path");
   }
   if (PathInternal::IsExtended(MemoryExtensions::AsSpan(path))) {
@@ -705,7 +705,7 @@ String Path::GetFullPath(String path, String basePath) {
   if (!IsPathFullyQualified(basePath)) {
     rt::throw_exception<ArgumentException>(SR::get_Arg_BasePathNotFullyQualified(), "basePath");
   }
-  if (basePath->Contains((Char)'\0') || path->Contains((Char)'\0')) {
+  if (basePath->Contains('\0') || path->Contains('\0')) {
     rt::throw_exception<ArgumentException>(SR::get_Argument_InvalidPathChars());
   }
   if (IsPathFullyQualified(path)) {

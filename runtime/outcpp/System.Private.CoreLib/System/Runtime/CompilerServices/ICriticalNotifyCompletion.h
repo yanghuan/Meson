@@ -10,6 +10,7 @@ FORWARD(INotifyCompletion)
 namespace ICriticalNotifyCompletionNamespace {
 CLASS(ICriticalNotifyCompletion) : public object {
   public: using interface = rt::TypeList<INotifyCompletion>;
+  public: void OnCompleted(Action<> continuation);
   public: void UnsafeOnCompleted(Action<> continuation);
   public: static constexpr rt::TypeCode code = rt::TypeCode::Interface;
 };

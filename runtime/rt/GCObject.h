@@ -235,6 +235,22 @@ namespace rt {
   static constexpr bool AlwaysTrue = true;
 
   template <class T>
+  constexpr bool isValueType() {
+    if constexpr (std::is_enum_v<T>) {
+      return true;
+    }
+
+    constexpr TypeCode code = CodeOf<T>;
+    if constexpr (IsPrimitiveValueCode(code) || code == TypeCode::Struct) {
+      return true;
+    }
+    return false;
+  }
+
+  template <class T>
+  static constexpr bool IsValueType = isValueType<T>();
+
+  template <class T>
   class ref {
   public:
     using GCObject = GCObject<T>;
@@ -243,13 +259,16 @@ namespace rt {
     constexpr ref() noexcept : p_(nullptr)  {
     }
 
-    constexpr ref(std::nullptr_t) noexcept : p_(nullptr) {
+    template <class T1> requires(std::is_same_v<T1, std::nullptr_t>)
+    constexpr ref(T1) noexcept : p_(nullptr) {
     }
 
-    explicit ref(GCObject* p) noexcept : p_(p) {
+    template <class T1> requires(std::is_same_v<T1, GCObject>)
+    explicit ref(T1* p) noexcept : p_(p) {
     }
 
-    explicit ref(T* p) noexcept : p_(GCObject::From(p)) {
+    template <class T1> requires(std::is_same_v<T1, T>)
+    explicit ref(T1* p) noexcept : p_(GCObject::From(p)) {
     }
 
     ref(const ref& other) noexcept {
@@ -261,8 +280,8 @@ namespace rt {
       copyOf(other);
     }
 
-    template <class T1 = T> requires(IsString<T1>)
-    ref(const char* str) {
+    template <int N, class T2 = T> requires(IsString<T2>)
+    ref(const char (&str)[N]) {
       moveOf(string::load(str));
     }
 
@@ -271,8 +290,9 @@ namespace rt {
       moveOf(string::cat(t));
     }
 
-    template <class T1> requires(IsObject<T> && !IsRef<T1>)
+    template <class T1> requires(IsObject<T> && IsValueType<T1>)
     ref(const T1 other) {
+      //TODO
     }
 
     ref(ref&& other) noexcept {
@@ -370,9 +390,14 @@ namespace rt {
       return R();
     }
 
-    template <class... Args>
-    auto& operator [](Args&&... args) {
-      return get()->operator[](std::forward<Args>(args)...);
+    template <class T1 = T, class Size> requires(AlwaysTrue<decltype(T1().operator[](Size()))>)
+    auto& operator [](const Size& index) {
+      return get()->operator[](index);
+    }
+
+    template <class T1 = T, class... Args> requires(AlwaysTrue<decltype(&T1::get_Item)>)
+    auto operator [](Args&&... args) {
+      return get()->get_Item(std::forward<Args>(args)...);
     }
 
     template <class... Args>
@@ -589,6 +614,9 @@ namespace rt {
   static constexpr bool IsNumerical = std::is_arithmetic_v<T> || IsArithmetic<T>;
 
   template <class T>
+  static constexpr bool IsBool = std::is_same_v<T, bool>;
+
+  template <class T>
   auto GetPrimitiveValue(const T& index) {
     if constexpr (CodeOf<T> == TypeCode::None) {
       return index;
@@ -605,19 +633,6 @@ namespace rt {
       if constexpr (sizeof(To) > sizeof(From)) {
         return true;
       }
-    }
-    return false;
-  }
-
-  template <class T>
-  constexpr bool IsValueType() {
-    if constexpr (std::is_enum_v<T>) {
-      return true;
-    }
-
-    constexpr TypeCode code = CodeOf<T>;
-    if constexpr (IsPrimitiveValueCode(code) || code == TypeCode::Struct) {
-      return true;
     }
     return false;
   }
@@ -772,7 +787,7 @@ namespace rt {
       return (void*)(static_cast<const T*>(this)->get());
     }
 
-    template <class R> requires(IsValueType<R>())
+    template <class R> requires(IsValueType<R>)
     explicit operator R*() const noexcept {
       return (R*)(static_cast<const T*>(this)->get());
     }

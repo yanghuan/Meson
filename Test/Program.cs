@@ -10,8 +10,7 @@ namespace Test {
   class Program {
     private static void Main(string[] args) {
       Console.WriteLine(args);
-      StringBuilder sb = new StringBuilder();
-      sb.Append(10);
+      int c = 'c';
     }
   }
 }

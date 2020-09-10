@@ -65,7 +65,8 @@ struct Boolean : public valueType<Boolean, rt::TypeCode::Boolean> {
   public: static String TrueString;
   public: static String FalseString;
   public: constexpr Boolean() noexcept : m_value(false) {}
-  public: constexpr Boolean(bool value) noexcept : m_value(value) {}
+  public: template <class T> requires(rt::IsBool<T>)
+  constexpr Boolean(T value) noexcept : m_value(value) {}
   public: constexpr bool& get() noexcept { return m_value; }
   public: constexpr bool get() const noexcept { return m_value; }
 };

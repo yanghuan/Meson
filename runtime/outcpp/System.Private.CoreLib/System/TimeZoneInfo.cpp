@@ -1905,7 +1905,7 @@ TimeZoneInfo TimeZoneInfo___::FindSystemTimeZoneById(String id) {
   if (id == nullptr) {
     rt::throw_exception<ArgumentNullException>("id");
   }
-  if (id->get_Length() == 0 || id->get_Length() > 255 || id->Contains((Char)'\0')) {
+  if (id->get_Length() == 0 || id->get_Length() > 255 || id->Contains('\0')) {
     rt::throw_exception<TimeZoneNotFoundException>(SR::Format(SR::get_TimeZoneNotFound_MissingData(), id));
   }
   CachedData cachedData = s_cachedData;

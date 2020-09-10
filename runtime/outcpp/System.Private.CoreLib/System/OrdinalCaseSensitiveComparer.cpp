@@ -25,7 +25,7 @@ Int32 OrdinalCaseSensitiveComparer___::GetHashCode(String obj) {
 
 void OrdinalCaseSensitiveComparer___::GetObjectData(SerializationInfo info, StreamingContext context) {
   info->SetType(typeof<OrdinalComparer>());
-  info->AddValue("_ignoreCase", (Boolean)false);
+  info->AddValue("_ignoreCase", false);
 }
 
 } // namespace System::Private::CoreLib::System::OrdinalCaseSensitiveComparerNamespace

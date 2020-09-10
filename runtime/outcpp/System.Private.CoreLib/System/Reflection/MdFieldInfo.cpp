@@ -74,7 +74,7 @@ void MdFieldInfo___::SetValueDirect(TypedReference obj, Object value) {
 }
 
 Object MdFieldInfo___::GetValue(Object obj) {
-  return GetValue((Boolean)false);
+  return GetValue(false);
 }
 
 Object MdFieldInfo___::GetRawConstantValue() {

@@ -169,7 +169,7 @@ MethodBase DefaultBinder___::BindToMethod(BindingFlags bindingAttr, Array<Method
             array9[i] = parametersNoCopy4[i]->get_DefaultValue();
           }
           if (array3[0] != nullptr) {
-            array9[i] = Array<>::in::CreateInstance(array3[0], (Int32)0);
+            array9[i] = Array<>::in::CreateInstance(array3[0], 0);
           } else {
             array9[i] = parametersNoCopy4[i]->get_DefaultValue();
           }
@@ -227,7 +227,7 @@ MethodBase DefaultBinder___::BindToMethod(BindingFlags bindingAttr, Array<Method
             array6[i] = parametersNoCopy3[i]->get_DefaultValue();
           }
           if (array3[num5] != nullptr) {
-            array6[i] = Array<>::in::CreateInstance(array3[num5], (Int32)0);
+            array6[i] = Array<>::in::CreateInstance(array3[num5], 0);
           } else {
             array6[i] = parametersNoCopy3[i]->get_DefaultValue();
           }

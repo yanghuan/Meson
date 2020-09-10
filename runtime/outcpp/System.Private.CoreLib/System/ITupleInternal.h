@@ -20,6 +20,8 @@ using namespace System::Runtime::CompilerServices;
 using namespace System::Text;
 CLASS(ITupleInternal) : public object {
   public: using interface = rt::TypeList<ITuple>;
+  public: Int32 get_Length();
+  public: Object get_Item(Int32 index);
   public: String ToString(StringBuilder sb);
   public: Int32 GetHashCode(IEqualityComparer comparer);
   public: static constexpr rt::TypeCode code = rt::TypeCode::Interface;

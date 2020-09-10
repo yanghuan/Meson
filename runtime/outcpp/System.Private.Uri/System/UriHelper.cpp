@@ -244,7 +244,7 @@ Array<Char> UriHelper::UnescapeString(String input, Int32 start, Int32 end, Arra
 
 Array<Char> UriHelper::UnescapeString(Char* pStr, Int32 start, Int32 end, Array<Char> dest, Int32& destPosition, Char rsvd1, Char rsvd2, Char rsvd3, UnescapeMode unescapeMode, UriParser syntax, Boolean isQuery) {
   ValueStringBuilder dest2 = ValueStringBuilder(dest->get_Length());
-  dest2.Append(MemoryExtensions::AsSpan(dest, (Array<Char>)0, destPosition));
+  dest2.Append(MemoryExtensions::AsSpan(dest, 0, destPosition));
   UnescapeString(pStr, start, end, dest2, rsvd1, rsvd2, rsvd3, unescapeMode, syntax, isQuery);
   if (dest2.get_Length() > dest->get_Length()) {
     dest = dest2.AsSpan().ToArray();
@@ -384,7 +384,7 @@ void UriHelper::UnescapeString(Char* pStr, Int32 start, Int32 end, ValueStringBu
     }
     Int32 chars = s_noFallbackCharUTF8->GetChars(array, 0, byteCount, array2, 0);
     start = i;
-    MatchUTF8Sequence(dest, MemoryExtensions::AsSpan(array2, (Array<Char>)0, chars), chars, array, byteCount, isQuery, flag2);
+    MatchUTF8Sequence(dest, MemoryExtensions::AsSpan(array2, 0, chars), chars, array, byteCount, isQuery, flag2);
   } while (i != end)
 }
 
