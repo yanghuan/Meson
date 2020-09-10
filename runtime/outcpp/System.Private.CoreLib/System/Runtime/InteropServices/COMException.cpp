@@ -1,5 +1,6 @@
 #include "COMException-dep.h"
 
+#include <System.Private.CoreLib/System/Char-dep.h>
 #include <System.Private.CoreLib/System/Exception-dep.h>
 #include <System.Private.CoreLib/System/Globalization/CultureInfo-dep.h>
 #include <System.Private.CoreLib/System/Text/StringBuilder-dep.h>
@@ -30,7 +31,7 @@ void COMException___::ctor(SerializationInfo info, StreamingContext context) {
 String COMException___::ToString() {
   StringBuilder stringBuilder = rt::newobj<StringBuilder>();
   String value = GetType()->ToString();
-  stringBuilder->Append(value)->Append(" (0x")->Append(Exception::in::get_HResult().ToString("X8", CultureInfo::in::get_InvariantCulture()))->Append(')');
+  stringBuilder->Append(value)->Append(" (0x")->Append(Exception::in::get_HResult().ToString("X8", CultureInfo::in::get_InvariantCulture()))->Append((Char)')');
   String message = get_Message();
   if (!String::in::IsNullOrEmpty(message)) {
     stringBuilder->Append(": ")->Append(message);

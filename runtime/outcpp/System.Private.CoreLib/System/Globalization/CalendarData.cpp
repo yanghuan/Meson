@@ -425,7 +425,7 @@ String CalendarData___::NormalizeDatePattern(String input) {
         }case 'G':
         {
           Int32 num = CountOccurrences(input, 'G', index);
-          stringBuilder->Append('g');
+          stringBuilder->Append((Char)'g');
           break;
         }case 'y':
         {

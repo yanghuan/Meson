@@ -4,6 +4,7 @@
 #include <System.Private.CoreLib/System/ArgumentException-dep.h>
 #include <System.Private.CoreLib/System/ArgumentNullException-dep.h>
 #include <System.Private.CoreLib/System/Array-dep.h>
+#include <System.Private.CoreLib/System/Char-dep.h>
 #include <System.Private.CoreLib/System/Collections/Generic/List-dep.h>
 #include <System.Private.CoreLib/System/Globalization/CultureInfo-dep.h>
 #include <System.Private.CoreLib/System/Int32-dep.h>
@@ -29,9 +30,9 @@ String AggregateException___::get_Message() {
   }
   StringBuilder stringBuilder = StringBuilderCache::Acquire();
   stringBuilder->Append(Exception::in::get_Message());
-  stringBuilder->Append(' ');
+  stringBuilder->Append((Char)' ');
   for (Int32 i = 0; i < m_innerExceptions->get_Count(); i++) {
-    stringBuilder->Append('(');
+    stringBuilder->Append((Char)'(');
     stringBuilder->Append(m_innerExceptions[i]->get_Message());
     stringBuilder->Append(") ");
   }

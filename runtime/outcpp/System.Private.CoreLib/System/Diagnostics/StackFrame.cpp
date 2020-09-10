@@ -1,5 +1,6 @@
 #include "StackFrame-dep.h"
 
+#include <System.Private.CoreLib/System/Char-dep.h>
 #include <System.Private.CoreLib/System/Diagnostics/StackTrace-dep.h>
 #include <System.Private.CoreLib/System/Reflection/MethodInfo-dep.h>
 #include <System.Private.CoreLib/System/Type-dep.h>
@@ -112,18 +113,18 @@ String StackFrame___::ToString() {
     MethodInfo methodInfo = rt::as<MethodInfo>(_method);
     if ((Object)methodInfo != nullptr && methodInfo->get_IsGenericMethod()) {
       Array<Type> genericArguments = methodInfo->GetGenericArguments();
-      stringBuilder->Append('<');
+      stringBuilder->Append((Char)'<');
       Int32 i = 0;
       Boolean flag = true;
       for (; i < genericArguments->get_Length(); i++) {
         if (!flag) {
-          stringBuilder->Append(',');
+          stringBuilder->Append((Char)',');
         } else {
           flag = false;
         }
         stringBuilder->Append(genericArguments[i]->get_Name());
       }
-      stringBuilder->Append('>');
+      stringBuilder->Append((Char)'>');
     }
     flag2 = true;
   } else {
@@ -139,9 +140,9 @@ String StackFrame___::ToString() {
     stringBuilder->Append(" in file:line:column ");
     String as = _fileName;
     stringBuilder->Append(as != nullptr ? as : "<filename unknown>");
-    stringBuilder->Append(':');
+    stringBuilder->Append((Char)':');
     stringBuilder->Append(_lineNumber);
-    stringBuilder->Append(':');
+    stringBuilder->Append((Char)':');
     stringBuilder->Append(_columnNumber);
   } else {
     stringBuilder->Append("<null>");

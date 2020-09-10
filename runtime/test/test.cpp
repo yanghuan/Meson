@@ -105,9 +105,16 @@ void TestAction() {
 void TestStringBuffer() {
 }
 
+void TestF(Object i) {
+}
+
+void TestF(Int32 i) {
+}
+
 int main() {
   Boolean a = false;
   String p = '\0';
+  TestF(2);
   return 0;
 }
 

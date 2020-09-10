@@ -917,6 +917,18 @@ namespace Meson.Compiler {
       var toDefinition = to.GetDefinition();
       if (formDefinition != null && toDefinition != null) {
         switch (formDefinition.KnownTypeCode) {
+          case KnownTypeCode.Char: {
+              switch (toDefinition.KnownTypeCode) {
+                case KnownTypeCode.UInt16:
+                case KnownTypeCode.UInt32:
+                case KnownTypeCode.Int32:
+                case KnownTypeCode.Int64:
+                case KnownTypeCode.Single:
+                case KnownTypeCode.Double:
+                  return true;
+              }
+              break;
+            }
           case KnownTypeCode.Int32: {
               switch (toDefinition.KnownTypeCode) {
                 case KnownTypeCode.Int64:

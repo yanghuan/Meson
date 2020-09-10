@@ -31,9 +31,9 @@ void DecoderExceptionFallbackBuffer___::Throw(Array<Byte> bytesUnknown, Int32 in
   }
   StringBuilder stringBuilder = rt::newobj<StringBuilder>(bytesUnknown->get_Length() * 4);
   for (Int32 i = 0; i < bytesUnknown->get_Length() && i < 20; i++) {
-    stringBuilder->Append('[');
+    stringBuilder->Append((Char)'[');
     stringBuilder->Append(bytesUnknown[i].ToString("X2", CultureInfo::in::get_InvariantCulture()));
-    stringBuilder->Append(']');
+    stringBuilder->Append((Char)']');
   }
   if (bytesUnknown->get_Length() > 20) {
     stringBuilder->Append(" ...");

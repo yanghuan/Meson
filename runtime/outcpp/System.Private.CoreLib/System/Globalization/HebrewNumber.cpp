@@ -19,7 +19,7 @@ void HebrewNumber::Append(StringBuilder outputBuffer, Int32 Number) {
   if (num > 0) {
     Number -= num * 100;
     for (Int32 i = 0; i < num / 4; i++) {
-      outputBuffer->Append('ê');
+      outputBuffer->Append((Char)'ê');
     }
     Int32 num2 = num % 4;
     if (num2 > 0) {
@@ -76,9 +76,9 @@ void HebrewNumber::Append(StringBuilder outputBuffer, Int32 Number) {
     outputBuffer->Append(c2);
   }
   if (outputBuffer->get_Length() - length > 1) {
-    outputBuffer->Insert(outputBuffer->get_Length() - 1, '"');
+    outputBuffer->Insert(outputBuffer->get_Length() - 1, (Char)'"');
   } else {
-    outputBuffer->Append('\'');
+    outputBuffer->Append((Char)'\'');
   }
 }
 

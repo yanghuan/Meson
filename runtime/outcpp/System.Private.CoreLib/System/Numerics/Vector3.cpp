@@ -2,6 +2,7 @@
 
 #include <System.Private.CoreLib/System/ArgumentException-dep.h>
 #include <System.Private.CoreLib/System/ArgumentOutOfRangeException-dep.h>
+#include <System.Private.CoreLib/System/Char-dep.h>
 #include <System.Private.CoreLib/System/Globalization/CultureInfo-dep.h>
 #include <System.Private.CoreLib/System/Globalization/NumberFormatInfo-dep.h>
 #include <System.Private.CoreLib/System/HashCode-dep.h>
@@ -58,15 +59,15 @@ String Vector3::ToString(String format) {
 String Vector3::ToString(String format, IFormatProvider formatProvider) {
   StringBuilder stringBuilder = rt::newobj<StringBuilder>();
   String numberGroupSeparator = NumberFormatInfo::in::GetInstance(formatProvider)->get_NumberGroupSeparator();
-  stringBuilder->Append('<');
+  stringBuilder->Append((Char)'<');
   stringBuilder->Append(((IFormattable)X)->ToString(format, formatProvider));
   stringBuilder->Append(numberGroupSeparator);
-  stringBuilder->Append(' ');
+  stringBuilder->Append((Char)' ');
   stringBuilder->Append(((IFormattable)Y)->ToString(format, formatProvider));
   stringBuilder->Append(numberGroupSeparator);
-  stringBuilder->Append(' ');
+  stringBuilder->Append((Char)' ');
   stringBuilder->Append(((IFormattable)Z)->ToString(format, formatProvider));
-  stringBuilder->Append('>');
+  stringBuilder->Append((Char)'>');
   return stringBuilder->ToString();
 }
 

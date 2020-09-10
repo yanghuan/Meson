@@ -31,13 +31,13 @@ String AssemblyNameFormatter::ComputeDisplayName(String name, Version version, S
       stringBuilder->Append(", Version=");
       stringBuilder->Append(version2->get_Major());
       if (version2->get_Minor() != 65535) {
-        stringBuilder->Append('.');
+        stringBuilder->Append((Char)'.');
         stringBuilder->Append(version2->get_Minor());
         if (version2->get_Build() != 65535) {
-          stringBuilder->Append('.');
+          stringBuilder->Append((Char)'.');
           stringBuilder->Append(version2->get_Build());
           if (version2->get_Revision() != 65535) {
-            stringBuilder->Append('.');
+            stringBuilder->Append((Char)'.');
             stringBuilder->Append(version2->get_Revision());
           }
         }
@@ -77,7 +77,7 @@ void AssemblyNameFormatter::AppendQuoted(StringBuilder sb, String s) {
     flag = true;
   }
   if (flag) {
-    sb->Append('"');
+    sb->Append((Char)'"');
   }
   for (Int32 i = 0; i < s->get_Length(); i++) {
     Boolean flag2 = false;
@@ -86,7 +86,7 @@ void AssemblyNameFormatter::AppendQuoted(StringBuilder sb, String s) {
       KeyValuePair<Char, String> keyValuePair = escapeSequences[j];
       String value = keyValuePair.get_Value();
       if (s[i] == value[0] && s->get_Length() - i >= value->get_Length() && MemoryExtensions::SequenceEqual(MemoryExtensions::AsSpan(s, i, value->get_Length()), value)) {
-        sb->Append('\\');
+        sb->Append((Char)'\\');
         sb->Append(keyValuePair.get_Key());
         flag2 = true;
       }
@@ -96,7 +96,7 @@ void AssemblyNameFormatter::AppendQuoted(StringBuilder sb, String s) {
     }
   }
   if (flag) {
-    sb->Append('"');
+    sb->Append((Char)'"');
   }
 }
 

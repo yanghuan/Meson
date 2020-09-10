@@ -2,6 +2,7 @@
 
 #include <System.Private.CoreLib/System/ArgumentNullException-dep.h>
 #include <System.Private.CoreLib/System/Boolean-dep.h>
+#include <System.Private.CoreLib/System/Char-dep.h>
 #include <System.Private.CoreLib/System/Collections/Generic/Dictionary-dep.h>
 #include <System.Private.CoreLib/System/Collections/Generic/KeyValuePair-dep.h>
 #include <System.Private.CoreLib/System/Diagnostics/Tracing/CounterGroup-dep.h>
@@ -84,10 +85,10 @@ String DiagnosticCounter___::GetMetadataString() {
   if (!enumerator.MoveNext()) {
     return current.get_Key() + ":" + current.get_Value();
   }
-  StringBuilder stringBuilder = rt::newobj<StringBuilder>()->Append(current.get_Key())->Append(':')->Append(current.get_Value());
+  StringBuilder stringBuilder = rt::newobj<StringBuilder>()->Append(current.get_Key())->Append((Char)':')->Append(current.get_Value());
   do {
     current = enumerator.get_Current();
-    stringBuilder->Append(',')->Append(current.get_Key())->Append(':')->Append(current.get_Value());
+    stringBuilder->Append((Char)',')->Append(current.get_Key())->Append((Char)':')->Append(current.get_Value());
   } while (enumerator.MoveNext())
   return stringBuilder->ToString();
 }

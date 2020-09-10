@@ -355,9 +355,9 @@ void DateTimeFormat::FormatCustomizedTimeZone(DateTime dateTime, TimeSpan offset
     offset = ((timeOnly && dateTime.get_Ticks() < 864000000000) ? TimeZoneInfo::in::GetLocalUtcOffset(DateTime::get_Now(), TimeZoneInfoOptions::NoThrowOnInvalidTime) : ((dateTime.get_Kind() != DateTimeKind::Utc) ? TimeZoneInfo::in::GetLocalUtcOffset(dateTime, TimeZoneInfoOptions::NoThrowOnInvalidTime) : rt::default__));
   }
   if (offset.get_Ticks() >= 0) {
-    result->Append('+');
+    result->Append((Char)'+');
   } else {
-    result->Append('-');
+    result->Append((Char)'-');
     offset = offset.Negate();
   }
   if (tokenLen <= 1) {
@@ -378,19 +378,19 @@ void DateTimeFormat::FormatCustomizedRoundripTimeZone(DateTime dateTime, TimeSpa
       case DateTimeKind::Local:
         break;
       case DateTimeKind::Utc:
-        result->Append('Z');
+        result->Append((Char)'Z');
         return;
     }
     offset = TimeZoneInfo::in::GetLocalUtcOffset(dateTime, TimeZoneInfoOptions::NoThrowOnInvalidTime);
   }
   if (offset.get_Ticks() >= 0) {
-    result->Append('+');
+    result->Append((Char)'+');
   } else {
-    result->Append('-');
+    result->Append((Char)'-');
     offset = offset.Negate();
   }
   Append2DigitNumber(result, offset.get_Hours());
-  result->Append(':');
+  result->Append((Char)':');
   Append2DigitNumber(result, offset.get_Minutes());
 }
 

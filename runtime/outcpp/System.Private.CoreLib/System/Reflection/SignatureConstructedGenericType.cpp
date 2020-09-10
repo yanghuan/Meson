@@ -2,6 +2,7 @@
 
 #include <System.Private.CoreLib/System/ArgumentException-dep.h>
 #include <System.Private.CoreLib/System/ArgumentNullException-dep.h>
+#include <System.Private.CoreLib/System/Char-dep.h>
 #include <System.Private.CoreLib/System/Int32-dep.h>
 #include <System.Private.CoreLib/System/InvalidOperationException-dep.h>
 #include <System.Private.CoreLib/System/Object-dep.h>
@@ -124,14 +125,14 @@ Array<Type> SignatureConstructedGenericType___::GetGenericArguments() {
 String SignatureConstructedGenericType___::ToString() {
   StringBuilder stringBuilder = rt::newobj<StringBuilder>();
   stringBuilder->Append(_genericTypeDefinition->ToString());
-  stringBuilder->Append('[');
+  stringBuilder->Append((Char)'[');
   for (Int32 i = 0; i < _genericTypeArguments->get_Length(); i++) {
     if (i != 0) {
-      stringBuilder->Append(',');
+      stringBuilder->Append((Char)',');
     }
     stringBuilder->Append(_genericTypeArguments[i]->ToString());
   }
-  stringBuilder->Append(']');
+  stringBuilder->Append((Char)']');
   return stringBuilder->ToString();
 }
 

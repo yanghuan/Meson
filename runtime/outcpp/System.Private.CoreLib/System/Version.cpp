@@ -237,7 +237,7 @@ StringBuilder Version___::ToCachedStringBuilder(Int32 fieldCount) {
   if (fieldCount == 2) {
     StringBuilder stringBuilder = StringBuilderCache::Acquire();
     stringBuilder->Append(_Major);
-    stringBuilder->Append('.');
+    stringBuilder->Append((Char)'.');
     stringBuilder->Append(_Minor);
     return stringBuilder;
   }
@@ -247,9 +247,9 @@ StringBuilder Version___::ToCachedStringBuilder(Int32 fieldCount) {
   if (fieldCount == 3) {
     StringBuilder stringBuilder2 = StringBuilderCache::Acquire();
     stringBuilder2->Append(_Major);
-    stringBuilder2->Append('.');
+    stringBuilder2->Append((Char)'.');
     stringBuilder2->Append(_Minor);
-    stringBuilder2->Append('.');
+    stringBuilder2->Append((Char)'.');
     stringBuilder2->Append(_Build);
     return stringBuilder2;
   }
@@ -259,11 +259,11 @@ StringBuilder Version___::ToCachedStringBuilder(Int32 fieldCount) {
   if (fieldCount == 4) {
     StringBuilder stringBuilder3 = StringBuilderCache::Acquire();
     stringBuilder3->Append(_Major);
-    stringBuilder3->Append('.');
+    stringBuilder3->Append((Char)'.');
     stringBuilder3->Append(_Minor);
-    stringBuilder3->Append('.');
+    stringBuilder3->Append((Char)'.');
     stringBuilder3->Append(_Build);
-    stringBuilder3->Append('.');
+    stringBuilder3->Append((Char)'.');
     stringBuilder3->Append(_Revision);
     return stringBuilder3;
   }

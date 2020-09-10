@@ -116,8 +116,8 @@ Byte* Number::NumberBuffer::GetDigitsPointer() {
 
 String Number::NumberBuffer::ToString() {
   StringBuilder stringBuilder = rt::newobj<StringBuilder>();
-  stringBuilder->Append('[');
-  stringBuilder->Append('"');
+  stringBuilder->Append((Char)'[');
+  stringBuilder->Append((Char)'"');
   for (Int32 i = 0; i < Digits.get_Length(); i++) {
     Byte b = Digits[i];
     if (b == 0) {
@@ -125,13 +125,13 @@ String Number::NumberBuffer::ToString() {
     }
     stringBuilder->Append((Char)b);
   }
-  stringBuilder->Append('"');
+  stringBuilder->Append((Char)'"');
   stringBuilder->Append(", Length = ")->Append(DigitsCount);
   stringBuilder->Append(", Scale = ")->Append(Scale);
   stringBuilder->Append(", IsNegative = ")->Append(IsNegative);
   stringBuilder->Append(", HasNonZeroTail = ")->Append(HasNonZeroTail);
   stringBuilder->Append(", Kind = ")->Append(Kind);
-  stringBuilder->Append(']');
+  stringBuilder->Append((Char)']');
   return stringBuilder->ToString();
 }
 

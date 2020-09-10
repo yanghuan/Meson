@@ -391,22 +391,22 @@ Int32 TextInfo___::AddTitlecaseLetter(StringBuilder& result, String& input, Int3
       case 'Ä':
       case 'Å':
       case 'Æ':
-        result->Append('Å');
+        result->Append((Char)'Å');
         break;
       case 'Ç':
       case 'È':
       case 'É':
-        result->Append('È');
+        result->Append((Char)'È');
         break;
       case 'Ê':
       case 'Ë':
       case 'Ì':
-        result->Append('Ë');
+        result->Append((Char)'Ë');
         break;
       case 'ñ':
       case 'ò':
       case 'ó':
-        result->Append('ò');
+        result->Append((Char)'ò');
         break;
       default:
         result->Append(ToUpper(input[inputIndex]));

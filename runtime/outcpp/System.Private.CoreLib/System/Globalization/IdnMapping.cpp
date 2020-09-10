@@ -251,7 +251,7 @@ String IdnMapping___::PunycodeEncode(String unicode) {
       }
       Int32 num7 = 0;
       if (num6 > 0) {
-        stringBuilder->Append('-');
+        stringBuilder->Append((Char)'-');
       }
       Int32 num8 = 128;
       Int32 num9 = 0;
@@ -303,7 +303,7 @@ String IdnMapping___::PunycodeEncode(String unicode) {
       rt::throw_exception<ArgumentException>(SR::get_Argument_IdnBadLabelSize(), "unicode");
     }
     if (num != unicode->get_Length()) {
-      stringBuilder->Append('.');
+      stringBuilder->Append((Char)'.');
     }
     num2 = num + 1;
     num3 = stringBuilder->set_Length();

@@ -32,13 +32,13 @@ String VersioningHelper::MakeVersionSafeName(String name, ResourceScope from, Re
   Char value = '_';
   if ((requirements & SxSRequirements::ProcessID) != 0) {
     stringBuilder->Append(value);
-    stringBuilder->Append('p');
+    stringBuilder->Append((Char)'p');
     stringBuilder->Append(Environment::get_ProcessId());
   }
   if ((requirements & SxSRequirements::CLRInstanceID) != 0) {
     String cLRInstanceString = GetCLRInstanceString();
     stringBuilder->Append(value);
-    stringBuilder->Append('r');
+    stringBuilder->Append((Char)'r');
     stringBuilder->Append(cLRInstanceString);
   }
   if ((requirements & SxSRequirements::AppDomainID) != 0) {

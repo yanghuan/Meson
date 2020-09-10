@@ -77,7 +77,7 @@ void TypeNameBuilder___::AddArray(Int32 rank) {
     return;
   }
   if (rank > 64) {
-    _str->Append('[')->Append(rank)->Append(']');
+    _str->Append((Char)'[')->Append(rank)->Append((Char)']');
     return;
   }
   Append('[');
@@ -135,7 +135,7 @@ void TypeNameBuilder___::EscapeName(String name) {
     for (Char&& c : *name) {
       if (c != 0) {
         if (IsTypeNameReservedChar(c)) {
-          _str->Append('\\');
+          _str->Append((Char)'\\');
         }
         _str->Append(c);
         continue;

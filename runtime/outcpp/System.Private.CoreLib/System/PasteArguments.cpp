@@ -7,13 +7,13 @@
 namespace System::Private::CoreLib::System::PasteArgumentsNamespace {
 void PasteArguments::AppendArgument(StringBuilder stringBuilder, String argument) {
   if (stringBuilder->get_Length() != 0) {
-    stringBuilder->Append(' ');
+    stringBuilder->Append((Char)' ');
   }
   if (argument->get_Length() != 0 && ContainsNoWhitespaceOrQuotes(argument)) {
     stringBuilder->Append(argument);
     return;
   }
-  stringBuilder->Append('"');
+  stringBuilder->Append((Char)'"');
   Int32 num = 0;
   while (num < argument->get_Length()) {
     Char c = argument[num++];
@@ -29,7 +29,7 @@ void PasteArguments::AppendArgument(StringBuilder stringBuilder, String argument
             stringBuilder->Append('\\', num2 * 2);
           } else if (argument[num] == '"') {
             stringBuilder->Append('\\', num2 * 2 + 1);
-            stringBuilder->Append('"');
+            stringBuilder->Append((Char)'"');
             num++;
           } else {
             stringBuilder->Append('\\', num2);
@@ -37,15 +37,15 @@ void PasteArguments::AppendArgument(StringBuilder stringBuilder, String argument
 
           break;
         }case '"':
-        stringBuilder->Append('\\');
-        stringBuilder->Append('"');
+        stringBuilder->Append((Char)'\\');
+        stringBuilder->Append((Char)'"');
         break;
       default:
         stringBuilder->Append(c);
         break;
     }
   }
-  stringBuilder->Append('"');
+  stringBuilder->Append((Char)'"');
 }
 
 Boolean PasteArguments::ContainsNoWhitespaceOrQuotes(String s) {
@@ -73,9 +73,9 @@ String PasteArguments::Paste(IEnumerable<String> arguments, Boolean pasteFirstAr
         }
       }
       if (argument->get_Length() == 0 || flag) {
-        stringBuilder->Append('"');
+        stringBuilder->Append((Char)'"');
         stringBuilder->Append(argument);
-        stringBuilder->Append('"');
+        stringBuilder->Append((Char)'"');
       } else {
         stringBuilder->Append(argument);
       }
