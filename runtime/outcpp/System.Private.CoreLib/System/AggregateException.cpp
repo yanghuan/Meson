@@ -34,7 +34,7 @@ String AggregateException___::get_Message() {
   for (Int32 i = 0; i < m_innerExceptions->get_Count(); i++) {
     stringBuilder->Append((Char)'(');
     stringBuilder->Append(m_innerExceptions[i]->get_Message());
-    stringBuilder->Append(") ");
+    stringBuilder->Append((String)") ");
   }
   stringBuilder->get_Length()--;
   return StringBuilderCache::GetStringAndRelease(stringBuilder);
@@ -180,10 +180,10 @@ String AggregateException___::ToString() {
   stringBuilder->Append(Exception::in::ToString());
   for (Int32 i = 0; i < m_innerExceptions->get_Count(); i++) {
     if (m_innerExceptions[i] != Exception::in::get_InnerException()) {
-      stringBuilder->Append("\r\n ---> ");
+      stringBuilder->Append((String)"\r\n ---> ");
       stringBuilder->AppendFormat(CultureInfo::in::get_InvariantCulture(), SR::get_AggregateException_InnerException(), i);
       stringBuilder->Append(m_innerExceptions[i]->ToString());
-      stringBuilder->Append("<---");
+      stringBuilder->Append((String)"<---");
       stringBuilder->AppendLine();
     }
   }

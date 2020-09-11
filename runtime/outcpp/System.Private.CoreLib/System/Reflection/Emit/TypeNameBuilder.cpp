@@ -88,7 +88,7 @@ void TypeNameBuilder___::AddArray(Int32 rank) {
 }
 
 void TypeNameBuilder___::AddAssemblySpec(String assemblySpec) {
-  if (assemblySpec != nullptr && !assemblySpec->Equals("")) {
+  if (assemblySpec != nullptr && !assemblySpec->Equals((String)"")) {
     Append(", ");
     if (_instNesting > 0) {
       EscapeEmbeddedAssemblyName(assemblySpec);

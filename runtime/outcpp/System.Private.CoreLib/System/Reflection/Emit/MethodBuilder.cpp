@@ -367,9 +367,9 @@ Int32 MethodBuilder___::GetHashCode() {
 
 String MethodBuilder___::ToString() {
   StringBuilder stringBuilder = rt::newobj<StringBuilder>(1000);
-  stringBuilder->Append("Name: ")->Append(m_strName)->AppendLine(" ");
-  stringBuilder->Append("Attributes: ")->Append((Int32)m_iAttributes)->AppendLine();
-  stringBuilder->Append("Method Signature: ")->Append(GetMethodSignature())->AppendLine();
+  stringBuilder->Append((String)"Name: ")->Append(m_strName)->AppendLine(" ");
+  stringBuilder->Append((String)"Attributes: ")->Append((Int32)m_iAttributes)->AppendLine();
+  stringBuilder->Append((String)"Method Signature: ")->Append(GetMethodSignature())->AppendLine();
   stringBuilder->AppendLine();
   return stringBuilder->ToString();
 }

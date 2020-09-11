@@ -235,7 +235,7 @@ void StackTrace___::ToString(TraceFormat traceFormat, StringBuilder sb) {
       Boolean flag5 = true;
       for (Int32 l = 0; l < array->get_Length(); l++) {
         if (!flag5) {
-          sb->Append(", ");
+          sb->Append((String)", ");
         } else {
           flag5 = false;
         }

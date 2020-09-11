@@ -354,6 +354,9 @@ namespace Meson.Compiler {
         var t1 = symbol.Parameters[i].Type;
         var t2 = other.Parameters[i].Type;
         if (i == index) {
+          if (t2.Original().IsKnownType(KnownTypeCode.Object)) {
+            continue;
+          }
           if (!t1.IsNumberImplicit(t2)) {
             return false;
           }
@@ -389,30 +392,46 @@ namespace Meson.Compiler {
             goto Cast;
           }
           break;
-        case TypeKind.Struct:
-          var typeDefinition = type.GetDefinition();
-          if (typeDefinition != null) {
-            switch (typeDefinition.KnownTypeCode) {
-              case KnownTypeCode.Boolean:
-              case KnownTypeCode.Char:
-              case KnownTypeCode.Int32:
-                if (expression is LiteralExpressionSyntax) {
-                  if (HasMethodSimilar(symbol, index)) {
+        case TypeKind.Class: {
+            var typeDefinition = type.GetDefinition();
+            if (typeDefinition != null) {
+              switch (typeDefinition.KnownTypeCode) {
+                case KnownTypeCode.String: {
+                    if (expression is LiteralExpressionSyntax) {
+                      if (HasMethodSimilar(symbol, index)) {
+                        goto Cast;
+                      }
+                    }
+                    break;
+                  }
+              }
+            }
+            break;
+          }  
+        case TypeKind.Struct: {
+            var typeDefinition = type.GetDefinition();
+            if (typeDefinition != null) {
+              switch (typeDefinition.KnownTypeCode) {
+                case KnownTypeCode.Char:
+                case KnownTypeCode.Int32:
+                  if (expression is LiteralExpressionSyntax) {
+                    if (HasMethodSimilar(symbol, index)) {
+                      goto Cast;
+                    }
+                  }
+                  break;
+              }
+              switch (parameter.Type.Kind) {
+                case TypeKind.NInt:
+                case TypeKind.NUInt:
+                  if (typeDefinition.Kind != parameter.Type.Kind) {
                     goto Cast;
                   }
-                }
-                break;
+                  break;
+              }
             }
-            switch (parameter.Type.Kind) {
-              case TypeKind.NInt:
-              case TypeKind.NUInt:
-                if (typeDefinition.Kind != parameter.Type.Kind) {
-                  goto Cast;
-                }
-                break;
-            }
+            break;
           }
-          break;
       }
       return;
 

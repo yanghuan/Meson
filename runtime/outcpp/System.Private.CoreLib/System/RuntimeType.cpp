@@ -1641,7 +1641,7 @@ Object RuntimeType___::InvokeMember(String name, BindingFlags bindingFlags, Bind
   if (name == nullptr) {
     rt::throw_exception<ArgumentNullException>("name");
   }
-  if (name->get_Length() == 0 || name->Equals("[DISPID=0]")) {
+  if (name->get_Length() == 0 || name->Equals((String)"[DISPID=0]")) {
     String as = GetDefaultMemberName();
     name = (as != nullptr ? as : "ToString");
   }

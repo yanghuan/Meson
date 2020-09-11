@@ -91,13 +91,15 @@ namespace rt {
   template <class Base, class Derived>
   static constexpr bool IsDerived = std::is_convertible<Derived*, Base*>::value;
 
-  template <typename, typename = void>
+  template <typename T, typename = void>
   struct GetTypeCode {
+    static_assert(IsComplete<T>::value, "not complete type");
     static constexpr TypeCode value = TypeCode::None;
   };
 
   template <typename T>
   struct GetTypeCode<T, std::void_t<decltype(T::code != TypeCode::None)>> {
+    static_assert(IsComplete<T>::value, "not complete type");
     static constexpr TypeCode value = T::code;
   };
 
@@ -295,9 +297,9 @@ namespace rt {
     ref(const std::tuple<_Types...>& t) {
       moveOf(string::cat(t));
     }
-
-    template <class T1> requires(IsObject<T> && !IsRef<T1> && !std::is_same_v<T1, std::nullptr_t>)
-    ref(T1&& other) {
+    
+    template <class T1, class T2 = T> requires(IsObject<T2> && !IsRef<T1> && !std::is_same_v<T1, std::nullptr_t>)
+    ref(const T1& other) {
       //TODO
     }
 
@@ -305,7 +307,7 @@ namespace rt {
       moveOf(std::move(other));
     }
 
-    template <class T1> requires(IsConvertible<T, T1>)
+    template <class T1, class T2 = T> requires(IsConvertible<T2, T1>)
     ref(ref<T1>&& other) noexcept {
       moveOf(std::move(other));
     }
@@ -394,6 +396,11 @@ namespace rt {
     template <class R, class T1 = T> requires(IsObject<T1>)
     explicit operator R() {
       return R();
+    }
+    
+    template <class Size, class T1 = T> requires(IsString<T1>)
+    auto operator [](const Size& index) {
+      return get()->get_Chars(index);
     }
 
     template <class T1 = T, class Size> requires(AlwaysTrue<decltype(T1().operator[](Size()))>)

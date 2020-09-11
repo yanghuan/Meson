@@ -131,13 +131,13 @@ String StackFrame___::ToString() {
     flag2 = AppendStackFrameWithoutMethodBase(stringBuilder);
   }
   if (flag2) {
-    stringBuilder->Append(" at offset ");
+    stringBuilder->Append((String)" at offset ");
     if (_nativeOffset == -1) {
-      stringBuilder->Append("<offset unknown>");
+      stringBuilder->Append((String)"<offset unknown>");
     } else {
       stringBuilder->Append(_nativeOffset);
     }
-    stringBuilder->Append(" in file:line:column ");
+    stringBuilder->Append((String)" in file:line:column ");
     String as = _fileName;
     stringBuilder->Append(as != nullptr ? as : "<filename unknown>");
     stringBuilder->Append((Char)':');
@@ -145,7 +145,7 @@ String StackFrame___::ToString() {
     stringBuilder->Append((Char)':');
     stringBuilder->Append(_columnNumber);
   } else {
-    stringBuilder->Append("<null>");
+    stringBuilder->Append((String)"<null>");
   }
   stringBuilder->AppendLine();
   return stringBuilder->ToString();

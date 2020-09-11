@@ -309,7 +309,7 @@ String TextInfo___::ToTitleCase(String str) {
     UnicodeCategory unicodeCategoryInternal = CharUnicodeInfo::GetUnicodeCategoryInternal(str, num, charLength);
     if (Char::CheckLetter(unicodeCategoryInternal)) {
       if (flag && num < str->get_Length() - 1 && (str[num] == 'i' || str[num] == 'I') && (str[num + 1] == 'j' || str[num + 1] == 'J')) {
-        result->Append("IJ");
+        result->Append((String)"IJ");
         num += 2;
       } else {
         num = AddTitlecaseLetter(result, str, num, charLength) + 1;

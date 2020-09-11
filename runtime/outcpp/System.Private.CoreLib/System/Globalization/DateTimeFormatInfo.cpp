@@ -1160,7 +1160,7 @@ Array<DateTimeFormatInfo::in::TokenHashValue> DateTimeFormatInfo___::CreateToken
     }
     InsertHash(array, get_AMDesignator(), (TokenType)1027, 0);
     InsertHash(array, get_PMDesignator(), (TokenType)1284, 1);
-    if (get_LanguageName()->Equals("sq")) {
+    if (get_LanguageName()->Equals((String)"sq")) {
       InsertHash(array, "." + get_AMDesignator(), (TokenType)1027, 0);
       InsertHash(array, "." + get_PMDesignator(), (TokenType)1284, 1);
     }
@@ -1179,12 +1179,12 @@ Array<DateTimeFormatInfo::in::TokenHashValue> DateTimeFormatInfo___::CreateToken
       InsertHash(array, "(", TokenType::IgnorableSymbol, 0);
       InsertHash(array, ")", TokenType::IgnorableSymbol, 0);
     }
-    if (get_LanguageName()->Equals("ko")) {
+    if (get_LanguageName()->Equals((String)"ko")) {
       InsertHash(array, "시", TokenType::SEP_HourSuff, 0);
       InsertHash(array, "분", TokenType::SEP_MinuteSuff, 0);
       InsertHash(array, "초", TokenType::SEP_SecondSuff, 0);
     }
-    if (get_LanguageName()->Equals("ky")) {
+    if (get_LanguageName()->Equals((String)"ky")) {
       InsertHash(array, "-", TokenType::IgnorableSymbol, 0);
     } else {
       InsertHash(array, "-", TokenType::SEP_DateOrOffset, 0);
@@ -1211,7 +1211,7 @@ Array<DateTimeFormatInfo::in::TokenHashValue> DateTimeFormatInfo___::CreateToken
               break;
             }default:
             InsertHash(array, dateWordsOfDTFI[i], TokenType::DateWordToken, 0);
-            if (get_LanguageName()->Equals("eu")) {
+            if (get_LanguageName()->Equals((String)"eu")) {
               InsertHash(array, "." + dateWordsOfDTFI[i], TokenType::DateWordToken, 0);
             }
             break;
@@ -1251,7 +1251,7 @@ Array<DateTimeFormatInfo::in::TokenHashValue> DateTimeFormatInfo___::CreateToken
       InsertHash(array, GetAbbreviatedEraName(n), TokenType::EraToken, n);
     }
     if (!GlobalizationMode::get_Invariant()) {
-      if (get_LanguageName()->Equals("ja")) {
+      if (get_LanguageName()->Equals((String)"ja")) {
         for (Int32 num = 0; num < 7; num++) {
           String str2 = "(" + GetAbbreviatedDayName((DayOfWeek)num) + ")";
           InsertHash(array, str2, TokenType::DayOfWeekToken, num);
@@ -1264,7 +1264,7 @@ Array<DateTimeFormatInfo::in::TokenHashValue> DateTimeFormatInfo___::CreateToken
             InsertHash(array, japaneseCalendarDTFI->get_AbbreviatedEnglishEraNames()[num2 - 1], TokenType::JapaneseEraToken, num2);
           }
         }
-      } else if (get_CultureName()->Equals("zh-TW")) {
+      } else if (get_CultureName()->Equals((String)"zh-TW")) {
         DateTimeFormatInfo taiwanCalendarDTFI = GetTaiwanCalendarDTFI();
         for (Int32 num3 = 1; num3 <= taiwanCalendarDTFI->get_Calendar()->get_Eras()->get_Length(); num3++) {
           if (taiwanCalendarDTFI->GetEraName(num3)->get_Length() > 0) {

@@ -8,7 +8,7 @@ Boolean AsyncTaskCache::GetPoolAsyncValueTasksSwitch() {
   String environmentVariable = Environment::GetEnvironmentVariable("DOTNET_SYSTEM_THREADING_POOLASYNCVALUETASKS");
   if (environmentVariable != nullptr) {
     if (!Boolean::IsTrueStringIgnoreCase(environmentVariable)) {
-      return environmentVariable->Equals("1");
+      return environmentVariable->Equals((String)"1");
     }
     return true;
   }

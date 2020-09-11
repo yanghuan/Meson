@@ -211,7 +211,7 @@ String IdnMapping___::PunycodeEncode(String unicode) {
       }
       rt::throw_exception<ArgumentException>(SR::get_Argument_IdnBadLabelSize(), "unicode");
     }
-    stringBuilder->Append("xn--");
+    stringBuilder->Append((String)"xn--");
     Boolean flag = false;
     StrongBidiCategory bidiCategory = CharUnicodeInfo::GetBidiCategory(unicode, num2);
     if (bidiCategory == StrongBidiCategory::StrongRightToLeft) {

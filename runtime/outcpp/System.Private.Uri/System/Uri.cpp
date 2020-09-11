@@ -2614,7 +2614,7 @@ String Uri___::PathDifference(String path1, String path2, Boolean compareCase) {
   StringBuilder stringBuilder = rt::newobj<StringBuilder>();
   for (; i < path1->get_Length(); i++) {
     if (path1[i] == '/') {
-      stringBuilder->Append("../");
+      stringBuilder->Append((String)"../");
     }
   }
   if (stringBuilder->get_Length() == 0 && path2->get_Length() - 1 == num) {

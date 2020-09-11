@@ -245,7 +245,7 @@ Object RuntimeParameterInfo___::GetDefaultValueInternal(Boolean raw) {
 
 Decimal RuntimeParameterInfo___::GetRawDecimalConstant(CustomAttributeData attr) {
   for (CustomAttributeNamedArgument&& namedArgument : *attr->get_NamedArguments()) {
-    if (namedArgument.get_MemberInfo()->get_Name()->Equals("Value")) {
+    if (namedArgument.get_MemberInfo()->get_Name()->Equals((String)"Value")) {
       return (Decimal)namedArgument.get_TypedValue().get_Value();
     }
   }
@@ -269,7 +269,7 @@ Decimal RuntimeParameterInfo___::GetRawDecimalConstant(CustomAttributeData attr)
 
 DateTime RuntimeParameterInfo___::GetRawDateTimeConstant(CustomAttributeData attr) {
   for (CustomAttributeNamedArgument&& namedArgument : *attr->get_NamedArguments()) {
-    if (namedArgument.get_MemberInfo()->get_Name()->Equals("Value")) {
+    if (namedArgument.get_MemberInfo()->get_Name()->Equals((String)"Value")) {
       return DateTime((Int64)namedArgument.get_TypedValue().get_Value());
     }
   }
@@ -278,7 +278,7 @@ DateTime RuntimeParameterInfo___::GetRawDateTimeConstant(CustomAttributeData att
 
 Object RuntimeParameterInfo___::GetRawConstant(CustomAttributeData attr) {
   for (CustomAttributeNamedArgument&& namedArgument : *attr->get_NamedArguments()) {
-    if (namedArgument.get_MemberInfo()->get_Name()->Equals("Value")) {
+    if (namedArgument.get_MemberInfo()->get_Name()->Equals((String)"Value")) {
       return namedArgument.get_TypedValue().get_Value();
     }
   }

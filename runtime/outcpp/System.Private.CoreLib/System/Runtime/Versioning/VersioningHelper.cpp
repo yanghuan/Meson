@@ -43,7 +43,7 @@ String VersioningHelper::MakeVersionSafeName(String name, ResourceScope from, Re
   }
   if ((requirements & SxSRequirements::AppDomainID) != 0) {
     stringBuilder->Append(value);
-    stringBuilder->Append("ad");
+    stringBuilder->Append((String)"ad");
     stringBuilder->Append(AppDomain::in::get_CurrentDomain()->get_Id());
   }
   if ((requirements & SxSRequirements::TypeName) != 0) {

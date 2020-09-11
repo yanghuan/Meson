@@ -1426,7 +1426,7 @@ String CultureData___::ReescapeWin32String(String str) {
           if (stringBuilder == nullptr) {
             stringBuilder = rt::newobj<StringBuilder>(str, 0, i, str->get_Length() * 2);
           }
-          stringBuilder->Append("\\'");
+          stringBuilder->Append((String)"\\'");
           i++;
           continue;
         }
@@ -1438,7 +1438,7 @@ String CultureData___::ReescapeWin32String(String str) {
       if (stringBuilder == nullptr) {
         stringBuilder = rt::newobj<StringBuilder>(str, 0, i, str->get_Length() * 2);
       }
-      stringBuilder->Append("\\\\");
+      stringBuilder->Append((String)"\\\\");
       continue;
     }
 

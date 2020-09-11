@@ -126,11 +126,11 @@ String Number::NumberBuffer::ToString() {
     stringBuilder->Append((Char)b);
   }
   stringBuilder->Append((Char)'"');
-  stringBuilder->Append(", Length = ")->Append(DigitsCount);
-  stringBuilder->Append(", Scale = ")->Append(Scale);
-  stringBuilder->Append(", IsNegative = ")->Append(IsNegative);
-  stringBuilder->Append(", HasNonZeroTail = ")->Append(HasNonZeroTail);
-  stringBuilder->Append(", Kind = ")->Append(Kind);
+  stringBuilder->Append((String)", Length = ")->Append(DigitsCount);
+  stringBuilder->Append((String)", Scale = ")->Append(Scale);
+  stringBuilder->Append((String)", IsNegative = ")->Append(IsNegative);
+  stringBuilder->Append((String)", HasNonZeroTail = ")->Append(HasNonZeroTail);
+  stringBuilder->Append((String)", Kind = ")->Append(Kind);
   stringBuilder->Append((Char)']');
   return stringBuilder->ToString();
 }

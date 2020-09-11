@@ -578,15 +578,15 @@ Array<Byte> SignatureHelper___::GetSignature(Boolean appendEndOfSig) {
 
 String SignatureHelper___::ToString() {
   StringBuilder stringBuilder = rt::newobj<StringBuilder>();
-  stringBuilder->Append("Length: ")->Append(m_currSig)->AppendLine();
+  stringBuilder->Append((String)"Length: ")->Append(m_currSig)->AppendLine();
   if (m_sizeLoc != -1) {
-    stringBuilder->Append("Arguments: ")->Append(m_signature[m_sizeLoc])->AppendLine();
+    stringBuilder->Append((String)"Arguments: ")->Append(m_signature[m_sizeLoc])->AppendLine();
   } else {
     stringBuilder->AppendLine("Field Signature");
   }
   stringBuilder->AppendLine("Signature: ");
   for (Int32 i = 0; i <= m_currSig; i++) {
-    stringBuilder->Append(m_signature[i])->Append("  ");
+    stringBuilder->Append(m_signature[i])->Append((String)"  ");
   }
   stringBuilder->AppendLine();
   return stringBuilder->ToString();

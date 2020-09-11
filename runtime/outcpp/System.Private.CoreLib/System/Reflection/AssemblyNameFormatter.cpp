@@ -28,7 +28,7 @@ String AssemblyNameFormatter::ComputeDisplayName(String name, Version version, S
   if (version != nullptr) {
     Version version2 = AssemblyNameFormatter::CanonicalizeVersion(version);
     if (version2->get_Major() != 65535) {
-      stringBuilder->Append(", Version=");
+      stringBuilder->Append((String)", Version=");
       stringBuilder->Append(version2->get_Major());
       if (version2->get_Minor() != 65535) {
         stringBuilder->Append((Char)'.');
@@ -48,25 +48,25 @@ String AssemblyNameFormatter::ComputeDisplayName(String name, Version version, S
     if (cultureName->get_Length() == 0) {
       cultureName = "neutral";
     }
-    stringBuilder->Append(", Culture=");
+    stringBuilder->Append((String)", Culture=");
     AssemblyNameFormatter::AppendQuoted(stringBuilder, cultureName);
   }
   if (pkt != nullptr) {
     if (pkt->get_Length() > 8) {
       rt::throw_exception<ArgumentException>();
     }
-    stringBuilder->Append(", PublicKeyToken=");
+    stringBuilder->Append((String)", PublicKeyToken=");
     if (pkt->get_Length() == 0) {
-      stringBuilder->Append("null");
+      stringBuilder->Append((String)"null");
     } else {
       stringBuilder->Append(HexConverter::ToString(pkt, HexConverter::Casing::Lower));
     }
   }
   if ((flags & AssemblyNameFlags::Retargetable) != 0) {
-    stringBuilder->Append(", Retargetable=Yes");
+    stringBuilder->Append((String)", Retargetable=Yes");
   }
   if (contentType == AssemblyContentType::WindowsRuntime) {
-    stringBuilder->Append(", ContentType=WindowsRuntime");
+    stringBuilder->Append((String)", ContentType=WindowsRuntime");
   }
   return stringBuilder->ToString();
 }

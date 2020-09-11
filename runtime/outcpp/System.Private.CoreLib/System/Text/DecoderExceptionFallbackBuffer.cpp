@@ -2,6 +2,7 @@
 
 #include <System.Private.CoreLib/System/Globalization/CultureInfo-dep.h>
 #include <System.Private.CoreLib/System/SR-dep.h>
+#include <System.Private.CoreLib/System/String-dep.h>
 #include <System.Private.CoreLib/System/Text/DecoderFallbackException-dep.h>
 #include <System.Private.CoreLib/System/Text/StringBuilder-dep.h>
 
@@ -36,7 +37,7 @@ void DecoderExceptionFallbackBuffer___::Throw(Array<Byte> bytesUnknown, Int32 in
     stringBuilder->Append((Char)']');
   }
   if (bytesUnknown->get_Length() > 20) {
-    stringBuilder->Append(" ...");
+    stringBuilder->Append((String)" ...");
   }
   rt::throw_exception<DecoderFallbackException>(SR::Format(SR::get_Argument_InvalidCodePageBytesIndex(), stringBuilder, index), bytesUnknown, index);
 }

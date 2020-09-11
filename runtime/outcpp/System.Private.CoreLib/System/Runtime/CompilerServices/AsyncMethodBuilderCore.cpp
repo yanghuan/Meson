@@ -49,7 +49,7 @@ String AsyncMethodBuilderCore::GetAsyncStateMachineDescription(IAsyncStateMachin
   stringBuilder->AppendLine(type->get_FullName());
   Array<FieldInfo> array = fields;
   for (FieldInfo&& fieldInfo : *array) {
-    stringBuilder->Append("    ")->Append(fieldInfo->get_Name())->Append(": ")->Append(fieldInfo->GetValue(stateMachine))->AppendLine();
+    stringBuilder->Append((String)"    ")->Append(fieldInfo->get_Name())->Append((String)": ")->Append(fieldInfo->GetValue(stateMachine))->AppendLine();
   }
   return stringBuilder->ToString();
 }

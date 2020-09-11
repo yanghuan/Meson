@@ -6,6 +6,8 @@
 #include <cmath>
 #include <iostream>
 
+#include <System.Private.CoreLib/System/IFormatProvider.h>
+#include <System.Private.CoreLib/System/Type-dep.h>
 #include <System.Private.CoreLib/System/Array-dep.h>
 #include <System.Private.CoreLib/System/Int32-dep.h>
 #include <System.Private.CoreLib/System/UInt32-dep.h>
@@ -19,11 +21,14 @@
 #include <System.Private.CoreLib/System/Action-dep.h>
 #include <System.Private.CoreLib/System/Reflection/MethodInfo-dep.h>
 #include <System.Private.CoreLib/System/Text/StringBuilder-dep.h>
+#include <System.Private.CoreLib/System/Globalization/CultureInfo-dep.h>
+
 
 using namespace System::Private::CoreLib::System;
 using namespace ::System::Private::CoreLib::System::Threading;
 using namespace Reflection;
 using namespace Text;
+using namespace Globalization;
 
 class No_Complete;
 
@@ -109,6 +114,17 @@ void Test(Object a) {
 
 void Test(String a) {
   a.get();
+  IFormatProvider aa(CultureInfo::in::get_InvariantCulture());
+  //constexpr bool cc =  rt::IsInterfacesContains<CultureInfo::in::interface, IFormatProvider::in>;
+  //constexpr bool b1 = rt::CodeOf<IFormatProvider::in> == rt::TypeCode::Interface;
+  //constexpr auto b2 = IFormatProvider::in::code;
+
+  constexpr auto b3 = rt::GetTypeCode<IFormatProvider::in>::value;
+  constexpr auto b4 = rt::GetTypeCode<Object::in>::value;
+  constexpr auto b5 = rt::GetTypeCode<String::in>::value;
+  constexpr auto b6 = rt::GetTypeCode<IConvertible::in>::value;
+  constexpr bool dd =  rt::IsInterfaceConvertible<IFormatProvider::in, CultureInfo::in>::value;
+  
 }
 
 int main() {

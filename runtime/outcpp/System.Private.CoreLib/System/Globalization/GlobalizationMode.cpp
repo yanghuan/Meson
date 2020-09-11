@@ -36,7 +36,7 @@ Boolean GlobalizationMode::GetSwitchValue(String switchName, String envVariable)
   if (!AppContext::TryGetSwitch(switchName, isEnabled)) {
     String environmentVariable = Environment::GetEnvironmentVariable(envVariable);
     if (environmentVariable != nullptr) {
-      return Boolean::IsTrueStringIgnoreCase(environmentVariable) || environmentVariable->Equals("1");
+      return Boolean::IsTrueStringIgnoreCase(environmentVariable) || environmentVariable->Equals((String)"1");
     }
   }
   return isEnabled;

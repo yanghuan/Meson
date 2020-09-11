@@ -3,6 +3,7 @@
 #include <System.Private.CoreLib/System/ArgumentException-dep.h>
 #include <System.Private.CoreLib/System/Globalization/CultureInfo-dep.h>
 #include <System.Private.CoreLib/System/SR-dep.h>
+#include <System.Private.CoreLib/System/String-dep.h>
 #include <System.Private.CoreLib/System/Text/DecoderFallbackBuffer-dep.h>
 #include <System.Private.CoreLib/System/Text/StringBuilder-dep.h>
 
@@ -170,7 +171,7 @@ void DecoderFallbackBuffer___::ThrowLastBytesRecursive(Array<Byte> bytesUnknown)
     stringBuilder->AppendFormat(CultureInfo::in::get_InvariantCulture(), "\\x{0:X2}", bytesUnknown[i]);
   }
   if (i == 20) {
-    stringBuilder->Append(" ...");
+    stringBuilder->Append((String)" ...");
   }
   rt::throw_exception<ArgumentException>(SR::Format(SR::get_Argument_RecursiveFallbackBytes(), stringBuilder->ToString()), "bytesUnknown");
 }
