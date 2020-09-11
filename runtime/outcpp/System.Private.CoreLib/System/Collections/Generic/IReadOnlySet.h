@@ -4,7 +4,6 @@
 
 namespace System::Private::CoreLib::System::Collections {
 FORWARD(IEnumerable)
-FORWARD(IEnumerator)
 } // namespace System::Private::CoreLib::System::Collections
 namespace System::Private::CoreLib::System {
 FORWARDS(Boolean)
@@ -18,14 +17,12 @@ namespace IReadOnlySetNamespace {
 template <class T>
 using IEnumerable = Generic::IEnumerable<T>;
 using IEnumerable_ = Collections::IEnumerable;
-using IEnumerator = Collections::IEnumerator;
 template <class T>
-using IEnumerator_ = Generic::IEnumerator<T>;
+using IEnumerator = Generic::IEnumerator<T>;
 CLASS(IReadOnlySet, T) : public object {
   public: using interface = rt::TypeList<IReadOnlyCollection<T>, IEnumerable<T>, IEnumerable_>;
   public: Int32 get_Count();
-  public: IEnumerator GetEnumerator();
-  public: IEnumerator_<T> GetEnumerator();
+  public: IEnumerator<T> GetEnumerator();
   public: Boolean Contains(T item);
   public: Boolean IsProperSubsetOf(IEnumerable<T> other);
   public: Boolean IsProperSupersetOf(IEnumerable<T> other);

@@ -307,6 +307,26 @@ namespace Meson.Compiler {
       return a.FullName == b.FullName && a.ParentModule.Name == b.ParentModule.Name;
     }
 
+    private static IType GetElementTypeOrDefault(this IType type, IType d = default) {
+      if (type is TypeWithElementType t) {
+        return t.ElementType;
+      }
+      return d;
+    }
+
+    public static bool EQ(this IType a, IType b) {
+      a = a.Original();
+      b = b.Original();
+      if (a.Kind == b.Kind) {
+        var elementA = a.GetElementTypeOrDefault();
+        var elementB = b.GetElementTypeOrDefault();
+        if (elementA != null && elementB != null) {
+          return elementA.EQ(elementB);
+        }
+      }
+      return a.Equals(b);
+    }
+
     public static bool IsRefType(this ITypeDefinition type) {
       return (type.Kind != TypeKind.Struct && type.Kind != TypeKind.Enum) && !type.IsStatic;
     }
@@ -702,6 +722,42 @@ namespace Meson.Compiler {
         members.AddRange(i.Fields);
         return members;
       });
+    }
+
+    private static bool IsSameSignature(this IMethod symbol, IMethod other) {
+      if (symbol.TypeParameters.Count != other.TypeParameters.Count) {
+        return false;
+      }
+
+      if (symbol.Parameters.Count != other.Parameters.Count) {
+        return false;
+      }
+
+      for (int i = 0; i < symbol.Parameters.Count; ++i) {
+        var t1 = symbol.Parameters[i].Type;
+        var t2 = other.Parameters[i].Type;
+        if (!t1.EQ(t2)) {
+          return false;
+        } 
+      } 
+
+      return true;
+    }
+
+    private static void FillOverrideInterfaceMethod(ITypeDefinition type, IMethod method, HashSet<IMethod> set) {
+      var methods = type.DirectBaseTypes.Where(i => i.Kind == TypeKind.Interface).SelectMany(i => i.GetDefinition().Methods);
+      set.UnionWith(methods.Where(i => i.Name == method.Name && i.IsSameSignature(method)));
+    }
+
+    public static IEnumerable<IMethod> GetInterfaceMethods(this ITypeDefinition type) {
+      HashSet<IMethod> overrideMethods = new HashSet<IMethod>();
+      List<IMethod> methods = new List<IMethod>();
+      foreach (var method in type.GetMethods(i => i.DeclaringType.Kind == TypeKind.Interface)) {
+        methods.Add(method);
+        FillOverrideInterfaceMethod(method.DeclaringTypeDefinition, method, overrideMethods);
+      }
+      methods.RemoveAll(overrideMethods.Contains);
+      return methods;
     }
 
     public static string GetMemberName(this IMember member) {

@@ -4,7 +4,6 @@
 
 namespace System::Private::CoreLib::System::Collections {
 FORWARD(IEnumerable)
-FORWARD(IEnumerator)
 } // namespace System::Private::CoreLib::System::Collections
 namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)
@@ -22,9 +21,8 @@ using ICollection = Generic::ICollection<T>;
 template <class T>
 using IEnumerable = Generic::IEnumerable<T>;
 using IEnumerable_ = Collections::IEnumerable;
-using IEnumerator = Collections::IEnumerator;
 template <class T>
-using IEnumerator_ = Generic::IEnumerator<T>;
+using IEnumerator = Generic::IEnumerator<T>;
 CLASS(IDictionary, TKey, TValue) : public object {
   public: using interface = rt::TypeList<ICollection<KeyValuePair<TKey, TValue>>, IEnumerable<KeyValuePair<TKey, TValue>>, IEnumerable_>;
   public: Int32 get_Count();
@@ -33,8 +31,7 @@ CLASS(IDictionary, TKey, TValue) : public object {
   public: void set_Item(TKey key, TValue value);
   public: ICollection<TKey> get_Keys();
   public: ICollection<TValue> get_Values();
-  public: IEnumerator GetEnumerator();
-  public: IEnumerator_<KeyValuePair<TKey, TValue>> GetEnumerator();
+  public: IEnumerator<KeyValuePair<TKey, TValue>> GetEnumerator();
   public: void Add(KeyValuePair<TKey, TValue> item);
   public: void Clear();
   public: Boolean Contains(KeyValuePair<TKey, TValue> item);

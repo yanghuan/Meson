@@ -9,7 +9,6 @@ FORWARD(IEnumerator, T)
 namespace System::Private::CoreLib::System::Collections {
 FORWARD(ICollection)
 FORWARD(IEnumerable)
-FORWARD(IEnumerator)
 } // namespace System::Private::CoreLib::System::Collections
 namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)
@@ -23,16 +22,14 @@ template <class T>
 using IEnumerable = Generic::IEnumerable<T>;
 using IEnumerable_ = Collections::IEnumerable;
 using ICollection = Collections::ICollection;
-using IEnumerator = Collections::IEnumerator;
 template <class T>
-using IEnumerator_ = Generic::IEnumerator<T>;
+using IEnumerator = Generic::IEnumerator<T>;
 CLASS(IProducerConsumerCollection, T) : public object {
   public: using interface = rt::TypeList<IEnumerable<T>, IEnumerable_, ICollection>;
   public: Int32 get_Count();
   public: Object get_SyncRoot();
   public: Boolean get_IsSynchronized();
-  public: IEnumerator GetEnumerator();
-  public: IEnumerator_<T> GetEnumerator();
+  public: IEnumerator<T> GetEnumerator();
   public: void CopyTo(Array<> array, Int32 index);
   public: void CopyTo(Array<T> array, Int32 index);
   public: Boolean TryAdd(T item);

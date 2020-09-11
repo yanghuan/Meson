@@ -1213,7 +1213,7 @@ namespace Meson.Compiler {
       } else {
         name = GetMemberName(MethodSymbol);
         returnType = GetTypeName(method.ReturnType, method, false);
-        typeDefinition_.CheckOperatorParameters(method, parameters, returnType);
+        TypeDefinitionTransform.CheckOperatorParameters(method, parameters, returnType);
       }
       MethodDefinitionSyntax node = new MethodDefinitionSyntax(name, parameters, returnType) {
         DeclaringType = declaringType,

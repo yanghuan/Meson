@@ -19,7 +19,7 @@ namespace Meson.Compiler {
     private static void Run(Options opts) {
       Stopwatch sw = new Stopwatch();
       sw.Start();
-      new SyntaxGenerator(opts);
+      _ = new SyntaxGenerator(opts);
       double seconds = sw.Elapsed.TotalSeconds;
       Console.WriteLine("successful, cost {0}s", seconds);
     }

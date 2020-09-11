@@ -194,7 +194,7 @@ namespace Meson.Compiler {
       VisitMembers(type, node);
     }
 
-    internal void CheckOperatorParameters(IMethod method, List<ParameterSyntax> parameters, ExpressionSyntax returnType) {
+    internal static void CheckOperatorParameters(IMethod method, List<ParameterSyntax> parameters, ExpressionSyntax returnType) {
       if (method.SymbolKind == SymbolKind.Operator && method.Name == "op_Explicit") {
         if (method.DeclaringTypeDefinition.Methods.Any(i => i != method && i.Name == method.Name && i.Parameters.First().Type == method.Parameters.First().Type)) {
           parameters.Add(new ParameterSyntax(returnType, null));
@@ -285,11 +285,8 @@ namespace Meson.Compiler {
       }
     }
 
-    private static IEnumerable<IMethod> GetMethods(ITypeDefinition typeDefinition) {
-      if (typeDefinition.Kind == TypeKind.Interface) {
-        return typeDefinition.GetMethods(i => i.DeclaringType.Kind == TypeKind.Interface);
-      }
-      return typeDefinition.Methods;
+    private static IEnumerable<IMethod> GetMethods(ITypeDefinition type) {
+      return type.Kind != TypeKind.Interface ? type.Methods : type.GetInterfaceMethods();
     }
 
     private void VisitMethods(ITypeDefinition typeDefinition, ClassSyntax node) {
@@ -423,7 +420,7 @@ namespace Meson.Compiler {
       return true;
     }
 
-    private bool GetFieldNameAndType(ITypeDefinition typeDefinition, ClassSyntax node, IField field, out IdentifierSyntax fieldName, out ExpressionSyntax typeName) {
+    private bool GetFieldNameAndType(ITypeDefinition typeDefinition, IField field, out IdentifierSyntax fieldName, out ExpressionSyntax typeName) {
       bool isPrimitiveType = false;
       fieldName = GetMemberName(field);
       if (IsValueTypeInnerField(field, typeDefinition, out typeName)) {
@@ -436,7 +433,7 @@ namespace Meson.Compiler {
 
     private void VisitFields(ITypeDefinition typeDefinition, ClassSyntax node) {
       foreach (var field in typeDefinition.Fields.Where(IsFieldExport)) {
-        bool isPrimitiveType = GetFieldNameAndType(typeDefinition, node, field, out var fieldName, out var typeName);
+        bool isPrimitiveType = GetFieldNameAndType(typeDefinition, field, out var fieldName, out var typeName);
         Contract.Assert(typeName != null);
         var constantValue = field.GetConstantValue();
         node.Statements.Add(new FieldDefinitionSyntax(typeName, fieldName, field.IsStatic, field.Accessibility.ToTokenString()) {

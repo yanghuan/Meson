@@ -239,7 +239,7 @@ namespace Meson.Compiler {
 
     internal void Render(UndefPretreatmentSyntax node) {
       Write(node.Prefix);
-      Write(node.UnDefToken);
+      Write(Tokens.Undef);
       WriteSpace();
       node.Name.Render(this);
       WriteNewLine();
@@ -304,9 +304,9 @@ namespace Meson.Compiler {
 
     internal void Render(EnumSyntax node) {
       WriteAccessibility(node.AccessibilityToken);
-      Write(node.EnumToekn);
+      Write(Tokens.Enum);
       WriteSpace();
-      Write(node.ClassToekn);
+      Write(Tokens.Class);
       WriteSpace();
       Write(node.Name);
       if (node.UnderlyingType != null) {

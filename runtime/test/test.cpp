@@ -102,17 +102,17 @@ void TestAction() {
   //Action<> a = { o, &Object::in::GetHashCode };
 }
 
-void TestStringBuffer() {
-  //String s = 0;
+template <class T = Object>
+void Test(Object a) {
+  a.get();
 }
 
-struct Q {};
-struct S : Q { };
-struct T : Q { };
-struct U : S, T { };         // not a standard-layout class
+void Test(String a) {
+  a.get();
+}
 
 int main() {
-  constexpr size_t s = sizeof(U);
+  Test("dddd");
   return 0;
 }
 

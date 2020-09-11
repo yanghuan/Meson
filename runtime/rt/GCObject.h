@@ -235,7 +235,7 @@ namespace rt {
   static constexpr bool AlwaysTrue = true;
 
   template <class T>
-  constexpr bool isValueType() {
+  constexpr bool IsValueTypeFunc() {
     if constexpr (std::is_enum_v<T>) {
       return true;
     }
@@ -248,7 +248,7 @@ namespace rt {
   }
 
   template <class T>
-  static constexpr bool IsValueType = isValueType<T>();
+  static constexpr bool IsValueType = IsValueTypeFunc<T>();
 
   template <class T>
   class ref {
@@ -280,8 +280,14 @@ namespace rt {
       copyOf(other);
     }
 
+    /*
     template <int N, class T2 = T> requires(IsString<T2>)
     ref(const char (&str)[N]) {
+      moveOf(string::load(str, N));
+    }*/
+
+    template <class T1 = char, class T2 = T> requires(IsString<T2>)
+    ref(const T1 *str) {
       moveOf(string::load(str));
     }
 
@@ -290,8 +296,8 @@ namespace rt {
       moveOf(string::cat(t));
     }
 
-    template <class T1> requires(IsObject<T> && IsValueType<T1>)
-    ref(const T1 other) {
+    template <class T1> requires(IsObject<T> && !IsRef<T1> && !std::is_same_v<T1, std::nullptr_t>)
+    ref(T1&& other) {
       //TODO
     }
 

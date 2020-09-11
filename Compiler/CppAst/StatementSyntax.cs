@@ -113,7 +113,6 @@ namespace Meson.Compiler.CppAst {
   }
 
   sealed class UndefPretreatmentSyntax : PretreatmentSyntax {
-    public string UnDefToken => Tokens.Undef;
     public IdentifierSyntax Name { get; }
 
     public UndefPretreatmentSyntax(IdentifierSyntax name) {
@@ -182,8 +181,6 @@ namespace Meson.Compiler.CppAst {
 
   sealed class EnumSyntax : BlockSyntax {
     public string AccessibilityToken { get; set; }
-    public string EnumToekn => Tokens.Enum;
-    public string ClassToekn => Tokens.Class;
     public IdentifierSyntax UnderlyingType { get; set; }
 
     public string Name { get; }
