@@ -2,7 +2,6 @@
 
 #include "String.h"
 
-#include <System.Private.CoreLib/System/IFormatProvider.h>
 #include <System.Private.CoreLib/System/Array-dep.h>
 #include <System.Private.CoreLib/System/Boolean-dep.h>
 #include <System.Private.CoreLib/System/Buffers/SpanAction-dep.h>

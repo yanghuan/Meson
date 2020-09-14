@@ -420,10 +420,7 @@ namespace Meson.Compiler.CppAst {
   }
 
   sealed class EnumForwardSyntax : StatementSyntax {
-    public string EnumToekn => Tokens.Enum;
-    public string ClassToekn => Tokens.Class;
     public IdentifierSyntax UnderlyingType { get; set; }
-
     public string Name { get; }
 
     public EnumForwardSyntax(string name) {

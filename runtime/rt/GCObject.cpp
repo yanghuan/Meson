@@ -23,7 +23,7 @@ namespace rt {
 
   static void* gcAlloc(void* ptr, size_t osize, size_t nsize) {
     if (nsize == 0) {
-      free(ptr);
+      std::free(ptr);
       printf("gcFree: %p %zd\n", ptr, osize);
       return nullptr;
     }
@@ -42,12 +42,12 @@ namespace rt {
     }
   }
 
-  void* object::alloc(size_t size) {
+  void* alloc(size_t size) {
     checkOutOfMemory(size);
     return gcAlloc(nullptr, 1, size);
   }
 
-  void object::free(void* ptr, size_t size) {
+  void free(void* ptr, size_t size) {
     gcAlloc(ptr, size, 0);
   }
 

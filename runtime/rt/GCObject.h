@@ -128,6 +128,9 @@ namespace rt {
   template <typename T>
   static constexpr bool IsFunctionPointer = IsFunctionPointerType<T>::value;
 
+  void* alloc(size_t size);
+  void free(void* p, size_t size);
+
   template <class T>
   class GCObject : public GCObjectHead {
   public:
@@ -138,7 +141,7 @@ namespace rt {
     void release() noexcept {
       if (refDec()) {
         get()->~T();
-        object::free(this, GetAllocSize());
+        free(this, GetAllocSize());
       }
     }
 
@@ -157,9 +160,6 @@ namespace rt {
     T v_;
     friend class object;
     friend class string;
-
-    template <class T, class Base>
-    friend class Array;
   };
 
   template <class T, class T1>
@@ -227,7 +227,7 @@ namespace rt {
 
   template <class To, class From>
   struct IsInterfaceConvertible {
-    static constexpr bool value = CodeOf<To> == TypeCode::Interface && IsInterfacesContains<typename InterfaceOf<From>, To>;
+    static constexpr bool value = CodeOf<To> == TypeCode::Interface && IsInterfacesContains<InterfaceOf<From>, To>;
   };
 
   template <class To, class From>
@@ -298,7 +298,7 @@ namespace rt {
       moveOf(string::cat(t));
     }
     
-    template <class T1, class T2 = T> requires(IsObject<T2> && !IsRef<T1> && !std::is_same_v<T1, std::nullptr_t>)
+    template <class T1, class T0 = T> requires(!IsRef<T1> && !std::is_same_v<T1, std::nullptr_t> && IsObject<T0>)
     ref(const T1& other) {
       //TODO
     }
@@ -466,9 +466,6 @@ namespace rt {
       return T(temp);
     }
   private:
-    static void* alloc(size_t size);
-    static void free(void* p, size_t size);
-
     template <class T>
     friend class GCObject;
 
@@ -584,7 +581,7 @@ namespace rt {
     }
 
     static ref<array> newarr(size_t n) {
-      void* p = object::alloc(GetAllocSize(n));
+      void* p = alloc(GetAllocSize(n));
       auto temp = static_cast<GCObject<array>*>(new (p) GCObjectHead(gTypeMetadata));
       temp->get()->length = static_cast<int32_t>(n);
       return ref<array>(temp);
@@ -737,6 +734,11 @@ namespace rt {
     }
 
     template <class T1> requires(IsNumerical<T1>)
+    T operator ^(const T1& other) const {
+      return static_cast<const T*>(this)->get() ^ GetPrimitiveValue(other);
+    }
+
+    template <class T1> requires(IsNumerical<T1>)
     T operator >>(const T1& other) const {
       return static_cast<const T*>(this)->get() >> GetPrimitiveValue(other);
     }
@@ -852,7 +854,7 @@ namespace rt {
   };
 
   template <class T, class Base, TypeCode code>
-  struct ValueType : public ValueOperator<T, Base, code> {
+  struct valueType : public ValueOperator<T, Base, code> {
   };
 
   template <class T, size_t N>

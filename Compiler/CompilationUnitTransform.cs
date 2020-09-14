@@ -49,7 +49,7 @@ namespace Meson.Compiler {
         var info = FillHeadReferences();
         CompilationUnit.AddHeadIncludes(info.HeadIncludes.OrderBy(i => i));
         headUsingsSyntax.AddRange(info.HeadUsings.OrderBy(i => i).Select(i => new UsingNamespaceOrTypeSyntax(i)));
-        AddForwards(rootNamespace, info.Forwards, headUsingsSyntax);
+        AddForwards(rootNamespace, info.Forwards);
         rootNamespace.Add(classNamespace);
         AddTypeUsingDeclaration(rootNamespace, classNamespace, typeDefinition, types);
         if (root_.Kind != TypeKind.Interface) {
@@ -132,7 +132,7 @@ namespace Meson.Compiler {
             TemplateTypenameSyntax.T,
             new TemplateTypenameSyntax(IdentifierSyntax.N, IdentifierSyntax.TypeCode.TwoColon(TypeKind.Struct.ToString())) { ClassToken = IdentifierSyntax.TypeCode })
           };
-          var baseType = IdentifierSyntax.Meson.TwoColon(root_.Name).Generic(IdentifierSyntax.T, name.WithIn(), IdentifierSyntax.N);
+          var baseType = IdentifierSyntax.Meson.TwoColon(valueType.Name).Generic(IdentifierSyntax.T, name.WithIn(), IdentifierSyntax.N);
           valueType.Bases.Add(new BaseSyntax(baseType));
           valueType.Add(new FieldDefinitionSyntax(IdentifierSyntax.TypeCode, IdentifierSyntax.code, true, Accessibility.Public.ToTokenString()) {
             IsConstexpr = true,
@@ -172,7 +172,7 @@ namespace Meson.Compiler {
       });
     }
 
-    private void AddForwards(NamespaceSyntax rootNamespace, Dictionary<ITypeDefinition, StatementSyntax> forwards, StatementListSyntax usingsSyntax) {
+    private void AddForwards(NamespaceSyntax rootNamespace, Dictionary<ITypeDefinition, StatementSyntax> forwards) {
       var curs = new List<(ITypeDefinition Type, StatementSyntax Forward)>();
       var outs = new List<(ITypeDefinition Type, StatementSyntax Forward)>();
       foreach (var (type, forward) in forwards) {

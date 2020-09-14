@@ -13,15 +13,18 @@ FORWARD(IList)
 FORWARD(IStructuralComparable)
 FORWARD(IStructuralEquatable)
 } // namespace System::Private::CoreLib::System::Collections
+namespace System::Private::CoreLib::System::Collections::Generic {
+FORWARD(IComparer, T)
+FORWARD(IList, T)
+FORWARD(IReadOnlyCollection, T)
+FORWARD(IReadOnlyList, T)
+} // namespace System::Private::CoreLib::System::Collections::Generic
 namespace System::Private::CoreLib::System::Reflection {
 enum class CorElementType : uint8_t;
 } // namespace System::Private::CoreLib::System::Reflection
 namespace System::Private::CoreLib::System::Collections::ObjectModel {
 FORWARD(ReadOnlyCollection, T)
 } // namespace System::Private::CoreLib::System::Collections::ObjectModel
-namespace System::Private::CoreLib::System::Collections::Generic {
-FORWARD(IComparer, T)
-} // namespace System::Private::CoreLib::System::Collections::Generic
 namespace System::Private::CoreLib::System {
 FORWARD_(Action, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17)
 FORWARDS(Boolean)
@@ -41,6 +44,8 @@ using namespace System::Reflection;
 using IList = Collections::IList;
 using ICollection = Collections::ICollection;
 using IEnumerable = Collections::IEnumerable;
+template <class T>
+using IList_ = Collections::Generic::IList<T>;
 using IComparer = Collections::IComparer;
 using IEqualityComparer = Collections::IEqualityComparer;
 template <class T>
@@ -264,6 +269,7 @@ CLASS_(Array) : public object {
   static void _Sort_g__GenericSort127_0(Array<> keys, Array<> items, Int32 adjustedIndex, Int32 length);
 };
 CLASS_(Array, T) : public rt::Array<T, Array<>::in> {
+  public: using interface = rt::TypeList<IList_<T>, IReadOnlyList<T>, IReadOnlyCollection<T>>;
 };
 } // namespace ArrayNamespace
 template <class T1 = void, class T2 = void>

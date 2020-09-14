@@ -4,7 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
-using System.Xml;
+
 using ICSharpCode.Decompiler.TypeSystem;
 using Meson.Compiler.CppAst;
 
@@ -583,9 +583,9 @@ namespace Meson.Compiler {
     }
 
     internal void Render(EnumForwardSyntax node) {
-      Write(node.EnumToekn);
+      Write(Tokens.Enum);
       WriteSpace();
-      Write(node.ClassToekn);
+      Write(Tokens.Class);
       WriteSpace();
       Write(node.Name);
       if (node.UnderlyingType != null) {

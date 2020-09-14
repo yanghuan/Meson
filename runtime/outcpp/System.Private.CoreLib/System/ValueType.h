@@ -20,7 +20,7 @@ CLASS(ValueType) : public object {
 } // namespace ValueTypeNamespace
 using ValueType = ValueTypeNamespace::ValueType;
 template <class T, rt::TypeCode N = rt::TypeCode::Struct>
-struct valueType : public rt::ValueType<T, ValueType::in, N> {
+struct valueType : public rt::valueType<T, ValueType::in, N> {
   public: static constexpr rt::TypeCode code = N;
 };
 } // namespace System::Private::CoreLib::System

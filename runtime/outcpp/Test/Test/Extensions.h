@@ -5,6 +5,7 @@
 namespace Test::Test {
 namespace ExtensionsNamespace {
 class Extensions {
+  public: static void Test();
 };
 } // namespace ExtensionsNamespace
 using Extensions = ExtensionsNamespace::Extensions;
