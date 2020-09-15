@@ -588,7 +588,7 @@ MethodBase RuntimeType___::GetMethodBase(RuntimeType reflectedType, RuntimeMetho
         array = RuntimeMethodHandle::GetMethodInstantiationInternal(methodHandle);
       }
       methodHandle = RuntimeMethodHandle::GetMethodFromCanonical(methodHandle, runtimeType);
-    } else if (!runtimeType->IsAssignableFrom(reflectedType)) {
+    } else if (!runtimeType->IsAssignableFrom((TypeInfo)reflectedType)) {
       rt::throw_exception<ArgumentException>(String::in::Format(CultureInfo::in::get_CurrentCulture(), SR::get_Argument_ResolveMethodHandle(), reflectedType->ToString(), runtimeType->ToString()));
     }
 

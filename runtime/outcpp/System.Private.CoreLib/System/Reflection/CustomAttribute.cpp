@@ -23,6 +23,7 @@
 #include <System.Private.CoreLib/System/Reflection/PseudoCustomAttribute-dep.h>
 #include <System.Private.CoreLib/System/Reflection/RuntimeModule-dep.h>
 #include <System.Private.CoreLib/System/Reflection/TypeAttributes.h>
+#include <System.Private.CoreLib/System/Reflection/TypeInfo-dep.h>
 #include <System.Private.CoreLib/System/Runtime/CompilerServices/QCallModule-dep.h>
 #include <System.Private.CoreLib/System/Runtime/CompilerServices/QCallTypeHandle-dep.h>
 #include <System.Private.CoreLib/System/Runtime/InteropServices/Marshal-dep.h>
@@ -336,7 +337,7 @@ Boolean CustomAttribute::FilterCustomAttributeRecord(MetadataToken caCtorToken, 
   ctorWithParameters = nullptr;
   isVarArg = false;
   attributeType = (rt::as<RuntimeType>(decoratedModule->ResolveType(scope.GetParentToken(caCtorToken), nullptr, nullptr)));
-  if (!attributeFilterType->IsAssignableFrom(attributeType)) {
+  if (!attributeFilterType->IsAssignableFrom((TypeInfo)attributeType)) {
     return false;
   }
   if (!AttributeUsageCheck(attributeType, mustBeInheritable, derivedAttributes)) {

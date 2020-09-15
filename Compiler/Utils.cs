@@ -307,24 +307,15 @@ namespace Meson.Compiler {
       return a.FullName == b.FullName && a.ParentModule.Name == b.ParentModule.Name;
     }
 
+    public static bool EQ(this IType a, IType b) {
+      return a.ReflectionName == b.ReflectionName;
+    }
+
     private static IType GetElementTypeOrDefault(this IType type, IType d = default) {
       if (type is TypeWithElementType t) {
         return t.ElementType;
       }
       return d;
-    }
-
-    public static bool EQ(this IType a, IType b) {
-      a = a.Original();
-      b = b.Original();
-      if (a.Kind == b.Kind) {
-        var elementA = a.GetElementTypeOrDefault();
-        var elementB = b.GetElementTypeOrDefault();
-        if (elementA != null && elementB != null) {
-          return elementA.EQ(elementB);
-        }
-      }
-      return a.Equals(b);
     }
 
     public static bool IsRefType(this ITypeDefinition type) {
@@ -943,7 +934,7 @@ namespace Meson.Compiler {
       while (t != null) {
         var interfaces = implementType.GetInterfaceTypes();
         foreach (var i in interfaces) {
-          if (i.Equals(interfaceType) || i.IsImplementInterface(interfaceType)) {
+          if (i.EQ(interfaceType) || i.IsImplementInterface(interfaceType)) {
             return true;
           }
         }

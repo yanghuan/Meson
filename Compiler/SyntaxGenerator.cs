@@ -24,6 +24,7 @@ namespace Meson.Compiler {
     private static readonly DecompilerSettings decompilerSettings_ = new DecompilerSettings(LanguageVersion.Latest) {
       ThrowExpressions = false,
       StringInterpolation = false,
+      NullableReferenceTypes = false,
       NullPropagation = false,
       Discards = false,
       OutVariables = false,

@@ -150,7 +150,7 @@ void AggregateException___::Handle(Func<Exception, Boolean> predicate) {
     }
   }
   if (list != nullptr) {
-    rt::throw_exception<AggregateException>(get_Message(), list);
+    rt::throw_exception<AggregateException>(get_Message(), (IList<Exception>)list);
   }
 }
 
@@ -172,7 +172,7 @@ AggregateException AggregateException___::Flatten() {
       }
     }
   }
-  return rt::newobj<AggregateException>((GetType() == typeof<AggregateException>()) ? Exception::in::get_Message() : get_Message(), list);
+  return rt::newobj<AggregateException>((GetType() == typeof<AggregateException>()) ? Exception::in::get_Message() : get_Message(), (IList<Exception>)list);
 }
 
 String AggregateException___::ToString() {

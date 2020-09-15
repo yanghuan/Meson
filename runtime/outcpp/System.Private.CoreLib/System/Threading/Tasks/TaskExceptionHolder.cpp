@@ -28,7 +28,7 @@ void TaskExceptionHolder___::ctor(Task<> task) {
 
 void TaskExceptionHolder___::Finalize() {
   if (m_faultExceptions != nullptr && !m_isHandled) {
-    AggregateException exception = rt::newobj<AggregateException>(SR::get_TaskExceptionHolder_UnhandledException(), m_faultExceptions);
+    AggregateException exception = rt::newobj<AggregateException>(SR::get_TaskExceptionHolder_UnhandledException(), (IEnumerable<ExceptionDispatchInfo>)m_faultExceptions);
     UnobservedTaskExceptionEventArgs ueea = rt::newobj<UnobservedTaskExceptionEventArgs>(exception);
     TaskScheduler::in::PublishUnobservedTaskException(m_task, ueea);
   }

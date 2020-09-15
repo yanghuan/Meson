@@ -341,7 +341,7 @@ namespace Meson.Compiler {
       return stringTypeName.WithIn().TwoColon("Format").Invation(new ExpressionSyntax[] { new StringLiteralExpressionSyntax(sb.ToString()) }.Concat(expressions));
     }
 
-    private static bool IsMethodSimilar(IMethod symbol, IMethod other, int index) {
+    private static bool IsMethodSimilar(IMethod symbol, IMethod other, int index, IType type) {
       if (symbol.TypeParameters.Count != other.TypeParameters.Count) {
         return false;
       }
@@ -357,10 +357,17 @@ namespace Meson.Compiler {
           if (t2.Original().IsKnownType(KnownTypeCode.Object)) {
             continue;
           }
-          if (!t1.IsNumberImplicit(t2)) {
-            return false;
+          if (type != null) {
+            t1 = type;
           }
-        } else if (!t1.Equals(t2)) {
+          if (t1.Is(t2)) {
+            continue;
+          }
+          if (t1.IsNumberImplicit(t2)) {
+            continue;
+          }
+          return false;
+        } else if (!t1.EQ(t2)) {
           return false;
         }
       }
@@ -368,8 +375,12 @@ namespace Meson.Compiler {
       return true;
     }
 
-    private static bool HasMethodSimilar(IMethod symbol, int index) {
-      return symbol.DeclaringTypeDefinition.Methods.Any(i => i != symbol && i.Name == symbol.Name && IsMethodSimilar(symbol, i, index)); ;
+    private static bool HasMethodSimilar(IMethod symbol, int index, IType type = null) {
+      return symbol.DeclaringTypeDefinition.Methods.Any(i => i != symbol.MemberDefinition && i.Name == symbol.Name && IsMethodSimilar(symbol, i, index, type));
+    }
+    
+    private static bool HasMethodSimilarConflict(IMethod symbol, IParameter parameter, int index, IType type) {
+      return !parameter.Type.EQ(type) && HasMethodSimilar(symbol, index, type);
     }
 
     private void CheckInvokeArgumentType(IMethod symbol, IParameter parameter, int index, IType type, ref ExpressionSyntax expression) {
@@ -402,9 +413,12 @@ namespace Meson.Compiler {
                         goto Cast;
                       }
                     }
-                    break;
+                    return;
                   }
               }
+            }
+            if (HasMethodSimilarConflict(symbol, parameter, index, type)) {
+              goto Cast;
             }
             break;
           }  
