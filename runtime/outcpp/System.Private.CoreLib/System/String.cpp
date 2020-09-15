@@ -653,7 +653,7 @@ String String___::Ctor(Array<Char> value) {
   }
   String text = FastAllocateString(value->get_Length());
   UIntPtr elementCount = (UIntPtr)(UInt32)text->get_Length();
-  Buffer::Memmove(text->_firstChar, MemoryMarshal::GetArrayDataReference(value), (UIntPtr)elementCount);
+  Buffer::Memmove(text->_firstChar, MemoryMarshal::GetArrayDataReference(value), elementCount);
   return text;
 }
 
@@ -675,7 +675,7 @@ String String___::Ctor(Array<Char> value, Int32 startIndex, Int32 length) {
   }
   String text = FastAllocateString(length);
   UIntPtr elementCount = (UIntPtr)(UInt32)text->get_Length();
-  Buffer::Memmove(text->_firstChar, Unsafe::Add(MemoryMarshal::GetArrayDataReference(value), startIndex), (UIntPtr)elementCount);
+  Buffer::Memmove(text->_firstChar, Unsafe::Add(MemoryMarshal::GetArrayDataReference(value), startIndex), elementCount);
   return text;
 }
 
@@ -689,7 +689,7 @@ String String___::Ctor(Char* ptr) {
   }
   String text = FastAllocateString(num);
   UIntPtr elementCount = (UIntPtr)(UInt32)text->get_Length();
-  Buffer::Memmove(text->_firstChar, *ptr, (UIntPtr)elementCount);
+  Buffer::Memmove(text->_firstChar, *ptr, elementCount);
   return text;
 }
 
@@ -712,7 +712,7 @@ String String___::Ctor(Char* ptr, Int32 startIndex, Int32 length) {
   }
   String text = FastAllocateString(length);
   UIntPtr elementCount = (UIntPtr)(UInt32)text->get_Length();
-  Buffer::Memmove(text->_firstChar, *ptr2, (UIntPtr)elementCount);
+  Buffer::Memmove(text->_firstChar, *ptr2, elementCount);
   return text;
 }
 
@@ -855,7 +855,7 @@ String String___::Copy(String str) {
   }
   String text = FastAllocateString(str->get_Length());
   UIntPtr elementCount = (UIntPtr)(UInt32)text->get_Length();
-  Buffer::Memmove(text->_firstChar, str->_firstChar, (UIntPtr)elementCount);
+  Buffer::Memmove(text->_firstChar, str->_firstChar, elementCount);
   return text;
 }
 
@@ -2187,7 +2187,7 @@ String String___::Substring(Int32 startIndex, Int32 length) {
 String String___::InternalSubString(Int32 startIndex, Int32 length) {
   String text = FastAllocateString(length);
   UIntPtr elementCount = (UIntPtr)(UInt32)text->get_Length();
-  Buffer::Memmove(text->_firstChar, Unsafe::Add(_firstChar, startIndex), (UIntPtr)elementCount);
+  Buffer::Memmove(text->_firstChar, Unsafe::Add(_firstChar, startIndex), elementCount);
   return text;
 }
 

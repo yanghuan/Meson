@@ -86,7 +86,7 @@ StrongBidiCategory CharUnicodeInfo::GetBidiCategory(StringBuilder s, Int32 index
 
 StrongBidiCategory CharUnicodeInfo::GetBidiCategoryNoBoundsChecks(UInt32 codePoint) {
   UIntPtr categoryCasingTableOffsetNoBoundsChecks = GetCategoryCasingTableOffsetNoBoundsChecks(codePoint);
-  return (StrongBidiCategory)(Unsafe::AddByteOffset(MemoryMarshal::GetReference(get_CategoriesValues()), (UIntPtr)categoryCasingTableOffsetNoBoundsChecks) & 96);
+  return (StrongBidiCategory)(Unsafe::AddByteOffset(MemoryMarshal::GetReference(get_CategoriesValues()), categoryCasingTableOffsetNoBoundsChecks) & 96);
 }
 
 Int32 CharUnicodeInfo::GetDecimalDigitValue(Char ch) {
@@ -105,7 +105,7 @@ Int32 CharUnicodeInfo::GetDecimalDigitValue(String s, Int32 index) {
 
 Int32 CharUnicodeInfo::GetDecimalDigitValueInternalNoBoundsCheck(UInt32 codePoint) {
   UIntPtr numericGraphemeTableOffsetNoBoundsChecks = GetNumericGraphemeTableOffsetNoBoundsChecks(codePoint);
-  UInt32 num = Unsafe::AddByteOffset(MemoryMarshal::GetReference(get_DigitValues()), (UIntPtr)numericGraphemeTableOffsetNoBoundsChecks);
+  UInt32 num = Unsafe::AddByteOffset(MemoryMarshal::GetReference(get_DigitValues()), numericGraphemeTableOffsetNoBoundsChecks);
   return (Int32)((num >> 4) - 1);
 }
 
@@ -125,18 +125,18 @@ Int32 CharUnicodeInfo::GetDigitValue(String s, Int32 index) {
 
 Int32 CharUnicodeInfo::GetDigitValueInternalNoBoundsCheck(UInt32 codePoint) {
   UIntPtr numericGraphemeTableOffsetNoBoundsChecks = GetNumericGraphemeTableOffsetNoBoundsChecks(codePoint);
-  Int32 num = Unsafe::AddByteOffset(MemoryMarshal::GetReference(get_DigitValues()), (UIntPtr)numericGraphemeTableOffsetNoBoundsChecks);
+  Int32 num = Unsafe::AddByteOffset(MemoryMarshal::GetReference(get_DigitValues()), numericGraphemeTableOffsetNoBoundsChecks);
   return (num & 15) - 1;
 }
 
 GraphemeClusterBreakType CharUnicodeInfo::GetGraphemeClusterBreakType(Rune rune) {
   UIntPtr numericGraphemeTableOffsetNoBoundsChecks = GetNumericGraphemeTableOffsetNoBoundsChecks((UInt32)rune.get_Value());
-  return (GraphemeClusterBreakType)Unsafe::AddByteOffset(MemoryMarshal::GetReference(get_GraphemeSegmentationValues()), (UIntPtr)numericGraphemeTableOffsetNoBoundsChecks);
+  return (GraphemeClusterBreakType)Unsafe::AddByteOffset(MemoryMarshal::GetReference(get_GraphemeSegmentationValues()), numericGraphemeTableOffsetNoBoundsChecks);
 }
 
 Boolean CharUnicodeInfo::GetIsWhiteSpace(Char ch) {
   UIntPtr categoryCasingTableOffsetNoBoundsChecks = GetCategoryCasingTableOffsetNoBoundsChecks(ch);
-  return (SByte)Unsafe::AddByteOffset(MemoryMarshal::GetReference(get_CategoriesValues()), (UIntPtr)categoryCasingTableOffsetNoBoundsChecks) < 0;
+  return (SByte)Unsafe::AddByteOffset(MemoryMarshal::GetReference(get_CategoriesValues()), categoryCasingTableOffsetNoBoundsChecks) < 0;
 }
 
 Double CharUnicodeInfo::GetNumericValue(Char ch) {
@@ -204,7 +204,7 @@ UnicodeCategory CharUnicodeInfo::GetUnicodeCategoryInternal(String str, Int32 in
 
 UnicodeCategory CharUnicodeInfo::GetUnicodeCategoryNoBoundsChecks(UInt32 codePoint) {
   UIntPtr categoryCasingTableOffsetNoBoundsChecks = GetCategoryCasingTableOffsetNoBoundsChecks(codePoint);
-  return (UnicodeCategory)(Unsafe::AddByteOffset(MemoryMarshal::GetReference(get_CategoriesValues()), (UIntPtr)categoryCasingTableOffsetNoBoundsChecks) & 31);
+  return (UnicodeCategory)(Unsafe::AddByteOffset(MemoryMarshal::GetReference(get_CategoriesValues()), categoryCasingTableOffsetNoBoundsChecks) & 31);
 }
 
 Int32 CharUnicodeInfo::GetCodePointFromString(String s, Int32 index) {

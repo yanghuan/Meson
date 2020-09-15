@@ -108,7 +108,7 @@ void Buffer::BlockCopy(Array<> src, Int32 srcOffset, Array<> dst, Int32 dstOffse
   if ((UInt64)uIntPtr < (UInt64)(UIntPtr)(void*)((Int64)(UInt64)uIntPtr4 + (Int64)(UInt64)uIntPtr3) || (UInt64)uIntPtr2 < (UInt64)(UIntPtr)(void*)((Int64)(UInt64)uIntPtr5 + (Int64)(UInt64)uIntPtr3)) {
     rt::throw_exception<ArgumentException>(SR::get_Argument_InvalidOffLen());
   }
-  Memmove(Unsafe::AddByteOffset(RuntimeHelpers::GetRawArrayData(dst), (UIntPtr)uIntPtr5), Unsafe::AddByteOffset(RuntimeHelpers::GetRawArrayData(src), (UIntPtr)uIntPtr4), (UIntPtr)uIntPtr3);
+  Memmove(Unsafe::AddByteOffset(RuntimeHelpers::GetRawArrayData(dst), uIntPtr5), Unsafe::AddByteOffset(RuntimeHelpers::GetRawArrayData(src), uIntPtr4), uIntPtr3);
 }
 
 Int32 Buffer::ByteLength(Array<> array) {

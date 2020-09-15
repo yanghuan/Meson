@@ -119,7 +119,7 @@ Int32 Marvin::ComputeHash32OrdinalIgnoreCase(Char& data, Int32 count, UInt32 p0,
   UIntPtr uIntPtr = (UIntPtr)(void*)nullptr;
   while (true) {
     if (num >= 2) {
-      UInt32 value = Unsafe::ReadUnaligned<UInt32>(Unsafe::As<Char, Byte>(Unsafe::AddByteOffset(data, (UIntPtr)uIntPtr)));
+      UInt32 value = Unsafe::ReadUnaligned<UInt32>(Unsafe::As<Char, Byte>(Unsafe::AddByteOffset(data, uIntPtr)));
       if (!Utf16Utility::AllCharsInUInt32AreAscii(value)) {
         break;
       }
@@ -130,7 +130,7 @@ Int32 Marvin::ComputeHash32OrdinalIgnoreCase(Char& data, Int32 count, UInt32 p0,
       continue;
     }
     if (num != 0) {
-      UInt32 value = Unsafe::AddByteOffset(data, (UIntPtr)uIntPtr);
+      UInt32 value = Unsafe::AddByteOffset(data, uIntPtr);
       if (value > 127) {
         break;
       }
@@ -141,7 +141,7 @@ Int32 Marvin::ComputeHash32OrdinalIgnoreCase(Char& data, Int32 count, UInt32 p0,
     Block(p0, p1);
     return (Int32)(p1 ^ p0);
   }
-  return ComputeHash32OrdinalIgnoreCaseSlow(Unsafe::AddByteOffset(data, (UIntPtr)uIntPtr), (Int32)num, p0, p1);
+  return ComputeHash32OrdinalIgnoreCaseSlow(Unsafe::AddByteOffset(data, uIntPtr), (Int32)num, p0, p1);
 }
 
 Int32 Marvin::ComputeHash32OrdinalIgnoreCaseSlow(Char& data, Int32 count, UInt32 p0, UInt32 p1) {

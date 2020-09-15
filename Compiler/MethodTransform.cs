@@ -438,7 +438,7 @@ namespace Meson.Compiler {
               switch (parameter.Type.Kind) {
                 case TypeKind.NInt:
                 case TypeKind.NUInt:
-                  if (typeDefinition.Kind != parameter.Type.Kind) {
+                  if (!typeDefinition.IsNativeInteger(parameter.Type.Kind)) {
                     goto Cast;
                   }
                   break;
@@ -512,7 +512,7 @@ namespace Meson.Compiler {
         foreach (var argument in arguments) {
           var parameter = parameters[i];
           var resolveResult = argument.GetResolveResult();
-          if (resolveResult.Type.FullName != parameter.Type.FullName) {
+          if (!resolveResult.Type.EQ(parameter.Type)) {
             return false;
           }
           ++i;

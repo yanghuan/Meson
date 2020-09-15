@@ -307,7 +307,26 @@ namespace Meson.Compiler {
       return a.FullName == b.FullName && a.ParentModule.Name == b.ParentModule.Name;
     }
 
+    public static bool IsNativeInteger(this IType a, TypeKind kind) {
+      if (a.Kind == kind) {
+        return true;
+      }
+      return a.ReflectionName == (kind == TypeKind.NInt ? "System.IntPtr" : "System.UIntPtr");
+    }
+
     public static bool EQ(this IType a, IType b) {
+      switch (a.Kind) {
+        case TypeKind.NInt:
+        case TypeKind.NUInt:
+          return b.IsNativeInteger(a.Kind);
+      }
+
+      switch (b.Kind) {
+        case TypeKind.NInt:
+        case TypeKind.NUInt:
+          return a.IsNativeInteger(b.Kind);
+      }
+
       return a.ReflectionName == b.ReflectionName;
     }
 

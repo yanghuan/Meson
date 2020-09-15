@@ -15,9 +15,9 @@ Object Object___::MemberwiseClone() {
   Byte& rawData = RuntimeHelpers::GetRawData(this);
   Byte& rawData2 = RuntimeHelpers::GetRawData(obj);
   if (RuntimeHelpers::GetMethodTable(obj)->get_ContainsGCPointers()) {
-    Buffer::BulkMoveWithWriteBarrier(rawData2, rawData, (UIntPtr)rawObjectDataSize);
+    Buffer::BulkMoveWithWriteBarrier(rawData2, rawData, rawObjectDataSize);
   } else {
-    Buffer::Memmove(rawData2, rawData, (UIntPtr)rawObjectDataSize);
+    Buffer::Memmove<Byte>(rawData2, rawData, rawObjectDataSize);
   }
   return obj;
 }
