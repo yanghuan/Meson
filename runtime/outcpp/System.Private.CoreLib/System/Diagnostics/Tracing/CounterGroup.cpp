@@ -121,7 +121,7 @@ void CounterGroup___::EnableTimer(Single pollingIntervalInSeconds) {
       if (s_pollingThread == nullptr) {
         s_pollingThreadSleepEvent = rt::newobj<AutoResetEvent>(false);
         s_counterGroupEnabledList = rt::newobj<List<CounterGroup>>();
-        s_pollingThread = rt::newobj<Thread>(rt::newobj<ThreadStart>(&PollForValues));
+        s_pollingThread = rt::newobj<Thread>(&PollForValues);
         s_pollingThread->Start();
       }
       if (!s_counterGroupEnabledList->Contains((CounterGroup)this)) {

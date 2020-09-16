@@ -325,7 +325,7 @@ String BitConverter::ToString(Array<Byte> value, Int32 startIndex, Int32 length)
     rt::throw_exception<ArgumentOutOfRangeException>("length", SR::Format(SR::get_ArgumentOutOfRange_LengthTooLarge(), 715827882));
   }
   SpanAction<Char, ValueTuple<Array<Byte>, Int32, Int32>> as = __c::in::__9__39_0;
-  return String::in::Create(length * 3 - 1, {value, startIndex, length}, as != nullptr ? as : (__c::in::__9__39_0 = rt::newobj<SpanAction<Char, ValueTuple<Array<Byte>, Int32, Int32>>>(&_ToString_b__39_0)));
+  return String::in::Create(length * 3 - 1, {value, startIndex, length}, as != nullptr ? as : (__c::in::__9__39_0 = &_ToString_b__39_0));
 }
 
 String BitConverter::ToString(Array<Byte> value) {

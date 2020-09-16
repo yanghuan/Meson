@@ -483,7 +483,7 @@ String UriHelper::StripBidiControlCharacters(ReadOnlySpan<Char> strToClean, Stri
   {
     Char* value = &MemoryMarshal::GetReference(strToClean);
     SpanAction<Char, ValueTuple<IntPtr, Int32>> as = __c::in::__9__27_0;
-    return String::in::Create(strToClean.get_Length() - num, {(IntPtr)(void*)value, strToClean.get_Length()}, as != nullptr ? as : (__c::in::__9__27_0 = rt::newobj<SpanAction<Char, ValueTuple<IntPtr, Int32>>>(&_StripBidiControlCharacters_b__27_0)));
+    return String::in::Create(strToClean.get_Length() - num, {(IntPtr)(void*)value, strToClean.get_Length()}, as != nullptr ? as : (__c::in::__9__27_0 = &_StripBidiControlCharacters_b__27_0));
   }
 }
 

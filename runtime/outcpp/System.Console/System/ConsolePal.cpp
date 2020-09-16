@@ -123,7 +123,7 @@ Int32 ConsolePal::WindowsConsoleStream___::WriteFileNative(IntPtr hFile, Array<B
 }
 
 void ConsolePal::ControlCHandlerRegistrar___::ctor() {
-  _handler = BreakEvent;
+  _handler = &BreakEvent;
 }
 
 void ConsolePal::ControlCHandlerRegistrar___::Register() {

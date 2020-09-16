@@ -120,8 +120,8 @@ void YieldAwaitable::YieldAwaiter::GetResult() {
 }
 
 void YieldAwaitable::YieldAwaiter::cctor() {
-  s_waitCallbackRunAction = RunAction;
-  s_sendOrPostCallbackRunAction = RunAction;
+  s_waitCallbackRunAction = &RunAction;
+  s_sendOrPostCallbackRunAction = &RunAction;
 }
 
 YieldAwaitable::YieldAwaiter YieldAwaitable::GetAwaiter() {

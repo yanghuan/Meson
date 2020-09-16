@@ -257,7 +257,7 @@ void ActivityTracker___::OnStop(String providerName, String activityName, Int32 
 void ActivityTracker___::Enable() {
   if (m_current == nullptr) {
     try {
-      m_current = rt::newobj<AsyncLocal<ActivityInfo>>(rt::newobj<Action<AsyncLocalValueChangedArgs<ActivityInfo>>>(&ActivityChanging));
+      m_current = rt::newobj<AsyncLocal<ActivityInfo>>(&ActivityChanging);
     } catch (NotImplementedException) {
       Debugger::Log(0, nullptr, "Activity Enabled() called but AsyncLocals Not Supported (pre V4.6).  Ignoring Enable");
     }

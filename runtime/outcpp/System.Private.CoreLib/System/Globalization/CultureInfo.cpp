@@ -50,7 +50,7 @@ void CultureInfo___::set_CurrentCulture(CultureInfo value) {
     rt::throw_exception<ArgumentNullException>("value");
   }
   if (s_asyncLocalCurrentCulture == nullptr) {
-    Interlocked::CompareExchange(s_asyncLocalCurrentCulture, rt::newobj<AsyncLocal<CultureInfo>>(rt::newobj<Action<AsyncLocalValueChangedArgs<CultureInfo>>>(&AsyncLocalSetCurrentCulture)), (AsyncLocal<CultureInfo>)nullptr);
+    Interlocked::CompareExchange(s_asyncLocalCurrentCulture, rt::newobj<AsyncLocal<CultureInfo>>(&AsyncLocalSetCurrentCulture), (AsyncLocal<CultureInfo>)nullptr);
   }
   s_asyncLocalCurrentCulture->set_Value(value);
 }
@@ -67,7 +67,7 @@ void CultureInfo___::set_CurrentUICulture(CultureInfo value) {
   }
   VerifyCultureName(value, true);
   if (s_asyncLocalCurrentUICulture == nullptr) {
-    Interlocked::CompareExchange(s_asyncLocalCurrentUICulture, rt::newobj<AsyncLocal<CultureInfo>>(rt::newobj<Action<AsyncLocalValueChangedArgs<CultureInfo>>>(&AsyncLocalSetCurrentUICulture)), (AsyncLocal<CultureInfo>)nullptr);
+    Interlocked::CompareExchange(s_asyncLocalCurrentUICulture, rt::newobj<AsyncLocal<CultureInfo>>(&AsyncLocalSetCurrentUICulture), (AsyncLocal<CultureInfo>)nullptr);
   }
   s_asyncLocalCurrentUICulture->set_Value(value);
 }

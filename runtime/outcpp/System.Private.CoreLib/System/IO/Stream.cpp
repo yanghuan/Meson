@@ -72,7 +72,7 @@ void Stream___::ReadWriteTask___::InvokeOfITaskCompletionAction(Task<> completin
   } else {
     _context = nullptr;
     ContextCallback as = s_invokeAsyncCallback;
-    ContextCallback callback2 = as != nullptr ? as : (s_invokeAsyncCallback = InvokeAsyncCallback);
+    ContextCallback callback2 = as != nullptr ? as : (s_invokeAsyncCallback = &InvokeAsyncCallback);
     ExecutionContext::in::RunInternal(context, callback2, (ReadWriteTask)this);
   }
 }

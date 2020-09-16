@@ -295,8 +295,12 @@ namespace Meson.Compiler {
           case SymbolKind.Method: {
               var method = (IMethod)symbol;
               if (IsDelegateExpressionNode(identifierExpression)) {
+                var pointer = GetMemberName(method).Address();
                 if (method.IsStatic) {
-
+                  return pointer;
+                } else {
+                  var typeName = GetTypeName(method.DeclaringType);
+                  return new InitializationExpressionSyntax(IdentifierSyntax.This.CastTo(typeName), pointer);
                 }
               }
               break;
@@ -387,7 +391,7 @@ namespace Meson.Compiler {
     private static bool HasMethodSimilar(IMethod symbol, int index, IType type = null) {
       return symbol.DeclaringTypeDefinition.Methods.Any(i => i != symbol.MemberDefinition && i.Name == symbol.Name && IsMethodSimilar(symbol, i, index, type));
     }
-    
+
     private static bool HasMethodSimilarConflict(IMethod symbol, IParameter parameter, int index, IType type) {
       return !parameter.Type.EQ(type) && HasMethodSimilar(symbol, index, type);
     }
@@ -430,7 +434,7 @@ namespace Meson.Compiler {
               goto Cast;
             }
             break;
-          }  
+          }
         case TypeKind.Struct: {
             var typeDefinition = type.GetDefinition();
             if (typeDefinition != null) {
@@ -701,7 +705,7 @@ namespace Meson.Compiler {
       } else {
         var typeDefinition = (ITypeDefinition)objectCreateExpression.Type.GetSymbol();
         Contract.Assert(typeDefinition.Kind == TypeKind.Delegate);
-        method = typeDefinition.GetMethods().First();
+        method = typeDefinition.Methods.First();
         Contract.Assert(objectCreateExpression.Arguments.Count == 1);
         var rs = (MethodGroupResolveResult)objectCreateExpression.Arguments.First().GetResolveResult();
         var argument = (IMethod)rs.MethodsGroupedByDeclaringType.First().First();
@@ -717,8 +721,13 @@ namespace Meson.Compiler {
 
     public SyntaxNode VisitObjectCreateExpression(ObjectCreateExpression objectCreateExpression) {
       var typeName = BuildObjectCreateExpression(objectCreateExpression, out var arguments, out IMethod method);
-      if (method.DeclaringType.Kind == TypeKind.Struct) {
-        return typeName.Invation(arguments);
+      switch (method.DeclaringType.Kind) {
+        case TypeKind.Struct: {
+            return typeName.Invation(arguments);
+          }
+        case TypeKind.Delegate: {
+            return arguments.First();
+          }
       }
 
       var name = method.DeclaringType.IsKnownType(KnownTypeCode.String) ? IdentifierSyntax.NewString : IdentifierSyntax.NewObj;

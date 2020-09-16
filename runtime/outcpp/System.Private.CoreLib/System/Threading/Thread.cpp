@@ -261,9 +261,9 @@ Thread Thread___::InitializeCurrentThread() {
 void Thread___::SetStartHelper(Delegate start, Int32 maxStackSize) {
   ThreadHelper object = rt::newobj<ThreadHelper>(start);
   if (rt::is<ThreadStart>(start)) {
-    SetStart(rt::newobj<ThreadStart>(&ThreadStart), maxStackSize);
+    SetStart(&ThreadStart, maxStackSize);
   } else {
-    SetStart(rt::newobj<ParameterizedThreadStart>(&ThreadStart), maxStackSize);
+    SetStart(&ThreadStart, maxStackSize);
   }
 }
 

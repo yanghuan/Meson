@@ -280,7 +280,7 @@ Array<EraInfo> JapaneseCalendar___::NlsGetJapaneseEras() {
     return nullptr;
   }
   Array<>::in::Resize(array, num);
-  Array<>::in::Sort(array, rt::newobj<Comparison<EraInfo>>(&CompareEraRanges));
+  Array<>::in::Sort(array, &CompareEraRanges);
   for (Int32 j = 0; j < array->get_Length(); j++) {
     array[j]->era = array->get_Length() - j;
     if (j == 0) {

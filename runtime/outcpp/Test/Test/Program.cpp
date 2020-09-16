@@ -13,7 +13,8 @@ void Program___::Main(Array<String> args) {
 }
 
 void Program___::f() {
-  Action<> action = f;
+  A = 20;
+  Action<> action = {(Program)this, &f};
   Program object = rt::newobj<Program>();
   Action<> action2 = {object, &Program::in::f};
 }

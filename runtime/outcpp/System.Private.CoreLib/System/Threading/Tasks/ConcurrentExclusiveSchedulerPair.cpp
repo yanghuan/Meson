@@ -126,7 +126,7 @@ IEnumerable<Task<>> ConcurrentExclusiveSchedulerPair___::ConcurrentExclusiveTask
 }
 
 void ConcurrentExclusiveSchedulerPair___::ConcurrentExclusiveTaskScheduler___::cctor() {
-  s_tryExecuteTaskShim = TryExecuteTaskShim;
+  s_tryExecuteTaskShim = &TryExecuteTaskShim;
 }
 
 ConcurrentExclusiveSchedulerPair::in::ProcessingMode ConcurrentExclusiveSchedulerPair___::DebugView___::get_Mode() {

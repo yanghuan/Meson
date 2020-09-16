@@ -72,7 +72,7 @@ Action<> SynchronizationContextAwaitTaskContinuation___::GetActionLogDelegate(In
 
 ContextCallback SynchronizationContextAwaitTaskContinuation___::GetPostActionCallback() {
   ContextCallback as = s_postActionCallback;
-  return as != nullptr ? as : (s_postActionCallback = PostAction);
+  return as != nullptr ? as : (s_postActionCallback = &PostAction);
 }
 
 void SynchronizationContextAwaitTaskContinuation___::cctor() {

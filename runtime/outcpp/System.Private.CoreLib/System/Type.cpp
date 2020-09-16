@@ -1274,9 +1274,9 @@ void Type___::cctor() {
   Delimiter = '.';
   EmptyTypes = Array<>::in::Empty<Type>();
   Missing = Missing::in::Value;
-  FilterAttribute = rt::newobj<MemberFilter>(&FilterAttributeImpl);
-  FilterName = rt::newobj<MemberFilter>(&_cctor_b__273_0);
-  FilterNameIgnoreCase = rt::newobj<MemberFilter>(&_cctor_b__273_1);
+  FilterAttribute = &FilterAttributeImpl;
+  FilterName = &_cctor_b__273_0;
+  FilterNameIgnoreCase = &_cctor_b__273_1;
 }
 
 } // namespace System::Private::CoreLib::System::TypeNamespace

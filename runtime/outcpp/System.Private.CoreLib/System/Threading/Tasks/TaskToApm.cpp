@@ -24,7 +24,7 @@ void TaskToApm::TaskAsyncResult___::ctor(Task<> task, Object state, AsyncCallbac
     }
   } else if (callback != nullptr) {
     _callback = callback;
-    _task->ConfigureAwait(false).GetAwaiter().OnCompleted(rt::newobj<Action<>>(&InvokeCallback));
+    _task->ConfigureAwait(false).GetAwaiter().OnCompleted(&InvokeCallback);
   }
 
 }

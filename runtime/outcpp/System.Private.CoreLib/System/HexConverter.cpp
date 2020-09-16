@@ -46,7 +46,7 @@ String HexConverter::ToString(ReadOnlySpan<Byte> bytes, Casing casing) {
   {
     Byte* value = bytes;
     SpanAction<Char, ValueTuple<IntPtr, Int32, Casing>> as = __c::in::__9__4_0;
-    return String::in::Create(bytes.get_Length() * 2, {(IntPtr)(void*)value, bytes.get_Length(), casing}, as != nullptr ? as : (__c::in::__9__4_0 = rt::newobj<SpanAction<Char, ValueTuple<IntPtr, Int32, Casing>>>(&_ToString_b__4_0)));
+    return String::in::Create(bytes.get_Length() * 2, {(IntPtr)(void*)value, bytes.get_Length(), casing}, as != nullptr ? as : (__c::in::__9__4_0 = &_ToString_b__4_0));
   }
 }
 

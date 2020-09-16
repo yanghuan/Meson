@@ -269,8 +269,8 @@ Boolean Module___::FilterTypeNameImpl(Type cls, Object filterCriteria, StringCom
 }
 
 void Module___::cctor() {
-  FilterTypeName = rt::newobj<TypeFilter>(&_cctor_b__61_0);
-  FilterTypeNameIgnoreCase = rt::newobj<TypeFilter>(&_cctor_b__61_1);
+  FilterTypeName = &_cctor_b__61_0;
+  FilterTypeNameIgnoreCase = &_cctor_b__61_1;
 }
 
 } // namespace System::Private::CoreLib::System::Reflection::ModuleNamespace

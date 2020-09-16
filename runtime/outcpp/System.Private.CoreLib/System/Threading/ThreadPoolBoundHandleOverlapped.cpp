@@ -27,7 +27,7 @@ void ThreadPoolBoundHandleOverlapped___::CompletionCallback(UInt32 errorCode, UI
 }
 
 void ThreadPoolBoundHandleOverlapped___::cctor() {
-  s_completionCallback = CompletionCallback;
+  s_completionCallback = &CompletionCallback;
 }
 
 } // namespace System::Private::CoreLib::System::Threading::ThreadPoolBoundHandleOverlappedNamespace

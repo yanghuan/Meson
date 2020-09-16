@@ -402,7 +402,7 @@ void SemaphoreSlim___::CheckDispose() {
 void SemaphoreSlim___::cctor() {
   s_trueTask = rt::newobj<Task<Boolean>>(false, true, (TaskCreationOptions)16384, rt::default__);
   s_falseTask = rt::newobj<Task<Boolean>>(false, false, (TaskCreationOptions)16384, rt::default__);
-  s_cancellationTokenCanceledEventHandler = CancellationTokenCanceledEventHandler;
+  s_cancellationTokenCanceledEventHandler = &CancellationTokenCanceledEventHandler;
 }
 
 } // namespace System::Private::CoreLib::System::Threading::SemaphoreSlimNamespace

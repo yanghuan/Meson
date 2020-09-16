@@ -649,8 +649,17 @@ namespace rt {
     return false;
   }
 
+  template <class T, class Base>
+  struct ValueCommonOperator : public Base {
+    template <class R, class T1 = T> requires(IsInterfaceConvertible<R, T1>)
+    operator R() const noexcept {
+      //TODO
+      return R();
+    }
+  };
+
   template <class T, class Base, TypeCode code>
-  struct ValueOperator {
+  struct ValueOperator : public ValueCommonOperator<T, Base> {
     static_assert(IsArithmeticCode(code));
 
     template <class T1> requires(IsNumerical<T1>) 
@@ -808,16 +817,10 @@ namespace rt {
     explicit operator R*() const noexcept {
       return (R*)(static_cast<const T*>(this)->get());
     }
-
-    template <class R, class T1 = T> requires(IsInterfaceConvertible<R, T1>)
-    explicit operator R() const noexcept {
-      //TODO
-      return R();
-    }
   };
 
   template <class T, class Base>
-  struct ValueOperator<T, Base, TypeCode::Struct> : public Base  {
+  struct ValueOperator<T, Base, TypeCode::Struct> : public ValueCommonOperator<T, Base>  {
     template <class T1, class T2 = T> requires(AlwaysTrue<decltype(T2::op_Equality(T2(), T1()))>) 
     auto operator ==(const T1& other) {
       return T::op_Equality(*static_cast<T*>(this), other);
@@ -850,7 +853,7 @@ namespace rt {
   };
 
   template <class T, class Base>
-  struct ValueOperator<T, Base, TypeCode::Boolean> : public Base  {
+  struct ValueOperator<T, Base, TypeCode::Boolean> : public ValueCommonOperator<T, Base>  {
     operator bool() const noexcept {
       return static_cast<const T*>(this)->get();
     }

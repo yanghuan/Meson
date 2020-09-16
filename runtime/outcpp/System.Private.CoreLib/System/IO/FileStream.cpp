@@ -74,7 +74,7 @@ void FileStream___::FileStreamCompletionSource___::SetCompletedSynchronously(Int
 void FileStream___::FileStreamCompletionSource___::RegisterForCancellation(CancellationToken cancellationToken) {
   if (_overlapped != nullptr) {
     Action<Object> as = s_cancelCallback;
-    Action<Object> callback = as != nullptr ? as : (s_cancelCallback = Cancel);
+    Action<Object> callback = as != nullptr ? as : (s_cancelCallback = &Cancel);
     Int64 num = Interlocked::CompareExchange(_result, 17179869184, 0);
     switch (num.get()) {
       case 0:
@@ -210,7 +210,7 @@ void FileStream___::AsyncCopyToAwaitable___::UnsafeOnCompleted(Action<> continua
 
 void FileStream___::AsyncCopyToAwaitable___::cctor() {
   s_sentinel = {__c::in::__9, &__c::in::_cctor_b__20_0};
-  s_callback = IOCallback;
+  s_callback = &IOCallback;
 }
 
 void FileStream___::MemoryFileStreamCompletionSource___::ctor(FileStream stream, Int32 numBufferedBytes, ReadOnlyMemory<Byte> memory) {

@@ -85,7 +85,7 @@ void EventProvider___::ctor(EventProviderType providerType) {
 }
 
 void EventProvider___::Register(EventSource eventSource) {
-  m_etwCallback = EtwEnableCallBack;
+  m_etwCallback = {(EventProvider)this, &EtwEnableCallBack};
   UInt32 num = EventRegister(eventSource, m_etwCallback);
   if (num != 0) {
     rt::throw_exception<ArgumentException>(Interop::Kernel32::GetMessage((Int32)num));

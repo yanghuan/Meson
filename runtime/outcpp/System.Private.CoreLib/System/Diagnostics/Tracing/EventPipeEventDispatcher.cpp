@@ -95,7 +95,7 @@ void EventPipeEventDispatcher___::StartDispatchTask() {
   if (m_dispatchTask == nullptr) {
     m_stopDispatchTask = false;
     m_dispatchTaskWaitHandle->set_SafeWaitHandle(rt::newobj<SafeWaitHandle>(EventPipeInternal::GetWaitHandle(m_sessionID), false));
-    m_dispatchTask = Task<>::in::get_Factory()->StartNew(rt::newobj<Action<>>(&DispatchEventsToEventListeners), CancellationToken::get_None(), TaskCreationOptions::LongRunning, TaskScheduler::in::get_Default());
+    m_dispatchTask = Task<>::in::get_Factory()->StartNew(&DispatchEventsToEventListeners, CancellationToken::get_None(), TaskCreationOptions::LongRunning, TaskScheduler::in::get_Default());
   }
 }
 
