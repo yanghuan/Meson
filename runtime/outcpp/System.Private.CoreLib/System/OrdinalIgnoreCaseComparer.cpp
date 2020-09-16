@@ -1,8 +1,9 @@
 #include "OrdinalIgnoreCaseComparer-dep.h"
 
 #include <System.Private.CoreLib/System/ExceptionArgument.h>
-#include <System.Private.CoreLib/System/Globalization/CompareInfo-dep.h>
+#include <System.Private.CoreLib/System/Globalization/Ordinal-dep.h>
 #include <System.Private.CoreLib/System/Object-dep.h>
+#include <System.Private.CoreLib/System/OrdinalIgnoreCaseComparer-dep.h>
 #include <System.Private.CoreLib/System/StringComparison.h>
 #include <System.Private.CoreLib/System/ThrowHelper-dep.h>
 #include <System.Private.CoreLib/System/Type-dep.h>
@@ -27,7 +28,7 @@ Boolean OrdinalIgnoreCaseComparer___::Equals(String x, String y) {
   if (x->get_Length() != y->get_Length()) {
     return false;
   }
-  return CompareInfo::in::EqualsOrdinalIgnoreCase(x->GetRawStringData(), y->GetRawStringData(), x->get_Length());
+  return Ordinal::EqualsIgnoreCase(x->GetRawStringData(), y->GetRawStringData(), x->get_Length());
 }
 
 Int32 OrdinalIgnoreCaseComparer___::GetHashCode(String obj) {
@@ -40,6 +41,10 @@ Int32 OrdinalIgnoreCaseComparer___::GetHashCode(String obj) {
 void OrdinalIgnoreCaseComparer___::GetObjectData(SerializationInfo info, StreamingContext context) {
   info->SetType(typeof<OrdinalComparer>());
   info->AddValue("_ignoreCase", true);
+}
+
+void OrdinalIgnoreCaseComparer___::cctor() {
+  Instance = rt::newobj<OrdinalIgnoreCaseComparer>();
 }
 
 } // namespace System::Private::CoreLib::System::OrdinalIgnoreCaseComparerNamespace

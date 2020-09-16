@@ -91,7 +91,6 @@ class Number {
     public: void Add(UInt32 value);
     public: UInt32 GetBlock(UInt32 index);
     public: Int32 GetLength();
-    public: Boolean IsOne();
     public: Boolean IsZero();
     public: void Multiply(UInt32 value);
     public: void Multiply(BigInteger& value);
@@ -102,6 +101,7 @@ class Number {
     public: static void SetValue(BigInteger& result, BigInteger& value);
     public: static void SetZero(BigInteger& result);
     public: void ShiftLeft(UInt32 shift);
+    public: UInt32 ToUInt32();
     public: UInt64 ToUInt64();
     private: UInt32* GetBlocksPointer();
     private: static UInt32 DivRem32(UInt32 value, UInt32& remainder);

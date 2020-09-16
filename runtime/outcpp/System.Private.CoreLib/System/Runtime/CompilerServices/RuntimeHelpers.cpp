@@ -116,6 +116,9 @@ void RuntimeHelpers::DispatchTailCalls(IntPtr callersRetAddrSlot, IntPtr callTar
   } catch (...) {
   } finally: {
     tailCallInfo->Frame = frame;
+    if (tailCallInfo->ArgBuffer != IntPtr::Zero && *(Int32*)(void*)tailCallInfo->ArgBuffer == 1) {
+      *(Int32*)(void*)tailCallInfo->ArgBuffer = 2;
+    }
   }
 }
 

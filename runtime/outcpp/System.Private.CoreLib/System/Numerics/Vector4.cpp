@@ -41,7 +41,7 @@ Vector4 Vector4::get_UnitW() {
 }
 
 Int32 Vector4::GetHashCode() {
-  return HashCode::Combine(X.GetHashCode(), Y.GetHashCode(), Z.GetHashCode(), W.GetHashCode());
+  return HashCode::Combine(X, Y, Z, W);
 }
 
 Boolean Vector4::Equals(Object obj) {

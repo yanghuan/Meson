@@ -17,7 +17,6 @@ class Debugger {
   };
   public: static Boolean get_IsAttached();
   public: static void Break();
-  private: static void BreakCanThrow();
   private: static void BreakInternal();
   public: static Boolean Launch();
   private: static void NotifyOfCrossThreadDependencySlow();

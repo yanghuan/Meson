@@ -3026,6 +3026,10 @@ String SR::get_InvariantFailed_Cnd() {
   return GetResourceString("InvariantFailed_Cnd");
 }
 
+String SR::get_IO_NoFileTableInInMemoryAssemblies() {
+  return GetResourceString("IO_NoFileTableInInMemoryAssemblies");
+}
+
 String SR::get_IO_EOF_ReadBeyondEOF() {
   return GetResourceString("IO_EOF_ReadBeyondEOF");
 }
@@ -4278,8 +4282,16 @@ String SR::get_Arg_MustBeHalf() {
   return GetResourceString("Arg_MustBeHalf");
 }
 
+String SR::get_Arg_MustBeRune() {
+  return GetResourceString("Arg_MustBeRune");
+}
+
 String SR::get_BinaryFormatter_SerializationDisallowed() {
   return GetResourceString("BinaryFormatter_SerializationDisallowed");
+}
+
+String SR::get_NotSupported_CodeBase() {
+  return GetResourceString("NotSupported_CodeBase");
 }
 
 String SR::GetResourceString(String resourceKey) {

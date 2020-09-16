@@ -517,8 +517,7 @@ StringBuilder StringBuilder___::Append(String value) {
     Array<Char> chunkChars = m_ChunkChars;
     Int32 chunkLength = m_ChunkLength;
     Int32 length = value->get_Length();
-    Int32 num = chunkLength + length;
-    if (num < chunkChars->get_Length()) {
+    if ((UInt32)(chunkLength + length) < (UInt32)chunkChars->get_Length()) {
       if (length <= 2) {
         if (length > 0) {
           chunkChars[chunkLength] = value[0];
@@ -536,7 +535,7 @@ StringBuilder StringBuilder___::Append(String value) {
           }
         }
       }
-      m_ChunkLength = num;
+      m_ChunkLength = chunkLength + length;
     } else {
       AppendHelper(value);
     }

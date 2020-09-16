@@ -8,5 +8,11 @@ namespace Test {
     private static void Main(string[] args) {
       Console.WriteLine(args);
     }
+
+    private void f() {
+      Action a = f;
+      var p = new Program();
+      Action b = p.f;
+    }
   }
 }

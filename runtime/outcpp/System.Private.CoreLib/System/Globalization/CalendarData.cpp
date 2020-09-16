@@ -504,7 +504,7 @@ Boolean CalendarData___::EnumCalendarInfo(String localeName, CalendarId calendar
 }
 
 Boolean CalendarData___::EnumCalendarInfo(String localeName, CalendarId calendarId, CalendarDataType dataType, IcuEnumCalendarsData& callbackContext) {
-  return Interop::Globalization::EnumCalendarInfo(EnumCalendarInfoCallback, localeName, calendarId, dataType, (IntPtr)Unsafe::AsPointer(callbackContext));
+  return Interop::Globalization::EnumCalendarInfo(__ldftn(EnumCalendarInfoCallback), localeName, calendarId, dataType, (IntPtr)Unsafe::AsPointer(callbackContext));
 }
 
 void CalendarData___::EnumCalendarInfoCallback(Char* calendarStringPtr, IntPtr context) {
@@ -704,7 +704,7 @@ Boolean CalendarData___::CallEnumCalendarInfo(String localeName, CalendarId cale
       }
     }
   }
-  Interop::Kernel32::EnumCalendarInfoExEx(EnumCalendarInfoCallback, localeName, (UInt32)calendar, nullptr, calType, Unsafe::AsPointer(value));
+  Interop::Kernel32::EnumCalendarInfoExEx(__ldftn(EnumCalendarInfoCallback), localeName, (UInt32)calendar, nullptr, calType, Unsafe::AsPointer(value));
   if (value.strings->get_Count() == 0) {
     data = nullptr;
     return false;
@@ -789,7 +789,7 @@ Int32 CalendarData___::NlsGetCalendars(String localeName, Boolean useUserOverrid
       value.calendars->Add(localeInfoExInt);
     }
   }
-  Interop::Kernel32::EnumCalendarInfoExEx(EnumCalendarsCallback, localeName, UInt32::MaxValue, nullptr, 1u, Unsafe::AsPointer(value));
+  Interop::Kernel32::EnumCalendarInfoExEx(__ldftn(EnumCalendarsCallback), localeName, UInt32::MaxValue, nullptr, 1u, Unsafe::AsPointer(value));
   for (Int32 i = 0; i < Math::Min(calendars->get_Length(), value.calendars->get_Count()); i++) {
     calendars[i] = (CalendarId)value.calendars[i];
   }

@@ -1,7 +1,6 @@
 #include "EventSource-dep.h"
 
 #include <System.Private.CoreLib/Interop-dep.h>
-#include <System.Private.CoreLib/Microsoft/Reflection/ReflectionExtensions-dep.h>
 #include <System.Private.CoreLib/System/Activator-dep.h>
 #include <System.Private.CoreLib/System/AppContext-dep.h>
 #include <System.Private.CoreLib/System/ArgumentException-dep.h>
@@ -62,7 +61,6 @@
 #include <System.Private.CoreLib/System/Reflection/MethodInfo-dep.h>
 #include <System.Private.CoreLib/System/Reflection/PropertyInfo-dep.h>
 #include <System.Private.CoreLib/System/Resources/ResourceManager-dep.h>
-#include <System.Private.CoreLib/System/Runtime/CompilerServices/RuntimeHelpers-dep.h>
 #include <System.Private.CoreLib/System/Runtime/InteropServices/GCHandle-dep.h>
 #include <System.Private.CoreLib/System/Runtime/InteropServices/GCHandleType.h>
 #include <System.Private.CoreLib/System/Runtime/InteropServices/Marshal-dep.h>
@@ -80,14 +78,12 @@
 #include <System.Private.CoreLib/System/WeakReference-dep.h>
 
 namespace System::Private::CoreLib::System::Diagnostics::Tracing::EventSourceNamespace {
-using namespace Microsoft::Reflection;
 using namespace System::Collections::Generic;
 using namespace System::Collections::ObjectModel;
 using namespace System::Globalization;
 using namespace System::Numerics;
 using namespace System::Reflection;
 using namespace System::Resources;
-using namespace System::Runtime::CompilerServices;
 using namespace System::Runtime::InteropServices;
 using namespace System::Text;
 using namespace System::Threading;
@@ -1077,7 +1073,7 @@ Object EventSource___::DecodeObject(Int32 eventId, Int32 parameterId, EventData*
     }
     try {
       m_EventSourceInDecodeObject = true;
-      if (ReflectionExtensions::IsEnum(type)) {
+      if (type->get_IsEnum()) {
         type = Enum::in::GetUnderlyingType(type);
         Int32 num2 = Marshal::SizeOf(type);
         if (num2 < 4) {
@@ -1604,25 +1600,23 @@ Boolean EventSource___::AnyEventEnabled() {
 }
 
 void EventSource___::EnsureDescriptorsInitialized() {
-  if (m_eventData == nullptr) {
-    m_rawManifest = CreateManifestAndDescriptors(GetType(), get_Name(), (EventSource)this);
-    for (WeakReference<EventSource>&& s_EventSource : *EventListener::in::s_EventSources) {
-      EventSource target;
-      if (s_EventSource->TryGetTarget(target) && target->get_Guid() == m_guid && !target->get_IsDisposed() && target != (EventSource)this) {
-        rt::throw_exception<ArgumentException>(SR::Format(SR::get_EventSource_EventSourceGuidInUse(), m_guid));
-      }
-    }
-    for (EventDispatcher eventDispatcher = m_Dispatchers; eventDispatcher != nullptr; eventDispatcher = eventDispatcher->m_Next) {
-      EventDispatcher eventDispatcher2 = eventDispatcher;
-      if (eventDispatcher2->m_EventEnabled == nullptr) {
-        eventDispatcher2->m_EventEnabled = rt::newarr<Array<Boolean>>(m_eventData->get_Length());
-      }
-    }
-    DefineEventPipeEvents();
+  if (m_eventData != nullptr) {
+    return;
   }
-  if (s_currentPid == 0) {
-    s_currentPid = Interop::GetCurrentProcessId();
+  m_rawManifest = CreateManifestAndDescriptors(GetType(), get_Name(), (EventSource)this);
+  for (WeakReference<EventSource>&& s_EventSource : *EventListener::in::s_EventSources) {
+    EventSource target;
+    if (s_EventSource->TryGetTarget(target) && target->get_Guid() == m_guid && !target->get_IsDisposed() && target != (EventSource)this) {
+      rt::throw_exception<ArgumentException>(SR::Format(SR::get_EventSource_EventSourceGuidInUse(), m_guid));
+    }
   }
+  for (EventDispatcher eventDispatcher = m_Dispatchers; eventDispatcher != nullptr; eventDispatcher = eventDispatcher->m_Next) {
+    EventDispatcher eventDispatcher2 = eventDispatcher;
+    if (eventDispatcher2->m_EventEnabled == nullptr) {
+      eventDispatcher2->m_EventEnabled = rt::newarr<Array<Boolean>>(m_eventData->get_Length());
+    }
+  }
+  DefineEventPipeEvents();
 }
 
 void EventSource___::SendManifest(Array<Byte> rawManifest) {
@@ -1676,7 +1670,7 @@ void EventSource___::SendManifest(Array<Byte> rawManifest) {
 }
 
 Attribute EventSource___::GetCustomAttributeHelper(MemberInfo member, Type attributeType, EventManifestOptions flags) {
-  if (!ReflectionExtensions::ReflectionOnly(member->get_Module()->get_Assembly()) && (flags & EventManifestOptions::AllowEventSourceOverride) == 0) {
+  if (!member->get_Module()->get_Assembly()->get_ReflectionOnly() && (flags & EventManifestOptions::AllowEventSourceOverride) == 0) {
     Attribute result = nullptr;
     Array<Object> customAttributes = member->GetCustomAttributes(attributeType, false);
     Int32 num = 0;
@@ -1726,12 +1720,12 @@ Boolean EventSource___::AttributeTypeNamesMatch(Type attributeType, Type reflect
 
 Type EventSource___::GetEventSourceBaseType(Type eventSourceType, Boolean allowEventSourceOverride, Boolean reflectionOnly) {
   Type type = eventSourceType;
-  if (ReflectionExtensions::BaseType(type) == nullptr) {
+  if (type->get_BaseType() == nullptr) {
     return nullptr;
   }
   do {
-    type = ReflectionExtensions::BaseType(type);
-  } while (type != nullptr && ReflectionExtensions::IsAbstract(type))
+    type = type->get_BaseType();
+  } while (type != nullptr && type->get_IsAbstract())
   if (type != nullptr) {
     if (!allowEventSourceOverride) {
       if ((reflectionOnly && type->get_FullName() != typeof<EventSource>()->get_FullName()) || (!reflectionOnly && type != typeof<EventSource>())) {
@@ -1750,7 +1744,7 @@ Array<Byte> EventSource___::CreateManifestAndDescriptors(Type eventSourceType, S
   Boolean flag = source == nullptr || !source->get_SelfDescribingEvents();
   Exception ex = nullptr;
   Array<Byte> result = nullptr;
-  if (ReflectionExtensions::IsAbstract(eventSourceType) && (flags & EventManifestOptions::Strict) == 0) {
+  if (eventSourceType->get_IsAbstract() && (flags & EventManifestOptions::Strict) == 0) {
     return nullptr;
   }
   try {
@@ -1765,17 +1759,17 @@ Array<Byte> EventSource___::CreateManifestAndDescriptors(Type eventSourceType, S
     ResourceManager resources = nullptr;
     EventSourceAttribute eventSourceAttribute = (EventSourceAttribute)GetCustomAttributeHelper(eventSourceType, typeof<EventSourceAttribute>(), flags);
     if (eventSourceAttribute != nullptr && eventSourceAttribute->get_LocalizationResources() != nullptr) {
-      resources = rt::newobj<ResourceManager>(eventSourceAttribute->get_LocalizationResources(), ReflectionExtensions::Assembly(eventSourceType));
+      resources = rt::newobj<ResourceManager>(eventSourceAttribute->get_LocalizationResources(), eventSourceType->get_Assembly());
     }
     manifestBuilder = rt::newobj<ManifestBuilder>(GetName(eventSourceType, flags), GetGuid(eventSourceType), eventSourceDllName, resources, flags);
     manifestBuilder->StartEvent("EventSourceMessage", rt::newobj<EventAttribute>(0));
     manifestBuilder->AddEventParameter(typeof<String>(), "message");
     manifestBuilder->EndEvent();
     if ((flags & EventManifestOptions::Strict) != 0) {
-      if (!(GetEventSourceBaseType(eventSourceType, (flags & EventManifestOptions::AllowEventSourceOverride) != 0, ReflectionExtensions::ReflectionOnly(ReflectionExtensions::Assembly(eventSourceType))) != nullptr)) {
+      if (!(GetEventSourceBaseType(eventSourceType, (flags & EventManifestOptions::AllowEventSourceOverride) != 0, eventSourceType->get_Assembly()->get_ReflectionOnly()) != nullptr)) {
         manifestBuilder->ManifestError(SR::get_EventSource_TypeMustDeriveFromEventSource());
       }
-      if (!ReflectionExtensions::IsAbstract(eventSourceType) && !ReflectionExtensions::IsSealed(eventSourceType)) {
+      if (!eventSourceType->get_IsAbstract() && !eventSourceType->get_IsSealed()) {
         manifestBuilder->ManifestError(SR::get_EventSource_TypeMustBeSealedOrAbstract());
       }
     }
@@ -1785,7 +1779,7 @@ Array<Byte> EventSource___::CreateManifestAndDescriptors(Type eventSourceType, S
       if (!(nestedType != nullptr)) {
         continue;
       }
-      if (ReflectionExtensions::IsAbstract(eventSourceType)) {
+      if (eventSourceType->get_IsAbstract()) {
         manifestBuilder->ManifestError(SR::Format(SR::get_EventSource_AbstractMustNotDeclareKTOC(), nestedType->get_Name()));
         continue;
       }
@@ -1805,7 +1799,7 @@ Array<Byte> EventSource___::CreateManifestAndDescriptors(Type eventSourceType, S
         if (methodInfo->get_IsStatic()) {
           continue;
         }
-        if (ReflectionExtensions::IsAbstract(eventSourceType)) {
+        if (eventSourceType->get_IsAbstract()) {
           if (eventAttribute != nullptr) {
             manifestBuilder->ManifestError(SR::Format(SR::get_EventSource_AbstractMustNotDeclareEventMethods(), methodInfo->get_Name(), eventAttribute->get_EventId()));
           }
@@ -1886,7 +1880,7 @@ Array<Byte> EventSource___::CreateManifestAndDescriptors(Type eventSourceType, S
       source->m_eventData = eventData;
       source->m_channelData = manifestBuilder->GetChannelData();
     }
-    if (!ReflectionExtensions::IsAbstract(eventSourceType) && (source == nullptr || !source->get_SelfDescribingEvents())) {
+    if (!eventSourceType->get_IsAbstract() && (source == nullptr || !source->get_SelfDescribingEvents())) {
       flag = ((flags & EventManifestOptions::OnlyIfNeededForRegistration) == 0 || manifestBuilder->GetChannelData()->get_Length() != 0);
       if (!flag && (flags & EventManifestOptions::Strict) == 0) {
         return nullptr;
@@ -1932,22 +1926,22 @@ Boolean EventSource___::RemoveFirstArgIfRelatedActivityId(Array<ParameterInfo>& 
 }
 
 void EventSource___::AddProviderEnumKind(ManifestBuilder manifest, FieldInfo staticField, String providerEnumKind) {
-  Boolean flag = ReflectionExtensions::ReflectionOnly(staticField->get_Module()->get_Assembly());
+  Boolean reflectionOnly = staticField->get_Module()->get_Assembly()->get_ReflectionOnly();
   Type fieldType = staticField->get_FieldType();
-  if ((!flag && fieldType == typeof<EventOpcode>()) || AttributeTypeNamesMatch(fieldType, typeof<EventOpcode>())) {
+  if ((!reflectionOnly && fieldType == typeof<EventOpcode>()) || AttributeTypeNamesMatch(fieldType, typeof<EventOpcode>())) {
     if (!(providerEnumKind != "Opcodes")) {
       Int32 value = (Int32)staticField->GetRawConstantValue();
       manifest->AddOpcode(staticField->get_Name(), value);
       return;
     }
-  } else if ((!flag && fieldType == typeof<EventTask>()) || AttributeTypeNamesMatch(fieldType, typeof<EventTask>())) {
+  } else if ((!reflectionOnly && fieldType == typeof<EventTask>()) || AttributeTypeNamesMatch(fieldType, typeof<EventTask>())) {
     if (!(providerEnumKind != "Tasks")) {
       Int32 value2 = (Int32)staticField->GetRawConstantValue();
       manifest->AddTask(staticField->get_Name(), value2);
       return;
     }
   } else {
-    if ((flag || !(fieldType == typeof<EventKeywords>())) && !AttributeTypeNamesMatch(fieldType, typeof<EventKeywords>())) {
+    if ((reflectionOnly || !(fieldType == typeof<EventKeywords>())) && !AttributeTypeNamesMatch(fieldType, typeof<EventKeywords>())) {
       return;
     }
     if (!(providerEnumKind != "Keywords")) {
@@ -2142,19 +2136,19 @@ Int32 EventSource___::GetHelperCallFirstArg(MethodInfo method) {
 
 void EventSource___::ReportOutOfBandMessage(String msg) {
   try {
-    Debugger::Log(0, nullptr, String::in::Format("EventSource Error: {0}{1}", msg, Environment::get_NewLine()));
     if (m_outOfBandMessageCount < 15) {
       m_outOfBandMessageCount++;
-      goto IL_004d;
+      goto IL_0036;
     }
     if (m_outOfBandMessageCount == 16) {
       return;
     }
     m_outOfBandMessageCount = 16;
     msg = "Reached message limit.   End of EventSource error messages.";
-    goto IL_004d;
+    goto IL_0036;
 
-  IL_004d:
+  IL_0036:
+    Debugger::Log(0, nullptr, String::in::Format("EventSource Error: {0}{1}", msg, Environment::get_NewLine()));
     WriteEventString(msg);
     WriteStringToAllListeners("EventSourceMessage", msg);
   } catch (...) {
@@ -2242,7 +2236,6 @@ void EventSource___::WriteMultiMergeInner(String eventName, EventSourceOptions& 
         ptr->SetMetadata(pointer, providerMetadata->get_Length(), 2);
         ptr[1].SetMetadata(pointer2, nameInfo->nameMetadata->get_Length(), 1);
         ptr[2].SetMetadata(pointer3, eventTypes->typeMetadata->get_Length(), 1);
-        RuntimeHelpers::PrepareConstrainedRegions();
         try {
           DataCollector::ThreadInstance.Enable(scratch, eventTypes->scratchSize, ptr + 3, eventTypes->dataCount, ptr2, pinCount);
           for (Int32 k = 0; k < eventTypes->typeInfos->get_Length(); k++) {
@@ -2337,7 +2330,6 @@ void EventSource___::WriteImpl(String eventName, EventSourceOptions& options, Ob
                 ptr->SetMetadata(pointer, providerMetadata->get_Length(), 2);
                 ptr[1].SetMetadata(pointer2, nameInfo->nameMetadata->get_Length(), 1);
                 ptr[2].SetMetadata(pointer3, eventTypes->typeMetadata->get_Length(), 1);
-                RuntimeHelpers::PrepareConstrainedRegions();
                 EventOpcode opcode = (EventOpcode)descriptor.get_Opcode();
                 Guid activityId = Guid::Empty;
                 Guid relatedActivityId = Guid::Empty;

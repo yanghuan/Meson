@@ -769,6 +769,7 @@ class SR {
   public: static String get_InvalidTimeZone_InvalidRegistryData();
   public: static String get_InvariantFailed();
   public: static String get_InvariantFailed_Cnd();
+  public: static String get_IO_NoFileTableInInMemoryAssemblies();
   public: static String get_IO_EOF_ReadBeyondEOF();
   public: static String get_IO_FileLoad();
   public: static String get_IO_FileName_Name();
@@ -1082,7 +1083,9 @@ class SR {
   public: static String get_IDynamicInterfaceCastable_MissingImplementationAttribute();
   public: static String get_IDynamicInterfaceCastable_NotInterface();
   public: static String get_Arg_MustBeHalf();
+  public: static String get_Arg_MustBeRune();
   public: static String get_BinaryFormatter_SerializationDisallowed();
+  public: static String get_NotSupported_CodeBase();
   public: static String GetResourceString(String resourceKey);
   private: static String InternalGetResourceString(String key);
   private: static Boolean UsingResourceKeys();

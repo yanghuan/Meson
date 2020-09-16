@@ -516,6 +516,7 @@ void Uri___::CreateUri(Uri baseUri, String relativeUri, Boolean dontEscape) {
   _flags = Flags::Zero;
   _info = nullptr;
   _syntax = nullptr;
+  _originalUnicodeString = nullptr;
   CreateThis(relativeUri, dontEscape, UriKind::Absolute);
 }
 
@@ -549,6 +550,7 @@ void Uri___::ctor(Uri baseUri, Uri relativeUri) {
   _flags = Flags::Zero;
   _info = nullptr;
   _syntax = nullptr;
+  _originalUnicodeString = nullptr;
   CreateThis(newUriString, userEscaped, UriKind::Absolute);
 }
 

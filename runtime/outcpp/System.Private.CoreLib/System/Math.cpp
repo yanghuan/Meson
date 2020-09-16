@@ -9,7 +9,7 @@
 #include <System.Private.CoreLib/System/Runtime/Intrinsics/Arm/AdvSimd-dep.h>
 #include <System.Private.CoreLib/System/Runtime/Intrinsics/Vector128-dep.h>
 #include <System.Private.CoreLib/System/Runtime/Intrinsics/X86/Bmi2-dep.h>
-#include <System.Private.CoreLib/System/Runtime/Intrinsics/X86/Sse-dep.h>
+#include <System.Private.CoreLib/System/Runtime/Intrinsics/X86/Sse2-dep.h>
 #include <System.Private.CoreLib/System/SR-dep.h>
 #include <System.Private.CoreLib/System/UInt32-dep.h>
 
@@ -137,7 +137,7 @@ Double Math::CopySign(Double x, Double y) {
     num2 &= Int64::MinValue;
     return BitConverter::Int64BitsToDouble(num | num2);
   };
-  if (Sse::in::get_IsSupported() || AdvSimd::in::get_IsSupported()) {
+  if (Sse2::in::get_IsSupported() || AdvSimd::in::get_IsSupported()) {
     return Vector128<>::ToScalar(VectorMath::ConditionalSelectBitwise(Vector128<>::CreateScalarUnsafe(-0), Vector128<>::CreateScalarUnsafe(y), Vector128<>::CreateScalarUnsafe(x)));
   }
   return SoftwareFallback(x, y);

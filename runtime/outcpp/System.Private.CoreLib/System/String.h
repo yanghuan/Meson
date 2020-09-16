@@ -84,7 +84,8 @@ CLASS(String) : public object {
   public: Int32 GetBytesFromEncoding(Byte* pbNativeBuffer, Int32 cbNativeBuffer, Encoding encoding);
   private: static Boolean EqualsHelper(String strA, String strB);
   private: static Int32 CompareOrdinalHelper(String strA, Int32 indexA, Int32 countA, String strB, Int32 indexB, Int32 countB);
-  private: static Boolean EqualsOrdinalIgnoreCase(String strA, String strB);
+  public: static Boolean EqualsOrdinalIgnoreCase(String strA, String strB);
+  private: static Boolean EqualsOrdinalIgnoreCaseNoLengthCheck(String strA, String strB);
   private: static Int32 CompareOrdinalHelper(String strA, String strB);
   public: static Int32 Compare(String strA, String strB);
   public: static Int32 Compare(String strA, String strB, Boolean ignoreCase);
@@ -119,6 +120,7 @@ CLASS(String) : public object {
   public: static Int32 GetHashCode(ReadOnlySpan<Char> value, StringComparison comparisonType);
   public: static Int32 GetHashCodeOrdinalIgnoreCase(ReadOnlySpan<Char> value);
   public: Int32 GetNonRandomizedHashCode();
+  public: Int32 GetNonRandomizedHashCodeOrdinalIgnoreCase();
   public: Boolean StartsWith(String value);
   public: Boolean StartsWith(String value, StringComparison comparisonType);
   public: Boolean StartsWith(String value, Boolean ignoreCase, CultureInfo culture);

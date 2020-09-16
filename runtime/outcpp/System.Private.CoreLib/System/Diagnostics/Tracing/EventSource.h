@@ -252,7 +252,6 @@ CLASS(EventSource) : public object {
   private: Byte m_outOfBandMessageCount;
   private: EventCommandEventArgs m_deferredCommands;
   private: Array<String> m_traits;
-  public: static UInt32 s_currentPid;
   private: static Byte m_EventSourceExceptionRecurenceCount;
   private: static Boolean m_EventSourceInDecodeObject;
   public: Array<UInt64> m_channelData;

@@ -22,6 +22,7 @@
 #include <System.Private.CoreLib/System/ReadOnlySpan-dep.h>
 #include <System.Private.CoreLib/System/Span-dep.h>
 #include <System.Private.CoreLib/System/SR-dep.h>
+#include <System.Private.CoreLib/System/StringComparer-dep.h>
 #include <System.Private.CoreLib/System/StringComparison.h>
 #include <System.Private.CoreLib/System/Text/StringBuilder-dep.h>
 #include <System.Private.CoreLib/System/UInt32-dep.h>
@@ -33,7 +34,7 @@ using namespace System::Text;
 Dictionary<String, String> CultureData___::get_RegionNames() {
   Object obj = s_regionNames;
   if (obj == nullptr) {
-    obj = rt::newobj<Dictionary<String, String>>(257);
+    obj = rt::newobj<Dictionary<String, String>>(257, StringComparer::in::get_OrdinalIgnoreCase());
     s_regionNames = (Dictionary<String, String>)obj;
   }
   return (Dictionary<String, String>)obj;
@@ -488,7 +489,7 @@ String CultureData___::get_TimeSeparator() {
 Boolean CultureData___::get_NlsIsReplacementCulture() {
   EnumData value;
   value.strings = rt::newobj<List<String>>();
-  Interop::Kernel32::EnumSystemLocalesEx(EnumAllSystemLocalesProc, 8u, Unsafe::AsPointer(value), IntPtr::Zero);
+  Interop::Kernel32::EnumSystemLocalesEx(__ldftn(EnumAllSystemLocalesProc), 8u, Unsafe::AsPointer(value), IntPtr::Zero);
   for (Int32 i = 0; i < value.strings->get_Count(); i++) {
     if (String::in::Equals(value.strings[i], _sWindowsName, StringComparison::OrdinalIgnoreCase)) {
       return true;
@@ -1383,7 +1384,7 @@ CultureData CultureData___::NlsGetCultureDataFromRegionName(String regionName) {
   EnumLocaleData value;
   value.cultureName = nullptr;
   value.regionName = regionName;
-  Interop::Kernel32::EnumSystemLocalesEx(EnumSystemLocalesProc, 34u, Unsafe::AsPointer(value), IntPtr::Zero);
+  Interop::Kernel32::EnumSystemLocalesEx(__ldftn(EnumSystemLocalesProc), 34u, Unsafe::AsPointer(value), IntPtr::Zero);
   if (value.cultureName != nullptr) {
     return GetCultureData(value.cultureName, true);
   }
@@ -1517,7 +1518,7 @@ Interop::BOOL CultureData___::EnumTimeCallback(Char* lpTimeFormatString, void* l
 Array<String> CultureData___::nativeEnumTimeFormats(String localeName, UInt32 dwFlags, Boolean useUserOverride) {
   EnumData value;
   value.strings = rt::newobj<List<String>>();
-  Interop::Kernel32::EnumTimeFormatsEx(EnumTimeCallback, localeName, dwFlags, Unsafe::AsPointer(value));
+  Interop::Kernel32::EnumTimeFormatsEx(__ldftn(EnumTimeCallback), localeName, dwFlags, Unsafe::AsPointer(value));
   if (value.strings->get_Count() > 0) {
     Array<String> array = value.strings->ToArray();
     if (!useUserOverride && value.strings->get_Count() > 1) {
@@ -1563,7 +1564,7 @@ Array<CultureInfo> CultureData___::NlsEnumCultures(CultureTypes types) {
   }
   EnumData value;
   value.strings = rt::newobj<List<String>>();
-  Interop::Kernel32::EnumSystemLocalesEx(EnumAllSystemLocalesProc, num, Unsafe::AsPointer(value), IntPtr::Zero);
+  Interop::Kernel32::EnumSystemLocalesEx(__ldftn(EnumAllSystemLocalesProc), num, Unsafe::AsPointer(value), IntPtr::Zero);
   Array<CultureInfo> array = rt::newarr<Array<CultureInfo>>(value.strings->get_Count());
   for (Int32 i = 0; i < array->get_Length(); i++) {
     array[i] = rt::newobj<CultureInfo>(value.strings[i]);

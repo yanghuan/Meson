@@ -4,6 +4,7 @@
 #include <System.Private.CoreLib/System/ArgumentNullException-dep.h>
 #include <System.Private.CoreLib/System/ArgumentOutOfRangeException-dep.h>
 #include <System.Private.CoreLib/System/Buffers/ArrayPool-dep.h>
+#include <System.Private.CoreLib/System/Buffers/Binary/BinaryPrimitives-dep.h>
 #include <System.Private.CoreLib/System/Byte-dep.h>
 #include <System.Private.CoreLib/System/Exception-dep.h>
 #include <System.Private.CoreLib/System/IO/BinaryWriter-dep.h>
@@ -12,11 +13,11 @@
 #include <System.Private.CoreLib/System/SR-dep.h>
 #include <System.Private.CoreLib/System/Text/UTF8Encoding-dep.h>
 #include <System.Private.CoreLib/System/Type-dep.h>
-#include <System.Private.CoreLib/System/UInt64-dep.h>
 #include <System.Private.CoreLib/System/UIntPtr-dep.h>
 
 namespace System::Private::CoreLib::System::IO::BinaryWriterNamespace {
 using namespace System::Buffers;
+using namespace System::Buffers::Binary;
 using namespace System::Text;
 
 Stream BinaryWriter___::get_BaseStream() {
@@ -97,8 +98,7 @@ Int64 BinaryWriter___::Seek(Int32 offset, SeekOrigin origin) {
 }
 
 void BinaryWriter___::Write(Boolean value) {
-  _buffer[0] = (Byte)(value ? 1u : 0u);
-  OutStream->Write(_buffer, 0, 1);
+  OutStream->WriteByte((Byte)(value ? 1u : 0u));
 }
 
 void BinaryWriter___::Write(Byte value) {
@@ -146,15 +146,7 @@ void BinaryWriter___::Write(Array<Char> chars, Int32 index, Int32 count) {
 }
 
 void BinaryWriter___::Write(Double value) {
-  UInt64 num = (UInt64)(*(Int64*)(&value));
-  _buffer[0] = (Byte)num;
-  _buffer[1] = (Byte)(num >> 8);
-  _buffer[2] = (Byte)(num >> 16);
-  _buffer[3] = (Byte)(num >> 24);
-  _buffer[4] = (Byte)(num >> 32);
-  _buffer[5] = (Byte)(num >> 40);
-  _buffer[6] = (Byte)(num >> 48);
-  _buffer[7] = (Byte)(num >> 56);
+  BinaryPrimitives::WriteDoubleLittleEndian(_buffer, value);
   OutStream->Write(_buffer, 0, 8);
 }
 
@@ -192,26 +184,12 @@ void BinaryWriter___::Write(UInt32 value) {
 }
 
 void BinaryWriter___::Write(Int64 value) {
-  _buffer[0] = (Byte)value;
-  _buffer[1] = (Byte)(value >> 8);
-  _buffer[2] = (Byte)(value >> 16);
-  _buffer[3] = (Byte)(value >> 24);
-  _buffer[4] = (Byte)(value >> 32);
-  _buffer[5] = (Byte)(value >> 40);
-  _buffer[6] = (Byte)(value >> 48);
-  _buffer[7] = (Byte)(value >> 56);
+  BinaryPrimitives::WriteInt64LittleEndian(_buffer, value);
   OutStream->Write(_buffer, 0, 8);
 }
 
 void BinaryWriter___::Write(UInt64 value) {
-  _buffer[0] = (Byte)value;
-  _buffer[1] = (Byte)(value >> 8);
-  _buffer[2] = (Byte)(value >> 16);
-  _buffer[3] = (Byte)(value >> 24);
-  _buffer[4] = (Byte)(value >> 32);
-  _buffer[5] = (Byte)(value >> 40);
-  _buffer[6] = (Byte)(value >> 48);
-  _buffer[7] = (Byte)(value >> 56);
+  BinaryPrimitives::WriteUInt64LittleEndian(_buffer, value);
   OutStream->Write(_buffer, 0, 8);
 }
 

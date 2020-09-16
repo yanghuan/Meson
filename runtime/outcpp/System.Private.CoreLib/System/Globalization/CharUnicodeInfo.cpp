@@ -157,6 +157,10 @@ Double CharUnicodeInfo::GetNumericValue(String s, Int32 index) {
   if ((UInt32)index >= (UInt32)s->get_Length()) {
     ThrowHelper::ThrowArgumentOutOfRangeException(ExceptionArgument::index);
   }
+  return GetNumericValueInternal(s, index);
+}
+
+Double CharUnicodeInfo::GetNumericValueInternal(String s, Int32 index) {
   return GetNumericValueNoBoundsCheck((UInt32)GetCodePointFromString(s, index));
 }
 

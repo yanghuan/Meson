@@ -6,12 +6,12 @@
 #include <System.Private.CoreLib/System/Diagnostics/Tracing/ActivityTracker-dep.h>
 #include <System.Private.CoreLib/System/Diagnostics/Tracing/EventKeywords.h>
 #include <System.Private.CoreLib/System/Diagnostics/Tracing/EventLevel.h>
+#include <System.Private.CoreLib/System/Environment-dep.h>
 #include <System.Private.CoreLib/System/Guid-dep.h>
 #include <System.Private.CoreLib/System/IntPtr-dep.h>
 #include <System.Private.CoreLib/System/Runtime/CompilerServices/AsyncMethodBuilderCore-dep.h>
 #include <System.Private.CoreLib/System/Runtime/CompilerServices/IAsyncStateMachine.h>
 #include <System.Private.CoreLib/System/Threading/Tasks/TplEventSource-dep.h>
-#include <System.Private.CoreLib/System/UInt32-dep.h>
 #include <System.Private.CoreLib/System/UInt64-dep.h>
 #include <System.Private.CoreLib/System/UIntPtr-dep.h>
 
@@ -254,8 +254,8 @@ void TplEventSource___::IncompleteAsyncMethod(String stateMachineDescription) {
 }
 
 Guid TplEventSource___::CreateGuidForTaskID(Int32 taskID) {
-  UInt32 s_currentPid = EventSource::in::s_currentPid;
-  return Guid(taskID, 1, 0, (Byte)s_currentPid, (Byte)(s_currentPid >> 8), (Byte)(s_currentPid >> 16), (Byte)(s_currentPid >> 24), Byte::MaxValue, 220, 215, 181);
+  Int32 processId = Environment::get_ProcessId();
+  return Guid(taskID, 1, 0, (Byte)processId, (Byte)(processId >> 8), (Byte)(processId >> 16), (Byte)(processId >> 24), Byte::MaxValue, 220, 215, 181);
 }
 
 void TplEventSource___::cctor() {

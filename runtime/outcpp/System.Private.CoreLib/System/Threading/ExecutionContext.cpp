@@ -48,6 +48,10 @@ ExecutionContext ExecutionContext___::Capture() {
   return executionContext;
 }
 
+ExecutionContext ExecutionContext___::CaptureForRestore() {
+  return Thread::in::get_CurrentThread()->_executionContext;
+}
+
 ExecutionContext ExecutionContext___::ShallowClone(Boolean isFlowSuppressed) {
   if (m_localValues == nullptr || AsyncLocalValueMap::IsEmpty(m_localValues)) {
     if (!isFlowSuppressed) {
@@ -133,6 +137,13 @@ void ExecutionContext___::RunInternal(ExecutionContext executionContext, Context
 }
 
 void ExecutionContext___::Restore(ExecutionContext executionContext) {
+  if (executionContext == nullptr) {
+    ThrowNullContext();
+  }
+  RestoreInternal(executionContext);
+}
+
+void ExecutionContext___::RestoreInternal(ExecutionContext executionContext) {
   Thread currentThread = Thread::in::get_CurrentThread();
   ExecutionContext executionContext2 = currentThread->_executionContext;
   if (executionContext2 != nullptr && executionContext2->m_isDefault) {

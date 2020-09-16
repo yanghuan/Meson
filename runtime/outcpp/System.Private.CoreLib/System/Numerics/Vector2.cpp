@@ -33,7 +33,7 @@ Vector2 Vector2::get_UnitY() {
 }
 
 Int32 Vector2::GetHashCode() {
-  return HashCode::Combine(X.GetHashCode(), Y.GetHashCode());
+  return HashCode::Combine(X, Y);
 }
 
 Boolean Vector2::Equals(Object obj) {

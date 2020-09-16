@@ -78,4 +78,9 @@ void CultureAwareComparer___::GetObjectData(SerializationInfo info, StreamingCon
   info->AddValue("_ignoreCase", (_options & CompareOptions::IgnoreCase) != 0);
 }
 
+void CultureAwareComparer___::cctor() {
+  InvariantCaseSensitiveInstance = rt::newobj<CultureAwareComparer>(CompareInfo::in::Invariant, CompareOptions::None);
+  InvariantIgnoreCaseInstance = rt::newobj<CultureAwareComparer>(CompareInfo::in::Invariant, CompareOptions::IgnoreCase);
+}
+
 } // namespace System::Private::CoreLib::System::CultureAwareComparerNamespace

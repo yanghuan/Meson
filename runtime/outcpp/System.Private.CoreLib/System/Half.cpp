@@ -99,11 +99,17 @@ Boolean Half::op_GreaterThanOrEqual(Half left, Half right) {
 }
 
 Boolean Half::op_Equality(Half left, Half right) {
-  return left.Equals(right);
+  if (IsNaN(left) || IsNaN(right)) {
+    return false;
+  }
+  if (left._value != right._value) {
+    return AreZero(left, right);
+  }
+  return true;
 }
 
 Boolean Half::op_Inequality(Half left, Half right) {
-  return !left.Equals(right);
+  return !(left == right);
 }
 
 Boolean Half::IsFinite(Half value) {
@@ -257,13 +263,13 @@ Boolean Half::Equals(Object obj) {
 }
 
 Boolean Half::Equals(Half other) {
-  if (IsNaN(*this) || IsNaN(other)) {
-    return false;
+  if (*this == other) {
+    return true;
   }
-  if (_value != other._value) {
-    return AreZero(*this, other);
+  if (IsNaN(*this)) {
+    return IsNaN(other);
   }
-  return true;
+  return false;
 }
 
 Int32 Half::GetHashCode() {

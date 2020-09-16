@@ -226,12 +226,10 @@ namespace rt {
   static constexpr bool IsInterfacesContains = IsInterfacesContainsType<Interfaces, I, ((int)std::tuple_size_v<Interfaces>) - 1>::value;
 
   template <class To, class From>
-  struct IsInterfaceConvertible {
-    static constexpr bool value = CodeOf<To> == TypeCode::Interface && IsInterfacesContains<InterfaceOf<From>, To>;
-  };
+  static constexpr bool IsInterfaceConvertible = CodeOf<To> == TypeCode::Interface && IsInterfacesContains<InterfaceOf<From>, To>;
 
   template <class To, class From>
-  static constexpr bool IsConvertible = IsDerived<To, From> || IsArrayConvertible<To, From>::value || IsInterfaceConvertible<To, From>::value;
+  static constexpr bool IsConvertible = IsDerived<To, From> || IsArrayConvertible<To, From>::value || IsInterfaceConvertible<To, From>;
 
   template <class T>
   static constexpr bool AlwaysTrue = true;
@@ -251,6 +249,9 @@ namespace rt {
 
   template <class T>
   static constexpr bool IsValueType = IsValueTypeFunc<T>();
+
+  template <class From, class To>
+  static constexpr bool IsBoxType = !IsRef<From> && !std::is_same_v<From, std::nullptr_t> && IsObject<To>;
 
   template <class T>
   class ref {
@@ -281,12 +282,6 @@ namespace rt {
     ref(const ref<T1>& other) noexcept {
       copyOf(other);
     }
-
-    /*
-    template <int N, class T2 = T> requires(IsString<T2>)
-    ref(const char (&str)[N]) {
-      moveOf(string::load(str, N));
-    }*/
 
     template <class T1 = char, class T2 = T> requires(IsString<T2>)
     ref(const T1 *str) {
@@ -393,8 +388,15 @@ namespace rt {
       return p_ == nullptr ? nullptr : &(get()->GetPinnableReference());
     }
 
-    template <class R, class T1 = T> requires(IsObject<T1>)
+    template <class R, class T1 = T> requires(!IsRef<R> && IsObject<T1>)
     explicit operator R() {
+      //TODO 
+      return R();
+    }
+
+    template <class R, class T1 = T> requires(IsRef<R> && IsConvertible<T1, RefElementType<R>::type>)
+    explicit operator R() {
+      //TODO 
       return R();
     }
     
@@ -806,6 +808,12 @@ namespace rt {
     explicit operator R*() const noexcept {
       return (R*)(static_cast<const T*>(this)->get());
     }
+
+    template <class R, class T1 = T> requires(IsInterfaceConvertible<R, T1>)
+    explicit operator R() const noexcept {
+      //TODO
+      return R();
+    }
   };
 
   template <class T, class Base>
@@ -958,12 +966,12 @@ namespace rt {
 
   template <class T>
   struct EnumeratorBridge : public std::conditional_t<IsRef<T>, RefEnumerator<T>, StructEnumerator<T>> {
-    EnumeratorBridge(T& ins) : EnumeratorBridge::Base(ins) {}
+    EnumeratorBridge(const T& ins) : EnumeratorBridge::Base(const_cast<T&>(ins)) {}
   };
 
   template <class T>
-  inline EnumeratorBridge<decltype(T()->GetEnumerator())> each(T& obj) {
-    return obj->GetEnumerator();
+  inline auto each(T& obj) {
+    return EnumeratorBridge { obj->GetEnumerator() };
   }
 
   template <class T>

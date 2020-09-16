@@ -13,6 +13,7 @@
 #include <System.Private.CoreLib/System/Globalization/CompareInfo-dep.h>
 #include <System.Private.CoreLib/System/Globalization/CultureInfo-dep.h>
 #include <System.Private.CoreLib/System/Globalization/Normalization-dep.h>
+#include <System.Private.CoreLib/System/Globalization/Ordinal-dep.h>
 #include <System.Private.CoreLib/System/Globalization/TextInfo-dep.h>
 #include <System.Private.CoreLib/System/IndexOutOfRangeException-dep.h>
 #include <System.Private.CoreLib/System/Int64-dep.h>
@@ -88,7 +89,20 @@ Int32 String___::CompareOrdinalHelper(String strA, Int32 indexA, Int32 countA, S
 }
 
 Boolean String___::EqualsOrdinalIgnoreCase(String strA, String strB) {
-  return CompareInfo::in::EqualsOrdinalIgnoreCase(strA->GetRawStringData(), strB->GetRawStringData(), strB->get_Length());
+  if ((Object)strA == strB) {
+    return true;
+  }
+  if (strA == nullptr || strB == nullptr) {
+    return false;
+  }
+  if (strA->get_Length() != strB->get_Length()) {
+    return false;
+  }
+  return EqualsOrdinalIgnoreCaseNoLengthCheck(strA, strB);
+}
+
+Boolean String___::EqualsOrdinalIgnoreCaseNoLengthCheck(String strA, String strB) {
+  return Ordinal::EqualsIgnoreCase(strA->GetRawStringData(), strB->GetRawStringData(), strB->get_Length());
 }
 
 Int32 String___::CompareOrdinalHelper(String strA, String strB) {
@@ -183,7 +197,7 @@ Int32 String___::Compare(String strA, String strB, StringComparison comparisonTy
       }
       return CompareOrdinalHelper(strA, strB);
     case StringComparison::OrdinalIgnoreCase:
-      return CompareInfo::in::CompareOrdinalIgnoreCase(strA, strB);
+      return Ordinal::CompareStringIgnoreCase(strA->GetRawStringData(), strA->get_Length(), strB->GetRawStringData(), strB->get_Length());
     default:
       rt::throw_exception<ArgumentException>(SR::get_NotSupported_StringComparison(), "comparisonType");
   }
@@ -273,7 +287,7 @@ Int32 String___::Compare(String strA, Int32 indexA, String strB, Int32 indexB, I
     case StringComparison::Ordinal:
       return CompareOrdinalHelper(strA, indexA, num, strB, indexB, num2);
     default:
-      return CompareInfo::in::CompareOrdinalIgnoreCase(strA, indexA, num, strB, indexB, num2);
+      return Ordinal::CompareStringIgnoreCase(Unsafe::Add(strA->GetRawStringData(), indexA), num, Unsafe::Add(strB->GetRawStringData(), indexB), num2);
   }
 }
 
@@ -373,7 +387,7 @@ Boolean String___::EndsWith(String value, StringComparison comparisonType) {
         return false;
       }case StringComparison::OrdinalIgnoreCase:
       if (get_Length() >= value->get_Length()) {
-        return CompareInfo::in::CompareOrdinalIgnoreCase((String)this, get_Length() - value->get_Length(), value->get_Length(), value, 0, value->get_Length()) == 0;
+        return Ordinal::CompareStringIgnoreCase(Unsafe::Add(GetRawStringData(), get_Length() - value->get_Length()), value->get_Length(), value->GetRawStringData(), value->get_Length()) == 0;
       }
       return false;
     default:
@@ -453,7 +467,7 @@ Boolean String___::Equals(String value, StringComparison comparisonType) {
       if (get_Length() != value->get_Length()) {
         return false;
       }
-      return EqualsOrdinalIgnoreCase((String)this, value);
+      return EqualsOrdinalIgnoreCaseNoLengthCheck((String)this, value);
     default:
       rt::throw_exception<ArgumentException>(SR::get_NotSupported_StringComparison(), "comparisonType");
   }
@@ -494,7 +508,7 @@ Boolean String___::Equals(String a, String b, StringComparison comparisonType) {
       if (a->get_Length() != b->get_Length()) {
         return false;
       }
-      return EqualsOrdinalIgnoreCase(a, b);
+      return EqualsOrdinalIgnoreCaseNoLengthCheck(a, b);
     default:
       rt::throw_exception<ArgumentException>(SR::get_NotSupported_StringComparison(), "comparisonType");
   }
@@ -570,6 +584,26 @@ Int32 String___::GetNonRandomizedHashCode() {
   }
 }
 
+Int32 String___::GetNonRandomizedHashCodeOrdinalIgnoreCase() {
+  {
+    Char* ptr = &_firstChar;
+    UInt32 num = 352654597u;
+    UInt32 num2 = num;
+    UInt32* ptr2 = (UInt32*)ptr;
+    Int32 num3 = get_Length();
+    while (num3 > 2) {
+      num3 -= 4;
+      num = ((BitOperations::RotateLeft(num, 5) + num) ^ (*ptr2 | 2097184));
+      num2 = ((BitOperations::RotateLeft(num2, 5) + num2) ^ (ptr2[1] | 2097184));
+      ptr2 += 2;
+    }
+    if (num3 > 0) {
+      num2 = ((BitOperations::RotateLeft(num2, 5) + num2) ^ (*ptr2 | 2097184));
+    }
+    return (Int32)(num + num2 * 1566083941);
+  }
+}
+
 Boolean String___::StartsWith(String value) {
   if (value == nullptr) {
     rt::throw_exception<ArgumentNullException>("value");
@@ -608,7 +642,7 @@ Boolean String___::StartsWith(String value, StringComparison comparisonType) {
       if (get_Length() < value->get_Length()) {
         return false;
       }
-      return CompareInfo::in::EqualsOrdinalIgnoreCase(GetRawStringData(), value->GetRawStringData(), value->get_Length());
+      return Ordinal::EqualsIgnoreCase(GetRawStringData(), value->GetRawStringData(), value->get_Length());
     default:
       rt::throw_exception<ArgumentException>(SR::get_NotSupported_StringComparison(), "comparisonType");
   }
@@ -1728,16 +1762,16 @@ String String___::ReplaceCore(ReadOnlySpan<Char> searchSpace, ReadOnlySpan<Char>
   Span<Char> initialBuffer = as;
   ValueStringBuilder valueStringBuilder = ValueStringBuilder(initialBuffer);
   valueStringBuilder.EnsureCapacity(searchSpace.get_Length());
-  Int32 num = 0;
   Boolean flag = false;
   while (true) {
-    Int32 num2 = compareInfo->IndexOf(searchSpace, oldValue, &num, options, true);
-    if (num2 < 0 || num == 0) {
+    Int32 matchLength;
+    Int32 num = compareInfo->IndexOf(searchSpace, oldValue, options, matchLength);
+    if (num < 0 || matchLength == 0) {
       break;
     }
-    valueStringBuilder.Append(searchSpace.Slice(0, num2));
+    valueStringBuilder.Append(searchSpace.Slice(0, num));
     valueStringBuilder.Append(newValue);
-    searchSpace = searchSpace.Slice(num2 + num);
+    searchSpace = searchSpace.Slice(num + matchLength);
     flag = true;
   }
   if (!flag) {
@@ -2500,7 +2534,7 @@ Int32 String___::IndexOf(String value, Int32 startIndex, Int32 count, StringComp
       return CompareInfo::in::Invariant->IndexOf((String)this, value, startIndex, count, GetCaseCompareOfComparisonCulture(comparisonType));
     case StringComparison::Ordinal:
     case StringComparison::OrdinalIgnoreCase:
-      return CompareInfo::in::Invariant->IndexOf((String)this, value, startIndex, count, GetCompareOptionsFromOrdinalStringComparison(comparisonType));
+      return Ordinal::IndexOf((String)this, value, startIndex, count, comparisonType == StringComparison::OrdinalIgnoreCase);
     default:
       rt::throw_exception((value == nullptr) ? rt::newobj<ArgumentNullException>("value") : rt::newobj<ArgumentException>(SR::get_NotSupported_StringComparison(), "comparisonType"));
   }

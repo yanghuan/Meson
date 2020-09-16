@@ -76,7 +76,7 @@ void DelayPromise___::ctor(Int32 millisecondsDelay) {
   if (millisecondsDelay != -1) {
     TimerCallback as = __c::in::__9__1_0;
     _timer = rt::newobj<TimerQueueTimer>(as != nullptr ? as : (__c::in::__9__1_0 = {__c::in::__9, &__c::in::_ctor_b__1_0}), (DelayPromise)this, (UInt32)millisecondsDelay, UInt32::MaxValue, false);
-    if (Task<>::in::get_IsCanceled()) {
+    if (Task<>::in::get_IsCompleted()) {
       _timer->Close();
     }
   }

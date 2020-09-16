@@ -5,6 +5,7 @@
 #include <System.Private.CoreLib/System/Globalization/CompareInfo-dep.h>
 #include <System.Private.CoreLib/System/Globalization/CultureInfo-dep.h>
 #include <System.Private.CoreLib/System/Globalization/GlobalizationMode-dep.h>
+#include <System.Private.CoreLib/System/Globalization/Ordinal-dep.h>
 #include <System.Private.CoreLib/System/Globalization/TextInfo-dep.h>
 #include <System.Private.CoreLib/System/Int64-dep.h>
 #include <System.Private.CoreLib/System/InvalidOperationException-dep.h>
@@ -163,7 +164,7 @@ Boolean MemoryExtensions::EqualsOrdinalIgnoreCase(ReadOnlySpan<Char> span, ReadO
   if (value.get_Length() == 0) {
     return true;
   }
-  return CompareInfo::in::EqualsOrdinalIgnoreCase(MemoryMarshal::GetReference(span), MemoryMarshal::GetReference(value), span.get_Length());
+  return Ordinal::EqualsIgnoreCase(MemoryMarshal::GetReference(span), MemoryMarshal::GetReference(value), span.get_Length());
 }
 
 Int32 MemoryExtensions::CompareTo(ReadOnlySpan<Char> span, ReadOnlySpan<Char> other, StringComparison comparisonType) {
@@ -181,7 +182,7 @@ Int32 MemoryExtensions::CompareTo(ReadOnlySpan<Char> span, ReadOnlySpan<Char> ot
       }
       return String::in::CompareOrdinal(span, other);
     default:
-      return CompareInfo::in::CompareOrdinalIgnoreCase(span, other);
+      return Ordinal::CompareStringIgnoreCase(MemoryMarshal::GetReference(span), span.get_Length(), MemoryMarshal::GetReference(other), other.get_Length());
   }
 }
 
@@ -197,7 +198,7 @@ Int32 MemoryExtensions::IndexOf(ReadOnlySpan<Char> span, ReadOnlySpan<Char> valu
     case StringComparison::InvariantCultureIgnoreCase:
       return CompareInfo::in::Invariant->IndexOf(span, value, String::in::GetCaseCompareOfComparisonCulture(comparisonType));
     default:
-      return CompareInfo::in::IndexOfOrdinalIgnoreCase(span, value, true);
+      return Ordinal::IndexOfOrdinalIgnoreCase(span, value);
   }
 }
 
@@ -213,7 +214,7 @@ Int32 MemoryExtensions::LastIndexOf(ReadOnlySpan<Char> span, ReadOnlySpan<Char> 
     case StringComparison::InvariantCultureIgnoreCase:
       return CompareInfo::in::Invariant->LastIndexOf(span, value, String::in::GetCaseCompareOfComparisonCulture(comparisonType));
     default:
-      return CompareInfo::in::IndexOfOrdinalIgnoreCase(span, value, false);
+      return Ordinal::LastIndexOfOrdinalIgnoreCase(span, value);
   }
 }
 
@@ -301,7 +302,7 @@ Boolean MemoryExtensions::EndsWith(ReadOnlySpan<Char> span, ReadOnlySpan<Char> v
 
 Boolean MemoryExtensions::EndsWithOrdinalIgnoreCase(ReadOnlySpan<Char> span, ReadOnlySpan<Char> value) {
   if (value.get_Length() <= span.get_Length()) {
-    return CompareInfo::in::EqualsOrdinalIgnoreCase(Unsafe::Add(MemoryMarshal::GetReference(span), span.get_Length() - value.get_Length()), MemoryMarshal::GetReference(value), value.get_Length());
+    return Ordinal::EqualsIgnoreCase(Unsafe::Add(MemoryMarshal::GetReference(span), span.get_Length() - value.get_Length()), MemoryMarshal::GetReference(value), value.get_Length());
   }
   return false;
 }
@@ -324,7 +325,7 @@ Boolean MemoryExtensions::StartsWith(ReadOnlySpan<Char> span, ReadOnlySpan<Char>
 
 Boolean MemoryExtensions::StartsWithOrdinalIgnoreCase(ReadOnlySpan<Char> span, ReadOnlySpan<Char> value) {
   if (value.get_Length() <= span.get_Length()) {
-    return CompareInfo::in::EqualsOrdinalIgnoreCase(MemoryMarshal::GetReference(span), MemoryMarshal::GetReference(value), value.get_Length());
+    return Ordinal::EqualsIgnoreCase(MemoryMarshal::GetReference(span), MemoryMarshal::GetReference(value), value.get_Length());
   }
   return false;
 }

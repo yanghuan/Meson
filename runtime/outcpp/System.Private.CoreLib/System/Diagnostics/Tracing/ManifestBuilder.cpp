@@ -1,6 +1,5 @@
 #include "ManifestBuilder-dep.h"
 
-#include <System.Private.CoreLib/Microsoft/Reflection/ReflectionExtensions-dep.h>
 #include <System.Private.CoreLib/System/ArgumentException-dep.h>
 #include <System.Private.CoreLib/System/Byte-dep.h>
 #include <System.Private.CoreLib/System/Char-dep.h>
@@ -26,7 +25,6 @@
 #include <System.Private.CoreLib/System/TypeCode.h>
 
 namespace System::Private::CoreLib::System::Diagnostics::Tracing::ManifestBuilderNamespace {
-using namespace Microsoft::Reflection;
 using namespace System::Collections::Generic;
 using namespace System::Globalization;
 using namespace System::Reflection;
@@ -205,7 +203,7 @@ void ManifestBuilder___::AddEventParameter(Type type, String name) {
   if ((type->get_IsArray() || type->get_IsPointer()) && type->GetElementType() == typeof<Byte>()) {
     templates->Append((String)" length=\"")->Append(name)->Append((String)"Size\"");
   }
-  if (ReflectionExtensions::IsEnum(type) && Enum::in::GetUnderlyingType(type) != typeof<UInt64>() && Enum::in::GetUnderlyingType(type) != typeof<Int64>()) {
+  if (type->get_IsEnum() && Enum::in::GetUnderlyingType(type) != typeof<UInt64>() && Enum::in::GetUnderlyingType(type) != typeof<Int64>()) {
     templates->Append((String)" map=\"")->Append(type->get_Name())->Append((Char)'"');
     if (mapsTab == nullptr) {
       mapsTab = rt::newobj<Dictionary<String, Type>>();
@@ -556,12 +554,12 @@ String ManifestBuilder___::GetKeywords(UInt64 keywords, String eventName) {
 }
 
 String ManifestBuilder___::GetTypeName(Type type) {
-  if (ReflectionExtensions::IsEnum(type)) {
+  if (type->get_IsEnum()) {
     Array<FieldInfo> fields = type->GetFields(BindingFlags::Instance | BindingFlags::Public | BindingFlags::NonPublic);
     String typeName = GetTypeName(fields[0]->get_FieldType());
     return typeName->Replace("win:Int", "win:UInt");
   }
-  switch (ReflectionExtensions::GetTypeCode(type)) {
+  switch (Type::in::GetTypeCode(type)) {
     case TypeCode::Boolean:
       return "win:Boolean";
     case TypeCode::Byte:

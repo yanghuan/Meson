@@ -430,182 +430,206 @@ Int32 SpanHelpers::IndexOfAny(Byte& searchSpace, Byte value0, Byte value1, Int32
   UIntPtr uIntPtr = (UIntPtr)(void*)nullptr;
   UIntPtr uIntPtr2 = (UIntPtr)(UInt32)length;
   if (Sse2::in::get_IsSupported() || AdvSimd::in::Arm64::in::get_IsSupported()) {
-    if (length >= Vector128<Byte>::get_Count() * 2) {
-      uIntPtr2 = UnalignedCountVector128(searchSpace);
+    IntPtr intPtr = (IntPtr)(void*)((Int64)length - (Int64)Vector128<Byte>::get_Count());
+    if ((Int64)intPtr >= 0) {
+      uIntPtr2 = (UIntPtr)(void*)(Int64)intPtr;
+      goto IL_0212;
     }
-  } else if (Vector<>::get_IsHardwareAccelerated() && length >= Vector<Byte>::get_Count() * 2) {
-    uIntPtr2 = UnalignedCountVector(searchSpace);
+  } else if (Vector<>::get_IsHardwareAccelerated()) {
+    IntPtr intPtr2 = (IntPtr)(void*)((Int64)length - (Int64)Vector<Byte>::get_Count());
+    if ((Int64)intPtr2 >= 0) {
+      uIntPtr2 = (UIntPtr)(void*)(Int64)intPtr2;
+      goto IL_0212;
+    }
   }
 
-  while (true) {
-    if ((UInt64)uIntPtr2 >= 8) {
-      uIntPtr2 = (UIntPtr)(void*)((UInt64)(Int64)(UInt64)uIntPtr2 - 8);
-      UInt32 num = Unsafe::AddByteOffset(searchSpace, uIntPtr);
-      if (value0 == num || value1 == num) {
-        goto IL_047a;
-      }
-      num = Unsafe::AddByteOffset(searchSpace, (UIntPtr)((UInt64)(Int64)(UInt64)uIntPtr + 1));
-      if (value0 == num || value1 == num) {
-        goto IL_047d;
-      }
-      num = Unsafe::AddByteOffset(searchSpace, (UIntPtr)((UInt64)(Int64)(UInt64)uIntPtr + 2));
-      if (value0 == num || value1 == num) {
-        goto IL_0483;
-      }
-      num = Unsafe::AddByteOffset(searchSpace, (UIntPtr)((UInt64)(Int64)(UInt64)uIntPtr + 3));
+  while ((UInt64)uIntPtr2 >= 8) {
+    uIntPtr2 = (UIntPtr)(void*)((UInt64)(Int64)(UInt64)uIntPtr2 - 8);
+    UInt32 num = Unsafe::AddByteOffset(searchSpace, uIntPtr);
+    if (value0 == num || value1 == num) {
+      goto IL_01e5;
+    }
+    num = Unsafe::AddByteOffset(searchSpace, (UIntPtr)((UInt64)(Int64)(UInt64)uIntPtr + 1));
+    if (value0 == num || value1 == num) {
+      goto IL_01e8;
+    }
+    num = Unsafe::AddByteOffset(searchSpace, (UIntPtr)((UInt64)(Int64)(UInt64)uIntPtr + 2));
+    if (value0 == num || value1 == num) {
+      goto IL_01ee;
+    }
+    num = Unsafe::AddByteOffset(searchSpace, (UIntPtr)((UInt64)(Int64)(UInt64)uIntPtr + 3));
+    if (value0 != num && value1 != num) {
+      num = Unsafe::AddByteOffset(searchSpace, (UIntPtr)((UInt64)(Int64)(UInt64)uIntPtr + 4));
       if (value0 != num && value1 != num) {
-        num = Unsafe::AddByteOffset(searchSpace, (UIntPtr)((UInt64)(Int64)(UInt64)uIntPtr + 4));
+        num = Unsafe::AddByteOffset(searchSpace, (UIntPtr)((UInt64)(Int64)(UInt64)uIntPtr + 5));
         if (value0 != num && value1 != num) {
-          num = Unsafe::AddByteOffset(searchSpace, (UIntPtr)((UInt64)(Int64)(UInt64)uIntPtr + 5));
+          num = Unsafe::AddByteOffset(searchSpace, (UIntPtr)((UInt64)(Int64)(UInt64)uIntPtr + 6));
           if (value0 != num && value1 != num) {
-            num = Unsafe::AddByteOffset(searchSpace, (UIntPtr)((UInt64)(Int64)(UInt64)uIntPtr + 6));
+            num = Unsafe::AddByteOffset(searchSpace, (UIntPtr)((UInt64)(Int64)(UInt64)uIntPtr + 7));
             if (value0 != num && value1 != num) {
-              num = Unsafe::AddByteOffset(searchSpace, (UIntPtr)((UInt64)(Int64)(UInt64)uIntPtr + 7));
-              if (value0 == num || value1 == num) {
-                break;
-              }
               uIntPtr = (UIntPtr)(void*)((UInt64)(Int64)(UInt64)uIntPtr + 8);
               continue;
             }
-            return (Int32)((Int64)(UInt64)uIntPtr + 6);
+            return (Int32)((Int64)(UInt64)uIntPtr + 7);
           }
-          return (Int32)((Int64)(UInt64)uIntPtr + 5);
+          return (Int32)((Int64)(UInt64)uIntPtr + 6);
         }
-        return (Int32)((Int64)(UInt64)uIntPtr + 4);
+        return (Int32)((Int64)(UInt64)uIntPtr + 5);
       }
-      goto IL_0489;
+      return (Int32)((Int64)(UInt64)uIntPtr + 4);
     }
-    if ((UInt64)uIntPtr2 >= 4) {
-      uIntPtr2 = (UIntPtr)(void*)((UInt64)(Int64)(UInt64)uIntPtr2 - 4);
-      UInt32 num = Unsafe::AddByteOffset(searchSpace, uIntPtr);
-      if (value0 == num || value1 == num) {
-        goto IL_047a;
-      }
-      num = Unsafe::AddByteOffset(searchSpace, (UIntPtr)((UInt64)(Int64)(UInt64)uIntPtr + 1));
-      if (value0 == num || value1 == num) {
-        goto IL_047d;
-      }
-      num = Unsafe::AddByteOffset(searchSpace, (UIntPtr)((UInt64)(Int64)(UInt64)uIntPtr + 2));
-      if (value0 == num || value1 == num) {
-        goto IL_0483;
-      }
-      num = Unsafe::AddByteOffset(searchSpace, (UIntPtr)((UInt64)(Int64)(UInt64)uIntPtr + 3));
-      if (value0 == num || value1 == num) {
-        goto IL_0489;
-      }
-      uIntPtr = (UIntPtr)(void*)((UInt64)(Int64)(UInt64)uIntPtr + 4);
-    }
-    while (uIntPtr2 != (UIntPtr)(void*)nullptr) {
-      uIntPtr2 = (UIntPtr)(void*)((UInt64)(Int64)(UInt64)uIntPtr2 - 1);
-      UInt32 num = Unsafe::AddByteOffset(searchSpace, uIntPtr);
-      if (value0 != num && value1 != num) {
-        uIntPtr = (UIntPtr)(void*)((UInt64)(Int64)(UInt64)uIntPtr + 1);
-        continue;
-      }
-      goto IL_047a;
-    }
-    if (Avx2::in::get_IsSupported()) {
-      if ((UInt64)uIntPtr < (UInt64)(UInt32)length) {
-        uIntPtr2 = GetByteVector256SpanLength(uIntPtr, length);
-        if ((UInt64)uIntPtr2 > (UInt64)uIntPtr) {
-          Vector256<Byte> left = Vector256<>::Create(value0);
-          Vector256<Byte> left2 = Vector256<>::Create(value1);
-          do {
-            Vector256<Byte> right = LoadVector256(searchSpace, uIntPtr);
-            Int32 num2 = Avx2::in::MoveMask(Avx2::in::Or(Avx2::in::CompareEqual(left, right), Avx2::in::CompareEqual(left2, right)));
-            if (num2 == 0) {
-              uIntPtr = (UIntPtr)(void*)((UInt64)(Int64)(UInt64)uIntPtr + (UInt64)Vector256<Byte>::get_Count());
-              continue;
-            }
-            return (Int32)((Int64)(UInt64)uIntPtr + (Int64)(UInt32)BitOperations::TrailingZeroCount(num2));
-          } while ((UInt64)uIntPtr2 > (UInt64)uIntPtr)
-        }
-        uIntPtr2 = GetByteVector128SpanLength(uIntPtr, length);
-        if ((UInt64)uIntPtr2 > (UInt64)uIntPtr) {
-          Vector128<Byte> left3 = Vector128<>::Create(value0);
-          Vector128<Byte> left4 = Vector128<>::Create(value1);
-          Vector128<Byte> right2 = LoadVector128(searchSpace, uIntPtr);
-          Int32 num3 = Sse2::in::MoveMask(Sse2::in::Or(Sse2::in::CompareEqual(left3, right2), Sse2::in::CompareEqual(left4, right2)));
-          if (num3 != 0) {
-            return (Int32)((Int64)(UInt64)uIntPtr + (Int64)(UInt32)BitOperations::TrailingZeroCount(num3));
-          }
-          uIntPtr = (UIntPtr)(void*)((UInt64)(Int64)(UInt64)uIntPtr + (UInt64)Vector128<Byte>::get_Count());
-        }
-        if ((UInt64)uIntPtr < (UInt64)(UInt32)length) {
-          uIntPtr2 = (UIntPtr)(void*)((UInt64)(UInt32)length - (UInt64)(Int64)(UInt64)uIntPtr);
-          continue;
-        }
-      }
-    } else if (Sse2::in::get_IsSupported()) {
-      if ((UInt64)uIntPtr < (UInt64)(UInt32)length) {
-        uIntPtr2 = GetByteVector128SpanLength(uIntPtr, length);
-        Vector128<Byte> left5 = Vector128<>::Create(value0);
-        Vector128<Byte> left6 = Vector128<>::Create(value1);
-        for (; (UInt64)uIntPtr2 > (UInt64)uIntPtr; uIntPtr = (UIntPtr)(void*)((UInt64)(Int64)(UInt64)uIntPtr + (UInt64)Vector128<Byte>::get_Count())) {
-          Vector128<Byte> right3 = LoadVector128(searchSpace, uIntPtr);
-          Int32 num4 = Sse2::in::MoveMask(Sse2::in::Or(Sse2::in::CompareEqual(left5, right3), Sse2::in::CompareEqual(left6, right3)));
-          if (num4 != 0) {
-            return (Int32)((Int64)(UInt64)uIntPtr + (Int64)(UInt32)BitOperations::TrailingZeroCount(num4));
-          }
-        }
-        if ((UInt64)uIntPtr < (UInt64)(UInt32)length) {
-          uIntPtr2 = (UIntPtr)(void*)((UInt64)(UInt32)length - (UInt64)(Int64)(UInt64)uIntPtr);
-          continue;
-        }
-      }
-    } else if (AdvSimd::in::Arm64::in::get_IsSupported()) {
-      if ((UInt64)uIntPtr < (UInt64)(UInt32)length) {
-        uIntPtr2 = GetByteVector128SpanLength(uIntPtr, length);
-        Vector128<Byte> mask = Vector128<>::AsByte(Vector128<>::Create((UInt16)(Int32)4097));
-        Int32 matchedLane = 0;
-        Vector128<Byte> left7 = Vector128<>::Create(value0);
-        Vector128<Byte> left8 = Vector128<>::Create(value1);
-        for (; (UInt64)uIntPtr2 > (UInt64)uIntPtr; uIntPtr = (UIntPtr)(void*)((UInt64)(Int64)(UInt64)uIntPtr + (UInt64)Vector128<Byte>::get_Count())) {
-          Vector128<Byte> right4 = LoadVector128(searchSpace, uIntPtr);
-          Vector128<Byte> compareResult = AdvSimd::in::Or(AdvSimd::in::CompareEqual(left7, right4), AdvSimd::in::CompareEqual(left8, right4));
-          if (TryFindFirstMatchedLane(mask, compareResult, matchedLane)) {
-            return (Int32)((Int64)(UInt64)uIntPtr + (Int64)(UInt32)matchedLane);
-          }
-        }
-        if ((UInt64)uIntPtr < (UInt64)(UInt32)length) {
-          uIntPtr2 = (UIntPtr)(void*)((UInt64)(UInt32)length - (UInt64)(Int64)(UInt64)uIntPtr);
-          continue;
-        }
-      }
-    } else if (Vector<>::get_IsHardwareAccelerated() && (UInt64)uIntPtr < (UInt64)(UInt32)length) {
-      uIntPtr2 = GetByteVectorSpanLength(uIntPtr, length);
-      Vector<Byte> right5 = Vector<Byte>(value0);
-      Vector<Byte> right6 = Vector<Byte>(value1);
-      for (; (UInt64)uIntPtr2 > (UInt64)uIntPtr; uIntPtr = (UIntPtr)(void*)((UInt64)(Int64)(UInt64)uIntPtr + (UInt64)Vector<Byte>::get_Count())) {
-        Vector<Byte> left9 = LoadVector(searchSpace, uIntPtr);
-        Vector<Byte> vector = Vector<>::BitwiseOr(Vector<>::Equals(left9, right5), Vector<>::Equals(left9, right6));
-        if (!Vector<Byte>::get_Zero().Equals(vector)) {
-          return (Int32)(UInt64)uIntPtr + LocateFirstFoundByte(vector);
-        }
-      }
-      if ((UInt64)uIntPtr < (UInt64)(UInt32)length) {
-        uIntPtr2 = (UIntPtr)(void*)((UInt64)(UInt32)length - (UInt64)(Int64)(UInt64)uIntPtr);
-        continue;
-      }
-    }
-
-
-
-    return -1;
-
-  IL_047a:
-    return (Int32)(UInt64)uIntPtr;
-
-  IL_0489:
-    return (Int32)((Int64)(UInt64)uIntPtr + 3);
-
-  IL_0483:
-    return (Int32)((Int64)(UInt64)uIntPtr + 2);
-
-  IL_047d:
-    return (Int32)((Int64)(UInt64)uIntPtr + 1);
+    goto IL_01f4;
   }
-  return (Int32)((Int64)(UInt64)uIntPtr + 7);
+  if ((UInt64)uIntPtr2 >= 4) {
+    uIntPtr2 = (UIntPtr)(void*)((UInt64)(Int64)(UInt64)uIntPtr2 - 4);
+    UInt32 num = Unsafe::AddByteOffset(searchSpace, uIntPtr);
+    if (value0 == num || value1 == num) {
+      goto IL_01e5;
+    }
+    num = Unsafe::AddByteOffset(searchSpace, (UIntPtr)((UInt64)(Int64)(UInt64)uIntPtr + 1));
+    if (value0 == num || value1 == num) {
+      goto IL_01e8;
+    }
+    num = Unsafe::AddByteOffset(searchSpace, (UIntPtr)((UInt64)(Int64)(UInt64)uIntPtr + 2));
+    if (value0 == num || value1 == num) {
+      goto IL_01ee;
+    }
+    num = Unsafe::AddByteOffset(searchSpace, (UIntPtr)((UInt64)(Int64)(UInt64)uIntPtr + 3));
+    if (value0 == num || value1 == num) {
+      goto IL_01f4;
+    }
+    uIntPtr = (UIntPtr)(void*)((UInt64)(Int64)(UInt64)uIntPtr + 4);
+  }
+  while (uIntPtr2 != (UIntPtr)(void*)nullptr) {
+    UInt32 num = Unsafe::AddByteOffset(searchSpace, uIntPtr);
+    if (value0 != num && value1 != num) {
+      uIntPtr = (UIntPtr)(void*)((UInt64)(Int64)(UInt64)uIntPtr + 1);
+      uIntPtr2 = (UIntPtr)(void*)((UInt64)(Int64)(UInt64)uIntPtr2 - 1);
+      continue;
+    }
+    goto IL_01e5;
+  }
+  goto IL_01e3;
+
+IL_03b6:
+  Int32 matchedLane;
+  uIntPtr = (UIntPtr)(void*)((UInt64)(Int64)(UInt64)uIntPtr + (UInt64)(UInt32)matchedLane);
+  goto IL_01e5;
+
+IL_01e3:
+  return -1;
+
+IL_01ee:
+  return (Int32)((Int64)(UInt64)uIntPtr + 2);
+
+IL_049a:
+  Vector<Byte> vector;
+  uIntPtr = (UIntPtr)(void*)((UInt64)(Int64)(UInt64)uIntPtr + (UInt64)LocateFirstFoundByte(vector));
+  goto IL_01e5;
+
+IL_01e8:
+  return (Int32)((Int64)(UInt64)uIntPtr + 1);
+
+IL_01e5:
+  return (Int32)(UInt64)uIntPtr;
+
+IL_0212:
+  Int32 num2;
+  if (Sse2::in::get_IsSupported()) {
+    if (Avx2::in::get_IsSupported() && (UInt64)uIntPtr2 >= (UInt64)Vector128<Byte>::get_Count()) {
+      Vector256<Byte> left = Vector256<>::Create(value0);
+      Vector256<Byte> left2 = Vector256<>::Create(value1);
+      uIntPtr2 = (UIntPtr)(void*)((UInt64)(Int64)(UInt64)uIntPtr2 - (UInt64)Vector128<Byte>::get_Count());
+      Vector256<Byte> right;
+      while ((UInt64)uIntPtr2 > (UInt64)uIntPtr) {
+        right = LoadVector256(searchSpace, uIntPtr);
+        num2 = Avx2::in::MoveMask(Avx2::in::Or(Avx2::in::CompareEqual(left, right), Avx2::in::CompareEqual(left2, right)));
+        if (num2 == 0) {
+          uIntPtr = (UIntPtr)(void*)((UInt64)(Int64)(UInt64)uIntPtr + (UInt64)Vector256<Byte>::get_Count());
+          continue;
+        }
+        goto IL_033c;
+      }
+      right = LoadVector256(searchSpace, uIntPtr2);
+      uIntPtr = uIntPtr2;
+      num2 = Avx2::in::MoveMask(Avx2::in::Or(Avx2::in::CompareEqual(left, right), Avx2::in::CompareEqual(left2, right)));
+      if (num2 == 0) {
+        goto IL_01e3;
+      }
+    } else {
+      Vector128<Byte> left3 = Vector128<>::Create(value0);
+      Vector128<Byte> left4 = Vector128<>::Create(value1);
+      Vector128<Byte> right2;
+      while ((UInt64)uIntPtr2 > (UInt64)uIntPtr) {
+        right2 = LoadVector128(searchSpace, uIntPtr);
+        num2 = Sse2::in::MoveMask(Vector128<>::AsByte(Sse2::in::Or(Sse2::in::CompareEqual(left3, right2), Sse2::in::CompareEqual(left4, right2))));
+        if (num2 == 0) {
+          uIntPtr = (UIntPtr)(void*)((UInt64)(Int64)(UInt64)uIntPtr + (UInt64)Vector128<Byte>::get_Count());
+          continue;
+        }
+        goto IL_033c;
+      }
+      right2 = LoadVector128(searchSpace, uIntPtr2);
+      uIntPtr = uIntPtr2;
+      num2 = Sse2::in::MoveMask(Sse2::in::Or(Sse2::in::CompareEqual(left3, right2), Sse2::in::CompareEqual(left4, right2)));
+      if (num2 == 0) {
+        goto IL_01e3;
+      }
+    }
+    goto IL_033c;
+  }
+  if (AdvSimd::in::Arm64::in::get_IsSupported()) {
+    Vector128<Byte> mask = Vector128<>::AsByte(Vector128<>::Create((UInt16)(Int32)4097));
+    matchedLane = 0;
+    Vector128<Byte> left5 = Vector128<>::Create(value0);
+    Vector128<Byte> left6 = Vector128<>::Create(value1);
+    Vector128<Byte> right3;
+    Vector128<Byte> compareResult;
+    while ((UInt64)uIntPtr2 > (UInt64)uIntPtr) {
+      right3 = LoadVector128(searchSpace, uIntPtr);
+      compareResult = AdvSimd::in::Or(AdvSimd::in::CompareEqual(left5, right3), AdvSimd::in::CompareEqual(left6, right3));
+      if (!TryFindFirstMatchedLane(mask, compareResult, matchedLane)) {
+        uIntPtr = (UIntPtr)(void*)((UInt64)(Int64)(UInt64)uIntPtr + (UInt64)Vector128<Byte>::get_Count());
+        continue;
+      }
+      goto IL_03b6;
+    }
+    right3 = LoadVector128(searchSpace, uIntPtr2);
+    uIntPtr = uIntPtr2;
+    compareResult = AdvSimd::in::Or(AdvSimd::in::CompareEqual(left5, right3), AdvSimd::in::CompareEqual(left6, right3));
+    if (!TryFindFirstMatchedLane(mask, compareResult, matchedLane)) {
+      goto IL_01e3;
+    }
+    uIntPtr = (UIntPtr)(void*)((UInt64)(Int64)(UInt64)uIntPtr + (UInt64)(UInt32)matchedLane);
+  } else if (Vector<>::get_IsHardwareAccelerated()) {
+    Vector<Byte> right4 = Vector<Byte>(value0);
+    Vector<Byte> right5 = Vector<Byte>(value1);
+    while ((UInt64)uIntPtr2 > (UInt64)uIntPtr) {
+      vector = LoadVector(searchSpace, uIntPtr);
+      vector = Vector<>::BitwiseOr(Vector<>::Equals(vector, right4), Vector<>::Equals(vector, right5));
+      if (Vector<Byte>::get_Zero().Equals(vector)) {
+        uIntPtr = (UIntPtr)(void*)((UInt64)(Int64)(UInt64)uIntPtr + (UInt64)Vector<Byte>::get_Count());
+        continue;
+      }
+      goto IL_049a;
+    }
+    vector = LoadVector(searchSpace, uIntPtr2);
+    uIntPtr = uIntPtr2;
+    vector = Vector<>::BitwiseOr(Vector<>::Equals(vector, right4), Vector<>::Equals(vector, right5));
+    if (Vector<Byte>::get_Zero().Equals(vector)) {
+      goto IL_01e3;
+    }
+    goto IL_049a;
+  }
+
+  goto IL_01e5;
+
+IL_01f4:
+  return (Int32)((Int64)(UInt64)uIntPtr + 3);
+
+IL_033c:
+  uIntPtr = (UIntPtr)(void*)((UInt64)(Int64)(UInt64)uIntPtr + (UInt64)BitOperations::TrailingZeroCount(num2));
+  goto IL_01e5;
 }
 
 Int32 SpanHelpers::IndexOfAny(Byte& searchSpace, Byte value0, Byte value1, Byte value2, Int32 length) {
@@ -1638,266 +1662,578 @@ Int32 SpanHelpers::IndexOf(Char& searchSpace, Char value, Int32 length) {
   return (Int32)(Int64)intPtr;
 }
 
-Int32 SpanHelpers::IndexOfAny(Char& searchSpace, Char value0, Char value1, Int32 length) {
-  {
-    Char* ptr = &searchSpace;
-    Char* ptr2 = ptr;
-    Char* ptr3 = ptr2 + length;
-    if (Vector<>::get_IsHardwareAccelerated() && length >= Vector<UInt16>::get_Count() * 2) {
-      Int32 num = ((Int32)ptr2 & (Unsafe::SizeOf<Vector<UInt16>>() - 1)) / 2;
-      length = ((Vector<UInt16>::get_Count() - num) & (Vector<UInt16>::get_Count() - 1));
-    }
-    while (true) {
-      if (length >= 4) {
-        length -= 4;
-        if (*ptr2 == value0 || *ptr2 == value1) {
-          break;
-        }
-        if (ptr2[1] != value0 && ptr2[1] != value1) {
-          if (ptr2[2] != value0 && ptr2[2] != value1) {
-            if (ptr2[3] != value0 && ptr2[3] != value1) {
-              ptr2 += 4;
+Int32 SpanHelpers::IndexOfAny(Char& searchStart, Char value0, Char value1, Int32 length) {
+  UIntPtr uIntPtr = (UIntPtr)(void*)nullptr;
+  UIntPtr uIntPtr2 = (UIntPtr)(UInt32)length;
+  Int32 num;
+  if (Sse2::in::get_IsSupported()) {
+    IntPtr intPtr = (IntPtr)(void*)((Int64)length - (Int64)Vector128<UInt16>::get_Count());
+    if ((Int64)intPtr >= 0) {
+      uIntPtr2 = (UIntPtr)(void*)(Int64)intPtr;
+      if (Sse2::in::get_IsSupported()) {
+        if (Avx2::in::get_IsSupported() && (UInt64)uIntPtr2 >= (UInt64)Vector128<UInt16>::get_Count()) {
+          Vector256<UInt16> left = Vector256<>::Create(value0);
+          Vector256<UInt16> left2 = Vector256<>::Create(value1);
+          uIntPtr2 = (UIntPtr)(void*)((UInt64)(Int64)(UInt64)uIntPtr2 - (UInt64)Vector128<UInt16>::get_Count());
+          Vector256<UInt16> right;
+          while ((UInt64)uIntPtr2 > (UInt64)uIntPtr) {
+            right = LoadVector256(searchStart, uIntPtr);
+            num = Avx2::in::MoveMask(Vector256<>::AsByte(Avx2::in::Or(Avx2::in::CompareEqual(left, right), Avx2::in::CompareEqual(left2, right))));
+            if (num == 0) {
+              uIntPtr = (UIntPtr)(void*)((UInt64)(Int64)(UInt64)uIntPtr + (UInt64)Vector256<UInt16>::get_Count());
               continue;
             }
-            ptr2++;
+            goto IL_0211;
           }
-          ptr2++;
+          right = LoadVector256(searchStart, uIntPtr2);
+          uIntPtr = uIntPtr2;
+          num = Avx2::in::MoveMask(Vector256<>::AsByte(Avx2::in::Or(Avx2::in::CompareEqual(left, right), Avx2::in::CompareEqual(left2, right))));
+          if (num == 0) {
+            goto IL_00c1;
+          }
+        } else {
+          Vector128<UInt16> left3 = Vector128<>::Create(value0);
+          Vector128<UInt16> left4 = Vector128<>::Create(value1);
+          Vector128<UInt16> right2;
+          while ((UInt64)uIntPtr2 > (UInt64)uIntPtr) {
+            right2 = LoadVector128(searchStart, uIntPtr);
+            num = Sse2::in::MoveMask(Vector128<>::AsByte(Sse2::in::Or(Sse2::in::CompareEqual(left3, right2), Sse2::in::CompareEqual(left4, right2))));
+            if (num == 0) {
+              uIntPtr = (UIntPtr)(void*)((UInt64)(Int64)(UInt64)uIntPtr + (UInt64)Vector128<UInt16>::get_Count());
+              continue;
+            }
+            goto IL_0211;
+          }
+          right2 = LoadVector128(searchStart, uIntPtr2);
+          uIntPtr = uIntPtr2;
+          num = Sse2::in::MoveMask(Vector128<>::AsByte(Sse2::in::Or(Sse2::in::CompareEqual(left3, right2), Sse2::in::CompareEqual(left4, right2))));
+          if (num == 0) {
+            goto IL_00c1;
+          }
         }
-        ptr2++;
-        break;
+        goto IL_0211;
       }
-      while (length > 0) {
-        length--;
-        if (*ptr2 == value0 || *ptr2 == value1) {
-          goto end_IL_00ab;
-        }
-        ptr2++;
-      }
-      if (Vector<>::get_IsHardwareAccelerated() && ptr2 < ptr3) {
-        length = (Int32)((ptr3 - ptr2) & ~(Vector<UInt16>::get_Count() - 1));
-        Vector<UInt16> right = Vector<UInt16>(value0);
-        Vector<UInt16> right2 = Vector<UInt16>(value1);
-        while (length > 0) {
-          Vector<UInt16> left = Unsafe::Read<Vector<UInt16>>(ptr2);
-          Vector<UInt16> vector = Vector<>::BitwiseOr(Vector<>::Equals(left, right), Vector<>::Equals(left, right2));
-          if (Vector<UInt16>::get_Zero().Equals(vector)) {
-            ptr2 += Vector<UInt16>::get_Count();
-            length -= Vector<UInt16>::get_Count();
+      goto IL_0223;
+    }
+  } else if (Vector<>::get_IsHardwareAccelerated()) {
+    IntPtr intPtr2 = (IntPtr)(void*)((Int64)length - (Int64)Vector<UInt16>::get_Count());
+    if ((Int64)intPtr2 >= 0) {
+      uIntPtr2 = (UIntPtr)(void*)(Int64)intPtr2;
+      goto IL_0223;
+    }
+  }
+
+  while ((UInt64)uIntPtr2 >= 4) {
+    Char& reference = Add(searchStart, uIntPtr);
+    Int32 num2 = reference;
+    if (value0 != num2 && value1 != num2) {
+      num2 = Unsafe::Add(reference, 1);
+      if (value0 != num2 && value1 != num2) {
+        num2 = Unsafe::Add(reference, 2);
+        if (value0 != num2 && value1 != num2) {
+          num2 = Unsafe::Add(reference, 3);
+          if (value0 != num2 && value1 != num2) {
+            uIntPtr = (UIntPtr)(void*)((UInt64)(Int64)(UInt64)uIntPtr + 4);
+            uIntPtr2 = (UIntPtr)(void*)((UInt64)(Int64)(UInt64)uIntPtr2 - 4);
             continue;
           }
-          return (Int32)(ptr2 - ptr) + LocateFirstFoundChar(vector);
+          return (Int32)((Int64)(UInt64)uIntPtr + 3);
         }
-        if (ptr2 < ptr3) {
-          length = (Int32)(ptr3 - ptr2);
-          continue;
-        }
+        return (Int32)((Int64)(UInt64)uIntPtr + 2);
       }
-      return -1;
-      continue;
-
-    end_IL_00ab:
-      break;
+      return (Int32)((Int64)(UInt64)uIntPtr + 1);
     }
-    return (Int32)(ptr2 - ptr);
+    goto IL_00d5;
   }
+  while (uIntPtr2 != (UIntPtr)(void*)nullptr) {
+    Int32 num2 = Add(searchStart, uIntPtr);
+    if (value0 != num2 && value1 != num2) {
+      uIntPtr = (UIntPtr)(void*)((UInt64)(Int64)(UInt64)uIntPtr + 1);
+      uIntPtr2 = (UIntPtr)(void*)((UInt64)(Int64)(UInt64)uIntPtr2 - 1);
+      continue;
+    }
+    goto IL_00d5;
+  }
+  goto IL_00c1;
+
+IL_0211:
+  uIntPtr = (UIntPtr)(void*)((UInt64)(Int64)(UInt64)uIntPtr + (UInt64)(Int64)(IntPtr)(void*)((UInt64)(UInt32)BitOperations::TrailingZeroCount(num) >> 1));
+  goto IL_00d5;
+
+IL_00c1:
+  return -1;
+
+IL_02c3:
+  Vector<UInt16> vector;
+  uIntPtr = (UIntPtr)(void*)((UInt64)(Int64)(UInt64)uIntPtr + (UInt64)(UInt32)LocateFirstFoundChar(vector));
+  goto IL_00d5;
+
+IL_0223:
+  if (!Sse2::in::get_IsSupported() && Vector<>::get_IsHardwareAccelerated()) {
+    Vector<UInt16> right3 = Vector<UInt16>(value0);
+    Vector<UInt16> right4 = Vector<UInt16>(value1);
+    while ((UInt64)uIntPtr2 > (UInt64)uIntPtr) {
+      vector = LoadVector(searchStart, uIntPtr);
+      vector = Vector<>::BitwiseOr(Vector<>::Equals(vector, right3), Vector<>::Equals(vector, right4));
+      if (Vector<UInt16>::get_Zero().Equals(vector)) {
+        uIntPtr = (UIntPtr)(void*)((UInt64)(Int64)(UInt64)uIntPtr + (UInt64)Vector<UInt16>::get_Count());
+        continue;
+      }
+      goto IL_02c3;
+    }
+    vector = LoadVector(searchStart, uIntPtr2);
+    uIntPtr = uIntPtr2;
+    vector = Vector<>::BitwiseOr(Vector<>::Equals(vector, right3), Vector<>::Equals(vector, right4));
+    if (!Vector<UInt16>::get_Zero().Equals(vector)) {
+      goto IL_02c3;
+    }
+  }
+  goto IL_00c1;
+
+IL_00d5:
+  return (Int32)(UInt64)uIntPtr;
 }
 
-Int32 SpanHelpers::IndexOfAny(Char& searchSpace, Char value0, Char value1, Char value2, Int32 length) {
-  {
-    Char* ptr = &searchSpace;
-    Char* ptr2 = ptr;
-    Char* ptr3 = ptr2 + length;
-    if (Vector<>::get_IsHardwareAccelerated() && length >= Vector<UInt16>::get_Count() * 2) {
-      Int32 num = ((Int32)ptr2 & (Unsafe::SizeOf<Vector<UInt16>>() - 1)) / 2;
-      length = ((Vector<UInt16>::get_Count() - num) & (Vector<UInt16>::get_Count() - 1));
-    }
-    while (true) {
-      if (length >= 4) {
-        length -= 4;
-        if (*ptr2 == value0 || *ptr2 == value1 || *ptr2 == value2) {
-          break;
-        }
-        if (ptr2[1] != value0 && ptr2[1] != value1 && ptr2[1] != value2) {
-          if (ptr2[2] != value0 && ptr2[2] != value1 && ptr2[2] != value2) {
-            if (ptr2[3] != value0 && ptr2[3] != value1 && ptr2[3] != value2) {
-              ptr2 += 4;
+Int32 SpanHelpers::IndexOfAny(Char& searchStart, Char value0, Char value1, Char value2, Int32 length) {
+  UIntPtr uIntPtr = (UIntPtr)(void*)nullptr;
+  UIntPtr uIntPtr2 = (UIntPtr)(UInt32)length;
+  Int32 num;
+  if (Sse2::in::get_IsSupported()) {
+    IntPtr intPtr = (IntPtr)(void*)((Int64)length - (Int64)Vector128<UInt16>::get_Count());
+    if ((Int64)intPtr >= 0) {
+      uIntPtr2 = (UIntPtr)(void*)(Int64)intPtr;
+      if (Sse2::in::get_IsSupported()) {
+        if (Avx2::in::get_IsSupported() && (UInt64)uIntPtr2 >= (UInt64)Vector128<UInt16>::get_Count()) {
+          Vector256<UInt16> left = Vector256<>::Create(value0);
+          Vector256<UInt16> left2 = Vector256<>::Create(value1);
+          Vector256<UInt16> left3 = Vector256<>::Create(value2);
+          uIntPtr2 = (UIntPtr)(void*)((UInt64)(Int64)(UInt64)uIntPtr2 - (UInt64)Vector128<UInt16>::get_Count());
+          Vector256<UInt16> right;
+          while ((UInt64)uIntPtr2 > (UInt64)uIntPtr) {
+            right = LoadVector256(searchStart, uIntPtr);
+            num = Avx2::in::MoveMask(Vector256<>::AsByte(Avx2::in::Or(Avx2::in::Or(Avx2::in::CompareEqual(left, right), Avx2::in::CompareEqual(left2, right)), Avx2::in::CompareEqual(left3, right))));
+            if (num == 0) {
+              uIntPtr = (UIntPtr)(void*)((UInt64)(Int64)(UInt64)uIntPtr + (UInt64)Vector256<UInt16>::get_Count());
               continue;
             }
-            ptr2++;
+            goto IL_027f;
           }
-          ptr2++;
+          right = LoadVector256(searchStart, uIntPtr2);
+          uIntPtr = uIntPtr2;
+          num = Avx2::in::MoveMask(Vector256<>::AsByte(Avx2::in::Or(Avx2::in::Or(Avx2::in::CompareEqual(left, right), Avx2::in::CompareEqual(left2, right)), Avx2::in::CompareEqual(left3, right))));
+          if (num == 0) {
+            goto IL_00e7;
+          }
+        } else {
+          Vector128<UInt16> left4 = Vector128<>::Create(value0);
+          Vector128<UInt16> left5 = Vector128<>::Create(value1);
+          Vector128<UInt16> left6 = Vector128<>::Create(value2);
+          Vector128<UInt16> right2;
+          while ((UInt64)uIntPtr2 > (UInt64)uIntPtr) {
+            right2 = LoadVector128(searchStart, uIntPtr);
+            num = Sse2::in::MoveMask(Vector128<>::AsByte(Sse2::in::Or(Sse2::in::Or(Sse2::in::CompareEqual(left4, right2), Sse2::in::CompareEqual(left5, right2)), Sse2::in::CompareEqual(left6, right2))));
+            if (num == 0) {
+              uIntPtr = (UIntPtr)(void*)((UInt64)(Int64)(UInt64)uIntPtr + (UInt64)Vector128<UInt16>::get_Count());
+              continue;
+            }
+            goto IL_027f;
+          }
+          right2 = LoadVector128(searchStart, uIntPtr2);
+          uIntPtr = uIntPtr2;
+          num = Sse2::in::MoveMask(Vector128<>::AsByte(Sse2::in::Or(Sse2::in::Or(Sse2::in::CompareEqual(left4, right2), Sse2::in::CompareEqual(left5, right2)), Sse2::in::CompareEqual(left6, right2))));
+          if (num == 0) {
+            goto IL_00e7;
+          }
         }
-        ptr2++;
-        break;
+        goto IL_027f;
       }
-      while (length > 0) {
-        length--;
-        if (*ptr2 == value0 || *ptr2 == value1 || *ptr2 == value2) {
-          goto end_IL_00dd;
-        }
-        ptr2++;
-      }
-      if (Vector<>::get_IsHardwareAccelerated() && ptr2 < ptr3) {
-        length = (Int32)((ptr3 - ptr2) & ~(Vector<UInt16>::get_Count() - 1));
-        Vector<UInt16> right = Vector<UInt16>(value0);
-        Vector<UInt16> right2 = Vector<UInt16>(value1);
-        Vector<UInt16> right3 = Vector<UInt16>(value2);
-        while (length > 0) {
-          Vector<UInt16> left = Unsafe::Read<Vector<UInt16>>(ptr2);
-          Vector<UInt16> vector = Vector<>::BitwiseOr(Vector<>::BitwiseOr(Vector<>::Equals(left, right), Vector<>::Equals(left, right2)), Vector<>::Equals(left, right3));
-          if (Vector<UInt16>::get_Zero().Equals(vector)) {
-            ptr2 += Vector<UInt16>::get_Count();
-            length -= Vector<UInt16>::get_Count();
+      goto IL_0291;
+    }
+  } else if (Vector<>::get_IsHardwareAccelerated()) {
+    IntPtr intPtr2 = (IntPtr)(void*)((Int64)length - (Int64)Vector<UInt16>::get_Count());
+    if ((Int64)intPtr2 >= 0) {
+      uIntPtr2 = (UIntPtr)(void*)(Int64)intPtr2;
+      goto IL_0291;
+    }
+  }
+
+  while ((UInt64)uIntPtr2 >= 4) {
+    Char& reference = Add(searchStart, uIntPtr);
+    Int32 num2 = reference;
+    if (value0 != num2 && value1 != num2 && value2 != num2) {
+      num2 = Unsafe::Add(reference, 1);
+      if (value0 != num2 && value1 != num2 && value2 != num2) {
+        num2 = Unsafe::Add(reference, 2);
+        if (value0 != num2 && value1 != num2 && value2 != num2) {
+          num2 = Unsafe::Add(reference, 3);
+          if (value0 != num2 && value1 != num2 && value2 != num2) {
+            uIntPtr = (UIntPtr)(void*)((UInt64)(Int64)(UInt64)uIntPtr + 4);
+            uIntPtr2 = (UIntPtr)(void*)((UInt64)(Int64)(UInt64)uIntPtr2 - 4);
             continue;
           }
-          return (Int32)(ptr2 - ptr) + LocateFirstFoundChar(vector);
+          return (Int32)((Int64)(UInt64)uIntPtr + 3);
         }
-        if (ptr2 < ptr3) {
-          length = (Int32)(ptr3 - ptr2);
-          continue;
-        }
+        return (Int32)((Int64)(UInt64)uIntPtr + 2);
       }
-      return -1;
-      continue;
-
-    end_IL_00dd:
-      break;
+      return (Int32)((Int64)(UInt64)uIntPtr + 1);
     }
-    return (Int32)(ptr2 - ptr);
+    goto IL_00fb;
   }
+  while (uIntPtr2 != (UIntPtr)(void*)nullptr) {
+    Int32 num2 = Add(searchStart, uIntPtr);
+    if (value0 != num2 && value1 != num2 && value2 != num2) {
+      uIntPtr = (UIntPtr)(void*)((UInt64)(Int64)(UInt64)uIntPtr + 1);
+      uIntPtr2 = (UIntPtr)(void*)((UInt64)(Int64)(UInt64)uIntPtr2 - 1);
+      continue;
+    }
+    goto IL_00fb;
+  }
+  goto IL_00e7;
+
+IL_027f:
+  uIntPtr = (UIntPtr)(void*)((UInt64)(Int64)(UInt64)uIntPtr + (UInt64)(Int64)(IntPtr)(void*)((UInt64)(UInt32)BitOperations::TrailingZeroCount(num) >> 1));
+  goto IL_00fb;
+
+IL_00e7:
+  return -1;
+
+IL_0355:
+  Vector<UInt16> vector;
+  uIntPtr = (UIntPtr)(void*)((UInt64)(Int64)(UInt64)uIntPtr + (UInt64)(UInt32)LocateFirstFoundChar(vector));
+  goto IL_00fb;
+
+IL_0291:
+  if (!Sse2::in::get_IsSupported() && Vector<>::get_IsHardwareAccelerated()) {
+    Vector<UInt16> right3 = Vector<UInt16>(value0);
+    Vector<UInt16> right4 = Vector<UInt16>(value1);
+    Vector<UInt16> right5 = Vector<UInt16>(value2);
+    while ((UInt64)uIntPtr2 > (UInt64)uIntPtr) {
+      vector = LoadVector(searchStart, uIntPtr);
+      vector = Vector<>::BitwiseOr(Vector<>::BitwiseOr(Vector<>::Equals(vector, right3), Vector<>::Equals(vector, right4)), Vector<>::Equals(vector, right5));
+      if (Vector<UInt16>::get_Zero().Equals(vector)) {
+        uIntPtr = (UIntPtr)(void*)((UInt64)(Int64)(UInt64)uIntPtr + (UInt64)Vector<UInt16>::get_Count());
+        continue;
+      }
+      goto IL_0355;
+    }
+    vector = LoadVector(searchStart, uIntPtr2);
+    uIntPtr = uIntPtr2;
+    vector = Vector<>::BitwiseOr(Vector<>::BitwiseOr(Vector<>::Equals(vector, right3), Vector<>::Equals(vector, right4)), Vector<>::Equals(vector, right5));
+    if (!Vector<UInt16>::get_Zero().Equals(vector)) {
+      goto IL_0355;
+    }
+  }
+  goto IL_00e7;
+
+IL_00fb:
+  return (Int32)(UInt64)uIntPtr;
 }
 
-Int32 SpanHelpers::IndexOfAny(Char& searchSpace, Char value0, Char value1, Char value2, Char value3, Int32 length) {
-  {
-    Char* ptr = &searchSpace;
-    Char* ptr2 = ptr;
-    Char* ptr3 = ptr2 + length;
-    if (Vector<>::get_IsHardwareAccelerated() && length >= Vector<UInt16>::get_Count() * 2) {
-      Int32 num = ((Int32)ptr2 & (Unsafe::SizeOf<Vector<UInt16>>() - 1)) / 2;
-      length = ((Vector<UInt16>::get_Count() - num) & (Vector<UInt16>::get_Count() - 1));
-    }
-    while (true) {
-      if (length >= 4) {
-        length -= 4;
-        if (*ptr2 == value0 || *ptr2 == value1 || *ptr2 == value2 || *ptr2 == value3) {
-          break;
-        }
-        if (ptr2[1] != value0 && ptr2[1] != value1 && ptr2[1] != value2 && ptr2[1] != value3) {
-          if (ptr2[2] != value0 && ptr2[2] != value1 && ptr2[2] != value2 && ptr2[2] != value3) {
-            if (ptr2[3] != value0 && ptr2[3] != value1 && ptr2[3] != value2 && ptr2[3] != value3) {
-              ptr2 += 4;
+Int32 SpanHelpers::IndexOfAny(Char& searchStart, Char value0, Char value1, Char value2, Char value3, Int32 length) {
+  UIntPtr uIntPtr = (UIntPtr)(void*)nullptr;
+  UIntPtr uIntPtr2 = (UIntPtr)(UInt32)length;
+  Int32 num;
+  if (Sse2::in::get_IsSupported()) {
+    IntPtr intPtr = (IntPtr)(void*)((Int64)length - (Int64)Vector128<UInt16>::get_Count());
+    if ((Int64)intPtr >= 0) {
+      uIntPtr2 = (UIntPtr)(void*)(Int64)intPtr;
+      if (Sse2::in::get_IsSupported()) {
+        if (Avx2::in::get_IsSupported() && (UInt64)uIntPtr2 >= (UInt64)Vector128<UInt16>::get_Count()) {
+          Vector256<UInt16> left = Vector256<>::Create(value0);
+          Vector256<UInt16> left2 = Vector256<>::Create(value1);
+          Vector256<UInt16> left3 = Vector256<>::Create(value2);
+          Vector256<UInt16> left4 = Vector256<>::Create(value3);
+          uIntPtr2 = (UIntPtr)(void*)((UInt64)(Int64)(UInt64)uIntPtr2 - (UInt64)Vector128<UInt16>::get_Count());
+          Vector256<UInt16> right;
+          while ((UInt64)uIntPtr2 > (UInt64)uIntPtr) {
+            right = LoadVector256(searchStart, uIntPtr);
+            num = Avx2::in::MoveMask(Vector256<>::AsByte(Avx2::in::CompareEqual(left, right)));
+            num |= Avx2::in::MoveMask(Vector256<>::AsByte(Avx2::in::CompareEqual(left2, right)));
+            num |= Avx2::in::MoveMask(Vector256<>::AsByte(Avx2::in::CompareEqual(left3, right)));
+            num |= Avx2::in::MoveMask(Vector256<>::AsByte(Avx2::in::CompareEqual(left4, right)));
+            if (num == 0) {
+              uIntPtr = (UIntPtr)(void*)((UInt64)(Int64)(UInt64)uIntPtr + (UInt64)Vector256<UInt16>::get_Count());
               continue;
             }
-            ptr2++;
+            goto IL_036f;
           }
-          ptr2++;
+          right = LoadVector256(searchStart, uIntPtr2);
+          uIntPtr = uIntPtr2;
+          num = Avx2::in::MoveMask(Vector256<>::AsByte(Avx2::in::CompareEqual(left, right)));
+          num |= Avx2::in::MoveMask(Vector256<>::AsByte(Avx2::in::CompareEqual(left2, right)));
+          num |= Avx2::in::MoveMask(Vector256<>::AsByte(Avx2::in::CompareEqual(left3, right)));
+          num |= Avx2::in::MoveMask(Vector256<>::AsByte(Avx2::in::CompareEqual(left4, right)));
+          if (num == 0) {
+            goto IL_0115;
+          }
+        } else {
+          Vector128<UInt16> left5 = Vector128<>::Create(value0);
+          Vector128<UInt16> left6 = Vector128<>::Create(value1);
+          Vector128<UInt16> left7 = Vector128<>::Create(value2);
+          Vector128<UInt16> left8 = Vector128<>::Create(value3);
+          Vector128<UInt16> right2;
+          while ((UInt64)uIntPtr2 > (UInt64)uIntPtr) {
+            right2 = LoadVector128(searchStart, uIntPtr);
+            num = Sse2::in::MoveMask(Vector128<>::AsByte(Sse2::in::CompareEqual(left5, right2)));
+            num |= Sse2::in::MoveMask(Vector128<>::AsByte(Sse2::in::CompareEqual(left6, right2)));
+            num |= Sse2::in::MoveMask(Vector128<>::AsByte(Sse2::in::CompareEqual(left7, right2)));
+            num |= Sse2::in::MoveMask(Vector128<>::AsByte(Sse2::in::CompareEqual(left8, right2)));
+            if (num == 0) {
+              uIntPtr = (UIntPtr)(void*)((UInt64)(Int64)(UInt64)uIntPtr + (UInt64)Vector128<UInt16>::get_Count());
+              continue;
+            }
+            goto IL_036f;
+          }
+          right2 = LoadVector128(searchStart, uIntPtr2);
+          uIntPtr = uIntPtr2;
+          num = Sse2::in::MoveMask(Vector128<>::AsByte(Sse2::in::CompareEqual(left5, right2)));
+          num |= Sse2::in::MoveMask(Vector128<>::AsByte(Sse2::in::CompareEqual(left6, right2)));
+          num |= Sse2::in::MoveMask(Vector128<>::AsByte(Sse2::in::CompareEqual(left7, right2)));
+          num |= Sse2::in::MoveMask(Vector128<>::AsByte(Sse2::in::CompareEqual(left8, right2)));
+          if (num == 0) {
+            goto IL_0115;
+          }
         }
-        ptr2++;
-        break;
+        goto IL_036f;
       }
-      while (length > 0) {
-        length--;
-        if (*ptr2 == value0 || *ptr2 == value1 || *ptr2 == value2 || *ptr2 == value3) {
-          goto end_IL_010d;
-        }
-        ptr2++;
-      }
-      if (Vector<>::get_IsHardwareAccelerated() && ptr2 < ptr3) {
-        length = (Int32)((ptr3 - ptr2) & ~(Vector<UInt16>::get_Count() - 1));
-        Vector<UInt16> right = Vector<UInt16>(value0);
-        Vector<UInt16> right2 = Vector<UInt16>(value1);
-        Vector<UInt16> right3 = Vector<UInt16>(value2);
-        Vector<UInt16> right4 = Vector<UInt16>(value3);
-        while (length > 0) {
-          Vector<UInt16> left = Unsafe::Read<Vector<UInt16>>(ptr2);
-          Vector<UInt16> vector = Vector<>::BitwiseOr(Vector<>::BitwiseOr(Vector<>::BitwiseOr(Vector<>::Equals(left, right), Vector<>::Equals(left, right2)), Vector<>::Equals(left, right3)), Vector<>::Equals(left, right4));
-          if (Vector<UInt16>::get_Zero().Equals(vector)) {
-            ptr2 += Vector<UInt16>::get_Count();
-            length -= Vector<UInt16>::get_Count();
+      goto IL_0381;
+    }
+  } else if (Vector<>::get_IsHardwareAccelerated()) {
+    IntPtr intPtr2 = (IntPtr)(void*)((Int64)length - (Int64)Vector<UInt16>::get_Count());
+    if ((Int64)intPtr2 >= 0) {
+      uIntPtr2 = (UIntPtr)(void*)(Int64)intPtr2;
+      goto IL_0381;
+    }
+  }
+
+  while ((UInt64)uIntPtr2 >= 4) {
+    Char& reference = Add(searchStart, uIntPtr);
+    Int32 num2 = reference;
+    if (value0 != num2 && value1 != num2 && value2 != num2 && value3 != num2) {
+      num2 = Unsafe::Add(reference, 1);
+      if (value0 != num2 && value1 != num2 && value2 != num2 && value3 != num2) {
+        num2 = Unsafe::Add(reference, 2);
+        if (value0 != num2 && value1 != num2 && value2 != num2 && value3 != num2) {
+          num2 = Unsafe::Add(reference, 3);
+          if (value0 != num2 && value1 != num2 && value2 != num2 && value3 != num2) {
+            uIntPtr = (UIntPtr)(void*)((UInt64)(Int64)(UInt64)uIntPtr + 4);
+            uIntPtr2 = (UIntPtr)(void*)((UInt64)(Int64)(UInt64)uIntPtr2 - 4);
             continue;
           }
-          return (Int32)(ptr2 - ptr) + LocateFirstFoundChar(vector);
+          return (Int32)((Int64)(UInt64)uIntPtr + 3);
         }
-        if (ptr2 < ptr3) {
-          length = (Int32)(ptr3 - ptr2);
-          continue;
-        }
+        return (Int32)((Int64)(UInt64)uIntPtr + 2);
       }
-      return -1;
-      continue;
-
-    end_IL_010d:
-      break;
+      return (Int32)((Int64)(UInt64)uIntPtr + 1);
     }
-    return (Int32)(ptr2 - ptr);
+    goto IL_0129;
   }
+  while (uIntPtr2 != (UIntPtr)(void*)nullptr) {
+    Int32 num2 = Add(searchStart, uIntPtr);
+    if (value0 != num2 && value1 != num2 && value2 != num2 && value3 != num2) {
+      uIntPtr = (UIntPtr)(void*)((UInt64)(Int64)(UInt64)uIntPtr + 1);
+      uIntPtr2 = (UIntPtr)(void*)((UInt64)(Int64)(UInt64)uIntPtr2 - 1);
+      continue;
+    }
+    goto IL_0129;
+  }
+  goto IL_0115;
+
+IL_036f:
+  uIntPtr = (UIntPtr)(void*)((UInt64)(Int64)(UInt64)uIntPtr + (UInt64)(Int64)(IntPtr)(void*)((UInt64)(UInt32)BitOperations::TrailingZeroCount(num) >> 1));
+  goto IL_0129;
+
+IL_0115:
+  return -1;
+
+IL_046a:
+  Vector<UInt16> vector;
+  uIntPtr = (UIntPtr)(void*)((UInt64)(Int64)(UInt64)uIntPtr + (UInt64)(UInt32)LocateFirstFoundChar(vector));
+  goto IL_0129;
+
+IL_0381:
+  if (!Sse2::in::get_IsSupported() && Vector<>::get_IsHardwareAccelerated()) {
+    Vector<UInt16> right3 = Vector<UInt16>(value0);
+    Vector<UInt16> right4 = Vector<UInt16>(value1);
+    Vector<UInt16> right5 = Vector<UInt16>(value2);
+    Vector<UInt16> right6 = Vector<UInt16>(value3);
+    while ((UInt64)uIntPtr2 > (UInt64)uIntPtr) {
+      vector = LoadVector(searchStart, uIntPtr);
+      vector = Vector<>::BitwiseOr(Vector<>::BitwiseOr(Vector<>::BitwiseOr(Vector<>::Equals(vector, right3), Vector<>::Equals(vector, right4)), Vector<>::Equals(vector, right5)), Vector<>::Equals(vector, right6));
+      if (Vector<UInt16>::get_Zero().Equals(vector)) {
+        uIntPtr = (UIntPtr)(void*)((UInt64)(Int64)(UInt64)uIntPtr + (UInt64)Vector<UInt16>::get_Count());
+        continue;
+      }
+      goto IL_046a;
+    }
+    vector = LoadVector(searchStart, uIntPtr2);
+    uIntPtr = uIntPtr2;
+    vector = Vector<>::BitwiseOr(Vector<>::BitwiseOr(Vector<>::BitwiseOr(Vector<>::Equals(vector, right3), Vector<>::Equals(vector, right4)), Vector<>::Equals(vector, right5)), Vector<>::Equals(vector, right6));
+    if (!Vector<UInt16>::get_Zero().Equals(vector)) {
+      goto IL_046a;
+    }
+  }
+  goto IL_0115;
+
+IL_0129:
+  return (Int32)(UInt64)uIntPtr;
 }
 
-Int32 SpanHelpers::IndexOfAny(Char& searchSpace, Char value0, Char value1, Char value2, Char value3, Char value4, Int32 length) {
-  {
-    Char* ptr = &searchSpace;
-    Char* ptr2 = ptr;
-    Char* ptr3 = ptr2 + length;
-    if (Vector<>::get_IsHardwareAccelerated() && length >= Vector<UInt16>::get_Count() * 2) {
-      Int32 num = ((Int32)ptr2 & (Unsafe::SizeOf<Vector<UInt16>>() - 1)) / 2;
-      length = ((Vector<UInt16>::get_Count() - num) & (Vector<UInt16>::get_Count() - 1));
-    }
-    while (true) {
-      if (length >= 4) {
-        length -= 4;
-        if (*ptr2 == value0 || *ptr2 == value1 || *ptr2 == value2 || *ptr2 == value3 || *ptr2 == value4) {
-          break;
-        }
-        if (ptr2[1] != value0 && ptr2[1] != value1 && ptr2[1] != value2 && ptr2[1] != value3 && ptr2[1] != value4) {
-          if (ptr2[2] != value0 && ptr2[2] != value1 && ptr2[2] != value2 && ptr2[2] != value3 && ptr2[2] != value4) {
-            if (ptr2[3] != value0 && ptr2[3] != value1 && ptr2[3] != value2 && ptr2[3] != value3 && ptr2[3] != value4) {
-              ptr2 += 4;
+Int32 SpanHelpers::IndexOfAny(Char& searchStart, Char value0, Char value1, Char value2, Char value3, Char value4, Int32 length) {
+  UIntPtr uIntPtr = (UIntPtr)(void*)nullptr;
+  UIntPtr uIntPtr2 = (UIntPtr)(UInt32)length;
+  Int32 num;
+  if (Sse2::in::get_IsSupported()) {
+    IntPtr intPtr = (IntPtr)(void*)((Int64)length - (Int64)Vector128<UInt16>::get_Count());
+    if ((Int64)intPtr >= 0) {
+      uIntPtr2 = (UIntPtr)(void*)(Int64)intPtr;
+      if (Sse2::in::get_IsSupported()) {
+        if (Avx2::in::get_IsSupported() && (UInt64)uIntPtr2 >= (UInt64)Vector128<UInt16>::get_Count()) {
+          Vector256<UInt16> left = Vector256<>::Create(value0);
+          Vector256<UInt16> left2 = Vector256<>::Create(value1);
+          Vector256<UInt16> left3 = Vector256<>::Create(value2);
+          Vector256<UInt16> left4 = Vector256<>::Create(value3);
+          Vector256<UInt16> left5 = Vector256<>::Create(value4);
+          uIntPtr2 = (UIntPtr)(void*)((UInt64)(Int64)(UInt64)uIntPtr2 - (UInt64)Vector128<UInt16>::get_Count());
+          Vector256<UInt16> right;
+          while ((UInt64)uIntPtr2 > (UInt64)uIntPtr) {
+            right = LoadVector256(searchStart, uIntPtr);
+            num = Avx2::in::MoveMask(Vector256<>::AsByte(Avx2::in::CompareEqual(left, right)));
+            num |= Avx2::in::MoveMask(Vector256<>::AsByte(Avx2::in::CompareEqual(left2, right)));
+            num |= Avx2::in::MoveMask(Vector256<>::AsByte(Avx2::in::CompareEqual(left3, right)));
+            num |= Avx2::in::MoveMask(Vector256<>::AsByte(Avx2::in::CompareEqual(left4, right)));
+            num |= Avx2::in::MoveMask(Vector256<>::AsByte(Avx2::in::CompareEqual(left5, right)));
+            if (num == 0) {
+              uIntPtr = (UIntPtr)(void*)((UInt64)(Int64)(UInt64)uIntPtr + (UInt64)Vector256<UInt16>::get_Count());
               continue;
             }
-            ptr2++;
+            goto IL_040f;
           }
-          ptr2++;
+          right = LoadVector256(searchStart, uIntPtr2);
+          uIntPtr = uIntPtr2;
+          num = Avx2::in::MoveMask(Vector256<>::AsByte(Avx2::in::CompareEqual(left, right)));
+          num |= Avx2::in::MoveMask(Vector256<>::AsByte(Avx2::in::CompareEqual(left2, right)));
+          num |= Avx2::in::MoveMask(Vector256<>::AsByte(Avx2::in::CompareEqual(left3, right)));
+          num |= Avx2::in::MoveMask(Vector256<>::AsByte(Avx2::in::CompareEqual(left4, right)));
+          num |= Avx2::in::MoveMask(Vector256<>::AsByte(Avx2::in::CompareEqual(left5, right)));
+          if (num == 0) {
+            goto IL_0134;
+          }
+        } else {
+          Vector128<UInt16> left6 = Vector128<>::Create(value0);
+          Vector128<UInt16> left7 = Vector128<>::Create(value1);
+          Vector128<UInt16> left8 = Vector128<>::Create(value2);
+          Vector128<UInt16> left9 = Vector128<>::Create(value3);
+          Vector128<UInt16> left10 = Vector128<>::Create(value4);
+          Vector128<UInt16> right2;
+          while ((UInt64)uIntPtr2 > (UInt64)uIntPtr) {
+            right2 = LoadVector128(searchStart, uIntPtr);
+            num = Sse2::in::MoveMask(Vector128<>::AsByte(Sse2::in::CompareEqual(left6, right2)));
+            num |= Sse2::in::MoveMask(Vector128<>::AsByte(Sse2::in::CompareEqual(left7, right2)));
+            num |= Sse2::in::MoveMask(Vector128<>::AsByte(Sse2::in::CompareEqual(left8, right2)));
+            num |= Sse2::in::MoveMask(Vector128<>::AsByte(Sse2::in::CompareEqual(left9, right2)));
+            num |= Sse2::in::MoveMask(Vector128<>::AsByte(Sse2::in::CompareEqual(left10, right2)));
+            if (num == 0) {
+              uIntPtr = (UIntPtr)(void*)((UInt64)(Int64)(UInt64)uIntPtr + (UInt64)Vector128<UInt16>::get_Count());
+              continue;
+            }
+            goto IL_040f;
+          }
+          right2 = LoadVector128(searchStart, uIntPtr2);
+          uIntPtr = uIntPtr2;
+          num = Sse2::in::MoveMask(Vector128<>::AsByte(Sse2::in::CompareEqual(left6, right2)));
+          num |= Sse2::in::MoveMask(Vector128<>::AsByte(Sse2::in::CompareEqual(left7, right2)));
+          num |= Sse2::in::MoveMask(Vector128<>::AsByte(Sse2::in::CompareEqual(left8, right2)));
+          num |= Sse2::in::MoveMask(Vector128<>::AsByte(Sse2::in::CompareEqual(left9, right2)));
+          num |= Sse2::in::MoveMask(Vector128<>::AsByte(Sse2::in::CompareEqual(left10, right2)));
+          if (num == 0) {
+            goto IL_0134;
+          }
         }
-        ptr2++;
-        break;
+        goto IL_040f;
       }
-      while (length > 0) {
-        length--;
-        if (*ptr2 == value0 || *ptr2 == value1 || *ptr2 == value2 || *ptr2 == value3 || *ptr2 == value4) {
-          goto end_IL_013d;
-        }
-        ptr2++;
-      }
-      if (Vector<>::get_IsHardwareAccelerated() && ptr2 < ptr3) {
-        length = (Int32)((ptr3 - ptr2) & ~(Vector<UInt16>::get_Count() - 1));
-        Vector<UInt16> right = Vector<UInt16>(value0);
-        Vector<UInt16> right2 = Vector<UInt16>(value1);
-        Vector<UInt16> right3 = Vector<UInt16>(value2);
-        Vector<UInt16> right4 = Vector<UInt16>(value3);
-        Vector<UInt16> right5 = Vector<UInt16>(value4);
-        while (length > 0) {
-          Vector<UInt16> left = Unsafe::Read<Vector<UInt16>>(ptr2);
-          Vector<UInt16> vector = Vector<>::BitwiseOr(Vector<>::BitwiseOr(Vector<>::BitwiseOr(Vector<>::BitwiseOr(Vector<>::Equals(left, right), Vector<>::Equals(left, right2)), Vector<>::Equals(left, right3)), Vector<>::Equals(left, right4)), Vector<>::Equals(left, right5));
-          if (Vector<UInt16>::get_Zero().Equals(vector)) {
-            ptr2 += Vector<UInt16>::get_Count();
-            length -= Vector<UInt16>::get_Count();
+      goto IL_0421;
+    }
+  } else if (Vector<>::get_IsHardwareAccelerated()) {
+    IntPtr intPtr2 = (IntPtr)(void*)((Int64)length - (Int64)Vector<UInt16>::get_Count());
+    if ((Int64)intPtr2 >= 0) {
+      uIntPtr2 = (UIntPtr)(void*)(Int64)intPtr2;
+      goto IL_0421;
+    }
+  }
+
+  while ((UInt64)uIntPtr2 >= 4) {
+    Char& reference = Add(searchStart, uIntPtr);
+    Int32 num2 = reference;
+    if (value0 != num2 && value1 != num2 && value2 != num2 && value3 != num2 && value4 != num2) {
+      num2 = Unsafe::Add(reference, 1);
+      if (value0 != num2 && value1 != num2 && value2 != num2 && value3 != num2 && value4 != num2) {
+        num2 = Unsafe::Add(reference, 2);
+        if (value0 != num2 && value1 != num2 && value2 != num2 && value3 != num2 && value4 != num2) {
+          num2 = Unsafe::Add(reference, 3);
+          if (value0 != num2 && value1 != num2 && value2 != num2 && value3 != num2 && value4 != num2) {
+            uIntPtr = (UIntPtr)(void*)((UInt64)(Int64)(UInt64)uIntPtr + 4);
+            uIntPtr2 = (UIntPtr)(void*)((UInt64)(Int64)(UInt64)uIntPtr2 - 4);
             continue;
           }
-          return (Int32)(ptr2 - ptr) + LocateFirstFoundChar(vector);
+          return (Int32)((Int64)(UInt64)uIntPtr + 3);
         }
-        if (ptr2 < ptr3) {
-          length = (Int32)(ptr3 - ptr2);
-          continue;
-        }
+        return (Int32)((Int64)(UInt64)uIntPtr + 2);
       }
-      return -1;
-      continue;
-
-    end_IL_013d:
-      break;
+      return (Int32)((Int64)(UInt64)uIntPtr + 1);
     }
-    return (Int32)(ptr2 - ptr);
+    goto IL_0148;
   }
+  while (uIntPtr2 != (UIntPtr)(void*)nullptr) {
+    Int32 num2 = Add(searchStart, uIntPtr);
+    if (value0 != num2 && value1 != num2 && value2 != num2 && value3 != num2 && value4 != num2) {
+      uIntPtr = (UIntPtr)(void*)((UInt64)(Int64)(UInt64)uIntPtr + 1);
+      uIntPtr2 = (UIntPtr)(void*)((UInt64)(Int64)(UInt64)uIntPtr2 - 1);
+      continue;
+    }
+    goto IL_0148;
+  }
+  goto IL_0134;
+
+IL_040f:
+  uIntPtr = (UIntPtr)(void*)((UInt64)(Int64)(UInt64)uIntPtr + (UInt64)(Int64)(IntPtr)(void*)((UInt64)(UInt32)BitOperations::TrailingZeroCount(num) >> 1));
+  goto IL_0148;
+
+IL_0134:
+  return -1;
+
+IL_052f:
+  Vector<UInt16> vector;
+  uIntPtr = (UIntPtr)(void*)((UInt64)(Int64)(UInt64)uIntPtr + (UInt64)(UInt32)LocateFirstFoundChar(vector));
+  goto IL_0148;
+
+IL_0421:
+  if (!Sse2::in::get_IsSupported() && Vector<>::get_IsHardwareAccelerated()) {
+    Vector<UInt16> right3 = Vector<UInt16>(value0);
+    Vector<UInt16> right4 = Vector<UInt16>(value1);
+    Vector<UInt16> right5 = Vector<UInt16>(value2);
+    Vector<UInt16> right6 = Vector<UInt16>(value3);
+    Vector<UInt16> right7 = Vector<UInt16>(value4);
+    while ((UInt64)uIntPtr2 > (UInt64)uIntPtr) {
+      vector = LoadVector(searchStart, uIntPtr);
+      vector = Vector<>::BitwiseOr(Vector<>::BitwiseOr(Vector<>::BitwiseOr(Vector<>::BitwiseOr(Vector<>::Equals(vector, right3), Vector<>::Equals(vector, right4)), Vector<>::Equals(vector, right5)), Vector<>::Equals(vector, right6)), Vector<>::Equals(vector, right7));
+      if (Vector<UInt16>::get_Zero().Equals(vector)) {
+        uIntPtr = (UIntPtr)(void*)((UInt64)(Int64)(UInt64)uIntPtr + (UInt64)Vector<UInt16>::get_Count());
+        continue;
+      }
+      goto IL_052f;
+    }
+    vector = LoadVector(searchStart, uIntPtr2);
+    uIntPtr = uIntPtr2;
+    vector = Vector<>::BitwiseOr(Vector<>::BitwiseOr(Vector<>::BitwiseOr(Vector<>::BitwiseOr(Vector<>::Equals(vector, right3), Vector<>::Equals(vector, right4)), Vector<>::Equals(vector, right5)), Vector<>::Equals(vector, right6)), Vector<>::Equals(vector, right7));
+    if (!Vector<UInt16>::get_Zero().Equals(vector)) {
+      goto IL_052f;
+    }
+  }
+  goto IL_0134;
+
+IL_0148:
+  return (Int32)(UInt64)uIntPtr;
 }
 
 Int32 SpanHelpers::LastIndexOf(Char& searchSpace, Char value, Int32 length) {
@@ -1999,12 +2335,28 @@ Vector<UInt16> SpanHelpers::LoadVector(Char& start, IntPtr offset) {
   return Unsafe::ReadUnaligned<Vector<UInt16>>(Unsafe::As<Char, Byte>(Unsafe::Add(start, offset)));
 }
 
+Vector<UInt16> SpanHelpers::LoadVector(Char& start, UIntPtr offset) {
+  return Unsafe::ReadUnaligned<Vector<UInt16>>(Unsafe::As<Char, Byte>(Unsafe::Add(start, (IntPtr)(void*)offset)));
+}
+
 Vector128<UInt16> SpanHelpers::LoadVector128(Char& start, IntPtr offset) {
   return Unsafe::ReadUnaligned<Vector128<UInt16>>(Unsafe::As<Char, Byte>(Unsafe::Add(start, offset)));
 }
 
+Vector128<UInt16> SpanHelpers::LoadVector128(Char& start, UIntPtr offset) {
+  return Unsafe::ReadUnaligned<Vector128<UInt16>>(Unsafe::As<Char, Byte>(Unsafe::Add(start, (IntPtr)(void*)offset)));
+}
+
 Vector256<UInt16> SpanHelpers::LoadVector256(Char& start, IntPtr offset) {
   return Unsafe::ReadUnaligned<Vector256<UInt16>>(Unsafe::As<Char, Byte>(Unsafe::Add(start, offset)));
+}
+
+Vector256<UInt16> SpanHelpers::LoadVector256(Char& start, UIntPtr offset) {
+  return Unsafe::ReadUnaligned<Vector256<UInt16>>(Unsafe::As<Char, Byte>(Unsafe::Add(start, (IntPtr)(void*)offset)));
+}
+
+Char& SpanHelpers::Add(Char& start, UIntPtr offset) {
+  return Unsafe::Add(start, (IntPtr)(void*)offset);
 }
 
 IntPtr SpanHelpers::GetCharVectorSpanLength(IntPtr offset, IntPtr length) {

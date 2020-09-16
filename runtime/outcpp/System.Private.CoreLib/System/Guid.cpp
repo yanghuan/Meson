@@ -5,6 +5,7 @@
 #include <System.Private.CoreLib/System/ArgumentException-dep.h>
 #include <System.Private.CoreLib/System/ArgumentNullException-dep.h>
 #include <System.Private.CoreLib/System/BitConverter-dep.h>
+#include <System.Private.CoreLib/System/Buffers/Binary/BinaryPrimitives-dep.h>
 #include <System.Private.CoreLib/System/Char-dep.h>
 #include <System.Private.CoreLib/System/Exception-dep.h>
 #include <System.Private.CoreLib/System/FormatException-dep.h>
@@ -21,6 +22,7 @@
 
 namespace System::Private::CoreLib::System::GuidNamespace {
 using namespace Internal::Runtime::CompilerServices;
+using namespace System::Buffers::Binary;
 using namespace System::Globalization;
 using namespace System::Runtime::InteropServices;
 
@@ -58,9 +60,9 @@ Guid::Guid(ReadOnlySpan<Byte> b) {
     return;
   }
   _k = b[15];
-  _a = ((b[3] << 24) | (b[2] << 16) | (b[1] << 8) | b[0]);
-  _b = (Int16)((b[5] << 8) | b[4]);
-  _c = (Int16)((b[7] << 8) | b[6]);
+  _a = BinaryPrimitives::ReadInt32LittleEndian(b);
+  _b = BinaryPrimitives::ReadInt16LittleEndian(b.Slice(4));
+  _c = BinaryPrimitives::ReadInt16LittleEndian(b.Slice(8));
   _d = b[8];
   _e = b[9];
   _f = b[10];
@@ -520,14 +522,9 @@ Boolean Guid::TryWriteBytes(Span<Byte> destination) {
     return false;
   }
   destination[15] = _k;
-  destination[0] = (Byte)_a;
-  destination[1] = (Byte)(_a >> 8);
-  destination[2] = (Byte)(_a >> 16);
-  destination[3] = (Byte)(_a >> 24);
-  destination[4] = (Byte)_b;
-  destination[5] = (Byte)(_b >> 8);
-  destination[6] = (Byte)_c;
-  destination[7] = (Byte)(_c >> 8);
+  BinaryPrimitives::WriteInt32LittleEndian(destination, _a);
+  BinaryPrimitives::WriteInt16LittleEndian(destination.Slice(4), _b);
+  BinaryPrimitives::WriteInt16LittleEndian(destination.Slice(8), _c);
   destination[8] = _d;
   destination[9] = _e;
   destination[10] = _f;

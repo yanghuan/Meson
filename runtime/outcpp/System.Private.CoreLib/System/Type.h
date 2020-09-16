@@ -53,8 +53,8 @@ CLASS(Type) : public MemberInfo::in {
   private: CLASS(__c) : public object {
     public: static void cctor();
     public: void ctor();
-    public: Boolean _cctor_b__272_0(MemberInfo m, Object c);
-    public: Boolean _cctor_b__272_1(MemberInfo m, Object c);
+    public: Boolean _cctor_b__273_0(MemberInfo m, Object c);
+    public: Boolean _cctor_b__273_1(MemberInfo m, Object c);
     public: static __c __9;
   };
   public: Boolean get_IsInterface();
@@ -155,6 +155,7 @@ CLASS(Type) : public MemberInfo::in {
   protected: Boolean IsContextfulImpl();
   protected: Boolean IsMarshalByRefImpl();
   protected: Boolean IsPrimitiveImpl();
+  public: Boolean IsAssignableTo(Type targetType);
   protected: Boolean IsValueTypeImpl();
   public: ConstructorInfo GetConstructor(Array<Type> types);
   public: ConstructorInfo GetConstructor(BindingFlags bindingAttr, Binder binder, Array<Type> types, Array<ParameterModifier> modifiers);

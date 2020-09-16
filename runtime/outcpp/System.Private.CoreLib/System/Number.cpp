@@ -344,42 +344,41 @@ UInt32 Number::BigInteger::HeuristicDivide(BigInteger& dividend, BigInteger& div
 }
 
 void Number::BigInteger::Multiply(BigInteger& lhs, UInt32 value, BigInteger& result) {
-  if (!lhs.IsZero()) {
-    switch (value.get()) {
-      case 1u:
-        break;
-      case 0u:
-        SetZero(result);
-        return;
-      default:
-        {
-          Int32 length = lhs._length;
-          Int32 i = 0;
-          UInt32 num = 0u;
-          for (; i < length; i++) {
-            UInt64 num2 = (UInt64)((Int64)*(lhs._blocks + i) * (Int64)value + num);
-            *(result._blocks + i) = (UInt32)num2;
-            num = (UInt32)(num2 >> 32);
-          }
-          if (num != 0) {
-            *(result._blocks + i) = num;
-            result._length = length + 1;
-          } else {
-            result._length = length;
-          }
-          return;
-        }}
+  if (lhs._length <= 1) {
+    SetUInt64(result, (UInt64)lhs.ToUInt32() * (UInt64)value);
+    return;
   }
-  SetValue(result, lhs);
+  switch (value.get()) {
+    case 0u:
+      SetZero(result);
+      return;
+    case 1u:
+      SetValue(result, lhs);
+      return;
+  }
+  Int32 length = lhs._length;
+  Int32 i = 0;
+  UInt32 num = 0u;
+  for (; i < length; i++) {
+    UInt64 num2 = (UInt64)((Int64)*(lhs._blocks + i) * (Int64)value + num);
+    *(result._blocks + i) = (UInt32)num2;
+    num = (UInt32)(num2 >> 32);
+  }
+  if (num != 0) {
+    *(result._blocks + i) = num;
+    result._length = length + 1;
+  } else {
+    result._length = length;
+  }
 }
 
 void Number::BigInteger::Multiply(BigInteger& lhs, BigInteger& rhs, BigInteger& result) {
-  if (lhs.IsZero() || rhs.IsOne()) {
-    SetValue(result, lhs);
+  if (lhs._length <= 1) {
+    Multiply(rhs, lhs.ToUInt32(), result);
     return;
   }
-  if (rhs.IsZero()) {
-    SetZero(result);
+  if (rhs._length <= 1) {
+    Multiply(lhs, rhs.ToUInt32(), result);
     return;
   }
   BigInteger& reference = lhs;
@@ -531,13 +530,6 @@ Int32 Number::BigInteger::GetLength() {
   return _length;
 }
 
-Boolean Number::BigInteger::IsOne() {
-  if (_length == 1) {
-    return *_blocks == 1;
-  }
-  return false;
-}
-
 Boolean Number::BigInteger::IsZero() {
   return _length == 0;
 }
@@ -547,6 +539,10 @@ void Number::BigInteger::Multiply(UInt32 value) {
 }
 
 void Number::BigInteger::Multiply(BigInteger& value) {
+  if (value._length <= 1) {
+    Multiply(*this, value.ToUInt32(), *this);
+    return;
+  }
   BigInteger result;
   SetValue(result, *this);
   Multiply(result, value, *this);
@@ -554,32 +550,32 @@ void Number::BigInteger::Multiply(BigInteger& value) {
 
 void Number::BigInteger::Multiply10() {
   if (!IsZero()) {
-    Int32 i = 0;
+    Int32 num = 0;
     Int32 length = _length;
-    UInt64 num = 0;
-    for (; i < length; i++) {
-      UInt64 num2 = *(_blocks + i);
-      UInt64 num3 = (num2 << 3) + (num2 << 1) + num;
-      num = num3 >> 32;
-      *(_blocks + i) = (UInt32)num3;
-    }
-    if (num != 0) {
-      *(_blocks + i) = (UInt32)num;
+    UInt64 num2 = 0;
+    do {
+      UInt64 num3 = *(_blocks + num);
+      UInt64 num4 = (num3 << 3) + (num3 << 1) + num2;
+      num2 = num4 >> 32;
+      *(_blocks + num) = (UInt32)num4;
+      num++;
+    } while (num < length)
+    if (num2 != 0) {
+      *(_blocks + num) = (UInt32)num2;
       _length++;
     }
   }
 }
 
 void Number::BigInteger::MultiplyPow10(UInt32 exponent) {
-  if (!IsZero()) {
+  if (exponent <= 9) {
+    Multiply(s_Pow10UInt32Table[exponent]);
+  } else if (!IsZero()) {
     BigInteger result;
     Pow10(exponent, result);
-    if (result._length == 1) {
-      Multiply(*result._blocks);
-    } else {
-      Multiply(result);
-    }
+    Multiply(result);
   }
+
 }
 
 void Number::BigInteger::SetUInt32(BigInteger& result, UInt32 value) {
@@ -651,6 +647,13 @@ void Number::BigInteger::ShiftLeft(UInt32 shift) {
   }
 }
 
+UInt32 Number::BigInteger::ToUInt32() {
+  if (_length > 0) {
+    return *_blocks;
+  }
+  return 0u;
+}
+
 UInt64 Number::BigInteger::ToUInt64() {
   if (_length > 1) {
     return ((UInt64)_blocks[1] << 32) + *_blocks;
@@ -671,7 +674,7 @@ UInt32 Number::BigInteger::DivRem32(UInt32 value, UInt32& remainder) {
 }
 
 void Number::BigInteger::cctor() {
-  s_Pow10UInt32Table = rt::newarr<Array<UInt32>>(8);
+  s_Pow10UInt32Table = rt::newarr<Array<UInt32>>(10);
   s_Pow10BigNumTableIndices = rt::newarr<Array<Int32>>(8);
   s_Pow10BigNumTable = rt::newarr<Array<UInt32>>(233);
 }

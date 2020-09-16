@@ -196,8 +196,8 @@ void StackTrace___::ToString(TraceFormat traceFormat, StringBuilder sb) {
     String name = method->get_Name();
     Boolean flag3 = false;
     if (declaringType != nullptr && declaringType->IsDefined(typeof<CompilerGeneratedAttribute>(), false)) {
-      flag2 = typeof<IAsyncStateMachine>()->IsAssignableFrom(declaringType);
-      if (flag2 || typeof<IEnumerator>()->IsAssignableFrom(declaringType)) {
+      flag2 = declaringType->IsAssignableTo(typeof<IAsyncStateMachine>());
+      if (flag2 || declaringType->IsAssignableTo(typeof<IEnumerator>())) {
         flag3 = TryResolveStateMachineMethod(method, declaringType);
       }
     }

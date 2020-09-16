@@ -482,7 +482,7 @@ Encoding Encoding___::GetEncoding(Int32 codepage) {
         if (LocalAppContextSwitches::get_EnableUnsafeUTF7Encoding()) {
           return get_UTF7();
         }
-        String p = String::in::Format(CultureInfo::in::get_InvariantCulture(), "https://aka.ms/dotnet-warnings/{0}", "MSLIB0001");
+        String p = String::in::Format(CultureInfo::in::get_InvariantCulture(), "https://aka.ms/dotnet-warnings/{0}", "SYSLIB0001");
         String message = SR::Format(SR::get_Encoding_UTF7_Disabled(), p);
         rt::throw_exception<NotSupportedException>(message);
       }default:

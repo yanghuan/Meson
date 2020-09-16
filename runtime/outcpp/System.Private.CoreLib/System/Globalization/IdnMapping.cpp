@@ -6,9 +6,9 @@
 #include <System.Private.CoreLib/System/ArgumentOutOfRangeException-dep.h>
 #include <System.Private.CoreLib/System/Char-dep.h>
 #include <System.Private.CoreLib/System/Globalization/CharUnicodeInfo-dep.h>
-#include <System.Private.CoreLib/System/Globalization/CompareInfo-dep.h>
 #include <System.Private.CoreLib/System/Globalization/GlobalizationMode-dep.h>
 #include <System.Private.CoreLib/System/Globalization/IdnMapping-dep.h>
+#include <System.Private.CoreLib/System/Globalization/Ordinal-dep.h>
 #include <System.Private.CoreLib/System/Globalization/StrongBidiCategory.h>
 #include <System.Private.CoreLib/System/Int64-dep.h>
 #include <System.Private.CoreLib/System/Math-dep.h>
@@ -144,7 +144,7 @@ Int32 IdnMapping___::GetHashCode() {
 }
 
 String IdnMapping___::GetStringForOutput(String originalString, Char* input, Int32 inputLength, Char* output, Int32 outputLength) {
-  if (originalString->get_Length() == inputLength && inputLength == outputLength && CompareInfo::in::EqualsOrdinalIgnoreCase(*input, *output, inputLength)) {
+  if (originalString->get_Length() == inputLength && inputLength == outputLength && Ordinal::EqualsIgnoreCase(*input, *output, inputLength)) {
     return originalString;
   }
   return rt::newstr<String>(output, 0, outputLength);

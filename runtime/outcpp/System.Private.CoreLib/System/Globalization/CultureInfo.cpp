@@ -680,7 +680,7 @@ CultureInfo CultureInfo___::GetCultureInfo(String name, Boolean predefinedOnly) 
   if (name == nullptr) {
     rt::throw_exception<ArgumentNullException>("name");
   }
-  if (predefinedOnly) {
+  if (predefinedOnly && !GlobalizationMode::get_Invariant()) {
     if (!GlobalizationMode::get_UseNls()) {
       return IcuGetPredefinedCultureInfo(name);
     }

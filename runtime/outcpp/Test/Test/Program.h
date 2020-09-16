@@ -11,6 +11,7 @@ namespace ProgramNamespace {
 using namespace ::System::Private::CoreLib::System;
 CLASS(Program) : public object {
   public: static void Main(Array<String> args);
+  private: void f();
   public: void ctor();
 };
 } // namespace ProgramNamespace

@@ -292,6 +292,15 @@ namespace Meson.Compiler {
               }
               break;
             }
+          case SymbolKind.Method: {
+              var method = (IMethod)symbol;
+              if (IsDelegateExpressionNode(identifierExpression)) {
+                if (method.IsStatic) {
+
+                }
+              }
+              break;
+            }
         }
       }
 
@@ -568,8 +577,12 @@ namespace Meson.Compiler {
       throw new NotImplementedException();
     }
 
+    private static bool IsDelegateExpressionNode(AstNode node) {
+      return !(node.Parent is InvocationExpression);
+    }
+
     private bool IsDelegateExpression(AstNode node, IMethod symbol, ExpressionSyntax target, ExpressionSyntax name, out ExpressionSyntax delegateExpression) {
-      if (!(node.Parent is InvocationExpression)) {
+      if (IsDelegateExpressionNode(node)) {
         if (symbol.IsStatic) {
           if (symbol.DeclaringTypeDefinition.IsRefType()) {
             target = target.WithIn();

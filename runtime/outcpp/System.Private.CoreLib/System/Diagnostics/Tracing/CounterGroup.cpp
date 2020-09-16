@@ -1,5 +1,6 @@
 #include "CounterGroup-dep.h"
 
+#include <System.Private.CoreLib/System/Action-dep.h>
 #include <System.Private.CoreLib/System/Array-dep.h>
 #include <System.Private.CoreLib/System/Boolean-dep.h>
 #include <System.Private.CoreLib/System/Collections/Generic/List-dep.h>
@@ -24,6 +25,13 @@
 namespace System::Private::CoreLib::System::Diagnostics::Tracing::CounterGroupNamespace {
 using namespace System::Collections::Generic;
 using namespace System::Threading;
+
+void CounterGroup___::__c__DisplayClass21_0___::ctor() {
+}
+
+void CounterGroup___::__c__DisplayClass21_0___::_PollForValues_b__0() {
+  counterGroup->OnTimer();
+}
 
 void CounterGroup___::ctor(EventSource eventSource) {
   _eventSource = eventSource;
@@ -163,33 +171,58 @@ void CounterGroup___::OnTimer() {
   if (!_eventSource->IsEnabled()) {
     return;
   }
-  DateTime utcNow = DateTime::get_UtcNow();
-  TimeSpan timeSpan = utcNow - _timeStampSinceCollectionStarted;
-  for (DiagnosticCounter&& counter : *_counters) {
-    counter->WritePayload((Single)timeSpan.get_TotalSeconds(), _pollingIntervalInMilliseconds);
+  DateTime utcNow;
+  TimeSpan timeSpan;
+  Int32 pollingIntervalInMilliseconds;
+  Array<DiagnosticCounter> array;
+  {
+    rt::lock(s_counterGroupLock);
+    utcNow = DateTime::get_UtcNow();
+    timeSpan = utcNow - _timeStampSinceCollectionStarted;
+    pollingIntervalInMilliseconds = _pollingIntervalInMilliseconds;
+    array = rt::newarr<Array<DiagnosticCounter>>(_counters->get_Count());
+    _counters->CopyTo(array);
   }
-  _timeStampSinceCollectionStarted = utcNow;
-  do {
-    _nextPollingTimeStamp += TimeSpan(0, 0, 0, 0, _pollingIntervalInMilliseconds);
-  } while (_nextPollingTimeStamp <= utcNow)
+  Array<DiagnosticCounter> array2 = array;
+  for (DiagnosticCounter&& diagnosticCounter : *array2) {
+    diagnosticCounter->WritePayload((Single)timeSpan.get_TotalSeconds(), pollingIntervalInMilliseconds);
+  }
+  {
+    rt::lock(s_counterGroupLock);
+    _timeStampSinceCollectionStarted = utcNow;
+    do {
+      _nextPollingTimeStamp += TimeSpan(0, 0, 0, 0, _pollingIntervalInMilliseconds);
+    } while (_nextPollingTimeStamp <= utcNow)
+  }
 }
 
 void CounterGroup___::PollForValues() {
   AutoResetEvent autoResetEvent = nullptr;
+  List<Action<>> list = rt::newobj<List<Action<>>>();
   while (true) {
+    list->Clear();
     Int32 num = Int32::MaxValue;
     {
       rt::lock(s_counterGroupLock);
       autoResetEvent = s_pollingThreadSleepEvent;
-      for (CounterGroup&& s_counterGroupEnabled : *s_counterGroupEnabledList) {
-        DateTime utcNow = DateTime::get_UtcNow();
-        if (s_counterGroupEnabled->_nextPollingTimeStamp < utcNow + TimeSpan(0, 0, 0, 0, 1)) {
-          s_counterGroupEnabled->OnTimer();
+      {
+        List<T>::in::Enumerator enumerator = s_counterGroupEnabledList->GetEnumerator();
+        rt::Using(enumerator);
+        while (enumerator.MoveNext()) {
+          __c__DisplayClass21_0 __c__DisplayClass21_ = rt::newobj<__c__DisplayClass21_0>();
+          __c__DisplayClass21_->counterGroup = enumerator.get_Current();
+          DateTime utcNow = DateTime::get_UtcNow();
+          if (__c__DisplayClass21_->counterGroup->_nextPollingTimeStamp < utcNow + TimeSpan(0, 0, 0, 0, 1)) {
+            list->Add(__c__DisplayClass21_->_PollForValues_b__0);
+          }
+          Int32 val = (Int32)(__c__DisplayClass21_->counterGroup->_nextPollingTimeStamp - utcNow).get_TotalMilliseconds();
+          val = Math::Max(1, val);
+          num = Math::Min(num, val);
         }
-        Int32 val = (Int32)(s_counterGroupEnabled->_nextPollingTimeStamp - utcNow).get_TotalMilliseconds();
-        val = Math::Max(1, val);
-        num = Math::Min(num, val);
       }
+    }
+    for (Action<>&& item : *list) {
+      item();
     }
     if (num == Int32::MaxValue) {
       num = -1;
