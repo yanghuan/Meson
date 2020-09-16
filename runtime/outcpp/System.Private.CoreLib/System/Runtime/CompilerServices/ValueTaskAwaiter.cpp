@@ -18,7 +18,7 @@ using namespace System::Threading::Tasks;
 using namespace System::Threading::Tasks::Sources;
 
 void ValueTaskAwaiter<>::__c___::cctor() {
-  <>9 = rt::newobj<__c>();
+  __9 = rt::newobj<__c>();
 }
 
 void ValueTaskAwaiter<>::__c___::ctor() {

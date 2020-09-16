@@ -25,20 +25,20 @@ using namespace System::Runtime::CompilerServices;
 using namespace System::Threading::Tasks;
 
 Object ThreadPool::_GetQueuedWorkItems_d__51___::get_CurrentOfObject() {
-  return <>2__current;
+  return __2__current;
 }
 
 Object ThreadPool::_GetQueuedWorkItems_d__51___::get_CurrentOfIEnumerator() {
-  return <>2__current;
+  return __2__current;
 }
 
 void ThreadPool::_GetQueuedWorkItems_d__51___::ctor(Int32 __1__state) {
   this->__1__state = __1__state;
-  <>l__initialThreadId = Environment::get_CurrentManagedThreadId();
+  __l__initialThreadId = Environment::get_CurrentManagedThreadId();
 }
 
 void ThreadPool::_GetQueuedWorkItems_d__51___::DisposeOfIDisposable() {
-  Int32 num = <>1__state;
+  Int32 num = __1__state;
   if (num == -3 || num == 1) {
     try {
     } catch (...) {
@@ -50,66 +50,66 @@ void ThreadPool::_GetQueuedWorkItems_d__51___::DisposeOfIDisposable() {
 
 Boolean ThreadPool::_GetQueuedWorkItems_d__51___::MoveNext() {
   try {
-    switch (<>1__state.get()) {
+    switch (__1__state.get()) {
       default:
         return false;
       case 0:
-        <>1__state = -1;
-        <>7__wrap1 = s_workQueue->workItems->GetEnumerator();
-        <>1__state = -3;
+        __1__state = -1;
+        __7__wrap1 = s_workQueue->workItems->GetEnumerator();
+        __1__state = -3;
         goto IL_006f;
       case 1:
-        <>1__state = -3;
+        __1__state = -3;
         goto IL_006f;
       case 2:
         {
-          <>1__state = -1;
+          __1__state = -1;
           goto IL_00ff;
         }
       IL_006f:
-        if (<>7__wrap1->MoveNext()) {
-          Object obj = <>2__current = <>7__wrap1->get_Current();
-          <>1__state = 1;
+        if (__7__wrap1->MoveNext()) {
+          Object obj = __2__current = __7__wrap1->get_Current();
+          __1__state = 1;
           return true;
         }
         __m__Finally1();
-        <>7__wrap1 = nullptr;
-        <>7__wrap2 = ThreadPoolWorkQueue::in::WorkStealingQueueList::get_Queues();
-        <>7__wrap3 = 0;
+        __7__wrap1 = nullptr;
+        __7__wrap2 = ThreadPoolWorkQueue::in::WorkStealingQueueList::get_Queues();
+        __7__wrap3 = 0;
         goto IL_0136;
 
       IL_00ff:
-        <i>5__6++;
+        _i_5__6++;
         goto IL_0111;
 
       IL_0136:
-        if (<>7__wrap3 < <>7__wrap2->get_Length()) {
-          ThreadPoolWorkQueue::in::WorkStealingQueue workStealingQueue = <>7__wrap2[<>7__wrap3];
+        if (__7__wrap3 < __7__wrap2->get_Length()) {
+          ThreadPoolWorkQueue::in::WorkStealingQueue workStealingQueue = __7__wrap2[__7__wrap3];
           if (workStealingQueue != nullptr && workStealingQueue->m_array != nullptr) {
-            <items>5__5 = workStealingQueue->m_array;
-            <i>5__6 = 0;
+            _items_5__5 = workStealingQueue->m_array;
+            _i_5__6 = 0;
             goto IL_0111;
           }
           goto IL_0128;
         }
-        <>7__wrap2 = nullptr;
+        __7__wrap2 = nullptr;
         return false;
 
       IL_0128:
-        <>7__wrap3++;
+        __7__wrap3++;
         goto IL_0136;
 
       IL_0111:
-        if (<i>5__6 < <items>5__5->get_Length()) {
-          Object obj2 = <items>5__5[<i>5__6];
+        if (_i_5__6 < _items_5__5->get_Length()) {
+          Object obj2 = _items_5__5[_i_5__6];
           if (obj2 != nullptr) {
-            <>2__current = obj2;
-            <>1__state = 2;
+            __2__current = obj2;
+            __1__state = 2;
             return true;
           }
           goto IL_00ff;
         }
-        <items>5__5 = nullptr;
+        _items_5__5 = nullptr;
         goto IL_0128;
     }
   } catch (...) {
@@ -119,9 +119,9 @@ Boolean ThreadPool::_GetQueuedWorkItems_d__51___::MoveNext() {
 }
 
 void ThreadPool::_GetQueuedWorkItems_d__51___::__m__Finally1() {
-  <>1__state = -1;
-  if (<>7__wrap1 != nullptr) {
-    <>7__wrap1->Dispose();
+  __1__state = -1;
+  if (__7__wrap1 != nullptr) {
+    __7__wrap1->Dispose();
   }
 }
 
@@ -130,8 +130,8 @@ void ThreadPool::_GetQueuedWorkItems_d__51___::ResetOfIEnumerator() {
 }
 
 IEnumerator<Object> ThreadPool::_GetQueuedWorkItems_d__51___::GetEnumeratorOfObject() {
-  if (<>1__state == -2 && <>l__initialThreadId == Environment::get_CurrentManagedThreadId()) {
-    <>1__state = 0;
+  if (__1__state == -2 && __l__initialThreadId == Environment::get_CurrentManagedThreadId()) {
+    __1__state = 0;
     return (_GetQueuedWorkItems_d__51)this;
   }
   return rt::newobj<_GetQueuedWorkItems_d__51>(0);
@@ -142,55 +142,55 @@ IEnumerator_ ThreadPool::_GetQueuedWorkItems_d__51___::GetEnumeratorOfIEnumerabl
 }
 
 Object ThreadPool::_GetLocallyQueuedWorkItems_d__52___::get_CurrentOfObject() {
-  return <>2__current;
+  return __2__current;
 }
 
 Object ThreadPool::_GetLocallyQueuedWorkItems_d__52___::get_CurrentOfIEnumerator() {
-  return <>2__current;
+  return __2__current;
 }
 
 void ThreadPool::_GetLocallyQueuedWorkItems_d__52___::ctor(Int32 __1__state) {
   this->__1__state = __1__state;
-  <>l__initialThreadId = Environment::get_CurrentManagedThreadId();
+  __l__initialThreadId = Environment::get_CurrentManagedThreadId();
 }
 
 void ThreadPool::_GetLocallyQueuedWorkItems_d__52___::DisposeOfIDisposable() {
 }
 
 Boolean ThreadPool::_GetLocallyQueuedWorkItems_d__52___::MoveNext() {
-  Int32 num = <>1__state;
+  Int32 num = __1__state;
   if (num != 0) {
     if (num != 1) {
       return false;
     }
-    <>1__state = -1;
+    __1__state = -1;
     goto IL_0075;
   }
-  <>1__state = -1;
+  __1__state = -1;
   ThreadPoolWorkQueueThreadLocals threadLocals = ThreadPoolWorkQueueThreadLocals::in::threadLocals;
   ThreadPoolWorkQueue::in::WorkStealingQueue workStealingQueue = (threadLocals != nullptr) ? threadLocals->workStealingQueue : nullptr;
   if (workStealingQueue != nullptr && workStealingQueue->m_array != nullptr) {
-    <items>5__2 = workStealingQueue->m_array;
-    <i>5__3 = 0;
+    _items_5__2 = workStealingQueue->m_array;
+    _i_5__3 = 0;
     goto IL_0085;
   }
   goto IL_009c;
 
 IL_0075:
-  <i>5__3++;
+  _i_5__3++;
   goto IL_0085;
 
 IL_0085:
-  if (<i>5__3 < <items>5__2->get_Length()) {
-    Object obj = <items>5__2[<i>5__3];
+  if (_i_5__3 < _items_5__2->get_Length()) {
+    Object obj = _items_5__2[_i_5__3];
     if (obj != nullptr) {
-      <>2__current = obj;
-      <>1__state = 1;
+      __2__current = obj;
+      __1__state = 1;
       return true;
     }
     goto IL_0075;
   }
-  <items>5__2 = nullptr;
+  _items_5__2 = nullptr;
   goto IL_009c;
 
 IL_009c:
@@ -202,8 +202,8 @@ void ThreadPool::_GetLocallyQueuedWorkItems_d__52___::ResetOfIEnumerator() {
 }
 
 IEnumerator<Object> ThreadPool::_GetLocallyQueuedWorkItems_d__52___::GetEnumeratorOfObject() {
-  if (<>1__state == -2 && <>l__initialThreadId == Environment::get_CurrentManagedThreadId()) {
-    <>1__state = 0;
+  if (__1__state == -2 && __l__initialThreadId == Environment::get_CurrentManagedThreadId()) {
+    __1__state = 0;
     return (_GetLocallyQueuedWorkItems_d__52)this;
   }
   return rt::newobj<_GetLocallyQueuedWorkItems_d__52>(0);
@@ -214,7 +214,7 @@ IEnumerator_ ThreadPool::_GetLocallyQueuedWorkItems_d__52___::GetEnumeratorOfIEn
 }
 
 void ThreadPool::__c___::cctor() {
-  <>9 = rt::newobj<__c>();
+  __9 = rt::newobj<__c>();
 }
 
 void ThreadPool::__c___::ctor() {

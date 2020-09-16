@@ -50,7 +50,7 @@ EventProvider___::SessionInfo::SessionInfo(Int32 sessionIdBit_, Int32 etwSession
 }
 
 void EventProvider___::__c___::cctor() {
-  <>9 = rt::newobj<__c>();
+  __9 = rt::newobj<__c>();
 }
 
 void EventProvider___::__c___::ctor() {

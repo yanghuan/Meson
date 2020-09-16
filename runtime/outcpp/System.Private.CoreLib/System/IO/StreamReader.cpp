@@ -66,8 +66,8 @@ void NullStreamReader___::ctor() {
 }
 
 void StreamReader___::_ReadLineAsyncInternal_d__59::MoveNext() {
-  Int32 num = <>1__state;
-  StreamReader streamReader = <>4__this;
+  Int32 num = __1__state;
+  StreamReader streamReader = __4__this;
   String result3;
   try {
     Boolean flag2;
@@ -93,42 +93,42 @@ void StreamReader___::_ReadLineAsyncInternal_d__59::MoveNext() {
           if (flag2) {
             awaiter3 = streamReader->ReadBufferAsync(CancellationToken::get_None()).ConfigureAwait(false).GetAwaiter();
             if (!awaiter3.get_IsCompleted()) {
-              num = (<>1__state = 0);
-              <>u__1 = awaiter3;
-              <>t__builder.AwaitUnsafeOnCompleted(awaiter3, *this);
+              num = (__1__state = 0);
+              __u__1 = awaiter3;
+              __t__builder.AwaitUnsafeOnCompleted(awaiter3, *this);
               return;
             }
             goto IL_00a0;
           }
           goto IL_00b0;
         }case 0:
-        awaiter3 = <>u__1;
-        <>u__1 = rt::default__;
-        num = (<>1__state = -1);
+        awaiter3 = __u__1;
+        __u__1 = rt::default__;
+        num = (__1__state = -1);
         goto IL_00a0;
       case 1:
-        awaiter2 = <>u__1;
-        <>u__1 = rt::default__;
-        num = (<>1__state = -1);
+        awaiter2 = __u__1;
+        __u__1 = rt::default__;
+        num = (__1__state = -1);
         goto IL_01d2;
       case 2:
         {
-          awaiter = <>u__1;
-          <>u__1 = rt::default__;
-          num = (<>1__state = -1);
+          awaiter = __u__1;
+          __u__1 = rt::default__;
+          num = (__1__state = -1);
           goto IL_02bf;
         }
       IL_0227:
         num2 = charLen - charPos;
-        if (<sb>5__2 == nullptr) {
-          <sb>5__2 = rt::newobj<StringBuilder>(num2 + 80);
+        if (_sb_5__2 == nullptr) {
+          _sb_5__2 = rt::newobj<StringBuilder>(num2 + 80);
         }
-        <sb>5__2->Append(charBuffer, charPos, num2);
+        _sb_5__2->Append(charBuffer, charPos, num2);
         awaiter = streamReader->ReadBufferAsync(CancellationToken::get_None()).ConfigureAwait(false).GetAwaiter();
         if (!awaiter.get_IsCompleted()) {
-          num = (<>1__state = 2);
-          <>u__1 = awaiter;
-          <>t__builder.AwaitUnsafeOnCompleted(awaiter, *this);
+          num = (__1__state = 2);
+          __u__1 = awaiter;
+          __t__builder.AwaitUnsafeOnCompleted(awaiter, *this);
           return;
         }
         goto IL_02bf;
@@ -148,7 +148,7 @@ void StreamReader___::_ReadLineAsyncInternal_d__59::MoveNext() {
           result3 = nullptr;
           break;
         }
-        <sb>5__2 = nullptr;
+        _sb_5__2 = nullptr;
         goto IL_00c2;
 
       IL_01e6:
@@ -158,7 +158,7 @@ void StreamReader___::_ReadLineAsyncInternal_d__59::MoveNext() {
             charPos = (streamReader->_charPos = charPos + 1);
           }
         }
-        result3 = <s>5__3;
+        result3 = _s_5__3;
         break;
 
       IL_01e2:
@@ -181,11 +181,11 @@ void StreamReader___::_ReadLineAsyncInternal_d__59::MoveNext() {
           }
           goto IL_0227;
         }
-        if (<sb>5__2 != nullptr) {
-          <sb>5__2->Append(charBuffer, charPos, num2 - charPos);
-          <s>5__3 = <sb>5__2->ToString();
+        if (_sb_5__2 != nullptr) {
+          _sb_5__2->Append(charBuffer, charPos, num2 - charPos);
+          _s_5__3 = _sb_5__2->ToString();
         } else {
-          <s>5__3 = rt::newstr<String>(charBuffer, charPos, num2 - charPos);
+          _s_5__3 = rt::newstr<String>(charBuffer, charPos, num2 - charPos);
         }
         charPos = (streamReader->_charPos = num2 + 1);
         flag5 = (c == '\r');
@@ -196,9 +196,9 @@ void StreamReader___::_ReadLineAsyncInternal_d__59::MoveNext() {
           if (!flag3) {
             awaiter2 = streamReader->ReadBufferAsync(CancellationToken::get_None()).ConfigureAwait(false).GetAwaiter();
             if (!awaiter2.get_IsCompleted()) {
-              num = (<>1__state = 1);
-              <>u__1 = awaiter2;
-              <>t__builder.AwaitUnsafeOnCompleted(awaiter2, *this);
+              num = (__1__state = 1);
+              __u__1 = awaiter2;
+              __t__builder.AwaitUnsafeOnCompleted(awaiter2, *this);
               return;
             }
             goto IL_01d2;
@@ -210,38 +210,38 @@ void StreamReader___::_ReadLineAsyncInternal_d__59::MoveNext() {
       IL_02bf:
         result4 = awaiter.GetResult();
         if (result4 <= 0) {
-          result3 = <sb>5__2->ToString();
+          result3 = _sb_5__2->ToString();
           break;
         }
         goto IL_00c2;
     }
   } catch (Exception exception) {
-    <>1__state = -2;
-    <sb>5__2 = nullptr;
-    <>t__builder.SetException(exception);
+    __1__state = -2;
+    _sb_5__2 = nullptr;
+    __t__builder.SetException(exception);
     return;
   }
-  <>1__state = -2;
-  <sb>5__2 = nullptr;
-  <>t__builder.SetResult(result3);
+  __1__state = -2;
+  _sb_5__2 = nullptr;
+  __t__builder.SetResult(result3);
 }
 
 void StreamReader___::_ReadLineAsyncInternal_d__59::SetStateMachine(IAsyncStateMachine stateMachine) {
-  <>t__builder.SetStateMachine(stateMachine);
+  __t__builder.SetStateMachine(stateMachine);
 }
 
 void StreamReader___::_ReadToEndAsyncInternal_d__61::MoveNext() {
-  Int32 num = <>1__state;
-  StreamReader streamReader = <>4__this;
+  Int32 num = __1__state;
+  StreamReader streamReader = __4__this;
   String result;
   try {
     if (num != 0) {
-      <sb>5__2 = rt::newobj<StringBuilder>(streamReader->_charLen - streamReader->_charPos);
+      _sb_5__2 = rt::newobj<StringBuilder>(streamReader->_charLen - streamReader->_charPos);
       goto IL_002c;
     }
-    ConfiguredValueTaskAwaitable<TResult>::ConfiguredValueTaskAwaiter awaiter = <>u__1;
-    <>u__1 = rt::default__;
-    num = (<>1__state = -1);
+    ConfiguredValueTaskAwaitable<TResult>::ConfiguredValueTaskAwaiter awaiter = __u__1;
+    __u__1 = rt::default__;
+    num = (__1__state = -1);
     goto IL_00c1;
 
   IL_00c1:
@@ -249,41 +249,41 @@ void StreamReader___::_ReadToEndAsyncInternal_d__61::MoveNext() {
     if (streamReader->_charLen > 0) {
       goto IL_002c;
     }
-    result = <sb>5__2->ToString();
+    result = _sb_5__2->ToString();
     goto end_IL_000e;
 
   IL_002c:
     Int32 charPos = streamReader->_charPos;
-    <sb>5__2->Append(streamReader->_charBuffer, charPos, streamReader->_charLen - charPos);
+    _sb_5__2->Append(streamReader->_charBuffer, charPos, streamReader->_charLen - charPos);
     streamReader->_charPos = streamReader->_charLen;
     awaiter = streamReader->ReadBufferAsync(CancellationToken::get_None()).ConfigureAwait(false).GetAwaiter();
     if (!awaiter.get_IsCompleted()) {
-      num = (<>1__state = 0);
-      <>u__1 = awaiter;
-      <>t__builder.AwaitUnsafeOnCompleted(awaiter, *this);
+      num = (__1__state = 0);
+      __u__1 = awaiter;
+      __t__builder.AwaitUnsafeOnCompleted(awaiter, *this);
       return;
     }
     goto IL_00c1;
 
   end_IL_000e:
   } catch (Exception exception) {
-    <>1__state = -2;
-    <sb>5__2 = nullptr;
-    <>t__builder.SetException(exception);
+    __1__state = -2;
+    _sb_5__2 = nullptr;
+    __t__builder.SetException(exception);
     return;
   }
-  <>1__state = -2;
-  <sb>5__2 = nullptr;
-  <>t__builder.SetResult(result);
+  __1__state = -2;
+  _sb_5__2 = nullptr;
+  __t__builder.SetResult(result);
 }
 
 void StreamReader___::_ReadToEndAsyncInternal_d__61::SetStateMachine(IAsyncStateMachine stateMachine) {
-  <>t__builder.SetStateMachine(stateMachine);
+  __t__builder.SetStateMachine(stateMachine);
 }
 
 void StreamReader___::_ReadAsyncInternal_d__64::MoveNext() {
-  Int32 num = <>1__state;
-  StreamReader streamReader = <>4__this;
+  Int32 num = __1__state;
+  StreamReader streamReader = __4__this;
   Int32 result2;
   try {
     Boolean flag2;
@@ -302,48 +302,48 @@ void StreamReader___::_ReadAsyncInternal_d__64::MoveNext() {
           if (flag2) {
             awaiter3 = streamReader->ReadBufferAsync(cancellationToken).ConfigureAwait(false).GetAwaiter();
             if (!awaiter3.get_IsCompleted()) {
-              num = (<>1__state = 0);
-              <>u__1 = awaiter3;
-              <>t__builder.AwaitUnsafeOnCompleted(awaiter3, *this);
+              num = (__1__state = 0);
+              __u__1 = awaiter3;
+              __t__builder.AwaitUnsafeOnCompleted(awaiter3, *this);
               return;
             }
             goto IL_00a1;
           }
           goto IL_00b1;
         }case 0:
-        awaiter3 = <>u__1;
-        <>u__1 = rt::default__;
-        num = (<>1__state = -1);
+        awaiter3 = __u__1;
+        __u__1 = rt::default__;
+        num = (__1__state = -1);
         goto IL_00a1;
       case 1:
-        awaiter2 = <>u__1;
-        <>u__1 = rt::default__;
-        num = (<>1__state = -1);
+        awaiter2 = __u__1;
+        __u__1 = rt::default__;
+        num = (__1__state = -1);
         goto IL_01e5;
       case 2:
         {
-          awaiter = <>u__1;
-          <>u__1 = rt::default__;
-          num = (<>1__state = -1);
+          awaiter = __u__1;
+          __u__1 = rt::default__;
+          num = (__1__state = -1);
           goto IL_0327;
         }
       IL_0446:
-        if (<n>5__7 > <count>5__6) {
-          <n>5__7 = <count>5__6;
+        if (_n_5__7 > _count_5__6) {
+          _n_5__7 = _count_5__6;
         }
-        if (!<readToUserBuffer>5__3) {
-          Span<Char>(streamReader->_charBuffer, streamReader->_charPos, <n>5__7).CopyTo(buffer.get_Span().Slice(<charsRead>5__2));
-          streamReader->_charPos += <n>5__7;
+        if (!_readToUserBuffer_5__3) {
+          Span<Char>(streamReader->_charBuffer, streamReader->_charPos, _n_5__7).CopyTo(buffer.get_Span().Slice(_charsRead_5__2));
+          streamReader->_charPos += _n_5__7;
         }
-        <charsRead>5__2 += <n>5__7;
-        <count>5__6 -= <n>5__7;
+        _charsRead_5__2 += _n_5__7;
+        _count_5__6 -= _n_5__7;
         if (streamReader->_isBlocked) {
           break;
         }
         goto IL_04e3;
 
       IL_043b:
-        if (<n>5__7 == 0) {
+        if (_n_5__7 == 0) {
           break;
         }
         goto IL_0446;
@@ -355,11 +355,11 @@ void StreamReader___::_ReadAsyncInternal_d__64::MoveNext() {
 
       IL_00b1:
         if (!flag2) {
-          <charsRead>5__2 = 0;
-          <readToUserBuffer>5__3 = false;
-          <tmpByteBuffer>5__4 = streamReader->_byteBuffer;
-          <tmpStream>5__5 = streamReader->_stream;
-          <count>5__6 = buffer.get_Length();
+          _charsRead_5__2 = 0;
+          _readToUserBuffer_5__3 = false;
+          _tmpByteBuffer_5__4 = streamReader->_byteBuffer;
+          _tmpStream_5__5 = streamReader->_stream;
+          _count_5__6 = buffer.get_Length();
           goto IL_04e3;
         }
         result2 = 0;
@@ -368,57 +368,57 @@ void StreamReader___::_ReadAsyncInternal_d__64::MoveNext() {
       IL_014a:
         if (streamReader->_checkPreamble) {
           Int32 bytePos = streamReader->_bytePos;
-          awaiter2 = <tmpStream>5__5->ReadAsync(Memory<Byte>(<tmpByteBuffer>5__4, bytePos, <tmpByteBuffer>5__4->get_Length() - bytePos), cancellationToken).ConfigureAwait(false).GetAwaiter();
+          awaiter2 = _tmpStream_5__5->ReadAsync(Memory<Byte>(_tmpByteBuffer_5__4, bytePos, _tmpByteBuffer_5__4->get_Length() - bytePos), cancellationToken).ConfigureAwait(false).GetAwaiter();
           if (!awaiter2.get_IsCompleted()) {
-            num = (<>1__state = 1);
-            <>u__1 = awaiter2;
-            <>t__builder.AwaitUnsafeOnCompleted(awaiter2, *this);
+            num = (__1__state = 1);
+            __u__1 = awaiter2;
+            __t__builder.AwaitUnsafeOnCompleted(awaiter2, *this);
             return;
           }
           goto IL_01e5;
         }
-        awaiter = <tmpStream>5__5->ReadAsync(Memory<Byte>(<tmpByteBuffer>5__4), cancellationToken).ConfigureAwait(false).GetAwaiter();
+        awaiter = _tmpStream_5__5->ReadAsync(Memory<Byte>(_tmpByteBuffer_5__4), cancellationToken).ConfigureAwait(false).GetAwaiter();
         if (!awaiter.get_IsCompleted()) {
-          num = (<>1__state = 2);
-          <>u__1 = awaiter;
-          <>t__builder.AwaitUnsafeOnCompleted(awaiter, *this);
+          num = (__1__state = 2);
+          __u__1 = awaiter;
+          __t__builder.AwaitUnsafeOnCompleted(awaiter, *this);
           return;
         }
         goto IL_0327;
 
       IL_034c:
-        streamReader->_isBlocked = (streamReader->_byteLen < <tmpByteBuffer>5__4->get_Length());
+        streamReader->_isBlocked = (streamReader->_byteLen < _tmpByteBuffer_5__4->get_Length());
         if (!streamReader->IsPreamble()) {
           if (streamReader->_detectEncoding && streamReader->_byteLen >= 2) {
             streamReader->DetectEncoding();
-            <readToUserBuffer>5__3 = (<count>5__6 >= streamReader->_maxCharsPerBuffer);
+            _readToUserBuffer_5__3 = (_count_5__6 >= streamReader->_maxCharsPerBuffer);
           }
           streamReader->_charPos = 0;
-          if (<readToUserBuffer>5__3) {
-            <n>5__7 += streamReader->_decoder->GetChars(ReadOnlySpan<Byte>(<tmpByteBuffer>5__4, 0, streamReader->_byteLen), buffer.get_Span().Slice(<charsRead>5__2), false);
+          if (_readToUserBuffer_5__3) {
+            _n_5__7 += streamReader->_decoder->GetChars(ReadOnlySpan<Byte>(_tmpByteBuffer_5__4, 0, streamReader->_byteLen), buffer.get_Span().Slice(_charsRead_5__2), false);
             streamReader->_charLen = 0;
           } else {
-            <n>5__7 = streamReader->_decoder->GetChars(<tmpByteBuffer>5__4, 0, streamReader->_byteLen, streamReader->_charBuffer, 0);
-            streamReader->_charLen += <n>5__7;
+            _n_5__7 = streamReader->_decoder->GetChars(_tmpByteBuffer_5__4, 0, streamReader->_byteLen, streamReader->_charBuffer, 0);
+            streamReader->_charLen += _n_5__7;
           }
         }
-        if (<n>5__7 == 0) {
+        if (_n_5__7 == 0) {
           goto IL_014a;
         }
         goto IL_043b;
 
       IL_04e3:
-        if (<count>5__6 <= 0) {
+        if (_count_5__6 <= 0) {
           break;
         }
-        <n>5__7 = streamReader->_charLen - streamReader->_charPos;
-        if (<n>5__7 == 0) {
+        _n_5__7 = streamReader->_charLen - streamReader->_charPos;
+        if (_n_5__7 == 0) {
           streamReader->_charLen = 0;
           streamReader->_charPos = 0;
           if (!streamReader->_checkPreamble) {
             streamReader->_byteLen = 0;
           }
-          <readToUserBuffer>5__3 = (<count>5__6 >= streamReader->_maxCharsPerBuffer);
+          _readToUserBuffer_5__3 = (_count_5__6 >= streamReader->_maxCharsPerBuffer);
           goto IL_014a;
         }
         goto IL_0446;
@@ -436,12 +436,12 @@ void StreamReader___::_ReadAsyncInternal_d__64::MoveNext() {
         num3 = result3;
         if (num3 == 0) {
           if (streamReader->_byteLen > 0) {
-            if (<readToUserBuffer>5__3) {
-              <n>5__7 = streamReader->_decoder->GetChars(ReadOnlySpan<Byte>(<tmpByteBuffer>5__4, 0, streamReader->_byteLen), buffer.get_Span().Slice(<charsRead>5__2), false);
+            if (_readToUserBuffer_5__3) {
+              _n_5__7 = streamReader->_decoder->GetChars(ReadOnlySpan<Byte>(_tmpByteBuffer_5__4, 0, streamReader->_byteLen), buffer.get_Span().Slice(_charsRead_5__2), false);
               streamReader->_charLen = 0;
             } else {
-              <n>5__7 = streamReader->_decoder->GetChars(<tmpByteBuffer>5__4, 0, streamReader->_byteLen, streamReader->_charBuffer, 0);
-              streamReader->_charLen += <n>5__7;
+              _n_5__7 = streamReader->_decoder->GetChars(_tmpByteBuffer_5__4, 0, streamReader->_byteLen, streamReader->_charBuffer, 0);
+              streamReader->_charLen += _n_5__7;
             }
           }
           streamReader->_isBlocked = true;
@@ -450,29 +450,29 @@ void StreamReader___::_ReadAsyncInternal_d__64::MoveNext() {
         streamReader->_byteLen += num3;
         goto IL_034c;
     }
-    result2 = <charsRead>5__2;
+    result2 = _charsRead_5__2;
 
   end_IL_000e:
   } catch (Exception exception) {
-    <>1__state = -2;
-    <tmpByteBuffer>5__4 = nullptr;
-    <tmpStream>5__5 = nullptr;
-    <>t__builder.SetException(exception);
+    __1__state = -2;
+    _tmpByteBuffer_5__4 = nullptr;
+    _tmpStream_5__5 = nullptr;
+    __t__builder.SetException(exception);
     return;
   }
-  <>1__state = -2;
-  <tmpByteBuffer>5__4 = nullptr;
-  <tmpStream>5__5 = nullptr;
-  <>t__builder.SetResult(result2);
+  __1__state = -2;
+  _tmpByteBuffer_5__4 = nullptr;
+  _tmpStream_5__5 = nullptr;
+  __t__builder.SetResult(result2);
 }
 
 void StreamReader___::_ReadAsyncInternal_d__64::SetStateMachine(IAsyncStateMachine stateMachine) {
-  <>t__builder.SetStateMachine(stateMachine);
+  __t__builder.SetStateMachine(stateMachine);
 }
 
 void StreamReader___::_ReadBufferAsync_d__67::MoveNext() {
-  Int32 num = <>1__state;
-  StreamReader streamReader = <>4__this;
+  Int32 num = __1__state;
+  StreamReader streamReader = __4__this;
   Int32 charLen;
   try {
     ConfiguredValueTaskAwaitable<TResult>::ConfiguredValueTaskAwaiter awaiter;
@@ -480,21 +480,21 @@ void StreamReader___::_ReadBufferAsync_d__67::MoveNext() {
       if (num != 1) {
         streamReader->_charLen = 0;
         streamReader->_charPos = 0;
-        <tmpByteBuffer>5__2 = streamReader->_byteBuffer;
-        <tmpStream>5__3 = streamReader->_stream;
+        _tmpByteBuffer_5__2 = streamReader->_byteBuffer;
+        _tmpStream_5__3 = streamReader->_stream;
         if (!streamReader->_checkPreamble) {
           streamReader->_byteLen = 0;
         }
         goto IL_0050;
       }
-      awaiter = <>u__1;
-      <>u__1 = rt::default__;
-      num = (<>1__state = -1);
+      awaiter = __u__1;
+      __u__1 = rt::default__;
+      num = (__1__state = -1);
       goto IL_01dc;
     }
-    ConfiguredValueTaskAwaitable<TResult>::ConfiguredValueTaskAwaiter awaiter2 = <>u__1;
-    <>u__1 = rt::default__;
-    num = (<>1__state = -1);
+    ConfiguredValueTaskAwaitable<TResult>::ConfiguredValueTaskAwaiter awaiter2 = __u__1;
+    __u__1 = rt::default__;
+    num = (__1__state = -1);
     goto IL_00e8;
 
   IL_00e8:
@@ -505,7 +505,7 @@ void StreamReader___::_ReadBufferAsync_d__67::MoveNext() {
       goto IL_0201;
     }
     if (streamReader->_byteLen > 0) {
-      streamReader->_charLen += streamReader->_decoder->GetChars(<tmpByteBuffer>5__2, 0, streamReader->_byteLen, streamReader->_charBuffer, streamReader->_charLen);
+      streamReader->_charLen += streamReader->_decoder->GetChars(_tmpByteBuffer_5__2, 0, streamReader->_byteLen, streamReader->_charBuffer, streamReader->_charLen);
       streamReader->_bytePos = 0;
       streamReader->_byteLen = 0;
     }
@@ -513,12 +513,12 @@ void StreamReader___::_ReadBufferAsync_d__67::MoveNext() {
     goto end_IL_000e;
 
   IL_0201:
-    streamReader->_isBlocked = (streamReader->_byteLen < <tmpByteBuffer>5__2->get_Length());
+    streamReader->_isBlocked = (streamReader->_byteLen < _tmpByteBuffer_5__2->get_Length());
     if (!streamReader->IsPreamble()) {
       if (streamReader->_detectEncoding && streamReader->_byteLen >= 2) {
         streamReader->DetectEncoding();
       }
-      streamReader->_charLen += streamReader->_decoder->GetChars(<tmpByteBuffer>5__2, 0, streamReader->_byteLen, streamReader->_charBuffer, streamReader->_charLen);
+      streamReader->_charLen += streamReader->_decoder->GetChars(_tmpByteBuffer_5__2, 0, streamReader->_byteLen, streamReader->_charBuffer, streamReader->_charLen);
     }
     if (streamReader->_charLen == 0) {
       goto IL_0050;
@@ -529,20 +529,20 @@ void StreamReader___::_ReadBufferAsync_d__67::MoveNext() {
   IL_0050:
     if (streamReader->_checkPreamble) {
       Int32 bytePos = streamReader->_bytePos;
-      awaiter2 = <tmpStream>5__3->ReadAsync(Memory<Byte>(<tmpByteBuffer>5__2, bytePos, <tmpByteBuffer>5__2->get_Length() - bytePos), cancellationToken).ConfigureAwait(false).GetAwaiter();
+      awaiter2 = _tmpStream_5__3->ReadAsync(Memory<Byte>(_tmpByteBuffer_5__2, bytePos, _tmpByteBuffer_5__2->get_Length() - bytePos), cancellationToken).ConfigureAwait(false).GetAwaiter();
       if (!awaiter2.get_IsCompleted()) {
-        num = (<>1__state = 0);
-        <>u__1 = awaiter2;
-        <>t__builder.AwaitUnsafeOnCompleted(awaiter2, *this);
+        num = (__1__state = 0);
+        __u__1 = awaiter2;
+        __t__builder.AwaitUnsafeOnCompleted(awaiter2, *this);
         return;
       }
       goto IL_00e8;
     }
-    awaiter = <tmpStream>5__3->ReadAsync(Memory<Byte>(<tmpByteBuffer>5__2), cancellationToken).ConfigureAwait(false).GetAwaiter();
+    awaiter = _tmpStream_5__3->ReadAsync(Memory<Byte>(_tmpByteBuffer_5__2), cancellationToken).ConfigureAwait(false).GetAwaiter();
     if (!awaiter.get_IsCompleted()) {
-      num = (<>1__state = 1);
-      <>u__1 = awaiter;
-      <>t__builder.AwaitUnsafeOnCompleted(awaiter, *this);
+      num = (__1__state = 1);
+      __u__1 = awaiter;
+      __t__builder.AwaitUnsafeOnCompleted(awaiter, *this);
       return;
     }
     goto IL_01dc;
@@ -556,20 +556,20 @@ void StreamReader___::_ReadBufferAsync_d__67::MoveNext() {
 
   end_IL_000e:
   } catch (Exception exception) {
-    <>1__state = -2;
-    <tmpByteBuffer>5__2 = nullptr;
-    <tmpStream>5__3 = nullptr;
-    <>t__builder.SetException(exception);
+    __1__state = -2;
+    _tmpByteBuffer_5__2 = nullptr;
+    _tmpStream_5__3 = nullptr;
+    __t__builder.SetException(exception);
     return;
   }
-  <>1__state = -2;
-  <tmpByteBuffer>5__2 = nullptr;
-  <tmpStream>5__3 = nullptr;
-  <>t__builder.SetResult(charLen);
+  __1__state = -2;
+  _tmpByteBuffer_5__2 = nullptr;
+  _tmpStream_5__3 = nullptr;
+  __t__builder.SetResult(charLen);
 }
 
 void StreamReader___::_ReadBufferAsync_d__67::SetStateMachine(IAsyncStateMachine stateMachine) {
-  <>t__builder.SetStateMachine(stateMachine);
+  __t__builder.SetStateMachine(stateMachine);
 }
 
 Encoding StreamReader___::get_CurrentEncoding() {

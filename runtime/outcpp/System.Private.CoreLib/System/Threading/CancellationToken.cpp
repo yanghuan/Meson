@@ -11,7 +11,7 @@
 
 namespace System::Private::CoreLib::System::Threading::CancellationTokenNamespace {
 void CancellationToken::__c___::cctor() {
-  <>9 = rt::newobj<__c>();
+  __9 = rt::newobj<__c>();
 }
 
 void CancellationToken::__c___::ctor() {

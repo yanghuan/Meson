@@ -61,52 +61,52 @@ void AssemblyLoadContext___::ContextualReflectionScope::Dispose() {
 }
 
 Assembly AssemblyLoadContext___::_get_Assemblies_d__55___::get_CurrentOfAssembly() {
-  return <>2__current;
+  return __2__current;
 }
 
 Object AssemblyLoadContext___::_get_Assemblies_d__55___::get_CurrentOfIEnumerator() {
-  return <>2__current;
+  return __2__current;
 }
 
 void AssemblyLoadContext___::_get_Assemblies_d__55___::ctor(Int32 __1__state) {
   this->__1__state = __1__state;
-  <>l__initialThreadId = Environment::get_CurrentManagedThreadId();
+  __l__initialThreadId = Environment::get_CurrentManagedThreadId();
 }
 
 void AssemblyLoadContext___::_get_Assemblies_d__55___::DisposeOfIDisposable() {
 }
 
 Boolean AssemblyLoadContext___::_get_Assemblies_d__55___::MoveNext() {
-  Int32 num = <>1__state;
-  AssemblyLoadContext assemblyLoadContext = <>4__this;
+  Int32 num = __1__state;
+  AssemblyLoadContext assemblyLoadContext = __4__this;
   if (num != 0) {
     if (num != 1) {
       return false;
     }
-    <>1__state = -1;
+    __1__state = -1;
     goto IL_0062;
   }
-  <>1__state = -1;
-  <>7__wrap1 = GetLoadedAssemblies();
-  <>7__wrap2 = 0;
+  __1__state = -1;
+  __7__wrap1 = GetLoadedAssemblies();
+  __7__wrap2 = 0;
   goto IL_0070;
 
 IL_0062:
-  <>7__wrap2++;
+  __7__wrap2++;
   goto IL_0070;
 
 IL_0070:
-  if (<>7__wrap2 < <>7__wrap1->get_Length()) {
-    Assembly assembly = <>7__wrap1[<>7__wrap2];
+  if (__7__wrap2 < __7__wrap1->get_Length()) {
+    Assembly assembly = __7__wrap1[__7__wrap2];
     AssemblyLoadContext loadContext = GetLoadContext(assembly);
     if (loadContext == assemblyLoadContext) {
-      <>2__current = assembly;
-      <>1__state = 1;
+      __2__current = assembly;
+      __1__state = 1;
       return true;
     }
     goto IL_0062;
   }
-  <>7__wrap1 = nullptr;
+  __7__wrap1 = nullptr;
   return false;
 }
 
@@ -116,8 +116,8 @@ void AssemblyLoadContext___::_get_Assemblies_d__55___::ResetOfIEnumerator() {
 
 IEnumerator<Assembly> AssemblyLoadContext___::_get_Assemblies_d__55___::GetEnumeratorOfAssembly() {
   _get_Assemblies_d__55 result;
-  if (<>1__state == -2 && <>l__initialThreadId == Environment::get_CurrentManagedThreadId()) {
-    <>1__state = 0;
+  if (__1__state == -2 && __l__initialThreadId == Environment::get_CurrentManagedThreadId()) {
+    __1__state = 0;
     result = (_get_Assemblies_d__55)this;
   } else {
     result = rt::newobj<_get_Assemblies_d__55>(0);
@@ -130,20 +130,20 @@ IEnumerator_ AssemblyLoadContext___::_get_Assemblies_d__55___::GetEnumeratorOfIE
 }
 
 AssemblyLoadContext AssemblyLoadContext___::_get_All_d__85___::get_CurrentOfAssemblyLoadContext() {
-  return <>2__current;
+  return __2__current;
 }
 
 Object AssemblyLoadContext___::_get_All_d__85___::get_CurrentOfIEnumerator() {
-  return <>2__current;
+  return __2__current;
 }
 
 void AssemblyLoadContext___::_get_All_d__85___::ctor(Int32 __1__state) {
   this->__1__state = __1__state;
-  <>l__initialThreadId = Environment::get_CurrentManagedThreadId();
+  __l__initialThreadId = Environment::get_CurrentManagedThreadId();
 }
 
 void AssemblyLoadContext___::_get_All_d__85___::DisposeOfIDisposable() {
-  Int32 num = <>1__state;
+  Int32 num = __1__state;
   if (num == -3 || num == 1) {
     try {
     } catch (...) {
@@ -155,36 +155,36 @@ void AssemblyLoadContext___::_get_All_d__85___::DisposeOfIDisposable() {
 
 Boolean AssemblyLoadContext___::_get_All_d__85___::MoveNext() {
   try {
-    switch (<>1__state.get()) {
+    switch (__1__state.get()) {
       default:
         return false;
       case 0:
         {
-          <>1__state = -1;
+          __1__state = -1;
           AssemblyLoadContext default一 = get_Default();
           List<WeakReference<AssemblyLoadContext>> list = nullptr;
           {
             rt::lock(s_allContexts);
             list = rt::newobj<List<WeakReference<AssemblyLoadContext>>>(s_allContexts->get_Values());
           }
-          <>7__wrap1 = list->GetEnumerator();
-          <>1__state = -3;
+          __7__wrap1 = list->GetEnumerator();
+          __1__state = -3;
           break;
         }case 1:
-        <>1__state = -3;
+        __1__state = -3;
         break;
     }
-    while (<>7__wrap1.MoveNext()) {
-      WeakReference<AssemblyLoadContext> current = <>7__wrap1.get_Current();
+    while (__7__wrap1.MoveNext()) {
+      WeakReference<AssemblyLoadContext> current = __7__wrap1.get_Current();
       AssemblyLoadContext target;
       if (current->TryGetTarget(target)) {
-        <>2__current = target;
-        <>1__state = 1;
+        __2__current = target;
+        __1__state = 1;
         return true;
       }
     }
     __m__Finally1();
-    <>7__wrap1 = rt::default__;
+    __7__wrap1 = rt::default__;
     return false;
   } catch (...) {
     ((IDisposable)(_get_All_d__85)this)->Dispose();
@@ -193,8 +193,8 @@ Boolean AssemblyLoadContext___::_get_All_d__85___::MoveNext() {
 }
 
 void AssemblyLoadContext___::_get_All_d__85___::__m__Finally1() {
-  <>1__state = -1;
-  ((IDisposable)<>7__wrap1)->Dispose();
+  __1__state = -1;
+  ((IDisposable)__7__wrap1)->Dispose();
 }
 
 void AssemblyLoadContext___::_get_All_d__85___::ResetOfIEnumerator() {
@@ -202,8 +202,8 @@ void AssemblyLoadContext___::_get_All_d__85___::ResetOfIEnumerator() {
 }
 
 IEnumerator<AssemblyLoadContext> AssemblyLoadContext___::_get_All_d__85___::GetEnumeratorOfAssemblyLoadContext() {
-  if (<>1__state == -2 && <>l__initialThreadId == Environment::get_CurrentManagedThreadId()) {
-    <>1__state = 0;
+  if (__1__state == -2 && __l__initialThreadId == Environment::get_CurrentManagedThreadId()) {
+    __1__state = 0;
     return (_get_All_d__85)this;
   }
   return rt::newobj<_get_All_d__85>(0);

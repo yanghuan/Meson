@@ -9,20 +9,20 @@
 
 namespace System::Private::CoreLib::System::Threading::Tasks::ThreadPoolTaskSchedulerNamespace {
 Task<> ThreadPoolTaskScheduler___::_FilterTasksFromWorkItems_d__6___::get_CurrentOfTask() {
-  return <>2__current;
+  return __2__current;
 }
 
 Object ThreadPoolTaskScheduler___::_FilterTasksFromWorkItems_d__6___::get_CurrentOfIEnumerator() {
-  return <>2__current;
+  return __2__current;
 }
 
 void ThreadPoolTaskScheduler___::_FilterTasksFromWorkItems_d__6___::ctor(Int32 __1__state) {
   this->__1__state = __1__state;
-  <>l__initialThreadId = Environment::get_CurrentManagedThreadId();
+  __l__initialThreadId = Environment::get_CurrentManagedThreadId();
 }
 
 void ThreadPoolTaskScheduler___::_FilterTasksFromWorkItems_d__6___::DisposeOfIDisposable() {
-  Int32 num = <>1__state;
+  Int32 num = __1__state;
   if (num == -3 || num == 1) {
     try {
     } catch (...) {
@@ -34,29 +34,29 @@ void ThreadPoolTaskScheduler___::_FilterTasksFromWorkItems_d__6___::DisposeOfIDi
 
 Boolean ThreadPoolTaskScheduler___::_FilterTasksFromWorkItems_d__6___::MoveNext() {
   try {
-    switch (<>1__state.get()) {
+    switch (__1__state.get()) {
       default:
         return false;
       case 0:
-        <>1__state = -1;
-        <>7__wrap1 = tpwItems->GetEnumerator();
-        <>1__state = -3;
+        __1__state = -1;
+        __7__wrap1 = tpwItems->GetEnumerator();
+        __1__state = -3;
         break;
       case 1:
-        <>1__state = -3;
+        __1__state = -3;
         break;
     }
-    while (<>7__wrap1->MoveNext()) {
-      Object current = <>7__wrap1->get_Current();
+    while (__7__wrap1->MoveNext()) {
+      Object current = __7__wrap1->get_Current();
       Task<> task = rt::as<Task<>>(current);
       if (task != nullptr) {
-        <>2__current = task;
-        <>1__state = 1;
+        __2__current = task;
+        __1__state = 1;
         return true;
       }
     }
     __m__Finally1();
-    <>7__wrap1 = nullptr;
+    __7__wrap1 = nullptr;
     return false;
   } catch (...) {
     ((IDisposable)(_FilterTasksFromWorkItems_d__6)this)->Dispose();
@@ -65,9 +65,9 @@ Boolean ThreadPoolTaskScheduler___::_FilterTasksFromWorkItems_d__6___::MoveNext(
 }
 
 void ThreadPoolTaskScheduler___::_FilterTasksFromWorkItems_d__6___::__m__Finally1() {
-  <>1__state = -1;
-  if (<>7__wrap1 != nullptr) {
-    <>7__wrap1->Dispose();
+  __1__state = -1;
+  if (__7__wrap1 != nullptr) {
+    __7__wrap1->Dispose();
   }
 }
 
@@ -77,13 +77,13 @@ void ThreadPoolTaskScheduler___::_FilterTasksFromWorkItems_d__6___::ResetOfIEnum
 
 IEnumerator<Task<>> ThreadPoolTaskScheduler___::_FilterTasksFromWorkItems_d__6___::GetEnumeratorOfTask() {
   _FilterTasksFromWorkItems_d__6 _FilterTasksFromWorkItems_d__;
-  if (<>1__state == -2 && <>l__initialThreadId == Environment::get_CurrentManagedThreadId()) {
-    <>1__state = 0;
+  if (__1__state == -2 && __l__initialThreadId == Environment::get_CurrentManagedThreadId()) {
+    __1__state = 0;
     _FilterTasksFromWorkItems_d__ = (_FilterTasksFromWorkItems_d__6)this;
   } else {
     _FilterTasksFromWorkItems_d__ = rt::newobj<_FilterTasksFromWorkItems_d__6>(0);
   }
-  _FilterTasksFromWorkItems_d__->tpwItems = <>3__tpwItems;
+  _FilterTasksFromWorkItems_d__->tpwItems = __3__tpwItems;
   return _FilterTasksFromWorkItems_d__;
 }
 
@@ -92,7 +92,7 @@ IEnumerator_ ThreadPoolTaskScheduler___::_FilterTasksFromWorkItems_d__6___::GetE
 }
 
 void ThreadPoolTaskScheduler___::__c___::cctor() {
-  <>9 = rt::newobj<__c>();
+  __9 = rt::newobj<__c>();
 }
 
 void ThreadPoolTaskScheduler___::__c___::ctor() {

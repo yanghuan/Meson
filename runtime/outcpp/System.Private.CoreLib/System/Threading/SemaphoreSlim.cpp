@@ -29,7 +29,7 @@ void SemaphoreSlim___::TaskNode___::ctor() {
 }
 
 void SemaphoreSlim___::__c___::cctor() {
-  <>9 = rt::newobj<__c>();
+  __9 = rt::newobj<__c>();
 }
 
 void SemaphoreSlim___::__c___::ctor() {
@@ -40,8 +40,8 @@ void SemaphoreSlim___::__c___::_WaitUntilCountOrTimeoutAsync_b__33_0(Object s) {
 }
 
 void SemaphoreSlim___::_WaitUntilCountOrTimeoutAsync_d__33::MoveNext() {
-  Int32 num = <>1__state;
-  SemaphoreSlim semaphoreSlim = <>4__this;
+  Int32 num = __1__state;
+  SemaphoreSlim semaphoreSlim = __4__this;
   Boolean result2;
   try {
     Task<> task;
@@ -50,19 +50,19 @@ void SemaphoreSlim___::_WaitUntilCountOrTimeoutAsync_d__33::MoveNext() {
     Boolean lockTaken;
     Action<Object> as = __c::in::__9__33_0;
   } catch (Exception exception) {
-    <>1__state = -2;
-    <>t__builder.SetException(exception);
+    __1__state = -2;
+    __t__builder.SetException(exception);
     return;
   }
   goto IL_02df;
 
 IL_02df:
-  <>1__state = -2;
-  <>t__builder.SetResult(result2);
+  __1__state = -2;
+  __t__builder.SetResult(result2);
 }
 
 void SemaphoreSlim___::_WaitUntilCountOrTimeoutAsync_d__33::SetStateMachine(IAsyncStateMachine stateMachine) {
-  <>t__builder.SetStateMachine(stateMachine);
+  __t__builder.SetStateMachine(stateMachine);
 }
 
 Int32 SemaphoreSlim___::get_CurrentCount() {

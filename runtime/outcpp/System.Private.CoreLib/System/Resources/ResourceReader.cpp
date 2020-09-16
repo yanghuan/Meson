@@ -140,7 +140,7 @@ void ResourceReader___::ResourceEnumerator___::Reset() {
 }
 
 void ResourceReader___::__c___::cctor() {
-  <>9 = rt::newobj<__c>();
+  __9 = rt::newobj<__c>();
 }
 
 void ResourceReader___::__c___::ctor() {

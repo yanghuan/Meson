@@ -110,7 +110,7 @@ Task<Int32> SyncTextReader___::ReadAsync(Array<Char> buffer, Int32 index, Int32 
 }
 
 void TextReader___::__c___::cctor() {
-  <>9 = rt::newobj<__c>();
+  __9 = rt::newobj<__c>();
 }
 
 void TextReader___::__c___::ctor() {
@@ -136,29 +136,29 @@ Int32 TextReader___::__c___::_ReadBlockAsync_b__19_0(Object state) {
 }
 
 void TextReader___::_ReadToEndAsync_d__14::MoveNext() {
-  Int32 num = <>1__state;
-  TextReader textReader = <>4__this;
+  Int32 num = __1__state;
+  TextReader textReader = __4__this;
   String result2;
   try {
     if (num != 0) {
-      <sb>5__2 = rt::newobj<StringBuilder>(4096);
-      <chars>5__3 = ArrayPool<Char>::in::get_Shared()->Rent(4096);
+      _sb_5__2 = rt::newobj<StringBuilder>(4096);
+      _chars_5__3 = ArrayPool<Char>::in::get_Shared()->Rent(4096);
     }
     try {
       if (num != 0) {
         goto IL_0050;
       }
-      ConfiguredValueTaskAwaitable<TResult>::ConfiguredValueTaskAwaiter awaiter = <>u__1;
-      <>u__1 = rt::default__;
-      num = (<>1__state = -1);
+      ConfiguredValueTaskAwaitable<TResult>::ConfiguredValueTaskAwaiter awaiter = __u__1;
+      __u__1 = rt::default__;
+      num = (__1__state = -1);
       goto IL_00ca;
 
     IL_0050:
-      awaiter = textReader->ReadAsyncInternal(<chars>5__3, rt::default__).ConfigureAwait(false).GetAwaiter();
+      awaiter = textReader->ReadAsyncInternal(_chars_5__3, rt::default__).ConfigureAwait(false).GetAwaiter();
       if (!awaiter.get_IsCompleted()) {
-        num = (<>1__state = 0);
-        <>u__1 = awaiter;
-        <>t__builder.AwaitUnsafeOnCompleted(awaiter, *this);
+        num = (__1__state = 0);
+        __u__1 = awaiter;
+        __t__builder.AwaitUnsafeOnCompleted(awaiter, *this);
         return;
       }
       goto IL_00ca;
@@ -167,79 +167,79 @@ void TextReader___::_ReadToEndAsync_d__14::MoveNext() {
       Int32 result = awaiter.GetResult();
       Int32 charCount;
       if ((charCount = result) != 0) {
-        <sb>5__2->Append(<chars>5__3, 0, charCount);
+        _sb_5__2->Append(_chars_5__3, 0, charCount);
         goto IL_0050;
       }
     } catch (...) {
     } finally: {
       if (num < 0) {
-        ArrayPool<Char>::in::get_Shared()->Return(<chars>5__3);
+        ArrayPool<Char>::in::get_Shared()->Return(_chars_5__3);
       }
     }
-    result2 = <sb>5__2->ToString();
+    result2 = _sb_5__2->ToString();
   } catch (Exception exception) {
-    <>1__state = -2;
-    <sb>5__2 = nullptr;
-    <chars>5__3 = nullptr;
-    <>t__builder.SetException(exception);
+    __1__state = -2;
+    _sb_5__2 = nullptr;
+    _chars_5__3 = nullptr;
+    __t__builder.SetException(exception);
     return;
   }
-  <>1__state = -2;
-  <sb>5__2 = nullptr;
-  <chars>5__3 = nullptr;
-  <>t__builder.SetResult(result2);
+  __1__state = -2;
+  _sb_5__2 = nullptr;
+  _chars_5__3 = nullptr;
+  __t__builder.SetResult(result2);
 }
 
 void TextReader___::_ReadToEndAsync_d__14::SetStateMachine(IAsyncStateMachine stateMachine) {
-  <>t__builder.SetStateMachine(stateMachine);
+  __t__builder.SetStateMachine(stateMachine);
 }
 
 void TextReader___::_ReadBlockAsyncInternal_d__20::MoveNext() {
-  Int32 num = <>1__state;
-  TextReader textReader = <>4__this;
+  Int32 num = __1__state;
+  TextReader textReader = __4__this;
   Int32 result2;
   try {
     if (num != 0) {
-      <n>5__2 = 0;
+      _n_5__2 = 0;
       goto IL_0018;
     }
-    ConfiguredValueTaskAwaitable<TResult>::ConfiguredValueTaskAwaiter awaiter = <>u__1;
-    <>u__1 = rt::default__;
-    num = (<>1__state = -1);
+    ConfiguredValueTaskAwaitable<TResult>::ConfiguredValueTaskAwaiter awaiter = __u__1;
+    __u__1 = rt::default__;
+    num = (__1__state = -1);
     goto IL_0094;
 
   IL_0094:
     Int32 result = awaiter.GetResult();
     Int32 num2 = result;
-    <n>5__2 += num2;
-    if (num2 > 0 && <n>5__2 < buffer.get_Length()) {
+    _n_5__2 += num2;
+    if (num2 > 0 && _n_5__2 < buffer.get_Length()) {
       goto IL_0018;
     }
-    result2 = <n>5__2;
+    result2 = _n_5__2;
     goto end_IL_000e;
 
   IL_0018:
-    awaiter = textReader->ReadAsyncInternal(buffer.Slice(<n>5__2), cancellationToken).ConfigureAwait(false).GetAwaiter();
+    awaiter = textReader->ReadAsyncInternal(buffer.Slice(_n_5__2), cancellationToken).ConfigureAwait(false).GetAwaiter();
     if (!awaiter.get_IsCompleted()) {
-      num = (<>1__state = 0);
-      <>u__1 = awaiter;
-      <>t__builder.AwaitUnsafeOnCompleted(awaiter, *this);
+      num = (__1__state = 0);
+      __u__1 = awaiter;
+      __t__builder.AwaitUnsafeOnCompleted(awaiter, *this);
       return;
     }
     goto IL_0094;
 
   end_IL_000e:
   } catch (Exception exception) {
-    <>1__state = -2;
-    <>t__builder.SetException(exception);
+    __1__state = -2;
+    __t__builder.SetException(exception);
     return;
   }
-  <>1__state = -2;
-  <>t__builder.SetResult(result2);
+  __1__state = -2;
+  __t__builder.SetResult(result2);
 }
 
 void TextReader___::_ReadBlockAsyncInternal_d__20::SetStateMachine(IAsyncStateMachine stateMachine) {
-  <>t__builder.SetStateMachine(stateMachine);
+  __t__builder.SetStateMachine(stateMachine);
 }
 
 void TextReader___::ctor() {

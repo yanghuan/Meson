@@ -157,7 +157,7 @@ void ConcurrentExclusiveSchedulerPair___::DebugView___::ctor(ConcurrentExclusive
 }
 
 void ConcurrentExclusiveSchedulerPair___::__c___::cctor() {
-  <>9 = rt::newobj<__c>();
+  __9 = rt::newobj<__c>();
 }
 
 void ConcurrentExclusiveSchedulerPair___::__c___::ctor() {

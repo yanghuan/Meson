@@ -20,7 +20,7 @@ using namespace System::Threading;
 using namespace System::Threading::Tasks;
 
 void YieldAwaitable::YieldAwaiter::__c___::cctor() {
-  <>9 = rt::newobj<__c>();
+  __9 = rt::newobj<__c>();
 }
 
 void YieldAwaitable::YieldAwaiter::__c___::ctor() {

@@ -42,7 +42,7 @@ using namespace System::Runtime::InteropServices::ComTypes;
 using namespace System::Text;
 
 void Marshal::__c___::cctor() {
-  <>9 = rt::newobj<__c>();
+  __9 = rt::newobj<__c>();
 }
 
 void Marshal::__c___::ctor() {

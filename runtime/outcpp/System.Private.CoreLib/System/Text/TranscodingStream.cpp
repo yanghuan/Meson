@@ -29,39 +29,39 @@ using namespace System::Runtime::InteropServices;
 using namespace System::Threading::Tasks;
 
 void TranscodingStream___::__DisposeAsync_g__DisposeAsyncCore30_0_d::MoveNext() {
-  Int32 num = <>1__state;
-  TranscodingStream transcodingStream = <>4__this;
+  Int32 num = __1__state;
+  TranscodingStream transcodingStream = __4__this;
   try {
     ConfiguredValueTaskAwaitable<>::ConfiguredValueTaskAwaiter awaiter;
     ConfiguredValueTaskAwaitable<>::ConfiguredValueTaskAwaiter awaiter2;
     if (num != 0) {
       if (num == 1) {
-        awaiter = <>u__1;
-        <>u__1 = rt::default__;
-        num = (<>1__state = -1);
+        awaiter = __u__1;
+        __u__1 = rt::default__;
+        num = (__1__state = -1);
         goto IL_0121;
       }
-      <innerStream>5__2 = transcodingStream->_innerStream;
+      _innerStream_5__2 = transcodingStream->_innerStream;
       transcodingStream->_innerStream = nullptr;
-      awaiter2 = <innerStream>5__2->WriteAsync(MemoryExtensions::AsMemory(pendingData)).ConfigureAwait(false).GetAwaiter();
+      awaiter2 = _innerStream_5__2->WriteAsync(MemoryExtensions::AsMemory(pendingData)).ConfigureAwait(false).GetAwaiter();
       if (!awaiter2.get_IsCompleted()) {
-        num = (<>1__state = 0);
-        <>u__1 = awaiter2;
-        <>t__builder.AwaitUnsafeOnCompleted(awaiter2, *this);
+        num = (__1__state = 0);
+        __u__1 = awaiter2;
+        __t__builder.AwaitUnsafeOnCompleted(awaiter2, *this);
         return;
       }
     } else {
-      awaiter2 = <>u__1;
-      <>u__1 = rt::default__;
-      num = (<>1__state = -1);
+      awaiter2 = __u__1;
+      __u__1 = rt::default__;
+      num = (__1__state = -1);
     }
     awaiter2.GetResult();
     if (!transcodingStream->_leaveOpen) {
-      awaiter = <innerStream>5__2->DisposeAsync().ConfigureAwait(false).GetAwaiter();
+      awaiter = _innerStream_5__2->DisposeAsync().ConfigureAwait(false).GetAwaiter();
       if (!awaiter.get_IsCompleted()) {
-        num = (<>1__state = 1);
-        <>u__1 = awaiter;
-        <>t__builder.AwaitUnsafeOnCompleted(awaiter, *this);
+        num = (__1__state = 1);
+        __u__1 = awaiter;
+        __t__builder.AwaitUnsafeOnCompleted(awaiter, *this);
         return;
       }
       goto IL_0121;
@@ -73,63 +73,63 @@ void TranscodingStream___::__DisposeAsync_g__DisposeAsyncCore30_0_d::MoveNext() 
 
   end_IL_000e:
   } catch (Exception exception) {
-    <>1__state = -2;
-    <innerStream>5__2 = nullptr;
-    <>t__builder.SetException(exception);
+    __1__state = -2;
+    _innerStream_5__2 = nullptr;
+    __t__builder.SetException(exception);
     return;
   }
-  <>1__state = -2;
-  <innerStream>5__2 = nullptr;
-  <>t__builder.SetResult();
+  __1__state = -2;
+  _innerStream_5__2 = nullptr;
+  __t__builder.SetResult();
 }
 
 void TranscodingStream___::__DisposeAsync_g__DisposeAsyncCore30_0_d::SetStateMachine(IAsyncStateMachine stateMachine) {
-  <>t__builder.SetStateMachine(stateMachine);
+  __t__builder.SetStateMachine(stateMachine);
 }
 
 void TranscodingStream___::__ReadAsync_g__ReadAsyncCore41_0_d::MoveNext() {
-  Int32 num = <>1__state;
-  TranscodingStream transcodingStream = <>4__this;
+  Int32 num = __1__state;
+  TranscodingStream transcodingStream = __4__this;
   Int32 result2;
   try {
     if (num != 0) {
       if (transcodingStream->_readBufferCount != 0) {
         goto IL_0164;
       }
-      <rentedBytes>5__2 = ArrayPool<Byte>::in::get_Shared()->Rent(4096);
-      <rentedChars>5__3 = ArrayPool<Char>::in::get_Shared()->Rent(transcodingStream->_readCharBufferMaxSize);
+      _rentedBytes_5__2 = ArrayPool<Byte>::in::get_Shared()->Rent(4096);
+      _rentedChars_5__3 = ArrayPool<Char>::in::get_Shared()->Rent(transcodingStream->_readCharBufferMaxSize);
     }
     try {
       ConfiguredValueTaskAwaitable<TResult>::ConfiguredValueTaskAwaiter awaiter;
       if (num != 0) {
-        awaiter = transcodingStream->_innerStream->ReadAsync(MemoryExtensions::AsMemory(<rentedBytes>5__2, 0, 4096), cancellationToken).ConfigureAwait(false).GetAwaiter();
+        awaiter = transcodingStream->_innerStream->ReadAsync(MemoryExtensions::AsMemory(_rentedBytes_5__2, 0, 4096), cancellationToken).ConfigureAwait(false).GetAwaiter();
         if (!awaiter.get_IsCompleted()) {
-          num = (<>1__state = 0);
-          <>u__1 = awaiter;
-          <>t__builder.AwaitUnsafeOnCompleted(awaiter, *this);
+          num = (__1__state = 0);
+          __u__1 = awaiter;
+          __t__builder.AwaitUnsafeOnCompleted(awaiter, *this);
           return;
         }
       } else {
-        awaiter = <>u__1;
-        <>u__1 = rt::default__;
-        num = (<>1__state = -1);
+        awaiter = __u__1;
+        __u__1 = rt::default__;
+        num = (__1__state = -1);
       }
       Int32 result = awaiter.GetResult();
       Int32 num2 = result;
       Boolean flush = num2 == 0;
-      Int32 chars = transcodingStream->_innerDecoder->GetChars(<rentedBytes>5__2, 0, num2, <rentedChars>5__3, 0, flush);
-      Int32 bytes = transcodingStream->_thisEncoder->GetBytes(<rentedChars>5__3, 0, chars, transcodingStream->_readBuffer, 0, flush);
+      Int32 chars = transcodingStream->_innerDecoder->GetChars(_rentedBytes_5__2, 0, num2, _rentedChars_5__3, 0, flush);
+      Int32 bytes = transcodingStream->_thisEncoder->GetBytes(_rentedChars_5__3, 0, chars, transcodingStream->_readBuffer, 0, flush);
       transcodingStream->_readBufferOffset = 0;
       transcodingStream->_readBufferCount = bytes;
     } catch (...) {
     } finally: {
       if (num < 0) {
-        ArrayPool<Byte>::in::get_Shared()->Return(<rentedBytes>5__2);
-        ArrayPool<Char>::in::get_Shared()->Return(<rentedChars>5__3);
+        ArrayPool<Byte>::in::get_Shared()->Return(_rentedBytes_5__2);
+        ArrayPool<Char>::in::get_Shared()->Return(_rentedChars_5__3);
       }
     }
-    <rentedBytes>5__2 = nullptr;
-    <rentedChars>5__3 = nullptr;
+    _rentedBytes_5__2 = nullptr;
+    _rentedChars_5__3 = nullptr;
     goto IL_0164;
 
   IL_0164:
@@ -139,63 +139,63 @@ void TranscodingStream___::__ReadAsync_g__ReadAsyncCore41_0_d::MoveNext() {
     transcodingStream->_readBufferCount -= num3;
     result2 = num3;
   } catch (Exception exception) {
-    <>1__state = -2;
-    <>t__builder.SetException(exception);
+    __1__state = -2;
+    __t__builder.SetException(exception);
     return;
   }
-  <>1__state = -2;
-  <>t__builder.SetResult(result2);
+  __1__state = -2;
+  __t__builder.SetResult(result2);
 }
 
 void TranscodingStream___::__ReadAsync_g__ReadAsyncCore41_0_d::SetStateMachine(IAsyncStateMachine stateMachine) {
-  <>t__builder.SetStateMachine(stateMachine);
+  __t__builder.SetStateMachine(stateMachine);
 }
 
 void TranscodingStream___::__WriteAsync_g__WriteAsyncCore50_0_d::MoveNext() {
-  Int32 num = <>1__state;
-  TranscodingStream transcodingStream = <>4__this;
+  Int32 num = __1__state;
+  TranscodingStream transcodingStream = __4__this;
   try {
     if (num != 0) {
       Int32 minimumLength = Math::Clamp(remainingOuterEncodedBytes.get_Length(), 4096, 1048576);
-      <scratchChars>5__2 = ArrayPool<Char>::in::get_Shared()->Rent(minimumLength);
-      <scratchBytes>5__3 = ArrayPool<Byte>::in::get_Shared()->Rent(minimumLength);
+      _scratchChars_5__2 = ArrayPool<Char>::in::get_Shared()->Rent(minimumLength);
+      _scratchBytes_5__3 = ArrayPool<Byte>::in::get_Shared()->Rent(minimumLength);
     }
     try {
       if (num != 0) {
         goto IL_0055;
       }
-      ConfiguredValueTaskAwaitable<>::ConfiguredValueTaskAwaiter awaiter = <>u__1;
-      <>u__1 = rt::default__;
-      num = (<>1__state = -1);
+      ConfiguredValueTaskAwaitable<>::ConfiguredValueTaskAwaiter awaiter = __u__1;
+      __u__1 = rt::default__;
+      num = (__1__state = -1);
       goto IL_0190;
 
     IL_0055:
       Int32 bytesUsed;
       Int32 charsUsed;
-      transcodingStream->_thisDecoder->Convert(remainingOuterEncodedBytes.get_Span(), <scratchChars>5__2, false, bytesUsed, charsUsed, <decoderFinished>5__4);
+      transcodingStream->_thisDecoder->Convert(remainingOuterEncodedBytes.get_Span(), _scratchChars_5__2, false, bytesUsed, charsUsed, _decoderFinished_5__4);
       ReadOnlyMemory<Byte> readOnlyMemory = remainingOuterEncodedBytes;
     } catch (...) {
     } finally: {
       if (num < 0) {
-        ArrayPool<Char>::in::get_Shared()->Return(<scratchChars>5__2);
-        ArrayPool<Byte>::in::get_Shared()->Return(<scratchBytes>5__3);
+        ArrayPool<Char>::in::get_Shared()->Return(_scratchChars_5__2);
+        ArrayPool<Byte>::in::get_Shared()->Return(_scratchBytes_5__3);
       }
     }
   } catch (Exception exception) {
-    <>1__state = -2;
-    <scratchChars>5__2 = nullptr;
-    <scratchBytes>5__3 = nullptr;
-    <>t__builder.SetException(exception);
+    __1__state = -2;
+    _scratchChars_5__2 = nullptr;
+    _scratchBytes_5__3 = nullptr;
+    __t__builder.SetException(exception);
     return;
   }
-  <>1__state = -2;
-  <scratchChars>5__2 = nullptr;
-  <scratchBytes>5__3 = nullptr;
-  <>t__builder.SetResult();
+  __1__state = -2;
+  _scratchChars_5__2 = nullptr;
+  _scratchBytes_5__3 = nullptr;
+  __t__builder.SetResult();
 }
 
 void TranscodingStream___::__WriteAsync_g__WriteAsyncCore50_0_d::SetStateMachine(IAsyncStateMachine stateMachine) {
-  <>t__builder.SetStateMachine(stateMachine);
+  __t__builder.SetStateMachine(stateMachine);
 }
 
 Boolean TranscodingStream___::get_CanRead() {

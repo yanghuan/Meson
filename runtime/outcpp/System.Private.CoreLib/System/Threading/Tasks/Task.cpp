@@ -56,7 +56,7 @@ using namespace System::Runtime::CompilerServices;
 using namespace System::Runtime::ExceptionServices;
 
 void DelayPromise___::__c___::cctor() {
-  <>9 = rt::newobj<__c>();
+  __9 = rt::newobj<__c>();
 }
 
 void DelayPromise___::__c___::ctor() {
@@ -149,7 +149,7 @@ void Task___<>::SetOnCountdownMres___::Invoke(Task<> completingTask) {
 }
 
 void DelayPromiseWithCancellation___::__c___::cctor() {
-  <>9 = rt::newobj<__c>();
+  __9 = rt::newobj<__c>();
 }
 
 void DelayPromiseWithCancellation___::__c___::ctor() {
@@ -249,7 +249,7 @@ void WhenAllPromise___<>::Invoke(Task<> completedTask) {
 }
 
 void Task___<>::__c___::cctor() {
-  <>9 = rt::newobj<__c>();
+  __9 = rt::newobj<__c>();
 }
 
 void Task___<>::__c___::ctor() {

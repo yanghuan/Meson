@@ -19,7 +19,7 @@
 
 namespace System::Private::CoreLib::System::Diagnostics::Tracing::ScalarArrayTypeInfoNamespace {
 void ScalarArrayTypeInfo___::__c___::cctor() {
-  <>9 = rt::newobj<__c>();
+  __9 = rt::newobj<__c>();
 }
 
 void ScalarArrayTypeInfo___::__c___::ctor() {

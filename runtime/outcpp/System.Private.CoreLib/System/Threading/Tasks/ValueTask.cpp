@@ -18,7 +18,7 @@ using namespace System::Runtime::CompilerServices;
 using namespace System::Threading::Tasks::Sources;
 
 void ValueTask<>::ValueTaskSourceAsTask___::__c___::cctor() {
-  <>9 = rt::newobj<__c>();
+  __9 = rt::newobj<__c>();
 }
 
 void ValueTask<>::ValueTaskSourceAsTask___::__c___::ctor() {

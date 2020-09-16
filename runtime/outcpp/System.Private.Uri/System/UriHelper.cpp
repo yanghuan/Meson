@@ -26,7 +26,7 @@ using namespace ::System::Private::CoreLib::System::Text;
 using namespace System::Text;
 
 void UriHelper::__c___::cctor() {
-  <>9 = rt::newobj<__c>();
+  __9 = rt::newobj<__c>();
 }
 
 void UriHelper::__c___::ctor() {

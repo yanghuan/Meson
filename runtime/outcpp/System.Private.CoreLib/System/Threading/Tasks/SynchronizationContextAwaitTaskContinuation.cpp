@@ -25,7 +25,7 @@ void SynchronizationContextAwaitTaskContinuation___::__c__DisplayClass6_0___::_G
 }
 
 void SynchronizationContextAwaitTaskContinuation___::__c___::cctor() {
-  <>9 = rt::newobj<__c>();
+  __9 = rt::newobj<__c>();
 }
 
 void SynchronizationContextAwaitTaskContinuation___::__c___::ctor() {

@@ -18,7 +18,7 @@ namespace System::Private::CoreLib::System::Threading::Tasks::AwaitTaskContinuat
 using namespace System::Diagnostics::Tracing;
 
 void AwaitTaskContinuation___::__c___::cctor() {
-  <>9 = rt::newobj<__c>();
+  __9 = rt::newobj<__c>();
 }
 
 void AwaitTaskContinuation___::__c___::ctor() {

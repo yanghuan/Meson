@@ -322,7 +322,7 @@ Task<> SyncTextWriter___::FlushAsync() {
 }
 
 void TextWriter___::__c___::cctor() {
-  <>9 = rt::newobj<__c>();
+  __9 = rt::newobj<__c>();
 }
 
 void TextWriter___::__c___::ctor() {
@@ -373,16 +373,16 @@ void TextWriter___::__c___::_FlushAsync_b__71_0(Object state) {
 }
 
 void TextWriter___::__WriteAsync_g__WriteAsyncCore60_0_d::MoveNext() {
-  Int32 num = <>1__state;
-  TextWriter textWriter = <>4__this;
+  Int32 num = __1__state;
+  TextWriter textWriter = __4__this;
   try {
     if (num != 0) {
-      <>7__wrap1 = sb->GetChunks().GetEnumerator();
+      __7__wrap1 = sb->GetChunks().GetEnumerator();
       goto IL_00a4;
     }
-    ConfiguredTaskAwaitable<>::ConfiguredTaskAwaiter awaiter = <>u__1;
-    <>u__1 = rt::default__;
-    num = (<>1__state = -1);
+    ConfiguredTaskAwaitable<>::ConfiguredTaskAwaiter awaiter = __u__1;
+    __u__1 = rt::default__;
+    num = (__1__state = -1);
     goto IL_009d;
 
   IL_009d:
@@ -390,49 +390,49 @@ void TextWriter___::__WriteAsync_g__WriteAsyncCore60_0_d::MoveNext() {
     goto IL_00a4;
 
   IL_00a4:
-    if (<>7__wrap1.MoveNext()) {
-      ReadOnlyMemory<Char> current = <>7__wrap1.get_Current();
+    if (__7__wrap1.MoveNext()) {
+      ReadOnlyMemory<Char> current = __7__wrap1.get_Current();
       awaiter = textWriter->WriteAsync(current, ct)->ConfigureAwait(false).GetAwaiter();
       if (!awaiter.get_IsCompleted()) {
-        num = (<>1__state = 0);
-        <>u__1 = awaiter;
-        <>t__builder.AwaitUnsafeOnCompleted(awaiter, *this);
+        num = (__1__state = 0);
+        __u__1 = awaiter;
+        __t__builder.AwaitUnsafeOnCompleted(awaiter, *this);
         return;
       }
       goto IL_009d;
     }
-    <>7__wrap1 = rt::default__;
+    __7__wrap1 = rt::default__;
   } catch (Exception exception) {
-    <>1__state = -2;
-    <>t__builder.SetException(exception);
+    __1__state = -2;
+    __t__builder.SetException(exception);
     return;
   }
-  <>1__state = -2;
-  <>t__builder.SetResult();
+  __1__state = -2;
+  __t__builder.SetResult();
 }
 
 void TextWriter___::__WriteAsync_g__WriteAsyncCore60_0_d::SetStateMachine(IAsyncStateMachine stateMachine) {
-  <>t__builder.SetStateMachine(stateMachine);
+  __t__builder.SetStateMachine(stateMachine);
 }
 
 void TextWriter___::__WriteLineAsync_g__WriteLineAsyncCore66_0_d::MoveNext() {
-  Int32 num = <>1__state;
-  TextWriter textWriter = <>4__this;
+  Int32 num = __1__state;
+  TextWriter textWriter = __4__this;
   try {
     ConfiguredTaskAwaitable<>::ConfiguredTaskAwaiter awaiter;
     if (num != 0) {
       if (num != 1) {
-        <>7__wrap1 = sb->GetChunks().GetEnumerator();
+        __7__wrap1 = sb->GetChunks().GetEnumerator();
         goto IL_00ae;
       }
-      awaiter = <>u__1;
-      <>u__1 = rt::default__;
-      num = (<>1__state = -1);
+      awaiter = __u__1;
+      __u__1 = rt::default__;
+      num = (__1__state = -1);
       goto IL_0139;
     }
-    ConfiguredTaskAwaitable<>::ConfiguredTaskAwaiter awaiter2 = <>u__1;
-    <>u__1 = rt::default__;
-    num = (<>1__state = -1);
+    ConfiguredTaskAwaitable<>::ConfiguredTaskAwaiter awaiter2 = __u__1;
+    __u__1 = rt::default__;
+    num = (__1__state = -1);
     goto IL_00a7;
 
   IL_00a7:
@@ -440,23 +440,23 @@ void TextWriter___::__WriteLineAsync_g__WriteLineAsyncCore66_0_d::MoveNext() {
     goto IL_00ae;
 
   IL_00ae:
-    if (<>7__wrap1.MoveNext()) {
-      ReadOnlyMemory<Char> current = <>7__wrap1.get_Current();
+    if (__7__wrap1.MoveNext()) {
+      ReadOnlyMemory<Char> current = __7__wrap1.get_Current();
       awaiter2 = textWriter->WriteAsync(current, ct)->ConfigureAwait(false).GetAwaiter();
       if (!awaiter2.get_IsCompleted()) {
-        num = (<>1__state = 0);
-        <>u__1 = awaiter2;
-        <>t__builder.AwaitUnsafeOnCompleted(awaiter2, *this);
+        num = (__1__state = 0);
+        __u__1 = awaiter2;
+        __t__builder.AwaitUnsafeOnCompleted(awaiter2, *this);
         return;
       }
       goto IL_00a7;
     }
-    <>7__wrap1 = rt::default__;
+    __7__wrap1 = rt::default__;
     awaiter = textWriter->WriteAsync(textWriter->CoreNewLine, ct)->ConfigureAwait(false).GetAwaiter();
     if (!awaiter.get_IsCompleted()) {
-      num = (<>1__state = 1);
-      <>u__1 = awaiter;
-      <>t__builder.AwaitUnsafeOnCompleted(awaiter, *this);
+      num = (__1__state = 1);
+      __u__1 = awaiter;
+      __t__builder.AwaitUnsafeOnCompleted(awaiter, *this);
       return;
     }
     goto IL_0139;
@@ -464,16 +464,16 @@ void TextWriter___::__WriteLineAsync_g__WriteLineAsyncCore66_0_d::MoveNext() {
   IL_0139:
     awaiter.GetResult();
   } catch (Exception exception) {
-    <>1__state = -2;
-    <>t__builder.SetException(exception);
+    __1__state = -2;
+    __t__builder.SetException(exception);
     return;
   }
-  <>1__state = -2;
-  <>t__builder.SetResult();
+  __1__state = -2;
+  __t__builder.SetResult();
 }
 
 void TextWriter___::__WriteLineAsync_g__WriteLineAsyncCore66_0_d::SetStateMachine(IAsyncStateMachine stateMachine) {
-  <>t__builder.SetStateMachine(stateMachine);
+  __t__builder.SetStateMachine(stateMachine);
 }
 
 IFormatProvider TextWriter___::get_FormatProvider() {

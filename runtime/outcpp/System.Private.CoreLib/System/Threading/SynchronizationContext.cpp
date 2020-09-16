@@ -8,7 +8,7 @@
 
 namespace System::Private::CoreLib::System::Threading::SynchronizationContextNamespace {
 void SynchronizationContext___::__c___::cctor() {
-  <>9 = rt::newobj<__c>();
+  __9 = rt::newobj<__c>();
 }
 
 void SynchronizationContext___::__c___::ctor() {

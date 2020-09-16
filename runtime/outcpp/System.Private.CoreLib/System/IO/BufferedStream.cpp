@@ -32,7 +32,7 @@ using namespace System::Threading;
 using namespace System::Threading::Tasks;
 
 void BufferedStream___::__c___::cctor() {
-  <>9 = rt::newobj<__c>();
+  __9 = rt::newobj<__c>();
 }
 
 void BufferedStream___::__c___::ctor() {
@@ -43,8 +43,8 @@ SemaphoreSlim BufferedStream___::__c___::_LazyEnsureAsyncActiveSemaphoreInitiali
 }
 
 void BufferedStream___::_DisposeAsync_d__35::MoveNext() {
-  Int32 num = <>1__state;
-  BufferedStream bufferedStream = <>4__this;
+  Int32 num = __1__state;
+  BufferedStream bufferedStream = __4__this;
   try {
     Int32 num2 = 1;
     try {
@@ -53,21 +53,21 @@ void BufferedStream___::_DisposeAsync_d__35::MoveNext() {
       }
       ConfiguredValueTaskAwaitable<>::ConfiguredValueTaskAwaiter awaiter;
       if (num == 1) {
-        awaiter = <>u__2;
-        <>u__2 = rt::default__;
-        num = (<>1__state = -1);
+        awaiter = __u__2;
+        __u__2 = rt::default__;
+        num = (__1__state = -1);
         goto IL_0116;
       }
       if (bufferedStream->_stream != nullptr) {
-        <>7__wrap1 = nullptr;
-        <>7__wrap2 = 0;
+        __7__wrap1 = nullptr;
+        __7__wrap2 = 0;
         goto IL_0036;
       }
       goto end_IL_0013;
 
     IL_0116:
       awaiter.GetResult();
-      Object obj = <>7__wrap1;
+      Object obj = __7__wrap1;
       if (obj != nullptr) {
         Exception ex = rt::as<Exception>(obj);
         if (ex == nullptr) {
@@ -75,7 +75,7 @@ void BufferedStream___::_DisposeAsync_d__35::MoveNext() {
         }
         ExceptionDispatchInfo::in::Capture(ex)->Throw();
       }
-      <>7__wrap1 = nullptr;
+      __7__wrap1 = nullptr;
       goto end_IL_0013;
 
     IL_0036:
@@ -84,25 +84,25 @@ void BufferedStream___::_DisposeAsync_d__35::MoveNext() {
         if (num != 0) {
           awaiter2 = bufferedStream->FlushAsync()->ConfigureAwait(false).GetAwaiter();
           if (!awaiter2.get_IsCompleted()) {
-            num = (<>1__state = 0);
-            <>u__1 = awaiter2;
-            <>t__builder.AwaitUnsafeOnCompleted(awaiter2, *this);
+            num = (__1__state = 0);
+            __u__1 = awaiter2;
+            __t__builder.AwaitUnsafeOnCompleted(awaiter2, *this);
             return;
           }
         } else {
-          awaiter2 = <>u__1;
-          <>u__1 = rt::default__;
-          num = (<>1__state = -1);
+          awaiter2 = __u__1;
+          __u__1 = rt::default__;
+          num = (__1__state = -1);
         }
         awaiter2.GetResult();
       } catch (Object obj2) {
-        obj = (<>7__wrap1 = obj2);
+        obj = (__7__wrap1 = obj2);
       }
       awaiter = bufferedStream->_stream->DisposeAsync().ConfigureAwait(false).GetAwaiter();
       if (!awaiter.get_IsCompleted()) {
-        num = (<>1__state = 1);
-        <>u__2 = awaiter;
-        <>t__builder.AwaitUnsafeOnCompleted(awaiter, *this);
+        num = (__1__state = 1);
+        __u__2 = awaiter;
+        __t__builder.AwaitUnsafeOnCompleted(awaiter, *this);
         return;
       }
       goto IL_0116;
@@ -116,39 +116,39 @@ void BufferedStream___::_DisposeAsync_d__35::MoveNext() {
       }
     }
   } catch (Exception exception) {
-    <>1__state = -2;
-    <>t__builder.SetException(exception);
+    __1__state = -2;
+    __t__builder.SetException(exception);
     return;
   }
-  <>1__state = -2;
-  <>t__builder.SetResult();
+  __1__state = -2;
+  __t__builder.SetResult();
 }
 
 void BufferedStream___::_DisposeAsync_d__35::SetStateMachine(IAsyncStateMachine stateMachine) {
-  <>t__builder.SetStateMachine(stateMachine);
+  __t__builder.SetStateMachine(stateMachine);
 }
 
 void BufferedStream___::_FlushAsyncInternal_d__38::MoveNext() {
-  Int32 num = <>1__state;
-  BufferedStream bufferedStream = <>4__this;
+  Int32 num = __1__state;
+  BufferedStream bufferedStream = __4__this;
   try {
     ConfiguredTaskAwaitable<>::ConfiguredTaskAwaiter awaiter;
     if (num != 0) {
       if ((UInt32)(num - 1) <= 2u) {
         goto IL_0092;
       }
-      <sem>5__2 = bufferedStream->LazyEnsureAsyncActiveSemaphoreInitialized();
-      awaiter = <sem>5__2->WaitAsync(cancellationToken)->ConfigureAwait(false).GetAwaiter();
+      _sem_5__2 = bufferedStream->LazyEnsureAsyncActiveSemaphoreInitialized();
+      awaiter = _sem_5__2->WaitAsync(cancellationToken)->ConfigureAwait(false).GetAwaiter();
       if (!awaiter.get_IsCompleted()) {
-        num = (<>1__state = 0);
-        <>u__1 = awaiter;
-        <>t__builder.AwaitUnsafeOnCompleted(awaiter, *this);
+        num = (__1__state = 0);
+        __u__1 = awaiter;
+        __t__builder.AwaitUnsafeOnCompleted(awaiter, *this);
         return;
       }
     } else {
-      awaiter = <>u__1;
-      <>u__1 = rt::default__;
-      num = (<>1__state = -1);
+      awaiter = __u__1;
+      __u__1 = rt::default__;
+      num = (__1__state = -1);
     }
     awaiter.GetResult();
     goto IL_0092;
@@ -163,9 +163,9 @@ void BufferedStream___::_FlushAsyncInternal_d__38::MoveNext() {
           if (bufferedStream->_writePos > 0) {
             awaiter4 = bufferedStream->FlushWriteAsync(cancellationToken).ConfigureAwait(false).GetAwaiter();
             if (!awaiter4.get_IsCompleted()) {
-              num = (<>1__state = 1);
-              <>u__2 = awaiter4;
-              <>t__builder.AwaitUnsafeOnCompleted(awaiter4, *this);
+              num = (__1__state = 1);
+              __u__2 = awaiter4;
+              __t__builder.AwaitUnsafeOnCompleted(awaiter4, *this);
               return;
             }
             goto IL_011b;
@@ -177,9 +177,9 @@ void BufferedStream___::_FlushAsyncInternal_d__38::MoveNext() {
             if (bufferedStream->_stream->get_CanWrite()) {
               awaiter3 = bufferedStream->_stream->FlushAsync(cancellationToken)->ConfigureAwait(false).GetAwaiter();
               if (!awaiter3.get_IsCompleted()) {
-                num = (<>1__state = 2);
-                <>u__1 = awaiter3;
-                <>t__builder.AwaitUnsafeOnCompleted(awaiter3, *this);
+                num = (__1__state = 2);
+                __u__1 = awaiter3;
+                __t__builder.AwaitUnsafeOnCompleted(awaiter3, *this);
                 return;
               }
               goto IL_01c3;
@@ -187,9 +187,9 @@ void BufferedStream___::_FlushAsyncInternal_d__38::MoveNext() {
           } else if (bufferedStream->_stream->get_CanWrite()) {
             awaiter2 = bufferedStream->_stream->FlushAsync(cancellationToken)->ConfigureAwait(false).GetAwaiter();
             if (!awaiter2.get_IsCompleted()) {
-              num = (<>1__state = 3);
-              <>u__1 = awaiter2;
-              <>t__builder.AwaitUnsafeOnCompleted(awaiter2, *this);
+              num = (__1__state = 3);
+              __u__1 = awaiter2;
+              __t__builder.AwaitUnsafeOnCompleted(awaiter2, *this);
               return;
             }
             break;
@@ -197,20 +197,20 @@ void BufferedStream___::_FlushAsyncInternal_d__38::MoveNext() {
 
           goto end_IL_0093;
         case 1:
-          awaiter4 = <>u__2;
-          <>u__2 = rt::default__;
-          num = (<>1__state = -1);
+          awaiter4 = __u__2;
+          __u__2 = rt::default__;
+          num = (__1__state = -1);
           goto IL_011b;
         case 2:
-          awaiter3 = <>u__1;
-          <>u__1 = rt::default__;
-          num = (<>1__state = -1);
+          awaiter3 = __u__1;
+          __u__1 = rt::default__;
+          num = (__1__state = -1);
           goto IL_01c3;
         case 3:
           {
-            awaiter2 = <>u__1;
-            <>u__1 = rt::default__;
-            num = (<>1__state = -1);
+            awaiter2 = __u__1;
+            __u__1 = rt::default__;
+            num = (__1__state = -1);
             break;
           }
         IL_011b:
@@ -227,56 +227,56 @@ void BufferedStream___::_FlushAsyncInternal_d__38::MoveNext() {
     } catch (...) {
     } finally: {
       if (num < 0) {
-        <sem>5__2->Release();
+        _sem_5__2->Release();
       }
     }
   } catch (Exception exception) {
-    <>1__state = -2;
-    <sem>5__2 = nullptr;
-    <>t__builder.SetException(exception);
+    __1__state = -2;
+    _sem_5__2 = nullptr;
+    __t__builder.SetException(exception);
     return;
   }
-  <>1__state = -2;
-  <sem>5__2 = nullptr;
-  <>t__builder.SetResult();
+  __1__state = -2;
+  _sem_5__2 = nullptr;
+  __t__builder.SetResult();
 }
 
 void BufferedStream___::_FlushAsyncInternal_d__38::SetStateMachine(IAsyncStateMachine stateMachine) {
-  <>t__builder.SetStateMachine(stateMachine);
+  __t__builder.SetStateMachine(stateMachine);
 }
 
 void BufferedStream___::_FlushWriteAsync_d__42::MoveNext() {
-  Int32 num = <>1__state;
-  BufferedStream bufferedStream = <>4__this;
+  Int32 num = __1__state;
+  BufferedStream bufferedStream = __4__this;
   try {
     ConfiguredTaskAwaitable<>::ConfiguredTaskAwaiter awaiter;
     ConfiguredValueTaskAwaitable<>::ConfiguredValueTaskAwaiter awaiter2;
     if (num != 0) {
       if (num == 1) {
-        awaiter = <>u__2;
-        <>u__2 = rt::default__;
-        num = (<>1__state = -1);
+        awaiter = __u__2;
+        __u__2 = rt::default__;
+        num = (__1__state = -1);
         goto IL_010d;
       }
       awaiter2 = bufferedStream->_stream->WriteAsync(ReadOnlyMemory<Byte>(bufferedStream->_buffer, 0, bufferedStream->_writePos), cancellationToken).ConfigureAwait(false).GetAwaiter();
       if (!awaiter2.get_IsCompleted()) {
-        num = (<>1__state = 0);
-        <>u__1 = awaiter2;
-        <>t__builder.AwaitUnsafeOnCompleted(awaiter2, *this);
+        num = (__1__state = 0);
+        __u__1 = awaiter2;
+        __t__builder.AwaitUnsafeOnCompleted(awaiter2, *this);
         return;
       }
     } else {
-      awaiter2 = <>u__1;
-      <>u__1 = rt::default__;
-      num = (<>1__state = -1);
+      awaiter2 = __u__1;
+      __u__1 = rt::default__;
+      num = (__1__state = -1);
     }
     awaiter2.GetResult();
     bufferedStream->_writePos = 0;
     awaiter = bufferedStream->_stream->FlushAsync(cancellationToken)->ConfigureAwait(false).GetAwaiter();
     if (!awaiter.get_IsCompleted()) {
-      num = (<>1__state = 1);
-      <>u__2 = awaiter;
-      <>t__builder.AwaitUnsafeOnCompleted(awaiter, *this);
+      num = (__1__state = 1);
+      __u__2 = awaiter;
+      __t__builder.AwaitUnsafeOnCompleted(awaiter, *this);
       return;
     }
     goto IL_010d;
@@ -284,21 +284,21 @@ void BufferedStream___::_FlushWriteAsync_d__42::MoveNext() {
   IL_010d:
     awaiter.GetResult();
   } catch (Exception exception) {
-    <>1__state = -2;
-    <>t__builder.SetException(exception);
+    __1__state = -2;
+    __t__builder.SetException(exception);
     return;
   }
-  <>1__state = -2;
-  <>t__builder.SetResult();
+  __1__state = -2;
+  __t__builder.SetResult();
 }
 
 void BufferedStream___::_FlushWriteAsync_d__42::SetStateMachine(IAsyncStateMachine stateMachine) {
-  <>t__builder.SetStateMachine(stateMachine);
+  __t__builder.SetStateMachine(stateMachine);
 }
 
 void BufferedStream___::_ReadFromUnderlyingStreamAsync_d__51::MoveNext() {
-  Int32 num = <>1__state;
-  BufferedStream bufferedStream = <>4__this;
+  Int32 num = __1__state;
+  BufferedStream bufferedStream = __4__this;
   Int32 result;
   try {
     ConfiguredTaskAwaitable<>::ConfiguredTaskAwaiter awaiter;
@@ -308,15 +308,15 @@ void BufferedStream___::_ReadFromUnderlyingStreamAsync_d__51::MoveNext() {
       }
       awaiter = semaphoreLockTask->ConfigureAwait(false).GetAwaiter();
       if (!awaiter.get_IsCompleted()) {
-        num = (<>1__state = 0);
-        <>u__1 = awaiter;
-        <>t__builder.AwaitUnsafeOnCompleted(awaiter, *this);
+        num = (__1__state = 0);
+        __u__1 = awaiter;
+        __t__builder.AwaitUnsafeOnCompleted(awaiter, *this);
         return;
       }
     } else {
-      awaiter = <>u__1;
-      <>u__1 = rt::default__;
-      num = (<>1__state = -1);
+      awaiter = __u__1;
+      __u__1 = rt::default__;
+      num = (__1__state = -1);
     }
     awaiter.GetResult();
     goto IL_007c;
@@ -340,9 +340,9 @@ void BufferedStream___::_ReadFromUnderlyingStreamAsync_d__51::MoveNext() {
             if (bufferedStream->_writePos > 0) {
               awaiter4 = bufferedStream->FlushWriteAsync(cancellationToken).ConfigureAwait(false).GetAwaiter();
               if (!awaiter4.get_IsCompleted()) {
-                num = (<>1__state = 1);
-                <>u__2 = awaiter4;
-                <>t__builder.AwaitUnsafeOnCompleted(awaiter4, *this);
+                num = (__1__state = 1);
+                __u__2 = awaiter4;
+                __t__builder.AwaitUnsafeOnCompleted(awaiter4, *this);
                 return;
               }
               goto IL_016f;
@@ -352,35 +352,35 @@ void BufferedStream___::_ReadFromUnderlyingStreamAsync_d__51::MoveNext() {
           result = bytesAlreadySatisfied + num2;
           goto end_IL_007d;
         case 1:
-          awaiter4 = <>u__2;
-          <>u__2 = rt::default__;
-          num = (<>1__state = -1);
+          awaiter4 = __u__2;
+          __u__2 = rt::default__;
+          num = (__1__state = -1);
           goto IL_016f;
         case 2:
-          awaiter3 = <>u__3;
-          <>u__3 = rt::default__;
-          num = (<>1__state = -1);
+          awaiter3 = __u__3;
+          __u__3 = rt::default__;
+          num = (__1__state = -1);
           goto IL_020e;
         case 3:
           {
-            awaiter2 = <>u__3;
-            <>u__3 = rt::default__;
-            num = (<>1__state = -1);
+            awaiter2 = __u__3;
+            __u__3 = rt::default__;
+            num = (__1__state = -1);
             break;
           }
         IL_020e:
           result2 = awaiter3.GetResult();
-          result = <>7__wrap1 + result2;
+          result = __7__wrap1 + result2;
           goto end_IL_007d;
 
         IL_0176:
           if (buffer.get_Length() >= bufferedStream->_bufferSize) {
-            <>7__wrap1 = bytesAlreadySatisfied;
+            __7__wrap1 = bytesAlreadySatisfied;
             awaiter3 = bufferedStream->_stream->ReadAsync(buffer, cancellationToken).ConfigureAwait(false).GetAwaiter();
             if (!awaiter3.get_IsCompleted()) {
-              num = (<>1__state = 2);
-              <>u__3 = awaiter3;
-              <>t__builder.AwaitUnsafeOnCompleted(awaiter3, *this);
+              num = (__1__state = 2);
+              __u__3 = awaiter3;
+              __t__builder.AwaitUnsafeOnCompleted(awaiter3, *this);
               return;
             }
             goto IL_020e;
@@ -388,9 +388,9 @@ void BufferedStream___::_ReadFromUnderlyingStreamAsync_d__51::MoveNext() {
           bufferedStream->EnsureBufferAllocated();
           awaiter2 = bufferedStream->_stream->ReadAsync(Memory<Byte>(bufferedStream->_buffer, 0, bufferedStream->_bufferSize), cancellationToken).ConfigureAwait(false).GetAwaiter();
           if (!awaiter2.get_IsCompleted()) {
-            num = (<>1__state = 3);
-            <>u__3 = awaiter2;
-            <>t__builder.AwaitUnsafeOnCompleted(awaiter2, *this);
+            num = (__1__state = 3);
+            __u__3 = awaiter2;
+            __t__builder.AwaitUnsafeOnCompleted(awaiter2, *this);
             return;
           }
           break;
@@ -412,21 +412,21 @@ void BufferedStream___::_ReadFromUnderlyingStreamAsync_d__51::MoveNext() {
       }
     }
   } catch (Exception exception) {
-    <>1__state = -2;
-    <>t__builder.SetException(exception);
+    __1__state = -2;
+    __t__builder.SetException(exception);
     return;
   }
-  <>1__state = -2;
-  <>t__builder.SetResult(result);
+  __1__state = -2;
+  __t__builder.SetResult(result);
 }
 
 void BufferedStream___::_ReadFromUnderlyingStreamAsync_d__51::SetStateMachine(IAsyncStateMachine stateMachine) {
-  <>t__builder.SetStateMachine(stateMachine);
+  __t__builder.SetStateMachine(stateMachine);
 }
 
 void BufferedStream___::_WriteToUnderlyingStreamAsync_d__62::MoveNext() {
-  Int32 num = <>1__state;
-  BufferedStream bufferedStream = <>4__this;
+  Int32 num = __1__state;
+  BufferedStream bufferedStream = __4__this;
   try {
     ConfiguredTaskAwaitable<>::ConfiguredTaskAwaiter awaiter;
     if (num != 0) {
@@ -435,15 +435,15 @@ void BufferedStream___::_WriteToUnderlyingStreamAsync_d__62::MoveNext() {
       }
       awaiter = semaphoreLockTask->ConfigureAwait(false).GetAwaiter();
       if (!awaiter.get_IsCompleted()) {
-        num = (<>1__state = 0);
-        <>u__1 = awaiter;
-        <>t__builder.AwaitUnsafeOnCompleted(awaiter, *this);
+        num = (__1__state = 0);
+        __u__1 = awaiter;
+        __t__builder.AwaitUnsafeOnCompleted(awaiter, *this);
         return;
       }
     } else {
-      awaiter = <>u__1;
-      <>u__1 = rt::default__;
-      num = (<>1__state = -1);
+      awaiter = __u__1;
+      __u__1 = rt::default__;
+      num = (__1__state = -1);
     }
     awaiter.GetResult();
     goto IL_007b;
@@ -469,18 +469,18 @@ void BufferedStream___::_WriteToUnderlyingStreamAsync_d__62::MoveNext() {
                   buffer.get_Span().CopyTo(Span<Byte>(bufferedStream->_buffer, bufferedStream->_writePos, buffer.get_Length()));
                   awaiter4 = bufferedStream->_stream->WriteAsync(ReadOnlyMemory<Byte>(bufferedStream->_buffer, 0, num2), cancellationToken).ConfigureAwait(false).GetAwaiter();
                   if (!awaiter4.get_IsCompleted()) {
-                    num = (<>1__state = 2);
-                    <>u__2 = awaiter4;
-                    <>t__builder.AwaitUnsafeOnCompleted(awaiter4, *this);
+                    num = (__1__state = 2);
+                    __u__2 = awaiter4;
+                    __t__builder.AwaitUnsafeOnCompleted(awaiter4, *this);
                     return;
                   }
                   goto IL_0299;
                 }
                 awaiter3 = bufferedStream->_stream->WriteAsync(ReadOnlyMemory<Byte>(bufferedStream->_buffer, 0, bufferedStream->_writePos), cancellationToken).ConfigureAwait(false).GetAwaiter();
                 if (!awaiter3.get_IsCompleted()) {
-                  num = (<>1__state = 3);
-                  <>u__2 = awaiter3;
-                  <>t__builder.AwaitUnsafeOnCompleted(awaiter3, *this);
+                  num = (__1__state = 3);
+                  __u__2 = awaiter3;
+                  __t__builder.AwaitUnsafeOnCompleted(awaiter3, *this);
                   return;
                 }
                 goto IL_032e;
@@ -491,34 +491,34 @@ void BufferedStream___::_WriteToUnderlyingStreamAsync_d__62::MoveNext() {
             if (bufferedStream->_writePos >= bufferedStream->_bufferSize) {
               awaiter5 = bufferedStream->_stream->WriteAsync(ReadOnlyMemory<Byte>(bufferedStream->_buffer, 0, bufferedStream->_writePos), cancellationToken).ConfigureAwait(false).GetAwaiter();
               if (!awaiter5.get_IsCompleted()) {
-                num = (<>1__state = 1);
-                <>u__2 = awaiter5;
-                <>t__builder.AwaitUnsafeOnCompleted(awaiter5, *this);
+                num = (__1__state = 1);
+                __u__2 = awaiter5;
+                __t__builder.AwaitUnsafeOnCompleted(awaiter5, *this);
                 return;
               }
               goto IL_0193;
             }
             goto end_IL_007c;
           }case 1:
-          awaiter5 = <>u__2;
-          <>u__2 = rt::default__;
-          num = (<>1__state = -1);
+          awaiter5 = __u__2;
+          __u__2 = rt::default__;
+          num = (__1__state = -1);
           goto IL_0193;
         case 2:
-          awaiter4 = <>u__2;
-          <>u__2 = rt::default__;
-          num = (<>1__state = -1);
+          awaiter4 = __u__2;
+          __u__2 = rt::default__;
+          num = (__1__state = -1);
           goto IL_0299;
         case 3:
-          awaiter3 = <>u__2;
-          <>u__2 = rt::default__;
-          num = (<>1__state = -1);
+          awaiter3 = __u__2;
+          __u__2 = rt::default__;
+          num = (__1__state = -1);
           goto IL_032e;
         case 4:
           {
-            awaiter2 = <>u__2;
-            <>u__2 = rt::default__;
-            num = (<>1__state = -1);
+            awaiter2 = __u__2;
+            __u__2 = rt::default__;
+            num = (__1__state = -1);
             break;
           }
         IL_0193:
@@ -530,9 +530,9 @@ void BufferedStream___::_WriteToUnderlyingStreamAsync_d__62::MoveNext() {
         IL_033c:
           awaiter2 = bufferedStream->_stream->WriteAsync(buffer, cancellationToken).ConfigureAwait(false).GetAwaiter();
           if (!awaiter2.get_IsCompleted()) {
-            num = (<>1__state = 4);
-            <>u__2 = awaiter2;
-            <>t__builder.AwaitUnsafeOnCompleted(awaiter2, *this);
+            num = (__1__state = 4);
+            __u__2 = awaiter2;
+            __t__builder.AwaitUnsafeOnCompleted(awaiter2, *this);
             return;
           }
           break;
@@ -558,21 +558,21 @@ void BufferedStream___::_WriteToUnderlyingStreamAsync_d__62::MoveNext() {
       }
     }
   } catch (Exception exception) {
-    <>1__state = -2;
-    <>t__builder.SetException(exception);
+    __1__state = -2;
+    __t__builder.SetException(exception);
     return;
   }
-  <>1__state = -2;
-  <>t__builder.SetResult();
+  __1__state = -2;
+  __t__builder.SetResult();
 }
 
 void BufferedStream___::_WriteToUnderlyingStreamAsync_d__62::SetStateMachine(IAsyncStateMachine stateMachine) {
-  <>t__builder.SetStateMachine(stateMachine);
+  __t__builder.SetStateMachine(stateMachine);
 }
 
 void BufferedStream___::_CopyToAsyncCore_d__70::MoveNext() {
-  Int32 num = <>1__state;
-  BufferedStream bufferedStream = <>4__this;
+  Int32 num = __1__state;
+  BufferedStream bufferedStream = __4__this;
   try {
     ConfiguredTaskAwaitable<>::ConfiguredTaskAwaiter awaiter;
     if (num != 0) {
@@ -581,15 +581,15 @@ void BufferedStream___::_CopyToAsyncCore_d__70::MoveNext() {
       }
       awaiter = bufferedStream->LazyEnsureAsyncActiveSemaphoreInitialized()->WaitAsync(cancellationToken)->ConfigureAwait(false).GetAwaiter();
       if (!awaiter.get_IsCompleted()) {
-        num = (<>1__state = 0);
-        <>u__1 = awaiter;
-        <>t__builder.AwaitUnsafeOnCompleted(awaiter, *this);
+        num = (__1__state = 0);
+        __u__1 = awaiter;
+        __t__builder.AwaitUnsafeOnCompleted(awaiter, *this);
         return;
       }
     } else {
-      awaiter = <>u__1;
-      <>u__1 = rt::default__;
-      num = (<>1__state = -1);
+      awaiter = __u__1;
+      __u__1 = rt::default__;
+      num = (__1__state = -1);
     }
     awaiter.GetResult();
     goto IL_0086;
@@ -606,9 +606,9 @@ void BufferedStream___::_CopyToAsyncCore_d__70::MoveNext() {
             if (num2 > 0) {
               awaiter4 = destination->WriteAsync(ReadOnlyMemory<Byte>(bufferedStream->_buffer, bufferedStream->_readPos, num2), cancellationToken).ConfigureAwait(false).GetAwaiter();
               if (!awaiter4.get_IsCompleted()) {
-                num = (<>1__state = 1);
-                <>u__2 = awaiter4;
-                <>t__builder.AwaitUnsafeOnCompleted(awaiter4, *this);
+                num = (__1__state = 1);
+                __u__2 = awaiter4;
+                __t__builder.AwaitUnsafeOnCompleted(awaiter4, *this);
                 return;
               }
               goto IL_0135;
@@ -616,29 +616,29 @@ void BufferedStream___::_CopyToAsyncCore_d__70::MoveNext() {
             if (bufferedStream->_writePos > 0) {
               awaiter3 = bufferedStream->FlushWriteAsync(cancellationToken).ConfigureAwait(false).GetAwaiter();
               if (!awaiter3.get_IsCompleted()) {
-                num = (<>1__state = 2);
-                <>u__2 = awaiter3;
-                <>t__builder.AwaitUnsafeOnCompleted(awaiter3, *this);
+                num = (__1__state = 2);
+                __u__2 = awaiter3;
+                __t__builder.AwaitUnsafeOnCompleted(awaiter3, *this);
                 return;
               }
               goto IL_01c4;
             }
             goto IL_01cb;
           }case 1:
-          awaiter4 = <>u__2;
-          <>u__2 = rt::default__;
-          num = (<>1__state = -1);
+          awaiter4 = __u__2;
+          __u__2 = rt::default__;
+          num = (__1__state = -1);
           goto IL_0135;
         case 2:
-          awaiter3 = <>u__2;
-          <>u__2 = rt::default__;
-          num = (<>1__state = -1);
+          awaiter3 = __u__2;
+          __u__2 = rt::default__;
+          num = (__1__state = -1);
           goto IL_01c4;
         case 3:
           {
-            awaiter2 = <>u__1;
-            <>u__1 = rt::default__;
-            num = (<>1__state = -1);
+            awaiter2 = __u__1;
+            __u__1 = rt::default__;
+            num = (__1__state = -1);
             break;
           }
         IL_01c4:
@@ -648,9 +648,9 @@ void BufferedStream___::_CopyToAsyncCore_d__70::MoveNext() {
         IL_01cb:
           awaiter2 = bufferedStream->_stream->CopyToAsync(destination, bufferSize, cancellationToken)->ConfigureAwait(false).GetAwaiter();
           if (!awaiter2.get_IsCompleted()) {
-            num = (<>1__state = 3);
-            <>u__1 = awaiter2;
-            <>t__builder.AwaitUnsafeOnCompleted(awaiter2, *this);
+            num = (__1__state = 3);
+            __u__1 = awaiter2;
+            __t__builder.AwaitUnsafeOnCompleted(awaiter2, *this);
             return;
           }
           break;
@@ -668,16 +668,16 @@ void BufferedStream___::_CopyToAsyncCore_d__70::MoveNext() {
       }
     }
   } catch (Exception exception) {
-    <>1__state = -2;
-    <>t__builder.SetException(exception);
+    __1__state = -2;
+    __t__builder.SetException(exception);
     return;
   }
-  <>1__state = -2;
-  <>t__builder.SetResult();
+  __1__state = -2;
+  __t__builder.SetResult();
 }
 
 void BufferedStream___::_CopyToAsyncCore_d__70::SetStateMachine(IAsyncStateMachine stateMachine) {
-  <>t__builder.SetStateMachine(stateMachine);
+  __t__builder.SetStateMachine(stateMachine);
 }
 
 Stream BufferedStream___::get_UnderlyingStream() {

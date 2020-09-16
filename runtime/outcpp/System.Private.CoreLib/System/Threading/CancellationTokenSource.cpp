@@ -30,7 +30,7 @@ using namespace System::Collections::Generic;
 using namespace System::Threading::Tasks;
 
 void CancellationTokenSource___::CallbackNode___::__c___::cctor() {
-  <>9 = rt::newobj<__c>();
+  __9 = rt::newobj<__c>();
 }
 
 void CancellationTokenSource___::CallbackNode___::__c___::ctor() {
@@ -80,7 +80,7 @@ void Linked2CancellationTokenSource___::Dispose(Boolean disposing) {
 }
 
 void LinkedNCancellationTokenSource___::__c___::cctor() {
-  <>9 = rt::newobj<__c>();
+  __9 = rt::newobj<__c>();
 }
 
 void LinkedNCancellationTokenSource___::__c___::ctor() {
@@ -158,7 +158,7 @@ Boolean CancellationTokenSource___::CallbackPartition___::Unregister(Int64 id, C
 }
 
 void CancellationTokenSource___::__c___::cctor() {
-  <>9 = rt::newobj<__c>();
+  __9 = rt::newobj<__c>();
 }
 
 void CancellationTokenSource___::__c___::ctor() {

@@ -36,7 +36,7 @@ void ManifestBuilder___::ChannelInfo___::ctor() {
 }
 
 void ManifestBuilder___::__c___::cctor() {
-  <>9 = rt::newobj<__c>();
+  __9 = rt::newobj<__c>();
 }
 
 void ManifestBuilder___::__c___::ctor() {

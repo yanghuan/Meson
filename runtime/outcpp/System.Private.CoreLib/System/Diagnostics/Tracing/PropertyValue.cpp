@@ -16,7 +16,7 @@ void PropertyValue::TypeHelper___::ctor() {
 }
 
 void PropertyValue::__c___::cctor() {
-  <>9 = rt::newobj<__c>();
+  __9 = rt::newobj<__c>();
 }
 
 void PropertyValue::__c___::ctor() {

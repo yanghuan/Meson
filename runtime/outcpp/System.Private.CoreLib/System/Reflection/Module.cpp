@@ -11,7 +11,7 @@
 
 namespace System::Private::CoreLib::System::Reflection::ModuleNamespace {
 void Module___::__c___::cctor() {
-  <>9 = rt::newobj<__c>();
+  __9 = rt::newobj<__c>();
 }
 
 void Module___::__c___::ctor() {

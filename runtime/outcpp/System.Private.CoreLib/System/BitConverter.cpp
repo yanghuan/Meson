@@ -20,7 +20,7 @@ using namespace System::Runtime::Intrinsics;
 using namespace System::Runtime::Intrinsics::X86;
 
 void BitConverter::__c___::cctor() {
-  <>9 = rt::newobj<__c>();
+  __9 = rt::newobj<__c>();
 }
 
 void BitConverter::__c___::ctor() {

@@ -23,7 +23,7 @@ using namespace System::Collections::Generic;
 using namespace System::Threading;
 
 void EventListener___::__c___::cctor() {
-  <>9 = rt::newobj<__c>();
+  __9 = rt::newobj<__c>();
 }
 
 void EventListener___::__c___::ctor() {

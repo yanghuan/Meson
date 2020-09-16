@@ -10,7 +10,7 @@ namespace System::Private::CoreLib::System::Runtime::InteropServices::CustomMars
 using namespace System::Collections;
 
 void EnumerableToDispatchMarshaler___::__c___::cctor() {
-  <>9 = rt::newobj<__c>();
+  __9 = rt::newobj<__c>();
 }
 
 void EnumerableToDispatchMarshaler___::__c___::ctor() {

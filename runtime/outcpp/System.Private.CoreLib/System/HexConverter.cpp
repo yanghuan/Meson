@@ -7,7 +7,7 @@
 
 namespace System::Private::CoreLib::System::HexConverterNamespace {
 void HexConverter::__c___::cctor() {
-  <>9 = rt::newobj<__c>();
+  __9 = rt::newobj<__c>();
 }
 
 void HexConverter::__c___::ctor() {

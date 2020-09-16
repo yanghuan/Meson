@@ -1041,7 +1041,7 @@ namespace Meson.Compiler {
       if (field.TryGetBackingFieldName(out string name)) {
         return name;
       }
-      return field.Name;
+      return field.Name.CheckBadName();
     }
 
     public static string RemoveSpeacialChars(this string name) {

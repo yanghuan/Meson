@@ -21,7 +21,7 @@ using namespace Internal::Runtime::CompilerServices;
 using namespace System::Text;
 
 void CalendarData___::__c___::cctor() {
-  <>9 = rt::newobj<__c>();
+  __9 = rt::newobj<__c>();
 }
 
 void CalendarData___::__c___::ctor() {

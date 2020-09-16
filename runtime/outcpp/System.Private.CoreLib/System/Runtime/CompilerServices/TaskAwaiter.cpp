@@ -21,7 +21,7 @@ using namespace System::Runtime::ExceptionServices;
 using namespace System::Threading::Tasks;
 
 void TaskAwaiter<>::__c___::cctor() {
-  <>9 = rt::newobj<__c>();
+  __9 = rt::newobj<__c>();
 }
 
 void TaskAwaiter<>::__c___::ctor() {

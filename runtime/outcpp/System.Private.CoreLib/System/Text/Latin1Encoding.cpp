@@ -28,7 +28,7 @@ void Latin1EncodingSealed___::ctor() {
 }
 
 void Latin1Encoding___::__c___::cctor() {
-  <>9 = rt::newobj<__c>();
+  __9 = rt::newobj<__c>();
 }
 
 void Latin1Encoding___::__c___::ctor() {
