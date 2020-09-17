@@ -1275,8 +1275,8 @@ void Type___::cctor() {
   EmptyTypes = Array<>::in::Empty<Type>();
   Missing = Missing::in::Value;
   FilterAttribute = &FilterAttributeImpl;
-  FilterName = &_cctor_b__273_0;
-  FilterNameIgnoreCase = &_cctor_b__273_1;
+  FilterName = {__c::in::__9, &__c::in::_cctor_b__273_0};
+  FilterNameIgnoreCase = {__c::in::__9, &__c::in::_cctor_b__273_1};
 }
 
 } // namespace System::Private::CoreLib::System::TypeNamespace

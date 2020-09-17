@@ -1935,7 +1935,7 @@ ParsingError Uri___::CheckSchemeSyntax(ReadOnlySpan<Char> span, UriParser& synta
   {
     Char* value = span;
     SpanAction<Char, ValueTuple<IntPtr, Int32>> as = __c::in::__9__151_1;
-    lwrCaseScheme = String::in::Create(span.get_Length(), {(IntPtr)(void*)value, span.get_Length()}, as != nullptr ? as : (__c::in::__9__151_1 = &_CheckSchemeSyntax_b__151_1));
+    lwrCaseScheme = String::in::Create(span.get_Length(), {(IntPtr)(void*)value, span.get_Length()}, as != nullptr ? as : (__c::in::__9__151_1 = {__c::in::__9, &__c::in::_CheckSchemeSyntax_b__151_1}));
   }
   syntax = UriParser::in::FindOrFetchAsUnknownV1Syntax(lwrCaseScheme);
   return ParsingError::None;

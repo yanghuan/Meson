@@ -92,6 +92,15 @@ namespace Meson.Compiler {
       }
     }
 
+    private static bool IsPrimitiveValueCode(KnownTypeCode code) {
+      switch (code) {
+        case KnownTypeCode.IntPtr:
+        case KnownTypeCode.UIntPtr:
+          return true;
+      }
+      return code >= KnownTypeCode.Boolean && code <= KnownTypeCode.Double;
+    }
+
     private void VisitStruct(ITypeDefinition type) {
       var template = type.GetTemplateSyntax();
       ClassSyntax node = new ClassSyntax(type.Name.CheckBadName(), true) {
@@ -114,7 +123,7 @@ namespace Meson.Compiler {
         typeArgument = node.Name.Generic(template.TypeNames);
       }
       var generic = ((IdentifierSyntax)baseType.Name.FirstCharLow()).Generic(typeArgument);
-      if (type.KnownTypeCode >= KnownTypeCode.Boolean && type.KnownTypeCode <= KnownTypeCode.Double) {
+      if (IsPrimitiveValueCode(type.KnownTypeCode)) {
         generic.GenericArguments.Add(IdentifierSyntax.TypeCode.TwoColon(type.KnownTypeCode.ToString()));
       }
       node.Bases.Add(new BaseSyntax(generic));
@@ -734,6 +743,29 @@ namespace Meson.Compiler {
               getAllocSize.Body.Add(IdentifierSyntax.GetAllocSize.Invation(length).Return());
               node.Add(getAllocSize);
             }
+            break;
+          }
+        case KnownTypeCode.IntPtr:
+        case KnownTypeCode.UIntPtr: {
+            string typeName = type.KnownTypeCode == KnownTypeCode.IntPtr ? "intptr_t" : "uintptr_t";
+            var field = type.Fields.Single(i => !i.IsStatic);
+            var ret = $"return *reinterpret_cast<{typeName}*>({field.Name})".AsIdentifier();
+            var getValue = new MethodDefinitionSyntax(IdentifierSyntax.Get, null, new RefExpressionSyntax(typeName)) {
+              AccessibilityToken = Accessibility.Public.ToTokenString(),
+              IsNoexcept = true,
+              Body = new BlockSyntax() { IsSingleLine = true },
+            };
+            getValue.Body.Add(ret);
+            node.Add(getValue);
+
+            var getValueConst = new MethodDefinitionSyntax(IdentifierSyntax.Get, null, typeName) {
+              AccessibilityToken = Accessibility.Public.ToTokenString(),
+              IsNoexcept = true,
+              IsConst = true,
+              Body = new BlockSyntax() { IsSingleLine = true },
+            };
+            getValueConst.Body.Add(ret);
+            node.Add(getValueConst);
             break;
           }
         case KnownTypeCode.NullableOfT: {

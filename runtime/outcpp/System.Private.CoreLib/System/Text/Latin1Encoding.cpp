@@ -359,7 +359,7 @@ String Latin1Encoding___::GetString(Array<Byte> bytes) {
     ThrowHelper::ThrowArgumentNullException(ExceptionArgument::bytes);
   }
   SpanAction<Char, ValueTuple<Latin1Encoding, Array<Byte>>> as = __c::in::__9__29_0;
-  return String::in::Create(bytes->get_Length(), {(Latin1Encoding)this, bytes}, as != nullptr ? as : (__c::in::__9__29_0 = &_GetString_b__29_0));
+  return String::in::Create(bytes->get_Length(), {(Latin1Encoding)this, bytes}, as != nullptr ? as : (__c::in::__9__29_0 = {__c::in::__9, &__c::in::_GetString_b__29_0}));
 }
 
 String Latin1Encoding___::GetString(Array<Byte> bytes, Int32 index, Int32 count) {
@@ -373,7 +373,7 @@ String Latin1Encoding___::GetString(Array<Byte> bytes, Int32 index, Int32 count)
     ThrowHelper::ThrowArgumentOutOfRangeException(ExceptionArgument::bytes, ExceptionResource::ArgumentOutOfRange_IndexCountBuffer);
   }
   SpanAction<Char, ValueTuple<Latin1Encoding, Array<Byte>, Int32>> as = __c::in::__9__30_0;
-  return String::in::Create(count, {(Latin1Encoding)this, bytes, index}, as != nullptr ? as : (__c::in::__9__30_0 = &_GetString_b__30_0));
+  return String::in::Create(count, {(Latin1Encoding)this, bytes, index}, as != nullptr ? as : (__c::in::__9__30_0 = {__c::in::__9, &__c::in::_GetString_b__30_0}));
 }
 
 Int32 Latin1Encoding___::GetCharsCommon(Byte* pBytes, Int32 byteCount, Char* pChars, Int32 charCount) {

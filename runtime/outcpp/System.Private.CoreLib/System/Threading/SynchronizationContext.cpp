@@ -43,7 +43,7 @@ void SynchronizationContext___::Send(SendOrPostCallback d, Object state) {
 
 void SynchronizationContext___::Post(SendOrPostCallback d, Object state) {
   Action<ValueTuple<SendOrPostCallback, Object>> as = __c::in::__9__8_0;
-  ThreadPool::QueueUserWorkItem(as != nullptr ? as : (__c::in::__9__8_0 = &_Post_b__8_0), {d, state}, false);
+  ThreadPool::QueueUserWorkItem(as != nullptr ? as : (__c::in::__9__8_0 = {__c::in::__9, &__c::in::_Post_b__8_0}), {d, state}, false);
 }
 
 void SynchronizationContext___::OperationStarted() {

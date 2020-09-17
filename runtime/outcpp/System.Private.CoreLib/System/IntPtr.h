@@ -23,7 +23,7 @@ FORWARD(String)
 namespace IntPtrNamespace {
 using namespace System::Globalization;
 using namespace System::Runtime::Serialization;
-struct IntPtr : public valueType<IntPtr> {
+struct IntPtr : public valueType<IntPtr, rt::TypeCode::IntPtr> {
   public: using interface = rt::TypeList<IEquatable<IntPtr>, IComparable<>, IComparable<IntPtr>, IFormattable, ISerializable>;
   public: static Int32 get_Size();
   public: static IntPtr get_MaxValue();
@@ -66,6 +66,8 @@ struct IntPtr : public valueType<IntPtr> {
   public: explicit IntPtr() {}
   private: void* _value;
   public: static IntPtr Zero;
+  public: intptr_t& get() noexcept { return *reinterpret_cast<intptr_t*>(_value); }
+  public: intptr_t get() const noexcept { return *reinterpret_cast<intptr_t*>(_value); }
 };
 } // namespace IntPtrNamespace
 using IntPtr = IntPtrNamespace::IntPtr;

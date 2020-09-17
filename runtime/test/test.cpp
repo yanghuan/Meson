@@ -16,6 +16,7 @@
 #include <System.Private.CoreLib/System/Int64-dep.h>
 #include <System.Private.CoreLib/System/UInt64-dep.h>
 #include <System.Private.CoreLib/System/String-dep.h>
+#include <System.Private.CoreLib/System/Boolean-dep.h>
 #include <System.Private.CoreLib/System/Threading/Volatile-dep.h>
 #include <System.Private.CoreLib/System/ArgumentException-dep.h>
 #include <System.Private.CoreLib/System/Action-dep.h>
@@ -103,18 +104,16 @@ void TestInterfaces() {
 }
 
 void TestAction() {
+  constexpr bool aa =  rt::IsRef<IConvertible> && rt::IsInterfaceConvertible<typename rt::RefElementType<IConvertible>::type, Boolean>;
   //Object o = nullptr;
   //Action<> a = { o, &Object::in::GetHashCode };
+  Boolean a = false;
+  IConvertible ic = a;
+  double d = a;
 }
 
-template <class T = Object>
-void Test(Object a) {
-  a.get();
-}
-
-void Test(String a) {
-  a.get();
-  IFormatProvider aa(CultureInfo::in::get_InvariantCulture());
+void Test() {
+  //IFormatProvider aa(CultureInfo::in::get_InvariantCulture());
   //constexpr bool cc =  rt::IsInterfacesContains<CultureInfo::in::interface, IFormatProvider::in>;
   //constexpr bool b1 = rt::CodeOf<IFormatProvider::in> == rt::TypeCode::Interface;
   //constexpr auto b2 = IFormatProvider::in::code;
@@ -123,12 +122,17 @@ void Test(String a) {
   constexpr auto b4 = rt::GetTypeCode<Object::in>::value;
   constexpr auto b5 = rt::GetTypeCode<String::in>::value;
   constexpr auto b6 = rt::GetTypeCode<IConvertible::in>::value;
-  constexpr bool dd =  rt::IsInterfaceConvertible<IFormatProvider::in, CultureInfo::in>::value;
+  constexpr bool dd =  rt::IsInterfaceConvertible<IFormatProvider::in, CultureInfo::in>;
   
 }
 
 int main() {
-  Test("dddd");
+  void* p = 2000;
+  int a = 100;
+  if (p != a) {
+
+  }
+
   return 0;
 }
 

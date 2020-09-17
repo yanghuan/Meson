@@ -9,6 +9,8 @@ namespace Test {
 
     private static void Main(string[] args) {
       Console.WriteLine(args);
+      nint a = 20;
+      nuint b = 21;
     }
 
     private void f() {

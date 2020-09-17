@@ -520,7 +520,7 @@ String Path::JoinInternal(ReadOnlySpan<Char> first, ReadOnlySpan<Char> second) {
     {
       Char* value2 = &MemoryMarshal::GetReference(second);
       SpanAction<Char, ValueTuple<IntPtr, Int32, IntPtr, Int32, Boolean>> as = __c::in::__9__37_0;
-      return String::in::Create(first.get_Length() + second.get_Length() + ((!flag) ? 1 : 0), {(IntPtr)(void*)value, first.get_Length(), (IntPtr)(void*)value2, second.get_Length(), flag}, as != nullptr ? as : (__c::in::__9__37_0 = &_JoinInternal_b__37_0));
+      return String::in::Create(first.get_Length() + second.get_Length() + ((!flag) ? 1 : 0), {(IntPtr)(void*)value, first.get_Length(), (IntPtr)(void*)value2, second.get_Length(), flag}, as != nullptr ? as : (__c::in::__9__37_0 = {__c::in::__9, &__c::in::_JoinInternal_b__37_0}));
     }
   }
 }
@@ -535,7 +535,7 @@ String Path::JoinInternal(ReadOnlySpan<Char> first, ReadOnlySpan<Char> second, R
       {
         Char* value3 = &MemoryMarshal::GetReference(third);
         SpanAction<Char, ValueTuple<IntPtr, Int32, IntPtr, Int32, IntPtr, Int32, Boolean, Boolean>> as = __c::in::__9__38_0;
-        return String::in::Create(first.get_Length() + second.get_Length() + third.get_Length() + ((!flag) ? 1 : 0) + ((!flag2) ? 1 : 0), {(IntPtr)(void*)value, first.get_Length(), (IntPtr)(void*)value2, second.get_Length(), (IntPtr)(void*)value3, third.get_Length(), flag, flag2}, as != nullptr ? as : (__c::in::__9__38_0 = &_JoinInternal_b__38_0));
+        return String::in::Create(first.get_Length() + second.get_Length() + third.get_Length() + ((!flag) ? 1 : 0) + ((!flag2) ? 1 : 0), {(IntPtr)(void*)value, first.get_Length(), (IntPtr)(void*)value2, second.get_Length(), (IntPtr)(void*)value3, third.get_Length(), flag, flag2}, as != nullptr ? as : (__c::in::__9__38_0 = {__c::in::__9, &__c::in::_JoinInternal_b__38_0}));
       }
     }
   }
@@ -554,7 +554,7 @@ String Path::JoinInternal(ReadOnlySpan<Char> first, ReadOnlySpan<Char> second, R
         {
           Char* value4 = &MemoryMarshal::GetReference(fourth);
           SpanAction<Char, ValueTuple<IntPtr, Int32, IntPtr, Int32, IntPtr, Int32, IntPtr, ValueTuple<Int32, Boolean, Boolean, Boolean>>> as = __c::in::__9__39_0;
-          return String::in::Create(first.get_Length() + second.get_Length() + third.get_Length() + fourth.get_Length() + ((!flag) ? 1 : 0) + ((!flag2) ? 1 : 0) + ((!flag3) ? 1 : 0), {(IntPtr)(void*)value, first.get_Length(), (IntPtr)(void*)value2, second.get_Length(), (IntPtr)(void*)value3, third.get_Length(), (IntPtr)(void*)value4, fourth.get_Length(), flag, flag2, flag3}, as != nullptr ? as : (__c::in::__9__39_0 = &_JoinInternal_b__39_0));
+          return String::in::Create(first.get_Length() + second.get_Length() + third.get_Length() + fourth.get_Length() + ((!flag) ? 1 : 0) + ((!flag2) ? 1 : 0) + ((!flag3) ? 1 : 0), {(IntPtr)(void*)value, first.get_Length(), (IntPtr)(void*)value2, second.get_Length(), (IntPtr)(void*)value3, third.get_Length(), (IntPtr)(void*)value4, fourth.get_Length(), flag, flag2, flag3}, as != nullptr ? as : (__c::in::__9__39_0 = {__c::in::__9, &__c::in::_JoinInternal_b__39_0}));
         }
       }
     }

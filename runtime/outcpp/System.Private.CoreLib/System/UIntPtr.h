@@ -24,7 +24,7 @@ FORWARDS(UInt64)
 namespace UIntPtrNamespace {
 using namespace System::Globalization;
 using namespace System::Runtime::Serialization;
-struct UIntPtr : public valueType<UIntPtr> {
+struct UIntPtr : public valueType<UIntPtr, rt::TypeCode::UIntPtr> {
   public: using interface = rt::TypeList<IEquatable<UIntPtr>, IComparable<>, IComparable<UIntPtr>, IFormattable, ISerializable>;
   public: static Int32 get_Size();
   public: static UIntPtr get_MaxValue();
@@ -67,6 +67,8 @@ struct UIntPtr : public valueType<UIntPtr> {
   public: explicit UIntPtr() {}
   private: void* _value;
   public: static UIntPtr Zero;
+  public: uintptr_t& get() noexcept { return *reinterpret_cast<uintptr_t*>(_value); }
+  public: uintptr_t get() const noexcept { return *reinterpret_cast<uintptr_t*>(_value); }
 };
 } // namespace UIntPtrNamespace
 using UIntPtr = UIntPtrNamespace::UIntPtr;

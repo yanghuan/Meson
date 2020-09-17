@@ -299,8 +299,7 @@ namespace Meson.Compiler {
                 if (method.IsStatic) {
                   return pointer;
                 } else {
-                  var typeName = GetTypeName(method.DeclaringType);
-                  return new InitializationExpressionSyntax(IdentifierSyntax.This.CastTo(typeName), pointer);
+                  return BuildDelegateExpression(method.DeclaringType, pointer);
                 }
               }
               break;
@@ -585,6 +584,15 @@ namespace Meson.Compiler {
       return !(node.Parent is InvocationExpression);
     }
 
+    private static InitializationExpressionSyntax BuildDelegateExpression(ExpressionSyntax target, ExpressionSyntax methodPointer) {
+      return new InitializationExpressionSyntax(target, methodPointer);
+    }
+
+    private InitializationExpressionSyntax BuildDelegateExpression(IType thisType, ExpressionSyntax methodPointer) {
+      var typeName = GetTypeName(thisType);
+      return BuildDelegateExpression(IdentifierSyntax.This.CastTo(typeName), methodPointer);
+    }
+
     private bool IsDelegateExpression(AstNode node, IMethod symbol, ExpressionSyntax target, ExpressionSyntax name, out ExpressionSyntax delegateExpression) {
       if (IsDelegateExpressionNode(node)) {
         if (symbol.IsStatic) {
@@ -597,7 +605,7 @@ namespace Meson.Compiler {
           if (symbol.DeclaringTypeDefinition.IsRefType()) {
             typeName = typeName.WithIn();
           }
-          delegateExpression = new InitializationExpressionSyntax(target, typeName.TwoColon(name).Address());
+          delegateExpression = BuildDelegateExpression(target, typeName.TwoColon(name).Address());
         }
         return true;
       }
@@ -706,11 +714,29 @@ namespace Meson.Compiler {
         var typeDefinition = (ITypeDefinition)objectCreateExpression.Type.GetSymbol();
         Contract.Assert(typeDefinition.Kind == TypeKind.Delegate);
         method = typeDefinition.Methods.First();
-        Contract.Assert(objectCreateExpression.Arguments.Count == 1);
-        var rs = (MethodGroupResolveResult)objectCreateExpression.Arguments.First().GetResolveResult();
-        var argument = (IMethod)rs.MethodsGroupedByDeclaringType.First().First();
-        var name = GetMemberName(argument);
-        arguments = new List<ExpressionSyntax>() { name.Address() };
+        var argument = objectCreateExpression.Arguments.First();
+        var rs = (MethodGroupResolveResult)argument.GetResolveResult();
+        var argumentMethod = (IMethod)rs.MethodsGroupedByDeclaringType.First().First();
+        var name = GetMemberName(argumentMethod);
+        ExpressionSyntax delegateExpression;
+        if (!argumentMethod.DeclaringTypeDefinition.EQ(MethodSymbol.DeclaringTypeDefinition)) {
+          var methodTypeName = GetTypeName(argumentMethod.DeclaringTypeDefinition);
+          if (argumentMethod.DeclaringTypeDefinition.IsRefType()) {
+            methodTypeName = methodTypeName.WithIn();
+          }
+          delegateExpression = methodTypeName.TwoColon(name).Address();
+        } else {
+          delegateExpression = name.Address();
+        }
+        if (!argumentMethod.IsStatic) {
+          if (argument is MemberReferenceExpression memberReference) {
+            var target = memberReference.Target.AcceptExpression(this);
+            delegateExpression = BuildDelegateExpression(target, delegateExpression);
+          } else {
+            delegateExpression = BuildDelegateExpression(argumentMethod.DeclaringType, delegateExpression);
+          }
+        }
+        arguments = new List<ExpressionSyntax>() { delegateExpression };
       }
       return typeName;
     }
@@ -729,7 +755,6 @@ namespace Meson.Compiler {
             return arguments.First();
           }
       }
-
       var name = method.DeclaringType.IsKnownType(KnownTypeCode.String) ? IdentifierSyntax.NewString : IdentifierSyntax.NewObj;
       return name.Generic(typeName).Invation(arguments);
     }
