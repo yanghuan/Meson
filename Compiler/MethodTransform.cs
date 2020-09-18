@@ -1277,7 +1277,8 @@ namespace Meson.Compiler {
     }
 
     private static bool IsStructDefaultParameterExists(IMethod method) {
-      return method.Parameters.Any(i => i.HasConstantValueInSignature && i.GetConstantValue() == null && i.Type.Kind == TypeKind.Struct);
+      var typeDefinition = method.DeclaringTypeDefinition;
+      return method.Parameters.Any(i => i.HasConstantValueInSignature && i.GetConstantValue() == null && i.Type.Kind == TypeKind.Struct && !typeDefinition.HasNoStaticTypeField(i.Type));
     }
 
     private MethodDefinitionSyntax BuildMethodDeclaration(BlockStatement body) {

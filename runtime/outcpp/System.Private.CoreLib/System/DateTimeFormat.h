@@ -1,6 +1,6 @@
 #pragma once
 
-#include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/Int32.h>
 
 namespace System::Private::CoreLib::System::Text {
 FORWARD(StringBuilder)
@@ -14,7 +14,6 @@ FORWARDS(Boolean)
 FORWARDS(Char)
 FORWARDS(DateTime)
 FORWARD(IFormatProvider)
-FORWARDS(Int32)
 FORWARDS(ReadOnlySpan, T)
 FORWARDS(Span, T)
 FORWARD(String)

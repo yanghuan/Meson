@@ -1,12 +1,12 @@
 #pragma once
 
+#include <System.Private.CoreLib/System/Int32.h>
 #include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System {
 FORWARDS(ArraySegment, T)
 FORWARDS(Boolean)
 FORWARD(IDisposable)
-FORWARDS(Int32)
 FORWARDS(Memory, T)
 FORWARDS(Span, T)
 } // namespace System::Private::CoreLib::System

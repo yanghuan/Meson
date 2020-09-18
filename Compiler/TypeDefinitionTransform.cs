@@ -224,11 +224,12 @@ namespace Meson.Compiler {
     }
 
     private static void CheckStructDefaultParameters(IMethod method, MethodDefinitionSyntax methodDefinition) {
+      var typeDefinition = method.DeclaringTypeDefinition;
       int index = 0;
       foreach (var parameter in methodDefinition.Parameters) {
         if (parameter.Value == IdentifierSyntax.Default) {
           var parameterSymbol = method.Parameters[index];
-          if (parameterSymbol.Type.Kind != TypeKind.TypeParameter) {
+          if (parameterSymbol.Type.Kind != TypeKind.TypeParameter && !typeDefinition.HasNoStaticTypeField(parameterSymbol.Type)) {
             Contract.Assert(parameterSymbol.Type.Kind == TypeKind.Struct);
             var template = methodDefinition.Template;
             if (template == null) {
@@ -276,8 +277,8 @@ namespace Meson.Compiler {
           IsStatic = method.IsStatic || isStringCtorMethod,
           Accessibility = isPublic ? Accessibility.Public : method.Accessibility,
         };
-        CheckStructDefaultParameters(method, methodDefinition);
       }
+      CheckStructDefaultParameters(method, methodDefinition);
       node.Statements.Add(methodDefinition);
       if (method.HasBody) {
         if ((!method.IsStatic || method.ReturnType.IsReferenceType == true) && method.AccessorOwner is IProperty property && property.IsPropertyField()) {
@@ -361,7 +362,20 @@ namespace Meson.Compiler {
     }
 
     private static bool IsConstantValueImportType(IType type) {
-      return type.Kind == TypeKind.Enum || type.IsKnownType(KnownTypeCode.String) || type.IsKnownType(KnownTypeCode.Boolean);
+      if (type.Kind == TypeKind.Enum) {
+        return true;
+      }
+      var typeDefinition = type.GetDefinition();
+      if (typeDefinition != null) {
+        switch (typeDefinition.KnownTypeCode) {
+          case KnownTypeCode.Boolean:
+          //case KnownTypeCode.Char:
+          case KnownTypeCode.String:
+          case KnownTypeCode.Int32:
+            return true;
+        }
+      }
+      return false;
     }
 
     private ParameterSyntax GetParameterSyntax(IParameter parameter, IMethod method, ITypeDefinition typeDefinition) {

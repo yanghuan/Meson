@@ -437,6 +437,10 @@ namespace Meson.Compiler {
       return type.KnownTypeCode == KnownTypeCode.Array;
     }
 
+    public static bool HasNoStaticTypeField(this ITypeDefinition typeDefinition, IType type) {
+      return typeDefinition.Fields.Any(i => !i.IsStatic && i.Type.EQ(type));
+    }
+
     public static string ToTokenString(this Accessibility a) {
       return a switch
       {

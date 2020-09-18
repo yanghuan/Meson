@@ -1,12 +1,11 @@
 #pragma once
 
-#include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/Int32.h>
 
 namespace System::Private::CoreLib::System {
 FORWARDS(Boolean)
 FORWARDS(Byte)
 FORWARDS(Char)
-FORWARDS(Int32)
 FORWARDS(Span, T)
 FORWARDS(UInt32)
 FORWARDS(UInt64)

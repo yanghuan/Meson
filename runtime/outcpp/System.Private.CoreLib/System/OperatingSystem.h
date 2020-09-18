@@ -1,5 +1,6 @@
 #pragma once
 
+#include <System.Private.CoreLib/System/Int32.h>
 #include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System::Runtime::Serialization {
@@ -11,7 +12,6 @@ namespace System::Private::CoreLib::System {
 enum class PlatformID : int32_t;
 FORWARDS(Boolean)
 FORWARD(ICloneable)
-FORWARDS(Int32)
 FORWARD(String)
 FORWARD(Version)
 namespace OperatingSystemNamespace {

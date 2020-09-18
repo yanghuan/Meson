@@ -2,13 +2,13 @@
 
 #include <System.Private.CoreLib/System/Boolean.h>
 #include <System.Private.CoreLib/System/Diagnostics/Tracing/EventSource.h>
+#include <System.Private.CoreLib/System/Int32.h>
 
 namespace System::Private::CoreLib::System::Diagnostics::Tracing {
 FORWARD(EventCommandEventArgs)
 } // namespace System::Private::CoreLib::System::Diagnostics::Tracing
 namespace System::Private::CoreLib::System {
 FORWARDS(Guid)
-FORWARDS(Int32)
 FORWARDS(Int64)
 FORWARD(Object)
 FORWARD(String)

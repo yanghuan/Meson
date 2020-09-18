@@ -1,5 +1,6 @@
 #pragma once
 
+#include <System.Private.CoreLib/System/Int32.h>
 #include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System::Buffers {
@@ -9,7 +10,6 @@ namespace System::Private::CoreLib::System {
 FORWARDS(Boolean)
 FORWARDS(Byte)
 FORWARDS(Char)
-FORWARDS(Int32)
 FORWARDS(IntPtr)
 FORWARDS(ReadOnlySpan, T)
 FORWARDS(Span, T)

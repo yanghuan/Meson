@@ -7,7 +7,6 @@
 #include <string>
 #include <tuple>
 #include <type_traits>
-#include <compare>
 
 #include "Preprocessor.h"
 
@@ -656,13 +655,33 @@ namespace rt {
     static_assert(IsArithmeticCode(code));
 
     template <class T1> requires(IsNumerical<T1>) 
-    auto operator <=>(const T1& other) const noexcept {
-      return static_cast<const T*>(this)->get() <=> GetPrimitiveValue(other);
+    auto operator <(const T1& other) const noexcept {
+      return static_cast<const T*>(this)->get() < GetPrimitiveValue(other);
+    }
+
+    template <class T1> requires(IsNumerical<T1>) 
+    auto operator <=(const T1& other) const noexcept {
+      return static_cast<const T*>(this)->get() <= GetPrimitiveValue(other);
+    }
+
+    template <class T1> requires(IsNumerical<T1>) 
+    auto operator >(const T1& other) const noexcept {
+      return static_cast<const T*>(this)->get() > GetPrimitiveValue(other);
+    }
+
+    template <class T1> requires(IsNumerical<T1>) 
+    auto operator >=(const T1& other) const noexcept {
+      return static_cast<const T*>(this)->get() >= GetPrimitiveValue(other);
     }
 
     template <class T1> requires(IsNumerical<T1>) 
     bool operator ==(const T1& other) const noexcept {
       return static_cast<const T*>(this)->get() == GetPrimitiveValue(other);
+    }
+
+    template <class T1> requires(IsNumerical<T1>) 
+    bool operator !=(const T1& other) const noexcept {
+      return static_cast<const T*>(this)->get() != GetPrimitiveValue(other);
     }
 
     template <class T1> requires(IsNumerical<T1>) 
@@ -708,6 +727,20 @@ namespace rt {
     }
 
     template <class T1> requires(IsNumerical<T1>) 
+    T operator >>=(const T1& other) {
+      auto p = static_cast<T*>(this);
+      p->get() >>= GetPrimitiveValue(other);
+      return *p;
+    }
+
+    template <class T1> requires(IsNumerical<T1>) 
+    T operator <<=(const T1& other) {
+      auto p = static_cast<T*>(this);
+      p->get() <<= GetPrimitiveValue(other);
+      return *p;
+    }
+
+    template <class T1> requires(IsNumerical<T1>) 
     T operator +(const T1& other) const {
       return static_cast<const T*>(this)->get() + GetPrimitiveValue(other);
     }
@@ -725,6 +758,11 @@ namespace rt {
     template <class T1> requires(IsNumerical<T1>)
     T operator /(const T1& other) const {
       return static_cast<const T*>(this)->get() / GetPrimitiveValue(other);
+    }
+
+    template <class T1> requires(IsNumerical<T1>)
+    T operator %(const T1& other) const {
+      return static_cast<const T*>(this)->get() % GetPrimitiveValue(other);
     }
 
     template <class T1> requires(IsNumerical<T1>)
@@ -750,6 +788,11 @@ namespace rt {
     template <class T1> requires(IsNumerical<T1>)
     T operator <<(const T1& other) const {
       return static_cast<const T*>(this)->get() << GetPrimitiveValue(other);
+    }
+
+    template <class T1 = T> requires(IsArithmetic<T1>) 
+    T operator -() const noexcept {
+      return -static_cast<const T*>(this)->get();
     }
 
     template <class T1 = T> requires(IsArithmetic<T1>) 
@@ -829,6 +872,11 @@ namespace rt {
       return &(static_cast<T*>(this)->GetPinnableReference());
     }
 
+    template <class R> requires(std::is_same_v<R, decltype(T::op_Implicit(T()))>)
+    operator R() {
+      return T::op_Implicit(*static_cast<T*>(this));
+    }
+
     template <class R, class T1 = T> requires(std::is_same_v<R, decltype(T1::op_Explicit(T1()))>)
     explicit operator R() {
       return T::op_Explicit(*static_cast<T*>(this));
@@ -840,7 +888,7 @@ namespace rt {
     }
 
     template <class... Args>
-    constexpr auto operator [](Args&&... args) {
+    auto&& operator [](Args&&... args)  {
       return static_cast<T*>(this)->get_Item(std::forward<Args>(args)...);
     }
   };
@@ -1047,6 +1095,31 @@ inline constexpr T operator +(T a, T1 b) {
 }
 
 template <class T, class T1> requires(std::is_arithmetic_v<T> && rt::IsArithmetic<T1>) 
+inline constexpr bool operator <(T a, T1 b) { 
+  return a < b.get();
+}
+
+template <class T, class T1> requires(std::is_arithmetic_v<T> && rt::IsArithmetic<T1>) 
+inline constexpr bool operator <=(T a, T1 b) { 
+  return a <= b.get();
+}
+
+template <class T, class T1> requires(std::is_arithmetic_v<T> && rt::IsArithmetic<T1>) 
+inline constexpr bool operator >(T a, T1 b) { 
+  return a <= b.get();
+}
+
+template <class T, class T1> requires(std::is_arithmetic_v<T> && rt::IsArithmetic<T1>) 
+inline constexpr bool operator >=(T a, T1 b) { 
+  return a <= b.get();
+}
+
+template <class T, class T1> requires(std::is_arithmetic_v<T> && rt::IsArithmetic<T1>) 
+inline constexpr auto operator +(T a, T1 b) { 
+  return a + b.get();
+}
+
+template <class T, class T1> requires(std::is_arithmetic_v<T> && rt::IsArithmetic<T1>) 
 inline constexpr auto operator -(T a, T1 b) { 
   return a - b.get();
 }
@@ -1064,6 +1137,17 @@ inline constexpr auto operator &(T a, T1 b) {
 template <class T, class T1> requires(std::is_arithmetic_v<T> && rt::IsArithmetic<T1>) 
 inline constexpr auto operator |(T a, T1 b) { 
   return b | a;
+}
+
+
+template <class T, class T1> requires(std::is_arithmetic_v<T> && rt::IsArithmetic<T1>) 
+inline constexpr auto operator >>(T a, T1 b) { 
+  return b >> a;
+}
+
+template <class T, class T1> requires(std::is_arithmetic_v<T> && rt::IsArithmetic<T1>) 
+inline constexpr auto operator <<(T a, T1 b) { 
+  return b << a;
 }
 
 template <class T> requires(std::is_enum_v<T>) 
