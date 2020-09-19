@@ -320,7 +320,7 @@ Int32 TextReader___::ReadBlock(Array<Char> buffer, Int32 index, Int32 count) {
   Int32 num2;
   do {
     num += (num2 = Read(buffer, index + num, count - num));
-  } while (num2 > 0 && num < count)
+  } while (num2 > 0 && num < count);
   return num;
 }
 

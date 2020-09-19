@@ -145,7 +145,7 @@ void SpinLock::ContinueTryEnter(Int32 millisecondsTimeout, Boolean& lockTaken) {
         return;
       }
     }
-  } while (spinWait.get_Count() % 10 != 0 || millisecondsTimeout == -1 || TimeoutHelper::UpdateTimeOut(startTime, millisecondsTimeout) > 0)
+  } while (spinWait.get_Count() % 10 != 0 || millisecondsTimeout == -1 || TimeoutHelper::UpdateTimeOut(startTime, millisecondsTimeout) > 0);
   DecrementWaiters();
 }
 

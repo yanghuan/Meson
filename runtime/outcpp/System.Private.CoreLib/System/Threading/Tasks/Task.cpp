@@ -817,7 +817,7 @@ Int32 Task___<>::NewId() {
   Int32 num;
   do {
     num = Interlocked::Increment(s_taskIdCounter);
-  } while (num == 0)
+  } while (num == 0);
   if (TplEventSource::in::Log->IsEnabled()) {
     TplEventSource::in::Log->NewID(num);
   }

@@ -28,7 +28,7 @@ void _IOCompletionCallback___::PerformIOCompletionCallback(UInt32 errorCode, UIn
       ExecutionContext::in::RunInternal(iOCompletionCallback2->_executionContext, _ccb, iOCompletionCallback2);
     }
     OverlappedData::in::CheckVMForIOPacket(pNativeOverlapped, errorCode, numBytes);
-  } while (pNativeOverlapped != nullptr)
+  } while (pNativeOverlapped != nullptr);
 }
 
 void _IOCompletionCallback___::cctor() {

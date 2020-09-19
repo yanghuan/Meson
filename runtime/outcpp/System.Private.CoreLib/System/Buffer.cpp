@@ -46,12 +46,12 @@ void Buffer::_BulkMoveWithWriteBarrier(Byte& destination, Byte& source, UIntPtr 
       __BulkMoveWithWriteBarrier(destination, source, (UIntPtr)16384u);
       destination = Unsafe::AddByteOffset(destination, (UIntPtr)16384u);
       source = Unsafe::AddByteOffset(source, (UIntPtr)16384u);
-    } while (byteCount > 16384)
+    } while (byteCount > 16384);
   } else {
     do {
       byteCount -= 16384;
       __BulkMoveWithWriteBarrier(Unsafe::AddByteOffset(destination, byteCount), Unsafe::AddByteOffset(source, byteCount), (UIntPtr)16384u);
-    } while (byteCount > 16384)
+    } while (byteCount > 16384);
   }
   __BulkMoveWithWriteBarrier(destination, source, byteCount);
 }
@@ -169,7 +169,7 @@ void Buffer::Memmove(Byte* dest, Byte* src, UIntPtr len) {
           dest += 64;
           src += 64;
           uIntPtr = (UIntPtr)(void*)((UInt64)(Int64)(UInt64)uIntPtr - 1);
-        } while (uIntPtr != (UIntPtr)(void*)nullptr)
+        } while (uIntPtr != (UIntPtr)(void*)nullptr);
         len = (UIntPtr)((UInt64)len % 64);
         if (len <= 16) {
           *(Block16*)(ptr2 - 16) = *(Block16*)(ptr - 16);
@@ -222,7 +222,7 @@ void Buffer::Memmove(Byte& dest, Byte& src, UIntPtr len) {
           dest = Unsafe::Add(dest, 64);
           src = Unsafe::Add(src, 64);
           uIntPtr = (UIntPtr)(void*)((UInt64)(Int64)(UInt64)uIntPtr - 1);
-        } while (uIntPtr != (UIntPtr)(void*)nullptr)
+        } while (uIntPtr != (UIntPtr)(void*)nullptr);
         len = (UIntPtr)((UInt64)len % 64);
         if (len <= 16) {
           Unsafe::As<Byte, Block16>(Unsafe::Add(source2, -16)) = Unsafe::As<Byte, Block16>(Unsafe::Add(source, -16));

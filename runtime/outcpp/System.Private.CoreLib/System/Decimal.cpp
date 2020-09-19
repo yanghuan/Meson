@@ -230,7 +230,7 @@ UInt32 Decimal::DecCalc::Div96By64(Buf12& bufNum, UInt64 den) {
     do {
       num--;
       low += den;
-    } while (low >= den)
+    } while (low >= den);
     bufNum.set_Low64(low);
     return num;
   }
@@ -246,7 +246,7 @@ UInt32 Decimal::DecCalc::Div96By64(Buf12& bufNum, UInt64 den) {
     do {
       num--;
       low += den;
-    } while (low >= den)
+    } while (low >= den);
   }
   bufNum.set_Low64(low);
   return num;
@@ -285,7 +285,7 @@ IL_008b:
     num--;
     low += num3;
     num2 += u;
-  } while ((low >= num3 || num2++ >= u) && num2 >= u)
+  } while ((low >= num3 || num2++ >= u) && num2 >= u);
   goto IL_00b4;
 
 IL_00b4:
@@ -646,7 +646,7 @@ IL_015f:
       *(ptr2 + num15) = (UInt32)num13;
       num15++;
       num13 >>= 32;
-    } while (num15 <= num11)
+    } while (num15 <= num11);
     if (num13 != 0) {
       *(ptr2 + ++num11) = (UInt32)num13;
     }
@@ -827,7 +827,7 @@ Int32 Decimal::DecCalc::VarDecCmpSub(Decimal& d1, Decimal& d2) {
         return num;
       }
       num4 = (UInt32)num10;
-    } while ((num2 -= 9) > 0)
+    } while ((num2 -= 9) > 0);
   }
   UInt32 num11 = num4 - num6;
   if (num11 != 0) {
@@ -1396,7 +1396,7 @@ void Decimal::DecCalc::VarDecMod(DecCalc& d1, DecCalc& d2) {
         num4 += (d2.get_Mid() + ((UInt64)d2.get_High() << 32)) * num3;
         d2.set_Mid((UInt32)num4);
         d2.set_High((UInt32)(num4 >> 32));
-      } while ((num2 -= 9) > 0)
+      } while ((num2 -= 9) > 0);
       num2 = 0;
     }
     do {
@@ -1418,7 +1418,7 @@ void Decimal::DecCalc::VarDecMod(DecCalc& d1, DecCalc& d2) {
           value.U0 = (UInt32)num7;
           num7 >>= 32;
           value.set_High64(num7 + value.get_High64() * num6);
-        } while (num6 == 1000000000 && num2 < 0)
+        } while (num6 == 1000000000 && num2 < 0);
         d1.set_Low64(value.set_Low64());
         d1.set_High(value.U2);
       }
@@ -1436,7 +1436,7 @@ void Decimal::DecCalc::VarDecMod(DecCalc& d1, DecCalc& d2) {
       }
       VarDecModFull(d1, d2, num2);
       break;
-    } while (num2 < 0)
+    } while (num2 < 0);
   }
 }
 

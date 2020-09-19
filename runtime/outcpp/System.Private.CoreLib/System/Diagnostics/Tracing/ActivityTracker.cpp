@@ -243,7 +243,7 @@ void ActivityTracker___::OnStop(String providerName, String activityName, Int32 
       }
       activityInfo3 = activityInfo3->m_creator;
     }
-  } while (Interlocked::CompareExchange(activityInfo2->m_stopped, 1, 0) != 0)
+  } while (Interlocked::CompareExchange(activityInfo2->m_stopped, 1, 0) != 0);
   if (activityInfo == nullptr) {
     activityInfo = activityInfo2->m_creator;
   }

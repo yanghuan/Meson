@@ -738,7 +738,7 @@ namespace Meson.Compiler {
       });
     }
 
-    private static bool IsSameSignature(this IMethod symbol, IMethod other) {
+    public static bool IsSameSignature(this IMethod symbol, IMethod other) {
       if (symbol.TypeParameters.Count != other.TypeParameters.Count) {
         return false;
       }

@@ -218,7 +218,7 @@ void ThreadPoolWorkQueue___::WorkStealingQueueList::Add(WorkStealingQueue queue)
     queues = _queues;
     array = rt::newarr<Array<WorkStealingQueue>>(queues->get_Length() + 1);
     Array<>::in::Copy(queues, array, queues->get_Length());
-  } while (Interlocked::CompareExchange(_queues, array, queues) != queues)
+  } while (Interlocked::CompareExchange(_queues, array, queues) != queues);
 }
 
 void ThreadPoolWorkQueue___::WorkStealingQueueList::Remove(WorkStealingQueue queue) {
@@ -244,7 +244,7 @@ void ThreadPoolWorkQueue___::WorkStealingQueueList::Remove(WorkStealingQueue que
     }
     Array<>::in::Copy(queues, array, num);
     Array<>::in::Copy(queues, num + 1, array, num, array->get_Length() - num);
-  } while (Interlocked::CompareExchange(_queues, array, queues) != queues)
+  } while (Interlocked::CompareExchange(_queues, array, queues) != queues);
 }
 
 void ThreadPoolWorkQueue___::WorkStealingQueueList::cctor() {

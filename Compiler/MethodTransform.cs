@@ -2,12 +2,13 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Linq;
-
 using System.Text;
+
 using ICSharpCode.Decompiler.CSharp;
 using ICSharpCode.Decompiler.CSharp.Resolver;
 using ICSharpCode.Decompiler.CSharp.Syntax;
 using ICSharpCode.Decompiler.CSharp.Syntax.PatternMatching;
+using ICSharpCode.Decompiler.Semantics;
 using ICSharpCode.Decompiler.TypeSystem;
 using Meson.Compiler.CppAst;
 
@@ -151,6 +152,15 @@ namespace Meson.Compiler {
     public SyntaxNode VisitAssignmentExpression(AssignmentExpression assignmentExpression) {
       var left = assignmentExpression.Left.AcceptExpression(this);
       var right = assignmentExpression.Right.AcceptExpression(this);
+      if (right is LiteralExpressionSyntax && assignmentExpression.GetResolveResult() is OperatorResolveResult result && result.OperatorType == System.Linq.Expressions.ExpressionType.Assign) {
+        var leftType = result.Operands[0].Type;
+        var rightType = result.Operands[1].Type;
+        if (leftType.IsKnownType(KnownTypeCode.None) && !leftType.EQ(rightType)) {
+          var rightTypeName = GetTypeName(rightType);
+          right = right.CastTo(rightTypeName);
+        }
+      }
+
       var leftSymbol = assignmentExpression.Left.GetSymbol();
       if (leftSymbol != null) {
         switch (leftSymbol.SymbolKind) {
@@ -160,17 +170,6 @@ namespace Meson.Compiler {
                 invation.Arguments.Add(right);
                 return left;
               }
-              break;
-            }
-          case SymbolKind.Field: {
-              /*
-              var field = (IField)leftSymbol;
-              if (field.Type.Kind == TypeKind.Delegate) {
-                var rightSymbol = assignmentExpression.Right.GetSymbol();
-                if (rightSymbol != null && rightSymbol.SymbolKind == SymbolKind.Method) {
-                  right = new AddressExpressionSyntax(right);
-                }
-              }*/
               break;
             }
         }

@@ -583,7 +583,7 @@ UIntPtr ASCIIUtility::NarrowUtf16ToAscii(Char* pUtf16Buffer, Byte* pAsciiBuffer,
         Vector<Byte> value = Vector<>::Narrow(vector, vector2);
         Unsafe::WriteUnaligned(pAsciiBuffer + (UInt64)uIntPtr, value);
         uIntPtr = (UIntPtr)(void*)((UInt64)(Int64)(UInt64)uIntPtr + (UInt64)num4);
-      } while ((UInt64)uIntPtr <= (UInt64)uIntPtr2)
+      } while ((UInt64)uIntPtr <= (UInt64)uIntPtr2);
     }
   }
 
@@ -715,7 +715,7 @@ IL_00e7:
     vector2 = Sse2::in::PackUnsignedSaturate(vector, right3);
     Sse2::in::StoreAligned(pAsciiBuffer + (UInt64)uIntPtr2, vector2);
     uIntPtr2 = (UIntPtr)(void*)((UInt64)(Int64)(UInt64)uIntPtr2 + (UInt64)num);
-  } while ((UInt64)uIntPtr2 <= (UInt64)uIntPtr3)
+  } while ((UInt64)uIntPtr2 <= (UInt64)uIntPtr3);
   goto IL_0188;
 
 IL_00ca:
@@ -745,7 +745,7 @@ UIntPtr ASCIIUtility::WidenAsciiToUtf16(Byte* pAsciiBuffer, Char* pUtf16Buffer, 
         Unsafe::WriteUnaligned(pUtf16Buffer + (UInt64)uIntPtr, low);
         Unsafe::WriteUnaligned(pUtf16Buffer + (UInt64)uIntPtr + Vector<UInt16>::get_Count(), high);
         uIntPtr = (UIntPtr)(void*)((UInt64)(Int64)(UInt64)uIntPtr + (UInt64)num);
-      } while ((UInt64)uIntPtr <= (UInt64)uIntPtr2)
+      } while ((UInt64)uIntPtr <= (UInt64)uIntPtr2);
     }
   }
 

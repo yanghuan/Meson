@@ -318,7 +318,7 @@ Boolean Utf8Formatter::TryFormatDateTimeR(DateTime value, Span<Byte> destination
 template <>
 Boolean Utf8Formatter::TryFormat(Decimal value, Span<Byte> destination, Int32& bytesWritten, StandardFormat format) {
   if (format.get_IsDefault()) {
-    format = 'G';
+    format = (Char)'G';
   }
   switch (format.get_Symbol().get()) {
     case 'G':

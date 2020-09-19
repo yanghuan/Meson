@@ -64,7 +64,7 @@ Int32 Marvin::ComputeHash32(Byte& data, UInt32 count, UInt32 p0, UInt32 p1) {
       p0 += num3;
       Block(p0, p1);
       data = Unsafe::AddByteOffset(data, (UIntPtr)8u);
-    } while (--num2 != 0)
+    } while (--num2 != 0);
     if ((count & 4) == 0) {
       goto IL_006a;
     }

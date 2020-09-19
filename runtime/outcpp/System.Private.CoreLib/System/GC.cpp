@@ -132,7 +132,7 @@ Int64 GC::GetTotalMemory(Boolean forceFullCollection) {
     totalMemory = num2;
     num2 = GetTotalMemory();
     num3 = (Single)(num2 - totalMemory) / (Single)totalMemory;
-  } while (num-- > 0 && (!(-0.05 < (Double)num3) || !((Double)num3 < 0.05)))
+  } while (num-- > 0 && (!(-0.05 < (Double)num3) || !((Double)num3 < 0.05)));
   return num2;
 }
 

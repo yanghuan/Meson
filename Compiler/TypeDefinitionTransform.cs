@@ -198,7 +198,7 @@ namespace Meson.Compiler {
         };
         var baseType = IdentifierSyntax.Meson.TwoColon(((IdentifierSyntax)type.Name).Generic(IdentifierSyntax.T, node.Name.Generic().WithIn()));
         array.Bases.Add(new BaseSyntax(baseType));
-        AddInterfaces(type, array, new IType[] { 
+        AddInterfaces(type, array, new IType[] {
           Generator.GetKnownType(KnownTypeCode.IListOfT),
           Generator.GetKnownType(KnownTypeCode.IReadOnlyListOfT),
           Generator.GetKnownType(KnownTypeCode.IReadOnlyCollectionOfT),
@@ -209,9 +209,14 @@ namespace Meson.Compiler {
     }
 
     internal static void CheckOperatorParameters(IMethod method, List<ParameterSyntax> parameters, ExpressionSyntax returnType) {
-      if (method.SymbolKind == SymbolKind.Operator && method.Name == "op_Explicit") {
-        if (method.DeclaringTypeDefinition.Methods.Any(i => i != method && i.Name == method.Name && i.Parameters.First().Type == method.Parameters.First().Type)) {
-          parameters.Add(new ParameterSyntax(returnType, null));
+      if (method.SymbolKind == SymbolKind.Operator) {
+        switch (method.Name) {
+          case "op_Explicit": {
+              if (method.DeclaringTypeDefinition.Methods.Any(i => i != method && i.Name == method.Name && i.IsSameSignature(method))) {
+                parameters.Add(new ParameterSyntax(returnType, null));
+              }
+              break;
+            }
         }
       }
     }
@@ -365,6 +370,7 @@ namespace Meson.Compiler {
       if (type.Kind == TypeKind.Enum) {
         return true;
       }
+
       var typeDefinition = type.GetDefinition();
       if (typeDefinition != null) {
         switch (typeDefinition.KnownTypeCode) {
@@ -819,7 +825,7 @@ namespace Meson.Compiler {
                 break;
             }
             break;
-        }
+          }
       }
     }
 

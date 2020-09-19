@@ -239,7 +239,7 @@ String BinaryReader___::ReadString() {
     }
     stringBuilder->Append(_charBuffer, 0, chars);
     num += num3;
-  } while (num < num2)
+  } while (num < num2);
   return StringBuilderCache::GetStringAndRelease(stringBuilder);
 }
 
@@ -364,7 +364,7 @@ Array<Byte> BinaryReader___::ReadBytes(Int32 count) {
     }
     num += num2;
     count -= num2;
-  } while (count > 0)
+  } while (count > 0);
   if (num != array->get_Length()) {
     Array<Byte> array2 = rt::newarr<Array<Byte>>(num);
     Buffer::BlockCopy(array, 0, array2, 0, num);
@@ -385,7 +385,7 @@ ReadOnlySpan<Byte> BinaryReader___::InternalRead(Int32 numBytes) {
       rt::throw_exception(Error::GetEndOfFile());
     }
     num += num2;
-  } while (num < numBytes)
+  } while (num < numBytes);
   return _buffer;
 }
 
@@ -410,7 +410,7 @@ void BinaryReader___::FillBuffer(Int32 numBytes) {
       rt::throw_exception(Error::GetEndOfFile());
     }
     num += num2;
-  } while (num < numBytes)
+  } while (num < numBytes);
 }
 
 Int32 BinaryReader___::Read7BitEncodedInt() {

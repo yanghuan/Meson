@@ -192,7 +192,7 @@ void CounterGroup___::OnTimer() {
     _timeStampSinceCollectionStarted = utcNow;
     do {
       _nextPollingTimeStamp += TimeSpan(0, 0, 0, 0, _pollingIntervalInMilliseconds);
-    } while (_nextPollingTimeStamp <= utcNow)
+    } while (_nextPollingTimeStamp <= utcNow);
   }
 }
 

@@ -105,7 +105,7 @@ void EventCounter___::Enqueue(Double value) {
       }
       num = 0;
     }
-  } while (num2 != Double::NegativeInfinity)
+  } while (num2 != Double::NegativeInfinity);
   _bufferedValuesIndex = num;
 }
 

@@ -45,7 +45,7 @@ void DateTimeFormat::FormatDigits(StringBuilder outputBuffer, Int32 value, Int32
   do {
     *(--ptr2) = (Char)(num % 10 + 48);
     num /= 10;
-  } while (num != 0 && ptr2 > ptr)
+  } while (num != 0 && ptr2 > ptr);
   Int32 i;
   for (i = (Int32)(ptr + 16 - ptr2); i < len; i++) {
     if (ptr2 <= ptr) {

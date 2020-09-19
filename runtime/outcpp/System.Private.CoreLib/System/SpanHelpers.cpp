@@ -222,7 +222,7 @@ Int32 SpanHelpers::IndexOf(Byte& searchSpace, Byte value, Int32 length) {
               continue;
             }
             return (Int32)((Int64)(UInt64)uIntPtr + (Int64)(UInt32)BitOperations::TrailingZeroCount(num2));
-          } while ((UInt64)uIntPtr2 > (UInt64)uIntPtr)
+          } while ((UInt64)uIntPtr2 > (UInt64)uIntPtr);
         }
         uIntPtr2 = GetByteVector128SpanLength(uIntPtr, length);
         if ((UInt64)uIntPtr2 > (UInt64)uIntPtr) {
@@ -728,7 +728,7 @@ Int32 SpanHelpers::IndexOfAny(Byte& searchSpace, Byte value0, Byte value1, Byte 
               continue;
             }
             return (Int32)((Int64)(UInt64)uIntPtr + (Int64)(UInt32)BitOperations::TrailingZeroCount(num2));
-          } while ((UInt64)uIntPtr2 > (UInt64)uIntPtr)
+          } while ((UInt64)uIntPtr2 > (UInt64)uIntPtr);
         }
         uIntPtr2 = GetByteVector128SpanLength(uIntPtr, length);
         if ((UInt64)uIntPtr2 > (UInt64)uIntPtr) {
@@ -1571,7 +1571,7 @@ Int32 SpanHelpers::IndexOf(Char& searchSpace, Char value, Int32 length) {
               continue;
             }
             return (Int32)((Int64)intPtr + (UInt32)BitOperations::TrailingZeroCount(num2) / 2u);
-          } while ((Int64)intPtr2 > 0)
+          } while ((Int64)intPtr2 > 0);
         }
         intPtr2 = GetCharVector128SpanLength(intPtr, (IntPtr)length);
         if ((Int64)intPtr2 > 0) {
@@ -1602,7 +1602,7 @@ Int32 SpanHelpers::IndexOf(Char& searchSpace, Char value, Int32 length) {
               continue;
             }
             return (Int32)((Int64)intPtr + (UInt32)BitOperations::TrailingZeroCount(num4) / 2u);
-          } while ((Int64)intPtr2 > 0)
+          } while ((Int64)intPtr2 > 0);
         }
         if ((Int64)intPtr < (Int64)length) {
           intPtr2 = (IntPtr)(void*)((Int64)length - (Int64)intPtr);
@@ -1624,7 +1624,7 @@ Int32 SpanHelpers::IndexOf(Char& searchSpace, Char value, Int32 length) {
               continue;
             }
             return (Int32)((Int64)intPtr + (Int64)matchedLane);
-          } while ((Int64)intPtr2 > 0)
+          } while ((Int64)intPtr2 > 0);
         }
         if ((Int64)intPtr < (Int64)length) {
           intPtr2 = (IntPtr)(void*)((Int64)length - (Int64)intPtr);
@@ -1643,7 +1643,7 @@ Int32 SpanHelpers::IndexOf(Char& searchSpace, Char value, Int32 length) {
             continue;
           }
           return (Int32)((Int64)intPtr + (Int64)LocateFirstFoundChar(vector));
-        } while ((Int64)intPtr2 > 0)
+        } while ((Int64)intPtr2 > 0);
       }
       if ((Int64)intPtr < (Int64)length) {
         intPtr2 = (IntPtr)(void*)((Int64)length - (Int64)intPtr);

@@ -840,7 +840,7 @@ String String___::Ctor(Char c, Int32 count) {
           ptr2[1] = num;
           ptr2 += 2;
           count -= 4;
-        } while (count >= 0)
+        } while (count >= 0);
       }
       if ((count & 2) != 0) {
         *ptr2 = num;
@@ -1225,7 +1225,7 @@ String String___::Concat(IEnumerable_<String> values) {
     valueStringBuilder.Append(current);
     do {
       valueStringBuilder.Append(enumerator->get_Current());
-    } while (enumerator->MoveNext())
+    } while (enumerator->MoveNext());
     return valueStringBuilder.ToString();
   }
 }
@@ -1515,7 +1515,7 @@ String String___::Join(String separator, IEnumerable_<String> values) {
     do {
       valueStringBuilder.Append(separator);
       valueStringBuilder.Append(enumerator->get_Current());
-    } while (enumerator->MoveNext())
+    } while (enumerator->MoveNext());
     return valueStringBuilder.ToString();
   }
 }
@@ -1809,7 +1809,7 @@ String String___::Replace(Char oldChar, Char newChar) {
       reference = Unsafe::Add(reference, Vector<UInt16>::get_Count());
       reference2 = Unsafe::Add(reference2, Vector<UInt16>::get_Count());
       num2 -= Vector<UInt16>::get_Count();
-    } while (num2 >= Vector<UInt16>::get_Count())
+    } while (num2 >= Vector<UInt16>::get_Count());
   }
   while (num2 > 0) {
     UInt16 num4 = reference;

@@ -774,6 +774,7 @@ namespace Meson.Compiler {
       Write(Tokens.OpenParentheses);
       node.Condition.Render(this);
       Write(Tokens.CloseParentheses);
+      WriteSemicolon();
       WriteNewLine();
     }
 

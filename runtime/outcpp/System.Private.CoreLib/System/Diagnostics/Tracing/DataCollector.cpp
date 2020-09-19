@@ -160,7 +160,7 @@ void DataCollector::GrowBuffer(Int32 required) {
   Int32 num = (buffer == nullptr) ? 64 : buffer->get_Length();
   do {
     num *= 2;
-  } while (num < required)
+  } while (num < required);
   Array<>::in::Resize(buffer, num);
 }
 

@@ -379,7 +379,7 @@ Object Hashtable___::get_Item(Object key) {
       return bucket.val;
     }
     num3 = (Int32)((num3 + incr) % (Int64)(UInt32)buckets->get_Length());
-  } while (bucket.hash_coll < 0 && ++num2 < buckets->get_Length())
+  } while (bucket.hash_coll < 0 && ++num2 < buckets->get_Length());
   return nullptr;
 }
 
@@ -568,7 +568,7 @@ Boolean Hashtable___::ContainsKey(Object key) {
       return true;
     }
     num3 = (Int32)((num3 + incr) % (Int64)(UInt32)buckets->get_Length());
-  } while (bucket.hash_coll < 0 && ++num2 < buckets->get_Length())
+  } while (bucket.hash_coll < 0 && ++num2 < buckets->get_Length());
   return false;
 }
 
@@ -765,7 +765,7 @@ void Hashtable___::Insert(Object key, Object nvalue, Boolean add) {
       _occupancy++;
     }
     num4 = (Int32)((num4 + incr) % (Int64)(UInt32)_buckets->get_Length());
-  } while (++num2 < _buckets->get_Length())
+  } while (++num2 < _buckets->get_Length());
   if (num3 != -1) {
     _isWriterInProgress = true;
     _buckets[num3].val = nvalue;
@@ -821,7 +821,7 @@ void Hashtable___::Remove(Object key) {
       break;
     }
     num3 = (Int32)((num3 + incr) % (Int64)(UInt32)_buckets->get_Length());
-  } while (bucket.hash_coll < 0 && ++num2 < _buckets->get_Length())
+  } while (bucket.hash_coll < 0 && ++num2 < _buckets->get_Length());
 }
 
 Hashtable Hashtable___::Synchronized(Hashtable table) {

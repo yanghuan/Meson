@@ -1725,7 +1725,7 @@ Type EventSource___::GetEventSourceBaseType(Type eventSourceType, Boolean allowE
   }
   do {
     type = type->get_BaseType();
-  } while (type != nullptr && type->get_IsAbstract())
+  } while (type != nullptr && type->get_IsAbstract());
   if (type != nullptr) {
     if (!allowEventSourceOverride) {
       if ((reflectionOnly && type->get_FullName() != typeof<EventSource>()->get_FullName()) || (!reflectionOnly && type != typeof<EventSource>())) {

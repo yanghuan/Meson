@@ -798,7 +798,7 @@ String StreamReader___::ReadToEnd() {
     stringBuilder->Append(_charBuffer, _charPos, _charLen - _charPos);
     _charPos = _charLen;
     ReadBuffer();
-  } while (_charLen > 0)
+  } while (_charLen > 0);
   return stringBuilder->ToString();
 }
 
@@ -826,7 +826,7 @@ Int32 StreamReader___::ReadBlock(Span<Char> buffer) {
   do {
     num2 = ReadSpan(buffer.Slice(num));
     num += num2;
-  } while (num2 > 0 && num < buffer.get_Length())
+  } while (num2 > 0 && num < buffer.get_Length());
   return num;
 }
 
@@ -935,7 +935,7 @@ Int32 StreamReader___::ReadBuffer() {
       }
       _charLen += _decoder->GetChars(_byteBuffer, 0, _byteLen, _charBuffer, _charLen);
     }
-  } while (_charLen == 0)
+  } while (_charLen == 0);
   return _charLen;
 }
 
@@ -984,7 +984,7 @@ Int32 StreamReader___::ReadBuffer(Span<Char> userBuffer, Boolean& readToUserBuff
         _charLen += num;
       }
     }
-  } while (num == 0)
+  } while (num == 0);
   _isBlocked &= (num < userBuffer.get_Length());
   return num;
 }
@@ -1015,13 +1015,13 @@ String StreamReader___::ReadLine() {
         return result;
       }
       num++;
-    } while (num < _charLen)
+    } while (num < _charLen);
     num = _charLen - _charPos;
     if (stringBuilder == nullptr) {
       stringBuilder = rt::newobj<StringBuilder>(num + 80);
     }
     stringBuilder->Append(_charBuffer, _charPos, num);
-  } while (ReadBuffer() > 0)
+  } while (ReadBuffer() > 0);
   return stringBuilder->ToString();
 }
 

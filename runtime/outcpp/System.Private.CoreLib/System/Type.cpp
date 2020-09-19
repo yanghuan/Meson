@@ -324,7 +324,7 @@ Boolean Type___::get_IsSerializable() {
         return true;
       }
       type = type->get_BaseType();
-    } while (type != nullptr)
+    } while (type != nullptr);
   }
   return false;
 }

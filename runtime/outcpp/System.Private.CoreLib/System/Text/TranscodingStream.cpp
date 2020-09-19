@@ -456,7 +456,7 @@ void TranscodingStream___::Write(ReadOnlySpan<Byte> buffer) {
       _thisDecoder->Convert(buffer, array, false, bytesUsed, charsUsed, completed);
       ReadOnlySpan<Byte> readOnlySpan = buffer;
       Int32 length = readOnlySpan.get_Length();
-    } while (!completed)
+    } while (!completed);
   } catch (...) {
   } finally: {
     ArrayPool<Char>::in::get_Shared()->Return(array);

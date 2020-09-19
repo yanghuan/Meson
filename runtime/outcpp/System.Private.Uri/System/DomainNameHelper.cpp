@@ -231,7 +231,7 @@ String DomainNameHelper::UnicodeEquivalent(Char* hostname, Int32 start, Int32 en
       }
     }
     num = num2 + (flag4 ? 1 : 0);
-  } while (num < length)
+  } while (num < length);
   return text2;
 }
 

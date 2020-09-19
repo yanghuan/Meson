@@ -51,7 +51,7 @@ Boolean RegisteredWaitHandleSafe___::Unregister(WaitHandle waitObject) {
       }
     }
     Thread::in::SpinWait(1);
-  } while (!flag2)
+  } while (!flag2);
   return flag;
 }
 

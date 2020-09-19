@@ -275,7 +275,7 @@ UInt64 Latin1Utility::NarrowUtf16ToLatin1(Char* pUtf16Buffer, Byte* pLatin1Buffe
         Vector<Byte> value = Vector<>::Narrow(vector, vector2);
         Unsafe::WriteUnaligned(pLatin1Buffer + num, value);
         num += num5;
-      } while (num <= num6)
+      } while (num <= num6);
     }
   }
 
@@ -407,7 +407,7 @@ IL_00e8:
     vector2 = Sse2::in::PackUnsignedSaturate(vector, right3);
     Sse2::in::StoreAligned(pLatin1Buffer + num3, vector2);
     num3 += num;
-  } while (num3 <= num4)
+  } while (num3 <= num4);
   goto IL_0182;
 
 IL_00cc:
@@ -482,7 +482,7 @@ void Latin1Utility::WidenLatin1ToUtf16_Fallback(Byte* pLatin1Buffer, Char* pUtf1
         Unsafe::WriteUnaligned(pUtf16Buffer + num, low);
         Unsafe::WriteUnaligned(pUtf16Buffer + num + Vector<UInt16>::get_Count(), high);
         num += count;
-      } while (num <= num2)
+      } while (num <= num2);
     }
   }
   for (; num < elementCount; num++) {

@@ -66,7 +66,7 @@ void SafeHandle___::DangerousAddRef(Boolean& success) {
       rt::throw_exception<ObjectDisposedException>("SafeHandle", SR::get_ObjectDisposed_SafeHandleClosed());
     }
     value = state + 4;
-  } while (Interlocked::CompareExchange(_state, value, state) != state)
+  } while (Interlocked::CompareExchange(_state, value, state) != state);
   success = true;
 }
 
@@ -94,7 +94,7 @@ void SafeHandle___::InternalRelease(Boolean disposeOrFinalizeOperation) {
     if (disposeOrFinalizeOperation) {
       num |= 2;
     }
-  } while (Interlocked::CompareExchange(_state, num, state) != state)
+  } while (Interlocked::CompareExchange(_state, num, state) != state);
   if (flag) {
     Int32 lastWin32Error = Marshal::GetLastWin32Error();
     ReleaseHandle();

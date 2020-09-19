@@ -60,7 +60,7 @@ namespace Meson.Compiler {
             srcUsingsSyntax.Add(BlankLinesStatement.One);
           }
         }
-        CheckRefactorNames(headUsingsSyntax, srcUsingsSyntax, info.ImportTypes);
+        CheckRefactorNames(headUsingsSyntax, info.ImportTypes);
       }
       CompilationUnit.AddNamespaceClose();
     }
@@ -408,7 +408,7 @@ namespace Meson.Compiler {
       return new UsingDeclarationSyntax(name, typeFullName) { Template = template };
     }
 
-    private void CheckRefactorNames(StatementListSyntax headUsingsSyntax, StatementListSyntax srcUsingsSyntax, HashSet<ITypeDefinition> importTypes) {
+    private void CheckRefactorNames(StatementListSyntax headUsingsSyntax, HashSet<ITypeDefinition> importTypes) {
       HashSet<string> usedNames = new HashSet<string>() { root_.Name };
       var nameGroups = importTypes.GroupBy(i => i.Name).ToDictionary(i => i.Key, i => i.ToList());
       foreach (var referenceType in headReferences_.Keys) {

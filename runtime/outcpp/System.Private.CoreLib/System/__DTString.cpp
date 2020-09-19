@@ -107,7 +107,7 @@ void __DTString::GetRegularToken(TokenType& tokenType, Int32& tokenValue, DateTi
         }
         tokenType = TokenType::EndOfString;
         return;
-      } while (Char::IsWhiteSpace(m_current))
+      } while (Char::IsWhiteSpace(m_current));
       continue;
     }
     dtfi->Tokenize(TokenType::RegularTokenMask, tokenType, tokenValue, *this);
@@ -172,7 +172,7 @@ Boolean __DTString::MatchSpecifiedWords(String target, Boolean checkWordBoundary
         num3++;
         matchLength++;
       }
-    } while ((num4 = target->IndexOfAny(WhiteSpaceChecks, num2)) >= 0)
+    } while ((num4 = target->IndexOfAny(WhiteSpaceChecks, num2)) >= 0);
     if (num2 < target->get_Length()) {
       Int32 num6 = target->get_Length() - num2;
       if (num3 > Value.get_Length() - num6) {

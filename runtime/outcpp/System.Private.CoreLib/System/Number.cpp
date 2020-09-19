@@ -319,7 +319,7 @@ UInt32 Number::BigInteger::HeuristicDivide(BigInteger& dividend, BigInteger& div
       num5 = ((num8 >> 32) & 1);
       *(dividend._blocks + num4) = (UInt32)num8;
       num4++;
-    } while (num4 < num)
+    } while (num4 < num);
     while (num > 0 && *(dividend._blocks + num - 1) == 0) {
       num--;
     }
@@ -334,7 +334,7 @@ UInt32 Number::BigInteger::HeuristicDivide(BigInteger& dividend, BigInteger& div
       num10 = ((num11 >> 32) & 1);
       *(dividend._blocks + num9) = (UInt32)num11;
       num9++;
-    } while (num9 < num)
+    } while (num9 < num);
     while (num > 0 && *(dividend._blocks + num - 1) == 0) {
       num--;
     }
@@ -406,7 +406,7 @@ void Number::BigInteger::Multiply(BigInteger& lhs, BigInteger& rhs, BigInteger& 
         *(result._blocks + num5) = (UInt32)num7;
         num5++;
         num4++;
-      } while (num4 < length)
+      } while (num4 < length);
       *(result._blocks + num5) = (UInt32)num6;
     }
     num2++;
@@ -559,7 +559,7 @@ void Number::BigInteger::Multiply10() {
       num2 = num4 >> 32;
       *(_blocks + num) = (UInt32)num4;
       num++;
-    } while (num < length)
+    } while (num < length);
     if (num2 != 0) {
       *(_blocks + num) = (UInt32)num2;
       _length++;
@@ -867,7 +867,7 @@ Boolean Number::Grisu3::TryDigitGenShortest(DiyFp& low, DiyFp& w, DiyFp& high, S
     length++;
     kappa--;
     num2 &= diyFp3.f - 1;
-  } while (num2 >= diyFp2.f)
+  } while (num2 >= diyFp2.f);
   return TryRoundWeedShortest(buffer, length, diyFp.Subtract(w).f * num, diyFp2.f, num2, diyFp3.f, num);
 }
 
@@ -1892,7 +1892,7 @@ String Number::UInt32ToDecStr(UInt32 value) {
       UInt32 result;
       value = Math::DivRem(value, 10u, result);
       *(--ptr3) = (Char)(result + 48);
-    } while (value != 0)
+    } while (value != 0);
   }
   return text;
 }
@@ -1927,7 +1927,7 @@ Boolean Number::TryUInt32ToDecStr(UInt32 value, Int32 digits, Span<Char> destina
         UInt32 result;
         value = Math::DivRem(value, 10u, result);
         *(--ptr2) = (Char)(result + 48);
-      } while (value != 0)
+      } while (value != 0);
     } else {
       ptr2 = UInt32ToDecChars(ptr2, value, digits);
     }
@@ -2588,7 +2588,7 @@ void Number::FormatFixed(ValueStringBuilder& sb, NumberBuffer& number, Int32 nMa
     } else {
       do {
         sb.Append((Char)((*ptr != 0) ? (*(ptr++)) : 48));
-      } while (--num > 0)
+      } while (--num > 0);
     }
   } else {
     sb.Append('0');
@@ -2665,7 +2665,7 @@ void Number::FormatGeneral(ValueStringBuilder& sb, NumberBuffer& number, Int32 n
   if (i > 0) {
     do {
       sb.Append((Char)((*digitsPointer != 0) ? (*(digitsPointer++)) : 48));
-    } while (--i > 0)
+    } while (--i > 0);
   } else {
     sb.Append('0');
   }
@@ -3315,7 +3315,7 @@ Boolean Number::TryParseNumber(Char*& str, Char* strEnd, NumberStyles styles, Nu
               c = ((++ptr < strEnd) ? (*ptr) : '\0');
             }
           }
-        } while (IsDigit(c))
+        } while (IsDigit(c));
         if (flag2) {
           num5 = -num5;
         }

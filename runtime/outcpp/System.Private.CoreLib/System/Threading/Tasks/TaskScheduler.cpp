@@ -58,7 +58,7 @@ Int32 TaskScheduler___::get_Id() {
     Int32 num;
     do {
       num = Interlocked::Increment(s_taskSchedulerIdCounter);
-    } while (num == 0)
+    } while (num == 0);
     Interlocked::CompareExchange(m_taskSchedulerId, num, 0);
   }
   return m_taskSchedulerId;

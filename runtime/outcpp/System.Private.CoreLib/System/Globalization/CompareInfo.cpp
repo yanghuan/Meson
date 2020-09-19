@@ -1397,7 +1397,7 @@ Boolean CompareInfo___::IcuIsSortable(ReadOnlySpan<Char> text) {
       return false;
     }
     text = text.Slice(charsConsumed);
-  } while (!text.get_IsEmpty())
+  } while (!text.get_IsEmpty());
   return true;
 }
 

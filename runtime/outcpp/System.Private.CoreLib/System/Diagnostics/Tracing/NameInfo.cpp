@@ -22,7 +22,7 @@ void NameInfo___::ReserveEventIDsBelow(Int32 eventId) {
     num = lastIdentity;
     val = (lastIdentity & -16777216) + eventId;
     val = Math::Max(val, num);
-  } while (Interlocked::CompareExchange(lastIdentity, val, num) != num)
+  } while (Interlocked::CompareExchange(lastIdentity, val, num) != num);
 }
 
 void NameInfo___::ctor(String name, EventTags tags, Int32 typeMetadataSize) {

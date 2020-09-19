@@ -1331,7 +1331,7 @@ Boolean DateTimeFormatInfo___::TryParseHebrewNumber(__DTString& str, Boolean& ba
     if ((UInt32)hebrewNumberParsingState <= 1u) {
       return false;
     }
-  } while (index < str.Value.get_Length() && hebrewNumberParsingState != HebrewNumberParsingState::FoundEndOfHebrewNumber)
+  } while (index < str.Value.get_Length() && hebrewNumberParsingState != HebrewNumberParsingState::FoundEndOfHebrewNumber);
   if (hebrewNumberParsingState != HebrewNumberParsingState::FoundEndOfHebrewNumber) {
     return false;
   }
@@ -1415,7 +1415,7 @@ Boolean DateTimeFormatInfo___::Tokenize(TokenType TokenMask, TokenType& tokenTyp
     if (num >= 199) {
       num -= 199;
     }
-  } while (num4 < 199)
+  } while (num4 < 199);
   return false;
 }
 

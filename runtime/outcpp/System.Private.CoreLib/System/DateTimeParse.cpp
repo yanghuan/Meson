@@ -1614,7 +1614,7 @@ Boolean DateTimeParse::TryParse(ReadOnlySpan<Char> s, DateTimeFormatInfo dtfi, D
 
     flag = true;
     dS = DS::BEGIN;
-  } while (dtok.dtt != 0 && dtok.dtt != DTT::NumEnd && dtok.dtt != DTT::MonthEnd)
+  } while (dtok.dtt != 0 && dtok.dtt != DTT::NumEnd && dtok.dtt != DTT::MonthEnd);
   if (!flag) {
     result.SetBadDateTimeFailure();
     return false;

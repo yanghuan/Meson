@@ -170,7 +170,7 @@ Char StringBuilder___::get_Chars(Int32 index) {
       return stringBuilder->m_ChunkChars[num];
     }
     stringBuilder = stringBuilder->m_ChunkPrevious;
-  } while (stringBuilder != nullptr)
+  } while (stringBuilder != nullptr);
   rt::throw_exception<IndexOutOfRangeException>();
 }
 
@@ -186,7 +186,7 @@ void StringBuilder___::set_Chars(Int32 index, Char value) {
       return;
     }
     stringBuilder = stringBuilder->m_ChunkPrevious;
-  } while (stringBuilder != nullptr)
+  } while (stringBuilder != nullptr);
   rt::throw_exception<ArgumentOutOfRangeException>("index", SR::get_ArgumentOutOfRange_Index());
 }
 
@@ -266,7 +266,7 @@ void StringBuilder___::InternalCopy(IntPtr dest, Int32 len) {
       }
     }
     stringBuilder = stringBuilder->m_ChunkPrevious;
-  } while (stringBuilder != nullptr)
+  } while (stringBuilder != nullptr);
 }
 
 StringBuilder StringBuilder___::FindChunkForByte(Int32 byteIndex) {
@@ -423,7 +423,7 @@ String StringBuilder___::ToString() {
         }
       }
       stringBuilder = stringBuilder->m_ChunkPrevious;
-    } while (stringBuilder != nullptr)
+    } while (stringBuilder != nullptr);
     return text;
   }
 }
@@ -1074,7 +1074,7 @@ StringBuilder StringBuilder___::AppendFormatHelper(IFormatProvider provider, Str
         FormatError();
       }
       c = format[num];
-    } while (c >= '0' && c <= '9' && num2 < 1000000)
+    } while (c >= '0' && c <= '9' && num2 < 1000000);
     if (num2 >= args.get_Length()) {
       rt::throw_exception<FormatException>(SR::get_Format_IndexOutOfRange());
     }
@@ -1110,7 +1110,7 @@ StringBuilder StringBuilder___::AppendFormatHelper(IFormatProvider provider, Str
           FormatError();
         }
         c = format[num];
-      } while (c >= '0' && c <= '9' && num3 < 1000000)
+      } while (c >= '0' && c <= '9' && num3 < 1000000);
     }
     for (; num < length; num++) {
       if ((c = format[num]) != ' ') {
@@ -1240,7 +1240,7 @@ Boolean StringBuilder___::Equals(StringBuilder sb) {
     if (num2 < 0) {
       return false;
     }
-  } while (stringBuilder->m_ChunkChars[num] == stringBuilder2->m_ChunkChars[num2])
+  } while (stringBuilder->m_ChunkChars[num] == stringBuilder2->m_ChunkChars[num2]);
   return false;
 }
 
@@ -1258,7 +1258,7 @@ Boolean StringBuilder___::Equals(ReadOnlySpan<Char> span) {
       return false;
     }
     stringBuilder = stringBuilder->m_ChunkPrevious;
-  } while (stringBuilder != nullptr)
+  } while (stringBuilder != nullptr);
   return true;
 }
 

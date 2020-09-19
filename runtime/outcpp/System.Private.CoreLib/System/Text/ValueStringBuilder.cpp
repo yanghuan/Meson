@@ -87,7 +87,7 @@ void ValueStringBuilder::AppendFormatHelper(IFormatProvider provider, String for
         ThrowFormatError();
       }
       c = format[num];
-    } while (c >= '0' && c <= '9' && num2 < 1000000)
+    } while (c >= '0' && c <= '9' && num2 < 1000000);
     if (num2 >= args.get_Length()) {
       rt::throw_exception<FormatException>(SR::get_Format_IndexOutOfRange());
     }
@@ -123,7 +123,7 @@ void ValueStringBuilder::AppendFormatHelper(IFormatProvider provider, String for
           ThrowFormatError();
         }
         c = format[num];
-      } while (c >= '0' && c <= '9' && num3 < 1000000)
+      } while (c >= '0' && c <= '9' && num3 < 1000000);
     }
     for (; num < length; num++) {
       if ((c = format[num]) != ' ') {

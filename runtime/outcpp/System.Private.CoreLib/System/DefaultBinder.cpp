@@ -727,7 +727,7 @@ Int32 DefaultBinder___::GetHierarchyDepth(Type t) {
   do {
     num++;
     type = type->get_BaseType();
-  } while (type != nullptr)
+  } while (type != nullptr);
   return num;
 }
 

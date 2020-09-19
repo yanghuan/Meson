@@ -112,7 +112,7 @@ void RuntimeHelpers::DispatchTailCalls(IntPtr callersRetAddrSlot, IntPtr callTar
     do {
       portableTailCallFrame.NextCall = (IntPtr)(void*)nullptr;
       IntPtr intPtr = callTarget;
-    } while (callTarget != (IntPtr)(void*)nullptr)
+    } while (callTarget != (IntPtr)(void*)nullptr);
   } catch (...) {
   } finally: {
     tailCallInfo->Frame = frame;

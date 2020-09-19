@@ -138,7 +138,7 @@ Char* Utf16Utility::GetPointerToFirstInvalidChar(Char* pInputBuffer, Int32 input
         num2 += num4;
         pInputBuffer += Vector128<UInt16>::get_Count();
         inputLength -= Vector128<UInt16>::get_Count();
-      } while (inputLength >= Vector128<UInt16>::get_Count())
+      } while (inputLength >= Vector128<UInt16>::get_Count());
     }
   } else if (Vector<>::get_IsHardwareAccelerated() && inputLength >= Vector<UInt16>::get_Count()) {
     Vector<UInt16> right4 = Vector<UInt16>(128);

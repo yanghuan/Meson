@@ -1019,7 +1019,7 @@ Int32 Encoding___::GetBytesWithFallback(ReadOnlySpan<Char> chars, Int32 original
           chars = chars.Slice(charsConsumed);
           bytes = bytes.Slice(bytesWritten2);
         }
-      } while (!chars.get_IsEmpty())
+      } while (!chars.get_IsEmpty());
       if (!chars.get_IsEmpty() || encoderFallbackBuffer->get_Remaining() > 0) {
         ThrowBytesOverflow(encoder, bytes.get_Length() == originalBytesLength);
       }
@@ -1179,7 +1179,7 @@ Int32 Encoding___::GetCharsWithFallback(ReadOnlySpan<Byte> bytes, Int32 original
           bytes = bytes.Slice(bytesConsumed);
           chars = chars.Slice(charsWritten);
         }
-      } while (!bytes.get_IsEmpty())
+      } while (!bytes.get_IsEmpty());
       if (!bytes.get_IsEmpty()) {
         ThrowCharsOverflow(decoder, chars.get_Length() == originalCharsLength);
       }

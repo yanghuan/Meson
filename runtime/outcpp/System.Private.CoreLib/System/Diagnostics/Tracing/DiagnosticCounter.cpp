@@ -89,7 +89,7 @@ String DiagnosticCounter___::GetMetadataString() {
   do {
     current = enumerator.get_Current();
     stringBuilder->Append((Char)',')->Append(current.get_Key())->Append((Char)':')->Append(current.get_Value());
-  } while (enumerator.MoveNext())
+  } while (enumerator.MoveNext());
   return stringBuilder->ToString();
 }
 

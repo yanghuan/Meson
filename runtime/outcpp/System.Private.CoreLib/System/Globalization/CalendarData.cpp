@@ -363,7 +363,7 @@ void CalendarData___::FixDefaultShortDatePattern(List<String> shortDatePatterns)
       do {
         span[i] = text[i];
         i++;
-      } while (i < text->get_Length() && text[i] != '\'')
+      } while (i < text->get_Length() && text[i] != '\'');
       if (i >= text->get_Length()) {
         return;
       }

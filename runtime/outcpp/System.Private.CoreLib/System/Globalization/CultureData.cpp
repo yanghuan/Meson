@@ -1001,7 +1001,7 @@ String CultureData___::GetSeparator(String format, String timeParts) {
     Char c = format[num];
     do {
       num++;
-    } while (num < format->get_Length() && format[num] == c)
+    } while (num < format->get_Length() && format[num] == c);
     Int32 num2 = num;
     if (num2 < format->get_Length()) {
       Int32 num3 = IndexOfTimePart(format, num2, timeParts);

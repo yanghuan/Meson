@@ -360,7 +360,7 @@ Delegate Delegate___::RemoveAll(Delegate source, Delegate value) {
   do {
     delegate = source;
     source = Remove(source, value);
-  } while (delegate != source)
+  } while (delegate != source);
   return delegate;
 }
 

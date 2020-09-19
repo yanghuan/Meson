@@ -73,7 +73,7 @@ void Statics::EncodeTags(Int32 tags, Int32& pos, Array<Byte> metadata) {
       metadata[pos] = b;
     }
     pos++;
-  } while (flag)
+  } while (flag);
 }
 
 Byte Statics::Combine(Int32 settingValue, Byte defaultValue) {

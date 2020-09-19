@@ -93,7 +93,7 @@ IEnumerator<CultureInfo> ResourceFallbackManager___::GetEnumerator() {
   do {
     if (m_neutralResourcesCulture != nullptr && currentCulture->get_Name() == m_neutralResourcesCulture->get_Name()) {
     }
-  } while (m_useParents && !currentCulture->get_HasInvariantCultureName())
+  } while (m_useParents && !currentCulture->get_HasInvariantCultureName());
   if (m_useParents && !m_startingCulture->get_HasInvariantCultureName() && !reachedNeutralResourcesCulture) {
   }
 }

@@ -423,7 +423,7 @@ MethodInfo RuntimeMethodInfo___::GetBaseDefinition() {
     methodHandle = RuntimeTypeHandle::GetMethodAt(runtimeType, slot);
     reflectedType = runtimeType;
     runtimeType = (RuntimeType)runtimeType->get_BaseType();
-  } while (runtimeType != nullptr)
+  } while (runtimeType != nullptr);
   return (MethodInfo)RuntimeType::in::GetMethodBase(reflectedType, methodHandle);
 }
 

@@ -385,7 +385,7 @@ void UriHelper::UnescapeString(Char* pStr, Int32 start, Int32 end, ValueStringBu
     Int32 chars = s_noFallbackCharUTF8->GetChars(array, 0, byteCount, array2, 0);
     start = i;
     MatchUTF8Sequence(dest, MemoryExtensions::AsSpan(array2, 0, chars), chars, array, byteCount, isQuery, flag2);
-  } while (i != end)
+  } while (i != end);
 }
 
 void UriHelper::MatchUTF8Sequence(ValueStringBuilder& dest, Span<Char> unescapedChars, Int32 charCount, Array<Byte> bytes, Int32 byteCount, Boolean isQuery, Boolean iriParsing) {
