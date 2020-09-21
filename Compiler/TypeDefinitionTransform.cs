@@ -534,12 +534,12 @@ namespace Meson.Compiler {
       }
     }
 
-    public ExpressionSyntax GetTypeName(IType type, ITypeDefinition typeDefinition, ISymbol symbol) {
+    public ExpressionSyntax GetTypeName(IType type, ITypeDefinition typeDefinition, ISymbol symbol, bool isForward = false, bool isInHead = false) {
       return CompilationUnit.GetTypeName(new TypeNameArgs {
         Type = type,
         Definition = typeDefinition,
-        IsForward = false,
-        IsInHead = false,
+        IsForward = isForward,
+        IsInHead = isInHead,
         Original = type,
         Symbol = symbol,
       });
@@ -767,11 +767,23 @@ namespace Meson.Compiler {
           }
         case KnownTypeCode.IntPtr:
         case KnownTypeCode.UIntPtr: {
-            string typeName = type.KnownTypeCode == KnownTypeCode.IntPtr ? "intptr_t" : "uintptr_t";
+            bool isIntPtr = type.KnownTypeCode == KnownTypeCode.IntPtr;
             var field = type.Fields.Single(i => !i.IsStatic);
+            var parameterType = Generator.GetKnownType(isIntPtr ? KnownTypeCode.UInt32 : KnownTypeCode.Int32);
+            var parameterTypeName = GetTypeName(parameterType, type, parameterType, isInHead: true);
+            var constructor = new MethodDefinitionSyntax(node.Name, new ParameterSyntax(parameterTypeName, IdentifierSyntax.Value).ArrayOf()) {
+              Accessibility = Accessibility.Public,
+              Body = BlockSyntax.EmptyBlock,
+              IsNoexcept = true,
+              IsExplicit = true,
+            };
+            constructor.AddInitializationList(field.Name, IdentifierSyntax.Value.CastTo(IdentifierSyntax.VoidPointer));
+            node.Add(constructor);
+
+            string typeName = isIntPtr ? "intptr_t" : "uintptr_t";
             var ret = $"return *reinterpret_cast<{typeName}*>({field.Name})".AsIdentifier();
             var getValue = new MethodDefinitionSyntax(IdentifierSyntax.Get, null, new RefExpressionSyntax(typeName)) {
-              AccessibilityToken = Accessibility.Public.ToTokenString(),
+              Accessibility = Accessibility.Public,
               IsNoexcept = true,
               Body = new BlockSyntax() { IsSingleLine = true },
             };

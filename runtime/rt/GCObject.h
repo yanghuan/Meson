@@ -846,12 +846,14 @@ namespace rt {
     }
 
     explicit operator void*() const noexcept {
-      return (void*)(static_cast<const T*>(this)->get());
+      auto p = static_cast<const T*>(this);
+      return reinterpret_cast<void*>(static_cast<intptr_t>(p->get()));
     }
 
     template <class R> requires(IsValueType<R>)
     explicit operator R*() const noexcept {
-      return (R*)(static_cast<const T*>(this)->get());
+      auto p = static_cast<const T*>(this);
+      return reinterpret_cast<R*>(static_cast<intptr_t>(p->get()));
     }
   };
 

@@ -59,11 +59,11 @@ Int32 Marvin::ComputeHash32(Byte& data, UInt32 count, UInt32 p0, UInt32 p1) {
     UInt32 num2 = count / 8u;
     do {
       p0 += Unsafe::ReadUnaligned<UInt32>(data);
-      UInt32 num3 = Unsafe::ReadUnaligned<UInt32>(Unsafe::AddByteOffset(data, (UIntPtr)4u));
+      UInt32 num3 = Unsafe::ReadUnaligned<UInt32>(Unsafe::AddByteOffset(data, (UIntPtr)(UInt32)4u));
       Block(p0, p1);
       p0 += num3;
       Block(p0, p1);
-      data = Unsafe::AddByteOffset(data, (UIntPtr)8u);
+      data = Unsafe::AddByteOffset(data, (UIntPtr)(UInt32)8u);
     } while (--num2 != 0);
     if ((count & 4) == 0) {
       goto IL_006a;

@@ -43,14 +43,14 @@ void Buffer::_BulkMoveWithWriteBarrier(Byte& destination, Byte& source, UIntPtr 
   if ((UInt64)(Int64)Unsafe::ByteOffset(source, destination) >= (UInt64)byteCount) {
     do {
       byteCount -= 16384;
-      __BulkMoveWithWriteBarrier(destination, source, (UIntPtr)16384u);
-      destination = Unsafe::AddByteOffset(destination, (UIntPtr)16384u);
-      source = Unsafe::AddByteOffset(source, (UIntPtr)16384u);
+      __BulkMoveWithWriteBarrier(destination, source, (UIntPtr)(UInt32)16384u);
+      destination = Unsafe::AddByteOffset(destination, (UIntPtr)(UInt32)16384u);
+      source = Unsafe::AddByteOffset(source, (UIntPtr)(UInt32)16384u);
     } while (byteCount > 16384);
   } else {
     do {
       byteCount -= 16384;
-      __BulkMoveWithWriteBarrier(Unsafe::AddByteOffset(destination, byteCount), Unsafe::AddByteOffset(source, byteCount), (UIntPtr)16384u);
+      __BulkMoveWithWriteBarrier(Unsafe::AddByteOffset(destination, byteCount), Unsafe::AddByteOffset(source, byteCount), (UIntPtr)(UInt32)16384u);
     } while (byteCount > 16384);
   }
   __BulkMoveWithWriteBarrier(destination, source, byteCount);

@@ -1,5 +1,6 @@
 #pragma once
 
+#include <System.Private.CoreLib/System/UInt32.h>
 #include <System.Private.CoreLib/System/ValueType.h>
 
 namespace System::Private::CoreLib::System::Runtime::Serialization {
@@ -66,6 +67,7 @@ struct IntPtr : public valueType<IntPtr, rt::TypeCode::IntPtr> {
   public: explicit IntPtr() {}
   private: void* _value;
   public: static IntPtr Zero;
+  public: explicit IntPtr(UInt32 value) noexcept : _value((void*)value) {}
   public: intptr_t& get() noexcept { return *reinterpret_cast<intptr_t*>(_value); }
   public: intptr_t get() const noexcept { return *reinterpret_cast<intptr_t*>(_value); }
 };

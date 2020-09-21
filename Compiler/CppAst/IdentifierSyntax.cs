@@ -40,6 +40,7 @@ namespace Meson.Compiler.CppAst {
     public static readonly IdentifierSyntax Get = "get";
     public static readonly IdentifierSyntax This = "this";
     public static readonly IdentifierSyntax Auto = "auto";
+    public static readonly IdentifierSyntax VoidPointer = "void*";
     public static readonly IdentifierSyntax VariableArguments = "...";
     public static readonly IdentifierSyntax Interface = "interface";
     public static readonly IdentifierSyntax Invoke = "Invoke";

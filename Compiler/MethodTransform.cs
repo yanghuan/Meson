@@ -450,6 +450,10 @@ namespace Meson.Compiler {
                 case TypeKind.NInt:
                 case TypeKind.NUInt:
                   if (!typeDefinition.IsNativeInteger(parameter.Type.Kind)) {
+                    if (expression is LiteralExpressionSyntax) {
+                      var typeName = GetTypeName(typeDefinition);
+                      expression = expression.CastTo(typeName);
+                    }
                     goto Cast;
                   }
                   break;
