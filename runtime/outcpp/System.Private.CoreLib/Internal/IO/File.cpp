@@ -3,9 +3,11 @@
 #include <System.Private.CoreLib/Interop-dep.h>
 #include <System.Private.CoreLib/Microsoft/Win32/SafeHandles/SafeFindHandle-dep.h>
 #include <System.Private.CoreLib/System/ArgumentException-dep.h>
+#include <System.Private.CoreLib/System/Int32-dep.h>
 #include <System.Private.CoreLib/System/IO/DisableMediaInsertionPrompt-dep.h>
 #include <System.Private.CoreLib/System/IO/IOException-dep.h>
 #include <System.Private.CoreLib/System/IO/Path-dep.h>
+#include <System.Private.CoreLib/System/IO/PathInternal-dep.h>
 #include <System.Private.CoreLib/System/NotSupportedException-dep.h>
 #include <System.Private.CoreLib/System/Runtime/InteropServices/Marshal-dep.h>
 #include <System.Private.CoreLib/System/Security/SecurityException-dep.h>
@@ -28,6 +30,14 @@ Boolean File::Exists(String path) {
       return false;
     }
     path = Path::GetFullPath(path);
+    if (path->get_Length() > 0) {
+      String text = path;
+      Int32 index = text->get_Length() - 1;
+      if (PathInternal::IsDirectorySeparator(text[index])) {
+        return false;
+      }
+    }
+    return InternalExists(path);
   } catch (ArgumentException) {
   } catch (NotSupportedException) {
   } catch (SecurityException) {

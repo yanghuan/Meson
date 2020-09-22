@@ -157,6 +157,15 @@ String IdnMapping___::GetAsciiInvariant(String unicode, Int32 index, Int32 count
   if (ValidateStd3AndAscii(unicode, get_UseStd3AsciiRules(), true)) {
     return unicode;
   }
+  String text = unicode;
+  Int32 index2 = text->get_Length() - 1;
+  if (text[index2] <= '') {
+    rt::throw_exception<ArgumentException>(SR::Format(SR::get_Argument_InvalidCharSequence(), unicode->get_Length() - 1), "unicode");
+  }
+  if (get_UseStd3AsciiRules()) {
+    ValidateStd3AndAscii(unicode, true, false);
+  }
+  return PunycodeEncode(unicode);
 }
 
 Boolean IdnMapping___::ValidateStd3AndAscii(String unicode, Boolean bUseStd3, Boolean bCheckAscii) {
@@ -190,6 +199,21 @@ Boolean IdnMapping___::ValidateStd3AndAscii(String unicode, Boolean bUseStd3, Bo
   if (num == -1 && unicode->get_Length() > 63) {
     rt::throw_exception<ArgumentException>(SR::get_Argument_IdnBadLabelSize(), "unicode");
   }
+  Int32 length = unicode->get_Length();
+  Int32 index = unicode->get_Length() - 1;
+  if (length > 255 - ((!IsDot(unicode[index])) ? 1 : 0)) {
+    String argument_IdnBadNameSize = SR::get_Argument_IdnBadNameSize();
+    index = unicode->get_Length() - 1;
+    rt::throw_exception<ArgumentException>(SR::Format(argument_IdnBadNameSize, 255 - ((!IsDot(unicode[index])) ? 1 : 0)), "unicode");
+  }
+  if (bUseStd3) {
+    index = unicode->get_Length() - 1;
+    if (!IsDot(unicode[index])) {
+      index = unicode->get_Length() - 1;
+      ValidateStd3(unicode[index], true);
+    }
+  }
+  return true;
 }
 
 String IdnMapping___::PunycodeEncode(String unicode) {
@@ -308,6 +332,14 @@ String IdnMapping___::PunycodeEncode(String unicode) {
     num2 = num + 1;
     num3 = stringBuilder->set_Length();
   }
+  Int32 length = stringBuilder->get_Length();
+  Int32 index = unicode->get_Length() - 1;
+  if (length > 255 - ((!IsDot(unicode[index])) ? 1 : 0)) {
+    String argument_IdnBadNameSize = SR::get_Argument_IdnBadNameSize();
+    index = unicode->get_Length() - 1;
+    rt::throw_exception<ArgumentException>(SR::Format(argument_IdnBadNameSize, 255 - ((!IsDot(unicode[index])) ? 1 : 0)), "unicode");
+  }
+  return stringBuilder->ToString();
 }
 
 Boolean IdnMapping___::IsDot(Char c) {
@@ -362,6 +394,142 @@ String IdnMapping___::PunycodeDecode(String ascii) {
   if (ascii->get_Length() == 0) {
     rt::throw_exception<ArgumentException>(SR::get_Argument_IdnBadLabelSize(), "ascii");
   }
+  Int32 length = ascii->get_Length();
+  Int32 index = ascii->get_Length() - 1;
+  if (length > 255 - ((!IsDot(ascii[index])) ? 1 : 0)) {
+    String argument_IdnBadNameSize = SR::get_Argument_IdnBadNameSize();
+    index = ascii->get_Length() - 1;
+    rt::throw_exception<ArgumentException>(SR::Format(argument_IdnBadNameSize, 255 - ((!IsDot(ascii[index])) ? 1 : 0)), "ascii");
+  }
+  StringBuilder stringBuilder = rt::newobj<StringBuilder>(ascii->get_Length());
+  Int32 num = 0;
+  Int32 num2 = 0;
+  Int32 num3 = 0;
+  while (num < ascii->get_Length()) {
+    num = ascii->IndexOf('.', num2);
+    if (num < 0 || num > ascii->get_Length()) {
+      num = ascii->get_Length();
+    }
+    if (num == num2) {
+      if (num == ascii->get_Length()) {
+        break;
+      }
+      rt::throw_exception<ArgumentException>(SR::get_Argument_IdnBadLabelSize(), "ascii");
+    }
+    if (num - num2 > 63) {
+      rt::throw_exception<ArgumentException>(SR::get_Argument_IdnBadLabelSize(), "ascii");
+    }
+    if (ascii->get_Length() < "xn--"->get_Length() + num2 || String::in::Compare(ascii, num2, "xn--", 0, "xn--"->get_Length(), StringComparison::OrdinalIgnoreCase) != 0) {
+      stringBuilder->Append(ascii, num2, num - num2);
+    } else {
+      num2 += "xn--"->get_Length();
+      Int32 num4 = ascii->LastIndexOf('-', num - 1);
+      if (num4 == num - 1) {
+        rt::throw_exception<ArgumentException>(SR::get_Argument_IdnBadPunycode(), "ascii");
+      }
+      Int32 num5;
+      if (num4 <= num2) {
+        num5 = 0;
+      } else {
+        num5 = num4 - num2;
+        for (Int32 i = num2; i < num2 + num5; i++) {
+          if (ascii[i] > '') {
+            rt::throw_exception<ArgumentException>(SR::get_Argument_IdnBadPunycode(), "ascii");
+          }
+          stringBuilder->Append((Char)((ascii[i] >= 'A' && ascii[i] <= 'Z') ? (ascii[i] - 65 + 97) : ascii[i]));
+        }
+      }
+      Int32 num6 = num2 + ((num5 > 0) ? (num5 + 1) : 0);
+      Int32 num7 = 128;
+      Int32 num8 = 72;
+      Int32 num9 = 0;
+      Int32 num10 = 0;
+      while (num6 < num) {
+        Int32 num11 = num9;
+        Int32 num12 = 1;
+        Int32 num13 = 36;
+        while (true) {
+          if (num6 >= num) {
+            rt::throw_exception<ArgumentException>(SR::get_Argument_IdnBadPunycode(), "ascii");
+          }
+          Int32 num14 = DecodeDigit(ascii[num6++]);
+          if (num14 > (134217727 - num9) / num12) {
+            rt::throw_exception<ArgumentException>(SR::get_Argument_IdnBadPunycode(), "ascii");
+          }
+          num9 += num14 * num12;
+          Int32 num15 = (num13 <= num8) ? 1 : ((num13 >= num8 + 26) ? 26 : (num13 - num8));
+          if (num14 < num15) {
+            break;
+          }
+          if (num12 > 134217727 / (36 - num15)) {
+            rt::throw_exception<ArgumentException>(SR::get_Argument_IdnBadPunycode(), "ascii");
+          }
+          num12 *= 36 - num15;
+          num13 += 36;
+        }
+        num8 = Adapt(num9 - num11, stringBuilder->get_Length() - num3 - num10 + 1, num11 == 0);
+        if (num9 / (stringBuilder->get_Length() - num3 - num10 + 1) > 134217727 - num7) {
+          rt::throw_exception<ArgumentException>(SR::get_Argument_IdnBadPunycode(), "ascii");
+        }
+        num7 += num9 / (stringBuilder->get_Length() - num3 - num10 + 1);
+        num9 %= stringBuilder->get_Length() - num3 - num10 + 1;
+        if (num7 < 0 || num7 > 1114111 || (num7 >= 55296 && num7 <= 57343)) {
+          rt::throw_exception<ArgumentException>(SR::get_Argument_IdnBadPunycode(), "ascii");
+        }
+        String value = Char::ConvertFromUtf32(num7);
+        Int32 num17;
+        if (num10 > 0) {
+          Int32 num16 = num9;
+          num17 = num3;
+          while (num16 > 0) {
+            if (num17 >= stringBuilder->get_Length()) {
+              rt::throw_exception<ArgumentException>(SR::get_Argument_IdnBadPunycode(), "ascii");
+            }
+            if (Char::IsSurrogate(stringBuilder[num17])) {
+              num17++;
+            }
+            num16--;
+            num17++;
+          }
+        } else {
+          num17 = num3 + num9;
+        }
+        stringBuilder->Insert(num17, value);
+        if (IsSupplementary(num7)) {
+          num10++;
+        }
+        num9++;
+      }
+      Boolean flag = false;
+      StrongBidiCategory bidiCategory = CharUnicodeInfo::GetBidiCategory(stringBuilder, num3);
+      if (bidiCategory == StrongBidiCategory::StrongRightToLeft) {
+        flag = true;
+      }
+      for (Int32 j = num3; j < stringBuilder->get_Length(); j++) {
+        if (!Char::IsLowSurrogate(stringBuilder[j])) {
+          bidiCategory = CharUnicodeInfo::GetBidiCategory(stringBuilder, j);
+          if ((flag && bidiCategory == StrongBidiCategory::StrongLeftToRight) || (!flag && bidiCategory == StrongBidiCategory::StrongRightToLeft)) {
+            rt::throw_exception<ArgumentException>(SR::get_Argument_IdnBadBidi(), "ascii");
+          }
+        }
+      }
+      if (flag && bidiCategory != StrongBidiCategory::StrongRightToLeft) {
+        rt::throw_exception<ArgumentException>(SR::get_Argument_IdnBadBidi(), "ascii");
+      }
+    }
+    if (num - num2 > 63) {
+      rt::throw_exception<ArgumentException>(SR::get_Argument_IdnBadLabelSize(), "ascii");
+    }
+    if (num != ascii->get_Length()) {
+      stringBuilder->Append((Char)'.');
+    }
+    num2 = num + 1;
+    num3 = stringBuilder->set_Length();
+  }
+  if (stringBuilder->get_Length() > 255 - ((!IsDot(stringBuilder[stringBuilder->get_Length() - 1])) ? 1 : 0)) {
+    rt::throw_exception<ArgumentException>(SR::Format(SR::get_Argument_IdnBadNameSize(), 255 - ((!IsDot(stringBuilder[stringBuilder->get_Length() - 1])) ? 1 : 0)), "ascii");
+  }
+  return stringBuilder->ToString();
 }
 
 Int32 IdnMapping___::DecodeDigit(Char cp) {

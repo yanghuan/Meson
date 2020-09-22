@@ -79,7 +79,16 @@ String StringInfo___::SubstringByTextElements(Int32 startingTextElement, Int32 l
   if ((UInt32)lengthInTextElements > (UInt32)(array->get_Length() - startingTextElement)) {
     rt::throw_exception<ArgumentOutOfRangeException>("lengthInTextElements", lengthInTextElements, SR::get_Arg_ArgumentOutOfRangeException());
   }
-  Int32 value = array[startingTextElement];
+  Int32 num = array[startingTextElement];
+  Index index = Index(0, true);
+  if ((UInt32)(startingTextElement + lengthInTextElements) < (UInt32)array->get_Length()) {
+    index = array[startingTextElement + lengthInTextElements];
+  }
+  String string = get_String();
+  Int32 length = string->get_Length();
+  Int32 num2 = num;
+  Int32 length2 = index.GetOffset(length) - num2;
+  return string->Substring(num2, length2);
 }
 
 String StringInfo___::GetNextTextElement(String str) {

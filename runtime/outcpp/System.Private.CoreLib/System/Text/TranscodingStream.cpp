@@ -12,6 +12,7 @@
 #include <System.Private.CoreLib/System/MemoryExtensions-dep.h>
 #include <System.Private.CoreLib/System/NotSupportedException-dep.h>
 #include <System.Private.CoreLib/System/ObjectDisposedException-dep.h>
+#include <System.Private.CoreLib/System/Range-dep.h>
 #include <System.Private.CoreLib/System/ReadOnlyMemory-dep.h>
 #include <System.Private.CoreLib/System/ReadOnlySpan-dep.h>
 #include <System.Private.CoreLib/System/Runtime/CompilerServices/ConfiguredValueTaskAwaitable-dep.h>
@@ -174,6 +175,43 @@ void TranscodingStream___::__WriteAsync_g__WriteAsyncCore50_0_d::MoveNext() {
       Int32 charsUsed;
       transcodingStream->_thisDecoder->Convert(remainingOuterEncodedBytes.get_Span(), _scratchChars_5__2, false, bytesUsed, charsUsed, _decoderFinished_5__4);
       ReadOnlyMemory<Byte> readOnlyMemory = remainingOuterEncodedBytes;
+      Int32 length = readOnlyMemory.get_Length();
+      Int32 num2 = bytesUsed;
+      Int32 length2 = length - num2;
+      remainingOuterEncodedBytes = readOnlyMemory.Slice(num2, length2);
+      _decodedChars_5__6 = ArraySegment<Char>(_scratchChars_5__2, 0, charsUsed);
+      goto IL_00bd;
+
+    IL_0190:
+      awaiter.GetResult();
+      if (!_encoderFinished_5__5) {
+        goto IL_00bd;
+      }
+      _decodedChars_5__6 = rt::default__;
+      if (!_decoderFinished_5__4) {
+        goto IL_0055;
+      }
+      goto end_IL_004f;
+
+    IL_00bd:
+      Int32 charsUsed2;
+      Int32 bytesUsed2;
+      transcodingStream->_innerEncoder->Convert(_decodedChars_5__6, _scratchBytes_5__3, false, charsUsed2, bytesUsed2, _encoderFinished_5__5);
+      ArraySegment<Char> arraySegment = _decodedChars_5__6;
+      Int32 count = arraySegment.get_Count();
+      length2 = charsUsed2;
+      num2 = count - length2;
+      _decodedChars_5__6 = arraySegment.Slice(length2, num2);
+      awaiter = transcodingStream->_innerStream->WriteAsync(ReadOnlyMemory<Byte>(_scratchBytes_5__3, 0, bytesUsed2), cancellationToken).ConfigureAwait(false).GetAwaiter();
+      if (!awaiter.get_IsCompleted()) {
+        num = (__1__state = 0);
+        __u__1 = awaiter;
+        __t__builder.AwaitUnsafeOnCompleted(awaiter, *this);
+        return;
+      }
+      goto IL_0190;
+
+    end_IL_004f:
     } catch (...) {
     } finally: {
       if (num < 0) {
@@ -456,6 +494,22 @@ void TranscodingStream___::Write(ReadOnlySpan<Byte> buffer) {
       _thisDecoder->Convert(buffer, array, false, bytesUsed, charsUsed, completed);
       ReadOnlySpan<Byte> readOnlySpan = buffer;
       Int32 length = readOnlySpan.get_Length();
+      Int32 num = bytesUsed;
+      Int32 length2 = length - num;
+      buffer = readOnlySpan.Slice(num, length2);
+      Span<Char> span = MemoryExtensions::AsSpan(array, Range::EndAt(charsUsed));
+      Boolean completed2;
+      do {
+        Int32 charsUsed2;
+        Int32 bytesUsed2;
+        _innerEncoder->Convert(span, array2, false, charsUsed2, bytesUsed2, completed2);
+        Span<Char> span2 = span;
+        Int32 length3 = span2.get_Length();
+        length2 = charsUsed2;
+        num = length3 - length2;
+        span = span2.Slice(length2, num);
+        _innerStream->Write(array2, 0, bytesUsed2);
+      } while (!completed2);
     } while (!completed);
   } catch (...) {
   } finally: {

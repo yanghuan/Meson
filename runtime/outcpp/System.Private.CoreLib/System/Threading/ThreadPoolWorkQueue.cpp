@@ -218,6 +218,7 @@ void ThreadPoolWorkQueue___::WorkStealingQueueList::Add(WorkStealingQueue queue)
     queues = _queues;
     array = rt::newarr<Array<WorkStealingQueue>>(queues->get_Length() + 1);
     Array<>::in::Copy(queues, array, queues->get_Length());
+    array[array->get_Length() - 1] = queue;
   } while (Interlocked::CompareExchange(_queues, array, queues) != queues);
 }
 

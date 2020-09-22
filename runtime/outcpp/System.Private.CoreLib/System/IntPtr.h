@@ -68,6 +68,7 @@ struct IntPtr : public valueType<IntPtr, rt::TypeCode::IntPtr> {
   private: void* _value;
   public: static IntPtr Zero;
   public: explicit IntPtr(UInt32 value) noexcept : _value((void*)value) {}
+  public: explicit IntPtr(intptr_t value) noexcept : _value((void*)value) {}
   public: intptr_t& get() noexcept { return *reinterpret_cast<intptr_t*>(_value); }
   public: intptr_t get() const noexcept { return *reinterpret_cast<intptr_t*>(_value); }
 };

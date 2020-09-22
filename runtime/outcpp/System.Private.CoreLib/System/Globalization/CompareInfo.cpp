@@ -161,6 +161,8 @@ Boolean CompareInfo___::IsSortable(ReadOnlySpan<Char> text) {
 Boolean CompareInfo___::IsSortable(Rune value) {
   Char as[2] = {};
   Span<Char> destination = as;
+  Int32 length = value.EncodeToUtf16(destination);
+  return IsSortable(destination.Slice(0, length));
 }
 
 void CompareInfo___::InitSort(CultureInfo culture) {
@@ -571,6 +573,8 @@ Int32 CompareInfo___::IndexOf(ReadOnlySpan<Char> source, ReadOnlySpan<Char> valu
 Int32 CompareInfo___::IndexOf(ReadOnlySpan<Char> source, Rune value, CompareOptions options) {
   Char as[2] = {};
   Span<Char> destination = as;
+  Int32 length = value.EncodeToUtf16(destination);
+  return IndexOf(source, destination.Slice(0, length), options);
 }
 
 Int32 CompareInfo___::IndexOf(ReadOnlySpan<Char> source, ReadOnlySpan<Char> value, Int32* matchLengthPtr, CompareOptions options, Boolean fromBeginning) {
@@ -760,6 +764,8 @@ Int32 CompareInfo___::LastIndexOf(ReadOnlySpan<Char> source, ReadOnlySpan<Char> 
 Int32 CompareInfo___::LastIndexOf(ReadOnlySpan<Char> source, Rune value, CompareOptions options) {
   Char as[2] = {};
   Span<Char> destination = as;
+  Int32 length = value.EncodeToUtf16(destination);
+  return LastIndexOf(source, destination.Slice(0, length), options);
 }
 
 SortKey CompareInfo___::GetSortKey(String source, CompareOptions options) {

@@ -117,6 +117,8 @@ Boolean StandardFormat::Equals(StandardFormat other) {
 String StandardFormat::ToString() {
   Char as[3] = {};
   Span<Char> destination = as;
+  Int32 length = Format(destination);
+  return rt::newstr<String>(destination.Slice(0, length));
 }
 
 Int32 StandardFormat::Format(Span<Char> destination) {

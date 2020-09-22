@@ -25,6 +25,7 @@
 #include <System.Private.CoreLib/System/ModuleHandle-dep.h>
 #include <System.Private.CoreLib/System/MulticastDelegate-dep.h>
 #include <System.Private.CoreLib/System/NotSupportedException-dep.h>
+#include <System.Private.CoreLib/System/ParamArrayAttribute-dep.h>
 #include <System.Private.CoreLib/System/ReadOnlySpan-dep.h>
 #include <System.Private.CoreLib/System/Reflection/AmbiguousMatchException-dep.h>
 #include <System.Private.CoreLib/System/Reflection/Assembly-dep.h>
@@ -723,6 +724,13 @@ void RuntimeType___::FilterHelper(BindingFlags bindingFlags, String& name, Boole
       listType = MemberListType::CaseSensitive;
     }
     if (allowPrefixLookup && name->EndsWith("*", StringComparison::Ordinal)) {
+      String obj = name;
+      Int32 length = obj->get_Length();
+      Int32 num = 0;
+      Int32 length2 = length - 1 - num;
+      name = obj->Substring(num, length2);
+      prefixLookup = true;
+      listType = MemberListType::All;
     }
   } else {
     listType = MemberListType::All;
@@ -842,6 +850,13 @@ Boolean RuntimeType___::FilterApplyMethodBase(MethodBase methodBase, BindingFlag
           return false;
         }
         if (argumentTypes->get_Length() < parametersNoCopy->get_Length() - 1) {
+          return false;
+        }
+        ParameterInfo parameterInfo = parametersNoCopy[parametersNoCopy->get_Length() - 1];
+        if (!parameterInfo->get_ParameterType()->get_IsArray()) {
+          return false;
+        }
+        if (!parameterInfo->IsDefined(typeof<ParamArrayAttribute>(), false)) {
           return false;
         }
       }

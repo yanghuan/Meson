@@ -66,6 +66,10 @@ Array<EncodingInfo> EncodingTable::GetEncodings() {
   for (Int32 i = 0; i < array->get_Length(); i++) {
     Int32 num2 = array[i];
     if (num2 != 65000 || LocalAppContextSwitches::get_EnableUnsafeUTF7Encoding()) {
+      Int32 num3 = num++;
+      Int32 num4 = array3[i];
+      Int32 length = array3[i + 1] - num4;
+      array2[num3] = rt::newobj<EncodingInfo>(num2, text->Substring(num4, length), GetDisplayName(num2, i));
     }
   }
   return array2;
@@ -78,15 +82,18 @@ Array<EncodingInfo> EncodingTable::GetEncodings(Dictionary<Int32, EncodingInfo> 
   for (Int32 i = 0; i < array->get_Length(); i++) {
     Int32 num = array[i];
     if (!encodingInfoList->ContainsKey(num) && (num != 65000 || LocalAppContextSwitches::get_EnableUnsafeUTF7Encoding())) {
+      Int32 num2 = array2[i];
+      Int32 length = array2[i + 1] - num2;
+      encodingInfoList[num] = rt::newobj<EncodingInfo>(num, text->Substring(num2, length), GetDisplayName(num, i));
     }
   }
   if (!LocalAppContextSwitches::get_EnableUnsafeUTF7Encoding()) {
     encodingInfoList->Remove(65000);
   }
   Array<EncodingInfo> array3 = rt::newarr<Array<EncodingInfo>>(encodingInfoList->get_Count());
-  Int32 num2 = 0;
+  Int32 num3 = 0;
   for (KeyValuePair<Int32, EncodingInfo>&& encodingInfo : *encodingInfoList) {
-    array3[num2++] = encodingInfo.get_Value();
+    array3[num3++] = encodingInfo.get_Value();
   }
   return array3;
 }
@@ -134,11 +141,22 @@ CodePageDataItem EncodingTable::GetCodePageDataItem(Int32 codePage) {
 
 CodePageDataItem EncodingTable::InternalGetCodePageDataItem(Int32 codePage, Int32 index) {
   Int32 uiFamilyCodePage = s_uiFamilyCodePages[index];
+  Int32 num = s_webNameIndices[index];
+  Int32 length = s_webNameIndices[index + 1] - num;
+  String text = "utf-16utf-16BEutf-32utf-32BEus-asciiiso-8859-1utf-7utf-8"->Substring(num, length);
+  String headerName = text;
+  String bodyName = text;
+  String displayName = GetDisplayName(codePage, index);
+  UInt32 flags = s_flags[index];
+  return rt::newobj<CodePageDataItem>(uiFamilyCodePage, text, headerName, bodyName, displayName, flags);
 }
 
 String EncodingTable::GetDisplayName(Int32 codePage, Int32 englishNameIndex) {
   String text = SR::GetResourceString("Globalization_cp_" + codePage);
   if (String::in::IsNullOrEmpty(text)) {
+    Int32 num = s_englishNameIndices[englishNameIndex];
+    Int32 length = s_englishNameIndices[englishNameIndex + 1] - num;
+    text = "UnicodeUnicode (Big-Endian)Unicode (UTF-32)Unicode (UTF-32 Big-Endian)US-ASCIIWestern European (ISO)Unicode (UTF-7)Unicode (UTF-8)"->Substring(num, length);
   }
   return text;
 }

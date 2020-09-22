@@ -25,6 +25,9 @@ void ArrayEnumerator___::ctor(Array<> array, Int32 index, Int32 count) {
     _indices[i] = array->GetLowerBound(i);
     num *= array->GetLength(i);
   }
+  Array<Int32> indices = _indices;
+  indices[indices->get_Length() - 1]--;
+  _complete = (num == 0);
 }
 
 void ArrayEnumerator___::IncArray() {
@@ -66,6 +69,8 @@ void ArrayEnumerator___::Reset() {
     num *= array->GetLength(i);
   }
   _complete = (num == 0);
+  Array<Int32> indices = _indices;
+  indices[indices->get_Length() - 1]--;
 }
 
 } // namespace System::Private::CoreLib::System::ArrayEnumeratorNamespace

@@ -768,7 +768,9 @@ namespace Meson.Compiler {
         case KnownTypeCode.IntPtr:
         case KnownTypeCode.UIntPtr: {
             bool isIntPtr = type.KnownTypeCode == KnownTypeCode.IntPtr;
+            string typeName = isIntPtr ? "intptr_t" : "uintptr_t";
             var field = type.Fields.Single(i => !i.IsStatic);
+
             var parameterType = Generator.GetKnownType(isIntPtr ? KnownTypeCode.UInt32 : KnownTypeCode.Int32);
             var parameterTypeName = GetTypeName(parameterType, type, parameterType, isInHead: true);
             var constructor = new MethodDefinitionSyntax(node.Name, new ParameterSyntax(parameterTypeName, IdentifierSyntax.Value).ArrayOf()) {
@@ -780,7 +782,15 @@ namespace Meson.Compiler {
             constructor.AddInitializationList(field.Name, IdentifierSyntax.Value.CastTo(IdentifierSyntax.VoidPointer));
             node.Add(constructor);
 
-            string typeName = isIntPtr ? "intptr_t" : "uintptr_t";
+            var constructor1 = new MethodDefinitionSyntax(node.Name, new ParameterSyntax(typeName, IdentifierSyntax.Value).ArrayOf()) {
+              Accessibility = Accessibility.Public,
+              Body = BlockSyntax.EmptyBlock,
+              IsNoexcept = true,
+              IsExplicit = true,
+            };
+            constructor1.AddInitializationList(field.Name, IdentifierSyntax.Value.CastTo(IdentifierSyntax.VoidPointer));
+            node.Add(constructor1);
+
             var ret = $"return *reinterpret_cast<{typeName}*>({field.Name})".AsIdentifier();
             var getValue = new MethodDefinitionSyntax(IdentifierSyntax.Get, null, new RefExpressionSyntax(typeName)) {
               Accessibility = Accessibility.Public,

@@ -16,6 +16,7 @@
 #include <System.Private.CoreLib/System/Globalization/IcuLocaleData-dep.h>
 #include <System.Private.CoreLib/System/Globalization/IcuLocaleDataParts.h>
 #include <System.Private.CoreLib/System/Globalization/TextInfo-dep.h>
+#include <System.Private.CoreLib/System/Int32-dep.h>
 #include <System.Private.CoreLib/System/IntPtr-dep.h>
 #include <System.Private.CoreLib/System/LocalAppContextSwitches-dep.h>
 #include <System.Private.CoreLib/System/MemoryExtensions-dep.h>
@@ -99,6 +100,9 @@ String CultureData___::get_EnglishName() {
     } else {
       text = GetLocaleInfoCore(LocaleStringData::EnglishDisplayName);
       if (String::in::IsNullOrEmpty(text)) {
+        String englishLanguageName = get_EnglishLanguageName();
+        Int32 index = englishLanguageName->get_Length() - 1;
+        text = ((englishLanguageName[index] != ')') ? (get_EnglishLanguageName() + " (" + get_EnglishCountryName() + ")") : String::in::Concat(MemoryExtensions::AsSpan(get_EnglishLanguageName(), 0, _sEnglishLanguage->get_Length() - 1), ", ", get_EnglishCountryName(), ")"));
       }
     }
     _sEnglishDisplayName = text;
@@ -1469,7 +1473,26 @@ Array<Int32> CultureData___::ConvertWin32GroupString(String win32Str) {
   if (win32Str[0] == '0') {
     return rt::newarr<Array<Int32>>(1);
   }
+  Int32 index = win32Str->get_Length() - 1;
   Array<Int32> array;
+  if (win32Str[index] == '0') {
+    array = rt::newarr<Array<Int32>>(win32Str->get_Length() / 2);
+  } else {
+    array = rt::newarr<Array<Int32>>(win32Str->get_Length() / 2 + 2);
+    Array<Int32> array2 = array;
+    array2[array2->get_Length() - 1] = 0;
+  }
+  Int32 num = 0;
+  Int32 num2 = 0;
+  while (num < win32Str->get_Length() && num2 < array->get_Length()) {
+    if (win32Str[num] < '1' || win32Str[num] > '9') {
+      return rt::newarr<Array<Int32>>(1);
+    }
+    array[num2] = win32Str[num] - 48;
+    num += 2;
+    num2++;
+  }
+  return array;
 }
 
 Int32 CultureData___::ConvertFirstDayOfWeekMonToSun(Int32 iTemp) {

@@ -10,6 +10,7 @@
 
 namespace System::Private::CoreLib::System::RangeNamespace {
 Range Range::get_All() {
+  return Range(Index::get_Start(), Index::get_End());
 }
 
 Range::Range(Index start, Index end) {
@@ -55,12 +56,16 @@ String Range::ToString() {
     span[num++] = '^';
   }
   flag = ((UInt32)End.get_Value()).TryFormat(span.Slice(num), charsWritten);
+  num += charsWritten;
+  return rt::newstr<String>(span.Slice(0, num));
 }
 
 Range Range::StartAt(Index start) {
+  return Range(start, Index::get_End());
 }
 
 Range Range::EndAt(Index end) {
+  return Range(Index::get_Start(), end);
 }
 
 ValueTuple<Int32, Int32> Range::GetOffsetAndLength(Int32 length) {

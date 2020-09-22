@@ -131,6 +131,12 @@ String IriHelper::EscapeUnescapeIri(Char* pInput, Int32 start, Int32 end, UriCom
           result = Rune::get_ReplacementChar();
         }
 
+        Int32 length = result.EncodeToUtf8(destination);
+        Span<Byte> span2 = destination.Slice(0, length);
+        Span<Byte> span3 = span2;
+        for (Byte&& b : *span3) {
+          UriHelper::EscapeAsciiChar(b, dest);
+        }
       }
       if (isSurrogatePair) {
         i++;

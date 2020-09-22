@@ -110,6 +110,8 @@ AggregateException TaskExceptionHolder___::CreateExceptionObject(Boolean calledF
   for (Int32 i = 0; i < array->get_Length() - 1; i++) {
     array[i] = faultExceptions[i]->get_SourceException();
   }
+  array[array->get_Length() - 1] = includeThisException;
+  return rt::newobj<AggregateException>(array);
 }
 
 ReadOnlyCollection<ExceptionDispatchInfo> TaskExceptionHolder___::GetExceptionDispatchInfos() {

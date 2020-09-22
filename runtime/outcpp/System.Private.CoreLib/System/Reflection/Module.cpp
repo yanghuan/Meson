@@ -1,7 +1,10 @@
 #include "Module-dep.h"
 
 #include <System.Private.CoreLib/System/ArgumentNullException-dep.h>
+#include <System.Private.CoreLib/System/Char-dep.h>
+#include <System.Private.CoreLib/System/MemoryExtensions-dep.h>
 #include <System.Private.CoreLib/System/NotImplemented-dep.h>
+#include <System.Private.CoreLib/System/ReadOnlySpan-dep.h>
 #include <System.Private.CoreLib/System/Reflection/BindingFlags.h>
 #include <System.Private.CoreLib/System/Reflection/CallingConventions.h>
 #include <System.Private.CoreLib/System/Reflection/InvalidFilterCriteriaException-dep.h>
@@ -266,6 +269,14 @@ Boolean Module___::FilterTypeNameImpl(Type cls, Object filterCriteria, StringCom
   if (text == nullptr) {
     rt::throw_exception<InvalidFilterCriteriaException>(SR::get_InvalidFilterCriteriaException_CritString());
   }
+  if (text->get_Length() > 0) {
+    Int32 index = text->get_Length() - 1;
+    if (text[index] == '*') {
+      ReadOnlySpan<Char> value = MemoryExtensions::AsSpan(text, 0, text->get_Length() - 1);
+      return MemoryExtensions::StartsWith(MemoryExtensions::AsSpan(cls->get_Name()), value, comparison);
+    }
+  }
+  return cls->get_Name()->Equals(text, comparison);
 }
 
 void Module___::cctor() {

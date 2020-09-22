@@ -70,6 +70,16 @@ void DateTimeFormatInfoScanner___::AddDateWordOrPostfix(String formatPostfix, St
   if (!m_dateWords->Contains(str)) {
     m_dateWords->Add(str);
   }
+  Int32 index = str->get_Length() - 1;
+  if (str[index] == '.') {
+    Int32 length = str->get_Length();
+    index = 0;
+    Int32 length2 = length - 1 - index;
+    String item2 = str->Substring(index, length2);
+    if (!m_dateWords->Contains(item2)) {
+      m_dateWords->Add(item2);
+    }
+  }
 }
 
 Int32 DateTimeFormatInfoScanner___::AddDateWords(String pattern, Int32 index, String formatPostfix) {

@@ -1319,6 +1319,8 @@ TypeInfo TypeBuilder___::CreateTypeNoLock() {
     Array<Int32> array2;
     if (m_typeParent != nullptr) {
       array2 = rt::newarr<Array<Int32>>(m_typeInterfaces->get_Count() + 2);
+      Array<Int32> array3 = array2;
+      array3[array3->get_Length() - 2] = num;
     } else {
       array2 = rt::newarr<Array<Int32>>(m_typeInterfaces->get_Count() + 1);
     }

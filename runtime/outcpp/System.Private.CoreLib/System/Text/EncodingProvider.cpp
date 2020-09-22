@@ -43,6 +43,8 @@ void EncodingProvider___::AddProvider(EncodingProvider provider) {
     } else if (Array<>::in::IndexOf(s_providers, provider) < 0) {
       Array<EncodingProvider> array = rt::newarr<Array<EncodingProvider>>(s_providers->get_Length() + 1);
       Array<>::in::Copy(s_providers, array, s_providers->get_Length());
+      array[array->get_Length() - 1] = provider;
+      s_providers = array;
     }
 
   }

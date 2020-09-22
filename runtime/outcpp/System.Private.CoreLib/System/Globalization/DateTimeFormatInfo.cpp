@@ -1443,6 +1443,49 @@ void DateTimeFormatInfo___::InsertHash(Array<TokenHashValue> hashTable, String s
     return;
   }
   Int32 num = 0;
+  if (!Char::IsWhiteSpace(str[0])) {
+    String text = str;
+    Int32 index = text->get_Length() - 1;
+    if (!Char::IsWhiteSpace(text[index])) {
+      goto IL_0044;
+    }
+  }
+  str = str->Trim(nullptr);
+  if (str->get_Length() == 0) {
+    return;
+  }
+  goto IL_0044;
+
+IL_0044:
+  Char c = get_Culture()->get_TextInfo()->ToLower(str[0]);
+  Int32 num2 = (Int32)c % 199;
+  Int32 num3 = 1 + (Int32)c % 197;
+  do {
+    TokenHashValue tokenHashValue = hashTable[num2];
+    if (tokenHashValue == nullptr) {
+      hashTable[num2] = rt::newobj<TokenHashValue>(str, tokenType, tokenValue);
+      break;
+    }
+    if (str->get_Length() >= tokenHashValue->tokenString->get_Length() && CompareStringIgnoreCaseOptimized(str, 0, tokenHashValue->tokenString->get_Length(), tokenHashValue->tokenString, 0, tokenHashValue->tokenString->get_Length())) {
+      if (str->get_Length() > tokenHashValue->tokenString->get_Length()) {
+        InsertAtCurrentHashNode(hashTable, str, c, tokenType, tokenValue, num, num2, num3);
+        break;
+      }
+      Int32 tokenType2 = (Int32)tokenHashValue->tokenType;
+      if (((tokenType2 & 255) == 0 && (tokenType & TokenType::RegularTokenMask) != 0) || ((tokenType2 & 65280) == 0 && (tokenType & TokenType::SeparatorTokenMask) != 0)) {
+        tokenHashValue->tokenType |= tokenType;
+        if (tokenValue != 0) {
+          tokenHashValue->tokenValue = tokenValue;
+        }
+      }
+      break;
+    }
+    num++;
+    num2 += num3;
+    if (num2 >= 199) {
+      num2 -= 199;
+    }
+  } while (num < 199);
 }
 
 Boolean DateTimeFormatInfo___::CompareStringIgnoreCaseOptimized(String string1, Int32 offset1, Int32 length1, String string2, Int32 offset2, Int32 length2) {

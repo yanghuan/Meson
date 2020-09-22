@@ -398,6 +398,54 @@ void UriHelper::MatchUTF8Sequence(ValueStringBuilder& dest, Span<Char> unescaped
     for (Int32 i = 0; i < charCount; i++) {
       Boolean flag = Char::IsHighSurrogate(*(ptr + i));
       Span<Byte> bytes2 = span2;
+      Int32 bytes3 = Encoding::in::get_UTF8()->GetBytes(unescapedChars.Slice(i, (!flag) ? 1 : 2), bytes2);
+      bytes2 = bytes2.Slice(0, bytes3);
+      Boolean flag2 = false;
+      if (iriParsing) {
+        Boolean isSurrogatePair;
+        flag2 = (flag ? IriHelper::CheckIriUnicodeRange(unescapedChars[i], unescapedChars[i + 1], isSurrogatePair, isQuery) : IriHelper::CheckIriUnicodeRange(unescapedChars[i], isQuery));
+      }
+      while (true) {
+        if (bytes[num] != bytes2[0]) {
+          EscapeAsciiChar(bytes[num++], dest);
+          continue;
+        }
+        Boolean flag3 = true;
+        Int32 j;
+        for (j = 0; j < bytes2.get_Length(); j++) {
+          if (bytes[num + j] != bytes2[j]) {
+            flag3 = false;
+            break;
+          }
+        }
+        if (flag3) {
+          break;
+        }
+        for (Int32 k = 0; k < j; k++) {
+          EscapeAsciiChar(bytes[num++], dest);
+        }
+      }
+      num += bytes2.get_Length();
+      if (iriParsing) {
+        if (!flag2) {
+          for (Int32 l = 0; l < bytes2.get_Length(); l++) {
+            EscapeAsciiChar(bytes2[l], dest);
+          }
+        } else {
+          dest.Append(*(ptr + i));
+          if (flag) {
+            dest.Append(*(ptr + i + 1));
+          }
+        }
+      } else {
+        dest.Append(*(ptr + i));
+        if (flag) {
+          dest.Append(*(ptr + i + 1));
+        }
+      }
+      if (flag) {
+        i++;
+      }
     }
   }
   while (num < byteCount) {

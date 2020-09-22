@@ -772,7 +772,8 @@ namespace rt {
 
     template <class T1> requires(IsNumerical<T1>)
     T operator &(const T1& other) const {
-      return static_cast<const T*>(this)->get() & GetPrimitiveValue(other);
+      auto p = static_cast<const T*>(this)->get();
+      return (T)(p & GetPrimitiveValue(other));
     }
 
     template <class T1> requires(IsNumerical<T1>)

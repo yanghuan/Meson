@@ -227,6 +227,18 @@ Array<EraInfo> JapaneseCalendar___::IcuGetJapaneseEras() {
   if (!CalendarData::in::EnumCalendarInfo("ja", CalendarId::JAPAN, CalendarDataType::AbbrevEraNames, calendarData2)) {
     calendarData2 = s_abbreviatedEnglishEraNames;
   }
+  if (calendarData2[calendarData2->get_Length() - 1]->get_Length() == 0 || calendarData2[calendarData2->get_Length() - 1][0] > '') {
+    calendarData2 = s_abbreviatedEnglishEraNames;
+  }
+  Int32 num3 = (calendarData2 == s_abbreviatedEnglishEraNames) ? (list->get_Count() - 1) : (calendarData2->get_Length() - 1);
+  for (Int32 i = 0; i < list->get_Count(); i++) {
+    list[i]->era = list->get_Count() - i;
+    if (num3 < calendarData2->get_Length()) {
+      list[i]->englishEraName = calendarData2[num3];
+    }
+    num3--;
+  }
+  return list->ToArray();
 }
 
 String JapaneseCalendar___::GetAbbreviatedEraName(Array<String> eraNames, Int32 eraIndex) {
