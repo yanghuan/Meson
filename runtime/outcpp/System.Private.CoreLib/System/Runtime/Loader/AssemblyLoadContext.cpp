@@ -628,9 +628,6 @@ Assembly AssemblyLoadContext___::ResolveSatelliteAssembly(AssemblyName assemblyN
   Assembly assembly = LoadFromAssemblyName(rt::newobj<AssemblyName>(assemblyName2));
   AssemblyLoadContext loadContext = GetLoadContext(assembly);
   String directoryName = Path::GetDirectoryName(assembly->get_Location());
-  if (directoryName == nullptr) {
-    return nullptr;
-  }
   String text = Path::Combine(directoryName, assemblyName->get_CultureName(), assemblyName->get_Name() + ".dll");
   Boolean flag = File::InternalExists(text);
   if (flag || Path::get_IsCaseSensitive()) {

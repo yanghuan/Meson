@@ -2,6 +2,7 @@
 
 #include <System.Private.CoreLib/Internal/Runtime/CompilerServices/Unsafe-dep.h>
 #include <System.Private.CoreLib/System/ArgumentNullException-dep.h>
+#include <System.Private.CoreLib/System/Boolean-dep.h>
 #include <System.Private.CoreLib/System/Collections/Generic/ICollection.h>
 #include <System.Private.CoreLib/System/Delegate-dep.h>
 #include <System.Private.CoreLib/System/Diagnostics/Debugger-dep.h>
@@ -21,10 +22,8 @@
 #include <System.Private.CoreLib/System/Threading/LazyInitializer-dep.h>
 #include <System.Private.CoreLib/System/Threading/ManualResetEventSlim-dep.h>
 #include <System.Private.CoreLib/System/Threading/SpinWait-dep.h>
-#include <System.Private.CoreLib/System/Threading/Tasks/AsyncCausalityStatus.h>
+#include <System.Private.CoreLib/System/Threading/Tasks/AsyncCausalityTracer-dep.h>
 #include <System.Private.CoreLib/System/Threading/Tasks/AwaitTaskContinuation-dep.h>
-#include <System.Private.CoreLib/System/Threading/Tasks/CausalityRelation.h>
-#include <System.Private.CoreLib/System/Threading/Tasks/CausalitySynchronousWork.h>
 #include <System.Private.CoreLib/System/Threading/Tasks/CompletionActionInvoker-dep.h>
 #include <System.Private.CoreLib/System/Threading/Tasks/ContinuationTaskFromTask-dep.h>
 #include <System.Private.CoreLib/System/Threading/Tasks/ContinueWithTaskContinuation-dep.h>
@@ -67,16 +66,14 @@ void DelayPromise___::__c___::_ctor_b__1_0(Object state) {
 }
 
 void DelayPromise___::ctor(Int32 millisecondsDelay) {
-  if (TplEventSource::in::Log->IsEnabled()) {
-    TplEventSource::in::Log->TraceOperationBegin(Task<>::in::get_Id(), "Task.Delay", 0);
-  }
+  Boolean loggingOn = AsyncCausalityTracer::get_LoggingOn();
   if (s_asyncDebuggingEnabled) {
     AddToActiveTasks((DelayPromise)this);
   }
   if (millisecondsDelay != -1) {
     TimerCallback as = __c::in::__9__1_0;
     _timer = rt::newobj<TimerQueueTimer>(as != nullptr ? as : (__c::in::__9__1_0 = {__c::in::__9, &__c::in::_ctor_b__1_0}), (DelayPromise)this, (UInt32)millisecondsDelay, UInt32::MaxValue, false);
-    if (Task<>::in::get_IsCompleted()) {
+    if (Task<>::in::get_IsCanceled()) {
       _timer->Close();
     }
   }
@@ -88,9 +85,7 @@ void DelayPromise___::CompleteTimedOut() {
     if (s_asyncDebuggingEnabled) {
       RemoveFromActiveTasks((DelayPromise)this);
     }
-    if (TplEventSource::in::Log->IsEnabled()) {
-      TplEventSource::in::Log->TraceOperationEnd(Task<>::in::get_Id(), AsyncCausalityStatus::Completed);
-    }
+    Boolean loggingOn = AsyncCausalityTracer::get_LoggingOn();
   }
 }
 
@@ -188,9 +183,7 @@ Boolean WhenAllPromise___<>::get_ShouldNotifyDebuggerOfWaitCompletion() {
 }
 
 void WhenAllPromise___<>::ctor(Array<Task<>> tasks) {
-  if (TplEventSource::in::Log->IsEnabled()) {
-    TplEventSource::in::Log->TraceOperationBegin(Task<>::in::get_Id(), "Task.WhenAll", 0);
-  }
+  Boolean loggingOn = AsyncCausalityTracer::get_LoggingOn();
   if (s_asyncDebuggingEnabled) {
     AddToActiveTasks((WhenAllPromise<>)this);
   }
@@ -206,9 +199,7 @@ void WhenAllPromise___<>::ctor(Array<Task<>> tasks) {
 }
 
 void WhenAllPromise___<>::Invoke(Task<> completedTask) {
-  if (TplEventSource::in::Log->IsEnabled()) {
-    TplEventSource::in::Log->TraceOperationRelation(Task<>::in::get_Id(), CausalityRelation::Join);
-  }
+  Boolean loggingOn = AsyncCausalityTracer::get_LoggingOn();
   if (Interlocked::Decrement(m_count) != 0) {
     return;
   }
@@ -239,9 +230,7 @@ void WhenAllPromise___<>::Invoke(Task<> completedTask) {
     TrySetCanceled(task->get_CancellationToken(), task->GetCancellationExceptionDispatchInfo());
     return;
   }
-  if (TplEventSource::in::Log->IsEnabled()) {
-    TplEventSource::in::Log->TraceOperationEnd(Task<>::in::get_Id(), AsyncCausalityStatus::Completed);
-  }
+  Boolean loggingOn2 = AsyncCausalityTracer::get_LoggingOn();
   if (s_asyncDebuggingEnabled) {
     RemoveFromActiveTasks((WhenAllPromise<>)this);
   }
@@ -275,23 +264,23 @@ Task<>::in::ContingentProperties Task___<>::__c___::_EnsureContingentPropertiesI
   return rt::newobj<ContingentProperties>();
 }
 
-void Task___<>::__c___::_ThrowAsync_b__140_0(Object state) {
+void Task___<>::__c___::_ThrowAsync_b__139_0(Object state) {
   ((ExceptionDispatchInfo)state)->Throw();
 }
 
-void Task___<>::__c___::_ThrowAsync_b__140_1(Object state) {
+void Task___<>::__c___::_ThrowAsync_b__139_1(Object state) {
   ((ExceptionDispatchInfo)state)->Throw();
 }
 
-Boolean Task___<>::__c___::_FinishSlow_b__147_0(Task<> t) {
+Boolean Task___<>::__c___::_FinishSlow_b__146_0(Task<> t) {
   return t->get_IsExceptionObservedByParent();
 }
 
-Boolean Task___<>::__c___::_AddTaskContinuationComplex_b__218_0(Object l) {
+Boolean Task___<>::__c___::_AddTaskContinuationComplex_b__217_0(Object l) {
   return l == nullptr;
 }
 
-void Task___<>::__c___::_cctor_b__277_0(Object obj) {
+void Task___<>::__c___::_cctor_b__276_0(Object obj) {
   Unsafe::As<Task<>>(obj)->InnerInvoke();
 }
 
@@ -845,13 +834,6 @@ Boolean Task___<>::IsCompletedMethod(Int32 flags) {
   return (flags & 23068672) != 0;
 }
 
-void Task___<>::SpinUntilCompleted() {
-  SpinWait spinWait;
-  while (!get_IsCompleted()) {
-    spinWait.SpinOnce();
-  }
-}
-
 void Task___<>::Dispose() {
   Dispose(true);
   GC::SuppressFinalize((Task<>)this);
@@ -891,8 +873,7 @@ void Task___<>::ScheduleAndStart(Boolean needsProtection) {
   if (s_asyncDebuggingEnabled) {
     AddToActiveTasks((Task<>)this);
   }
-  if (TplEventSource::in::Log->IsEnabled() && (get_Options() & (TaskCreationOptions)512) == 0) {
-    TplEventSource::in::Log->TraceOperationBegin(get_Id(), "Task: " + m_action->get_Method()->get_Name(), 0);
+  if (AsyncCausalityTracer::get_LoggingOn()) {
   }
   try {
     m_taskScheduler->InternalQueueTask((Task<>)this);
@@ -968,15 +949,15 @@ void Task___<>::ThrowAsync(Exception exception, SynchronizationContext targetCon
   ExceptionDispatchInfo state = ExceptionDispatchInfo::in::Capture(exception);
   if (targetContext != nullptr) {
     try {
-      SendOrPostCallback as = __c::in::__9__140_0;
-      targetContext->Post(as != nullptr ? as : (__c::in::__9__140_0 = {__c::in::__9, &__c::in::_ThrowAsync_b__140_0}), state);
+      SendOrPostCallback as = __c::in::__9__139_0;
+      targetContext->Post(as != nullptr ? as : (__c::in::__9__139_0 = {__c::in::__9, &__c::in::_ThrowAsync_b__139_0}), state);
       return;
     } catch (Exception ex) {
       state = ExceptionDispatchInfo::in::Capture(rt::newobj<AggregateException>(rt::newarr<Array<Exception>>(2, exception, ex)));
     }
   }
-  WaitCallback as = __c::in::__9__140_1;
-  ThreadPool::QueueUserWorkItem(as != nullptr ? as : (__c::in::__9__140_1 = {__c::in::__9, &__c::in::_ThrowAsync_b__140_1}), state);
+  WaitCallback as = __c::in::__9__139_1;
+  ThreadPool::QueueUserWorkItem(as != nullptr ? as : (__c::in::__9__139_1 = {__c::in::__9, &__c::in::_ThrowAsync_b__139_1}), state);
 }
 
 void Task___<>::UpdateExceptionObservedStatus() {
@@ -1010,8 +991,8 @@ void Task___<>::FinishSlow(Boolean userDelegateExecute) {
   if (exceptionalChildren != nullptr) {
     {
       rt::lock(exceptionalChildren);
-      Predicate<Task<>> as = __c::in::__9__147_0;
-      exceptionalChildren->RemoveAll(as != nullptr ? as : (__c::in::__9__147_0 = {__c::in::__9, &__c::in::_FinishSlow_b__147_0}));
+      Predicate<Task<>> as = __c::in::__9__146_0;
+      exceptionalChildren->RemoveAll(as != nullptr ? as : (__c::in::__9__146_0 = {__c::in::__9, &__c::in::_FinishSlow_b__146_0}));
     }
   }
 }
@@ -1024,25 +1005,19 @@ void Task___<>::FinishStageTwo() {
   Int32 num;
   if (get_ExceptionRecorded()) {
     num = 2097152;
-    if (TplEventSource::in::Log->IsEnabled()) {
-      TplEventSource::in::Log->TraceOperationEnd(get_Id(), AsyncCausalityStatus::Error);
-    }
+    Boolean loggingOn = AsyncCausalityTracer::get_LoggingOn();
     if (s_asyncDebuggingEnabled) {
       RemoveFromActiveTasks((Task<>)this);
     }
   } else if (get_IsCancellationRequested() && get_IsCancellationAcknowledged()) {
     num = 4194304;
-    if (TplEventSource::in::Log->IsEnabled()) {
-      TplEventSource::in::Log->TraceOperationEnd(get_Id(), AsyncCausalityStatus::Canceled);
-    }
+    Boolean loggingOn2 = AsyncCausalityTracer::get_LoggingOn();
     if (s_asyncDebuggingEnabled) {
       RemoveFromActiveTasks((Task<>)this);
     }
   } else {
     num = 16777216;
-    if (TplEventSource::in::Log->IsEnabled()) {
-      TplEventSource::in::Log->TraceOperationEnd(get_Id(), AsyncCausalityStatus::Completed);
-    }
+    Boolean loggingOn3 = AsyncCausalityTracer::get_LoggingOn();
     if (s_asyncDebuggingEnabled) {
       RemoveFromActiveTasks((Task<>)this);
     }
@@ -1161,10 +1136,7 @@ void Task___<>::ExecuteWithThreadLocal(Task<>& currentTaskSlot, Thread threadPoo
       log->TaskStarted(TaskScheduler::in::get_Current()->get_Id(), 0, get_Id());
     }
   }
-  Boolean flag2 = TplEventSource::in::Log->IsEnabled();
-  if (flag2) {
-    TplEventSource::in::Log->TraceSynchronousWorkBegin(get_Id(), CausalitySynchronousWork::Execution);
-  }
+  Boolean loggingOn = AsyncCausalityTracer::get_LoggingOn();
   try {
     currentTaskSlot = (Task<>)this;
     try {
@@ -1179,9 +1151,6 @@ void Task___<>::ExecuteWithThreadLocal(Task<>& currentTaskSlot, Thread threadPoo
 
     } catch (Exception unhandledException) {
       HandleException(unhandledException);
-    }
-    if (flag2) {
-      TplEventSource::in::Log->TraceSynchronousWorkEnd(CausalitySynchronousWork::Execution);
     }
     Finish(true);
   } catch (...) {
@@ -1460,9 +1429,7 @@ void Task___<>::CancellationCleanupLogic() {
     contingentProperties->SetCompleted();
     contingentProperties->UnregisterCancellationCallback();
   }
-  if (TplEventSource::in::Log->IsEnabled()) {
-    TplEventSource::in::Log->TraceOperationEnd(get_Id(), AsyncCausalityStatus::Canceled);
-  }
+  Boolean loggingOn = AsyncCausalityTracer::get_LoggingOn();
   if (s_asyncDebuggingEnabled) {
     RemoveFromActiveTasks((Task<>)this);
   }
@@ -1523,9 +1490,7 @@ void Task___<>::RunContinuations(Object continuationObject) {
   if (!tplEventSource->IsEnabled()) {
     tplEventSource = nullptr;
   }
-  if (TplEventSource::in::Log->IsEnabled()) {
-    TplEventSource::in::Log->TraceSynchronousWorkBegin(get_Id(), CausalitySynchronousWork::CompletionNotification);
-  }
+  Boolean loggingOn = AsyncCausalityTracer::get_LoggingOn();
   Boolean flag = (m_stateFlags & 64) == 0 && RuntimeHelpers::TryEnsureSufficientExecutionStack();
   IAsyncStateMachineBox asyncStateMachineBox = rt::as<IAsyncStateMachineBox>(continuationObject);
   if (asyncStateMachineBox == nullptr) {
@@ -1635,9 +1600,7 @@ void Task___<>::RunOrQueueCompletionAction(ITaskCompletionAction completionActio
 }
 
 void Task___<>::LogFinishCompletionNotification() {
-  if (TplEventSource::in::Log->IsEnabled()) {
-    TplEventSource::in::Log->TraceSynchronousWorkEnd(CausalitySynchronousWork::CompletionNotification);
-  }
+  Boolean loggingOn = AsyncCausalityTracer::get_LoggingOn();
 }
 
 Task<> Task___<>::ContinueWith(Action<Task<>> continuationAction) {
@@ -1764,8 +1727,8 @@ Boolean Task___<>::AddTaskContinuationComplex(Object tc, Boolean addBeforeOthers
       rt::lock(list);
       if (m_continuationObject != s_taskCompletionSentinel) {
         if (list->get_Count() == list->get_Capacity()) {
-          Predicate<Object> as = __c::in::__9__218_0;
-          list->RemoveAll(as != nullptr ? as : (__c::in::__9__218_0 = {__c::in::__9, &__c::in::_AddTaskContinuationComplex_b__218_0}));
+          Predicate<Object> as = __c::in::__9__217_0;
+          list->RemoveAll(as != nullptr ? as : (__c::in::__9__217_0 = {__c::in::__9, &__c::in::_AddTaskContinuationComplex_b__217_0}));
         }
         if (addBeforeOthers) {
           list->Insert(0, tc);
@@ -2250,7 +2213,7 @@ void Task___<>::cctor() {
   s_taskCompletionSentinel = rt::newobj<Object>();
   Factory = rt::newobj<TaskFactory<>>();
   s_cachedCompleted = rt::newobj<Task<VoidTaskResult>>(false, rt::default__, (TaskCreationOptions)16384, rt::default__);
-  s_ecCallback = {__c::in::__9, &__c::in::_cctor_b__277_0};
+  s_ecCallback = {__c::in::__9, &__c::in::_cctor_b__276_0};
 }
 
 } // namespace System::Private::CoreLib::System::Threading::Tasks::TaskNamespace

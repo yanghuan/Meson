@@ -24,7 +24,7 @@ CompressedStack CompressedStack___::GetCompressedStack() {
   return rt::newobj<CompressedStack>();
 }
 
-void CompressedStack___::Run(CompressedStack compressedStack, ContextCallback callback, Object state) {
+void CompressedStack___::Run(CompressedStack compressedStack, ContextCallback<> callback, Object state) {
   if (compressedStack == nullptr) {
     rt::throw_exception<ArgumentNullException>("compressedStack");
   }

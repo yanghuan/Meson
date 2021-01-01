@@ -271,14 +271,6 @@ void NativeRuntimeEventSource___::MethodDetails(UInt64 MethodID, UInt64 TypeID, 
   WriteEvent(72, rt::newarr<Array<Object>>(5, MethodID, TypeID, MethodToken, TypeParameterCount, LoaderModuleID));
 }
 
-void NativeRuntimeEventSource___::TypeLoadStart(UInt32 TypeLoadStartID, UInt16 ClrInstanceID) {
-  WriteEvent(73, TypeLoadStartID, ClrInstanceID);
-}
-
-void NativeRuntimeEventSource___::TypeLoadStop(UInt32 TypeLoadStartID, UInt16 ClrInstanceID, UInt16 LoadLevel, UInt64 TypeID, String TypeName) {
-  WriteEvent(74, rt::newarr<Array<Object>>(5, TypeLoadStartID, ClrInstanceID, LoadLevel, TypeID, TypeName));
-}
-
 void NativeRuntimeEventSource___::ExceptionThrown_V1(String ExceptionType, String ExceptionMessage, IntPtr ExceptionEIP, UInt32 ExceptionHRESULT, UInt16 ExceptionFlags, UInt16 ClrInstanceID) {
   WriteEvent(80, rt::newarr<Array<Object>>(6, ExceptionType, ExceptionMessage, ExceptionEIP, ExceptionHRESULT, ExceptionFlags, ClrInstanceID));
 }
@@ -381,10 +373,6 @@ void NativeRuntimeEventSource___::MethodLoad_V2(UInt64 MethodID, UInt64 ModuleID
 
 void NativeRuntimeEventSource___::R2RGetEntryPoint(UInt64 MethodID, String MethodNamespace, String MethodName, String MethodSignature, UInt64 EntryPoint, UInt16 ClrInstanceID) {
   WriteEvent(159, rt::newarr<Array<Object>>(6, MethodID, MethodNamespace, MethodName, MethodSignature, EntryPoint, ClrInstanceID));
-}
-
-void NativeRuntimeEventSource___::R2RGetEntryPointStart(UInt64 MethodID, UInt16 ClrInstanceID) {
-  WriteEvent(160, rt::newarr<Array<Object>>(2, MethodID, ClrInstanceID));
 }
 
 void NativeRuntimeEventSource___::MethodUnload_V2(UInt64 MethodID, UInt64 ModuleID, UInt64 MethodStartAddress, UInt32 MethodSize, UInt32 MethodToken, UInt32 MethodFlags, UInt16 ClrInstanceID, UInt64 ReJITID) {
@@ -513,14 +501,6 @@ void NativeRuntimeEventSource___::GCPerHeapHistory_V3(UInt16 ClrInstanceID, IntP
 
 void NativeRuntimeEventSource___::GCGlobalHeapHistory_V3(UInt64 FinalYoungestDesired, Int32 NumHeaps, UInt32 CondemnedGeneration, UInt32 Gen0ReductionCount, UInt32 Reason, UInt32 GlobalMechanisms, UInt16 ClrInstanceID, UInt32 PauseMode, UInt32 MemoryPressure, UInt32 CondemnReasons0, UInt32 CondemnReasons1) {
   WriteEvent(205, rt::newarr<Array<Object>>(11, FinalYoungestDesired, NumHeaps, CondemnedGeneration, Gen0ReductionCount, Reason, GlobalMechanisms, ClrInstanceID, PauseMode, MemoryPressure, CondemnReasons0, CondemnReasons1));
-}
-
-void NativeRuntimeEventSource___::GenAwareBegin(UInt32 Count, UInt16 ClrInstanceID) {
-  WriteEvent(206, Count, ClrInstanceID);
-}
-
-void NativeRuntimeEventSource___::GenAwareEnd(UInt32 Count, UInt16 ClrInstanceID) {
-  WriteEvent(207, Count, ClrInstanceID);
 }
 
 void NativeRuntimeEventSource___::DebugIPCEventStart() {

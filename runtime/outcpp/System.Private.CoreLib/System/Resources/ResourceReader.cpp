@@ -167,8 +167,8 @@ Object ResourceReader___::DeserializeObject(Int32 typeIndex) {
   if (!_permitDeserialization) {
     rt::throw_exception<NotSupportedException>(SR::get_NotSupported_ResourceObjectSerialization());
   }
-  if (_binaryFormatter == nullptr && !InitializeBinaryFormatter()) {
-    rt::throw_exception<NotSupportedException>(SR::get_BinaryFormatter_SerializationDisallowed());
+  if (_binaryFormatter == nullptr) {
+    InitializeBinaryFormatter();
   }
   Type type = FindType(typeIndex);
   Object obj = s_deserializeMethod(_binaryFormatter, _store->get_BaseStream());
@@ -178,13 +178,12 @@ Object ResourceReader___::DeserializeObject(Int32 typeIndex) {
   return obj;
 }
 
-Boolean ResourceReader___::InitializeBinaryFormatter() {
+void ResourceReader___::InitializeBinaryFormatter() {
   Func<Type> as = __c::in::__9__6_0;
   LazyInitializer::EnsureInitialized(s_binaryFormatterType, as != nullptr ? as : (__c::in::__9__6_0 = {__c::in::__9, &__c::in::_InitializeBinaryFormatter_b__6_0}));
   Func<Func<Object, Stream, Object>> is = __c::in::__9__6_1;
   LazyInitializer::EnsureInitialized(s_deserializeMethod, is != nullptr ? is : (__c::in::__9__6_1 = {__c::in::__9, &__c::in::_InitializeBinaryFormatter_b__6_1}));
   _binaryFormatter = Activator::CreateInstance(s_binaryFormatterType);
-  return true;
 }
 
 Boolean ResourceReader___::ValidateReaderType(String readerType) {

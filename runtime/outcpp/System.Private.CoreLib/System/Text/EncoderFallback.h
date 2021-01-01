@@ -14,6 +14,8 @@ CLASS(EncoderFallback) : public object {
   public: Int32 get_MaxCharCount();
   public: EncoderFallbackBuffer CreateFallbackBuffer();
   public: void ctor();
+  private: static EncoderFallback s_replacementFallback;
+  private: static EncoderFallback s_exceptionFallback;
 };
 } // namespace EncoderFallbackNamespace
 using EncoderFallback = EncoderFallbackNamespace::EncoderFallback;

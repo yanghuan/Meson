@@ -474,8 +474,6 @@ String ThrowHelper::GetResourceString(ExceptionResource resource) {
       return SR::get_Arg_RankMultiDimNotSupported();
     case ExceptionResource::Arg_NonZeroLowerBound:
       return SR::get_Arg_NonZeroLowerBound();
-    case ExceptionResource::ArgumentOutOfRange_GetCharCountOverflow:
-      return SR::get_ArgumentOutOfRange_GetCharCountOverflow();
     case ExceptionResource::ArgumentOutOfRange_ListInsert:
       return SR::get_ArgumentOutOfRange_ListInsert();
     case ExceptionResource::ArgumentOutOfRange_NeedNonNegNum:

@@ -279,7 +279,6 @@ CLASS(RuntimeType) : public TypeInfo::in {
   private: static Boolean FilterApplyConstructorInfo(RuntimeConstructorInfo constructor, BindingFlags bindingFlags, CallingConventions callConv, Array<Type> argumentTypes);
   private: static Boolean FilterApplyMethodBase(MethodBase methodBase, BindingFlags methodFlags, BindingFlags bindingFlags, CallingConventions callConv, Array<Type> argumentTypes);
   public: void ctor();
-  public: IntPtr GetUnderlyingNativeHandle();
   public: Boolean CacheEquals(Object o);
   private: RuntimeTypeCache InitializeCache();
   private: String GetDefaultMemberName();

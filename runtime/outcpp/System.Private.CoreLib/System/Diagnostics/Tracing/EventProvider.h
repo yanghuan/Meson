@@ -14,6 +14,8 @@
 
 namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)
+FORWARD(AsyncCallback)
+FORWARD(IAsyncResult)
 FORWARD(IDisposable)
 FORWARDS(IntPtr)
 FORWARD(String)
@@ -52,6 +54,8 @@ CLASS(EventProvider) : public object {
   private: CLASS(SessionInfoCallback) : public MulticastDelegate::in {
     public: void ctor(Object object, IntPtr method);
     public: void Invoke(Int32 etwSessionId, Int64 matchAllKeywords, List<SessionInfo>& sessionList);
+    public: IAsyncResult BeginInvoke(Int32 etwSessionId, Int64 matchAllKeywords, List<SessionInfo>& sessionList, AsyncCallback callback, Object object);
+    public: void EndInvoke(List<SessionInfo>& sessionList, IAsyncResult result);
     public: static constexpr rt::TypeCode code = rt::TypeCode::Delegate;
   };
   public: struct EventData : public valueType<EventData> {

@@ -1,7 +1,6 @@
 #include "SR-dep.h"
 
 #include <System.Console/FxResources/System/Console/SR-dep.h>
-#include <System.Private.CoreLib/System/AppContext-dep.h>
 #include <System.Private.CoreLib/System/Resources/MissingManifestResourceException-dep.h>
 #include <System.Private.CoreLib/System/Type-dep.h>
 
@@ -184,13 +183,11 @@ String SR::get_IO_PathTooLong_Path() {
 }
 
 Boolean SR::UsingResourceKeys() {
-  return s_usingResourceKeys;
+  return false;
 }
 
 String SR::GetResourceString(String resourceKey, String defaultString) {
   if (UsingResourceKeys()) {
-    String as = defaultString;
-    return as != nullptr ? as : resourceKey;
   }
   String text = nullptr;
   try {
@@ -205,21 +202,14 @@ String SR::GetResourceString(String resourceKey, String defaultString) {
 
 String SR::Format(String resourceFormat, Object p1) {
   if (UsingResourceKeys()) {
-    return String::in::Join(", ", rt::newarr<Array<Object>>(2, resourceFormat, p1));
   }
   return String::in::Format(resourceFormat, p1);
 }
 
 String SR::Format(String resourceFormat, Object p1, Object p2) {
   if (UsingResourceKeys()) {
-    return String::in::Join(", ", rt::newarr<Array<Object>>(3, resourceFormat, p1, p2));
   }
   return String::in::Format(resourceFormat, p1, p2);
-}
-
-void SR::cctor() {
-  Boolean isEnabled;
-  s_usingResourceKeys = (AppContext::TryGetSwitch("System.Resources.UseSystemResourceKeys", isEnabled) && isEnabled);
 }
 
 } // namespace System::Console::System::SRNamespace

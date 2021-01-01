@@ -7,6 +7,7 @@
 #include <System.Private.CoreLib/System/ArgumentException-dep.h>
 #include <System.Private.CoreLib/System/Collections/Generic/Dictionary-dep.h>
 #include <System.Private.CoreLib/System/Exception-dep.h>
+#include <System.Private.CoreLib/System/IntPtr-dep.h>
 #include <System.Private.CoreLib/System/InvalidCastException-dep.h>
 #include <System.Private.CoreLib/System/InvalidOperationException-dep.h>
 #include <System.Private.CoreLib/System/IO/Path-dep.h>
@@ -53,15 +54,11 @@ Type ComActivator::BasicClassFactory___::GetValidatedInterfaceType(Type classTyp
   rt::throw_exception<InvalidCastException>();
 }
 
-IntPtr ComActivator::BasicClassFactory___::GetObjectAsInterface(Object obj, Type interfaceType) {
-  if (interfaceType == typeof<Object>()) {
-    return Marshal::GetIUnknownForObject(obj);
+void ComActivator::BasicClassFactory___::ValidateObjectIsMarshallableAsInterface(Object obj, Type interfaceType) {
+  if (!(interfaceType == typeof<Object>())) {
+    IntPtr comInterfaceForObject = Marshal::GetComInterfaceForObject(obj, interfaceType, CustomQueryInterfaceMode::Ignore);
+    Marshal::Release(comInterfaceForObject);
   }
-  IntPtr comInterfaceForObject = Marshal::GetComInterfaceForObject(obj, interfaceType, CustomQueryInterfaceMode::Ignore);
-  if (comInterfaceForObject == IntPtr::Zero) {
-    rt::throw_exception<InvalidCastException>();
-  }
-  return comInterfaceForObject;
 }
 
 Object ComActivator::BasicClassFactory___::CreateAggregatedObject(Object pUnkOuter, Object comObject) {
@@ -75,13 +72,13 @@ Object ComActivator::BasicClassFactory___::CreateAggregatedObject(Object pUnkOut
   }
 }
 
-void ComActivator::BasicClassFactory___::CreateInstance(Object pUnkOuter, Guid& riid, IntPtr& ppvObject) {
+void ComActivator::BasicClassFactory___::CreateInstance(Object pUnkOuter, Guid& riid, Object& ppvObject) {
   Type validatedInterfaceType = GetValidatedInterfaceType(_classType, riid, pUnkOuter);
-  Object obj = Activator::CreateInstance(_classType);
+  ppvObject = Activator::CreateInstance(_classType);
   if (pUnkOuter != nullptr) {
-    obj = CreateAggregatedObject(pUnkOuter, obj);
+    ppvObject = CreateAggregatedObject(pUnkOuter, ppvObject);
   }
-  ppvObject = GetObjectAsInterface(obj, validatedInterfaceType);
+  ValidateObjectIsMarshallableAsInterface(ppvObject, validatedInterfaceType);
 }
 
 void ComActivator::BasicClassFactory___::LockServer(Boolean fLock) {
@@ -94,7 +91,7 @@ void ComActivator::LicenseClassFactory___::ctor(Guid clsid, Type classType) {
   _classType = classType;
 }
 
-void ComActivator::LicenseClassFactory___::CreateInstance(Object pUnkOuter, Guid& riid, IntPtr& ppvObject) {
+void ComActivator::LicenseClassFactory___::CreateInstance(Object pUnkOuter, Guid& riid, Object& ppvObject) {
   CreateInstanceInner(pUnkOuter, riid, nullptr, true, ppvObject);
 }
 
@@ -114,17 +111,17 @@ void ComActivator::LicenseClassFactory___::RequestLicKey(Int32 dwReserved, Strin
   pBstrKey = _licenseProxy->RequestLicKey(_classType);
 }
 
-void ComActivator::LicenseClassFactory___::CreateInstanceLic(Object pUnkOuter, Object pUnkReserved, Guid& riid, String bstrKey, IntPtr& ppvObject) {
+void ComActivator::LicenseClassFactory___::CreateInstanceLic(Object pUnkOuter, Object pUnkReserved, Guid& riid, String bstrKey, Object& ppvObject) {
   CreateInstanceInner(pUnkOuter, riid, bstrKey, false, ppvObject);
 }
 
-void ComActivator::LicenseClassFactory___::CreateInstanceInner(Object pUnkOuter, Guid& riid, String key, Boolean isDesignTime, IntPtr& ppvObject) {
+void ComActivator::LicenseClassFactory___::CreateInstanceInner(Object pUnkOuter, Guid& riid, String key, Boolean isDesignTime, Object& ppvObject) {
   Type validatedInterfaceType = BasicClassFactory::in::GetValidatedInterfaceType(_classType, riid, pUnkOuter);
-  Object obj = _licenseProxy->AllocateAndValidateLicense(_classType, key, isDesignTime);
+  ppvObject = _licenseProxy->AllocateAndValidateLicense(_classType, key, isDesignTime);
   if (pUnkOuter != nullptr) {
-    obj = BasicClassFactory::in::CreateAggregatedObject(pUnkOuter, obj);
+    ppvObject = BasicClassFactory::in::CreateAggregatedObject(pUnkOuter, ppvObject);
   }
-  ppvObject = BasicClassFactory::in::GetObjectAsInterface(obj, validatedInterfaceType);
+  BasicClassFactory::in::ValidateObjectIsMarshallableAsInterface(ppvObject, validatedInterfaceType);
 }
 
 Object ComActivator::GetClassFactoryForType(ComActivationContext cxt) {

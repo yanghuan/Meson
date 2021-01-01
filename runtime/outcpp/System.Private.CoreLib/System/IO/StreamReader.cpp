@@ -649,8 +649,11 @@ void StreamReader___::ctor(Stream stream, Encoding encoding, Boolean detectEncod
   _byteBuffer = rt::newarr<Array<Byte>>(bufferSize);
   _maxCharsPerBuffer = encoding->GetMaxCharCount(bufferSize);
   _charBuffer = rt::newarr<Array<Char>>(_maxCharsPerBuffer);
+  _byteLen = 0;
+  _bytePos = 0;
   _detectEncoding = detectEncodingFromByteOrderMarks;
   _checkPreamble = (encoding->get_Preamble().get_Length() > 0);
+  _isBlocked = false;
   _closable = !leaveOpen;
 }
 
@@ -1035,12 +1038,14 @@ Task<String> StreamReader___::ReadLineAsync() {
 }
 
 Task<String> StreamReader___::ReadLineAsyncInternal() {
-  _ReadLineAsyncInternal_d__59 stateMachine;
-  stateMachine.__t__builder = AsyncTaskMethodBuilder<String>::Create();
-  stateMachine.__4__this = (StreamReader)this;
-  stateMachine.__1__state = -1;
-  stateMachine.__t__builder.Start(stateMachine);
-  return stateMachine.__t__builder.get_Task();
+  Boolean flag = _charPos == _charLen;
+  Boolean flag2 = flag;
+  if (flag2) {
+  }
+  if (flag2) {
+    return nullptr;
+  }
+  StringBuilder sb = nullptr;
 }
 
 Task<String> StreamReader___::ReadToEndAsync() {
@@ -1053,12 +1058,13 @@ Task<String> StreamReader___::ReadToEndAsync() {
 }
 
 Task<String> StreamReader___::ReadToEndAsyncInternal() {
-  _ReadToEndAsyncInternal_d__61 stateMachine;
-  stateMachine.__t__builder = AsyncTaskMethodBuilder<String>::Create();
-  stateMachine.__4__this = (StreamReader)this;
-  stateMachine.__1__state = -1;
-  stateMachine.__t__builder.Start(stateMachine);
-  return stateMachine.__t__builder.get_Task();
+  StringBuilder sb = rt::newobj<StringBuilder>(_charLen - _charPos);
+  do {
+    Int32 charPos = _charPos;
+    sb->Append(_charBuffer, charPos, _charLen - charPos);
+    _charPos = _charLen;
+  } while (_charLen > 0);
+  return sb->ToString();
 }
 
 Task<Int32> StreamReader___::ReadAsync(Array<Char> buffer, Int32 index, Int32 count) {
@@ -1087,20 +1093,72 @@ ValueTask<Int32> StreamReader___::ReadAsync(Memory<Char> buffer, CancellationTok
   ThrowIfDisposed();
   CheckAsyncTaskInProgress();
   if (cancellationToken.get_IsCancellationRequested()) {
-    return ValueTask<>::FromCanceled<Int32>(cancellationToken);
+    return ValueTask<Int32>(Task<>::in::FromCanceled<Int32>(cancellationToken));
   }
   return ReadAsyncInternal(buffer, cancellationToken);
 }
 
 ValueTask<Int32> StreamReader___::ReadAsyncInternal(Memory<Char> buffer, CancellationToken cancellationToken) {
-  _ReadAsyncInternal_d__64 stateMachine;
-  stateMachine.__t__builder = AsyncValueTaskMethodBuilder<Int32>::Create();
-  stateMachine.__4__this = (StreamReader)this;
-  stateMachine.buffer = buffer;
-  stateMachine.cancellationToken = cancellationToken;
-  stateMachine.__1__state = -1;
-  stateMachine.__t__builder.Start(stateMachine);
-  return stateMachine.__t__builder.get_Task();
+  Boolean flag = _charPos == _charLen;
+  Boolean flag2 = flag;
+  if (flag2) {
+  }
+  if (flag2) {
+    return 0;
+  }
+  Int32 charsRead = 0;
+  Boolean readToUserBuffer = false;
+  Array<Byte> tmpByteBuffer = _byteBuffer;
+  Stream tmpStream = _stream;
+  Int32 count = buffer.get_Length();
+  while (count > 0) {
+    Int32 i = _charLen - _charPos;
+    if (i == 0) {
+      _charLen = 0;
+      _charPos = 0;
+      if (!_checkPreamble) {
+        _byteLen = 0;
+      }
+      readToUserBuffer = (count >= _maxCharsPerBuffer);
+      do {
+        if (_checkPreamble) {
+          Int32 bytePos = _bytePos;
+        } else {
+        }
+        _isBlocked = (_byteLen < tmpByteBuffer->get_Length());
+        if (!IsPreamble()) {
+          if (_detectEncoding && _byteLen >= 2) {
+            DetectEncoding();
+            readToUserBuffer = (count >= _maxCharsPerBuffer);
+          }
+          _charPos = 0;
+          if (readToUserBuffer) {
+            i += _decoder->GetChars(ReadOnlySpan<Byte>(tmpByteBuffer, 0, _byteLen), buffer.get_Span().Slice(charsRead), false);
+            _charLen = 0;
+          } else {
+            i = _decoder->GetChars(tmpByteBuffer, 0, _byteLen, _charBuffer, 0);
+            _charLen += i;
+          }
+        }
+      } while (i == 0);
+      if (i == 0) {
+        break;
+      }
+    }
+    if (i > count) {
+      i = count;
+    }
+    if (!readToUserBuffer) {
+      Span<Char>(_charBuffer, _charPos, i).CopyTo(buffer.get_Span().Slice(charsRead));
+      _charPos += i;
+    }
+    charsRead += i;
+    count -= i;
+    if (_isBlocked) {
+      break;
+    }
+  }
+  return charsRead;
 }
 
 Task<Int32> StreamReader___::ReadBlockAsync(Array<Char> buffer, Int32 index, Int32 count) {
@@ -1129,7 +1187,7 @@ ValueTask<Int32> StreamReader___::ReadBlockAsync(Memory<Char> buffer, Cancellati
   ThrowIfDisposed();
   CheckAsyncTaskInProgress();
   if (cancellationToken.get_IsCancellationRequested()) {
-    return ValueTask<>::FromCanceled<Int32>(cancellationToken);
+    return ValueTask<Int32>(Task<>::in::FromCanceled<Int32>(cancellationToken));
   }
   ValueTask<Int32> result = ReadBlockAsyncInternal(buffer, cancellationToken);
   if (result.get_IsCompletedSuccessfully()) {
@@ -1139,13 +1197,27 @@ ValueTask<Int32> StreamReader___::ReadBlockAsync(Memory<Char> buffer, Cancellati
 }
 
 ValueTask<Int32> StreamReader___::ReadBufferAsync(CancellationToken cancellationToken) {
-  _ReadBufferAsync_d__67 stateMachine;
-  stateMachine.__t__builder = AsyncValueTaskMethodBuilder<Int32>::Create();
-  stateMachine.__4__this = (StreamReader)this;
-  stateMachine.cancellationToken = cancellationToken;
-  stateMachine.__1__state = -1;
-  stateMachine.__t__builder.Start(stateMachine);
-  return stateMachine.__t__builder.get_Task();
+  _charLen = 0;
+  _charPos = 0;
+  Array<Byte> tmpByteBuffer = _byteBuffer;
+  Stream tmpStream = _stream;
+  if (!_checkPreamble) {
+    _byteLen = 0;
+  }
+  do {
+    if (_checkPreamble) {
+      Int32 bytePos = _bytePos;
+    } else {
+    }
+    _isBlocked = (_byteLen < tmpByteBuffer->get_Length());
+    if (!IsPreamble()) {
+      if (_detectEncoding && _byteLen >= 2) {
+        DetectEncoding();
+      }
+      _charLen += _decoder->GetChars(tmpByteBuffer, 0, _byteLen, _charBuffer, _charLen);
+    }
+  } while (_charLen == 0);
+  return _charLen;
 }
 
 void StreamReader___::ThrowIfDisposed() {

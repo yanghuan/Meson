@@ -9,13 +9,11 @@
 #include <System.Private.CoreLib/System/Int32-dep.h>
 #include <System.Private.CoreLib/System/IO/Path-dep.h>
 #include <System.Private.CoreLib/System/MissingMethodException-dep.h>
-#include <System.Private.CoreLib/System/ReadOnlySpan-dep.h>
 #include <System.Private.CoreLib/System/Reflection/AmbiguousMatchException-dep.h>
 #include <System.Private.CoreLib/System/Reflection/Assembly-dep.h>
 #include <System.Private.CoreLib/System/Reflection/BindingFlags.h>
 #include <System.Private.CoreLib/System/Reflection/MethodInfo-dep.h>
 #include <System.Private.CoreLib/System/Runtime/Loader/AssemblyLoadContext-dep.h>
-#include <System.Private.CoreLib/System/Span-dep.h>
 #include <System.Private.CoreLib/System/SR-dep.h>
 #include <System.Private.CoreLib/System/StartupHookProvider-dep.h>
 #include <System.Private.CoreLib/System/StringComparison.h>
@@ -33,22 +31,20 @@ void StartupHookProvider::ProcessStartupHooks() {
   if (text == nullptr) {
     return;
   }
-  Char as[4] = {};
-  Span<Char> span = as;
-  ReadOnlySpan<Char> readOnlySpan = span;
-  Array<String> array = text->Split(Path::PathSeparator);
-  Array<StartupHookNameOrPath> array2 = rt::newarr<Array<StartupHookNameOrPath>>(array->get_Length());
-  for (Int32 i = 0; i < array->get_Length(); i++) {
-    String text2 = array[i];
+  Array<Char> array = rt::newarr<Array<Char>>(4);
+  Array<String> array2 = text->Split(Path::PathSeparator);
+  Array<StartupHookNameOrPath> array3 = rt::newarr<Array<StartupHookNameOrPath>>(array2->get_Length());
+  for (Int32 i = 0; i < array2->get_Length(); i++) {
+    String text2 = array2[i];
     if (String::in::IsNullOrEmpty(text2)) {
       continue;
     }
     if (Path::IsPathFullyQualified(text2)) {
-      array2[i].Path = text2;
+      array3[i].Path = text2;
       continue;
     }
-    for (Int32 j = 0; j < readOnlySpan.get_Length(); j++) {
-      if (text2->Contains(readOnlySpan[j])) {
+    for (Int32 j = 0; j < array->get_Length(); j++) {
+      if (text2->Contains(array[j])) {
         rt::throw_exception<ArgumentException>(SR::Format(SR::get_Argument_InvalidStartupHookSimpleAssemblyName(), text2));
       }
     }
@@ -56,13 +52,13 @@ void StartupHookProvider::ProcessStartupHooks() {
       rt::throw_exception<ArgumentException>(SR::Format(SR::get_Argument_InvalidStartupHookSimpleAssemblyName(), text2));
     }
     try {
-      array2[i].AssemblyName = rt::newobj<AssemblyName>(text2);
+      array3[i].AssemblyName = rt::newobj<AssemblyName>(text2);
     } catch (Exception innerException) {
       rt::throw_exception<ArgumentException>(SR::Format(SR::get_Argument_InvalidStartupHookSimpleAssemblyName(), text2), innerException);
     }
   }
-  Array<StartupHookNameOrPath> array3 = array2;
-  for (StartupHookNameOrPath&& startupHook : *array3) {
+  Array<StartupHookNameOrPath> array4 = array3;
+  for (StartupHookNameOrPath&& startupHook : *array4) {
     CallStartupHook(startupHook);
   }
 }

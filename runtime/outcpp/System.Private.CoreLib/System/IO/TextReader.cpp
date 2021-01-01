@@ -366,12 +366,15 @@ Task<String> TextReader___::ReadLineAsync() {
 }
 
 Task<String> TextReader___::ReadToEndAsync() {
-  _ReadToEndAsync_d__14 stateMachine;
-  stateMachine.__t__builder = AsyncTaskMethodBuilder<String>::Create();
-  stateMachine.__4__this = (TextReader)this;
-  stateMachine.__1__state = -1;
-  stateMachine.__t__builder.Start(stateMachine);
-  return stateMachine.__t__builder.get_Task();
+  StringBuilder sb = rt::newobj<StringBuilder>(4096);
+  Array<Char> chars = ArrayPool<Char>::in::get_Shared()->Rent(4096);
+  try {
+    Int32 charCount;
+  } catch (...) {
+  } finally: {
+    ArrayPool<Char>::in::get_Shared()->Return(chars);
+  }
+  return sb->ToString();
 }
 
 Task<Int32> TextReader___::ReadAsync(Array<Char> buffer, Int32 index, Int32 count) {
@@ -421,14 +424,11 @@ ValueTask<Int32> TextReader___::ReadBlockAsync(Memory<Char> buffer, Cancellation
 }
 
 ValueTask<Int32> TextReader___::ReadBlockAsyncInternal(Memory<Char> buffer, CancellationToken cancellationToken) {
-  _ReadBlockAsyncInternal_d__20 stateMachine;
-  stateMachine.__t__builder = AsyncValueTaskMethodBuilder<Int32>::Create();
-  stateMachine.__4__this = (TextReader)this;
-  stateMachine.buffer = buffer;
-  stateMachine.cancellationToken = cancellationToken;
-  stateMachine.__1__state = -1;
-  stateMachine.__t__builder.Start(stateMachine);
-  return stateMachine.__t__builder.get_Task();
+  Int32 i = 0;
+  Int32 num;
+  do {
+  } while (num > 0 && i < buffer.get_Length());
+  return i;
 }
 
 TextReader TextReader___::Synchronized(TextReader reader) {

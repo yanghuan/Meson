@@ -48,7 +48,7 @@ void CancellationTokenSource___::CallbackNode___::ctor(CallbackPartition partiti
 void CancellationTokenSource___::CallbackNode___::ExecuteCallback() {
   ExecutionContext executionContext = ExecutionContext;
   if (executionContext != nullptr) {
-    ContextCallback as = __c::in::__9__9_0;
+    ContextCallback<> as = __c::in::__9__9_0;
     ExecutionContext::in::RunInternal(executionContext, as != nullptr ? as : (__c::in::__9__9_0 = {__c::in::__9, &__c::in::_ExecuteCallback_b__9_0}), (CallbackNode)this);
   } else {
     Callback(CallbackState);

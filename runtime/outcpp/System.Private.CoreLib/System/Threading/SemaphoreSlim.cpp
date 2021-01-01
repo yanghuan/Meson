@@ -303,15 +303,27 @@ Boolean SemaphoreSlim___::RemoveAsyncWaiter(TaskNode task) {
 }
 
 Task<Boolean> SemaphoreSlim___::WaitUntilCountOrTimeoutAsync(TaskNode asyncWaiter, Int32 millisecondsTimeout, CancellationToken cancellationToken) {
-  _WaitUntilCountOrTimeoutAsync_d__33 stateMachine;
-  stateMachine.__t__builder = AsyncTaskMethodBuilder<Boolean>::Create();
-  stateMachine.__4__this = (SemaphoreSlim)this;
-  stateMachine.asyncWaiter = asyncWaiter;
-  stateMachine.millisecondsTimeout = millisecondsTimeout;
-  stateMachine.cancellationToken = cancellationToken;
-  stateMachine.__1__state = -1;
-  stateMachine.__t__builder.Start(stateMachine);
-  return stateMachine.__t__builder.get_Task();
+  if (millisecondsTimeout != -1) {
+    {
+      CancellationTokenSource cts = CancellationTokenSource::in::CreateLinkedTokenSource(cancellationToken);
+      rt::Using(cts);
+      Object obj = asyncWaiter;
+    }
+  } else {
+    Task<> task = rt::newobj<Task<>>(nullptr, TaskCreationOptions::RunContinuationsAsynchronously, true);
+    Action<Object> as = __c::in::__9__33_0;
+    {
+      cancellationToken.UnsafeRegister(as != nullptr ? as : (__c::in::__9__33_0 = {__c::in::__9, &__c::in::_WaitUntilCountOrTimeoutAsync_b__33_0}), task);
+      Object obj = asyncWaiter;
+    }
+  }
+  {
+    rt::lock(m_lockObjAndDisposed);
+    if (RemoveAsyncWaiter(asyncWaiter)) {
+      cancellationToken.ThrowIfCancellationRequested();
+      return false;
+    }
+  }
 }
 
 Int32 SemaphoreSlim___::Release() {

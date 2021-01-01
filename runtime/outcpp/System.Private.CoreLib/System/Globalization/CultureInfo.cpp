@@ -195,8 +195,9 @@ Boolean CultureInfo___::get_IsNeutralCulture() {
 
 CultureTypes CultureInfo___::get_CultureTypes() {
   CultureTypes cultureTypes = _cultureData->get_IsNeutralCulture() ? CultureTypes::NeutralCultures : CultureTypes::SpecificCultures;
-  Boolean isWin32Installed = CultureData::in::get_IsWin32Installed();
-  cultureTypes |= CultureTypes::InstalledWin32Cultures;
+  if (_cultureData->get_IsWin32Installed()) {
+    cultureTypes |= CultureTypes::InstalledWin32Cultures;
+  }
   if (_cultureData->get_IsSupplementalCustomCulture()) {
     cultureTypes |= CultureTypes::UserCustomCulture;
   }
@@ -251,9 +252,6 @@ Calendar CultureInfo___::get_Calendar() {
 }
 
 Array<Calendar> CultureInfo___::get_OptionalCalendars() {
-  if (GlobalizationMode::get_Invariant()) {
-    return rt::newarr<Array<GregorianCalendar>>(1);
-  }
   Array<CalendarId> calendarIds = _cultureData->get_CalendarIds();
   Array<Calendar> array = rt::newarr<Array<Calendar>>(calendarIds->get_Length());
   for (Int32 i = 0; i < array->get_Length(); i++) {
@@ -294,10 +292,6 @@ Dictionary<Int32, CultureInfo> CultureInfo___::get_CachedCulturesByLcid() {
   return dictionary;
 }
 
-void CultureInfo___::set_UserDefaultLocaleName(String value) {
-  UserDefaultLocaleName = value;
-}
-
 void CultureInfo___::AsyncLocalSetCurrentCulture(AsyncLocalValueChangedArgs<CultureInfo> args) {
   s_currentThreadCulture = args.get_CurrentValue();
 }
@@ -335,6 +329,7 @@ void CultureInfo___::ctor(String name, Boolean useUserOverride) {
 void CultureInfo___::ctor(CultureData cultureData, Boolean isReadOnly) {
   _cultureData = cultureData;
   _name = cultureData->get_CultureName();
+  _isInherited = false;
   _isReadOnly = isReadOnly;
 }
 
@@ -474,7 +469,6 @@ Object CultureInfo___::GetFormat(Type formatType) {
 }
 
 void CultureInfo___::ClearCachedData() {
-  UserDefaultLocaleName = GetUserDefaultLocaleName();
   s_userDefaultCulture = GetUserDefaultCulture();
   s_userDefaultUICulture = GetUserDefaultUICulture();
   RegionInfo::in::s_currentRegionInfo = nullptr;
@@ -680,7 +674,7 @@ CultureInfo CultureInfo___::GetCultureInfo(String name, Boolean predefinedOnly) 
   if (name == nullptr) {
     rt::throw_exception<ArgumentNullException>("name");
   }
-  if (predefinedOnly && !GlobalizationMode::get_Invariant()) {
+  if (predefinedOnly) {
     if (!GlobalizationMode::get_UseNls()) {
       return IcuGetPredefinedCultureInfo(name);
     }
@@ -720,11 +714,12 @@ CultureInfo CultureInfo___::GetUserDefaultCulture() {
   if (GlobalizationMode::get_Invariant()) {
     return get_InvariantCulture();
   }
-  String userDefaultLocaleName = UserDefaultLocaleName;
-  if (userDefaultLocaleName == nullptr) {
+  String as = CultureData::in::GetLocaleInfoEx(nullptr, 92u);
+  String text = as != nullptr ? as : CultureData::in::GetLocaleInfoEx("!x-sys-default-locale", 92u);
+  if (text == nullptr) {
     return get_InvariantCulture();
   }
-  return GetCultureByName(userDefaultLocaleName);
+  return GetCultureByName(text);
 }
 
 CultureInfo CultureInfo___::GetUserDefaultUICulture() {
@@ -747,22 +742,8 @@ CultureInfo CultureInfo___::GetUserDefaultUICulture() {
   return InitializeUserDefaultCulture();
 }
 
-String CultureInfo___::GetUserDefaultLocaleName() {
-  String text;
-  if (!GlobalizationMode::get_Invariant()) {
-    text = CultureData::in::GetLocaleInfoEx(nullptr, 92u);
-    if (text == nullptr) {
-      return CultureData::in::GetLocaleInfoEx("!x-sys-default-locale", 92u);
-    }
-  } else {
-    text = get_InvariantCulture()->get_Name();
-  }
-  return text;
-}
-
 void CultureInfo___::cctor() {
   s_InvariantCultureInfo = rt::newobj<CultureInfo>(CultureData::in::get_Invariant(), true);
-  UserDefaultLocaleName = GetUserDefaultLocaleName();
 }
 
 } // namespace System::Private::CoreLib::System::Globalization::CultureInfoNamespace

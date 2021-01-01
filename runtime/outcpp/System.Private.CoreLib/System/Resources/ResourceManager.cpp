@@ -136,6 +136,7 @@ void ResourceManager___::ctor(String baseName, String resourceDir, Type userReso
   _userResourceSet = userResourceSet;
   _resourceSets = rt::newobj<Dictionary<String, ResourceSet>>();
   _lastUsedResourceCache = rt::newobj<CultureNameResourceSetPair>();
+  _useManifest = false;
   ResourceManagerMediator mediator = rt::newobj<ResourceManagerMediator>((ResourceManager)this);
   _resourceGroveler = rt::newobj<FileBasedResourceGroveler>(mediator);
 }

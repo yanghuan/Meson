@@ -4,8 +4,8 @@
 #include <System.Private.CoreLib/Interop-dep.h>
 #include <System.Private.CoreLib/System/BitConverter-dep.h>
 #include <System.Private.CoreLib/System/Buffers/ArrayPool-dep.h>
-#include <System.Private.CoreLib/System/Globalization/Ordinal-dep.h>
 #include <System.Private.CoreLib/System/Int64-dep.h>
+#include <System.Private.CoreLib/System/MemoryExtensions-dep.h>
 #include <System.Private.CoreLib/System/Numerics/BitOperations-dep.h>
 #include <System.Private.CoreLib/System/Runtime/InteropServices/MemoryMarshal-dep.h>
 #include <System.Private.CoreLib/System/Span-dep.h>
@@ -17,7 +17,6 @@
 namespace System::Private::CoreLib::System::MarvinNamespace {
 using namespace Internal::Runtime::CompilerServices;
 using namespace System::Buffers;
-using namespace System::Globalization;
 using namespace System::Numerics;
 using namespace System::Runtime::InteropServices;
 using namespace System::Text::Unicode;
@@ -150,7 +149,7 @@ Int32 Marvin::ComputeHash32OrdinalIgnoreCaseSlow(Char& data, Int32 count, UInt32
   Char as[64] = {};
   Span<Char> span = ((UInt32)count > 64u) ? ((Span<Char>)(array = ArrayPool<Char>::in::get_Shared()->Rent(count))) : as;
   Span<Char> span2 = span;
-  Int32 num = Ordinal::ToUpperOrdinal(ReadOnlySpan<Char>(data, count), span2);
+  Int32 num = MemoryExtensions::ToUpperInvariant(ReadOnlySpan<Char>(data, count), span2);
   Int32 result = ComputeHash32(Unsafe::As<Char, Byte>(MemoryMarshal::GetReference(span2)), (UInt32)(num * 2), p0, p1);
   if (array != nullptr) {
     ArrayPool<Char>::in::get_Shared()->Return(array);

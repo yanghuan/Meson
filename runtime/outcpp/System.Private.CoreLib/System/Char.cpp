@@ -117,7 +117,7 @@ Boolean Char::CheckLetter(UnicodeCategory uc) {
 }
 
 Boolean Char::IsLetter(Char c) {
-  if (IsAscii(c)) {
+  if (IsLatin1(c)) {
     return (get_Latin1CharInfo()[c] & 96) != 0;
   }
   return CheckLetter(CharUnicodeInfo::GetUnicodeCategory(c));
@@ -292,7 +292,7 @@ Boolean Char::IsDigit(String s, Int32 index) {
   if (IsLatin1(c)) {
     return IsInRange(c, '0', '9');
   }
-  return CharUnicodeInfo::GetUnicodeCategoryInternal(s, index) == UnicodeCategory::DecimalDigitNumber;
+  return CharUnicodeInfo::GetUnicodeCategory(s, index) == UnicodeCategory::DecimalDigitNumber;
 }
 
 Boolean Char::IsLetter(String s, Int32 index) {
@@ -303,10 +303,10 @@ Boolean Char::IsLetter(String s, Int32 index) {
     rt::throw_exception<ArgumentOutOfRangeException>("index");
   }
   Char c = s[index];
-  if (IsAscii(c)) {
+  if (IsLatin1(c)) {
     return (get_Latin1CharInfo()[c] & 96) != 0;
   }
-  return CheckLetter(CharUnicodeInfo::GetUnicodeCategoryInternal(s, index));
+  return CheckLetter(CharUnicodeInfo::GetUnicodeCategory(s, index));
 }
 
 Boolean Char::IsLetterOrDigit(String s, Int32 index) {
@@ -320,7 +320,7 @@ Boolean Char::IsLetterOrDigit(String s, Int32 index) {
   if (IsLatin1(ch)) {
     return CheckLetterOrDigit(GetLatin1UnicodeCategory(ch));
   }
-  return CheckLetterOrDigit(CharUnicodeInfo::GetUnicodeCategoryInternal(s, index));
+  return CheckLetterOrDigit(CharUnicodeInfo::GetUnicodeCategory(s, index));
 }
 
 Boolean Char::IsLower(String s, Int32 index) {
@@ -334,7 +334,7 @@ Boolean Char::IsLower(String s, Int32 index) {
   if (IsLatin1(c)) {
     return (get_Latin1CharInfo()[c] & 32) != 0;
   }
-  return CharUnicodeInfo::GetUnicodeCategoryInternal(s, index) == UnicodeCategory::LowercaseLetter;
+  return CharUnicodeInfo::GetUnicodeCategory(s, index) == UnicodeCategory::LowercaseLetter;
 }
 
 Boolean Char::CheckNumber(UnicodeCategory uc) {
@@ -365,7 +365,7 @@ Boolean Char::IsNumber(String s, Int32 index) {
     }
     return CheckNumber(GetLatin1UnicodeCategory(c));
   }
-  return CheckNumber(CharUnicodeInfo::GetUnicodeCategoryInternal(s, index));
+  return CheckNumber(CharUnicodeInfo::GetUnicodeCategory(s, index));
 }
 
 Boolean Char::IsPunctuation(String s, Int32 index) {
@@ -379,7 +379,7 @@ Boolean Char::IsPunctuation(String s, Int32 index) {
   if (IsLatin1(ch)) {
     return CheckPunctuation(GetLatin1UnicodeCategory(ch));
   }
-  return CheckPunctuation(CharUnicodeInfo::GetUnicodeCategoryInternal(s, index));
+  return CheckPunctuation(CharUnicodeInfo::GetUnicodeCategory(s, index));
 }
 
 Boolean Char::CheckSeparator(UnicodeCategory uc) {
@@ -411,7 +411,7 @@ Boolean Char::IsSeparator(String s, Int32 index) {
   if (IsLatin1(c)) {
     return IsSeparatorLatin1(c);
   }
-  return CheckSeparator(CharUnicodeInfo::GetUnicodeCategoryInternal(s, index));
+  return CheckSeparator(CharUnicodeInfo::GetUnicodeCategory(s, index));
 }
 
 Boolean Char::IsSurrogate(Char c) {
@@ -450,7 +450,7 @@ Boolean Char::IsSymbol(String s, Int32 index) {
   if (IsLatin1(ch)) {
     return CheckSymbol(GetLatin1UnicodeCategory(ch));
   }
-  return CheckSymbol(CharUnicodeInfo::GetUnicodeCategoryInternal(s, index));
+  return CheckSymbol(CharUnicodeInfo::GetUnicodeCategory(s, index));
 }
 
 Boolean Char::IsUpper(String s, Int32 index) {
@@ -464,7 +464,7 @@ Boolean Char::IsUpper(String s, Int32 index) {
   if (IsLatin1(c)) {
     return (get_Latin1CharInfo()[c] & 64) != 0;
   }
-  return CharUnicodeInfo::GetUnicodeCategoryInternal(s, index) == UnicodeCategory::UppercaseLetter;
+  return CharUnicodeInfo::GetUnicodeCategory(s, index) == UnicodeCategory::UppercaseLetter;
 }
 
 Boolean Char::IsWhiteSpace(String s, Int32 index) {
@@ -508,7 +508,7 @@ Double Char::GetNumericValue(String s, Int32 index) {
   if ((UInt32)index >= (UInt32)s->get_Length()) {
     rt::throw_exception<ArgumentOutOfRangeException>("index");
   }
-  return CharUnicodeInfo::GetNumericValueInternal(s, index);
+  return CharUnicodeInfo::GetNumericValue(s, index);
 }
 
 Boolean Char::IsHighSurrogate(Char c) {

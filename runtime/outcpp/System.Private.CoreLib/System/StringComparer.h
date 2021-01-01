@@ -17,7 +17,10 @@ FORWARD(CultureInfo)
 namespace System::Private::CoreLib::System {
 enum class StringComparison : int32_t;
 FORWARDS(Boolean)
+FORWARD(CultureAwareComparer)
 FORWARDS(Int32)
+FORWARD(OrdinalCaseSensitiveComparer)
+FORWARD(OrdinalIgnoreCaseComparer)
 FORWARD(String)
 namespace StringComparerNamespace {
 using namespace System::Collections;
@@ -47,6 +50,11 @@ CLASS(StringComparer) : public object {
   public: Boolean Equals(String x, String y);
   public: Int32 GetHashCode(String obj);
   public: void ctor();
+  public: static void cctor();
+  private: static CultureAwareComparer s_invariantCulture;
+  private: static CultureAwareComparer s_invariantCultureIgnoreCase;
+  private: static OrdinalCaseSensitiveComparer s_ordinal;
+  private: static OrdinalIgnoreCaseComparer s_ordinalIgnoreCase;
 };
 } // namespace StringComparerNamespace
 using StringComparer = StringComparerNamespace::StringComparer;

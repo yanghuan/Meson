@@ -11,12 +11,14 @@ FORWARD(Object)
 FORWARD(String)
 FORWARD(Type)
 } // namespace System::Private::CoreLib::System
-namespace System::Private::CoreLib::System::Reflection {
-FORWARD(PropertyInfo)
-} // namespace System::Private::CoreLib::System::Reflection
 namespace System::Private::CoreLib::System::Collections::Generic {
+FORWARD(IEnumerable, T)
 FORWARD(List, T)
 } // namespace System::Private::CoreLib::System::Collections::Generic
+namespace System::Private::CoreLib::System::Reflection {
+FORWARD(MethodInfo)
+FORWARD(PropertyInfo)
+} // namespace System::Private::CoreLib::System::Reflection
 namespace System::Private::CoreLib::System::Diagnostics::Tracing {
 enum class EventFieldFormat : int32_t;
 enum class TraceLoggingDataType : int32_t;
@@ -37,11 +39,16 @@ class Statics {
   public: static TraceLoggingDataType Format32(EventFieldFormat format, TraceLoggingDataType native);
   public: static TraceLoggingDataType Format64(EventFieldFormat format, TraceLoggingDataType native);
   public: static TraceLoggingDataType FormatPtr(EventFieldFormat format, TraceLoggingDataType native);
+  public: static Boolean IsValueType(Type type);
+  public: static Boolean IsEnum(Type type);
+  public: static IEnumerable<PropertyInfo> GetProperties(Type type);
+  public: static MethodInfo GetGetMethod(PropertyInfo propInfo);
   public: static Boolean HasCustomAttribute(PropertyInfo propInfo, Type attributeType);
   public: template <class AttributeType>
   static AttributeType GetCustomAttribute(PropertyInfo propInfo);
   public: template <class AttributeType>
   static AttributeType GetCustomAttribute(Type type);
+  public: static Array<Type> GetGenericArguments(Type type);
   public: static Type FindEnumerableElementType(Type type);
   public: static Boolean IsGenericMatch(Type type, Object openType);
   public: static TraceLoggingTypeInfo CreateDefaultTypeInfo(Type dataType, List<Type> recursionCheck);

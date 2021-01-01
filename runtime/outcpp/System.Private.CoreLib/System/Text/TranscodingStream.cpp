@@ -299,13 +299,8 @@ void TranscodingStream___::Dispose(Boolean disposing) {
 
 ValueTask<> TranscodingStream___::DisposeAsync() {
   auto DisposeAsyncCore = [](ArraySegment<Byte> pendingData) -> ValueTask<> {
-    __DisposeAsync_g__DisposeAsyncCore30_0_d stateMachine;
-    stateMachine.__t__builder = AsyncValueTaskMethodBuilder<>::Create();
-    stateMachine.__4__this = (TranscodingStream)this;
-    stateMachine.pendingData = pendingData;
-    stateMachine.__1__state = -1;
-    stateMachine.__t__builder.Start(stateMachine);
-    return stateMachine.__t__builder.get_Task();
+    Stream innerStream2 = _innerStream;
+    _innerStream = nullptr;
   };
   if (_innerStream == nullptr) {
     return rt::default__;
@@ -430,18 +425,25 @@ Task<Int32> TranscodingStream___::ReadAsync(Array<Byte> buffer, Int32 offset, In
 
 ValueTask<Int32> TranscodingStream___::ReadAsync(Memory<Byte> buffer, CancellationToken cancellationToken) {
   auto ReadAsyncCore = [](Memory<Byte> buffer, CancellationToken cancellationToken) -> ValueTask<Int32> {
-    __ReadAsync_g__ReadAsyncCore41_0_d stateMachine;
-    stateMachine.__t__builder = AsyncValueTaskMethodBuilder<Int32>::Create();
-    stateMachine.__4__this = (TranscodingStream)this;
-    stateMachine.buffer = buffer;
-    stateMachine.cancellationToken = cancellationToken;
-    stateMachine.__1__state = -1;
-    stateMachine.__t__builder.Start(stateMachine);
-    return stateMachine.__t__builder.get_Task();
+    if (_readBufferCount == 0) {
+      Array<Byte> rentedBytes = ArrayPool<Byte>::in::get_Shared()->Rent(4096);
+      Array<Char> rentedChars = ArrayPool<Char>::in::get_Shared()->Rent(_readCharBufferMaxSize);
+      try {
+      } catch (...) {
+      } finally: {
+        ArrayPool<Byte>::in::get_Shared()->Return(rentedBytes);
+        ArrayPool<Char>::in::get_Shared()->Return(rentedChars);
+      }
+    }
+    Int32 num2 = Math::Min(_readBufferCount, buffer.get_Length());
+    MemoryExtensions::AsSpan(_readBuffer, _readBufferOffset, num2).CopyTo(buffer.get_Span());
+    _readBufferOffset += num2;
+    _readBufferCount -= num2;
+    return num2;
   };
   EnsurePreReadConditions();
   if (cancellationToken.get_IsCancellationRequested()) {
-    return ValueTask<>::FromCanceled<Int32>(cancellationToken);
+    return ValueTask<Int32>(Task<>::in::FromCanceled<Int32>(cancellationToken));
   }
   return ReadAsyncCore(buffer, cancellationToken);
 }
@@ -527,18 +529,42 @@ Task<> TranscodingStream___::WriteAsync(Array<Byte> buffer, Int32 offset, Int32 
 
 ValueTask<> TranscodingStream___::WriteAsync(ReadOnlyMemory<Byte> buffer, CancellationToken cancellationToken) {
   auto WriteAsyncCore = [](ReadOnlyMemory<Byte> remainingOuterEncodedBytes, CancellationToken cancellationToken) -> ValueTask<> {
-    __WriteAsync_g__WriteAsyncCore50_0_d stateMachine;
-    stateMachine.__t__builder = AsyncValueTaskMethodBuilder<>::Create();
-    stateMachine.__4__this = (TranscodingStream)this;
-    stateMachine.remainingOuterEncodedBytes = remainingOuterEncodedBytes;
-    stateMachine.cancellationToken = cancellationToken;
-    stateMachine.__1__state = -1;
-    stateMachine.__t__builder.Start(stateMachine);
-    return stateMachine.__t__builder.get_Task();
+    Int32 minimumLength = Math::Clamp(remainingOuterEncodedBytes.get_Length(), 4096, 1048576);
+    Array<Char> scratchChars = ArrayPool<Char>::in::get_Shared()->Rent(minimumLength);
+    Array<Byte> scratchBytes = ArrayPool<Byte>::in::get_Shared()->Rent(minimumLength);
+    try {
+      Boolean decoderFinished;
+      do {
+        Int32 bytesUsed;
+        Int32 charsUsed;
+        _thisDecoder->Convert(remainingOuterEncodedBytes.get_Span(), scratchChars, false, bytesUsed, charsUsed, decoderFinished);
+        ReadOnlyMemory<Byte> readOnlyMemory = remainingOuterEncodedBytes;
+        Int32 length = readOnlyMemory.get_Length();
+        Int32 num = bytesUsed;
+        Int32 length2 = length - num;
+        remainingOuterEncodedBytes = readOnlyMemory.Slice(num, length2);
+        ArraySegment<Char> decodedChars = ArraySegment<Char>(scratchChars, 0, charsUsed);
+        Boolean encoderFinished;
+        do {
+          Int32 charsUsed2;
+          Int32 bytesUsed2;
+          _innerEncoder->Convert(decodedChars, scratchBytes, false, charsUsed2, bytesUsed2, encoderFinished);
+          ArraySegment<Char> arraySegment = decodedChars;
+          Int32 count = arraySegment.get_Count();
+          length2 = charsUsed2;
+          num = count - length2;
+          decodedChars = arraySegment.Slice(length2, num);
+        } while (!encoderFinished);
+      } while (!decoderFinished);
+    } catch (...) {
+    } finally: {
+      ArrayPool<Char>::in::get_Shared()->Return(scratchChars);
+      ArrayPool<Byte>::in::get_Shared()->Return(scratchBytes);
+    }
   };
   EnsurePreWriteConditions();
   if (cancellationToken.get_IsCancellationRequested()) {
-    return ValueTask<>::FromCanceled(cancellationToken);
+    return ValueTask<>(Task<>::in::FromCanceled(cancellationToken));
   }
   return WriteAsyncCore(buffer, cancellationToken);
 }
@@ -548,13 +574,8 @@ void TranscodingStream___::WriteByte(Byte value) {
 }
 
 ValueTask<> TranscodingStream___::_DisposeAsync_g__DisposeAsyncCore30_0(ArraySegment<Byte> pendingData) {
-  __DisposeAsync_g__DisposeAsyncCore30_0_d stateMachine;
-  stateMachine.__t__builder = AsyncValueTaskMethodBuilder<>::Create();
-  stateMachine.__4__this = (TranscodingStream)this;
-  stateMachine.pendingData = pendingData;
-  stateMachine.__1__state = -1;
-  stateMachine.__t__builder.Start(stateMachine);
-  return stateMachine.__t__builder.get_Task();
+  Stream innerStream = _innerStream;
+  _innerStream = nullptr;
 }
 
 void TranscodingStream___::_EnsurePreReadConditions_g__InitializeReadDataStructures33_0() {
@@ -576,25 +597,56 @@ void TranscodingStream___::_EnsurePreWriteConditions_g__InitializeReadDataStruct
 }
 
 ValueTask<Int32> TranscodingStream___::_ReadAsync_g__ReadAsyncCore41_0(Memory<Byte> buffer, CancellationToken cancellationToken) {
-  __ReadAsync_g__ReadAsyncCore41_0_d stateMachine;
-  stateMachine.__t__builder = AsyncValueTaskMethodBuilder<Int32>::Create();
-  stateMachine.__4__this = (TranscodingStream)this;
-  stateMachine.buffer = buffer;
-  stateMachine.cancellationToken = cancellationToken;
-  stateMachine.__1__state = -1;
-  stateMachine.__t__builder.Start(stateMachine);
-  return stateMachine.__t__builder.get_Task();
+  if (_readBufferCount == 0) {
+    Array<Byte> rentedBytes = ArrayPool<Byte>::in::get_Shared()->Rent(4096);
+    Array<Char> rentedChars = ArrayPool<Char>::in::get_Shared()->Rent(_readCharBufferMaxSize);
+    try {
+    } catch (...) {
+    } finally: {
+      ArrayPool<Byte>::in::get_Shared()->Return(rentedBytes);
+      ArrayPool<Char>::in::get_Shared()->Return(rentedChars);
+    }
+  }
+  Int32 num2 = Math::Min(_readBufferCount, buffer.get_Length());
+  MemoryExtensions::AsSpan(_readBuffer, _readBufferOffset, num2).CopyTo(buffer.get_Span());
+  _readBufferOffset += num2;
+  _readBufferCount -= num2;
+  return num2;
 }
 
 ValueTask<> TranscodingStream___::_WriteAsync_g__WriteAsyncCore50_0(ReadOnlyMemory<Byte> remainingOuterEncodedBytes, CancellationToken cancellationToken) {
-  __WriteAsync_g__WriteAsyncCore50_0_d stateMachine;
-  stateMachine.__t__builder = AsyncValueTaskMethodBuilder<>::Create();
-  stateMachine.__4__this = (TranscodingStream)this;
-  stateMachine.remainingOuterEncodedBytes = remainingOuterEncodedBytes;
-  stateMachine.cancellationToken = cancellationToken;
-  stateMachine.__1__state = -1;
-  stateMachine.__t__builder.Start(stateMachine);
-  return stateMachine.__t__builder.get_Task();
+  Int32 minimumLength = Math::Clamp(remainingOuterEncodedBytes.get_Length(), 4096, 1048576);
+  Array<Char> scratchChars = ArrayPool<Char>::in::get_Shared()->Rent(minimumLength);
+  Array<Byte> scratchBytes = ArrayPool<Byte>::in::get_Shared()->Rent(minimumLength);
+  try {
+    Boolean decoderFinished;
+    do {
+      Int32 bytesUsed;
+      Int32 charsUsed;
+      _thisDecoder->Convert(remainingOuterEncodedBytes.get_Span(), scratchChars, false, bytesUsed, charsUsed, decoderFinished);
+      ReadOnlyMemory<Byte> readOnlyMemory = remainingOuterEncodedBytes;
+      Int32 length = readOnlyMemory.get_Length();
+      Int32 num = bytesUsed;
+      Int32 length2 = length - num;
+      remainingOuterEncodedBytes = readOnlyMemory.Slice(num, length2);
+      ArraySegment<Char> decodedChars = ArraySegment<Char>(scratchChars, 0, charsUsed);
+      Boolean encoderFinished;
+      do {
+        Int32 charsUsed2;
+        Int32 bytesUsed2;
+        _innerEncoder->Convert(decodedChars, scratchBytes, false, charsUsed2, bytesUsed2, encoderFinished);
+        ArraySegment<Char> arraySegment = decodedChars;
+        Int32 count = arraySegment.get_Count();
+        length2 = charsUsed2;
+        num = count - length2;
+        decodedChars = arraySegment.Slice(length2, num);
+      } while (!encoderFinished);
+    } while (!decoderFinished);
+  } catch (...) {
+  } finally: {
+    ArrayPool<Char>::in::get_Shared()->Return(scratchChars);
+    ArrayPool<Byte>::in::get_Shared()->Return(scratchBytes);
+  }
 }
 
 } // namespace System::Private::CoreLib::System::Text::TranscodingStreamNamespace

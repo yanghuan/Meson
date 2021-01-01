@@ -4,10 +4,7 @@
 #include <System.Private.CoreLib/System/ArgumentException-dep.h>
 #include <System.Private.CoreLib/System/ArgumentNullException-dep.h>
 #include <System.Private.CoreLib/System/ArgumentOutOfRangeException-dep.h>
-#include <System.Private.CoreLib/System/Collections/Generic/Dictionary-dep.h>
-#include <System.Private.CoreLib/System/Globalization/CultureInfo-dep.h>
 #include <System.Private.CoreLib/System/InvalidOperationException-dep.h>
-#include <System.Private.CoreLib/System/LocalAppContextSwitches-dep.h>
 #include <System.Private.CoreLib/System/NotImplemented-dep.h>
 #include <System.Private.CoreLib/System/NotSupportedException-dep.h>
 #include <System.Private.CoreLib/System/PlatformNotSupportedException-dep.h>
@@ -17,6 +14,8 @@
 #include <System.Private.CoreLib/System/Text/ASCIIEncoding-dep.h>
 #include <System.Private.CoreLib/System/Text/Encoding-dep.h>
 #include <System.Private.CoreLib/System/Text/EncodingTable-dep.h>
+#include <System.Private.CoreLib/System/Text/InternalDecoderBestFitFallback-dep.h>
+#include <System.Private.CoreLib/System/Text/InternalEncoderBestFitFallback-dep.h>
 #include <System.Private.CoreLib/System/Text/Latin1Encoding-dep.h>
 #include <System.Private.CoreLib/System/Text/NormalizationForm.h>
 #include <System.Private.CoreLib/System/Text/TranscodingStream-dep.h>
@@ -27,8 +26,6 @@
 
 namespace System::Private::CoreLib::System::Text::EncodingNamespace {
 using namespace Internal::Runtime::CompilerServices;
-using namespace System::Collections::Generic;
-using namespace System::Globalization;
 using namespace System::Runtime::InteropServices;
 
 void Encoding___::DefaultEncoder___::ctor(Encoding encoding) {
@@ -419,14 +416,14 @@ void Encoding___::ctor(Int32 codePage, EncoderFallback encoderFallback, DecoderF
   }
   _codePage = codePage;
   EncoderFallback as = encoderFallback;
-  this->encoderFallback = (as != nullptr ? as : EncoderFallback::in::get_ReplacementFallback());
+  this->encoderFallback = (as != nullptr ? as : rt::newobj<InternalEncoderBestFitFallback>((Encoding)this));
   DecoderFallback is = decoderFallback;
-  this->decoderFallback = (is != nullptr ? is : DecoderFallback::in::get_ReplacementFallback());
+  this->decoderFallback = (is != nullptr ? is : rt::newobj<InternalDecoderBestFitFallback>((Encoding)this));
 }
 
 void Encoding___::SetDefaultFallbacks() {
-  encoderFallback = EncoderFallback::in::get_ReplacementFallback();
-  decoderFallback = DecoderFallback::in::get_ReplacementFallback();
+  encoderFallback = rt::newobj<InternalEncoderBestFitFallback>((Encoding)this);
+  decoderFallback = rt::newobj<InternalDecoderBestFitFallback>((Encoding)this);
 }
 
 Array<Byte> Encoding___::Convert(Encoding srcEncoding, Encoding dstEncoding, Array<Byte> bytes) {
@@ -451,9 +448,9 @@ void Encoding___::RegisterProvider(EncodingProvider provider) {
 }
 
 Encoding Encoding___::GetEncoding(Int32 codepage) {
-  Encoding encoding = FilterDisallowedEncodings(EncodingProvider::in::GetEncodingFromProvider(codepage));
-  if (encoding != nullptr) {
-    return encoding;
+  Encoding encodingFromProvider = EncodingProvider::in::GetEncodingFromProvider(codepage);
+  if (encodingFromProvider != nullptr) {
+    return encodingFromProvider;
   }
   switch (codepage.get()) {
     case 0:
@@ -466,6 +463,8 @@ Encoding Encoding___::GetEncoding(Int32 codepage) {
       return get_UTF32();
     case 12001:
       return get_BigEndianUTF32();
+    case 65000:
+      return get_UTF7();
     case 65001:
       return get_UTF8();
     case 20127:
@@ -477,15 +476,7 @@ Encoding Encoding___::GetEncoding(Int32 codepage) {
     case 3:
     case 42:
       rt::throw_exception<ArgumentException>(SR::Format(SR::get_Argument_CodepageNotSupported(), codepage), "codepage");
-    case 65000:
-      {
-        if (LocalAppContextSwitches::get_EnableUnsafeUTF7Encoding()) {
-          return get_UTF7();
-        }
-        String p = String::in::Format(CultureInfo::in::get_InvariantCulture(), "https://aka.ms/dotnet-warnings/{0}", "SYSLIB0001");
-        String message = SR::Format(SR::get_Encoding_UTF7_Disabled(), p);
-        rt::throw_exception<NotSupportedException>(message);
-      }default:
+    default:
       if (codepage < 0 || codepage > 65535) {
         rt::throw_exception<ArgumentOutOfRangeException>("codepage", SR::Format(SR::get_ArgumentOutOfRange_Range(), 0, 65535));
       }
@@ -494,42 +485,28 @@ Encoding Encoding___::GetEncoding(Int32 codepage) {
 }
 
 Encoding Encoding___::GetEncoding(Int32 codepage, EncoderFallback encoderFallback, DecoderFallback decoderFallback) {
-  Encoding encoding = FilterDisallowedEncodings(EncodingProvider::in::GetEncodingFromProvider(codepage, encoderFallback, decoderFallback));
-  if (encoding != nullptr) {
-    return encoding;
+  Encoding encodingFromProvider = EncodingProvider::in::GetEncodingFromProvider(codepage, encoderFallback, decoderFallback);
+  if (encodingFromProvider != nullptr) {
+    return encodingFromProvider;
   }
-  encoding = GetEncoding(codepage);
-  Encoding encoding2 = (Encoding)encoding->Clone();
-  encoding2->set_EncoderFallback(encoderFallback);
-  encoding2->set_DecoderFallback(decoderFallback);
-  return encoding2;
+  encodingFromProvider = GetEncoding(codepage);
+  Encoding encoding = (Encoding)encodingFromProvider->Clone();
+  encoding->set_EncoderFallback(encoderFallback);
+  encoding->set_DecoderFallback(decoderFallback);
+  return encoding;
 }
 
 Encoding Encoding___::GetEncoding(String name) {
-  Encoding as = FilterDisallowedEncodings(EncodingProvider::in::GetEncodingFromProvider(name));
+  Encoding as = EncodingProvider::in::GetEncodingFromProvider(name);
   return as != nullptr ? as : GetEncoding(EncodingTable::GetCodePageFromName(name));
 }
 
 Encoding Encoding___::GetEncoding(String name, EncoderFallback encoderFallback, DecoderFallback decoderFallback) {
-  Encoding as = FilterDisallowedEncodings(EncodingProvider::in::GetEncodingFromProvider(name, encoderFallback, decoderFallback));
+  Encoding as = EncodingProvider::in::GetEncodingFromProvider(name, encoderFallback, decoderFallback);
   return as != nullptr ? as : GetEncoding(EncodingTable::GetCodePageFromName(name), encoderFallback, decoderFallback);
 }
 
-Encoding Encoding___::FilterDisallowedEncodings(Encoding encoding) {
-  if (LocalAppContextSwitches::get_EnableUnsafeUTF7Encoding()) {
-    return encoding;
-  }
-  if (encoding == nullptr || encoding->get_CodePage() != 65000) {
-    return encoding;
-  }
-  return nullptr;
-}
-
 Array<EncodingInfo> Encoding___::GetEncodings() {
-  Dictionary<Int32, EncodingInfo> encodingListFromProviders = EncodingProvider::in::GetEncodingListFromProviders();
-  if (encodingListFromProviders != nullptr) {
-    return EncodingTable::GetEncodings(encodingListFromProviders);
-  }
   return EncodingTable::GetEncodings();
 }
 
@@ -823,6 +800,14 @@ Stream Encoding___::CreateTranscodingStream(Stream innerStream, Encoding innerSt
     rt::throw_exception<ArgumentNullException>("outerStreamEncoding");
   }
   return rt::newobj<TranscodingStream>(innerStream, innerStreamEncoding, outerStreamEncoding, leaveOpen);
+}
+
+Array<Char> Encoding___::GetBestFitUnicodeToBytesData() {
+  return Array<>::in::Empty<Char>();
+}
+
+Array<Char> Encoding___::GetBestFitBytesToUnicodeData() {
+  return Array<>::in::Empty<Char>();
 }
 
 void Encoding___::ThrowBytesOverflow() {

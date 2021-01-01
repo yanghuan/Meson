@@ -88,8 +88,6 @@ CLASS(NativeRuntimeEventSource) : public EventSource::in {
   private: void ThreadCreating(IntPtr ID, UInt16 ClrInstanceID);
   private: void ThreadRunning(IntPtr ID, UInt16 ClrInstanceID);
   private: void MethodDetails(UInt64 MethodID, UInt64 TypeID, UInt32 MethodToken, UInt32 TypeParameterCount, UInt64 LoaderModuleID);
-  private: void TypeLoadStart(UInt32 TypeLoadStartID, UInt16 ClrInstanceID);
-  private: void TypeLoadStop(UInt32 TypeLoadStartID, UInt16 ClrInstanceID, UInt16 LoadLevel, UInt64 TypeID, String TypeName);
   private: void ExceptionThrown_V1(String ExceptionType, String ExceptionMessage, IntPtr ExceptionEIP, UInt32 ExceptionHRESULT, UInt16 ExceptionFlags, UInt16 ClrInstanceID);
   private: void ExceptionCatchStart(UInt64 EntryEIP, UInt64 MethodID, String MethodName, UInt16 ClrInstanceID);
   private: void ExceptionCatchStop();
@@ -116,7 +114,6 @@ CLASS(NativeRuntimeEventSource) : public EventSource::in {
   private: void MethodDCEndVerboseV2(UInt64 MethodID, UInt64 ModuleID, UInt64 MethodStartAddress, UInt32 MethodSize, UInt32 MethodToken, UInt32 MethodFlags, String MethodNamespace, String MethodName, String MethodSignature);
   private: void MethodLoad_V2(UInt64 MethodID, UInt64 ModuleID, UInt64 MethodStartAddress, UInt32 MethodSize, UInt32 MethodToken, UInt32 MethodFlags, UInt16 ClrInstanceID, UInt64 ReJITID);
   private: void R2RGetEntryPoint(UInt64 MethodID, String MethodNamespace, String MethodName, String MethodSignature, UInt64 EntryPoint, UInt16 ClrInstanceID);
-  private: void R2RGetEntryPointStart(UInt64 MethodID, UInt16 ClrInstanceID);
   private: void MethodUnload_V2(UInt64 MethodID, UInt64 ModuleID, UInt64 MethodStartAddress, UInt32 MethodSize, UInt32 MethodToken, UInt32 MethodFlags, UInt16 ClrInstanceID, UInt64 ReJITID);
   private: void MethodLoadVerbose_V2(UInt64 MethodID, UInt64 ModuleID, UInt64 MethodStartAddress, UInt32 MethodSize, UInt32 MethodToken, UInt32 MethodFlags, String MethodNamespace, String MethodName, String MethodSignature, UInt16 ClrInstanceID, UInt64 ReJITID);
   private: void MethodUnloadVerbose_V2(UInt64 MethodID, UInt64 ModuleID, UInt64 MethodStartAddress, UInt32 MethodSize, UInt32 MethodToken, UInt32 MethodFlags, String MethodNamespace, String MethodName, String MethodSignature, UInt16 ClrInstanceID, UInt64 ReJITID);
@@ -149,8 +146,6 @@ CLASS(NativeRuntimeEventSource) : public EventSource::in {
   private: void GCJoin_V2(UInt32 Heap, UInt32 JoinTime, UInt32 JoinType, UInt16 ClrInstanceID, UInt32 JoinID);
   private: void GCPerHeapHistory_V3(UInt16 ClrInstanceID, IntPtr FreeListAllocated, IntPtr FreeListRejected, IntPtr EndOfSegAllocated, IntPtr CondemnedAllocated, IntPtr PinnedAllocated, IntPtr PinnedAllocatedAdvance, UInt32 RunningFreeListEfficiency, UInt32 CondemnReasons0, UInt32 CondemnReasons1, UInt32 CompactMechanisms, UInt32 ExpandMechanisms, UInt32 HeapIndex, IntPtr ExtraGen0Commit, UInt32 Count);
   private: void GCGlobalHeapHistory_V3(UInt64 FinalYoungestDesired, Int32 NumHeaps, UInt32 CondemnedGeneration, UInt32 Gen0ReductionCount, UInt32 Reason, UInt32 GlobalMechanisms, UInt16 ClrInstanceID, UInt32 PauseMode, UInt32 MemoryPressure, UInt32 CondemnReasons0, UInt32 CondemnReasons1);
-  private: void GenAwareBegin(UInt32 Count, UInt16 ClrInstanceID);
-  private: void GenAwareEnd(UInt32 Count, UInt16 ClrInstanceID);
   private: void DebugIPCEventStart();
   private: void DebugIPCEventEnd();
   private: void DebugExceptionProcessingStart();

@@ -793,7 +793,7 @@ ValueTask<Int32> FileStream___::ReadAsync(Memory<Byte> buffer, CancellationToken
     return Stream::in::ReadAsync(buffer, cancellationToken);
   }
   if (cancellationToken.get_IsCancellationRequested()) {
-    return ValueTask<>::FromCanceled<Int32>(cancellationToken);
+    return ValueTask<Int32>(Task<>::in::FromCanceled<Int32>(cancellationToken));
   }
   if (get_IsClosed()) {
     rt::throw_exception(Error::GetFileNotOpen());
@@ -879,7 +879,7 @@ ValueTask<> FileStream___::WriteAsync(ReadOnlyMemory<Byte> buffer, CancellationT
     return Stream::in::WriteAsync(buffer, cancellationToken);
   }
   if (cancellationToken.get_IsCancellationRequested()) {
-    return ValueTask<>::FromCanceled(cancellationToken);
+    return ValueTask<>(Task<>::in::FromCanceled<Int32>(cancellationToken));
   }
   if (get_IsClosed()) {
     rt::throw_exception(Error::GetFileNotOpen());
@@ -1228,12 +1228,25 @@ ValueTask<> FileStream___::DisposeAsync() {
 }
 
 ValueTask<> FileStream___::DisposeAsyncCore() {
-  _DisposeAsyncCore_d__99 stateMachine;
-  stateMachine.__t__builder = AsyncValueTaskMethodBuilder<>::Create();
-  stateMachine.__4__this = (FileStream)this;
-  stateMachine.__1__state = -1;
-  stateMachine.__t__builder.Start(stateMachine);
-  return stateMachine.__t__builder.get_Task();
+  try {
+    if (_fileHandle != nullptr && !_fileHandle->get_IsClosed() && _writePos > 0) {
+    }
+  } catch (...) {
+  } finally: {
+    if (_fileHandle != nullptr && !_fileHandle->get_IsClosed()) {
+      ThreadPoolBoundHandle threadPoolBinding = _fileHandle->get_ThreadPoolBinding();
+      if (threadPoolBinding != nullptr) {
+        threadPoolBinding->Dispose();
+      }
+      _fileHandle->Dispose();
+    }
+    PreAllocatedOverlapped preallocatedOverlapped = _preallocatedOverlapped;
+    if (preallocatedOverlapped != nullptr) {
+      preallocatedOverlapped->Dispose();
+    }
+    _canSeek = false;
+    GC::SuppressFinalize((FileStream)this);
+  }
 }
 
 void FileStream___::FlushOSBuffer() {
@@ -1704,15 +1717,71 @@ Task<> FileStream___::CopyToAsync(Stream destination, Int32 bufferSize, Cancella
 }
 
 Task<> FileStream___::AsyncModeCopyToAsync(Stream destination, Int32 bufferSize, CancellationToken cancellationToken) {
-  _AsyncModeCopyToAsync_d__128 stateMachine;
-  stateMachine.__t__builder = AsyncTaskMethodBuilder<>::Create();
-  stateMachine.__4__this = (FileStream)this;
-  stateMachine.destination = destination;
-  stateMachine.bufferSize = bufferSize;
-  stateMachine.cancellationToken = cancellationToken;
-  stateMachine.__1__state = -1;
-  stateMachine.__t__builder.Start(stateMachine);
-  return stateMachine.__t__builder.get_Task();
+  if (_writePos > 0) {
+  }
+  if (GetBuffer() != nullptr) {
+    Int32 num = _readLength - _readPos;
+    if (num > 0) {
+    }
+  }
+  AsyncCopyToAwaitable readAwaitable = rt::newobj<AsyncCopyToAwaitable>((FileStream)this);
+  Boolean canSeek = get_CanSeek();
+  if (canSeek) {
+    VerifyOSHandlePosition();
+    readAwaitable->_position = _filePosition;
+  }
+  Array<Byte> copyBuffer = ArrayPool<Byte>::in::get_Shared()->Rent(bufferSize);
+  PreAllocatedOverlapped awaitableOverlapped = rt::newobj<PreAllocatedOverlapped>(AsyncCopyToAwaitable::in::s_callback, readAwaitable, copyBuffer);
+  CancellationTokenRegistration cancellationReg;
+  try {
+    if (cancellationToken.get_CanBeCanceled()) {
+      Action<Object> as = __c::in::__9__128_0;
+      cancellationReg = cancellationToken.UnsafeRegister(as != nullptr ? as : (__c::in::__9__128_0 = {__c::in::__9, &__c::in::_AsyncModeCopyToAsync_b__128_0}), readAwaitable);
+    }
+    while (true) {
+      cancellationToken.ThrowIfCancellationRequested();
+      readAwaitable->ResetForNextOperation();
+      try {
+        readAwaitable->_nativeOverlapped = _fileHandle->get_ThreadPoolBinding()->AllocateNativeOverlapped(awaitableOverlapped);
+        if (canSeek) {
+          readAwaitable->_nativeOverlapped->OffsetLow = (Int32)readAwaitable->_position;
+          readAwaitable->_nativeOverlapped->OffsetHigh = (Int32)(readAwaitable->_position >> 32);
+        }
+        Int32 errorCode;
+        if (ReadFileNative(_fileHandle, copyBuffer, readAwaitable->_nativeOverlapped, errorCode) < 0) {
+          switch (errorCode.get()) {
+            case 38:
+            case 109:
+              readAwaitable->MarkCompleted();
+              break;
+            default:
+              rt::throw_exception(Win32Marshal::GetExceptionForWin32Error(errorCode, _path));
+            case 997:
+              break;
+          }
+        }
+      } catch (...) {
+      } finally: {
+        NativeOverlapped* nativeOverlapped;
+        {
+          rt::lock(readAwaitable->get_CancellationLock());
+          nativeOverlapped = readAwaitable->_nativeOverlapped;
+          readAwaitable->_nativeOverlapped = nullptr;
+        }
+        if (nativeOverlapped != nullptr) {
+          _fileHandle->get_ThreadPoolBinding()->FreeNativeOverlapped(nativeOverlapped);
+        }
+      }
+    }
+  } catch (...) {
+  } finally: {
+    cancellationReg.Dispose();
+    awaitableOverlapped->Dispose();
+    ArrayPool<Byte>::in::get_Shared()->Return(copyBuffer);
+    if (!_fileHandle->get_IsClosed() && get_CanSeek()) {
+      SeekCore(_fileHandle, 0, SeekOrigin::End);
+    }
+  }
 }
 
 Task<> FileStream___::FlushAsyncInternal(CancellationToken cancellationToken) {
@@ -1818,6 +1887,7 @@ void FileStream___::VerifyHandleIsSync(SafeFileHandle handle) {
 }
 
 void FileStream___::cctor() {
+  s_cachedSerializationSwitch = 0;
   s_ioCallback = &FileStreamCompletionSource::in::IOCallback;
 }
 

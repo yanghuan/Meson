@@ -93,8 +93,6 @@ CLASS(TypeInfo) : public Type::in {
   public: IEnumerable<MethodInfo> GetDeclaredMethods(String name);
   public: Boolean IsAssignableFrom(TypeInfo typeInfo);
   public: static String GetRankString(Int32 rank);
-  public: static Array<MethodInfo> _GetDeclaredMethods_g__GetDeclaredOnlyMethods10_0(Type type);
-  public: static Array<Type> _get_DeclaredNestedTypes_g__GetDeclaredOnlyNestedTypes22_0(Type type);
 };
 } // namespace TypeInfoNamespace
 using TypeInfo = TypeInfoNamespace::TypeInfo;

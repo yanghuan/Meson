@@ -516,7 +516,6 @@ void Uri___::CreateUri(Uri baseUri, String relativeUri, Boolean dontEscape) {
   _flags = Flags::Zero;
   _info = nullptr;
   _syntax = nullptr;
-  _originalUnicodeString = nullptr;
   CreateThis(relativeUri, dontEscape, UriKind::Absolute);
 }
 
@@ -550,7 +549,6 @@ void Uri___::ctor(Uri baseUri, Uri relativeUri) {
   _flags = Flags::Zero;
   _info = nullptr;
   _syntax = nullptr;
-  _originalUnicodeString = nullptr;
   CreateThis(newUriString, userEscaped, UriKind::Absolute);
 }
 
@@ -770,15 +768,42 @@ Boolean Uri___::CheckSchemeName(String schemeName) {
 }
 
 Boolean Uri___::IsHexDigit(Char character) {
-  return HexConverter::IsHexChar(character);
+  if ((UInt32)(character - 48) > 9u && (UInt32)(character - 65) > 5u) {
+    return (UInt32)(character - 97) <= 5u;
+  }
+  return true;
 }
 
 Int32 Uri___::FromHex(Char digit) {
-  Int32 num = HexConverter::FromChar(digit);
-  if (num == 255) {
-    rt::throw_exception<ArgumentException>(nullptr, "digit");
+  switch (digit.get()) {
+    default:
+      rt::throw_exception<ArgumentException>(nullptr, "digit");
+    case 'a':
+    case 'b':
+    case 'c':
+    case 'd':
+    case 'e':
+    case 'f':
+      return digit - 97 + 10;
+    case 'A':
+    case 'B':
+    case 'C':
+    case 'D':
+    case 'E':
+    case 'F':
+      return digit - 65 + 10;
+    case '0':
+    case '1':
+    case '2':
+    case '3':
+    case '4':
+    case '5':
+    case '6':
+    case '7':
+    case '8':
+    case '9':
+      return digit - 48;
   }
-  return num;
 }
 
 Int32 Uri___::GetHashCode() {

@@ -10,6 +10,10 @@ void Debugger::Break() {
   BreakInternal();
 }
 
+void Debugger::BreakCanThrow() {
+  BreakInternal();
+}
+
 Boolean Debugger::Launch() {
   if (!get_IsAttached()) {
     return LaunchInternal();

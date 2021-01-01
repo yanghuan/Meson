@@ -15,7 +15,7 @@ FORWARDS(StreamingContext)
 } // namespace System::Private::CoreLib::System::Runtime::Serialization
 namespace System::Private::CoreLib::System::Threading {
 FORWARDS(AsyncFlowControl)
-FORWARD(ContextCallback)
+FORWARD_(ContextCallback, T1, T2)
 FORWARD(IAsyncLocal)
 FORWARD(IAsyncLocalValueMap)
 FORWARD(Thread)
@@ -29,16 +29,15 @@ CLASS(ExecutionContext) : public object {
   public: void ctor(IAsyncLocalValueMap localValues, Array<IAsyncLocal> localChangeNotifications, Boolean isFlowSuppressed);
   public: void GetObjectData(SerializationInfo info, StreamingContext context);
   public: static ExecutionContext Capture();
-  public: static ExecutionContext CaptureForRestore();
   private: ExecutionContext ShallowClone(Boolean isFlowSuppressed);
   public: static AsyncFlowControl SuppressFlow();
   public: static void RestoreFlow();
   public: static Boolean IsFlowSuppressed();
-  public: static void Run(ExecutionContext executionContext, ContextCallback callback, Object state);
-  public: static void RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state);
-  public: static void Restore(ExecutionContext executionContext);
-  public: static void RestoreInternal(ExecutionContext executionContext);
-  public: static void RunFromThreadPoolDispatchLoop(Thread threadPoolThread, ExecutionContext executionContext, ContextCallback callback, Object state);
+  public: static void Run(ExecutionContext executionContext, ContextCallback<> callback, Object state);
+  public: static void RunInternal(ExecutionContext executionContext, ContextCallback<> callback, Object state);
+  public: template <class TState>
+  static void RunInternal(ExecutionContext executionContext, ContextCallback<TState> callback, TState& state);
+  public: static void RunFromThreadPoolDispatchLoop(Thread threadPoolThread, ExecutionContext executionContext, ContextCallback<> callback, Object state);
   public: template <class TState>
   static void RunForThreadPoolUnsafe(ExecutionContext executionContext, Action<TState> callback, TState& state);
   public: static void RestoreChangedContextToThread(Thread currentThread, ExecutionContext contextToRestore, ExecutionContext currentContext);

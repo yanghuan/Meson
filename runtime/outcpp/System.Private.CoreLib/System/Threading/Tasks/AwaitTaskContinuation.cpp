@@ -95,11 +95,11 @@ void AwaitTaskContinuation___::ExecuteOfIThreadPoolWorkItem() {
   }
 }
 
-ContextCallback AwaitTaskContinuation___::GetInvokeActionCallback() {
+ContextCallback<> AwaitTaskContinuation___::GetInvokeActionCallback() {
   return s_invokeContextCallback;
 }
 
-void AwaitTaskContinuation___::RunCallback(ContextCallback callback, Object state, Task<>& currentTask) {
+void AwaitTaskContinuation___::RunCallback(ContextCallback<> callback, Object state, Task<>& currentTask) {
   Task<> task = currentTask;
   try {
     if (task != nullptr) {

@@ -124,6 +124,8 @@ void DebugProvider___::ctor() {
 
 void DebugProvider___::cctor() {
   s_lock = rt::newobj<Object>();
+  s_FailCore = nullptr;
+  s_WriteCore = nullptr;
   s_ForLock = rt::newobj<Object>();
 }
 

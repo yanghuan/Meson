@@ -12,7 +12,6 @@
 #include <System.Private.CoreLib/System/Globalization/CultureInfo-dep.h>
 #include <System.Private.CoreLib/System/Globalization/CultureNotFoundException-dep.h>
 #include <System.Private.CoreLib/System/Globalization/GlobalizationMode-dep.h>
-#include <System.Private.CoreLib/System/Globalization/GregorianCalendar-dep.h>
 #include <System.Private.CoreLib/System/Globalization/IcuLocaleData-dep.h>
 #include <System.Private.CoreLib/System/Globalization/IcuLocaleDataParts.h>
 #include <System.Private.CoreLib/System/Globalization/TextInfo-dep.h>
@@ -23,7 +22,6 @@
 #include <System.Private.CoreLib/System/ReadOnlySpan-dep.h>
 #include <System.Private.CoreLib/System/Span-dep.h>
 #include <System.Private.CoreLib/System/SR-dep.h>
-#include <System.Private.CoreLib/System/StringComparer-dep.h>
 #include <System.Private.CoreLib/System/StringComparison.h>
 #include <System.Private.CoreLib/System/Text/StringBuilder-dep.h>
 #include <System.Private.CoreLib/System/UInt32-dep.h>
@@ -35,7 +33,7 @@ using namespace System::Text;
 Dictionary<String, String> CultureData___::get_RegionNames() {
   Object obj = s_regionNames;
   if (obj == nullptr) {
-    obj = rt::newobj<Dictionary<String, String>>(257, StringComparer::in::get_OrdinalIgnoreCase());
+    obj = rt::newobj<Dictionary<String, String>>(257);
     s_regionNames = (Dictionary<String, String>)obj;
   }
   return (Dictionary<String, String>)obj;
@@ -55,7 +53,7 @@ String CultureData___::get_CultureName() {
 }
 
 Boolean CultureData___::get_UseUserOverride() {
-  return _bUseOverridesUserSetting;
+  return _bUseOverrides;
 }
 
 String CultureData___::get_Name() {
@@ -70,7 +68,7 @@ String CultureData___::get_ParentName() {
 
 String CultureData___::get_DisplayName() {
   String text = _sLocalizedDisplayName;
-  if (text == nullptr && !GlobalizationMode::get_Invariant()) {
+  if (text == nullptr) {
     if (get_IsSupplementalCustomCulture()) {
       text = ((!get_IsNeutralCulture()) ? get_NativeName() : get_NativeLanguageName());
     } else {
@@ -90,7 +88,7 @@ String CultureData___::get_DisplayName() {
 
 String CultureData___::get_EnglishName() {
   String text = _sEnglishDisplayName;
-  if (text == nullptr && !GlobalizationMode::get_Invariant()) {
+  if (text == nullptr) {
     if (get_IsNeutralCulture()) {
       text = get_EnglishLanguageName();
       String sName = _sName;
@@ -112,7 +110,7 @@ String CultureData___::get_EnglishName() {
 
 String CultureData___::get_NativeName() {
   String text = _sNativeDisplayName;
-  if (text == nullptr && !GlobalizationMode::get_Invariant()) {
+  if (text == nullptr) {
     if (get_IsNeutralCulture()) {
       text = get_NativeLanguageName();
       String sName = _sName;
@@ -154,7 +152,7 @@ String CultureData___::get_ThreeLetterWindowsLanguageName() {
 }
 
 String CultureData___::get_LocalizedLanguageName() {
-  if (_sLocalizedLanguage == nullptr && !GlobalizationMode::get_Invariant()) {
+  if (_sLocalizedLanguage == nullptr) {
     CultureInfo userDefaultCulture;
     if (CultureInfo::in::get_DefaultThreadCurrentUICulture() != nullptr && (userDefaultCulture = CultureInfo::in::GetUserDefaultCulture()) != nullptr && !CultureInfo::in::get_DefaultThreadCurrentUICulture()->get_Name()->Equals(userDefaultCulture->get_Name())) {
       _sLocalizedLanguage = get_NativeLanguageName();
@@ -181,15 +179,15 @@ String CultureData___::get_RegionName() {
 }
 
 Int32 CultureData___::get_GeoId() {
-  if (_iGeoId == -1 && !GlobalizationMode::get_Invariant()) {
-    _iGeoId = (GlobalizationMode::get_UseNls() ? NlsGetLocaleInfo(LocaleNumberData::GeoId) : IcuGetGeoId(_sRealName));
+  if (_iGeoId == -1) {
+    _iGeoId = (GlobalizationMode::get_UseNls() ? NlsGetGeoId(_sRealName) : IcuGetGeoId(_sRealName));
   }
   return _iGeoId;
 }
 
 String CultureData___::get_LocalizedCountryName() {
   String text = _sLocalizedCountry;
-  if (text == nullptr && !GlobalizationMode::get_Invariant()) {
+  if (text == nullptr) {
     try {
       text = (GlobalizationMode::get_UseNls() ? NlsGetRegionDisplayName() : IcuGetRegionDisplayName());
     } catch (...) {
@@ -240,7 +238,7 @@ String CultureData___::get_SCONSOLEFALLBACKNAME() {
 
 Array<Int32> CultureData___::get_NumberGroupSizes() {
   Array<Int32> as = _waGrouping;
-  return as != nullptr ? as : (_waGrouping = GetLocaleInfoCoreUserOverride(LocaleGroupingData::Digit));
+  return as != nullptr ? as : (_waGrouping = GetLocaleInfoCore(LocaleGroupingData::Digit));
 }
 
 String CultureData___::get_NaNSymbol() {
@@ -284,7 +282,7 @@ String CultureData___::get_PerMilleSymbol() {
 
 String CultureData___::get_CurrencySymbol() {
   String as = _sCurrency;
-  return as != nullptr ? as : (_sCurrency = GetLocaleInfoCoreUserOverride(LocaleStringData::MonetarySymbol));
+  return as != nullptr ? as : (_sCurrency = GetLocaleInfoCore(LocaleStringData::MonetarySymbol));
 }
 
 String CultureData___::get_ISOCurrencySymbol() {
@@ -304,46 +302,46 @@ String CultureData___::get_CurrencyNativeName() {
 
 Array<Int32> CultureData___::get_CurrencyGroupSizes() {
   Array<Int32> as = _waMonetaryGrouping;
-  return as != nullptr ? as : (_waMonetaryGrouping = GetLocaleInfoCoreUserOverride(LocaleGroupingData::Monetary));
+  return as != nullptr ? as : (_waMonetaryGrouping = GetLocaleInfoCore(LocaleGroupingData::Monetary));
 }
 
 Int32 CultureData___::get_MeasurementSystem() {
   if (_iMeasure == -1) {
-    _iMeasure = GetLocaleInfoCoreUserOverride(LocaleNumberData::MeasurementSystem);
+    _iMeasure = GetLocaleInfoCore(LocaleNumberData::MeasurementSystem);
   }
   return _iMeasure;
 }
 
 String CultureData___::get_ListSeparator() {
   String as = _sListSeparator;
-  return as != nullptr ? as : (_sListSeparator = GetLocaleInfoCoreUserOverride(LocaleStringData::ListSeparator));
+  return as != nullptr ? as : (_sListSeparator = GetLocaleInfoCore(LocaleStringData::ListSeparator));
 }
 
 String CultureData___::get_AMDesignator() {
   String as = _sAM1159;
-  return as != nullptr ? as : (_sAM1159 = GetLocaleInfoCoreUserOverride(LocaleStringData::AMDesignator));
+  return as != nullptr ? as : (_sAM1159 = GetLocaleInfoCore(LocaleStringData::AMDesignator));
 }
 
 String CultureData___::get_PMDesignator() {
   String as = _sPM2359;
-  return as != nullptr ? as : (_sPM2359 = GetLocaleInfoCoreUserOverride(LocaleStringData::PMDesignator));
+  return as != nullptr ? as : (_sPM2359 = GetLocaleInfoCore(LocaleStringData::PMDesignator));
 }
 
 Array<String> CultureData___::get_LongTimes() {
-  if (_saLongTimes == nullptr && !GlobalizationMode::get_Invariant()) {
-    Array<String> timeFormatsCore = GetTimeFormatsCore(false);
-    if (timeFormatsCore == nullptr || timeFormatsCore->get_Length() == 0) {
+  if (_saLongTimes == nullptr) {
+    Array<String> array = GlobalizationMode::get_UseNls() ? NlsGetTimeFormats() : IcuGetTimeFormats();
+    if (array == nullptr || array->get_Length() == 0) {
       _saLongTimes = get_Invariant()->_saLongTimes;
     } else {
-      _saLongTimes = timeFormatsCore;
+      _saLongTimes = array;
     }
   }
   return _saLongTimes;
 }
 
 Array<String> CultureData___::get_ShortTimes() {
-  if (_saShortTimes == nullptr && !GlobalizationMode::get_Invariant()) {
-    Array<String> array = GetTimeFormatsCore(true);
+  if (_saShortTimes == nullptr) {
+    Array<String> array = GlobalizationMode::get_UseNls() ? NlsGetShortTimeFormats() : IcuGetShortTimeFormats();
     if (array == nullptr || array->get_Length() == 0) {
       array = DeriveShortTimesFromLong();
     }
@@ -353,23 +351,23 @@ Array<String> CultureData___::get_ShortTimes() {
 }
 
 Int32 CultureData___::get_FirstDayOfWeek() {
-  if (_iFirstDayOfWeek == -1 && !GlobalizationMode::get_Invariant()) {
-    _iFirstDayOfWeek = (get_ShouldUseUserOverrideNlsData() ? NlsGetFirstDayOfWeek() : IcuGetLocaleInfo(LocaleNumberData::FirstDayOfWeek));
+  if (_iFirstDayOfWeek == -1) {
+    _iFirstDayOfWeek = (GlobalizationMode::get_UseNls() ? NlsGetFirstDayOfWeek() : IcuGetFirstDayOfWeek());
   }
   return _iFirstDayOfWeek;
 }
 
 Int32 CultureData___::get_CalendarWeekRule() {
   if (_iFirstWeekOfYear == -1) {
-    _iFirstWeekOfYear = GetLocaleInfoCoreUserOverride(LocaleNumberData::FirstWeekOfYear);
+    _iFirstWeekOfYear = GetLocaleInfoCore(LocaleNumberData::FirstWeekOfYear);
   }
   return _iFirstWeekOfYear;
 }
 
 Array<CalendarId> CultureData___::get_CalendarIds() {
-  if (_waCalendars == nullptr && !GlobalizationMode::get_Invariant()) {
+  if (_waCalendars == nullptr) {
     Array<CalendarId> array = rt::newarr<Array<CalendarId>>(23);
-    Int32 num = CalendarData::in::GetCalendarsCore(_sWindowsName, _bUseOverrides, array);
+    Int32 num = GlobalizationMode::get_UseNls() ? CalendarData::in::NlsGetCalendars(_sWindowsName, _bUseOverrides, array) : CalendarData::in::IcuGetCalendars(_sWindowsName, _bUseOverrides, array);
     if (num == 0) {
       _waCalendars = get_Invariant()->_waCalendars;
     } else {
@@ -389,6 +387,13 @@ Array<CalendarId> CultureData___::get_CalendarIds() {
       }
       Array<CalendarId> array2 = rt::newarr<Array<CalendarId>>(num);
       Array<>::in::Copy(array, array2, num);
+      if (array2->get_Length() > 1) {
+        CalendarId calendarId = (CalendarId)GetLocaleInfoCore(LocaleNumberData::CalendarType);
+        if (array2[1] == calendarId) {
+          array2[1] = array2[0];
+          array2[0] = calendarId;
+        }
+      }
       _waCalendars = array2;
     }
   }
@@ -400,7 +405,7 @@ Boolean CultureData___::get_IsRightToLeft() {
 }
 
 Int32 CultureData___::get_ReadingLayout() {
-  if (_iReadingLayout == -1 && !GlobalizationMode::get_Invariant()) {
+  if (_iReadingLayout == -1) {
     _iReadingLayout = GetLocaleInfoCore(LocaleNumberData::ReadingLayout);
   }
   return _iReadingLayout;
@@ -419,35 +424,35 @@ Boolean CultureData___::get_IsSupplementalCustomCulture() {
 }
 
 Int32 CultureData___::get_ANSICodePage() {
-  if (_iDefaultAnsiCodePage == -1 && !GlobalizationMode::get_Invariant()) {
-    _iDefaultAnsiCodePage = GetAnsiCodePage(_sRealName);
+  if (_iDefaultAnsiCodePage == -1) {
+    _iDefaultAnsiCodePage = (GlobalizationMode::get_UseNls() ? NlsGetAnsiCodePage(_sRealName) : IcuGetAnsiCodePage(_sRealName));
   }
   return _iDefaultAnsiCodePage;
 }
 
 Int32 CultureData___::get_OEMCodePage() {
-  if (_iDefaultOemCodePage == -1 && !GlobalizationMode::get_Invariant()) {
-    _iDefaultOemCodePage = GetOemCodePage(_sRealName);
+  if (_iDefaultOemCodePage == -1) {
+    _iDefaultOemCodePage = (GlobalizationMode::get_UseNls() ? NlsGetOemCodePage(_sRealName) : IcuGetOemCodePage(_sRealName));
   }
   return _iDefaultOemCodePage;
 }
 
 Int32 CultureData___::get_MacCodePage() {
-  if (_iDefaultMacCodePage == -1 && !GlobalizationMode::get_Invariant()) {
-    _iDefaultMacCodePage = GetMacCodePage(_sRealName);
+  if (_iDefaultMacCodePage == -1) {
+    _iDefaultMacCodePage = (GlobalizationMode::get_UseNls() ? NlsGetMacCodePage(_sRealName) : IcuGetMacCodePage(_sRealName));
   }
   return _iDefaultMacCodePage;
 }
 
 Int32 CultureData___::get_EBCDICCodePage() {
-  if (_iDefaultEbcdicCodePage == -1 && !GlobalizationMode::get_Invariant()) {
-    _iDefaultEbcdicCodePage = GetEbcdicCodePage(_sRealName);
+  if (_iDefaultEbcdicCodePage == -1) {
+    _iDefaultEbcdicCodePage = (GlobalizationMode::get_UseNls() ? NlsGetEbcdicCodePage(_sRealName) : IcuGetEbcdicCodePage(_sRealName));
   }
   return _iDefaultEbcdicCodePage;
 }
 
 Int32 CultureData___::get_LCID() {
-  if (_iLanguage == 0 && !GlobalizationMode::get_Invariant()) {
+  if (_iLanguage == 0) {
     _iLanguage = (GlobalizationMode::get_UseNls() ? NlsLocaleNameToLCID(_sRealName) : IcuLocaleNameToLCID(_sRealName));
   }
   return _iLanguage;
@@ -470,7 +475,7 @@ Boolean CultureData___::get_IsReplacementCulture() {
 
 Calendar CultureData___::get_DefaultCalendar() {
   if (GlobalizationMode::get_Invariant()) {
-    return rt::newobj<GregorianCalendar>();
+    return CultureInfo::in::GetCalendarInstance(get_CalendarIds()[0]);
   }
   CalendarId calendarId = (CalendarId)GetLocaleInfoCore(LocaleNumberData::CalendarType);
   if (calendarId == CalendarId::UNINITIALIZED_VALUE) {
@@ -480,8 +485,8 @@ Calendar CultureData___::get_DefaultCalendar() {
 }
 
 String CultureData___::get_TimeSeparator() {
-  if (_sTimeSeparator == nullptr && !GlobalizationMode::get_Invariant()) {
-    String text = get_ShouldUseUserOverrideNlsData() ? NlsGetTimeFormatString() : IcuGetTimeFormatString();
+  if (_sTimeSeparator == nullptr) {
+    String text = GlobalizationMode::get_UseNls() ? NlsGetTimeFormatString() : IcuGetTimeFormatString();
     if (String::in::IsNullOrEmpty(text)) {
       text = get_LongTimes()[0];
     }
@@ -493,7 +498,7 @@ String CultureData___::get_TimeSeparator() {
 Boolean CultureData___::get_NlsIsReplacementCulture() {
   EnumData value;
   value.strings = rt::newobj<List<String>>();
-  Interop::Kernel32::EnumSystemLocalesEx(__ldftn(EnumAllSystemLocalesProc), 8u, Unsafe::AsPointer(value), IntPtr::Zero);
+  Interop::Kernel32::EnumSystemLocalesEx(EnumAllSystemLocalesProc, 8u, Unsafe::AsPointer(value), IntPtr::Zero);
   for (Int32 i = 0; i < value.strings->get_Count(); i++) {
     if (String::in::Equals(value.strings[i], _sWindowsName, StringComparison::OrdinalIgnoreCase)) {
       return true;
@@ -503,13 +508,6 @@ Boolean CultureData___::get_NlsIsReplacementCulture() {
 }
 
 Boolean CultureData___::get_IsWin32Installed() {
-  return true;
-}
-
-Boolean CultureData___::get_ShouldUseUserOverrideNlsData() {
-  if (!GlobalizationMode::get_UseNls()) {
-    return _bUseOverrides;
-  }
   return true;
 }
 
@@ -578,7 +576,6 @@ Array<CultureInfo> CultureData___::GetCultures(CultureTypes types) {
 CultureData CultureData___::CreateCultureWithInvariantData() {
   CultureData cultureData = rt::newobj<CultureData>();
   cultureData->_bUseOverrides = false;
-  cultureData->_bUseOverridesUserSetting = false;
   cultureData->_sRealName = "";
   cultureData->_sWindowsName = "";
   cultureData->_sName = "";
@@ -636,10 +633,8 @@ CultureData CultureData___::CreateCultureWithInvariantData() {
   cultureData->_iFirstDayOfWeek = 0;
   cultureData->_iFirstWeekOfYear = 0;
   cultureData->_waCalendars = rt::newarr<Array<CalendarId>>(1);
-  if (!GlobalizationMode::get_Invariant()) {
-    cultureData->_calendars = rt::newarr<Array<CalendarData>>(23);
-    cultureData->_calendars[0] = CalendarData::in::Invariant;
-  }
+  cultureData->_calendars = rt::newarr<Array<CalendarData>>(23);
+  cultureData->_calendars[0] = CalendarData::in::Invariant;
   cultureData->_iReadingLayout = 0;
   cultureData->_iLanguage = 127;
   cultureData->_iDefaultAnsiCodePage = 1252;
@@ -724,8 +719,8 @@ CultureData CultureData___::CreateCultureData(String cultureName, Boolean useUse
       return nullptr;
     }
     CultureData cultureData = CreateCultureWithInvariantData();
+    cultureData->_bUseOverrides = useUserOverride;
     cultureData->_sName = NormalizeCultureName(cultureName, cultureData->_bNeutral);
-    cultureData->_bUseOverridesUserSetting = useUserOverride;
     cultureData->_sRealName = cultureData->_sName;
     cultureData->_sWindowsName = cultureData->_sName;
     cultureData->_iLanguage = 4096;
@@ -735,12 +730,11 @@ CultureData CultureData___::CreateCultureData(String cultureName, Boolean useUse
     return get_Invariant();
   }
   CultureData cultureData2 = rt::newobj<CultureData>();
+  cultureData2->_bUseOverrides = useUserOverride;
   cultureData2->_sRealName = cultureName;
-  cultureData2->_bUseOverridesUserSetting = useUserOverride;
   if (!cultureData2->InitCultureDataCore() && !cultureData2->InitCompatibilityCultureData()) {
     return nullptr;
   }
-  cultureData2->InitUserOverride(useUserOverride);
   return cultureData2;
 }
 
@@ -777,7 +771,7 @@ CultureData CultureData___::GetCultureData(Int32 culture, Boolean bUseUserOverri
   if (GlobalizationMode::get_Invariant()) {
     rt::throw_exception<CultureNotFoundException>("culture", culture, SR::get_Argument_CultureNotSupported());
   }
-  text = LCIDToLocaleName(culture);
+  text = (GlobalizationMode::get_UseNls() ? NlsLCIDToLocaleName(culture) : IcuLCIDToLocaleName(culture));
   if (!String::in::IsNullOrEmpty(text)) {
     cultureData = GetCultureData(text, bUseUserOverride);
   }
@@ -923,16 +917,13 @@ String CultureData___::CalendarName(CalendarId calendarId) {
 }
 
 CalendarData CultureData___::GetCalendar(CalendarId calendarId) {
-  if (GlobalizationMode::get_Invariant()) {
-    return CalendarData::in::Invariant;
-  }
   Int32 num = (Int32)(calendarId - 1);
   if (_calendars == nullptr) {
     _calendars = rt::newarr<Array<CalendarData>>(23);
   }
   CalendarData calendarData = _calendars[num];
   if (calendarData == nullptr) {
-    calendarData = rt::newobj<CalendarData>(_sWindowsName, calendarId, _bUseOverrides);
+    calendarData = rt::newobj<CalendarData>(_sWindowsName, calendarId, get_UseUserOverride());
     _calendars[num] = calendarData;
   }
   return calendarData;
@@ -951,9 +942,6 @@ Array<String> CultureData___::AbbreviatedEnglishEraNames(CalendarId calendarId) 
 }
 
 String CultureData___::DateSeparator(CalendarId calendarId) {
-  if (GlobalizationMode::get_Invariant()) {
-    return "/";
-  }
   if (calendarId == CalendarId::JAPAN && !LocalAppContextSwitches::get_EnforceLegacyJapaneseDateParsing()) {
     return "/";
   }
@@ -1063,24 +1051,24 @@ void CultureData___::GetNFIValues(NumberFormatInfo nfi) {
     nfi->_currencyNegativePattern = _iNegativeCurrency;
     nfi->_currencyPositivePattern = _iCurrency;
   } else {
-    nfi->_positiveSign = GetLocaleInfoCoreUserOverride(LocaleStringData::PositiveSign);
-    nfi->_negativeSign = GetLocaleInfoCoreUserOverride(LocaleStringData::NegativeSign);
-    nfi->_numberDecimalSeparator = GetLocaleInfoCoreUserOverride(LocaleStringData::DecimalSeparator);
-    nfi->_numberGroupSeparator = GetLocaleInfoCoreUserOverride(LocaleStringData::ThousandSeparator);
-    nfi->_currencyGroupSeparator = GetLocaleInfoCoreUserOverride(LocaleStringData::MonetaryThousandSeparator);
-    nfi->_currencyDecimalSeparator = GetLocaleInfoCoreUserOverride(LocaleStringData::MonetaryDecimalSeparator);
-    nfi->_currencySymbol = GetLocaleInfoCoreUserOverride(LocaleStringData::MonetarySymbol);
-    nfi->_numberDecimalDigits = GetLocaleInfoCoreUserOverride(LocaleNumberData::FractionalDigitsCount);
-    nfi->_currencyDecimalDigits = GetLocaleInfoCoreUserOverride(LocaleNumberData::MonetaryFractionalDigitsCount);
-    nfi->_currencyPositivePattern = GetLocaleInfoCoreUserOverride(LocaleNumberData::PositiveMonetaryNumberFormat);
-    nfi->_currencyNegativePattern = GetLocaleInfoCoreUserOverride(LocaleNumberData::NegativeMonetaryNumberFormat);
-    nfi->_numberNegativePattern = GetLocaleInfoCoreUserOverride(LocaleNumberData::NegativeNumberFormat);
-    String localeInfoCoreUserOverride = GetLocaleInfoCoreUserOverride(LocaleStringData::Digits);
+    nfi->_positiveSign = GetLocaleInfoCore(LocaleStringData::PositiveSign);
+    nfi->_negativeSign = GetLocaleInfoCore(LocaleStringData::NegativeSign);
+    nfi->_numberDecimalSeparator = GetLocaleInfoCore(LocaleStringData::DecimalSeparator);
+    nfi->_numberGroupSeparator = GetLocaleInfoCore(LocaleStringData::ThousandSeparator);
+    nfi->_currencyGroupSeparator = GetLocaleInfoCore(LocaleStringData::MonetaryThousandSeparator);
+    nfi->_currencyDecimalSeparator = GetLocaleInfoCore(LocaleStringData::MonetaryDecimalSeparator);
+    nfi->_currencySymbol = GetLocaleInfoCore(LocaleStringData::MonetarySymbol);
+    nfi->_numberDecimalDigits = GetLocaleInfoCore(LocaleNumberData::FractionalDigitsCount);
+    nfi->_currencyDecimalDigits = GetLocaleInfoCore(LocaleNumberData::MonetaryFractionalDigitsCount);
+    nfi->_currencyPositivePattern = GetLocaleInfoCore(LocaleNumberData::PositiveMonetaryNumberFormat);
+    nfi->_currencyNegativePattern = GetLocaleInfoCore(LocaleNumberData::NegativeMonetaryNumberFormat);
+    nfi->_numberNegativePattern = GetLocaleInfoCore(LocaleNumberData::NegativeNumberFormat);
+    String localeInfoCore = GetLocaleInfoCore(LocaleStringData::Digits);
     nfi->_nativeDigits = rt::newarr<Array<String>>(10);
     for (Int32 i = 0; i < nfi->_nativeDigits->get_Length(); i++) {
-      nfi->_nativeDigits[i] = Char::ToString(localeInfoCoreUserOverride[i]);
+      nfi->_nativeDigits[i] = Char::ToString(localeInfoCore[i]);
     }
-    nfi->_digitSubstitution = (get_ShouldUseUserOverrideNlsData() ? NlsGetLocaleInfo(LocaleNumberData::DigitSubstitution) : IcuGetDigitSubstitution(_sRealName));
+    nfi->_digitSubstitution = (GlobalizationMode::get_UseNls() ? NlsGetDigitSubstitution(_sRealName) : IcuGetDigitSubstitution(_sRealName));
   }
   nfi->_numberGroupSizes = get_NumberGroupSizes();
   nfi->_currencyGroupSizes = get_CurrencyGroupSizes();
@@ -1108,39 +1096,13 @@ String CultureData___::AnsiToLower(String testString) {
 }
 
 Int32 CultureData___::GetLocaleInfoCore(LocaleNumberData type) {
-  if (GlobalizationMode::get_Invariant()) {
-    return 0;
-  }
   if (!GlobalizationMode::get_UseNls()) {
     return IcuGetLocaleInfo(type);
   }
   return NlsGetLocaleInfo(type);
 }
 
-Int32 CultureData___::GetLocaleInfoCoreUserOverride(LocaleNumberData type) {
-  if (GlobalizationMode::get_Invariant()) {
-    return 0;
-  }
-  if (!get_ShouldUseUserOverrideNlsData()) {
-    return IcuGetLocaleInfo(type);
-  }
-  return NlsGetLocaleInfo(type);
-}
-
-String CultureData___::GetLocaleInfoCoreUserOverride(LocaleStringData type) {
-  if (GlobalizationMode::get_Invariant()) {
-    return nullptr;
-  }
-  if (!get_ShouldUseUserOverrideNlsData()) {
-    return IcuGetLocaleInfo(type);
-  }
-  return NlsGetLocaleInfo(type);
-}
-
 String CultureData___::GetLocaleInfoCore(LocaleStringData type) {
-  if (GlobalizationMode::get_Invariant()) {
-    return nullptr;
-  }
   if (!GlobalizationMode::get_UseNls()) {
     return IcuGetLocaleInfo(type);
   }
@@ -1148,20 +1110,14 @@ String CultureData___::GetLocaleInfoCore(LocaleStringData type) {
 }
 
 String CultureData___::GetLocaleInfoCore(String localeName, LocaleStringData type) {
-  if (GlobalizationMode::get_Invariant()) {
-    return nullptr;
-  }
   if (!GlobalizationMode::get_UseNls()) {
     return IcuGetLocaleInfo(localeName, type);
   }
   return NlsGetLocaleInfo(localeName, type);
 }
 
-Array<Int32> CultureData___::GetLocaleInfoCoreUserOverride(LocaleGroupingData type) {
-  if (GlobalizationMode::get_Invariant()) {
-    return nullptr;
-  }
-  if (!get_ShouldUseUserOverrideNlsData()) {
+Array<Int32> CultureData___::GetLocaleInfoCore(LocaleGroupingData type) {
+  if (!GlobalizationMode::get_UseNls()) {
     return IcuGetLocaleInfo(type);
   }
   return NlsGetLocaleInfo(type);
@@ -1214,6 +1170,20 @@ String CultureData___::IcuGetTimeFormatString(Boolean shortFormat) {
   }
   ReadOnlySpan<Char> span = ReadOnlySpan<Char>(ptr, 100);
   return ConvertIcuTimeFormatString(span.Slice(0, MemoryExtensions::IndexOf(span, '\0')));
+}
+
+Int32 CultureData___::IcuGetFirstDayOfWeek() {
+  return IcuGetLocaleInfo(LocaleNumberData::FirstDayOfWeek);
+}
+
+Array<String> CultureData___::IcuGetTimeFormats() {
+  String text = IcuGetTimeFormatString(false);
+  return rt::newarr<Array<String>>(1);
+}
+
+Array<String> CultureData___::IcuGetShortTimeFormats() {
+  String text = IcuGetTimeFormatString(true);
+  return rt::newarr<Array<String>>(1);
 }
 
 CultureData CultureData___::IcuGetCultureDataFromRegionName(String regionName) {
@@ -1269,12 +1239,48 @@ String CultureData___::ConvertIcuTimeFormatString(ReadOnlySpan<Char> icuFormatSt
   return span.Slice(0, length).ToString();
 }
 
+String CultureData___::IcuLCIDToLocaleName(Int32 culture) {
+  return IcuLocaleData::LCIDToLocaleName(culture);
+}
+
 Int32 CultureData___::IcuLocaleNameToLCID(String cultureName) {
   Int32 localeDataNumericPart = IcuLocaleData::GetLocaleDataNumericPart(cultureName, IcuLocaleDataParts::Lcid);
   if (localeDataNumericPart != -1) {
     return localeDataNumericPart;
   }
   return 4096;
+}
+
+Int32 CultureData___::IcuGetAnsiCodePage(String cultureName) {
+  Int32 localeDataNumericPart = IcuLocaleData::GetLocaleDataNumericPart(cultureName, IcuLocaleDataParts::AnsiCodePage);
+  if (localeDataNumericPart != -1) {
+    return localeDataNumericPart;
+  }
+  return get_Invariant()->get_ANSICodePage();
+}
+
+Int32 CultureData___::IcuGetOemCodePage(String cultureName) {
+  Int32 localeDataNumericPart = IcuLocaleData::GetLocaleDataNumericPart(cultureName, IcuLocaleDataParts::OemCodePage);
+  if (localeDataNumericPart != -1) {
+    return localeDataNumericPart;
+  }
+  return get_Invariant()->get_OEMCodePage();
+}
+
+Int32 CultureData___::IcuGetMacCodePage(String cultureName) {
+  Int32 localeDataNumericPart = IcuLocaleData::GetLocaleDataNumericPart(cultureName, IcuLocaleDataParts::MacCodePage);
+  if (localeDataNumericPart != -1) {
+    return localeDataNumericPart;
+  }
+  return get_Invariant()->get_MacCodePage();
+}
+
+Int32 CultureData___::IcuGetEbcdicCodePage(String cultureName) {
+  Int32 localeDataNumericPart = IcuLocaleData::GetLocaleDataNumericPart(cultureName, IcuLocaleDataParts::EbcdicCodePage);
+  if (localeDataNumericPart != -1) {
+    return localeDataNumericPart;
+  }
+  return get_Invariant()->get_EBCDICCodePage();
 }
 
 Int32 CultureData___::IcuGetGeoId(String cultureName) {
@@ -1360,35 +1366,43 @@ String CultureData___::NlsGetLocaleInfo(LocaleStringData type) {
 }
 
 String CultureData___::NlsGetLocaleInfo(String localeName, LocaleStringData type) {
-  return GetLocaleInfoFromLCType(localeName, (UInt32)type, _bUseOverrides);
+  return GetLocaleInfoFromLCType(localeName, (UInt32)type, get_UseUserOverride());
 }
 
 Int32 CultureData___::NlsGetLocaleInfo(LocaleNumberData type) {
   UInt32 num = (UInt32)type;
-  if (!_bUseOverrides) {
+  if (!get_UseUserOverride()) {
     num |= 2147483648u;
   }
   return GetLocaleInfoExInt(_sWindowsName, num);
 }
 
 Array<Int32> CultureData___::NlsGetLocaleInfo(LocaleGroupingData type) {
-  return ConvertWin32GroupString(GetLocaleInfoFromLCType(_sWindowsName, (UInt32)type, _bUseOverrides));
+  return ConvertWin32GroupString(GetLocaleInfoFromLCType(_sWindowsName, (UInt32)type, get_UseUserOverride()));
 }
 
 String CultureData___::NlsGetTimeFormatString() {
-  return ReescapeWin32String(GetLocaleInfoFromLCType(_sWindowsName, 4099u, _bUseOverrides));
+  return ReescapeWin32String(GetLocaleInfoFromLCType(_sWindowsName, 4099u, get_UseUserOverride()));
 }
 
 Int32 CultureData___::NlsGetFirstDayOfWeek() {
-  Int32 localeInfoExInt = GetLocaleInfoExInt(_sWindowsName, (UInt32)(4108 | ((!_bUseOverrides) ? Int32::MinValue : 0)));
+  Int32 localeInfoExInt = GetLocaleInfoExInt(_sWindowsName, (UInt32)(4108 | ((!get_UseUserOverride()) ? Int32::MinValue : 0)));
   return ConvertFirstDayOfWeekMonToSun(localeInfoExInt);
+}
+
+Array<String> CultureData___::NlsGetTimeFormats() {
+  return ReescapeWin32Strings(nativeEnumTimeFormats(_sWindowsName, 0u, get_UseUserOverride()));
+}
+
+Array<String> CultureData___::NlsGetShortTimeFormats() {
+  return ReescapeWin32Strings(nativeEnumTimeFormats(_sWindowsName, 2u, get_UseUserOverride()));
 }
 
 CultureData CultureData___::NlsGetCultureDataFromRegionName(String regionName) {
   EnumLocaleData value;
   value.cultureName = nullptr;
   value.regionName = regionName;
-  Interop::Kernel32::EnumSystemLocalesEx(__ldftn(EnumSystemLocalesProc), 34u, Unsafe::AsPointer(value), IntPtr::Zero);
+  Interop::Kernel32::EnumSystemLocalesEx(EnumSystemLocalesProc, 34u, Unsafe::AsPointer(value), IntPtr::Zero);
   if (value.cultureName != nullptr) {
     return GetCultureData(value.cultureName, true);
   }
@@ -1410,8 +1424,8 @@ String CultureData___::NlsGetRegionDisplayName() {
   return get_NativeCountryName();
 }
 
-String CultureData___::GetLocaleInfoFromLCType(String localeName, UInt32 lctype, Boolean useUserOverride) {
-  if (!useUserOverride) {
+String CultureData___::GetLocaleInfoFromLCType(String localeName, UInt32 lctype, Boolean useUserOveride) {
+  if (!useUserOveride) {
     lctype |= 2147483648u;
   }
   String as = GetLocaleInfoEx(localeName, lctype);
@@ -1541,7 +1555,7 @@ Interop::BOOL CultureData___::EnumTimeCallback(Char* lpTimeFormatString, void* l
 Array<String> CultureData___::nativeEnumTimeFormats(String localeName, UInt32 dwFlags, Boolean useUserOverride) {
   EnumData value;
   value.strings = rt::newobj<List<String>>();
-  Interop::Kernel32::EnumTimeFormatsEx(__ldftn(EnumTimeCallback), localeName, dwFlags, Unsafe::AsPointer(value));
+  Interop::Kernel32::EnumTimeFormatsEx(EnumTimeCallback, localeName, dwFlags, Unsafe::AsPointer(value));
   if (value.strings->get_Count() > 0) {
     Array<String> array = value.strings->ToArray();
     if (!useUserOverride && value.strings->get_Count() > 1) {
@@ -1562,6 +1576,40 @@ Array<String> CultureData___::nativeEnumTimeFormats(String localeName, UInt32 dw
 
 Int32 CultureData___::NlsLocaleNameToLCID(String cultureName) {
   return Interop::Kernel32::LocaleNameToLCID(cultureName, 134217728u);
+}
+
+String CultureData___::NlsLCIDToLocaleName(Int32 culture) {
+  Char as[86] = {};
+  Char* ptr = as;
+  Int32 num = Interop::Kernel32::LCIDToLocaleName(culture, ptr, 86, 134217728u);
+  if (num > 0) {
+    return rt::newstr<String>(ptr);
+  }
+  return nullptr;
+}
+
+Int32 CultureData___::NlsGetAnsiCodePage(String cultureName) {
+  return NlsGetLocaleInfo(LocaleNumberData::AnsiCodePage);
+}
+
+Int32 CultureData___::NlsGetOemCodePage(String cultureName) {
+  return NlsGetLocaleInfo(LocaleNumberData::OemCodePage);
+}
+
+Int32 CultureData___::NlsGetMacCodePage(String cultureName) {
+  return NlsGetLocaleInfo(LocaleNumberData::MacCodePage);
+}
+
+Int32 CultureData___::NlsGetEbcdicCodePage(String cultureName) {
+  return NlsGetLocaleInfo(LocaleNumberData::EbcdicCodePage);
+}
+
+Int32 CultureData___::NlsGetGeoId(String cultureName) {
+  return NlsGetLocaleInfo(LocaleNumberData::GeoId);
+}
+
+Int32 CultureData___::NlsGetDigitSubstitution(String cultureName) {
+  return NlsGetLocaleInfo(LocaleNumberData::DigitSubstitution);
 }
 
 String CultureData___::NlsGetThreeLetterWindowsLanguageName(String cultureName) {
@@ -1587,7 +1635,7 @@ Array<CultureInfo> CultureData___::NlsEnumCultures(CultureTypes types) {
   }
   EnumData value;
   value.strings = rt::newobj<List<String>>();
-  Interop::Kernel32::EnumSystemLocalesEx(__ldftn(EnumAllSystemLocalesProc), num, Unsafe::AsPointer(value), IntPtr::Zero);
+  Interop::Kernel32::EnumSystemLocalesEx(EnumAllSystemLocalesProc, num, Unsafe::AsPointer(value), IntPtr::Zero);
   Array<CultureInfo> array = rt::newarr<Array<CultureInfo>>(value.strings->get_Count());
   for (Int32 i = 0; i < array->get_Length(); i++) {
     array[i] = rt::newobj<CultureInfo>(value.strings[i]);
@@ -1638,10 +1686,6 @@ Boolean CultureData___::InitCultureDataCore() {
   return true;
 }
 
-void CultureData___::InitUserOverride(Boolean useUserOverride) {
-  _bUseOverrides = (useUserOverride && _sWindowsName == CultureInfo::in::get_UserDefaultLocaleName());
-}
-
 CultureData CultureData___::GetCurrentRegionData() {
   Char as[10] = {};
   Span<Char> span = as;
@@ -1661,47 +1705,6 @@ CultureData CultureData___::GetCurrentRegionData() {
     }
   }
   return CultureInfo::in::get_CurrentCulture()->_cultureData;
-}
-
-String CultureData___::LCIDToLocaleName(Int32 culture) {
-  Char as[86] = {};
-  Char* ptr = as;
-  Int32 num = Interop::Kernel32::LCIDToLocaleName(culture, ptr, 86, 134217728u);
-  if (num > 0) {
-    return rt::newstr<String>(ptr);
-  }
-  return nullptr;
-}
-
-Array<String> CultureData___::GetTimeFormatsCore(Boolean shortFormat) {
-  if (GlobalizationMode::get_UseNls()) {
-    return ReescapeWin32Strings(nativeEnumTimeFormats(_sWindowsName, shortFormat ? 2u : 0u, _bUseOverrides));
-  }
-  String text = IcuGetTimeFormatString(shortFormat);
-  if (_bUseOverrides) {
-    String localeInfoFromLCType = GetLocaleInfoFromLCType(_sWindowsName, shortFormat ? 121u : 4099u, true);
-    if (localeInfoFromLCType != text) {
-      return rt::newarr<Array<String>>(2);
-    }
-    return rt::newarr<Array<String>>(1);
-  }
-  return rt::newarr<Array<String>>(1);
-}
-
-Int32 CultureData___::GetAnsiCodePage(String cultureName) {
-  return NlsGetLocaleInfo(LocaleNumberData::AnsiCodePage);
-}
-
-Int32 CultureData___::GetOemCodePage(String cultureName) {
-  return NlsGetLocaleInfo(LocaleNumberData::OemCodePage);
-}
-
-Int32 CultureData___::GetMacCodePage(String cultureName) {
-  return NlsGetLocaleInfo(LocaleNumberData::MacCodePage);
-}
-
-Int32 CultureData___::GetEbcdicCodePage(String cultureName) {
-  return NlsGetLocaleInfo(LocaleNumberData::EbcdicCodePage);
 }
 
 void CultureData___::ctor() {

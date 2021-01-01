@@ -1,6 +1,5 @@
 #include "SR-dep.h"
 
-#include <System.Private.CoreLib/System/AppContext-dep.h>
 #include <System.Private.CoreLib/System/Boolean-dep.h>
 #include <System.Private.CoreLib/System/Collections/Generic/List-dep.h>
 #include <System.Private.CoreLib/System/Environment-dep.h>
@@ -2014,10 +2013,6 @@ String SR::get_ArgumentOutOfRange_IndexString() {
   return GetResourceString("ArgumentOutOfRange_IndexString");
 }
 
-String SR::get_ArgumentOutOfRange_InputTooLarge() {
-  return GetResourceString("ArgumentOutOfRange_InputTooLarge");
-}
-
 String SR::get_ArgumentOutOfRange_InvalidEraValue() {
   return GetResourceString("ArgumentOutOfRange_InvalidEraValue");
 }
@@ -2590,14 +2585,6 @@ String SR::get_Format_NoFormatSpecifier() {
   return GetResourceString("Format_NoFormatSpecifier");
 }
 
-String SR::get_Format_BadHexChar() {
-  return GetResourceString("Format_BadHexChar");
-}
-
-String SR::get_Format_BadHexLength() {
-  return GetResourceString("Format_BadHexLength");
-}
-
 String SR::get_Format_BadQuote() {
   return GetResourceString("Format_BadQuote");
 }
@@ -3024,10 +3011,6 @@ String SR::get_InvariantFailed() {
 
 String SR::get_InvariantFailed_Cnd() {
   return GetResourceString("InvariantFailed_Cnd");
-}
-
-String SR::get_IO_NoFileTableInInMemoryAssemblies() {
-  return GetResourceString("IO_NoFileTableInInMemoryAssemblies");
 }
 
 String SR::get_IO_EOF_ReadBeyondEOF() {
@@ -3638,10 +3621,6 @@ String SR::get_RuntimeWrappedException() {
   return GetResourceString("RuntimeWrappedException");
 }
 
-String SR::get_StandardOleMarshalObjectGetMarshalerFailed() {
-  return GetResourceString("StandardOleMarshalObjectGetMarshalerFailed");
-}
-
 String SR::get_Security_CannotReadRegistryData() {
   return GetResourceString("Security_CannotReadRegistryData");
 }
@@ -3776,6 +3755,10 @@ String SR::get_SpinWait_SpinUntil_ArgumentNull() {
 
 String SR::get_SpinWait_SpinUntil_TimeoutWrong() {
   return GetResourceString("SpinWait_SpinUntil_TimeoutWrong");
+}
+
+String SR::get_StackTrace_InFileLineNumber() {
+  return GetResourceString("StackTrace_InFileLineNumber");
 }
 
 String SR::get_Task_ContinueWith_ESandLR() {
@@ -3992,6 +3975,10 @@ String SR::get_UnknownError_Num() {
 
 String SR::get_Verification_Exception() {
   return GetResourceString("Verification_Exception");
+}
+
+String SR::get_Word_At() {
+  return GetResourceString("Word_At");
 }
 
 String SR::get_DebugAssertBanner() {
@@ -4262,40 +4249,8 @@ String SR::get_SwitchExpressionException_UnmatchedValue() {
   return GetResourceString("SwitchExpressionException_UnmatchedValue");
 }
 
-String SR::get_Encoding_UTF7_Disabled() {
-  return GetResourceString("Encoding_UTF7_Disabled");
-}
-
-String SR::get_IDynamicInterfaceCastable_DoesNotImplementRequested() {
-  return GetResourceString("IDynamicInterfaceCastable_DoesNotImplementRequested");
-}
-
-String SR::get_IDynamicInterfaceCastable_MissingImplementationAttribute() {
-  return GetResourceString("IDynamicInterfaceCastable_MissingImplementationAttribute");
-}
-
-String SR::get_IDynamicInterfaceCastable_NotInterface() {
-  return GetResourceString("IDynamicInterfaceCastable_NotInterface");
-}
-
-String SR::get_Arg_MustBeHalf() {
-  return GetResourceString("Arg_MustBeHalf");
-}
-
-String SR::get_Arg_MustBeRune() {
-  return GetResourceString("Arg_MustBeRune");
-}
-
-String SR::get_BinaryFormatter_SerializationDisallowed() {
-  return GetResourceString("BinaryFormatter_SerializationDisallowed");
-}
-
-String SR::get_NotSupported_CodeBase() {
-  return GetResourceString("NotSupported_CodeBase");
-}
-
 String SR::GetResourceString(String resourceKey) {
-  return GetResourceString(resourceKey, nullptr);
+  return GetResourceString(resourceKey, String::in::Empty);
 }
 
 String SR::InternalGetResourceString(String key) {
@@ -4342,13 +4297,11 @@ String SR::InternalGetResourceString(String key) {
 }
 
 Boolean SR::UsingResourceKeys() {
-  return s_usingResourceKeys;
+  return false;
 }
 
 String SR::GetResourceString(String resourceKey, String defaultString) {
   if (UsingResourceKeys()) {
-    String as = defaultString;
-    return as != nullptr ? as : resourceKey;
   }
   String text = nullptr;
   try {
@@ -4363,21 +4316,18 @@ String SR::GetResourceString(String resourceKey, String defaultString) {
 
 String SR::Format(String resourceFormat, Object p1) {
   if (UsingResourceKeys()) {
-    return String::in::Join(", ", rt::newarr<Array<Object>>(2, resourceFormat, p1));
   }
   return String::in::Format(resourceFormat, p1);
 }
 
 String SR::Format(String resourceFormat, Object p1, Object p2) {
   if (UsingResourceKeys()) {
-    return String::in::Join(", ", rt::newarr<Array<Object>>(3, resourceFormat, p1, p2));
   }
   return String::in::Format(resourceFormat, p1, p2);
 }
 
 String SR::Format(String resourceFormat, Object p1, Object p2, Object p3) {
   if (UsingResourceKeys()) {
-    return String::in::Join(", ", rt::newarr<Array<Object>>(4, resourceFormat, p1, p2, p3));
   }
   return String::in::Format(resourceFormat, p1, p2, p3);
 }
@@ -4385,7 +4335,6 @@ String SR::Format(String resourceFormat, Object p1, Object p2, Object p3) {
 String SR::Format(String resourceFormat, Array<Object> args) {
   if (args != nullptr) {
     if (UsingResourceKeys()) {
-      return resourceFormat + ", " + String::in::Join(", ", args);
     }
     return String::in::Format(resourceFormat, args);
   }
@@ -4394,22 +4343,18 @@ String SR::Format(String resourceFormat, Array<Object> args) {
 
 String SR::Format(IFormatProvider provider, String resourceFormat, Object p1) {
   if (UsingResourceKeys()) {
-    return String::in::Join(", ", rt::newarr<Array<Object>>(2, resourceFormat, p1));
   }
   return String::in::Format(provider, resourceFormat, p1);
 }
 
 String SR::Format(IFormatProvider provider, String resourceFormat, Object p1, Object p2) {
   if (UsingResourceKeys()) {
-    return String::in::Join(", ", rt::newarr<Array<Object>>(3, resourceFormat, p1, p2));
   }
   return String::in::Format(provider, resourceFormat, p1, p2);
 }
 
 void SR::cctor() {
   _lock = rt::newobj<Object>();
-  Boolean isEnabled;
-  s_usingResourceKeys = (AppContext::TryGetSwitch("System.Resources.UseSystemResourceKeys", isEnabled) && isEnabled);
 }
 
 } // namespace System::Private::CoreLib::System::SRNamespace

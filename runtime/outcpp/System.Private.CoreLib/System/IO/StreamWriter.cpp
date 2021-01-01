@@ -676,12 +676,14 @@ ValueTask<> StreamWriter___::DisposeAsync() {
 }
 
 ValueTask<> StreamWriter___::DisposeAsyncCore() {
-  _DisposeAsyncCore_d__33 stateMachine;
-  stateMachine.__t__builder = AsyncValueTaskMethodBuilder<>::Create();
-  stateMachine.__4__this = (StreamWriter)this;
-  stateMachine.__1__state = -1;
-  stateMachine.__t__builder.Start(stateMachine);
-  return stateMachine.__t__builder.get_Task();
+  try {
+    if (!_disposed) {
+    }
+  } catch (...) {
+  } finally: {
+    CloseStreamFromDispose(true);
+  }
+  GC::SuppressFinalize((StreamWriter)this);
 }
 
 void StreamWriter___::Flush() {
@@ -908,19 +910,21 @@ Task<> StreamWriter___::WriteAsync(Char value) {
 }
 
 Task<> StreamWriter___::WriteAsyncInternal(StreamWriter _this, Char value, Array<Char> charBuffer, Int32 charPos, Int32 charLen, Array<Char> coreNewLine, Boolean autoFlush, Boolean appendNewLine) {
-  _WriteAsyncInternal_d__61 stateMachine;
-  stateMachine.__t__builder = AsyncTaskMethodBuilder<>::Create();
-  stateMachine._this = _this;
-  stateMachine.value = value;
-  stateMachine.charBuffer = charBuffer;
-  stateMachine.charPos = charPos;
-  stateMachine.charLen = charLen;
-  stateMachine.coreNewLine = coreNewLine;
-  stateMachine.autoFlush = autoFlush;
-  stateMachine.appendNewLine = appendNewLine;
-  stateMachine.__1__state = -1;
-  stateMachine.__t__builder.Start(stateMachine);
-  return stateMachine.__t__builder.get_Task();
+  if (charPos == charLen) {
+  }
+  charBuffer[charPos] = value;
+  charPos++;
+  if (appendNewLine) {
+    for (Int32 i = 0; i < coreNewLine->get_Length(); i++) {
+      if (charPos == charLen) {
+      }
+      charBuffer[charPos] = coreNewLine[i];
+      charPos++;
+    }
+  }
+  if (autoFlush) {
+  }
+  _this->_charPos = charPos;
 }
 
 Task<> StreamWriter___::WriteAsync(String value) {
@@ -936,19 +940,31 @@ Task<> StreamWriter___::WriteAsync(String value) {
 }
 
 Task<> StreamWriter___::WriteAsyncInternal(StreamWriter _this, String value, Array<Char> charBuffer, Int32 charPos, Int32 charLen, Array<Char> coreNewLine, Boolean autoFlush, Boolean appendNewLine) {
-  _WriteAsyncInternal_d__63 stateMachine;
-  stateMachine.__t__builder = AsyncTaskMethodBuilder<>::Create();
-  stateMachine._this = _this;
-  stateMachine.value = value;
-  stateMachine.charBuffer = charBuffer;
-  stateMachine.charPos = charPos;
-  stateMachine.charLen = charLen;
-  stateMachine.coreNewLine = coreNewLine;
-  stateMachine.autoFlush = autoFlush;
-  stateMachine.appendNewLine = appendNewLine;
-  stateMachine.__1__state = -1;
-  stateMachine.__t__builder.Start(stateMachine);
-  return stateMachine.__t__builder.get_Task();
+  Int32 count = value->get_Length();
+  Int32 index = 0;
+  while (count > 0) {
+    if (charPos == charLen) {
+    }
+    Int32 num = charLen - charPos;
+    if (num > count) {
+      num = count;
+    }
+    value->CopyTo(index, charBuffer, charPos, num);
+    charPos += num;
+    index += num;
+    count -= num;
+  }
+  if (appendNewLine) {
+    for (Int32 i = 0; i < coreNewLine->get_Length(); i++) {
+      if (charPos == charLen) {
+      }
+      charBuffer[charPos] = coreNewLine[i];
+      charPos++;
+    }
+  }
+  if (autoFlush) {
+  }
+  _this->_charPos = charPos;
 }
 
 Task<> StreamWriter___::WriteAsync(Array<Char> buffer, Int32 index, Int32 count) {
@@ -986,20 +1002,27 @@ Task<> StreamWriter___::WriteAsync(ReadOnlyMemory<Char> buffer, CancellationToke
 }
 
 Task<> StreamWriter___::WriteAsyncInternal(StreamWriter _this, ReadOnlyMemory<Char> source, Array<Char> charBuffer, Int32 charPos, Int32 charLen, Array<Char> coreNewLine, Boolean autoFlush, Boolean appendNewLine, CancellationToken cancellationToken) {
-  _WriteAsyncInternal_d__66 stateMachine;
-  stateMachine.__t__builder = AsyncTaskMethodBuilder<>::Create();
-  stateMachine._this = _this;
-  stateMachine.source = source;
-  stateMachine.charBuffer = charBuffer;
-  stateMachine.charPos = charPos;
-  stateMachine.charLen = charLen;
-  stateMachine.coreNewLine = coreNewLine;
-  stateMachine.autoFlush = autoFlush;
-  stateMachine.appendNewLine = appendNewLine;
-  stateMachine.cancellationToken = cancellationToken;
-  stateMachine.__1__state = -1;
-  stateMachine.__t__builder.Start(stateMachine);
-  return stateMachine.__t__builder.get_Task();
+  Int32 num;
+  for (Int32 copied = 0; copied < source.get_Length(); copied += num) {
+    if (charPos == charLen) {
+    }
+    num = Math::Min(charLen - charPos, source.get_Length() - copied);
+    ReadOnlySpan<Char> readOnlySpan = source.get_Span();
+    readOnlySpan = readOnlySpan.Slice(copied, num);
+    readOnlySpan.CopyTo(Span<Char>(charBuffer, charPos, num));
+    charPos += num;
+  }
+  if (appendNewLine) {
+    for (Int32 i = 0; i < coreNewLine->get_Length(); i++) {
+      if (charPos == charLen) {
+      }
+      charBuffer[charPos] = coreNewLine[i];
+      charPos++;
+    }
+  }
+  if (autoFlush) {
+  }
+  _this->_charPos = charPos;
 }
 
 Task<> StreamWriter___::WriteLineAsync() {
@@ -1089,22 +1112,17 @@ Task<> StreamWriter___::FlushAsyncInternal(Boolean flushStream, Boolean flushEnc
 }
 
 Task<> StreamWriter___::FlushAsyncInternal(StreamWriter _this, Boolean flushStream, Boolean flushEncoder, Array<Char> charBuffer, Int32 charPos, Boolean haveWrittenPreamble, Encoding encoding, Encoder encoder, Array<Byte> byteBuffer, Stream stream, CancellationToken cancellationToken) {
-  _FlushAsyncInternal_d__74 stateMachine;
-  stateMachine.__t__builder = AsyncTaskMethodBuilder<>::Create();
-  stateMachine._this = _this;
-  stateMachine.flushStream = flushStream;
-  stateMachine.flushEncoder = flushEncoder;
-  stateMachine.charBuffer = charBuffer;
-  stateMachine.charPos = charPos;
-  stateMachine.haveWrittenPreamble = haveWrittenPreamble;
-  stateMachine.encoding = encoding;
-  stateMachine.encoder = encoder;
-  stateMachine.byteBuffer = byteBuffer;
-  stateMachine.stream = stream;
-  stateMachine.cancellationToken = cancellationToken;
-  stateMachine.__1__state = -1;
-  stateMachine.__t__builder.Start(stateMachine);
-  return stateMachine.__t__builder.get_Task();
+  if (!haveWrittenPreamble) {
+    _this->_haveWrittenPreamble = true;
+    Array<Byte> preamble = encoding->GetPreamble();
+    if (preamble->get_Length() != 0) {
+    }
+  }
+  Int32 bytes = encoder->GetBytes(charBuffer, 0, charPos, byteBuffer, 0, flushEncoder);
+  if (bytes > 0) {
+  }
+  if (flushStream) {
+  }
 }
 
 void StreamWriter___::ThrowIfDisposed() {

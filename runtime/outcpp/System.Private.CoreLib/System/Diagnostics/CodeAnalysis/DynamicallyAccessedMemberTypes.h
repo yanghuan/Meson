@@ -5,7 +5,7 @@
 namespace System::Private::CoreLib::System::Diagnostics::CodeAnalysis {
 enum class DynamicallyAccessedMemberTypes : int32_t {
   None = 0,
-  PublicParameterlessConstructor = 1,
+  DefaultConstructor = 1,
   PublicConstructors = 3,
   NonPublicConstructors = 4,
   PublicMethods = 8,

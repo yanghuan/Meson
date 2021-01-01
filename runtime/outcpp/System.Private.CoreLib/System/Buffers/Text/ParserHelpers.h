@@ -11,6 +11,7 @@ FORWARDS(ReadOnlySpan, T)
 namespace System::Private::CoreLib::System::Buffers::Text {
 namespace ParserHelpersNamespace {
 class ParserHelpers {
+  public: static ReadOnlySpan<Byte> get_HexLookup();
   public: static Boolean IsDigit(Int32 i);
   public: static Boolean TryParseThrowFormatException(Int32& bytesConsumed);
   public: template <class T>

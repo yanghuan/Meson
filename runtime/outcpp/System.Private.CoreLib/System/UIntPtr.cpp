@@ -106,7 +106,7 @@ UIntPtr UIntPtr::Add(UIntPtr pointer, Int32 offset) {
 }
 
 UIntPtr UIntPtr::op_Addition(UIntPtr pointer, Int32 offset) {
-  return (UIntPtr)(void*)((UInt64)(Int64)(UInt64)(UIntPtr)pointer._value + (UInt64)offset);
+  return UIntPtr((UInt64)(UIntPtr)(void*)((UInt64)(Int64)(UInt64)(UIntPtr)pointer._value + (UInt64)offset));
 }
 
 UIntPtr UIntPtr::Subtract(UIntPtr pointer, Int32 offset) {
@@ -114,7 +114,7 @@ UIntPtr UIntPtr::Subtract(UIntPtr pointer, Int32 offset) {
 }
 
 UIntPtr UIntPtr::op_Subtraction(UIntPtr pointer, Int32 offset) {
-  return (UIntPtr)(void*)((UInt64)(Int64)(UInt64)(UIntPtr)pointer._value - (UInt64)offset);
+  return UIntPtr((UInt64)(UIntPtr)(void*)((UInt64)(Int64)(UInt64)(UIntPtr)pointer._value - (UInt64)offset));
 }
 
 void* UIntPtr::ToPointer() {

@@ -2,16 +2,18 @@
 
 #include <System.Private.CoreLib/Internal/Runtime/CompilerServices/Unsafe-dep.h>
 #include <System.Private.CoreLib/System/Byte-dep.h>
-#include <System.Private.CoreLib/System/Char-dep.h>
 #include <System.Private.CoreLib/System/Diagnostics/Tracing/ActivityTracker-dep.h>
+#include <System.Private.CoreLib/System/Diagnostics/Tracing/EventCommand.h>
 #include <System.Private.CoreLib/System/Diagnostics/Tracing/EventKeywords.h>
 #include <System.Private.CoreLib/System/Diagnostics/Tracing/EventLevel.h>
-#include <System.Private.CoreLib/System/Environment-dep.h>
 #include <System.Private.CoreLib/System/Guid-dep.h>
+#include <System.Private.CoreLib/System/Int32-dep.h>
+#include <System.Private.CoreLib/System/Int64-dep.h>
 #include <System.Private.CoreLib/System/IntPtr-dep.h>
 #include <System.Private.CoreLib/System/Runtime/CompilerServices/AsyncMethodBuilderCore-dep.h>
 #include <System.Private.CoreLib/System/Runtime/CompilerServices/IAsyncStateMachine.h>
 #include <System.Private.CoreLib/System/Threading/Tasks/TplEventSource-dep.h>
+#include <System.Private.CoreLib/System/UInt32-dep.h>
 #include <System.Private.CoreLib/System/UInt64-dep.h>
 #include <System.Private.CoreLib/System/UIntPtr-dep.h>
 
@@ -21,6 +23,10 @@ using namespace System::Diagnostics::Tracing;
 using namespace System::Runtime::CompilerServices;
 
 void TplEventSource___::OnEventCommand(EventCommandEventArgs command) {
+  if (command->get_Command() != EventCommand::Enable) {
+    EventCommand command2 = command->get_Command();
+    Int32 num = -3;
+  }
   if (IsEnabled(EventLevel::Informational, (EventKeywords)128)) {
     ActivityTracker::in::get_Instance()->Enable();
   } else {
@@ -71,7 +77,7 @@ void TplEventSource___::TaskStarted(Int32 OriginatingTaskSchedulerID, Int32 Orig
 }
 
 void TplEventSource___::TaskCompleted(Int32 OriginatingTaskSchedulerID, Int32 OriginatingTaskID, Int32 TaskID, Boolean IsExceptional) {
-  if (IsEnabled() && IsEnabled(EventLevel::Informational, (EventKeywords)2)) {
+  if (IsEnabled(EventLevel::Informational, (EventKeywords)2)) {
     EventSource::in::EventData as[4] = {};
     EventSource::in::EventData* ptr = as;
     Int32 num = IsExceptional ? 1 : 0;
@@ -159,56 +165,6 @@ void TplEventSource___::AwaitTaskContinuationScheduled(Int32 OriginatingTaskSche
   }
 }
 
-void TplEventSource___::TraceOperationBegin(Int32 TaskID, String OperationName, Int64 RelatedContext) {
-  if (IsEnabled() && IsEnabled(EventLevel::Informational, (EventKeywords)8)) {
-    {
-      Char* ptr = OperationName;
-      Char* value = ptr;
-      EventSource::in::EventData as[3] = {};
-      EventSource::in::EventData* ptr2 = as;
-      ptr2->set_Size(4);
-      ptr2->set_DataPointer((IntPtr)(void*)(&TaskID));
-      ptr2->set_Reserved(0);
-      ptr2[1].set_Size((OperationName->get_Length() + 1) * 2);
-      ptr2[1].set_DataPointer((IntPtr)(void*)value);
-      ptr2[1].set_Reserved(0);
-      ptr2[2].set_Size(8);
-      ptr2[2].set_DataPointer((IntPtr)(void*)(&RelatedContext));
-      ptr2[2].set_Reserved(0);
-      WriteEventCore(14, 3, ptr2);
-    }
-  }
-}
-
-void TplEventSource___::TraceOperationRelation(Int32 TaskID, CausalityRelation Relation) {
-  if (IsEnabled() && IsEnabled(EventLevel::Informational, (EventKeywords)16)) {
-    WriteEvent(16, TaskID, (Int32)Relation);
-  }
-}
-
-void TplEventSource___::TraceOperationEnd(Int32 TaskID, AsyncCausalityStatus Status) {
-  if (IsEnabled() && IsEnabled(EventLevel::Informational, (EventKeywords)8)) {
-    WriteEvent(15, TaskID, (Int32)Status);
-  }
-}
-
-void TplEventSource___::TraceSynchronousWorkBegin(Int32 TaskID, CausalitySynchronousWork Work) {
-  if (IsEnabled() && IsEnabled(EventLevel::Informational, (EventKeywords)32)) {
-    WriteEvent(17, TaskID, (Int32)Work);
-  }
-}
-
-void TplEventSource___::TraceSynchronousWorkEnd(CausalitySynchronousWork Work) {
-  if (IsEnabled() && IsEnabled(EventLevel::Informational, (EventKeywords)32)) {
-    EventSource::in::EventData as[1] = {};
-    EventSource::in::EventData* ptr = as;
-    ptr->set_Size(4);
-    ptr->set_DataPointer((IntPtr)(void*)(&Work));
-    ptr->set_Reserved(0);
-    WriteEventCore(18, 1, ptr);
-  }
-}
-
 void TplEventSource___::RunningContinuationList(Int32 TaskID, Int32 Index, Object Object) {
   RunningContinuationList(TaskID, Index, (Int64)(UInt64)(UIntPtr)(void*)(Int64)(*(IntPtr*)Unsafe::AsPointer(Object)));
 }
@@ -240,7 +196,7 @@ void TplEventSource___::NewID(Int32 TaskID) {
 }
 
 void TplEventSource___::IncompleteAsyncMethod(IAsyncStateMachineBox stateMachineBox) {
-  if (IsEnabled() && IsEnabled(EventLevel::Warning, (EventKeywords)256)) {
+  if (IsEnabled(EventLevel::Warning, (EventKeywords)256)) {
     IAsyncStateMachine stateMachineObject = stateMachineBox->GetStateMachineObject();
     if (stateMachineObject != nullptr) {
       String asyncStateMachineDescription = AsyncMethodBuilderCore::GetAsyncStateMachineDescription(stateMachineObject);
@@ -254,8 +210,8 @@ void TplEventSource___::IncompleteAsyncMethod(String stateMachineDescription) {
 }
 
 Guid TplEventSource___::CreateGuidForTaskID(Int32 taskID) {
-  Int32 processId = Environment::get_ProcessId();
-  return Guid(taskID, 1, 0, (Byte)processId, (Byte)(processId >> 8), (Byte)(processId >> 16), (Byte)(processId >> 24), Byte::MaxValue, 220, 215, 181);
+  UInt32 s_currentPid = EventSource::in::s_currentPid;
+  return Guid(taskID, 1, 0, (Byte)s_currentPid, (Byte)(s_currentPid >> 8), (Byte)(s_currentPid >> 16), (Byte)(s_currentPid >> 24), Byte::MaxValue, 220, 215, 181);
 }
 
 void TplEventSource___::cctor() {
