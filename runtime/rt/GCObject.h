@@ -875,7 +875,7 @@ namespace rt {
       return &(static_cast<T*>(this)->GetPinnableReference());
     }
 
-    template <class R> requires(std::is_same_v<R, decltype(T::op_Implicit(T()))>)
+    template <class R, class T1 = T> requires(std::is_same_v<R, decltype(T1::op_Implicit(T1()))>)
     operator R() {
       return T::op_Implicit(*static_cast<T*>(this));
     }
