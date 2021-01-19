@@ -8,11 +8,10 @@
 #include <System.Private.CoreLib/System/Globalization/CharUnicodeInfo-dep.h>
 #include <System.Private.CoreLib/System/Globalization/GlobalizationMode-dep.h>
 #include <System.Private.CoreLib/System/Globalization/IdnMapping-dep.h>
+#include <System.Private.CoreLib/System/Globalization/Ordinal-dep.h>
 #include <System.Private.CoreLib/System/Globalization/StrongBidiCategory.h>
 #include <System.Private.CoreLib/System/Int64-dep.h>
 #include <System.Private.CoreLib/System/Math-dep.h>
-#include <System.Private.CoreLib/System/MemoryExtensions-dep.h>
-#include <System.Private.CoreLib/System/ReadOnlySpan-dep.h>
 #include <System.Private.CoreLib/System/Runtime/InteropServices/Marshal-dep.h>
 #include <System.Private.CoreLib/System/SR-dep.h>
 #include <System.Private.CoreLib/System/StringComparison.h>
@@ -39,11 +38,11 @@ void IdnMapping___::set_UseStd3AsciiRules(Boolean value) {
 }
 
 UInt32 IdnMapping___::get_IcuFlags() {
-  return (UInt32)((get_AllowUnassigned() ? 1 : 0) | (get_UseStd3AsciiRules() ? 2 : 0));
+  return (get_AllowUnassigned() ? 1u : 0u) | (get_UseStd3AsciiRules() ? 2u : 0u);
 }
 
 UInt32 IdnMapping___::get_NlsFlags() {
-  return (UInt32)((get_AllowUnassigned() ? 1 : 0) | (get_UseStd3AsciiRules() ? 2 : 0));
+  return (get_AllowUnassigned() ? 1u : 0u) | (get_UseStd3AsciiRules() ? 2u : 0u);
 }
 
 void IdnMapping___::ctor() {
@@ -145,10 +144,10 @@ Int32 IdnMapping___::GetHashCode() {
 }
 
 String IdnMapping___::GetStringForOutput(String originalString, Char* input, Int32 inputLength, Char* output, Int32 outputLength) {
-  if (originalString->get_Length() != inputLength || !MemoryExtensions::SequenceEqual(ReadOnlySpan<Char>(input, inputLength), ReadOnlySpan<Char>(output, outputLength))) {
-    return rt::newstr<String>(output, 0, outputLength);
+  if (originalString->get_Length() == inputLength && inputLength == outputLength && Ordinal::EqualsIgnoreCase(*input, *output, inputLength)) {
+    return originalString;
   }
-  return originalString;
+  return rt::newstr<String>(output, 0, outputLength);
 }
 
 String IdnMapping___::GetAsciiInvariant(String unicode, Int32 index, Int32 count) {
@@ -303,7 +302,7 @@ String IdnMapping___::PunycodeEncode(String unicode) {
           Int32 num13 = num9;
           Int32 num14 = 36;
           while (true) {
-            Int32 num15 = (num14 <= num10) ? 1 : ((num14 >= num10 + 26) ? 26 : (num14 - num10));
+            Int32 num15 = ((num14 <= num10) ? 1 : ((num14 >= num10 + 26) ? 26 : (num14 - num10)));
             if (num13 < num15) {
               break;
             }
@@ -458,7 +457,7 @@ String IdnMapping___::PunycodeDecode(String ascii) {
             rt::throw_exception<ArgumentException>(SR::get_Argument_IdnBadPunycode(), "ascii");
           }
           num9 += num14 * num12;
-          Int32 num15 = (num13 <= num8) ? 1 : ((num13 >= num8 + 26) ? 26 : (num13 - num8));
+          Int32 num15 = ((num13 <= num8) ? 1 : ((num13 >= num8 + 26) ? 26 : (num13 - num8)));
           if (num14 < num15) {
             break;
           }
@@ -640,7 +639,7 @@ String IdnMapping___::IcuGetUnicodeCore(String asciiString, Char* ascii, Int32 c
 }
 
 void IdnMapping___::CheckInvalidIdnCharacters(Char* s, Int32 count, UInt32 flags, String paramName) {
-  if ((flags & 2) != 0) {
+  if ((flags & 2u) != 0) {
     return;
   }
   for (Int32 i = 0; i < count; i++) {

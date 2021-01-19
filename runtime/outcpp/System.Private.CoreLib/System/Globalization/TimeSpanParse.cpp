@@ -475,26 +475,6 @@ void TimeSpanParse::StringParser::SkipBlanks() {
 }
 
 Int64 TimeSpanParse::Pow10(Int32 pow) {
-  switch (pow.get()) {
-    case 0:
-      return 1;
-    case 1:
-      return 10;
-    case 2:
-      return 100;
-    case 3:
-      return 1000;
-    case 4:
-      return 10000;
-    case 5:
-      return 100000;
-    case 6:
-      return 1000000;
-    case 7:
-      return 10000000;
-    default:
-      return (Int64)Math::Pow(10, pow);
-  }
 }
 
 Boolean TimeSpanParse::TryTimeToTicks(Boolean positive, TimeSpanToken days, TimeSpanToken hours, TimeSpanToken minutes, TimeSpanToken seconds, TimeSpanToken fraction, Int64& result) {
@@ -592,20 +572,6 @@ Boolean TimeSpanParse::ProcessTerminalState(TimeSpanRawInfo& raw, TimeSpanStanda
       return result.SetBadTimeSpanFailure();
     }
   }
-  switch (raw._numCount.get()) {
-    case 1:
-      return ProcessTerminal_D(raw, style, result);
-    case 2:
-      return ProcessTerminal_HM(raw, style, result);
-    case 3:
-      return ProcessTerminal_HM_S_D(raw, style, result);
-    case 4:
-      return ProcessTerminal_HMS_F_D(raw, style, result);
-    case 5:
-      return ProcessTerminal_DHMSF(raw, style, result);
-    default:
-      return result.SetBadTimeSpanFailure();
-  }
 }
 
 Boolean TimeSpanParse::ProcessTerminal_DHMSF(TimeSpanRawInfo& raw, TimeSpanStandardStyles style, TimeSpanResult& result) {
@@ -668,64 +634,64 @@ Boolean TimeSpanParse::ProcessTerminal_HMS_F_D(TimeSpanRawInfo& raw, TimeSpanSta
     if (raw.FullHMSFMatch(TimeSpanFormat::PositiveInvariantFormatLiterals)) {
       flag3 = true;
       flag4 = TryTimeToTicks(flag3, timeSpanToken, raw._numbers0, raw._numbers1, raw._numbers2, raw._numbers3, result2);
-      flag5 = (flag5 || !flag4);
+      flag5 = flag5 || !flag4;
     }
     if (!flag4 && raw.FullDHMSMatch(TimeSpanFormat::PositiveInvariantFormatLiterals)) {
       flag3 = true;
       flag4 = TryTimeToTicks(flag3, raw._numbers0, raw._numbers1, raw._numbers2, raw._numbers3, timeSpanToken, result2);
-      flag5 = (flag5 || !flag4);
+      flag5 = flag5 || !flag4;
     }
     if (!flag4 && raw.FullAppCompatMatch(TimeSpanFormat::PositiveInvariantFormatLiterals)) {
       flag3 = true;
       flag4 = TryTimeToTicks(flag3, raw._numbers0, raw._numbers1, raw._numbers2, timeSpanToken, raw._numbers3, result2);
-      flag5 = (flag5 || !flag4);
+      flag5 = flag5 || !flag4;
     }
     if (!flag4 && raw.FullHMSFMatch(TimeSpanFormat::NegativeInvariantFormatLiterals)) {
       flag3 = false;
       flag4 = TryTimeToTicks(flag3, timeSpanToken, raw._numbers0, raw._numbers1, raw._numbers2, raw._numbers3, result2);
-      flag5 = (flag5 || !flag4);
+      flag5 = flag5 || !flag4;
     }
     if (!flag4 && raw.FullDHMSMatch(TimeSpanFormat::NegativeInvariantFormatLiterals)) {
       flag3 = false;
       flag4 = TryTimeToTicks(flag3, raw._numbers0, raw._numbers1, raw._numbers2, raw._numbers3, timeSpanToken, result2);
-      flag5 = (flag5 || !flag4);
+      flag5 = flag5 || !flag4;
     }
     if (!flag4 && raw.FullAppCompatMatch(TimeSpanFormat::NegativeInvariantFormatLiterals)) {
       flag3 = false;
       flag4 = TryTimeToTicks(flag3, raw._numbers0, raw._numbers1, raw._numbers2, timeSpanToken, raw._numbers3, result2);
-      flag5 = (flag5 || !flag4);
+      flag5 = flag5 || !flag4;
     }
   }
   if (flag2) {
     if (!flag4 && raw.FullHMSFMatch(raw.get_PositiveLocalized())) {
       flag3 = true;
       flag4 = TryTimeToTicks(flag3, timeSpanToken, raw._numbers0, raw._numbers1, raw._numbers2, raw._numbers3, result2);
-      flag5 = (flag5 || !flag4);
+      flag5 = flag5 || !flag4;
     }
     if (!flag4 && raw.FullDHMSMatch(raw.get_PositiveLocalized())) {
       flag3 = true;
       flag4 = TryTimeToTicks(flag3, raw._numbers0, raw._numbers1, raw._numbers2, raw._numbers3, timeSpanToken, result2);
-      flag5 = (flag5 || !flag4);
+      flag5 = flag5 || !flag4;
     }
     if (!flag4 && raw.FullAppCompatMatch(raw.get_PositiveLocalized())) {
       flag3 = true;
       flag4 = TryTimeToTicks(flag3, raw._numbers0, raw._numbers1, raw._numbers2, timeSpanToken, raw._numbers3, result2);
-      flag5 = (flag5 || !flag4);
+      flag5 = flag5 || !flag4;
     }
     if (!flag4 && raw.FullHMSFMatch(raw.get_NegativeLocalized())) {
       flag3 = false;
       flag4 = TryTimeToTicks(flag3, timeSpanToken, raw._numbers0, raw._numbers1, raw._numbers2, raw._numbers3, result2);
-      flag5 = (flag5 || !flag4);
+      flag5 = flag5 || !flag4;
     }
     if (!flag4 && raw.FullDHMSMatch(raw.get_NegativeLocalized())) {
       flag3 = false;
       flag4 = TryTimeToTicks(flag3, raw._numbers0, raw._numbers1, raw._numbers2, raw._numbers3, timeSpanToken, result2);
-      flag5 = (flag5 || !flag4);
+      flag5 = flag5 || !flag4;
     }
     if (!flag4 && raw.FullAppCompatMatch(raw.get_NegativeLocalized())) {
       flag3 = false;
       flag4 = TryTimeToTicks(flag3, raw._numbers0, raw._numbers1, raw._numbers2, timeSpanToken, raw._numbers3, result2);
-      flag5 = (flag5 || !flag4);
+      flag5 = flag5 || !flag4;
     }
   }
   if (flag4) {
@@ -759,64 +725,64 @@ Boolean TimeSpanParse::ProcessTerminal_HM_S_D(TimeSpanRawInfo& raw, TimeSpanStan
     if (raw.FullHMSMatch(TimeSpanFormat::PositiveInvariantFormatLiterals)) {
       flag3 = true;
       flag4 = TryTimeToTicks(flag3, timeSpanToken, raw._numbers0, raw._numbers1, raw._numbers2, timeSpanToken, result2);
-      flag5 = (flag5 || !flag4);
+      flag5 = flag5 || !flag4;
     }
     if (!flag4 && raw.FullDHMMatch(TimeSpanFormat::PositiveInvariantFormatLiterals)) {
       flag3 = true;
       flag4 = TryTimeToTicks(flag3, raw._numbers0, raw._numbers1, raw._numbers2, timeSpanToken, timeSpanToken, result2);
-      flag5 = (flag5 || !flag4);
+      flag5 = flag5 || !flag4;
     }
     if (!flag4 && raw.PartialAppCompatMatch(TimeSpanFormat::PositiveInvariantFormatLiterals)) {
       flag3 = true;
       flag4 = TryTimeToTicks(flag3, timeSpanToken, raw._numbers0, raw._numbers1, timeSpanToken, raw._numbers2, result2);
-      flag5 = (flag5 || !flag4);
+      flag5 = flag5 || !flag4;
     }
     if (!flag4 && raw.FullHMSMatch(TimeSpanFormat::NegativeInvariantFormatLiterals)) {
       flag3 = false;
       flag4 = TryTimeToTicks(flag3, timeSpanToken, raw._numbers0, raw._numbers1, raw._numbers2, timeSpanToken, result2);
-      flag5 = (flag5 || !flag4);
+      flag5 = flag5 || !flag4;
     }
     if (!flag4 && raw.FullDHMMatch(TimeSpanFormat::NegativeInvariantFormatLiterals)) {
       flag3 = false;
       flag4 = TryTimeToTicks(flag3, raw._numbers0, raw._numbers1, raw._numbers2, timeSpanToken, timeSpanToken, result2);
-      flag5 = (flag5 || !flag4);
+      flag5 = flag5 || !flag4;
     }
     if (!flag4 && raw.PartialAppCompatMatch(TimeSpanFormat::NegativeInvariantFormatLiterals)) {
       flag3 = false;
       flag4 = TryTimeToTicks(flag3, timeSpanToken, raw._numbers0, raw._numbers1, timeSpanToken, raw._numbers2, result2);
-      flag5 = (flag5 || !flag4);
+      flag5 = flag5 || !flag4;
     }
   }
   if (flag2) {
     if (!flag4 && raw.FullHMSMatch(raw.get_PositiveLocalized())) {
       flag3 = true;
       flag4 = TryTimeToTicks(flag3, timeSpanToken, raw._numbers0, raw._numbers1, raw._numbers2, timeSpanToken, result2);
-      flag5 = (flag5 || !flag4);
+      flag5 = flag5 || !flag4;
     }
     if (!flag4 && raw.FullDHMMatch(raw.get_PositiveLocalized())) {
       flag3 = true;
       flag4 = TryTimeToTicks(flag3, raw._numbers0, raw._numbers1, raw._numbers2, timeSpanToken, timeSpanToken, result2);
-      flag5 = (flag5 || !flag4);
+      flag5 = flag5 || !flag4;
     }
     if (!flag4 && raw.PartialAppCompatMatch(raw.get_PositiveLocalized())) {
       flag3 = true;
       flag4 = TryTimeToTicks(flag3, timeSpanToken, raw._numbers0, raw._numbers1, timeSpanToken, raw._numbers2, result2);
-      flag5 = (flag5 || !flag4);
+      flag5 = flag5 || !flag4;
     }
     if (!flag4 && raw.FullHMSMatch(raw.get_NegativeLocalized())) {
       flag3 = false;
       flag4 = TryTimeToTicks(flag3, timeSpanToken, raw._numbers0, raw._numbers1, raw._numbers2, timeSpanToken, result2);
-      flag5 = (flag5 || !flag4);
+      flag5 = flag5 || !flag4;
     }
     if (!flag4 && raw.FullDHMMatch(raw.get_NegativeLocalized())) {
       flag3 = false;
       flag4 = TryTimeToTicks(flag3, raw._numbers0, raw._numbers1, raw._numbers2, timeSpanToken, timeSpanToken, result2);
-      flag5 = (flag5 || !flag4);
+      flag5 = flag5 || !flag4;
     }
     if (!flag4 && raw.PartialAppCompatMatch(raw.get_NegativeLocalized())) {
       flag3 = false;
       flag4 = TryTimeToTicks(flag3, timeSpanToken, raw._numbers0, raw._numbers1, timeSpanToken, raw._numbers2, result2);
-      flag5 = (flag5 || !flag4);
+      flag5 = flag5 || !flag4;
     }
   }
   if (flag4) {
@@ -1061,7 +1027,7 @@ Boolean TimeSpanParse::TryParseByFormat(ReadOnlySpan<Char> input, ReadOnlySpan<C
 }
 
 Boolean TimeSpanParse::ParseExactDigits(TimeSpanTokenizer& tokenizer, Int32 minDigitLength, Int32& result) {
-  Int32 maxDigitLength = (minDigitLength == 1) ? 2 : minDigitLength;
+  Int32 maxDigitLength = ((minDigitLength == 1) ? 2 : minDigitLength);
   Int32 zeroes;
   return ParseExactDigits(tokenizer, minDigitLength, maxDigitLength, zeroes, result);
 }

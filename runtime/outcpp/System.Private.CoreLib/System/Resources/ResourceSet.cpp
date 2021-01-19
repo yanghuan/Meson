@@ -5,14 +5,12 @@
 #include <System.Private.CoreLib/System/InvalidCastException-dep.h>
 #include <System.Private.CoreLib/System/InvalidOperationException-dep.h>
 #include <System.Private.CoreLib/System/ObjectDisposedException-dep.h>
-#include <System.Private.CoreLib/System/Reflection/Assembly-dep.h>
 #include <System.Private.CoreLib/System/Resources/ResourceReader-dep.h>
 #include <System.Private.CoreLib/System/SR-dep.h>
 #include <System.Private.CoreLib/System/StringComparer-dep.h>
 
 namespace System::Private::CoreLib::System::Resources::ResourceSetNamespace {
 using namespace System::Collections;
-using namespace System::Reflection;
 
 void ResourceSet___::ctor() {
   Table = rt::newobj<Hashtable>();
@@ -65,8 +63,7 @@ Type ResourceSet___::GetDefaultReader() {
 }
 
 Type ResourceSet___::GetDefaultWriter() {
-  Assembly assembly = Assembly::in::Load("System.Resources.Writer, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a");
-  return assembly->GetType("System.Resources.ResourceWriter", true);
+  return Type::in::GetType("System.Resources.ResourceWriter, System.Resources.Writer", true);
 }
 
 IDictionaryEnumerator ResourceSet___::GetEnumerator() {

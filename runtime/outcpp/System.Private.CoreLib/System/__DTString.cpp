@@ -27,7 +27,7 @@ __DTString::__DTString(ReadOnlySpan<Char> str, DateTimeFormatInfo dtfi) {
   Value = str;
   m_current = '\0';
   m_info = dtfi->get_CompareInfo();
-  m_checkDigitToken = ((dtfi->get_FormatFlags() & DateTimeFormatFlags::UseDigitPrefixInTokens) != 0);
+  m_checkDigitToken = (dtfi->get_FormatFlags() & DateTimeFormatFlags::UseDigitPrefixInTokens) != 0;
 }
 
 Boolean __DTString::GetNext() {
@@ -332,7 +332,7 @@ DTSubString __DTString::GetSubString() {
   result.s = Value;
   while (Index + result.length < get_Length()) {
     Char c = Value[Index + result.length];
-    DTSubStringType dTSubStringType = (c < '0' || c > '9') ? DTSubStringType::Other : DTSubStringType::Number;
+    DTSubStringType dTSubStringType = ((c < '0' || c > '9') ? DTSubStringType::Other : DTSubStringType::Number);
     if (result.length == 0) {
       result.type = dTSubStringType;
     } else if (result.type != dTSubStringType) {

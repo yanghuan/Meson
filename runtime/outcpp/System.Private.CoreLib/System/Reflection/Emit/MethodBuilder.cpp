@@ -148,7 +148,7 @@ void MethodBuilder___::ctor(String name, MethodAttributes attributes, CallingCon
   m_module = mod;
   m_containingType = type;
   Type as = returnType;
-  m_returnType = (as != nullptr ? as : typeof<void>());
+  m_returnType = as != nullptr ? as : typeof<void>();
   if ((attributes & MethodAttributes::Static) == 0) {
     callingConvention |= CallingConventions::HasThis;
   } else if ((attributes & MethodAttributes::Virtual) != 0) {
@@ -537,7 +537,7 @@ ParameterBuilder MethodBuilder___::DefineParameter(Int32 position, ParameterAttr
   if (position > 0 && (m_parameterTypes == nullptr || position > m_parameterTypes->get_Length())) {
     rt::throw_exception<ArgumentOutOfRangeException>(SR::get_ArgumentOutOfRange_ParamSequence());
   }
-  attributes &= ~(ParameterAttributes::HasDefault | ParameterAttributes::HasFieldMarshal | ParameterAttributes::Reserved3 | ParameterAttributes::Reserved4);
+  attributes &= ~ParameterAttributes::ReservedMask;
   return rt::newobj<ParameterBuilder>((MethodBuilder)this, position, attributes, strParamName);
 }
 

@@ -34,7 +34,7 @@ IntPtr CSTRMarshaler::ConvertToNative(Int32 flags, String strManaged, IntPtr pNa
     try {
       num = Marshal::StringToAnsiString(strManaged, ptr, num, (flags & 255) != 0, flags >> 8 != 0);
     } catch (Exception) {
-      Marshal::FreeCoTaskMem((IntPtr)(void*)ptr);
+      Marshal::FreeCoTaskMem((IntPtr)ptr);
       throw;
     }
   } else if (strManaged->get_Length() == 0) {
@@ -51,7 +51,7 @@ IntPtr CSTRMarshaler::ConvertToNative(Int32 flags, String strManaged, IntPtr pNa
 
   *(ptr + num) = 0;
   *(ptr + num + 1) = 0;
-  return (IntPtr)(void*)ptr;
+  return (IntPtr)ptr;
 }
 
 String CSTRMarshaler::ConvertToManaged(IntPtr cstr) {
@@ -101,10 +101,8 @@ String CSTRMarshaler::ConvertFixedToManaged(IntPtr cstr, Int32 length) {
     rt::throw_exception<OutOfMemoryException>();
   }
   Span<SByte> span = Span<SByte>((void*)cstr, length);
-  Int32 num2 = num;
-  Byte as[(Int32)(UInt32)num2] = {};
-  Span<SByte> span2 = Span<SByte>(as, num2);
-  Span<SByte> destination = span2;
+  SByte as[num] = {};
+  Span<SByte> destination = as;
   span.CopyTo(destination);
   destination[length - 1] = 0;
   destination[length] = 0;

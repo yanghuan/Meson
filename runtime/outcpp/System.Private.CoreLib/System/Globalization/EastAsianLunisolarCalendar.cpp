@@ -164,7 +164,7 @@ DateTime EastAsianLunisolarCalendar___::ToDateTime(Int32 year, Int32 month, Int3
 }
 
 void EastAsianLunisolarCalendar___::GregorianToLunar(Int32 solarYear, Int32 solarMonth, Int32 solarDate, Int32& lunarYear, Int32& lunarMonth, Int32& lunarDate) {
-  Int32 num = GregorianIsLeapYear(solarYear) ? s_daysToMonth366[solarMonth - 1] : s_daysToMonth365[solarMonth - 1];
+  Int32 num = (GregorianIsLeapYear(solarYear) ? s_daysToMonth366[solarMonth - 1] : s_daysToMonth365[solarMonth - 1]);
   num += solarDate;
   Int32 num2 = num;
   lunarYear = solarYear;
@@ -189,7 +189,7 @@ void EastAsianLunisolarCalendar___::GregorianToLunar(Int32 solarYear, Int32 sola
   num2 -= yearInfo2 - 1;
   Int32 num3 = 32768;
   Int32 yearInfo3 = GetYearInfo(lunarYear, 3);
-  Int32 num4 = ((yearInfo3 & num3) != 0) ? 30 : 29;
+  Int32 num4 = (((yearInfo3 & num3) != 0) ? 30 : 29);
   lunarMonth = 1;
   while (num2 > num4) {
     num2 -= num4;
@@ -214,7 +214,7 @@ Boolean EastAsianLunisolarCalendar___::LunarToGregorian(Int32 lunarYear, Int32 l
   Int32 yearInfo = GetYearInfo(lunarYear, 1);
   Int32 yearInfo2 = GetYearInfo(lunarYear, 2);
   Boolean flag = GregorianIsLeapYear(lunarYear);
-  Array<Int32> array = flag ? s_daysToMonth366 : s_daysToMonth365;
+  Array<Int32> array = (flag ? s_daysToMonth366 : s_daysToMonth365);
   solarDay = yearInfo2;
   if (yearInfo > 1) {
     solarDay += array[yearInfo - 1];
@@ -266,7 +266,7 @@ DateTime EastAsianLunisolarCalendar___::AddMonths(DateTime time, Int32 months) {
   TimeToLunar(time, year, month, day);
   Int32 num = month + months;
   if (num > 0) {
-    Int32 num2 = InternalIsLeapYear(year) ? 13 : 12;
+    Int32 num2 = (InternalIsLeapYear(year) ? 13 : 12);
     while (num - num2 > 0) {
       num -= num2;
       year++;
@@ -275,7 +275,7 @@ DateTime EastAsianLunisolarCalendar___::AddMonths(DateTime time, Int32 months) {
     month = num;
   } else {
     while (num <= 0) {
-      Int32 num3 = InternalIsLeapYear(year - 1) ? 13 : 12;
+      Int32 num3 = (InternalIsLeapYear(year - 1) ? 13 : 12);
       num += num3;
       year--;
     }
@@ -334,7 +334,7 @@ Int32 EastAsianLunisolarCalendar___::GetDayOfMonth(DateTime time) {
 Int32 EastAsianLunisolarCalendar___::GetDaysInYear(Int32 year, Int32 era) {
   year = CheckYearRange(year, era);
   Int32 num = 0;
-  Int32 num2 = InternalIsLeapYear(year) ? 13 : 12;
+  Int32 num2 = (InternalIsLeapYear(year) ? 13 : 12);
   while (num2 != 0) {
     num += InternalGetDaysInMonth(year, num2--);
   }

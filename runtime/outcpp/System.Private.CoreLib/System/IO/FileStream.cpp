@@ -105,8 +105,8 @@ void FileStream___::FileStreamCompletionSource___::ReleaseNativeResource() {
 void FileStream___::FileStreamCompletionSource___::IOCallback(UInt32 errorCode, UInt32 numBytes, NativeOverlapped* pOverlapped) {
   Object nativeOverlappedState = ThreadPoolBoundHandle::in::GetNativeOverlappedState(pOverlapped);
   FileStream fileStream = rt::as<FileStream>(nativeOverlappedState);
-  FileStreamCompletionSource fileStreamCompletionSource = (fileStream != nullptr) ? fileStream->_currentOverlappedOwner : ((FileStreamCompletionSource)nativeOverlappedState);
-  UInt64 num = (errorCode == 0 || errorCode == 109 || errorCode == 232) ? (4294967296 | (UInt64)numBytes) : (8589934592 | (UInt64)errorCode);
+  FileStreamCompletionSource fileStreamCompletionSource = ((fileStream != nullptr) ? fileStream->_currentOverlappedOwner : ((FileStreamCompletionSource)nativeOverlappedState));
+  UInt64 num = ((errorCode == 0 || errorCode == 109 || errorCode == 232) ? (4294967296 | numBytes) : (8589934592 | errorCode));
   if (Interlocked::Exchange(fileStreamCompletionSource->_result, (Int64)num) == 0 && Interlocked::Exchange(fileStreamCompletionSource->_result, 34359738368) != 0) {
     fileStreamCompletionSource->CompleteCallback(num);
   }
@@ -117,7 +117,7 @@ void FileStream___::FileStreamCompletionSource___::CompleteCallback(UInt64 packe
   ReleaseNativeResource();
   Int64 num = (Int64)packedResult & -4294967296;
   if (num == 8589934592) {
-    Int32 num2 = (Int32)(packedResult & UInt32::MaxValue);
+    Int32 num2 = (Int32)(packedResult & 4294967295u);
     if (num2 == 995) {
       TrySetCanceled(token.get_IsCancellationRequested() ? token : CancellationToken(true));
       return;
@@ -126,7 +126,7 @@ void FileStream___::FileStreamCompletionSource___::CompleteCallback(UInt64 packe
     exceptionForWin32Error->SetCurrentStackTrace();
     TrySetException(exceptionForWin32Error);
   } else {
-    TrySetResult((Int32)(packedResult & UInt32::MaxValue) + _numBufferedBytes);
+    TrySetResult((Int32)(packedResult & 4294967295u) + _numBufferedBytes);
   }
 }
 
@@ -675,7 +675,7 @@ void FileStream___::ctor(String path, FileMode mode, FileAccess access, FileShar
     text = "mode";
   } else if (access < FileAccess::Read || access > FileAccess::ReadWrite) {
     text = "access";
-  } else if ((fileShare < FileShare::None) || fileShare > (FileShare::Read | FileShare::Write | FileShare::Delete)) {
+  } else if ((fileShare < FileShare::None) || fileShare > (FileShare::ReadWrite | FileShare::Delete)) {
     text = "share";
   }
 
@@ -695,7 +695,7 @@ void FileStream___::ctor(String path, FileMode mode, FileAccess access, FileShar
   if ((access & FileAccess::Read) != 0 && mode == FileMode::Append) {
     rt::throw_exception<ArgumentException>(SR::get_Argument_InvalidAppendMode(), "access");
   }
-  String text2 = _path = Path::GetFullPath(path);
+  String text2 = (_path = Path::GetFullPath(path));
   _access = access;
   _bufferLength = bufferSize;
   if ((options & FileOptions::Asynchronous) != 0) {
@@ -793,14 +793,14 @@ ValueTask<Int32> FileStream___::ReadAsync(Memory<Byte> buffer, CancellationToken
     return Stream::in::ReadAsync(buffer, cancellationToken);
   }
   if (cancellationToken.get_IsCancellationRequested()) {
-    return ValueTask<Int32>(Task<>::in::FromCanceled<Int32>(cancellationToken));
+    return ValueTask<>::FromCanceled<Int32>(cancellationToken);
   }
   if (get_IsClosed()) {
     rt::throw_exception(Error::GetFileNotOpen());
   }
   if (!_useAsyncIO) {
     ArraySegment<Byte> segment;
-    if (!MemoryMarshal::TryGetArray(buffer, segment)) {
+    if (!MemoryMarshal::TryGetArray((ReadOnlyMemory<Byte>)buffer, segment)) {
       return Stream::in::ReadAsync(buffer, cancellationToken);
     }
     return ValueTask<Int32>((Task<Int32>)BeginReadInternal(segment.get_Array(), segment.get_Offset(), segment.get_Count(), nullptr, nullptr, true, false));
@@ -879,7 +879,7 @@ ValueTask<> FileStream___::WriteAsync(ReadOnlyMemory<Byte> buffer, CancellationT
     return Stream::in::WriteAsync(buffer, cancellationToken);
   }
   if (cancellationToken.get_IsCancellationRequested()) {
-    return ValueTask<>(Task<>::in::FromCanceled<Int32>(cancellationToken));
+    return ValueTask<>::FromCanceled(cancellationToken);
   }
   if (get_IsClosed()) {
     rt::throw_exception(Error::GetFileNotOpen());
@@ -1120,7 +1120,7 @@ void FileStream___::Init(FileMode mode, FileShare share, String originalPath) {
   if (!PathInternal::IsExtended(originalPath)) {
     Int32 fileType = Interop::Kernel32::GetFileType(_fileHandle);
     if (fileType != 1) {
-      Int32 num = (fileType == 0) ? Marshal::GetLastWin32Error() : 0;
+      Int32 num = ((fileType == 0) ? Marshal::GetLastWin32Error() : 0);
       _fileHandle->Dispose();
       if (num != 0) {
         rt::throw_exception(Win32Marshal::GetExceptionForWin32Error(num));
@@ -1153,8 +1153,8 @@ void FileStream___::InitFromHandle(SafeFileHandle handle, FileAccess access, Boo
 
 void FileStream___::InitFromHandleImpl(SafeFileHandle handle, Boolean useAsyncIO) {
   Int32 fileType = Interop::Kernel32::GetFileType(handle);
-  _canSeek = (fileType == 1);
-  _isPipe = (fileType == 3);
+  _canSeek = fileType == 1;
+  _isPipe = fileType == 3;
   if (useAsyncIO && !handle->get_IsAsync().GetValueOrDefault()) {
     try {
       handle->set_ThreadPoolBinding(ThreadPoolBoundHandle::in::BindHandle(handle));
@@ -1345,7 +1345,7 @@ Int32 FileStream___::ReadSpan(Span<Byte> destination) {
     if (num == 0) {
       return 0;
     }
-    flag = (num < _bufferLength);
+    flag = num < _bufferLength;
     _readPos = 0;
     _readLength = num;
   }
@@ -1887,7 +1887,6 @@ void FileStream___::VerifyHandleIsSync(SafeFileHandle handle) {
 }
 
 void FileStream___::cctor() {
-  s_cachedSerializationSwitch = 0;
   s_ioCallback = &FileStreamCompletionSource::in::IOCallback;
 }
 

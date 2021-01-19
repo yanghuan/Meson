@@ -136,7 +136,6 @@ void ResourceManager___::ctor(String baseName, String resourceDir, Type userReso
   _userResourceSet = userResourceSet;
   _resourceSets = rt::newobj<Dictionary<String, ResourceSet>>();
   _lastUsedResourceCache = rt::newobj<CultureNameResourceSetPair>();
-  _useManifest = false;
   ResourceManagerMediator mediator = rt::newobj<ResourceManagerMediator>((ResourceManager)this);
   _resourceGroveler = rt::newobj<FileBasedResourceGroveler>(mediator);
 }
@@ -349,7 +348,7 @@ Version ResourceManager___::GetSatelliteContractVersion(Assembly a) {
     rt::throw_exception<ArgumentNullException>("a", SR::get_ArgumentNull_Assembly());
   }
   SatelliteContractVersionAttribute customAttribute = CustomAttributeExtensions::GetCustomAttribute<SatelliteContractVersionAttribute>(a);
-  String text = (customAttribute != nullptr) ? customAttribute->get_Version() : nullptr;
+  String text = ((customAttribute != nullptr) ? customAttribute->get_Version() : nullptr);
   if (text == nullptr) {
     return nullptr;
   }

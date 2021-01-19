@@ -1,10 +1,10 @@
 #include "VersioningHelper-dep.h"
 
-#include <System.Private.CoreLib/Interop-dep.h>
 #include <System.Private.CoreLib/System/AppDomain-dep.h>
 #include <System.Private.CoreLib/System/ArgumentException-dep.h>
 #include <System.Private.CoreLib/System/ArgumentNullException-dep.h>
 #include <System.Private.CoreLib/System/Char-dep.h>
+#include <System.Private.CoreLib/System/Environment-dep.h>
 #include <System.Private.CoreLib/System/Globalization/CultureInfo-dep.h>
 #include <System.Private.CoreLib/System/Runtime/Versioning/SxSRequirements.h>
 #include <System.Private.CoreLib/System/SR-dep.h>
@@ -33,7 +33,7 @@ String VersioningHelper::MakeVersionSafeName(String name, ResourceScope from, Re
   if ((requirements & SxSRequirements::ProcessID) != 0) {
     stringBuilder->Append(value);
     stringBuilder->Append((Char)'p');
-    stringBuilder->Append(GetCurrentProcessId());
+    stringBuilder->Append(Environment::get_ProcessId());
   }
   if ((requirements & SxSRequirements::CLRInstanceID) != 0) {
     String cLRInstanceString = GetCLRInstanceString();
@@ -70,7 +70,7 @@ SxSRequirements VersioningHelper::GetRequirements(ResourceScope consumeAsScope, 
           sxSRequirements |= SxSRequirements::ProcessID;
           break;
         case ResourceScope::AppDomain:
-          sxSRequirements |= (SxSRequirements::AppDomainID | SxSRequirements::ProcessID | SxSRequirements::CLRInstanceID);
+          sxSRequirements |= SxSRequirements::AppDomainID | SxSRequirements::ProcessID | SxSRequirements::CLRInstanceID;
           break;
         default:
           rt::throw_exception<ArgumentException>(SR::Format(SR::get_Argument_BadResourceScopeTypeBits(), consumeAsScope), "consumeAsScope");
@@ -80,7 +80,7 @@ SxSRequirements VersioningHelper::GetRequirements(ResourceScope consumeAsScope, 
       break;
     case ResourceScope::Process:
       if ((consumeAsScope & ResourceScope::AppDomain) != 0) {
-        sxSRequirements |= (SxSRequirements::AppDomainID | SxSRequirements::CLRInstanceID);
+        sxSRequirements |= SxSRequirements::AppDomainID | SxSRequirements::CLRInstanceID;
       }
       break;
     default:
@@ -95,7 +95,7 @@ SxSRequirements VersioningHelper::GetRequirements(ResourceScope consumeAsScope, 
           sxSRequirements |= SxSRequirements::AssemblyName;
           break;
         case ResourceScope::Private:
-          sxSRequirements |= (SxSRequirements::AssemblyName | SxSRequirements::TypeName);
+          sxSRequirements |= SxSRequirements::AssemblyName | SxSRequirements::TypeName;
           break;
         default:
           rt::throw_exception<ArgumentException>(SR::Format(SR::get_Argument_BadResourceScopeVisibilityBits(), consumeAsScope), "consumeAsScope");
@@ -114,10 +114,6 @@ SxSRequirements VersioningHelper::GetRequirements(ResourceScope consumeAsScope, 
       break;
   }
   return sxSRequirements;
-}
-
-Int32 VersioningHelper::GetCurrentProcessId() {
-  return (Int32)Interop::Kernel32::GetCurrentProcessId();
 }
 
 } // namespace System::Private::CoreLib::System::Runtime::Versioning::VersioningHelperNamespace

@@ -48,7 +48,7 @@ Boolean SpinLock::get_IsHeldByCurrentThread() {
   if (!get_IsThreadOwnerTrackingEnabled()) {
     rt::throw_exception<InvalidOperationException>(SR::get_SpinLock_IsHeldByCurrentThread());
   }
-  return (_owner & Int32::MaxValue) == Environment::get_CurrentManagedThreadId();
+  return (_owner & 2147483647) == Environment::get_CurrentManagedThreadId();
 }
 
 Boolean SpinLock::get_IsThreadOwnerTrackingEnabled() {
@@ -57,7 +57,7 @@ Boolean SpinLock::get_IsThreadOwnerTrackingEnabled() {
 
 Int32 SpinLock::CompareExchange(Int32& location, Int32 value, Int32 comparand, Boolean& success) {
   Int32 num = Interlocked::CompareExchange(location, value, comparand);
-  success = (num == comparand);
+  success = num == comparand;
   return num;
 }
 
@@ -79,7 +79,7 @@ void SpinLock::TryEnter(Boolean& lockTaken) {
   Int32 owner = _owner;
   if (((owner & Int32::MinValue) == 0) | lockTaken) {
     ContinueTryEnter(0, lockTaken);
-  } else if ((owner & 1) != 0) {
+  } else if (((UInt32)owner & (true ? 1u : 0u)) != 0) {
     lockTaken = false;
   } else {
     CompareExchange(_owner, owner | 1, owner, lockTaken);
@@ -140,7 +140,7 @@ void SpinLock::ContinueTryEnter(Int32 millisecondsTimeout, Boolean& lockTaken) {
     spinWait.SpinOnce(40);
     owner = _owner;
     if ((owner & 1) == 0) {
-      Int32 value = ((owner & 2147483646) == 0) ? (owner | 1) : ((owner - 2) | 1);
+      Int32 value = (((owner & 2147483646) == 0) ? (owner | 1) : ((owner - 2) | 1));
       if (CompareExchange(_owner, value, owner, lockTaken) == owner) {
         return;
       }
@@ -153,7 +153,7 @@ void SpinLock::DecrementWaiters() {
   SpinWait spinWait;
   while (true) {
     Int32 owner = _owner;
-    if ((owner & 2147483646) != 0 && Interlocked::CompareExchange(_owner, owner - 2, owner) != owner) {
+    if (((UInt32)owner & 2147483646u) != 0 && Interlocked::CompareExchange(_owner, owner - 2, owner) != owner) {
       spinWait.SpinOnce();
       continue;
     }
@@ -173,10 +173,10 @@ void SpinLock::ContinueTryEnterWithThreadTracking(Int32 millisecondsTimeout, UIn
       break;
     }
     switch (millisecondsTimeout.get()) {
-      case 0:
-        return;
       case -1:
         continue;
+      case 0:
+        return;
     }
     if (spinWait.get_NextSpinWillYield() && TimeoutHelper::UpdateTimeOut(startTime, millisecondsTimeout) <= 0) {
       return;
@@ -195,7 +195,7 @@ void SpinLock::Exit() {
 void SpinLock::Exit(Boolean useMemoryBarrier) {
   Int32 owner = _owner;
   if ((owner & Int32::MinValue) != 0 && !useMemoryBarrier) {
-    _owner = (owner & -2);
+    _owner = owner & -2;
   } else {
     ExitSlowPath(useMemoryBarrier);
   }
@@ -216,7 +216,7 @@ void SpinLock::ExitSlowPath(Boolean useMemoryBarrier) {
     _owner = 0;
   } else {
     Int32 owner = _owner;
-    _owner = (owner & -2);
+    _owner = owner & -2;
   }
 
 }

@@ -20,12 +20,12 @@ using namespace System::Globalization;
 
 Boolean Single::IsFinite(Single f) {
   Int32 num = BitConverter::SingleToInt32Bits(f);
-  return (num & Int32::MaxValue) < 2139095040;
+  return (num & 2147483647) < 2139095040;
 }
 
 Boolean Single::IsInfinity(Single f) {
   Int32 num = BitConverter::SingleToInt32Bits(f);
-  return (num & Int32::MaxValue) == 2139095040;
+  return (num & 2147483647) == 2139095040;
 }
 
 Boolean Single::IsNaN(Single f) {
@@ -42,7 +42,7 @@ Boolean Single::IsNegativeInfinity(Single f) {
 
 Boolean Single::IsNormal(Single f) {
   Int32 num = BitConverter::SingleToInt32Bits(f);
-  num &= Int32::MaxValue;
+  num &= 2147483647;
   if (num < 2139095040 && num != 0) {
     return (num & 2139095040) != 0;
   }
@@ -55,7 +55,7 @@ Boolean Single::IsPositiveInfinity(Single f) {
 
 Boolean Single::IsSubnormal(Single f) {
   Int32 num = BitConverter::SingleToInt32Bits(f);
-  num &= Int32::MaxValue;
+  num &= 2147483647;
   if (num < 2139095040 && num != 0) {
     return (num & 2139095040) == 0;
   }
@@ -67,7 +67,7 @@ Int32 Single::ExtractExponentFromBits(UInt32 bits) {
 }
 
 UInt32 Single::ExtractSignificandFromBits(UInt32 bits) {
-  return bits & 8388607;
+  return bits & 8388607u;
 }
 
 Int32 Single::CompareTo(Object value) {
@@ -165,7 +165,7 @@ Boolean Single::Equals(Single obj) {
 
 Int32 Single::GetHashCode() {
   Int32 num = Unsafe::As<Single, Int32>(Unsafe::AsRef(m_value));
-  if (((num - 1) & Int32::MaxValue) >= 2139095040) {
+  if (((num - 1) & 2147483647) >= 2139095040) {
     num &= 2139095040;
   }
   return num;
@@ -196,7 +196,7 @@ Single Single::Parse(String s) {
   if (s == nullptr) {
     ThrowHelper::ThrowArgumentNullException(ExceptionArgument::s);
   }
-  return Number::ParseSingle(s, NumberStyles::AllowLeadingWhite | NumberStyles::AllowTrailingWhite | NumberStyles::AllowLeadingSign | NumberStyles::AllowDecimalPoint | NumberStyles::AllowThousands | NumberStyles::AllowExponent, NumberFormatInfo::in::get_CurrentInfo());
+  return Number::ParseSingle(s, NumberStyles::Float | NumberStyles::AllowThousands, NumberFormatInfo::in::get_CurrentInfo());
 }
 
 Single Single::Parse(String s, NumberStyles style) {
@@ -211,7 +211,7 @@ Single Single::Parse(String s, IFormatProvider provider) {
   if (s == nullptr) {
     ThrowHelper::ThrowArgumentNullException(ExceptionArgument::s);
   }
-  return Number::ParseSingle(s, NumberStyles::AllowLeadingWhite | NumberStyles::AllowTrailingWhite | NumberStyles::AllowLeadingSign | NumberStyles::AllowDecimalPoint | NumberStyles::AllowThousands | NumberStyles::AllowExponent, NumberFormatInfo::in::GetInstance(provider));
+  return Number::ParseSingle(s, NumberStyles::Float | NumberStyles::AllowThousands, NumberFormatInfo::in::GetInstance(provider));
 }
 
 Single Single::Parse(String s, NumberStyles style, IFormatProvider provider) {
@@ -232,11 +232,11 @@ Boolean Single::TryParse(String s, Single& result) {
     result = 0;
     return false;
   }
-  return TryParse((ReadOnlySpan<Char>)s, NumberStyles::AllowLeadingWhite | NumberStyles::AllowTrailingWhite | NumberStyles::AllowLeadingSign | NumberStyles::AllowDecimalPoint | NumberStyles::AllowThousands | NumberStyles::AllowExponent, NumberFormatInfo::in::get_CurrentInfo(), result);
+  return TryParse((ReadOnlySpan<Char>)s, NumberStyles::Float | NumberStyles::AllowThousands, NumberFormatInfo::in::get_CurrentInfo(), result);
 }
 
 Boolean Single::TryParse(ReadOnlySpan<Char> s, Single& result) {
-  return TryParse(s, NumberStyles::AllowLeadingWhite | NumberStyles::AllowTrailingWhite | NumberStyles::AllowLeadingSign | NumberStyles::AllowDecimalPoint | NumberStyles::AllowThousands | NumberStyles::AllowExponent, NumberFormatInfo::in::get_CurrentInfo(), result);
+  return TryParse(s, NumberStyles::Float | NumberStyles::AllowThousands, NumberFormatInfo::in::get_CurrentInfo(), result);
 }
 
 Boolean Single::TryParse(String s, NumberStyles style, IFormatProvider provider, Single& result) {

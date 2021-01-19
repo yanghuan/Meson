@@ -24,7 +24,6 @@
 #include <System.Private.CoreLib/System/IO/Path-dep.h>
 #include <System.Private.CoreLib/System/Nullable-dep.h>
 #include <System.Private.CoreLib/System/Runtime/Serialization/SerializationException-dep.h>
-#include <System.Private.CoreLib/System/Security/SecurityException-dep.h>
 #include <System.Private.CoreLib/System/Span-dep.h>
 #include <System.Private.CoreLib/System/SR-dep.h>
 #include <System.Private.CoreLib/System/StringComparer-dep.h>
@@ -42,7 +41,6 @@ using namespace System::Collections::Generic;
 using namespace System::Globalization;
 using namespace System::IO;
 using namespace System::Runtime::Serialization;
-using namespace System::Security;
 using namespace System::Text;
 
 DateTime TimeZoneInfo___::TransitionTime::get_TimeOfDay() {
@@ -391,7 +389,7 @@ TimeZoneInfo::in::OffsetAndRule TimeZoneInfo___::CachedData___::GetOneYearLocalF
   if (offsetAndRule == nullptr || offsetAndRule->Year != year) {
     TimeZoneInfo currentOneYearLocal = GetCurrentOneYearLocal();
     Array<AdjustmentRule> adjustmentRules = currentOneYearLocal->_adjustmentRules;
-    AdjustmentRule rule = (adjustmentRules != nullptr) ? adjustmentRules[0] : nullptr;
+    AdjustmentRule rule = ((adjustmentRules != nullptr) ? adjustmentRules[0] : nullptr);
     offsetAndRule = (_oneYearLocalFromUtc = rt::newobj<OffsetAndRule>(year, currentOneYearLocal->get_BaseUtcOffset(), rule));
   }
   return offsetAndRule;
@@ -932,7 +930,7 @@ Boolean TimeZoneInfo___::IsAmbiguousTime(DateTime dateTime, TimeZoneInfoOptions 
     return false;
   }
   CachedData cachedData = s_cachedData;
-  DateTime dateTime2 = (dateTime.get_Kind() == DateTimeKind::Local) ? ConvertTime(dateTime, cachedData->get_Local(), (TimeZoneInfo)this, flags, cachedData) : ((dateTime.get_Kind() == DateTimeKind::Utc) ? ConvertTime(dateTime, s_utcTimeZone, (TimeZoneInfo)this, flags, cachedData) : dateTime);
+  DateTime dateTime2 = ((dateTime.get_Kind() == DateTimeKind::Local) ? ConvertTime(dateTime, cachedData->get_Local(), (TimeZoneInfo)this, flags, cachedData) : ((dateTime.get_Kind() == DateTimeKind::Utc) ? ConvertTime(dateTime, s_utcTimeZone, (TimeZoneInfo)this, flags, cachedData) : dateTime));
   Nullable<Int32> ruleIndex;
   AdjustmentRule adjustmentRuleForTime = GetAdjustmentRuleForTime(dateTime2, ruleIndex);
   if (adjustmentRuleForTime != nullptr && adjustmentRuleForTime->get_HasDaylightSaving()) {
@@ -1045,7 +1043,7 @@ DateTime TimeZoneInfo___::ConvertTime(DateTime dateTime, TimeZoneInfo destinatio
     ClearCachedData();
   }
   CachedData cachedData = s_cachedData;
-  TimeZoneInfo sourceTimeZone = (dateTime.get_Kind() == DateTimeKind::Utc) ? s_utcTimeZone : cachedData->get_Local();
+  TimeZoneInfo sourceTimeZone = ((dateTime.get_Kind() == DateTimeKind::Utc) ? s_utcTimeZone : cachedData->get_Local());
   return ConvertTime(dateTime, sourceTimeZone, destinationTimeZone, TimeZoneInfoOptions::None, cachedData);
 }
 
@@ -1152,7 +1150,7 @@ ReadOnlyCollection<TimeZoneInfo> TimeZoneInfo___::GetSystemTimeZones() {
     if (cachedData->_readOnlySystemTimeZones == nullptr) {
       PopulateAllSystemTimeZones(cachedData);
       cachedData->_allSystemTimeZonesRead = true;
-      List<TimeZoneInfo> list = (cachedData->_systemTimeZones == nullptr) ? rt::newobj<List<TimeZoneInfo>>() : rt::newobj<List<TimeZoneInfo>>(cachedData->_systemTimeZones->get_Values());
+      List<TimeZoneInfo> list = ((cachedData->_systemTimeZones == nullptr) ? rt::newobj<List<TimeZoneInfo>>() : rt::newobj<List<TimeZoneInfo>>(cachedData->_systemTimeZones->get_Values()));
       Comparison<TimeZoneInfo> as = __c::in::__9__62_0;
       list->Sort(as != nullptr ? as : (__c::in::__9__62_0 = {__c::in::__9, &__c::in::_GetSystemTimeZones_b__62_0}));
       cachedData->_readOnlySystemTimeZones = rt::newobj<ReadOnlyCollection<TimeZoneInfo>>(list);
@@ -1203,7 +1201,7 @@ void TimeZoneInfo___::ctor(String id, TimeSpan baseUtcOffset, String displayName
   _displayName = displayName;
   _standardDisplayName = standardDisplayName;
   _daylightDisplayName = (disableDaylightSavingTime ? nullptr : daylightDisplayName);
-  _supportsDaylightSavingTime = (adjustmentRulesSupportDst && !disableDaylightSavingTime);
+  _supportsDaylightSavingTime = adjustmentRulesSupportDst && !disableDaylightSavingTime;
   _adjustmentRules = adjustmentRules;
 }
 
@@ -1271,13 +1269,13 @@ TimeZoneInfo::in::AdjustmentRule TimeZoneInfo___::GetAdjustmentRuleForTime(DateT
     ruleIndex = nullptr;
     return nullptr;
   }
-  DateTime dateOnly = dateTimeisUtc ? (dateTime + get_BaseUtcOffset()).get_Date() : dateTime.get_Date();
+  DateTime dateOnly = (dateTimeisUtc ? (dateTime + get_BaseUtcOffset()).get_Date() : dateTime.get_Date());
   Int32 num = 0;
   Int32 num2 = _adjustmentRules->get_Length() - 1;
   while (num <= num2) {
     Int32 num3 = num + (num2 - num >> 1);
     AdjustmentRule adjustmentRule = _adjustmentRules[num3];
-    AdjustmentRule previousRule = (num3 > 0) ? _adjustmentRules[num3 - 1] : adjustmentRule;
+    AdjustmentRule previousRule = ((num3 > 0) ? _adjustmentRules[num3 - 1] : adjustmentRule);
     Int32 num4 = CompareAdjustmentRuleToDateTime(adjustmentRule, previousRule, dateTime, dateOnly, dateTimeisUtc);
     if (num4 == 0) {
       ruleIndex = num3;
@@ -1296,20 +1294,20 @@ TimeZoneInfo::in::AdjustmentRule TimeZoneInfo___::GetAdjustmentRuleForTime(DateT
 Int32 TimeZoneInfo___::CompareAdjustmentRuleToDateTime(AdjustmentRule rule, AdjustmentRule previousRule, DateTime dateTime, DateTime dateOnly, Boolean dateTimeisUtc) {
   Boolean flag;
   if (rule->get_DateStart().get_Kind() == DateTimeKind::Utc) {
-    DateTime t = dateTimeisUtc ? dateTime : ConvertToUtc(dateTime, previousRule->get_DaylightDelta(), previousRule->get_BaseUtcOffsetDelta());
-    flag = (t >= rule->get_DateStart());
+    DateTime t = (dateTimeisUtc ? dateTime : ConvertToUtc(dateTime, previousRule->get_DaylightDelta(), previousRule->get_BaseUtcOffsetDelta()));
+    flag = t >= rule->get_DateStart();
   } else {
-    flag = (dateOnly >= rule->get_DateStart());
+    flag = dateOnly >= rule->get_DateStart();
   }
   if (!flag) {
     return 1;
   }
   Boolean flag2;
   if (rule->get_DateEnd().get_Kind() == DateTimeKind::Utc) {
-    DateTime t2 = dateTimeisUtc ? dateTime : ConvertToUtc(dateTime, rule->get_DaylightDelta(), rule->get_BaseUtcOffsetDelta());
-    flag2 = (t2 <= rule->get_DateEnd());
+    DateTime t2 = (dateTimeisUtc ? dateTime : ConvertToUtc(dateTime, rule->get_DaylightDelta(), rule->get_BaseUtcOffsetDelta()));
+    flag2 = t2 <= rule->get_DateEnd();
   } else {
-    flag2 = (dateOnly <= rule->get_DateEnd());
+    flag2 = dateOnly <= rule->get_DateEnd();
   }
   if (!flag2) {
     return -1;
@@ -1341,7 +1339,7 @@ DateTime TimeZoneInfo___::ConvertToFromUtc(DateTime dateTime, TimeSpan daylightD
 }
 
 DateTime TimeZoneInfo___::ConvertUtcToTimeZone(Int64 ticks, TimeZoneInfo destinationTimeZone, Boolean& isAmbiguousLocalDst) {
-  DateTime time = (ticks > DateTime::MaxValue.get_Ticks()) ? DateTime::MaxValue : ((ticks < DateTime::MinValue.get_Ticks()) ? DateTime::MinValue : DateTime(ticks));
+  DateTime time = ((ticks > DateTime::MaxValue.get_Ticks()) ? DateTime::MaxValue : ((ticks < DateTime::MinValue.get_Ticks()) ? DateTime::MinValue : DateTime(ticks)));
   ticks += GetUtcOffsetFromUtc(time, destinationTimeZone, isAmbiguousLocalDst).get_Ticks();
   if (ticks <= DateTime::MaxValue.get_Ticks()) {
     if (ticks >= DateTime::MinValue.get_Ticks()) {
@@ -1413,8 +1411,7 @@ Boolean TimeZoneInfo___::GetIsDaylightSavingsFromUtc(DateTime time, Int32 year, 
     Nullable<Int32> ruleIndex2;
     AdjustmentRule adjustmentRuleForTime = zone->GetAdjustmentRuleForTime(DateTime(daylightTime.Start.get_Year() - 1, 12, 31), ruleIndex2);
     if (adjustmentRuleForTime != nullptr && adjustmentRuleForTime->IsEndDateMarkerForEndOfYear()) {
-      DaylightTimeStruct daylightTime2 = zone->GetDaylightTime(daylightTime.Start.get_Year() - 1, adjustmentRuleForTime, ruleIndex2);
-      dateTime = daylightTime2.Start - utc - adjustmentRuleForTime->get_BaseUtcOffsetDelta();
+      dateTime = zone->GetDaylightTime(daylightTime.Start.get_Year() - 1, adjustmentRuleForTime, ruleIndex2).Start - utc - adjustmentRuleForTime->get_BaseUtcOffsetDelta();
       ignoreYearAdjustment = true;
     } else {
       dateTime = DateTime(daylightTime.Start.get_Year(), 1, 1, 0, 0, 0) - daylightSavingsStartOffsetFromUtc;
@@ -1428,12 +1425,7 @@ Boolean TimeZoneInfo___::GetIsDaylightSavingsFromUtc(DateTime time, Int32 year, 
     Nullable<Int32> ruleIndex3;
     AdjustmentRule adjustmentRuleForTime2 = zone->GetAdjustmentRuleForTime(DateTime(daylightTime.End.get_Year() + 1, 1, 1), ruleIndex3);
     if (adjustmentRuleForTime2 != nullptr && adjustmentRuleForTime2->IsStartDateMarkerForBeginningOfYear()) {
-      if (adjustmentRuleForTime2->IsEndDateMarkerForEndOfYear()) {
-        dateTime2 = DateTime(daylightTime.End.get_Year() + 1, 12, 31) - utc - adjustmentRuleForTime2->get_BaseUtcOffsetDelta() - adjustmentRuleForTime2->get_DaylightDelta();
-      } else {
-        DaylightTimeStruct daylightTime3 = zone->GetDaylightTime(daylightTime.End.get_Year() + 1, adjustmentRuleForTime2, ruleIndex3);
-        dateTime2 = daylightTime3.End - utc - adjustmentRuleForTime2->get_BaseUtcOffsetDelta() - adjustmentRuleForTime2->get_DaylightDelta();
-      }
+      dateTime2 = ((!adjustmentRuleForTime2->IsEndDateMarkerForEndOfYear()) ? (zone->GetDaylightTime(daylightTime.End.get_Year() + 1, adjustmentRuleForTime2, ruleIndex3).End - utc - adjustmentRuleForTime2->get_BaseUtcOffsetDelta() - adjustmentRuleForTime2->get_DaylightDelta()) : (DateTime(daylightTime.End.get_Year() + 1, 12, 31) - utc - adjustmentRuleForTime2->get_BaseUtcOffsetDelta() - adjustmentRuleForTime2->get_DaylightDelta()));
       ignoreYearAdjustment = true;
     } else {
       dateTime2 = DateTime(daylightTime.End.get_Year() + 1, 1, 1, 0, 0, 0).AddTicks(-1) - daylightSavingsEndOffsetFromUtc;
@@ -1452,19 +1444,19 @@ Boolean TimeZoneInfo___::GetIsDaylightSavingsFromUtc(DateTime time, Int32 year, 
   }
   Boolean flag = CheckIsDst(dateTime, time, dateTime2, ignoreYearAdjustment, rule);
   if (flag) {
-    isAmbiguousLocalDst = (time >= t && time < t2);
+    isAmbiguousLocalDst = time >= t && time < t2;
     if (!isAmbiguousLocalDst && t.get_Year() != t2.get_Year()) {
       try {
         DateTime t3 = t.AddYears(1);
         DateTime t4 = t2.AddYears(1);
-        isAmbiguousLocalDst = (time >= t3 && time < t4);
+        isAmbiguousLocalDst = time >= t3 && time < t4;
       } catch (ArgumentOutOfRangeException) {
       }
       if (!isAmbiguousLocalDst) {
         try {
           DateTime t3 = t.AddYears(-1);
           DateTime t4 = t2.AddYears(-1);
-          isAmbiguousLocalDst = (time >= t3 && time < t4);
+          isAmbiguousLocalDst = time >= t3 && time < t4;
           return flag;
         } catch (ArgumentOutOfRangeException) {
           return flag;
@@ -1525,19 +1517,19 @@ Boolean TimeZoneInfo___::GetIsAmbiguousTime(DateTime time, AdjustmentRule rule, 
     t = daylightTime.Start;
     t2 = daylightTime.Start + rule->get_DaylightDelta();
   }
-  result = (time >= t2 && time < t);
+  result = time >= t2 && time < t;
   if (!result && t.get_Year() != t2.get_Year()) {
     try {
       DateTime t3 = t.AddYears(1);
       DateTime t4 = t2.AddYears(1);
-      result = (time >= t4 && time < t3);
+      result = time >= t4 && time < t3;
     } catch (ArgumentOutOfRangeException) {
     }
     if (!result) {
       try {
         DateTime t3 = t.AddYears(-1);
         DateTime t4 = t2.AddYears(-1);
-        result = (time >= t4 && time < t3);
+        result = time >= t4 && time < t3;
         return result;
       } catch (ArgumentOutOfRangeException) {
         return result;
@@ -1567,19 +1559,19 @@ Boolean TimeZoneInfo___::GetIsInvalidTime(DateTime time, AdjustmentRule rule, Da
     t = daylightTime.Start;
     t2 = daylightTime.Start + rule->get_DaylightDelta();
   }
-  result = (time >= t && time < t2);
+  result = time >= t && time < t2;
   if (!result && t.get_Year() != t2.get_Year()) {
     try {
       DateTime t3 = t.AddYears(1);
       DateTime t4 = t2.AddYears(1);
-      result = (time >= t3 && time < t4);
+      result = time >= t3 && time < t4;
     } catch (ArgumentOutOfRangeException) {
     }
     if (!result) {
       try {
         DateTime t3 = t.AddYears(-1);
         DateTime t4 = t2.AddYears(-1);
-        result = (time >= t3 && time < t4);
+        result = time >= t3 && time < t4;
         return result;
       } catch (ArgumentOutOfRangeException) {
         return result;
@@ -1916,16 +1908,6 @@ TimeZoneInfo TimeZoneInfo___::FindSystemTimeZoneById(String id) {
     rt::lock(cachedData);
     timeZoneInfoResult = TryGetTimeZone(id, false, value, e, cachedData);
   }
-  switch (timeZoneInfoResult) {
-    case TimeZoneInfoResult::Success:
-      return value;
-    case TimeZoneInfoResult::InvalidTimeZoneException:
-      rt::throw_exception<InvalidTimeZoneException>(SR::Format(SR::get_InvalidTimeZone_InvalidRegistryData(), id), e);
-    case TimeZoneInfoResult::SecurityException:
-      rt::throw_exception<SecurityException>(SR::Format(SR::get_Security_CannotReadRegistryData(), id), e);
-    default:
-      rt::throw_exception<TimeZoneNotFoundException>(SR::Format(SR::get_TimeZoneNotFound_MissingData(), id), e);
-  }
 }
 
 TimeSpan TimeZoneInfo___::GetDateTimeNowUtcOffsetFromUtc(DateTime time, Boolean& isAmbiguousLocalDst) {
@@ -2146,13 +2128,13 @@ void TimeZoneInfo___::GetLocalizedNamesByRegistryKey(RegistryKey key, String& di
     daylightName = TryGetLocalizedNameByMuiNativeResource(text3);
   }
   if (String::in::IsNullOrEmpty(displayName)) {
-    displayName = (rt::as<String>(key->GetValue("Display", String::in::Empty)));
+    displayName = rt::as<String>(key->GetValue("Display", String::in::Empty));
   }
   if (String::in::IsNullOrEmpty(standardName)) {
-    standardName = (rt::as<String>(key->GetValue("Std", String::in::Empty)));
+    standardName = rt::as<String>(key->GetValue("Std", String::in::Empty));
   }
   if (String::in::IsNullOrEmpty(daylightName)) {
-    daylightName = (rt::as<String>(key->GetValue("Dlt", String::in::Empty)));
+    daylightName = rt::as<String>(key->GetValue("Dlt", String::in::Empty));
   }
 }
 

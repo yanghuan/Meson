@@ -53,7 +53,7 @@ FieldAttributes FieldOnTypeBuilderInstantiation___::get_Attributes() {
 FieldInfo FieldOnTypeBuilderInstantiation___::GetField(FieldInfo Field, TypeBuilderInstantiation type) {
   FieldInfo fieldInfo;
   if (type->m_hashtable->Contains(Field)) {
-    fieldInfo = (rt::as<FieldInfo>(type->m_hashtable[Field]));
+    fieldInfo = rt::as<FieldInfo>(type->m_hashtable[Field]);
   } else {
     fieldInfo = rt::newobj<FieldOnTypeBuilderInstantiation>(Field, type);
     type->m_hashtable[Field] = fieldInfo;

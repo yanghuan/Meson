@@ -111,7 +111,7 @@ MethodInfo Delegate___::GetMethodImpl() {
         Type genericTypeDefinition = runtimeType->GetGenericTypeDefinition();
         while (type != nullptr) {
           if (type->get_IsGenericType() && type->GetGenericTypeDefinition() == genericTypeDefinition) {
-            runtimeType = (rt::as<RuntimeType>(type));
+            runtimeType = rt::as<RuntimeType>(type);
             break;
           }
           type = type->get_BaseType();
@@ -144,7 +144,7 @@ Delegate Delegate___::CreateDelegate(Type type, Object target, String method, Bo
     rt::throw_exception<ArgumentException>(SR::get_Arg_MustBeDelegate(), "type");
   }
   Delegate delegate = InternalAlloc(runtimeType);
-  if (!delegate->BindToMethodName(target, (RuntimeType)target->GetType(), method, (DelegateBindingFlags)(26 | (ignoreCase ? 32 : 0)))) {
+  if (!delegate->BindToMethodName(target, (RuntimeType)target->GetType(), method, (DelegateBindingFlags)26 | (ignoreCase ? DelegateBindingFlags::CaselessMatching : ((DelegateBindingFlags)0)))) {
     if (throwOnBindFailure) {
       rt::throw_exception<ArgumentException>(SR::get_Arg_DlgtTargMeth());
     }
@@ -178,7 +178,7 @@ Delegate Delegate___::CreateDelegate(Type type, Type target, String method, Bool
     rt::throw_exception<ArgumentException>(SR::get_Arg_MustBeDelegate(), "type");
   }
   Delegate delegate = InternalAlloc(runtimeType);
-  if (!delegate->BindToMethodName(nullptr, runtimeType2, method, (DelegateBindingFlags)(5 | (ignoreCase ? 32 : 0)))) {
+  if (!delegate->BindToMethodName(nullptr, runtimeType2, method, (DelegateBindingFlags)5 | (ignoreCase ? DelegateBindingFlags::CaselessMatching : ((DelegateBindingFlags)0)))) {
     if (throwOnBindFailure) {
       rt::throw_exception<ArgumentException>(SR::get_Arg_DlgtTargMeth());
     }

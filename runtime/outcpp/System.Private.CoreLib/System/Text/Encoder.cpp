@@ -126,7 +126,7 @@ void Encoder___::Convert(Array<Char> chars, Int32 charIndex, Int32 charCount, Ar
   for (charsUsed = charCount; charsUsed > 0; charsUsed /= 2) {
     if (GetByteCount(chars, charIndex, charsUsed, flush) <= byteCount) {
       bytesUsed = GetBytes(chars, charIndex, charsUsed, bytes, byteIndex, flush);
-      completed = (charsUsed == charCount && (_fallbackBuffer == nullptr || _fallbackBuffer->get_Remaining() == 0));
+      completed = charsUsed == charCount && (_fallbackBuffer == nullptr || _fallbackBuffer->get_Remaining() == 0);
       return;
     }
     flush = false;
@@ -144,7 +144,7 @@ void Encoder___::Convert(Char* chars, Int32 charCount, Byte* bytes, Int32 byteCo
   for (charsUsed = charCount; charsUsed > 0; charsUsed /= 2) {
     if (GetByteCount(chars, charsUsed, flush) <= byteCount) {
       bytesUsed = GetBytes(chars, charsUsed, bytes, byteCount, flush);
-      completed = (charsUsed == charCount && (_fallbackBuffer == nullptr || _fallbackBuffer->get_Remaining() == 0));
+      completed = charsUsed == charCount && (_fallbackBuffer == nullptr || _fallbackBuffer->get_Remaining() == 0);
       return;
     }
     flush = false;

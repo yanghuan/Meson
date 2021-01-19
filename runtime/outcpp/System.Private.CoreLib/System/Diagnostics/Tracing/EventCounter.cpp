@@ -16,7 +16,11 @@ using namespace System::Threading;
 void EventCounter___::ctor(String name, Tracing::EventSource eventSource) {
   _min = Double::PositiveInfinity;
   _max = Double::NegativeInfinity;
-  InitializeBuffer();
+  Array<Double> array = rt::newarr<Array<Double>>(10);
+  for (Int32 i = 0; i < array->get_Length(); i++) {
+    array[i] = Double::NegativeInfinity;
+  }
+  _bufferedValues = array;
   Publish();
 }
 
@@ -68,9 +72,9 @@ void EventCounter___::WritePayload(Single intervalSec, Int32 pollingIntervalMill
     counterPayload->set_CounterType("Mean");
     counterPayload->set_Metadata(GetMetadataString());
     String as = DiagnosticCounter::in::get_DisplayName();
-    counterPayload->set_DisplayName((as != nullptr ? as : ""));
+    counterPayload->set_DisplayName(as != nullptr ? as : "");
     String is = DiagnosticCounter::in::get_DisplayUnits();
-    counterPayload->set_DisplayUnits((is != nullptr ? is : ""));
+    counterPayload->set_DisplayUnits(is != nullptr ? is : "");
     counterPayload->set_Name(DiagnosticCounter::in::get_Name());
     ResetStatistics();
     DiagnosticCounter::in::get_EventSource()->Write("EventCounters", EventSourceOptions(), rt::newobj<CounterPayloadType>(counterPayload));
@@ -85,13 +89,6 @@ void EventCounter___::ResetStatistics() {
     _sumSquared = 0;
     _min = Double::PositiveInfinity;
     _max = Double::NegativeInfinity;
-  }
-}
-
-void EventCounter___::InitializeBuffer() {
-  _bufferedValues = rt::newarr<Array<Double>>(10);
-  for (Int32 i = 0; i < _bufferedValues->get_Length(); i++) {
-    _bufferedValues[i] = Double::NegativeInfinity;
   }
 }
 

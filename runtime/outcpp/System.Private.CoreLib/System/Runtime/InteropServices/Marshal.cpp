@@ -232,7 +232,7 @@ IntPtr Marshal::GetComInterfaceForObject(Object o, Type T, CustomQueryInterfaceM
   if ((Object)T == nullptr) {
     rt::throw_exception<ArgumentNullException>("T");
   }
-  Boolean fEnableCustomizedQueryInterface = (mode == CustomQueryInterfaceMode::Allow) ? true : false;
+  Boolean fEnableCustomizedQueryInterface = ((mode == CustomQueryInterfaceMode::Allow) ? true : false);
   return GetComInterfaceForObjectNative(o, T, false, fEnableCustomizedQueryInterface);
 }
 
@@ -384,6 +384,30 @@ Object Marshal::CreateWrapperOfType(Object o, Type t) {
   return obj;
 }
 
+Int32 Marshal::QueryInterface(IntPtr pUnk, Guid& iid, IntPtr& ppv) {
+  if (pUnk == IntPtr::Zero) {
+    rt::throw_exception<ArgumentNullException>("pUnk");
+  }
+  {
+    Guid* ptr = &iid;
+    {
+      IntPtr* ptr2 = &ppv;
+    }
+  }
+}
+
+Int32 Marshal::AddRef(IntPtr pUnk) {
+  if (pUnk == IntPtr::Zero) {
+    rt::throw_exception<ArgumentNullException>("pUnk");
+  }
+}
+
+Int32 Marshal::Release(IntPtr pUnk) {
+  if (pUnk == IntPtr::Zero) {
+    rt::throw_exception<ArgumentNullException>("pUnk");
+  }
+}
+
 Object Marshal::BindToMoniker(String monikerName) {
   IBindCtx ppbc;
   CreateBindCtx(0u, ppbc);
@@ -476,7 +500,7 @@ IntPtr Marshal::UnsafeAddrOfPinnedArrayElement(Array<> arr, Int32 index) {
     rt::throw_exception<ArgumentNullException>("arr");
   }
   void* ptr = Unsafe::AsPointer(RuntimeHelpers::GetRawArrayData(arr));
-  return (IntPtr)(void*)((Byte*)ptr + (UInt64)(UIntPtr)(void*)((Int64)(UInt32)index * (Int64)RuntimeHelpers::GetElementSize(arr)));
+  return (IntPtr)((Byte*)ptr + (UInt64)(UIntPtr)(void*)((Int64)(UInt32)index * (Int64)RuntimeHelpers::GetElementSize(arr)));
 }
 
 void Marshal::Copy(Array<Int32> source, Int32 startIndex, IntPtr destination, Int32 length) {
@@ -1014,7 +1038,7 @@ Boolean Marshal::IsNullOrWin32Atom(IntPtr ptr) {
 }
 
 Int32 Marshal::StringToAnsiString(String s, Byte* buffer, Int32 bufferLength, Boolean bestFit, Boolean throwOnUnmappableChar) {
-  UInt32 dwFlags = (!bestFit) ? 1024u : 0u;
+  UInt32 dwFlags = ((!bestFit) ? 1024u : 0u);
   UInt32 num = 0u;
   Int32 num2;
   {

@@ -18,6 +18,7 @@
 #include <System.Private.CoreLib/System/TimeZoneInfo-dep.h>
 #include <System.Private.CoreLib/System/TimeZoneInfoOptions.h>
 #include <System.Private.CoreLib/System/Type-dep.h>
+#include <System.Private.CoreLib/System/UInt32-dep.h>
 
 namespace System::Private::CoreLib::System::DateTimeOffsetNamespace {
 using namespace System::Globalization;
@@ -110,7 +111,7 @@ DateTimeOffset::DateTimeOffset(Int64 ticks, TimeSpan offset) {
 }
 
 DateTimeOffset::DateTimeOffset(DateTime dateTime) {
-  TimeSpan offset = (dateTime.get_Kind() != DateTimeKind::Utc) ? TimeZoneInfo::in::GetLocalUtcOffset(dateTime, TimeZoneInfoOptions::NoThrowOnInvalidTime) : TimeSpan(0);
+  TimeSpan offset = ((dateTime.get_Kind() != DateTimeKind::Utc) ? TimeZoneInfo::in::GetLocalUtcOffset(dateTime, TimeZoneInfoOptions::NoThrowOnInvalidTime) : TimeSpan(0));
   _offsetMinutes = ValidateOffset(offset);
   _dateTime = ValidateDate(dateTime, offset);
 }
@@ -551,7 +552,7 @@ DateTime DateTimeOffset::ValidateDate(DateTime dateTime, TimeSpan offset) {
 }
 
 DateTimeStyles DateTimeOffset::ValidateStyles(DateTimeStyles style, String parameterName) {
-  if ((style & ~(DateTimeStyles::AllowLeadingWhite | DateTimeStyles::AllowTrailingWhite | DateTimeStyles::AllowInnerWhite | DateTimeStyles::NoCurrentDateDefault | DateTimeStyles::AdjustToUniversal | DateTimeStyles::AssumeLocal | DateTimeStyles::AssumeUniversal | DateTimeStyles::RoundtripKind)) != 0) {
+  if (((UInt32)style & 4294967040u) != 0) {
     rt::throw_exception<ArgumentException>(SR::get_Argument_InvalidDateTimeStyles(), parameterName);
   }
   if ((style & DateTimeStyles::AssumeLocal) != 0 && (style & DateTimeStyles::AssumeUniversal) != 0) {

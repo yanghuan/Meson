@@ -5,7 +5,6 @@
 #include <System.Private.CoreLib/System/Globalization/CultureInfo-dep.h>
 #include <System.Private.CoreLib/System/Globalization/GregorianCalendar-dep.h>
 #include <System.Private.CoreLib/System/Globalization/HebrewCalendar-dep.h>
-#include <System.Private.CoreLib/System/InvalidOperationException-dep.h>
 #include <System.Private.CoreLib/System/SR-dep.h>
 
 namespace System::Private::CoreLib::System::Globalization::HebrewCalendarNamespace {
@@ -92,16 +91,6 @@ void HebrewCalendar___::CheckTicksRange(Int64 ticks) {
 }
 
 Int32 HebrewCalendar___::GetResult(DateBuffer result, Int32 part) {
-  switch (part.get()) {
-    case 0:
-      return result->year;
-    case 2:
-      return result->month;
-    case 3:
-      return result->day;
-    default:
-      rt::throw_exception<InvalidOperationException>(SR::get_InvalidOperation_DateTimeParsing());
-  }
 }
 
 Int32 HebrewCalendar___::GetLunarMonthDay(Int32 gregorianYear, DateBuffer lunarDate) {
@@ -246,7 +235,7 @@ Int32 HebrewCalendar___::GetHebrewYearType(Int32 year, Int32 era) {
 
 Int32 HebrewCalendar___::GetDayOfYear(DateTime time) {
   Int32 year = GetYear(time);
-  DateTime dateTime = (year != 5343) ? ToDateTime(year, 1, 1, 0, 0, 0, 0, 0) : DateTime(1582, 9, 27);
+  DateTime dateTime = ((year != 5343) ? ToDateTime(year, 1, 1, 0, 0, 0, 0, 0) : DateTime(1582, 9, 27));
   return (Int32)((time.get_Ticks() - dateTime.get_Ticks()) / 864000000000) + 1;
 }
 

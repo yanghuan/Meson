@@ -56,107 +56,8 @@ Enum::in::EnumInfo Enum___::GetEnumInfo(RuntimeType enumType, Boolean getNames) 
   return enumInfo;
 }
 
-Array<UInt64> Enum___::InternalGetValues(RuntimeType enumType) {
-  return GetEnumInfo(enumType, false)->Values;
-}
-
-Array<String> Enum___::InternalGetNames(RuntimeType enumType) {
-  return GetEnumInfo(enumType)->Names;
-}
-
-Boolean Enum___::HasFlag(Enum flag) {
-  if (flag == nullptr) {
-    rt::throw_exception<ArgumentNullException>("flag");
-  }
-  if (!GetType()->IsEquivalentTo(flag->GetType())) {
-    rt::throw_exception<ArgumentException>(SR::Format(SR::get_Argument_EnumTypeDoesNotMatch(), flag->GetType(), GetType()));
-  }
-  return InternalHasFlag(flag);
-}
-
-String Enum___::GetName(Type enumType, Object value) {
-  if (enumType == nullptr) {
-    rt::throw_exception<ArgumentNullException>("enumType");
-  }
-  return enumType->GetEnumName(value);
-}
-
-Array<String> Enum___::GetNames(Type enumType) {
-  if (enumType == nullptr) {
-    rt::throw_exception<ArgumentNullException>("enumType");
-  }
-  return enumType->GetEnumNames();
-}
-
-Type Enum___::GetUnderlyingType(Type enumType) {
-  if (enumType == nullptr) {
-    rt::throw_exception<ArgumentNullException>("enumType");
-  }
-  return enumType->GetEnumUnderlyingType();
-}
-
-Array<> Enum___::GetValues(Type enumType) {
-  if (enumType == nullptr) {
-    rt::throw_exception<ArgumentNullException>("enumType");
-  }
-  return enumType->GetEnumValues();
-}
-
-Boolean Enum___::IsDefined(Type enumType, Object value) {
-  if (enumType == nullptr) {
-    rt::throw_exception<ArgumentNullException>("enumType");
-  }
-  return enumType->IsEnumDefined(value);
-}
-
-RuntimeType Enum___::ValidateRuntimeType(Type enumType) {
-  if (enumType == nullptr) {
-    rt::throw_exception<ArgumentNullException>("enumType");
-  }
-  if (!enumType->get_IsEnum()) {
-    rt::throw_exception<ArgumentException>(SR::get_Arg_MustBeEnum(), "enumType");
-  }
-  RuntimeType runtimeType = rt::as<RuntimeType>(enumType);
-  if ((Object)runtimeType == nullptr) {
-    rt::throw_exception<ArgumentException>(SR::get_Arg_MustBeType(), "enumType");
-  }
-  return runtimeType;
-}
-
 String Enum___::ValueToString() {
   Byte& rawData = RuntimeHelpers::GetRawData(this);
-  switch (InternalGetCorElementType()) {
-    case CorElementType::ELEMENT_TYPE_I1:
-      return Unsafe::As<Byte, SByte>(rawData).ToString();
-    case CorElementType::ELEMENT_TYPE_U1:
-      return rawData.ToString();
-    case CorElementType::ELEMENT_TYPE_BOOLEAN:
-      return Unsafe::As<Byte, Boolean>(rawData).ToString();
-    case CorElementType::ELEMENT_TYPE_I2:
-      return Unsafe::As<Byte, Int16>(rawData).ToString();
-    case CorElementType::ELEMENT_TYPE_U2:
-      return Unsafe::As<Byte, UInt16>(rawData).ToString();
-    case CorElementType::ELEMENT_TYPE_CHAR:
-      return Unsafe::As<Byte, Char>(rawData).ToString();
-    case CorElementType::ELEMENT_TYPE_I4:
-      return Unsafe::As<Byte, Int32>(rawData).ToString();
-    case CorElementType::ELEMENT_TYPE_U4:
-      return Unsafe::As<Byte, UInt32>(rawData).ToString();
-    case CorElementType::ELEMENT_TYPE_R4:
-      return Unsafe::As<Byte, Single>(rawData).ToString();
-    case CorElementType::ELEMENT_TYPE_I8:
-      return Unsafe::As<Byte, Int64>(rawData).ToString();
-    case CorElementType::ELEMENT_TYPE_U8:
-      return Unsafe::As<Byte, UInt64>(rawData).ToString();
-    case CorElementType::ELEMENT_TYPE_R8:
-      return Unsafe::As<Byte, Double>(rawData).ToString();
-    case CorElementType::ELEMENT_TYPE_I:
-      return Unsafe::As<Byte, IntPtr>(rawData).ToString();
-    case CorElementType::ELEMENT_TYPE_U:
-      return Unsafe::As<Byte, UIntPtr>(rawData).ToString();
-    default:
-      rt::throw_exception<InvalidOperationException>(SR::get_InvalidOperation_UnknownEnumType());
-  }
 }
 
 String Enum___::ValueToHexString() {
@@ -183,30 +84,6 @@ String Enum___::ValueToHexString() {
 }
 
 String Enum___::ValueToHexString(Object value) {
-  switch (Convert::GetTypeCode(value)) {
-    case TypeCode::SByte:
-      return ((Byte)(SByte)value).ToString("X2", nullptr);
-    case TypeCode::Byte:
-      return ((Byte)value).ToString("X2", nullptr);
-    case TypeCode::Boolean:
-      return Convert::ToByte((Boolean)value).ToString("X2", nullptr);
-    case TypeCode::Int16:
-      return ((UInt16)(Int16)value).ToString("X4", nullptr);
-    case TypeCode::UInt16:
-      return ((UInt16)value).ToString("X4", nullptr);
-    case TypeCode::Char:
-      return ((UInt16)(Char)value).ToString("X4", nullptr);
-    case TypeCode::UInt32:
-      return ((UInt32)value).ToString("X8", nullptr);
-    case TypeCode::Int32:
-      return ((UInt32)(Int32)value).ToString("X8", nullptr);
-    case TypeCode::UInt64:
-      return ((UInt64)value).ToString("X16", nullptr);
-    case TypeCode::Int64:
-      return ((UInt64)(Int64)value).ToString("X16", nullptr);
-    default:
-      rt::throw_exception<InvalidOperationException>(SR::get_InvalidOperation_UnknownEnumType());
-  }
 }
 
 String Enum___::GetEnumName(RuntimeType enumType, UInt64 ulValue) {
@@ -287,30 +164,59 @@ String Enum___::InternalFlagsFormat(RuntimeType enumType, EnumInfo enumInfo, UIn
 }
 
 UInt64 Enum___::ToUInt64(Object value) {
-  switch (Convert::GetTypeCode(value)) {
-    case TypeCode::SByte:
-      return (UInt64)(SByte)value;
-    case TypeCode::Byte:
-      return (Byte)value;
-    case TypeCode::Boolean:
-      return Convert::ToByte((Boolean)value);
-    case TypeCode::Int16:
-      return (UInt64)(Int16)value;
-    case TypeCode::UInt16:
-      return (UInt16)value;
-    case TypeCode::Char:
-      return (Char)value;
-    case TypeCode::UInt32:
-      return (UInt32)value;
-    case TypeCode::Int32:
-      return (UInt64)(Int32)value;
-    case TypeCode::UInt64:
-      return (UInt64)value;
-    case TypeCode::Int64:
-      return (UInt64)(Int64)value;
-    default:
-      rt::throw_exception<InvalidOperationException>(SR::get_InvalidOperation_UnknownEnumType());
+}
+
+String Enum___::GetName(Type enumType, Object value) {
+  if ((Object)enumType == nullptr) {
+    rt::throw_exception<ArgumentNullException>("enumType");
   }
+  return enumType->GetEnumName(value);
+}
+
+Array<String> Enum___::GetNames(Type enumType) {
+  if ((Object)enumType == nullptr) {
+    rt::throw_exception<ArgumentNullException>("enumType");
+  }
+  return enumType->GetEnumNames();
+}
+
+Array<String> Enum___::InternalGetNames(RuntimeType enumType) {
+  return GetEnumInfo(enumType)->Names;
+}
+
+Type Enum___::GetUnderlyingType(Type enumType) {
+  if (enumType == nullptr) {
+    rt::throw_exception<ArgumentNullException>("enumType");
+  }
+  return enumType->GetEnumUnderlyingType();
+}
+
+Array<> Enum___::GetValues(Type enumType) {
+  if ((Object)enumType == nullptr) {
+    rt::throw_exception<ArgumentNullException>("enumType");
+  }
+  return enumType->GetEnumValues();
+}
+
+Boolean Enum___::HasFlag(Enum flag) {
+  if (flag == nullptr) {
+    rt::throw_exception<ArgumentNullException>("flag");
+  }
+  if (!GetType()->IsEquivalentTo(flag->GetType())) {
+    rt::throw_exception<ArgumentException>(SR::Format(SR::get_Argument_EnumTypeDoesNotMatch(), flag->GetType(), GetType()));
+  }
+  return InternalHasFlag(flag);
+}
+
+Array<UInt64> Enum___::InternalGetValues(RuntimeType enumType) {
+  return GetEnumInfo(enumType, false)->Values;
+}
+
+Boolean Enum___::IsDefined(Type enumType, Object value) {
+  if ((Object)enumType == nullptr) {
+    rt::throw_exception<ArgumentNullException>("enumType");
+  }
+  return enumType->IsEnumDefined(value);
 }
 
 Object Enum___::Parse(Type enumType, String value) {
@@ -572,30 +478,6 @@ Object Enum___::ToObject(Type enumType, Object value) {
   if (value == nullptr) {
     rt::throw_exception<ArgumentNullException>("value");
   }
-  switch (Convert::GetTypeCode(value)) {
-    case TypeCode::Int32:
-      return ToObject(enumType, (Int32)value);
-    case TypeCode::SByte:
-      return ToObject(enumType, (SByte)value);
-    case TypeCode::Int16:
-      return ToObject(enumType, (Int16)value);
-    case TypeCode::Int64:
-      return ToObject(enumType, (Int64)value);
-    case TypeCode::UInt32:
-      return ToObject(enumType, (UInt32)value);
-    case TypeCode::Byte:
-      return ToObject(enumType, (Byte)value);
-    case TypeCode::UInt16:
-      return ToObject(enumType, (UInt16)value);
-    case TypeCode::UInt64:
-      return ToObject(enumType, (UInt64)value);
-    case TypeCode::Char:
-      return ToObject(enumType, (Char)value);
-    case TypeCode::Boolean:
-      return ToObject(enumType, (Boolean)value);
-    default:
-      rt::throw_exception<ArgumentException>(SR::get_Arg_MustBeEnumBaseTypeOrEnum(), "value");
-  }
 }
 
 String Enum___::Format(Type enumType, Object value, String format) {
@@ -643,38 +525,6 @@ String Enum___::Format(Type enumType, Object value, String format) {
 
 Object Enum___::GetValue() {
   Byte& rawData = RuntimeHelpers::GetRawData(this);
-  switch (InternalGetCorElementType()) {
-    case CorElementType::ELEMENT_TYPE_I1:
-      return Unsafe::As<Byte, SByte>(rawData);
-    case CorElementType::ELEMENT_TYPE_U1:
-      return rawData;
-    case CorElementType::ELEMENT_TYPE_BOOLEAN:
-      return Unsafe::As<Byte, Boolean>(rawData);
-    case CorElementType::ELEMENT_TYPE_I2:
-      return Unsafe::As<Byte, Int16>(rawData);
-    case CorElementType::ELEMENT_TYPE_U2:
-      return Unsafe::As<Byte, UInt16>(rawData);
-    case CorElementType::ELEMENT_TYPE_CHAR:
-      return Unsafe::As<Byte, Char>(rawData);
-    case CorElementType::ELEMENT_TYPE_I4:
-      return Unsafe::As<Byte, Int32>(rawData);
-    case CorElementType::ELEMENT_TYPE_U4:
-      return Unsafe::As<Byte, UInt32>(rawData);
-    case CorElementType::ELEMENT_TYPE_R4:
-      return Unsafe::As<Byte, Single>(rawData);
-    case CorElementType::ELEMENT_TYPE_I8:
-      return Unsafe::As<Byte, Int64>(rawData);
-    case CorElementType::ELEMENT_TYPE_U8:
-      return Unsafe::As<Byte, UInt64>(rawData);
-    case CorElementType::ELEMENT_TYPE_R8:
-      return Unsafe::As<Byte, Double>(rawData);
-    case CorElementType::ELEMENT_TYPE_I:
-      return Unsafe::As<Byte, IntPtr>(rawData);
-    case CorElementType::ELEMENT_TYPE_U:
-      return Unsafe::As<Byte, UIntPtr>(rawData);
-    default:
-      rt::throw_exception<InvalidOperationException>(SR::get_InvalidOperation_UnknownEnumType());
-  }
 }
 
 UInt64 Enum___::ToUInt64() {
@@ -712,38 +562,6 @@ UInt64 Enum___::ToUInt64() {
 
 Int32 Enum___::GetHashCode() {
   Byte& rawData = RuntimeHelpers::GetRawData(this);
-  switch (InternalGetCorElementType()) {
-    case CorElementType::ELEMENT_TYPE_I1:
-      return Unsafe::As<Byte, SByte>(rawData).GetHashCode();
-    case CorElementType::ELEMENT_TYPE_U1:
-      return rawData.GetHashCode();
-    case CorElementType::ELEMENT_TYPE_BOOLEAN:
-      return Unsafe::As<Byte, Boolean>(rawData).GetHashCode();
-    case CorElementType::ELEMENT_TYPE_I2:
-      return Unsafe::As<Byte, Int16>(rawData).GetHashCode();
-    case CorElementType::ELEMENT_TYPE_U2:
-      return Unsafe::As<Byte, UInt16>(rawData).GetHashCode();
-    case CorElementType::ELEMENT_TYPE_CHAR:
-      return Unsafe::As<Byte, Char>(rawData).GetHashCode();
-    case CorElementType::ELEMENT_TYPE_I4:
-      return Unsafe::As<Byte, Int32>(rawData).GetHashCode();
-    case CorElementType::ELEMENT_TYPE_U4:
-      return Unsafe::As<Byte, UInt32>(rawData).GetHashCode();
-    case CorElementType::ELEMENT_TYPE_R4:
-      return Unsafe::As<Byte, Single>(rawData).GetHashCode();
-    case CorElementType::ELEMENT_TYPE_I8:
-      return Unsafe::As<Byte, Int64>(rawData).GetHashCode();
-    case CorElementType::ELEMENT_TYPE_U8:
-      return Unsafe::As<Byte, UInt64>(rawData).GetHashCode();
-    case CorElementType::ELEMENT_TYPE_R8:
-      return Unsafe::As<Byte, Double>(rawData).GetHashCode();
-    case CorElementType::ELEMENT_TYPE_I:
-      return Unsafe::As<Byte, IntPtr>(rawData).GetHashCode();
-    case CorElementType::ELEMENT_TYPE_U:
-      return Unsafe::As<Byte, UIntPtr>(rawData).GetHashCode();
-    default:
-      rt::throw_exception<InvalidOperationException>(SR::get_InvalidOperation_UnknownEnumType());
-  }
 }
 
 String Enum___::ToString() {
@@ -826,82 +644,58 @@ String Enum___::ToString(IFormatProvider provider) {
 }
 
 TypeCode Enum___::GetTypeCode() {
-  switch (InternalGetCorElementType()) {
-    case CorElementType::ELEMENT_TYPE_I1:
-      return TypeCode::SByte;
-    case CorElementType::ELEMENT_TYPE_U1:
-      return TypeCode::Byte;
-    case CorElementType::ELEMENT_TYPE_BOOLEAN:
-      return TypeCode::Boolean;
-    case CorElementType::ELEMENT_TYPE_I2:
-      return TypeCode::Int16;
-    case CorElementType::ELEMENT_TYPE_U2:
-      return TypeCode::UInt16;
-    case CorElementType::ELEMENT_TYPE_CHAR:
-      return TypeCode::Char;
-    case CorElementType::ELEMENT_TYPE_I4:
-      return TypeCode::Int32;
-    case CorElementType::ELEMENT_TYPE_U4:
-      return TypeCode::UInt32;
-    case CorElementType::ELEMENT_TYPE_I8:
-      return TypeCode::Int64;
-    case CorElementType::ELEMENT_TYPE_U8:
-      return TypeCode::UInt64;
-    default:
-      rt::throw_exception<InvalidOperationException>(SR::get_InvalidOperation_UnknownEnumType());
-  }
 }
 
 Boolean Enum___::ToBooleanOfIConvertible(IFormatProvider provider) {
-  return Convert::ToBoolean(GetValue(), CultureInfo::in::get_CurrentCulture());
+  return Convert::ToBoolean(GetValue());
 }
 
 Char Enum___::ToCharOfIConvertible(IFormatProvider provider) {
-  return Convert::ToChar(GetValue(), CultureInfo::in::get_CurrentCulture());
+  return Convert::ToChar(GetValue());
 }
 
 SByte Enum___::ToSByteOfIConvertible(IFormatProvider provider) {
-  return Convert::ToSByte(GetValue(), CultureInfo::in::get_CurrentCulture());
+  return Convert::ToSByte(GetValue());
 }
 
 Byte Enum___::ToByteOfIConvertible(IFormatProvider provider) {
-  return Convert::ToByte(GetValue(), CultureInfo::in::get_CurrentCulture());
+  return Convert::ToByte(GetValue());
 }
 
 Int16 Enum___::ToInt16OfIConvertible(IFormatProvider provider) {
-  return Convert::ToInt16(GetValue(), CultureInfo::in::get_CurrentCulture());
+  return Convert::ToInt16(GetValue());
 }
 
 UInt16 Enum___::ToUInt16OfIConvertible(IFormatProvider provider) {
-  return Convert::ToUInt16(GetValue(), CultureInfo::in::get_CurrentCulture());
+  return Convert::ToUInt16(GetValue());
 }
 
 Int32 Enum___::ToInt32OfIConvertible(IFormatProvider provider) {
-  return Convert::ToInt32(GetValue(), CultureInfo::in::get_CurrentCulture());
+  return Convert::ToInt32(GetValue());
 }
 
 UInt32 Enum___::ToUInt32OfIConvertible(IFormatProvider provider) {
-  return Convert::ToUInt32(GetValue(), CultureInfo::in::get_CurrentCulture());
+  return Convert::ToUInt32(GetValue());
 }
 
 Int64 Enum___::ToInt64OfIConvertible(IFormatProvider provider) {
-  return Convert::ToInt64(GetValue(), CultureInfo::in::get_CurrentCulture());
+  return Convert::ToInt64(GetValue());
 }
 
 UInt64 Enum___::ToUInt64OfIConvertible(IFormatProvider provider) {
-  return Convert::ToUInt64(GetValue(), CultureInfo::in::get_CurrentCulture());
+  return Convert::ToUInt64(GetValue());
 }
 
 Single Enum___::ToSingleOfIConvertible(IFormatProvider provider) {
-  return Convert::ToSingle(GetValue(), CultureInfo::in::get_CurrentCulture());
+  return Convert::ToSingle(GetValue());
 }
 
 Double Enum___::ToDoubleOfIConvertible(IFormatProvider provider) {
-  return Convert::ToDouble(GetValue(), CultureInfo::in::get_CurrentCulture());
+  return Convert::ToDouble(GetValue());
 }
 
 Decimal Enum___::ToDecimalOfIConvertible(IFormatProvider provider) {
-  return Convert::ToDecimal(GetValue(), CultureInfo::in::get_CurrentCulture());
+  return Convert::ToDecimal(GetValue());
 }
 
 DateTime Enum___::ToDateTimeOfIConvertible(IFormatProvider provider) {
@@ -950,6 +744,20 @@ Object Enum___::ToObject(Type enumType, Char value) {
 
 Object Enum___::ToObject(Type enumType, Boolean value) {
   return InternalBoxEnum(ValidateRuntimeType(enumType), value ? 1 : 0);
+}
+
+RuntimeType Enum___::ValidateRuntimeType(Type enumType) {
+  if (enumType == nullptr) {
+    rt::throw_exception<ArgumentNullException>("enumType");
+  }
+  if (!enumType->get_IsEnum()) {
+    rt::throw_exception<ArgumentException>(SR::get_Arg_MustBeEnum(), "enumType");
+  }
+  RuntimeType runtimeType = rt::as<RuntimeType>(enumType);
+  if ((Object)runtimeType == nullptr) {
+    rt::throw_exception<ArgumentException>(SR::get_Arg_MustBeType(), "enumType");
+  }
+  return runtimeType;
 }
 
 void Enum___::ctor() {

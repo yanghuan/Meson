@@ -16,9 +16,7 @@
 
 namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)
-FORWARD(AsyncCallback)
 FORWARDS(Boolean)
-FORWARD(IAsyncResult)
 FORWARD(Object)
 FORWARDS(ReadOnlySpan, T)
 FORWARDS(Span, T)
@@ -146,27 +144,6 @@ class Interop {
       private: Char _cFileName[260];
       private: Char _cAlternateFileName[14];
     };
-    public: CLASS(EnumLocalesProcEx) : public MulticastDelegate::in {
-      public: void ctor(Object object, IntPtr method);
-      public: BOOL Invoke(Char* lpLocaleString, UInt32 dwFlags, void* lParam);
-      public: IAsyncResult BeginInvoke(Char* lpLocaleString, UInt32 dwFlags, void* lParam, AsyncCallback callback, Object object);
-      public: BOOL EndInvoke(IAsyncResult result);
-      public: static constexpr rt::TypeCode code = rt::TypeCode::Delegate;
-    };
-    public: CLASS(EnumTimeFormatsProcEx) : public MulticastDelegate::in {
-      public: void ctor(Object object, IntPtr method);
-      public: BOOL Invoke(Char* lpTimeFormatString, void* lParam);
-      public: IAsyncResult BeginInvoke(Char* lpTimeFormatString, void* lParam, AsyncCallback callback, Object object);
-      public: BOOL EndInvoke(IAsyncResult result);
-      public: static constexpr rt::TypeCode code = rt::TypeCode::Delegate;
-    };
-    public: CLASS(EnumCalendarInfoProcExEx) : public MulticastDelegate::in {
-      public: void ctor(Object object, IntPtr method);
-      public: BOOL Invoke(Char* lpCalendarInfoString, UInt32 Calendar, IntPtr lpReserved, void* lParam);
-      public: IAsyncResult BeginInvoke(Char* lpCalendarInfoString, UInt32 Calendar, IntPtr lpReserved, void* lParam, AsyncCallback callback, Object object);
-      public: BOOL EndInvoke(IAsyncResult result);
-      public: static constexpr rt::TypeCode code = rt::TypeCode::Delegate;
-    };
     public: struct NlsVersionInfoEx : public valueType<NlsVersionInfoEx> {
       public: Int32 dwNLSVersionInfoSize;
       public: Int32 dwNLSVersion;
@@ -281,13 +258,13 @@ class Interop {
     public: static Boolean IsNLSDefinedString(Int32 Function, UInt32 dwFlags, IntPtr lpVersionInformation, Char* lpString, Int32 cchStr);
     public: static BOOL GetUserPreferredUILanguages(UInt32 dwFlags, UInt32* pulNumLanguages, Char* pwszLanguagesBuffer, UInt32* pcchLanguagesBuffer);
     public: static Int32 GetLocaleInfoEx(String lpLocaleName, UInt32 LCType, void* lpLCData, Int32 cchData);
-    public: static Boolean EnumSystemLocalesEx(EnumLocalesProcEx lpLocaleEnumProcEx, UInt32 dwFlags, void* lParam, IntPtr reserved);
-    public: static Boolean EnumTimeFormatsEx(EnumTimeFormatsProcEx lpTimeFmtEnumProcEx, String lpLocaleName, UInt32 dwFlags, void* lParam);
+    public: static Boolean EnumSystemLocalesEx(delegate* lpLocaleEnumProcEx, UInt32 dwFlags, void* lParam, IntPtr reserved);
+    public: static Boolean EnumTimeFormatsEx(delegate* lpTimeFmtEnumProcEx, String lpLocaleName, UInt32 dwFlags, void* lParam);
     public: static Int32 GetCalendarInfoEx(String lpLocaleName, UInt32 Calendar, IntPtr lpReserved, UInt32 CalType, IntPtr lpCalData, Int32 cchData, Int32& lpValue);
     public: static Int32 GetCalendarInfoEx(String lpLocaleName, UInt32 Calendar, IntPtr lpReserved, UInt32 CalType, IntPtr lpCalData, Int32 cchData, IntPtr lpValue);
     public: static Int32 GetUserGeoID(Int32 geoClass);
     public: static Int32 GetGeoInfo(Int32 location, Int32 geoType, Char* lpGeoData, Int32 cchData, Int32 LangId);
-    public: static Boolean EnumCalendarInfoExEx(EnumCalendarInfoProcExEx pCalInfoEnumProcExEx, String lpLocaleName, UInt32 Calendar, String lpReserved, UInt32 CalType, void* lParam);
+    public: static Boolean EnumCalendarInfoExEx(delegate* pCalInfoEnumProcExEx, String lpLocaleName, UInt32 Calendar, String lpReserved, UInt32 CalType, void* lParam);
     public: static Boolean GetNLSVersionEx(Int32 function, String localeName, NlsVersionInfoEx* lpVersionInformation);
     public: static Int32 ResolveLocaleName(String lpNameToResolve, Char* lpLocaleName, Int32 cchLocaleName);
     public: static Boolean CancelIoEx(SafeHandle handle, NativeOverlapped* lpOverlapped);
@@ -320,7 +297,6 @@ class Interop {
     public: static UInt32 GetTempFileNameW(Char& lpPathName, String lpPrefixString, UInt32 uUnique, Char& lpTempFileName);
     public: static UInt32 GetTempPathW(Int32 bufferLen, Char& buffer);
     public: static Boolean GlobalMemoryStatusEx(MEMORYSTATUSEX& lpBuffer);
-    public: static Boolean IsWow64Process(IntPtr hProcess, Boolean& Wow64Process);
     public: static IntPtr LoadLibraryEx(String libFilename, IntPtr reserved, Int32 flags);
     public: static Boolean LockFile(SafeFileHandle handle, Int32 offsetLow, Int32 offsetHigh, Int32 countLow, Int32 countHigh);
     public: static Boolean UnlockFile(SafeFileHandle handle, Int32 offsetLow, Int32 offsetHigh, Int32 countLow, Int32 countHigh);
@@ -372,6 +348,7 @@ class Interop {
     public: static IntPtr CoTaskMemRealloc(IntPtr pv, UIntPtr cb);
     public: static void CoTaskMemFree(IntPtr ptr);
     public: static Int32 CoCreateGuid(Guid& guid);
+    public: static Int32 CoGetStandardMarshal(Guid& riid, IntPtr pv, Int32 dwDestContext, IntPtr pvDestContext, Int32 mshlflags, IntPtr& ppMarshal);
   };
   public: class OleAut32 {
     public: static IntPtr SysAllocStringByteLen(Array<Byte> str, UInt32 len);
@@ -386,31 +363,23 @@ class Interop {
       InsufficentBuffer = 2,
       OutOfMemory = 3,
     };
-    public: CLASS(EnumCalendarInfoCallback) : public MulticastDelegate::in {
-      public: void ctor(Object object, IntPtr method);
-      public: void Invoke(String calendarString, IntPtr context);
-      public: IAsyncResult BeginInvoke(String calendarString, IntPtr context, AsyncCallback callback, Object object);
-      public: void EndInvoke(IAsyncResult result);
-      public: static constexpr rt::TypeCode code = rt::TypeCode::Delegate;
-    };
     public: static Int32 GetCalendars(String localeName, Array<CalendarId> calendars, Int32 calendarsCapacity);
     public: static ResultCode GetCalendarInfo(String localeName, CalendarId calendarId, CalendarDataType calendarDataType, Char* result, Int32 resultCapacity);
-    public: static Boolean EnumCalendarInfo(EnumCalendarInfoCallback callback, String localeName, CalendarId calendarId, CalendarDataType calendarDataType, IntPtr context);
+    public: static Boolean EnumCalendarInfo(delegate* callback, String localeName, CalendarId calendarId, CalendarDataType calendarDataType, IntPtr context);
     public: static Int32 GetLatestJapaneseEra();
     public: static Boolean GetJapaneseEraStartDate(Int32 era, Int32& startYear, Int32& startMonth, Int32& startDay);
     public: static void ChangeCase(Char* src, Int32 srcLen, Char* dstBuffer, Int32 dstBufferCapacity, Boolean bToUpper);
     public: static void ChangeCaseInvariant(Char* src, Int32 srcLen, Char* dstBuffer, Int32 dstBufferCapacity, Boolean bToUpper);
     public: static void ChangeCaseTurkish(Char* src, Int32 srcLen, Char* dstBuffer, Int32 dstBufferCapacity, Boolean bToUpper);
+    public: static void InitOrdinalCasingPage(Int32 pageNumber, Char* pTarget);
     public: static ResultCode GetSortHandle(String localeName, IntPtr& sortHandle);
     public: static void CloseSortHandle(IntPtr handle);
     public: static Int32 CompareString(IntPtr sortHandle, Char* lpStr1, Int32 cwStr1Len, Char* lpStr2, Int32 cwStr2Len, CompareOptions options);
     public: static Int32 IndexOf(IntPtr sortHandle, Char* target, Int32 cwTargetLength, Char* pSource, Int32 cwSourceLength, CompareOptions options, Int32* matchLengthPtr);
     public: static Int32 LastIndexOf(IntPtr sortHandle, Char* target, Int32 cwTargetLength, Char* pSource, Int32 cwSourceLength, CompareOptions options, Int32* matchLengthPtr);
-    public: static Int32 IndexOfOrdinalIgnoreCase(Char* target, Int32 cwTargetLength, Char* pSource, Int32 cwSourceLength, Boolean findLast);
-    public: static Boolean StartsWith(IntPtr sortHandle, Char* target, Int32 cwTargetLength, Char* source, Int32 cwSourceLength, CompareOptions options);
-    public: static Boolean EndsWith(IntPtr sortHandle, Char* target, Int32 cwTargetLength, Char* source, Int32 cwSourceLength, CompareOptions options);
+    public: static Boolean StartsWith(IntPtr sortHandle, Char* target, Int32 cwTargetLength, Char* source, Int32 cwSourceLength, CompareOptions options, Int32* matchedLength);
+    public: static Boolean EndsWith(IntPtr sortHandle, Char* target, Int32 cwTargetLength, Char* source, Int32 cwSourceLength, CompareOptions options, Int32* matchedLength);
     public: static Int32 GetSortKey(IntPtr sortHandle, Char* str, Int32 strLength, Byte* sortKey, Int32 sortKeyLength, CompareOptions options);
-    public: static Int32 CompareStringOrdinalIgnoreCase(Char* lpStr1, Int32 cwStr1Len, Char* lpStr2, Int32 cwStr2Len);
     public: static Int32 GetSortVersion(IntPtr sortHandle);
     public: static Int32 LoadICU();
     public: static void InitICUFunctions(IntPtr icuuc, IntPtr icuin, ReadOnlySpan<Char> version, ReadOnlySpan<Char> suffix);
@@ -461,8 +430,6 @@ class Interop {
     public: CLASS(EtwEnableCallback) : public MulticastDelegate::in {
       public: void ctor(Object object, IntPtr method);
       public: void Invoke(Guid& sourceId, Int32 isEnabled, Byte level, Int64 matchAnyKeywords, Int64 matchAllKeywords, EVENT_FILTER_DESCRIPTOR* filterData, void* callbackContext);
-      public: IAsyncResult BeginInvoke(Guid& sourceId, Int32 isEnabled, Byte level, Int64 matchAnyKeywords, Int64 matchAllKeywords, EVENT_FILTER_DESCRIPTOR* filterData, void* callbackContext, AsyncCallback callback, Object object);
-      public: void EndInvoke(Guid& sourceId, IAsyncResult result);
       public: static constexpr rt::TypeCode code = rt::TypeCode::Delegate;
     };
     public: struct TRACE_GUID_INFO : public valueType<TRACE_GUID_INFO> {
@@ -508,15 +475,11 @@ class Interop {
     public: CLASS(corehost_resolve_component_dependencies_result_fn) : public MulticastDelegate::in {
       public: void ctor(Object object, IntPtr method);
       public: void Invoke(String assemblyPaths, String nativeSearchPaths, String resourceSearchPaths);
-      public: IAsyncResult BeginInvoke(String assemblyPaths, String nativeSearchPaths, String resourceSearchPaths, AsyncCallback callback, Object object);
-      public: void EndInvoke(IAsyncResult result);
       public: static constexpr rt::TypeCode code = rt::TypeCode::Delegate;
     };
     public: CLASS(corehost_error_writer_fn) : public MulticastDelegate::in {
       public: void ctor(Object object, IntPtr method);
       public: void Invoke(String message);
-      public: IAsyncResult BeginInvoke(String message, AsyncCallback callback, Object object);
-      public: void EndInvoke(IAsyncResult result);
       public: static constexpr rt::TypeCode code = rt::TypeCode::Delegate;
     };
     public: static Int32 corehost_resolve_component_dependencies(String componentMainAssemblyPath, corehost_resolve_component_dependencies_result_fn result);
@@ -578,7 +541,6 @@ class Interop {
   public: template <class TArg1, class TArg2, class TArg3>
   static Boolean CallStringMethod(SpanFunc<Char, TArg1, TArg2, TArg3, Globalization::ResultCode> interopCall, TArg1 arg1, TArg2 arg2, TArg3 arg3, String& result);
   public: static void GetRandomBytes(Byte* buffer, Int32 length);
-  public: static UInt32 GetCurrentProcessId();
 };
 } // namespace InteropNamespace
 using Interop = InteropNamespace::Interop;

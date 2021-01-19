@@ -131,7 +131,7 @@ Exception AggregateException___::GetBaseException() {
   AggregateException ex2 = (AggregateException)this;
   while (ex2 != nullptr && ex2->get_InnerExceptions()->get_Count() == 1) {
     ex = ex->get_InnerException();
-    ex2 = (rt::as<AggregateException>(ex));
+    ex2 = rt::as<AggregateException>(ex);
   }
   return ex;
 }

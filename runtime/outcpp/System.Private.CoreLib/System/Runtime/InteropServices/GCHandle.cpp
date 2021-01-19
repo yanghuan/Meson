@@ -15,6 +15,8 @@
 #include <System.Private.CoreLib/System/Threading/Interlocked-dep.h>
 #include <System.Private.CoreLib/System/ThrowHelper-dep.h>
 #include <System.Private.CoreLib/System/Type-dep.h>
+#include <System.Private.CoreLib/System/UInt64-dep.h>
+#include <System.Private.CoreLib/System/UIntPtr-dep.h>
 
 namespace System::Private::CoreLib::System::Runtime::InteropServices::GCHandleNamespace {
 using namespace Internal::Runtime::CompilerServices;
@@ -143,7 +145,7 @@ IntPtr GCHandle::GetHandleValue(IntPtr handle) {
 }
 
 Boolean GCHandle::IsPinned(IntPtr handle) {
-  return (IntPtr)(void*)((Int64)handle & 1) != (IntPtr)(Int32)0;
+  return (UIntPtr)(void*)((UInt64)(Int64)handle & 1) != (UIntPtr)(void*)(void*)nullptr;
 }
 
 void GCHandle::ThrowIfInvalid(IntPtr handle) {

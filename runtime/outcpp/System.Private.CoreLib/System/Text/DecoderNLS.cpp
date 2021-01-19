@@ -149,7 +149,7 @@ void DecoderNLS___::Convert(Byte* bytes, Int32 byteCount, Char* chars, Int32 cha
   _bytesUsed = 0;
   charsUsed = _encoding->GetChars(bytes, byteCount, chars, charCount, (DecoderNLS)this);
   bytesUsed = _bytesUsed;
-  completed = (bytesUsed == byteCount && (!flush || !get_HasState()) && (_fallbackBuffer == nullptr || _fallbackBuffer->get_Remaining() == 0));
+  completed = bytesUsed == byteCount && (!flush || !get_HasState()) && (_fallbackBuffer == nullptr || _fallbackBuffer->get_Remaining() == 0);
 }
 
 void DecoderNLS___::ClearMustFlush() {
@@ -171,9 +171,8 @@ void DecoderNLS___::ClearLeftoverData() {
 
 Int32 DecoderNLS___::DrainLeftoverDataForGetCharCount(ReadOnlySpan<Byte> bytes, Int32& bytesConsumed) {
   Byte as[4] = {};
-  Span<Byte> span = Span<Byte>(as, 4);
-  Span<Byte> span2 = span;
-  span2 = span2.Slice(0, ConcatInto(GetLeftoverData(), bytes, span2));
+  Span<Byte> span = as;
+  span = span.Slice(0, ConcatInto(GetLeftoverData(), bytes, span));
   Int32 result = 0;
   Rune value;
   Int32 bytesConsumed2;
@@ -181,14 +180,13 @@ Int32 DecoderNLS___::DrainLeftoverDataForGetCharCount(ReadOnlySpan<Byte> bytes, 
 
 Int32 DecoderNLS___::DrainLeftoverDataForGetChars(ReadOnlySpan<Byte> bytes, Span<Char> chars, Int32& bytesConsumed) {
   Byte as[4] = {};
-  Span<Byte> span = Span<Byte>(as, 4);
-  Span<Byte> span2 = span;
-  span2 = span2.Slice(0, ConcatInto(GetLeftoverData(), bytes, span2));
+  Span<Byte> span = as;
+  span = span.Slice(0, ConcatInto(GetLeftoverData(), bytes, span));
   Int32 charsWritten = 0;
   Boolean flag = false;
   Rune value;
   Int32 bytesConsumed2;
-  switch (_encoding->DecodeFirstRune(span2, value, bytesConsumed2)) {
+  switch (_encoding->DecodeFirstRune(span, value, bytesConsumed2)) {
     case OperationStatus::Done:
       if (!value.TryEncodeToUtf16(chars, charsWritten)) {
         break;
@@ -201,7 +199,7 @@ Int32 DecoderNLS___::DrainLeftoverDataForGetChars(ReadOnlySpan<Byte> bytes, Span
       goto IL_00aa;
     default:
       {
-        if (Decoder::in::get_FallbackBuffer()->Fallback(span2.Slice(0, bytesConsumed2).ToArray(), -_leftoverByteCount) && !_fallbackBuffer->TryDrainRemainingDataForGetChars(chars, charsWritten)) {
+        if (Decoder::in::get_FallbackBuffer()->Fallback(span.Slice(0, bytesConsumed2).ToArray(), -_leftoverByteCount) && !_fallbackBuffer->TryDrainRemainingDataForGetChars(chars, charsWritten)) {
           break;
         }
         goto IL_00aa;
@@ -209,7 +207,7 @@ Int32 DecoderNLS___::DrainLeftoverDataForGetChars(ReadOnlySpan<Byte> bytes, Span
     IL_00aa:
       bytesConsumed = bytesConsumed2 - _leftoverByteCount;
       if (flag) {
-        SetLeftoverData(span2);
+        SetLeftoverData(span);
       } else {
         ClearLeftoverData();
       }

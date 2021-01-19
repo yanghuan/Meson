@@ -314,7 +314,7 @@ String UriBuilder___::ToString() {
       _schemeDelimiter = ((_host->get_Length() != 0) ? Uri::in::SchemeDelimiter : ":");
     }
   }
-  String text = (_scheme->get_Length() != 0) ? (_scheme + _schemeDelimiter) : String::in::Empty;
+  String text = ((_scheme->get_Length() != 0) ? (_scheme + _schemeDelimiter) : String::in::Empty);
   return text + _username + ((_password->get_Length() > 0) ? (":" + _password) : String::in::Empty) + ((_username->get_Length() > 0) ? "@" : String::in::Empty) + _host + ((_port != -1 && _host->get_Length() > 0) ? (":" + _port) : String::in::Empty) + ((_host->get_Length() > 0 && _path->get_Length() != 0 && _path[0] != '/') ? "/" : String::in::Empty) + _path + _query + _fragment;
 }
 

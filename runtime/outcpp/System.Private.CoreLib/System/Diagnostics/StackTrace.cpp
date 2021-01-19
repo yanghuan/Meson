@@ -176,12 +176,12 @@ String StackTrace___::ToString(TraceFormat traceFormat) {
 }
 
 void StackTrace___::ToString(TraceFormat traceFormat, StringBuilder sb) {
-  String word_At = SR::get_Word_At();
-  String stackTrace_InFileLineNumber = SR::get_StackTrace_InFileLineNumber();
+  String resourceString = SR::GetResourceString("Word_At", "at");
+  String resourceString2 = SR::GetResourceString("StackTrace_InFileLineNumber", "in {0}:line {1}");
   Boolean flag = true;
   for (Int32 i = 0; i < _numOfFrames; i++) {
     StackFrame frame = GetFrame(i);
-    MethodBase method = (frame != nullptr) ? frame->GetMethod() : nullptr;
+    MethodBase method = ((frame != nullptr) ? frame->GetMethod() : nullptr);
     if (!(method != nullptr) || (!ShowInStackTrace(method) && i != _numOfFrames - 1)) {
       continue;
     }
@@ -190,14 +190,14 @@ void StackTrace___::ToString(TraceFormat traceFormat, StringBuilder sb) {
     } else {
       sb->AppendLine();
     }
-    sb->AppendFormat(CultureInfo::in::get_InvariantCulture(), "   {0} ", word_At);
+    sb->AppendFormat(CultureInfo::in::get_InvariantCulture(), "   {0} ", resourceString);
     Boolean flag2 = false;
     Type declaringType = method->get_DeclaringType();
     String name = method->get_Name();
     Boolean flag3 = false;
     if (declaringType != nullptr && declaringType->IsDefined(typeof<CompilerGeneratedAttribute>(), false)) {
-      flag2 = typeof<IAsyncStateMachine>()->IsAssignableFrom(declaringType);
-      if (flag2 || typeof<IEnumerator>()->IsAssignableFrom(declaringType)) {
+      flag2 = declaringType->IsAssignableTo(typeof<IAsyncStateMachine>());
+      if (flag2 || declaringType->IsAssignableTo(typeof<IEnumerator>())) {
         flag3 = TryResolveStateMachineMethod(method, declaringType);
       }
     }
@@ -258,12 +258,12 @@ void StackTrace___::ToString(TraceFormat traceFormat, StringBuilder sb) {
       String fileName = frame->GetFileName();
       if (fileName != nullptr) {
         sb->Append((Char)' ');
-        sb->AppendFormat(CultureInfo::in::get_InvariantCulture(), stackTrace_InFileLineNumber, fileName, frame->GetFileLineNumber());
+        sb->AppendFormat(CultureInfo::in::get_InvariantCulture(), resourceString2, fileName, frame->GetFileLineNumber());
       }
     }
     if (frame->get_IsLastFrameFromForeignExceptionStackTrace() && !flag2) {
       sb->AppendLine();
-      sb->Append(SR::get_Exception_EndStackTraceFromPreviousThrow());
+      sb->Append(SR::GetResourceString("Exception_EndStackTraceFromPreviousThrow", "--- End of stack trace from previous location ---"));
     }
   }
   if (traceFormat == TraceFormat::TrailingNewLine) {
@@ -306,7 +306,7 @@ Boolean StackTrace___::TryResolveStateMachineMethod(MethodBase& method, Type& de
     for (StateMachineAttribute&& item : *customAttributes) {
       if (item->get_StateMachineType() == declaringType) {
         flag = true;
-        flag2 = (flag2 || rt::is<IteratorStateMachineAttribute>(item) || rt::is<AsyncIteratorStateMachineAttribute>(item));
+        flag2 = flag2 || rt::is<IteratorStateMachineAttribute>(item) || rt::is<AsyncIteratorStateMachineAttribute>(item);
       }
     }
     if (flag) {

@@ -18,7 +18,7 @@ FORWARDS_(ValueTask, T1, T2)
 } // namespace System::Private::CoreLib::System::Threading::Tasks
 namespace System::Private::CoreLib::System::Threading {
 FORWARDS(CancellationToken)
-FORWARD_(ContextCallback, T1, T2)
+FORWARD(ContextCallback)
 FORWARD(ExecutionContext)
 FORWARD(ManualResetEvent)
 FORWARD(SendOrPostCallback)
@@ -37,7 +37,7 @@ CLASS(CancellationTokenSource) : public object {
       public: void ctor();
       public: void _ExecuteCallback_b__9_0(Object s);
       public: static __c __9;
-      public: static ContextCallback<> __9__9_0;
+      public: static ContextCallback __9__9_0;
     };
     public: void ctor(CallbackPartition partition);
     public: void ExecuteCallback();

@@ -13,6 +13,7 @@
 #include <System.Private.CoreLib/System/NotSupportedException-dep.h>
 #include <System.Private.CoreLib/System/ObjectDisposedException-dep.h>
 #include <System.Private.CoreLib/System/SR-dep.h>
+#include <System.Private.CoreLib/System/UInt32-dep.h>
 #include <System.Private.CoreLib/System/UInt64-dep.h>
 #include <System.Private.CoreLib/System/UIntPtr-dep.h>
 
@@ -42,7 +43,6 @@ Boolean UnmanagedMemoryAccessor___::get_IsOpen() {
 }
 
 void UnmanagedMemoryAccessor___::ctor() {
-  _isOpen = false;
 }
 
 void UnmanagedMemoryAccessor___::ctor(SafeBuffer buffer, Int64 offset, Int64 capacity) {
@@ -89,8 +89,8 @@ void UnmanagedMemoryAccessor___::Initialize(SafeBuffer buffer, Int64 offset, Int
   _capacity = capacity;
   _access = access;
   _isOpen = true;
-  _canRead = ((_access & FileAccess::Read) != 0);
-  _canWrite = ((_access & FileAccess::Write) != 0);
+  _canRead = (_access & FileAccess::Read) != 0;
+  _canWrite = (_access & FileAccess::Write) != 0;
 }
 
 void UnmanagedMemoryAccessor___::Dispose(Boolean disposing) {
@@ -186,7 +186,7 @@ Decimal UnmanagedMemoryAccessor___::ReadDecimal(Int64 position) {
       _buffer->ReleasePointer();
     }
   }
-  if ((num & 2130771967) != 0 || (num & 16711680) > 1835008) {
+  if (((UInt32)num & 2130771967u) != 0 || (num & 16711680) > 1835008) {
     rt::throw_exception<ArgumentException>(SR::get_Arg_BadDecimal());
   }
   Boolean isNegative = (num & Int32::MinValue) != 0;

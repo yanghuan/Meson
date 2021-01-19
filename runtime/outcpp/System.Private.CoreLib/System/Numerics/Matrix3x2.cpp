@@ -1,6 +1,7 @@
 #include "Matrix3x2-dep.h"
 
 #include <System.Private.CoreLib/System/Globalization/CultureInfo-dep.h>
+#include <System.Private.CoreLib/System/HashCode-dep.h>
 #include <System.Private.CoreLib/System/Math-dep.h>
 #include <System.Private.CoreLib/System/MathF-dep.h>
 #include <System.Private.CoreLib/System/Numerics/Matrix3x2-dep.h>
@@ -38,125 +39,92 @@ Matrix3x2::Matrix3x2(Single m11, Single m12, Single m21, Single m22, Single m31,
 }
 
 Matrix3x2 Matrix3x2::CreateTranslation(Vector2 position) {
-  Matrix3x2 result;
-  result.M11 = 1;
-  result.M12 = 0;
-  result.M21 = 0;
-  result.M22 = 1;
-  result.M31 = position.X;
-  result.M32 = position.Y;
-  return result;
+  Matrix3x2 identity = _identity;
+  identity.M31 = position.X;
+  identity.M32 = position.Y;
+  return identity;
 }
 
 Matrix3x2 Matrix3x2::CreateTranslation(Single xPosition, Single yPosition) {
-  Matrix3x2 result;
-  result.M11 = 1;
-  result.M12 = 0;
-  result.M21 = 0;
-  result.M22 = 1;
-  result.M31 = xPosition;
-  result.M32 = yPosition;
-  return result;
+  Matrix3x2 identity = _identity;
+  identity.M31 = xPosition;
+  identity.M32 = yPosition;
+  return identity;
 }
 
 Matrix3x2 Matrix3x2::CreateScale(Single xScale, Single yScale) {
-  Matrix3x2 result;
-  result.M11 = xScale;
-  result.M12 = 0;
-  result.M21 = 0;
-  result.M22 = yScale;
-  result.M31 = 0;
-  result.M32 = 0;
-  return result;
+  Matrix3x2 identity = _identity;
+  identity.M11 = xScale;
+  identity.M22 = yScale;
+  return identity;
 }
 
 Matrix3x2 Matrix3x2::CreateScale(Single xScale, Single yScale, Vector2 centerPoint) {
+  Matrix3x2 identity = _identity;
   Single m = centerPoint.X * (1 - xScale);
   Single m2 = centerPoint.Y * (1 - yScale);
-  Matrix3x2 result;
-  result.M11 = xScale;
-  result.M12 = 0;
-  result.M21 = 0;
-  result.M22 = yScale;
-  result.M31 = m;
-  result.M32 = m2;
-  return result;
+  identity.M11 = xScale;
+  identity.M22 = yScale;
+  identity.M31 = m;
+  identity.M32 = m2;
+  return identity;
 }
 
 Matrix3x2 Matrix3x2::CreateScale(Vector2 scales) {
-  Matrix3x2 result;
-  result.M11 = scales.X;
-  result.M12 = 0;
-  result.M21 = 0;
-  result.M22 = scales.Y;
-  result.M31 = 0;
-  result.M32 = 0;
-  return result;
+  Matrix3x2 identity = _identity;
+  identity.M11 = scales.X;
+  identity.M22 = scales.Y;
+  return identity;
 }
 
 Matrix3x2 Matrix3x2::CreateScale(Vector2 scales, Vector2 centerPoint) {
+  Matrix3x2 identity = _identity;
   Single m = centerPoint.X * (1 - scales.X);
   Single m2 = centerPoint.Y * (1 - scales.Y);
-  Matrix3x2 result;
-  result.M11 = scales.X;
-  result.M12 = 0;
-  result.M21 = 0;
-  result.M22 = scales.Y;
-  result.M31 = m;
-  result.M32 = m2;
-  return result;
+  identity.M11 = scales.X;
+  identity.M22 = scales.Y;
+  identity.M31 = m;
+  identity.M32 = m2;
+  return identity;
 }
 
 Matrix3x2 Matrix3x2::CreateScale(Single scale) {
-  Matrix3x2 result;
-  result.M11 = scale;
-  result.M12 = 0;
-  result.M21 = 0;
-  result.M22 = scale;
-  result.M31 = 0;
-  result.M32 = 0;
-  return result;
+  Matrix3x2 identity = _identity;
+  identity.M11 = scale;
+  identity.M22 = scale;
+  return identity;
 }
 
 Matrix3x2 Matrix3x2::CreateScale(Single scale, Vector2 centerPoint) {
+  Matrix3x2 identity = _identity;
   Single m = centerPoint.X * (1 - scale);
   Single m2 = centerPoint.Y * (1 - scale);
-  Matrix3x2 result;
-  result.M11 = scale;
-  result.M12 = 0;
-  result.M21 = 0;
-  result.M22 = scale;
-  result.M31 = m;
-  result.M32 = m2;
-  return result;
+  identity.M11 = scale;
+  identity.M22 = scale;
+  identity.M31 = m;
+  identity.M32 = m2;
+  return identity;
 }
 
 Matrix3x2 Matrix3x2::CreateSkew(Single radiansX, Single radiansY) {
+  Matrix3x2 identity = _identity;
   Single m = MathF::Tan(radiansX);
-  Single m2 = MathF::Tan(radiansY);
-  Matrix3x2 result;
-  result.M11 = 1;
-  result.M12 = m2;
-  result.M21 = m;
-  result.M22 = 1;
-  result.M31 = 0;
-  result.M32 = 0;
-  return result;
+  Single num = (identity.M12 = MathF::Tan(radiansY));
+  identity.M21 = m;
+  return identity;
 }
 
 Matrix3x2 Matrix3x2::CreateSkew(Single radiansX, Single radiansY, Vector2 centerPoint) {
+  Matrix3x2 identity = _identity;
   Single num = MathF::Tan(radiansX);
   Single num2 = MathF::Tan(radiansY);
   Single m = (0 - centerPoint.Y) * num;
   Single m2 = (0 - centerPoint.X) * num2;
-  Matrix3x2 result;
-  result.M11 = 1;
-  result.M12 = num2;
-  result.M21 = num;
-  result.M22 = 1;
-  result.M31 = m;
-  result.M32 = m2;
-  return result;
+  identity.M12 = num2;
+  identity.M21 = num;
+  identity.M31 = m;
+  identity.M32 = m2;
+  return identity;
 }
 
 Matrix3x2 Matrix3x2::CreateRotation(Single radians) {
@@ -182,14 +150,12 @@ Matrix3x2 Matrix3x2::CreateRotation(Single radians) {
 
 
 
-  Matrix3x2 result;
-  result.M11 = num;
-  result.M12 = num2;
-  result.M21 = 0 - num2;
-  result.M22 = num;
-  result.M31 = 0;
-  result.M32 = 0;
-  return result;
+  Matrix3x2 identity = _identity;
+  identity.M11 = num;
+  identity.M12 = num2;
+  identity.M21 = 0 - num2;
+  identity.M22 = num;
+  return identity;
 }
 
 Matrix3x2 Matrix3x2::CreateRotation(Single radians, Vector2 centerPoint) {
@@ -391,7 +357,8 @@ Boolean Matrix3x2::Equals(Matrix3x2 other) {
 
 Boolean Matrix3x2::Equals(Object obj) {
   if (rt::is<Matrix3x2>(obj)) {
-    return Equals((Matrix3x2)obj);
+    Matrix3x2 other = (Matrix3x2)obj;
+    return Equals(other);
   }
   return false;
 }
@@ -401,7 +368,7 @@ String Matrix3x2::ToString() {
 }
 
 Int32 Matrix3x2::GetHashCode() {
-  return M11.GetHashCode() + M12.GetHashCode() + M21.GetHashCode() + M22.GetHashCode() + M31.GetHashCode() + M32.GetHashCode();
+  return HashCode::Combine(M11, M12, M21, M22, M31, M32);
 }
 
 void Matrix3x2::cctor() {

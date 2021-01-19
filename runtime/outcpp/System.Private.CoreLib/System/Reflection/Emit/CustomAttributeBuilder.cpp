@@ -374,7 +374,7 @@ void CustomAttributeBuilder___::EmitValue(BinaryWriter writer, Type type, Object
     return;
   }
   if (type == typeof<Object>()) {
-    Type type2 = (value == nullptr) ? typeof<String>() : (rt::is<Type>(value) ? typeof<Type>() : value->GetType());
+    Type type2 = ((value == nullptr) ? typeof<String>() : (rt::is<Type>(value) ? typeof<Type>() : value->GetType()));
     if (type2 == typeof<Object>()) {
       rt::throw_exception<ArgumentException>(SR::Format(SR::get_Argument_BadParameterTypeForCAB(), type2));
     }

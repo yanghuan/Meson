@@ -5,6 +5,7 @@
 #include <System.Private.CoreLib/System/ArgumentNullException-dep.h>
 #include <System.Private.CoreLib/System/ArgumentOutOfRangeException-dep.h>
 #include <System.Private.CoreLib/System/Buffer-dep.h>
+#include <System.Private.CoreLib/System/Environment-dep.h>
 #include <System.Private.CoreLib/System/FormatException-dep.h>
 #include <System.Private.CoreLib/System/GC-dep.h>
 #include <System.Private.CoreLib/System/ICustomFormatter.h>
@@ -196,7 +197,7 @@ Span<Char> StringBuilder___::get_RemainingCurrentChunk() {
 Int32 StringBuilder___::GetReplaceBufferCapacity(Int32 requiredCapacity) {
   Int32 num = get_Capacity();
   if (num < requiredCapacity) {
-    num = ((requiredCapacity + 1) & -2);
+    num = (requiredCapacity + 1) & -2;
   }
   return num;
 }
@@ -377,7 +378,6 @@ void StringBuilder___::ctor(SerializationInfo info, StreamingContext context) {
   m_ChunkChars = GC::AllocateUninitializedArray<Char>(num);
   text->CopyTo(0, m_ChunkChars, 0, text->get_Length());
   m_ChunkLength = text->get_Length();
-  m_ChunkPrevious = nullptr;
 }
 
 void StringBuilder___::GetObjectDataOfISerializable(SerializationInfo info, StreamingContext context) {
@@ -517,8 +517,7 @@ StringBuilder StringBuilder___::Append(String value) {
     Array<Char> chunkChars = m_ChunkChars;
     Int32 chunkLength = m_ChunkLength;
     Int32 length = value->get_Length();
-    Int32 num = chunkLength + length;
-    if (num < chunkChars->get_Length()) {
+    if ((UInt32)(chunkLength + length) < (UInt32)chunkChars->get_Length()) {
       if (length <= 2) {
         if (length > 0) {
           chunkChars[chunkLength] = value[0];
@@ -536,7 +535,7 @@ StringBuilder StringBuilder___::Append(String value) {
           }
         }
       }
-      m_ChunkLength = num;
+      m_ChunkLength = chunkLength + length;
     } else {
       AppendHelper(value);
     }
@@ -631,12 +630,12 @@ StringBuilder StringBuilder___::AppendCore(StringBuilder value, Int32 startIndex
 }
 
 StringBuilder StringBuilder___::AppendLine() {
-  return Append((String)"\r\n");
+  return Append(Environment::get_NewLine());
 }
 
 StringBuilder StringBuilder___::AppendLine(String value) {
   Append(value);
-  return Append((String)"\r\n");
+  return Append(Environment::get_NewLine());
 }
 
 void StringBuilder___::CopyTo(Int32 sourceIndex, Array<Char> destination, Int32 destinationIndex, Int32 count) {
@@ -995,7 +994,7 @@ StringBuilder StringBuilder___::AppendFormat(String format, Object arg0, Object 
 
 StringBuilder StringBuilder___::AppendFormat(String format, Array<Object> args) {
   if (args == nullptr) {
-    String paramName = (format == nullptr) ? "format" : "args";
+    String paramName = ((format == nullptr) ? "format" : "args");
     rt::throw_exception<ArgumentNullException>(paramName);
   }
   return AppendFormatHelper(nullptr, format, ParamsArray(args));
@@ -1015,7 +1014,7 @@ StringBuilder StringBuilder___::AppendFormat(IFormatProvider provider, String fo
 
 StringBuilder StringBuilder___::AppendFormat(IFormatProvider provider, String format, Array<Object> args) {
   if (args == nullptr) {
-    String paramName = (format == nullptr) ? "format" : "args";
+    String paramName = ((format == nullptr) ? "format" : "args");
     rt::throw_exception<ArgumentNullException>(paramName);
   }
   return AppendFormatHelper(provider, format, ParamsArray(args));

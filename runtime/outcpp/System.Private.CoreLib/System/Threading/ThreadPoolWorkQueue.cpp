@@ -75,7 +75,7 @@ void ThreadPoolWorkQueue___::WorkStealingQueue___::LocalPush(Object obj) {
       m_array = array;
       m_headIndex = 0;
       num = (m_tailIndex = num2);
-      m_mask = ((m_mask << 1) | 1);
+      m_mask = (m_mask << 1) | 1;
     }
     Volatile::Write(m_array[num & m_mask], obj);
     m_tailIndex = num + 1;
@@ -137,7 +137,7 @@ Object ThreadPoolWorkQueue___::WorkStealingQueue___::LocalPopCore() {
     tailIndex--;
     Interlocked::Exchange(m_tailIndex, tailIndex);
     if (m_headIndex <= tailIndex) {
-      num = (tailIndex & m_mask);
+      num = tailIndex & m_mask;
       obj = Volatile::Read(m_array[num]);
       if (obj != nullptr) {
         break;

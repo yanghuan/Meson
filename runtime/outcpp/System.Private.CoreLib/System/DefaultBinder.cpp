@@ -96,7 +96,7 @@ MethodBase DefaultBinder___::BindToMethod(BindingFlags bindingAttr, Array<Method
       }
     }
 
-    Int32 num4 = (type != nullptr) ? (parametersNoCopy2->get_Length() - 1) : args->get_Length();
+    Int32 num4 = ((type != nullptr) ? (parametersNoCopy2->get_Length() - 1) : args->get_Length());
     for (j = 0; j < num4; j++) {
       Type type2 = parametersNoCopy2[j]->get_ParameterType();
       if (type2->get_IsByRef()) {
@@ -395,7 +395,7 @@ PropertyInfo DefaultBinder___::SelectProperty(BindingFlags bindingAttr, Array<Pr
   Array<PropertyInfo> array = (Array<PropertyInfo>)match->Clone();
   Int32 j = 0;
   Int32 num = 0;
-  Int32 num2 = (indexes != nullptr) ? indexes->get_Length() : 0;
+  Int32 num2 = ((indexes != nullptr) ? indexes->get_Length() : 0);
   for (Int32 k = 0; k < array->get_Length(); k++) {
     if (indexes != nullptr) {
       Array<ParameterInfo> indexParameters = array[k]->GetIndexParameters();
@@ -522,14 +522,6 @@ MethodBase DefaultBinder___::ExactBinding(Array<MethodBase> match, Array<Type> t
       num++;
     }
   }
-  switch (num.get()) {
-    case 0:
-      return nullptr;
-    case 1:
-      return array[0];
-    default:
-      return FindMostDerivedNewSlotMeth(array, num);
-  }
 }
 
 PropertyInfo DefaultBinder___::ExactPropertyBinding(Array<PropertyInfo> match, Type returnType, Array<Type> types, Array<ParameterModifier> modifiers) {
@@ -537,7 +529,7 @@ PropertyInfo DefaultBinder___::ExactPropertyBinding(Array<PropertyInfo> match, T
     rt::throw_exception<ArgumentNullException>("match");
   }
   PropertyInfo propertyInfo = nullptr;
-  Int32 num = (types != nullptr) ? types->get_Length() : 0;
+  Int32 num = ((types != nullptr) ? types->get_Length() : 0);
   for (Int32 i = 0; i < match->get_Length(); i++) {
     Array<ParameterInfo> indexParameters = match[i]->GetIndexParameters();
     Int32 j;
@@ -570,8 +562,8 @@ Int32 DefaultBinder___::FindMostSpecific(Array<ParameterInfo> p1, Array<Int32> p
     if (args != nullptr && args[i] == Type::in::Missing) {
       continue;
     }
-    Type type = (!(paramArrayType1 != nullptr) || paramOrder1[i] < p1->get_Length() - 1) ? p1[paramOrder1[i]]->get_ParameterType() : paramArrayType1;
-    Type type2 = (!(paramArrayType2 != nullptr) || paramOrder2[i] < p2->get_Length() - 1) ? p2[paramOrder2[i]]->get_ParameterType() : paramArrayType2;
+    Type type = ((!(paramArrayType1 != nullptr) || paramOrder1[i] < p1->get_Length() - 1) ? p1[paramOrder1[i]]->get_ParameterType() : paramArrayType1);
+    Type type2 = ((!(paramArrayType2 != nullptr) || paramOrder2[i] < p2->get_Length() - 1) ? p2[paramOrder2[i]]->get_ParameterType() : paramArrayType2);
     if (!(type == type2)) {
       switch (FindMostSpecificType(type, type2, types[i]).get()) {
         case 0:

@@ -68,7 +68,7 @@ Boolean ThreadPool::_GetQueuedWorkItems_d__51___::MoveNext() {
         }
       IL_006f:
         if (__7__wrap1->MoveNext()) {
-          Object obj = __2__current = __7__wrap1->get_Current();
+          Object obj = (__2__current = __7__wrap1->get_Current());
           __1__state = 1;
           return true;
         }
@@ -168,7 +168,7 @@ Boolean ThreadPool::_GetLocallyQueuedWorkItems_d__52___::MoveNext() {
   }
   __1__state = -1;
   ThreadPoolWorkQueueThreadLocals threadLocals = ThreadPoolWorkQueueThreadLocals::in::threadLocals;
-  ThreadPoolWorkQueue::in::WorkStealingQueue workStealingQueue = (threadLocals != nullptr) ? threadLocals->workStealingQueue : nullptr;
+  ThreadPoolWorkQueue::in::WorkStealingQueue workStealingQueue = ((threadLocals != nullptr) ? threadLocals->workStealingQueue : nullptr);
   if (workStealingQueue != nullptr && workStealingQueue->m_array != nullptr) {
     _items_5__2 = workStealingQueue->m_array;
     _i_5__3 = 0;
@@ -389,7 +389,7 @@ Boolean ThreadPool::QueueUserWorkItem(WaitCallback callBack, Object state) {
     ThrowHelper::ThrowArgumentNullException(ExceptionArgument::callBack);
   }
   ExecutionContext executionContext = ExecutionContext::in::Capture();
-  Object callback = (executionContext == nullptr || executionContext->get_IsDefault()) ? ((QueueUserWorkItemCallbackBase)rt::newobj<QueueUserWorkItemCallbackDefaultContext<>>(callBack, state)) : ((QueueUserWorkItemCallbackBase)rt::newobj<QueueUserWorkItemCallback<>>(callBack, state, executionContext));
+  Object callback = ((executionContext == nullptr || executionContext->get_IsDefault()) ? ((QueueUserWorkItemCallbackBase)rt::newobj<QueueUserWorkItemCallbackDefaultContext<>>(callBack, state)) : ((QueueUserWorkItemCallbackBase)rt::newobj<QueueUserWorkItemCallback<>>(callBack, state, executionContext)));
   s_workQueue->Enqueue(callback, true);
   return true;
 }
@@ -440,7 +440,7 @@ IEnumerable<Object> ThreadPool::GetQueuedWorkItems() {
 
 IEnumerable<Object> ThreadPool::GetLocallyQueuedWorkItems() {
   ThreadPoolWorkQueueThreadLocals threadLocals = ThreadPoolWorkQueueThreadLocals::in::threadLocals;
-  ThreadPoolWorkQueue::in::WorkStealingQueue workStealingQueue = (threadLocals != nullptr) ? threadLocals->workStealingQueue : nullptr;
+  ThreadPoolWorkQueue::in::WorkStealingQueue workStealingQueue = ((threadLocals != nullptr) ? threadLocals->workStealingQueue : nullptr);
   if (workStealingQueue == nullptr || workStealingQueue->m_array == nullptr) {
   }
   Array<Object> items = workStealingQueue->m_array;

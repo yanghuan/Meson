@@ -75,34 +75,10 @@ Boolean Utf8Formatter::TryFormat(DateTimeOffset value, Span<Byte> destination, I
     c = 'G';
     offset = value.get_Offset();
   }
-  switch (c.get()) {
-    case 'R':
-      return TryFormatDateTimeR(value.get_UtcDateTime(), destination, bytesWritten);
-    case 'l':
-      return TryFormatDateTimeL(value.get_UtcDateTime(), destination, bytesWritten);
-    case 'O':
-      return TryFormatDateTimeO(value.get_DateTime(), value.get_Offset(), destination, bytesWritten);
-    case 'G':
-      return TryFormatDateTimeG(value.get_DateTime(), offset, destination, bytesWritten);
-    default:
-      return FormattingHelpers::TryFormatThrowFormatException(bytesWritten);
-  }
 }
 
 template <>
 Boolean Utf8Formatter::TryFormat(DateTime value, Span<Byte> destination, Int32& bytesWritten, StandardFormat format) {
-  switch (FormattingHelpers::GetSymbolOrDefault(format, 'G').get()) {
-    case 'R':
-      return TryFormatDateTimeR(value, destination, bytesWritten);
-    case 'l':
-      return TryFormatDateTimeL(value, destination, bytesWritten);
-    case 'O':
-      return TryFormatDateTimeO(value, Utf8Constants::NullUtcOffset, destination, bytesWritten);
-    case 'G':
-      return TryFormatDateTimeG(value, Utf8Constants::NullUtcOffset, destination, bytesWritten);
-    default:
-      return FormattingHelpers::TryFormatThrowFormatException(bytesWritten);
-  }
 }
 
 Boolean Utf8Formatter::TryFormatDateTimeG(DateTime value, TimeSpan offset, Span<Byte> destination, Int32& bytesWritten) {
@@ -808,7 +784,7 @@ Boolean Utf8Formatter::TryFormatUInt64MultipleDigits(UInt64 value, Span<Byte> de
 Boolean Utf8Formatter::TryFormatUInt64N(UInt64 value, Byte precision, Span<Byte> destination, Boolean insertNegationSign, Int32& bytesWritten) {
   Int32 num = FormattingHelpers::CountDigits(value);
   Int32 num2 = (num - 1) / 3;
-  Int32 num3 = (precision == Byte::MaxValue) ? 2 : precision;
+  Int32 num3 = ((precision == Byte::MaxValue) ? 2 : precision);
   Int32 num4 = num + num2;
   if (num3 > 0) {
     num4 += num3 + 1;
@@ -835,7 +811,7 @@ Boolean Utf8Formatter::TryFormatUInt64N(UInt64 value, Byte precision, Span<Byte>
 
 Boolean Utf8Formatter::TryFormatUInt64X(UInt64 value, Byte precision, Boolean useLower, Span<Byte> destination, Int32& bytesWritten) {
   Int32 num = FormattingHelpers::CountHexDigits(value);
-  Int32 num2 = (precision == Byte::MaxValue) ? num : Math::Max(precision, num);
+  Int32 num2 = ((precision == Byte::MaxValue) ? num : Math::Max(precision, num));
   if (destination.get_Length() < num2) {
     bytesWritten = 0;
     return false;

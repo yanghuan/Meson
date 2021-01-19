@@ -45,7 +45,7 @@ Type RuntimeExceptionHandlingClause___::get_CatchType() {
   Type result = nullptr;
   if (!MetadataToken::IsNullToken(_catchMetadataToken)) {
     Type declaringType = _methodBody->_methodBase->get_DeclaringType();
-    Module module = (declaringType == nullptr) ? _methodBody->_methodBase->get_Module() : declaringType->get_Module();
+    Module module = ((declaringType == nullptr) ? _methodBody->_methodBase->get_Module() : declaringType->get_Module());
     result = module->ResolveType(_catchMetadataToken, ((Object)declaringType != nullptr) ? declaringType->GetGenericArguments() : nullptr, rt::is<MethodInfo>(_methodBody->_methodBase) ? _methodBody->_methodBase->GetGenericArguments() : nullptr);
   }
   return result;

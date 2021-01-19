@@ -135,7 +135,7 @@ void Decoder___::Convert(Array<Byte> bytes, Int32 byteIndex, Int32 byteCount, Ar
   for (bytesUsed = byteCount; bytesUsed > 0; bytesUsed /= 2) {
     if (GetCharCount(bytes, byteIndex, bytesUsed, flush) <= charCount) {
       charsUsed = GetChars(bytes, byteIndex, bytesUsed, chars, charIndex, flush);
-      completed = (bytesUsed == byteCount && (_fallbackBuffer == nullptr || _fallbackBuffer->get_Remaining() == 0));
+      completed = bytesUsed == byteCount && (_fallbackBuffer == nullptr || _fallbackBuffer->get_Remaining() == 0);
       return;
     }
     flush = false;
@@ -153,7 +153,7 @@ void Decoder___::Convert(Byte* bytes, Int32 byteCount, Char* chars, Int32 charCo
   for (bytesUsed = byteCount; bytesUsed > 0; bytesUsed /= 2) {
     if (GetCharCount(bytes, bytesUsed, flush) <= charCount) {
       charsUsed = GetChars(bytes, bytesUsed, chars, charCount, flush);
-      completed = (bytesUsed == byteCount && (_fallbackBuffer == nullptr || _fallbackBuffer->get_Remaining() == 0));
+      completed = bytesUsed == byteCount && (_fallbackBuffer == nullptr || _fallbackBuffer->get_Remaining() == 0);
       return;
     }
     flush = false;

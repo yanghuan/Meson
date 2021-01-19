@@ -73,7 +73,7 @@ Type RuntimeTypeHandle::GetTypeHelper(Type typeStart, Array<Type> genericArgs, I
   if (cModifiers > 0) {
     Int32* value = (Int32*)pModifiers.ToPointer();
     for (Int32 i = 0; i < cModifiers; i++) {
-      type = (((Byte)Marshal::ReadInt32((IntPtr)(void*)value, i * 4) != 15) ? (((Byte)Marshal::ReadInt32((IntPtr)(void*)value, i * 4) != 16) ? (((Byte)Marshal::ReadInt32((IntPtr)(void*)value, i * 4) != 29) ? type->MakeArrayType(Marshal::ReadInt32((IntPtr)(void*)value, ++i * 4)) : type->MakeArrayType()) : type->MakeByRefType()) : type->MakePointerType());
+      type = (((Byte)Marshal::ReadInt32((IntPtr)value, i * 4) != 15) ? (((Byte)Marshal::ReadInt32((IntPtr)value, i * 4) != 16) ? (((Byte)Marshal::ReadInt32((IntPtr)value, i * 4) != 29) ? type->MakeArrayType(Marshal::ReadInt32((IntPtr)value, ++i * 4)) : type->MakeArrayType()) : type->MakeByRefType()) : type->MakePointerType());
     }
   }
   return type;
@@ -106,8 +106,7 @@ Boolean RuntimeTypeHandle::Equals(Object obj) {
   if (!rt::is<RuntimeTypeHandle>(obj)) {
     return false;
   }
-  RuntimeTypeHandle runtimeTypeHandle = (RuntimeTypeHandle)obj;
-  return runtimeTypeHandle.m_type == m_type;
+  return ((RuntimeTypeHandle)obj).m_type == m_type;
 }
 
 Boolean RuntimeTypeHandle::Equals(RuntimeTypeHandle handle) {

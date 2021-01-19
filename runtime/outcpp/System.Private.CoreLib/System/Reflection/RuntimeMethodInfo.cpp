@@ -40,7 +40,7 @@ INVOCATION_FLAGS RuntimeMethodInfo___::get_InvocationFlags() {
       iNVOCATION_FLAGS |= INVOCATION_FLAGS::INVOCATION_FLAGS_CONTAINS_STACK_POINTERS;
     }
 
-    m_invocationFlags = (iNVOCATION_FLAGS | INVOCATION_FLAGS::INVOCATION_FLAGS_INITIALIZED);
+    m_invocationFlags = iNVOCATION_FLAGS | INVOCATION_FLAGS::INVOCATION_FLAGS_INITIALIZED;
   }
   return m_invocationFlags;
 }
@@ -392,7 +392,7 @@ Object RuntimeMethodInfo___::Invoke(Object obj, BindingFlags invokeAttr, Binder 
 Array<Object> RuntimeMethodInfo___::InvokeArgumentsCheck(Object obj, BindingFlags invokeAttr, Binder binder, Array<Object> parameters, CultureInfo culture) {
   Signature signature = get_Signature();
   Int32 num = signature->get_Arguments()->get_Length();
-  Int32 num2 = (parameters != nullptr) ? parameters->get_Length() : 0;
+  Int32 num2 = ((parameters != nullptr) ? parameters->get_Length() : 0);
   INVOCATION_FLAGS invocationFlags = get_InvocationFlags();
   if ((invocationFlags & (INVOCATION_FLAGS::INVOCATION_FLAGS_NO_INVOKE | INVOCATION_FLAGS::INVOCATION_FLAGS_CONTAINS_STACK_POINTERS)) != 0) {
     ThrowNoInvokeException();

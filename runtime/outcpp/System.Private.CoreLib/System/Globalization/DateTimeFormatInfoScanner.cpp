@@ -36,6 +36,9 @@ void DateTimeFormatInfoScanner___::AddDateWordOrPostfix(String formatPostfix, St
   }
   if (str->get_Length() == 1) {
     switch (str[0].get()) {
+      case '.':
+        AddIgnorableSymbols(".");
+        return;
       case '-':
       case '/':
       case '':
@@ -51,9 +54,6 @@ void DateTimeFormatInfoScanner___::AddDateWordOrPostfix(String formatPostfix, St
       case 'Ô':
       case '|':
       case '\b':
-        return;
-      case '.':
-        AddIgnorableSymbols(".");
         return;
     }
   }
@@ -230,8 +230,8 @@ FORMATFLAGS DateTimeFormatInfoScanner___::GetFormatFlagGenitiveMonth(Array<Strin
 
 FORMATFLAGS DateTimeFormatInfoScanner___::GetFormatFlagUseSpaceInMonthNames(Array<String> monthNames, Array<String> genitveMonthNames, Array<String> abbrevMonthNames, Array<String> genetiveAbbrevMonthNames) {
   FORMATFLAGS fORMATFLAGS = FORMATFLAGS::None;
-  fORMATFLAGS = (FORMATFLAGS)((Int32)fORMATFLAGS | ((ArrayElementsBeginWithDigit(monthNames) || ArrayElementsBeginWithDigit(genitveMonthNames) || ArrayElementsBeginWithDigit(abbrevMonthNames) || ArrayElementsBeginWithDigit(genetiveAbbrevMonthNames)) ? 32 : 0));
-  return (FORMATFLAGS)((Int32)fORMATFLAGS | ((ArrayElementsHaveSpace(monthNames) || ArrayElementsHaveSpace(genitveMonthNames) || ArrayElementsHaveSpace(abbrevMonthNames) || ArrayElementsHaveSpace(genetiveAbbrevMonthNames)) ? 4 : 0));
+  fORMATFLAGS |= ((ArrayElementsBeginWithDigit(monthNames) || ArrayElementsBeginWithDigit(genitveMonthNames) || ArrayElementsBeginWithDigit(abbrevMonthNames) || ArrayElementsBeginWithDigit(genetiveAbbrevMonthNames)) ? FORMATFLAGS::UseDigitPrefixInTokens : FORMATFLAGS::None);
+  return fORMATFLAGS | ((ArrayElementsHaveSpace(monthNames) || ArrayElementsHaveSpace(genitveMonthNames) || ArrayElementsHaveSpace(abbrevMonthNames) || ArrayElementsHaveSpace(genetiveAbbrevMonthNames)) ? FORMATFLAGS::UseSpacesInMonthNames : FORMATFLAGS::None);
 }
 
 FORMATFLAGS DateTimeFormatInfoScanner___::GetFormatFlagUseSpaceInDayNames(Array<String> dayNames, Array<String> abbrevDayNames) {

@@ -109,7 +109,7 @@ Boolean WaitHandle___::WaitOneNoCheck(Int32 millisecondsTimeout) {
   try {
     safeWaitHandle->DangerousAddRef(success);
     SynchronizationContext current = SynchronizationContext::in::get_Current();
-    Int32 num = (current == nullptr || !current->IsWaitNotificationRequired()) ? WaitOneCore(safeWaitHandle->DangerousGetHandle(), millisecondsTimeout) : current->Wait(rt::newarr<Array<IntPtr>>(1), false, millisecondsTimeout);
+    Int32 num = ((current == nullptr || !current->IsWaitNotificationRequired()) ? WaitOneCore(safeWaitHandle->DangerousGetHandle(), millisecondsTimeout) : current->Wait(rt::newarr<Array<IntPtr>>(1), false, millisecondsTimeout));
     if (num == 128) {
       rt::throw_exception<AbandonedMutexException>();
     }
@@ -125,7 +125,7 @@ Boolean WaitHandle___::WaitOneNoCheck(Int32 millisecondsTimeout) {
 Array<SafeWaitHandle> WaitHandle___::RentSafeWaitHandleArray(Int32 capacity) {
   Array<SafeWaitHandle> array = t_safeWaitHandlesForRent;
   t_safeWaitHandlesForRent = nullptr;
-  Int32 num = (array != nullptr) ? array->get_Length() : 0;
+  Int32 num = ((array != nullptr) ? array->get_Length() : 0);
   if (num < capacity) {
     array = rt::newarr<Array<SafeWaitHandle>>(Math::Max(capacity, Math::Min(64, 2 * num)));
   }

@@ -163,17 +163,13 @@ Int32 Interop::NtDll::RtlGetVersionEx(RTL_OSVERSIONINFOEX& osvi) {
 
 void Interop::GetRandomBytes(Byte* buffer, Int32 length) {
   switch (BCrypt::BCryptGenRandom(IntPtr::Zero, buffer, length, 2)) {
-    case BCrypt::NTSTATUS::STATUS_SUCCESS:
-      break;
     case BCrypt::NTSTATUS::STATUS_NO_MEMORY:
       rt::throw_exception<OutOfMemoryException>();
     default:
       rt::throw_exception<InvalidOperationException>();
+    case BCrypt::NTSTATUS::STATUS_SUCCESS:
+      break;
   }
-}
-
-UInt32 Interop::GetCurrentProcessId() {
-  return Kernel32::GetCurrentProcessId();
 }
 
 } // namespace System::Private::CoreLib::InteropNamespace

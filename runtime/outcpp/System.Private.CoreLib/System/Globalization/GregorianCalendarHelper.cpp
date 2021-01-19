@@ -100,7 +100,7 @@ Int32 GregorianCalendarHelper___::GetDatePart(Int64 ticks, Int32 part) {
   if (part == 1) {
     return num + 1;
   }
-  Array<Int32> array = (num5 == 3 && (num4 != 24 || num3 == 3)) ? DaysToMonth366 : DaysToMonth365;
+  Array<Int32> array = ((num5 == 3 && (num4 != 24 || num3 == 3)) ? DaysToMonth366 : DaysToMonth365);
   Int32 i;
   for (i = (num >> 5) + 1; num >= array[i]; i++) {
   }
@@ -112,7 +112,7 @@ Int32 GregorianCalendarHelper___::GetDatePart(Int64 ticks, Int32 part) {
 
 Int64 GregorianCalendarHelper___::GetAbsoluteDate(Int32 year, Int32 month, Int32 day) {
   if (year >= 1 && year <= 9999 && month >= 1 && month <= 12) {
-    Array<Int32> array = (year % 4 == 0 && (year % 100 != 0 || year % 400 == 0)) ? DaysToMonth366 : DaysToMonth365;
+    Array<Int32> array = ((year % 4 == 0 && (year % 100 != 0 || year % 400 == 0)) ? DaysToMonth366 : DaysToMonth365);
     if (day >= 1 && day <= array[month] - array[month - 1]) {
       Int32 num = year - 1;
       Int32 num2 = num * 365 + num / 4 - num / 100 + num / 400 + array[month - 1] + day - 1;
@@ -158,7 +158,7 @@ DateTime GregorianCalendarHelper___::AddMonths(DateTime time, Int32 months) {
     datePart2 = 12 + (num2 + 1) % 12;
     datePart += (num2 - 11) / 12;
   }
-  Array<Int32> array = (datePart % 4 == 0 && (datePart % 100 != 0 || datePart % 400 == 0)) ? DaysToMonth366 : DaysToMonth365;
+  Array<Int32> array = ((datePart % 4 == 0 && (datePart % 100 != 0 || datePart % 400 == 0)) ? DaysToMonth366 : DaysToMonth365);
   Int32 num3 = array[datePart2] - array[datePart2 - 1];
   if (num > num3) {
     num = num3;
@@ -190,7 +190,7 @@ Int32 GregorianCalendarHelper___::GetDaysInMonth(Int32 year, Int32 month, Int32 
   if (month < 1 || month > 12) {
     rt::throw_exception<ArgumentOutOfRangeException>("month", SR::get_ArgumentOutOfRange_Month());
   }
-  Array<Int32> array = (year % 4 == 0 && (year % 100 != 0 || year % 400 == 0)) ? DaysToMonth366 : DaysToMonth365;
+  Array<Int32> array = ((year % 4 == 0 && (year % 100 != 0 || year % 400 == 0)) ? DaysToMonth366 : DaysToMonth365);
   return array[month] - array[month - 1];
 }
 

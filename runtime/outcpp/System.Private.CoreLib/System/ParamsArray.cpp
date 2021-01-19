@@ -42,14 +42,6 @@ ParamsArray::ParamsArray(Array<Object> args) {
 }
 
 Object ParamsArray::GetAtSlow(Int32 index) {
-  switch (index.get()) {
-    case 1:
-      return _arg1;
-    case 2:
-      return _arg2;
-    default:
-      return _args[index];
-  }
 }
 
 void ParamsArray::cctor() {

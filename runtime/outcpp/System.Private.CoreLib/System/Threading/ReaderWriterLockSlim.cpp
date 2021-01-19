@@ -65,29 +65,9 @@ UInt16 ReaderWriterLockSlim___::SpinLock::get_EnterForEnterAnyWriteDeprioritized
 }
 
 Int32 ReaderWriterLockSlim___::SpinLock::GetEnterDeprioritizationStateChange(EnterSpinLockReason reason) {
-  switch (reason & EnterSpinLockReason::OperationMask) {
-    case EnterSpinLockReason::EnterAnyRead:
-      return 0;
-    case EnterSpinLockReason::ExitAnyRead:
-      return 1;
-    case EnterSpinLockReason::EnterWrite:
-      return 65536;
-    default:
-      return 65537;
-  }
 }
 
 Boolean ReaderWriterLockSlim___::SpinLock::IsEnterDeprioritized(EnterSpinLockReason reason) {
-  switch (reason) {
-    default:
-      return false;
-    case EnterSpinLockReason::EnterAnyRead:
-      return get_EnterForEnterAnyReadDeprioritizedCount() != 0;
-    case EnterSpinLockReason::EnterWrite:
-      return get_EnterForEnterAnyWriteDeprioritizedCount() != 0;
-    case EnterSpinLockReason::UpgradeToWrite:
-      return get_EnterForEnterAnyWriteDeprioritizedCount() > 1;
-  }
 }
 
 Boolean ReaderWriterLockSlim___::SpinLock::TryEnter() {
@@ -431,7 +411,7 @@ Boolean ReaderWriterLockSlim___::TryEnterWriteLockCore(TimeoutTracker timeout) {
       rt::throw_exception<LockRecursionException>(SR::get_LockRecursionException_WriteAfterReadNotAllowed());
     }
   } else {
-    EnterSpinLockReason reason2 = (currentManagedThreadId == _writeLockOwnerId) ? EnterSpinLockReason::EnterRecursiveWrite : ((currentManagedThreadId != _upgradeLockOwnerId) ? EnterSpinLockReason::EnterWrite : EnterSpinLockReason::UpgradeToWrite);
+    EnterSpinLockReason reason2 = ((currentManagedThreadId == _writeLockOwnerId) ? EnterSpinLockReason::EnterRecursiveWrite : ((currentManagedThreadId != _upgradeLockOwnerId) ? EnterSpinLockReason::EnterWrite : EnterSpinLockReason::UpgradeToWrite));
     _spinLock.Enter(reason2);
     threadRWCount = GetThreadRWCount(false);
     if (currentManagedThreadId == _writeLockOwnerId) {
@@ -763,7 +743,7 @@ void ReaderWriterLockSlim___::ExitAndWakeUpAppropriateReadWaiters() {
 }
 
 Boolean ReaderWriterLockSlim___::IsWriterAcquired() {
-  return ((Int32)_owners & -1073741825) == 0;
+  return (_owners & 3221225471u) == 0;
 }
 
 void ReaderWriterLockSlim___::SetWriterAcquired() {
@@ -791,7 +771,7 @@ void ReaderWriterLockSlim___::ClearUpgraderWaiting() {
 }
 
 UInt32 ReaderWriterLockSlim___::GetNumReaders() {
-  return _owners & 268435455;
+  return _owners & 268435455u;
 }
 
 Boolean ReaderWriterLockSlim___::ShouldSpinForEnterAnyRead() {

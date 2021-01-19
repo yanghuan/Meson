@@ -21,7 +21,7 @@ Int64 ParseNumbers::StringToLong(ReadOnlySpan<Char> s, Int32 radix, Int32 flags)
 
 Int64 ParseNumbers::StringToLong(ReadOnlySpan<Char> s, Int32 radix, Int32 flags, Int32& currPos) {
   Int32 i = currPos;
-  Int32 num = (-1 == radix) ? 10 : radix;
+  Int32 num = ((-1 == radix) ? 10 : radix);
   if (num != 2 && num != 10 && num != 8 && num != 16) {
     rt::throw_exception<ArgumentException>(SR::get_Arg_InvalidBase(), "radix");
   }
@@ -40,7 +40,7 @@ Int64 ParseNumbers::StringToLong(ReadOnlySpan<Char> s, Int32 radix, Int32 flags,
     if (num != 10) {
       rt::throw_exception<ArgumentException>(SR::get_Arg_CannotHaveNegativeValue());
     }
-    if ((flags & 512) != 0) {
+    if (((UInt32)flags & 512u) != 0) {
       rt::throw_exception<OverflowException>(SR::get_Overflow_NegativeUnsigned());
     }
     num2 = -1;
@@ -58,7 +58,7 @@ Int64 ParseNumbers::StringToLong(ReadOnlySpan<Char> s, Int32 radix, Int32 flags,
   if (i == num3) {
     rt::throw_exception<FormatException>(SR::get_Format_NoParsibleDigits());
   }
-  if ((flags & 4096) != 0 && i < length) {
+  if (((UInt32)flags & 4096u) != 0 && i < length) {
     rt::throw_exception<FormatException>(SR::get_Format_ExtraJunkAtEnd());
   }
   currPos = i;
@@ -78,7 +78,7 @@ Int32 ParseNumbers::StringToInt(ReadOnlySpan<Char> s, Int32 radix, Int32 flags) 
 
 Int32 ParseNumbers::StringToInt(ReadOnlySpan<Char> s, Int32 radix, Int32 flags, Int32& currPos) {
   Int32 i = currPos;
-  Int32 num = (-1 == radix) ? 10 : radix;
+  Int32 num = ((-1 == radix) ? 10 : radix);
   if (num != 2 && num != 10 && num != 8 && num != 16) {
     rt::throw_exception<ArgumentException>(SR::get_Arg_InvalidBase(), "radix");
   }
@@ -97,7 +97,7 @@ Int32 ParseNumbers::StringToInt(ReadOnlySpan<Char> s, Int32 radix, Int32 flags, 
     if (num != 10) {
       rt::throw_exception<ArgumentException>(SR::get_Arg_CannotHaveNegativeValue());
     }
-    if ((flags & 512) != 0) {
+    if (((UInt32)flags & 512u) != 0) {
       rt::throw_exception<OverflowException>(SR::get_Overflow_NegativeUnsigned());
     }
     num2 = -1;
@@ -115,15 +115,15 @@ Int32 ParseNumbers::StringToInt(ReadOnlySpan<Char> s, Int32 radix, Int32 flags, 
   if (i == num3) {
     rt::throw_exception<FormatException>(SR::get_Format_NoParsibleDigits());
   }
-  if ((flags & 4096) != 0 && i < length) {
+  if (((UInt32)flags & 4096u) != 0 && i < length) {
     rt::throw_exception<FormatException>(SR::get_Format_ExtraJunkAtEnd());
   }
   currPos = i;
-  if ((flags & 1024) != 0) {
+  if (((UInt32)flags & 1024u) != 0) {
     if ((UInt32)num4 > 255u) {
       Number::ThrowOverflowException(TypeCode::SByte);
     }
-  } else if ((flags & 2048) != 0) {
+  } else if (((UInt32)flags & 2048u) != 0) {
     if ((UInt32)num4 > 65535u) {
       Number::ThrowOverflowException(TypeCode::Int16);
     }
@@ -152,10 +152,10 @@ String ParseNumbers::IntToString(Int32 n, Int32 radix, Int32 width, Char padding
   } else {
     num = (UInt32)n;
   }
-  if ((flags & 64) != 0) {
-    num &= 255;
-  } else if ((flags & 128) != 0) {
-    num &= 65535;
+  if (((UInt32)flags & 64u) != 0) {
+    num &= 255u;
+  } else if (((UInt32)flags & 128u) != 0) {
+    num &= 65535u;
   }
 
   Int32 num2;
@@ -175,7 +175,7 @@ String ParseNumbers::IntToString(Int32 n, Int32 radix, Int32 width, Char padding
       }
     }
   }
-  if (radix != 10 && (flags & 32) != 0) {
+  if (radix != 10 && ((UInt32)flags & 32u) != 0) {
     if (16 == radix) {
       span[num2++] = 'x';
       span[num2++] = '0';
@@ -187,9 +187,9 @@ String ParseNumbers::IntToString(Int32 n, Int32 radix, Int32 width, Char padding
   if (10 == radix) {
     if (flag) {
       span[num2++] = '-';
-    } else if ((flags & 16) != 0) {
+    } else if (((UInt32)flags & 16u) != 0) {
       span[num2++] = '+';
-    } else if ((flags & 8) != 0) {
+    } else if (((UInt32)flags & 8u) != 0) {
       span[num2++] = ' ';
     }
 
@@ -201,7 +201,7 @@ String ParseNumbers::IntToString(Int32 n, Int32 radix, Int32 width, Char padding
     Char* ptr2 = ptr;
     Char* ptr3 = ptr2;
     Int32 num5 = text->get_Length() - num2;
-    if ((flags & 1) != 0) {
+    if (((UInt32)flags & (true ? 1u : 0u)) != 0) {
       for (Int32 j = 0; j < num5; j++) {
         Char* intPtr = ptr3;
         ptr3 = intPtr + 1;
@@ -242,12 +242,12 @@ String ParseNumbers::LongToString(Int64 n, Int32 radix, Int32 width, Char paddin
   } else {
     num = (UInt64)n;
   }
-  if ((flags & 64) != 0) {
+  if (((UInt32)flags & 64u) != 0) {
     num &= 255;
-  } else if ((flags & 128) != 0) {
+  } else if (((UInt32)flags & 128u) != 0) {
     num &= 65535;
-  } else if ((flags & 256) != 0) {
-    num &= UInt32::MaxValue;
+  } else if (((UInt32)flags & 256u) != 0) {
+    num &= 4294967295u;
   }
 
 
@@ -268,13 +268,13 @@ String ParseNumbers::LongToString(Int64 n, Int32 radix, Int32 width, Char paddin
       }
     }
   }
-  if (radix != 10 && (flags & 32) != 0) {
+  if (radix != 10 && ((UInt32)flags & 32u) != 0) {
     if (16 == radix) {
       span[num2++] = 'x';
       span[num2++] = '0';
     } else if (8 == radix) {
       span[num2++] = '0';
-    } else if ((flags & 16384) != 0) {
+    } else if (((UInt32)flags & 16384u) != 0) {
       span[num2++] = '#';
       span[num2++] = (Char)(radix % 10 + 48);
       span[num2++] = (Char)(radix / 10 + 48);
@@ -285,9 +285,9 @@ String ParseNumbers::LongToString(Int64 n, Int32 radix, Int32 width, Char paddin
   if (10 == radix) {
     if (flag) {
       span[num2++] = '-';
-    } else if ((flags & 16) != 0) {
+    } else if (((UInt32)flags & 16u) != 0) {
       span[num2++] = '+';
-    } else if ((flags & 8) != 0) {
+    } else if (((UInt32)flags & 8u) != 0) {
       span[num2++] = ' ';
     }
 
@@ -299,7 +299,7 @@ String ParseNumbers::LongToString(Int64 n, Int32 radix, Int32 width, Char paddin
     Char* ptr2 = ptr;
     Char* ptr3 = ptr2;
     Int32 num5 = text->get_Length() - num2;
-    if ((flags & 1) != 0) {
+    if (((UInt32)flags & (true ? 1u : 0u)) != 0) {
       for (Int32 j = 0; j < num5; j++) {
         Char* intPtr = ptr3;
         ptr3 = intPtr + 1;
@@ -349,34 +349,6 @@ Int64 ParseNumbers::GrabLongs(Int32 radix, ReadOnlySpan<Char> s, Int32& i, Boole
       Number::ThrowOverflowException(TypeCode::Int64);
     }
   } else {
-    Int64 num3;
-    switch (radix.get()) {
-      default:
-        num3 = Int64::MaxValue;
-        break;
-      case 8:
-        num3 = 2305843009213693951;
-        break;
-      case 16:
-        num3 = 1152921504606846975;
-        break;
-      case 10:
-        num3 = 1844674407370955161;
-        break;
-    }
-    UInt64 num2 = (UInt64)num3;
-    Int32 result2;
-    while (i < s.get_Length() && IsDigit(s[i], radix, result2)) {
-      if (num > num2) {
-        Number::ThrowOverflowException(TypeCode::UInt64);
-      }
-      UInt64 num4 = (UInt64)((Int64)num * (Int64)radix + result2);
-      if (num4 < num) {
-        Number::ThrowOverflowException(TypeCode::UInt64);
-      }
-      num = num4;
-      i++;
-    }
   }
   return (Int64)num;
 }
@@ -397,34 +369,6 @@ Int32 ParseNumbers::GrabInts(Int32 radix, ReadOnlySpan<Char> s, Int32& i, Boolea
       Number::ThrowOverflowException(TypeCode::Int32);
     }
   } else {
-    Int32 num3;
-    switch (radix.get()) {
-      default:
-        num3 = Int32::MaxValue;
-        break;
-      case 8:
-        num3 = 536870911;
-        break;
-      case 16:
-        num3 = 268435455;
-        break;
-      case 10:
-        num3 = 429496729;
-        break;
-    }
-    UInt32 num2 = (UInt32)num3;
-    Int32 result2;
-    while (i < s.get_Length() && IsDigit(s[i], radix, result2)) {
-      if (num > num2) {
-        Number::ThrowOverflowException(TypeCode::UInt32);
-      }
-      UInt32 num4 = (UInt32)((Int32)num * radix + result2);
-      if (num4 < num) {
-        Number::ThrowOverflowException(TypeCode::UInt32);
-      }
-      num = num4;
-      i++;
-    }
   }
   return (Int32)num;
 }

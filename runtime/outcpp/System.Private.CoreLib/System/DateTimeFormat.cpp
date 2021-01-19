@@ -373,12 +373,12 @@ void DateTimeFormat::FormatCustomizedTimeZone(DateTime dateTime, TimeSpan offset
 void DateTimeFormat::FormatCustomizedRoundripTimeZone(DateTime dateTime, TimeSpan offset, StringBuilder result) {
   if (offset.get_Ticks() == Int64::MinValue) {
     switch (dateTime.get_Kind()) {
-      default:
-        return;
       case DateTimeKind::Local:
         break;
       case DateTimeKind::Utc:
         result->Append((Char)'Z');
+        return;
+      default:
         return;
     }
     offset = TimeZoneInfo::in::GetLocalUtcOffset(dateTime, TimeZoneInfoOptions::NoThrowOnInvalidTime);

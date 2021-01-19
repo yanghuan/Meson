@@ -4,16 +4,16 @@
 
 namespace System::Private::CoreLib::System {
 enum class GCCollectionMode : int32_t;
+enum class GCKind : int32_t;
 enum class GCNotificationStatus : int32_t;
 FORWARD_(Array, T1, T2)
 FORWARDS(GCMemoryInfo)
+FORWARD(GCMemoryInfoData)
 FORWARDS(Int32)
 FORWARDS(Int64)
 FORWARDS(IntPtr)
 FORWARD(Object)
-FORWARDS(UInt32)
 FORWARDS(UInt64)
-FORWARDS(UIntPtr)
 FORWARD_(WeakReference, T1, T2)
 namespace GCNamespace {
 class GC {
@@ -35,8 +35,9 @@ class GC {
     AllocationExceeded = 3,
   };
   public: static Int32 get_MaxGeneration();
-  public: static void GetMemoryInfo(UInt64& highMemLoadThresholdBytes, UInt64& totalAvailableMemoryBytes, UInt64& lastRecordedMemLoadBytes, UInt32& lastRecordedMemLoadPct, UIntPtr& lastRecordedHeapSizeBytes, UIntPtr& lastRecordedFragmentationBytes);
+  private: static void GetMemoryInfo(GCMemoryInfoData data, Int32 kind);
   public: static GCMemoryInfo GetGCMemoryInfo();
+  public: static GCMemoryInfo GetGCMemoryInfo(GCKind kind);
   public: static Int32 _StartNoGCRegion(Int64 totalSize, Boolean lohSizeKnown, Int64 lohSize, Boolean disallowFullBlockingGC);
   public: static Int32 _EndNoGCRegion();
   public: static Array<> AllocateNewArray(IntPtr typeHandle, Int32 length, GC_ALLOC_FLAGS flags);
@@ -93,7 +94,7 @@ class GC {
   public: template <class T>
   static Array<T> AllocateArray(Int32 length, Boolean pinned = false);
   public: template <class T>
-  static Array<T> _AllocateUninitializedArray_g__AllocateNewUninitializedArray65_0(Int32 length, Boolean pinned);
+  static Array<T> _AllocateUninitializedArray_g__AllocateNewUninitializedArray66_0(Int32 length, Boolean pinned);
 };
 } // namespace GCNamespace
 using GC = GCNamespace::GC;

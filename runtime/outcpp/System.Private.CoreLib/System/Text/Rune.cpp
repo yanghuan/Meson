@@ -1,5 +1,6 @@
 #include "Rune-dep.h"
 
+#include <System.Private.CoreLib/System/ArgumentException-dep.h>
 #include <System.Private.CoreLib/System/ExceptionArgument.h>
 #include <System.Private.CoreLib/System/FormattableString-dep.h>
 #include <System.Private.CoreLib/System/Globalization/CharUnicodeInfo-dep.h>
@@ -8,6 +9,7 @@
 #include <System.Private.CoreLib/System/Runtime/CompilerServices/FormattableStringFactory-dep.h>
 #include <System.Private.CoreLib/System/SByte-dep.h>
 #include <System.Private.CoreLib/System/Span-dep.h>
+#include <System.Private.CoreLib/System/SR-dep.h>
 #include <System.Private.CoreLib/System/Text/Rune-dep.h>
 #include <System.Private.CoreLib/System/Text/Unicode/Utf16Utility-dep.h>
 #include <System.Private.CoreLib/System/Text/UnicodeUtility-dep.h>
@@ -134,7 +136,7 @@ Rune Rune::ChangeCaseCultureAware(Rune rune, TextInfo textInfo, Boolean toUpper)
 }
 
 Int32 Rune::CompareTo(Rune other) {
-  return _value.CompareTo(other._value);
+  return get_Value() - other.get_Value();
 }
 
 OperationStatus Rune::DecodeFromUtf16(ReadOnlySpan<Char> source, Rune& result, Int32& charsConsumed) {
@@ -276,7 +278,7 @@ OperationStatus Rune::DecodeLastFromUtf8(ReadOnlySpan<Byte> source, Rune& value,
       value = UnsafeCreate(num2);
       return OperationStatus::Done;
     }
-    if (((Byte)num2 & 64) != 0) {
+    if (((Byte)num2 & 64u) != 0) {
       return DecodeFromUtf8(source.Slice(num), value, bytesConsumed);
     }
     Int32 num3 = 3;
@@ -566,7 +568,7 @@ Boolean Rune::IsCategorySymbol(UnicodeCategory category) {
 }
 
 Boolean Rune::IsControl(Rune value) {
-  return (UInt32)((Int32)(value._value + 1) & -129) <= 32u;
+  return ((value._value + 1) & 4294967167u) <= 32;
 }
 
 Boolean Rune::IsDigit(Rune value) {
@@ -578,7 +580,7 @@ Boolean Rune::IsDigit(Rune value) {
 
 Boolean Rune::IsLetter(Rune value) {
   if (value.get_IsAscii()) {
-    return (UInt32)((Int32)(value._value - 65) & -33) <= 25u;
+    return ((value._value - 65) & 4294967263u) <= 25;
   }
   return IsCategoryLetter(GetUnicodeCategoryNonAscii(value));
 }
@@ -671,6 +673,17 @@ Rune Rune::ToUpperInvariant(Rune value) {
     return value;
   }
   return ChangeCaseCultureAware(value, TextInfo::in::Invariant, true);
+}
+
+Int32 Rune::CompareToOfIComparable(Object obj) {
+  if (obj == nullptr) {
+    return 1;
+  }
+  if (rt::is<Rune>(obj)) {
+    Rune other = (Rune)obj;
+    return CompareTo(other);
+  }
+  rt::throw_exception<ArgumentException>(SR::get_Arg_MustBeRune());
 }
 
 } // namespace System::Private::CoreLib::System::Text::RuneNamespace

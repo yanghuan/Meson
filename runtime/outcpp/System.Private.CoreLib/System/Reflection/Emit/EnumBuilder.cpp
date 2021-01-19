@@ -9,6 +9,7 @@
 #include <System.Private.CoreLib/System/Reflection/Emit/TypeBuilder-dep.h>
 #include <System.Private.CoreLib/System/Reflection/FieldAttributes.h>
 #include <System.Private.CoreLib/System/SR-dep.h>
+#include <System.Private.CoreLib/System/UInt32-dep.h>
 
 namespace System::Private::CoreLib::System::Reflection::Emit::EnumBuilderNamespace {
 TypeToken EnumBuilder___::get_TypeToken() {
@@ -91,7 +92,7 @@ Boolean EnumBuilder___::IsAssignableFrom(TypeInfo typeInfo) {
 }
 
 FieldBuilder EnumBuilder___::DefineLiteral(String literalName, Object literalValue) {
-  FieldBuilder fieldBuilder = m_typeBuilder->DefineField(literalName, (EnumBuilder)this, FieldAttributes::FamANDAssem | FieldAttributes::Family | FieldAttributes::Static | FieldAttributes::Literal);
+  FieldBuilder fieldBuilder = m_typeBuilder->DefineField(literalName, (EnumBuilder)this, FieldAttributes::Public | FieldAttributes::Static | FieldAttributes::Literal);
   fieldBuilder->SetConstant(literalValue);
   return fieldBuilder;
 }
@@ -261,11 +262,11 @@ Type EnumBuilder___::MakeArrayType(Int32 rank) {
 }
 
 void EnumBuilder___::ctor(String name, Type underlyingType, TypeAttributes visibility, ModuleBuilder module) {
-  if ((visibility & ~TypeAttributes::VisibilityMask) != 0) {
+  if (((UInt32)visibility & 4294967288u) != 0) {
     rt::throw_exception<ArgumentException>(SR::get_Argument_ShouldOnlySetVisibilityFlags(), "name");
   }
   m_typeBuilder = rt::newobj<TypeBuilder>(name, visibility | TypeAttributes::Sealed, typeof<Enum>(), nullptr, module, PackingSize::Unspecified, 0, nullptr);
-  m_underlyingField = m_typeBuilder->DefineField("value__", underlyingType, FieldAttributes::FamANDAssem | FieldAttributes::Family | FieldAttributes::SpecialName | FieldAttributes::RTSpecialName);
+  m_underlyingField = m_typeBuilder->DefineField("value__", underlyingType, FieldAttributes::Public | FieldAttributes::SpecialName | FieldAttributes::RTSpecialName);
 }
 
 } // namespace System::Private::CoreLib::System::Reflection::Emit::EnumBuilderNamespace

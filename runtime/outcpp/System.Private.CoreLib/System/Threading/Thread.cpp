@@ -139,7 +139,7 @@ void Thread___::set_CurrentUICulture(CultureInfo value) {
 
 IPrincipal Thread___::get_CurrentPrincipal() {
   AsyncLocal<IPrincipal> asyncLocal = s_asyncLocalPrincipal;
-  IPrincipal principal = (asyncLocal != nullptr) ? asyncLocal->get_Value() : nullptr;
+  IPrincipal principal = ((asyncLocal != nullptr) ? asyncLocal->get_Value() : nullptr);
   if (principal == nullptr) {
     principal = (get_CurrentPrincipal(AppDomain::in::get_CurrentDomain()->GetThreadPrincipal()));
   }
@@ -276,11 +276,7 @@ ApartmentState Thread___::GetApartmentState() {
 }
 
 Boolean Thread___::TrySetApartmentStateUnchecked(ApartmentState state) {
-  return SetApartmentStateHelper(state, false);
-}
-
-Boolean Thread___::SetApartmentStateHelper(ApartmentState state, Boolean fireMDAOnMismatch) {
-  ApartmentState apartmentState = (ApartmentState)SetApartmentStateNative((Int32)state, fireMDAOnMismatch);
+  ApartmentState apartmentState = (ApartmentState)SetApartmentStateNative((Int32)state);
   if (state == ApartmentState::Unknown && apartmentState == ApartmentState::MTA) {
     return true;
   }

@@ -85,7 +85,7 @@ Boolean TimerQueueTimer___::Close(WaitHandle toSignal) {
       _canceled = true;
       _notifyWhenNoCallbacksRunning = toSignal;
       _associatedTimerQueue->DeleteTimer((TimerQueueTimer)this);
-      flag = (_callbacksRunning == 0);
+      flag = _callbacksRunning == 0;
       result = true;
     }
   }
@@ -103,7 +103,7 @@ ValueTask<> TimerQueueTimer___::CloseAsync() {
       if (rt::is<WaitHandle>(notifyWhenNoCallbacksRunning)) {
         InvalidOperationException ex = rt::newobj<InvalidOperationException>(SR::get_InvalidOperation_TimerAlreadyClosed());
         ex->SetCurrentStackTrace();
-        return ValueTask<>(Task<>::in::FromException(ex));
+        return ValueTask<>::FromException(ex);
       }
     } else {
       _canceled = true;

@@ -72,7 +72,7 @@ void HashCode::Add(Int32 value) {
 Int32 HashCode::ToHashCode() {
   UInt32 length = _length;
   UInt32 num = length % 4u;
-  UInt32 num2 = (length < 4) ? MixEmptyState() : MixState(_v1, _v2, _v3, _v4);
+  UInt32 num2 = ((length < 4) ? MixEmptyState() : MixState(_v1, _v2, _v3, _v4));
   num2 += length * 4;
   if (num != 0) {
     num2 = QueueRound(num2, _queue1);

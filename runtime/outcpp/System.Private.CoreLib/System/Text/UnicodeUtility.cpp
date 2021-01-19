@@ -23,7 +23,7 @@ void UnicodeUtility::GetUtf16SurrogatesFromSupplementaryPlaneScalar(UInt32 value
 
 Int32 UnicodeUtility::GetUtf8SequenceLength(UInt32 value) {
   Int32 num = (Int32)(value - 2048) >> 31;
-  value ^= 63488;
+  value ^= 63488u;
   value -= 63616;
   value += 67108864;
   value >>= 24;

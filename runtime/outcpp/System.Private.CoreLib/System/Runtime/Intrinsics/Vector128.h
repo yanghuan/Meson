@@ -154,6 +154,16 @@ class Vector128<> {
   public: static Vector128<UInt16> _Create_g__SoftwareFallback37_0(UInt16 e0, UInt16 e1, UInt16 e2, UInt16 e3, UInt16 e4, UInt16 e5, UInt16 e6, UInt16 e7);
   public: static Vector128<UInt32> _Create_g__SoftwareFallback38_0(UInt32 e0, UInt32 e1, UInt32 e2, UInt32 e3);
   public: static Vector128<UInt64> _Create_g__SoftwareFallback39_0(UInt64 e0, UInt64 e1);
+  public: static Vector128<Byte> _Create_g__SoftwareFallback40_0(Vector64<Byte> lower, Vector64<Byte> upper);
+  public: static Vector128<Double> _Create_g__SoftwareFallback41_0(Vector64<Double> lower, Vector64<Double> upper);
+  public: static Vector128<Int16> _Create_g__SoftwareFallback42_0(Vector64<Int16> lower, Vector64<Int16> upper);
+  public: static Vector128<Int32> _Create_g__SoftwareFallback43_0(Vector64<Int32> lower, Vector64<Int32> upper);
+  public: static Vector128<Int64> _Create_g__SoftwareFallback44_0(Vector64<Int64> lower, Vector64<Int64> upper);
+  public: static Vector128<SByte> _Create_g__SoftwareFallback45_0(Vector64<SByte> lower, Vector64<SByte> upper);
+  public: static Vector128<Single> _Create_g__SoftwareFallback46_0(Vector64<Single> lower, Vector64<Single> upper);
+  public: static Vector128<UInt16> _Create_g__SoftwareFallback47_0(Vector64<UInt16> lower, Vector64<UInt16> upper);
+  public: static Vector128<UInt32> _Create_g__SoftwareFallback48_0(Vector64<UInt32> lower, Vector64<UInt32> upper);
+  public: static Vector128<UInt64> _Create_g__SoftwareFallback49_0(Vector64<UInt64> lower, Vector64<UInt64> upper);
   public: static Vector128<Byte> _CreateScalar_g__SoftwareFallback50_0(Byte value);
   public: static Vector128<Double> _CreateScalar_g__SoftwareFallback51_0(Double value);
   public: static Vector128<Int16> _CreateScalar_g__SoftwareFallback52_0(Int16 value);
@@ -164,6 +174,10 @@ class Vector128<> {
   public: static Vector128<UInt16> _CreateScalar_g__SoftwareFallback57_0(UInt16 value);
   public: static Vector128<UInt32> _CreateScalar_g__SoftwareFallback58_0(UInt32 value);
   public: static Vector128<UInt64> _CreateScalar_g__SoftwareFallback59_0(UInt64 value);
+  public: template <class T>
+  static Vector128<T> _WithLower_g__SoftwareFallback73_0(Vector128<T> vector, Vector64<T> value);
+  public: template <class T>
+  static Vector128<T> _WithUpper_g__SoftwareFallback75_0(Vector128<T> vector, Vector64<T> value);
 };
 template <class T>
 struct Vector128<T> : public valueType<Vector128<T>> {

@@ -26,7 +26,7 @@ void DecoderFallbackBuffer___::InternalInitialize(Byte* byteStart, Char* charEnd
 }
 
 DecoderFallbackBuffer DecoderFallbackBuffer___::CreateAndInitialize(Encoding encoding, DecoderNLS decoder, Int32 originalByteCount) {
-  DecoderFallbackBuffer decoderFallbackBuffer = (decoder == nullptr) ? encoding->get_DecoderFallback()->CreateFallbackBuffer() : decoder->get_FallbackBuffer();
+  DecoderFallbackBuffer decoderFallbackBuffer = ((decoder == nullptr) ? encoding->get_DecoderFallback()->CreateFallbackBuffer() : decoder->get_FallbackBuffer());
   decoderFallbackBuffer->_encoding = encoding;
   decoderFallbackBuffer->_decoder = decoder;
   decoderFallbackBuffer->_originalByteCount = originalByteCount;
@@ -124,7 +124,7 @@ Int32 DecoderFallbackBuffer___::DrainRemainingDataForGetCharCount() {
   Int32 num = 0;
   while (true) {
     Rune nextRune;
-    Rune rune = nextRune = GetNextRune();
+    Rune rune = (nextRune = GetNextRune());
     if (rune.get_Value() == 0) {
       break;
     }
@@ -141,7 +141,7 @@ Boolean DecoderFallbackBuffer___::TryDrainRemainingDataForGetChars(Span<Char> ch
   Int32 length = chars.get_Length();
   while (true) {
     Rune nextRune;
-    Rune rune = nextRune = GetNextRune();
+    Rune rune = (nextRune = GetNextRune());
     if (rune.get_Value() == 0) {
       break;
     }

@@ -28,16 +28,13 @@ FORWARDS(ReadOnlyMemory, T)
 FORWARDS(ReadOnlySpan, T)
 FORWARDS(Span, T)
 } // namespace System::Private::CoreLib::System
-namespace System::Private::CoreLib::System::Buffers {
-FORWARD(ReadOnlySpanAction, T, TArg)
-} // namespace System::Private::CoreLib::System::Buffers
 namespace System::Private::CoreLib::System::Threading::Tasks {
 FORWARD(ITaskCompletionAction)
 FORWARDS_(ValueTask, T1, T2)
 FORWARDS(VoidTaskResult)
 } // namespace System::Private::CoreLib::System::Threading::Tasks
 namespace System::Private::CoreLib::System::Threading {
-FORWARD_(ContextCallback, T1, T2)
+FORWARD(ContextCallback)
 FORWARD(ExecutionContext)
 FORWARD(ManualResetEvent)
 FORWARD(SemaphoreSlim)
@@ -52,7 +49,6 @@ FORWARD(IAsyncStateMachine)
 namespace System::Private::CoreLib::System::IO {
 enum class SeekOrigin : int32_t;
 namespace StreamNamespace {
-using namespace System::Buffers;
 using namespace System::Runtime::CompilerServices;
 using namespace System::Runtime::ExceptionServices;
 using namespace System::Threading;
@@ -64,7 +60,6 @@ CLASS(Stream) : public MarshalByRefObject::in {
     public: Int32 Offset;
     public: Int32 Count;
   };
-  private: FRIENDN(WriteCallbackStream)
   private: CLASS(ReadWriteTask) : public Task<Int32>::in {
     public: using interface = rt::TypeList<ITaskCompletionAction>;
     private: Boolean get_InvokeMayRunArbitraryCodeOfITaskCompletionAction();
@@ -81,7 +76,7 @@ CLASS(Stream) : public MarshalByRefObject::in {
     public: Int32 _count;
     private: AsyncCallback _callback;
     private: ExecutionContext _context;
-    private: static ContextCallback<> s_invokeAsyncCallback;
+    private: static ContextCallback s_invokeAsyncCallback;
   };
   private: FRIENDN(NullStream)
   private: CLASS(SynchronousAsyncResult) : public object {
@@ -115,24 +110,24 @@ CLASS(Stream) : public MarshalByRefObject::in {
     public: static void cctor();
     public: void ctor();
     public: SemaphoreSlim _EnsureAsyncActiveSemaphoreInitialized_b__5_0();
-    public: void _FlushAsync_b__42_0(Object state);
-    public: Int32 _BeginReadInternal_b__45_0(Object _p0_);
-    public: IAsyncResult _BeginEndReadAsync_b__50_0(Stream stream, ReadWriteParameters args, AsyncCallback callback, Object state);
-    public: Int32 _BeginEndReadAsync_b__50_1(Stream stream, IAsyncResult asyncResult);
-    public: Int32 _BeginWriteInternal_b__53_0(Object _p0_);
-    public: void _RunReadWriteTaskWhenReady_b__54_0(Task<> t, Object state);
-    public: IAsyncResult _BeginEndWriteAsync_b__63_0(Stream stream, ReadWriteParameters args, AsyncCallback callback, Object state);
-    public: VoidTaskResult _BeginEndWriteAsync_b__63_1(Stream stream, IAsyncResult asyncResult);
+    public: void _FlushAsync_b__39_0(Object state);
+    public: Int32 _BeginReadInternal_b__42_0(Object _p0_);
+    public: IAsyncResult _BeginEndReadAsync_b__47_0(Stream stream, ReadWriteParameters args, AsyncCallback callback, Object state);
+    public: Int32 _BeginEndReadAsync_b__47_1(Stream stream, IAsyncResult asyncResult);
+    public: Int32 _BeginWriteInternal_b__50_0(Object _p0_);
+    public: void _RunReadWriteTaskWhenReady_b__51_0(Task<> t, Object state);
+    public: IAsyncResult _BeginEndWriteAsync_b__60_0(Stream stream, ReadWriteParameters args, AsyncCallback callback, Object state);
+    public: VoidTaskResult _BeginEndWriteAsync_b__60_1(Stream stream, IAsyncResult asyncResult);
     public: static __c __9;
     public: static Func<SemaphoreSlim> __9__5_0;
-    public: static Action<Object> __9__42_0;
-    public: static Func<Object, Int32> __9__45_0;
-    public: static Func<Stream, ReadWriteParameters, AsyncCallback, Object, IAsyncResult> __9__50_0;
-    public: static Func<Stream, IAsyncResult, Int32> __9__50_1;
-    public: static Func<Object, Int32> __9__53_0;
-    public: static Action<Task<>, Object> __9__54_0;
-    public: static Func<Stream, ReadWriteParameters, AsyncCallback, Object, IAsyncResult> __9__63_0;
-    public: static Func<Stream, IAsyncResult, VoidTaskResult> __9__63_1;
+    public: static Action<Object> __9__39_0;
+    public: static Func<Object, Int32> __9__42_0;
+    public: static Func<Stream, ReadWriteParameters, AsyncCallback, Object, IAsyncResult> __9__47_0;
+    public: static Func<Stream, IAsyncResult, Int32> __9__47_1;
+    public: static Func<Object, Int32> __9__50_0;
+    public: static Action<Task<>, Object> __9__51_0;
+    public: static Func<Stream, ReadWriteParameters, AsyncCallback, Object, IAsyncResult> __9__60_0;
+    public: static Func<Stream, IAsyncResult, VoidTaskResult> __9__60_1;
   };
   private: struct _CopyToAsyncInternal_d__29 : public valueType<_CopyToAsyncInternal_d__29> {
     public: using interface = rt::TypeList<IAsyncStateMachine>;
@@ -148,7 +143,7 @@ CLASS(Stream) : public MarshalByRefObject::in {
     private: ConfiguredValueTaskAwaitable<Int32>::ConfiguredValueTaskAwaiter __u__1;
     private: ConfiguredValueTaskAwaitable<>::ConfiguredValueTaskAwaiter __u__2;
   };
-  private: struct _FinishWriteAsync_d__62 : public valueType<_FinishWriteAsync_d__62> {
+  private: struct _FinishWriteAsync_d__59 : public valueType<_FinishWriteAsync_d__59> {
     public: using interface = rt::TypeList<IAsyncStateMachine>;
     private: void MoveNext();
     private: void SetStateMachine(IAsyncStateMachine stateMachine);
@@ -158,7 +153,7 @@ CLASS(Stream) : public MarshalByRefObject::in {
     public: Array<Byte> localBuffer;
     private: ConfiguredTaskAwaitable<>::ConfiguredTaskAwaiter __u__1;
   };
-  private: struct __ReadAsync_g__FinishReadAsync49_0_d : public valueType<__ReadAsync_g__FinishReadAsync49_0_d> {
+  private: struct __ReadAsync_g__FinishReadAsync46_0_d : public valueType<__ReadAsync_g__FinishReadAsync46_0_d> {
     public: using interface = rt::TypeList<IAsyncStateMachine>;
     private: void MoveNext();
     private: void SetStateMachine(IAsyncStateMachine stateMachine);
@@ -191,8 +186,6 @@ CLASS(Stream) : public MarshalByRefObject::in {
   public: void CopyTo(Stream destination);
   public: void CopyTo(Stream destination, Int32 bufferSize);
   private: Int32 GetCopyBufferSize();
-  public: void CopyTo(ReadOnlySpanAction<Byte, Object> callback, Object state, Int32 bufferSize);
-  public: Task<> CopyToAsync(Func<ReadOnlyMemory<Byte>, Object, CancellationToken, ValueTask<>> callback, Object state, Int32 bufferSize, CancellationToken cancellationToken);
   public: void Close();
   public: void Dispose();
   protected: void Dispose(Boolean disposing);
@@ -237,31 +230,9 @@ CLASS(Stream) : public MarshalByRefObject::in {
   public: static void BlockingEndWrite(IAsyncResult asyncResult);
   public: void ctor();
   public: static void cctor();
-  public: static ValueTask<Int32> _ReadAsync_g__FinishReadAsync49_0(Task<Int32> readTask, Array<Byte> localBuffer, Memory<Byte> localDestination);
+  public: static ValueTask<Int32> _ReadAsync_g__FinishReadAsync46_0(Task<Int32> readTask, Array<Byte> localBuffer, Memory<Byte> localDestination);
   public: static Stream Null;
   private: SemaphoreSlim _asyncActiveSemaphore;
-};
-CLASS(WriteCallbackStream) : public Stream::in {
-  public: Boolean get_CanRead();
-  public: Boolean get_CanSeek();
-  public: Boolean get_CanWrite();
-  public: Int64 get_Length();
-  public: Int64 get_Position();
-  public: void set_Position(Int64 value);
-  public: void ctor(ReadOnlySpanAction<Byte, Object> action, Object state);
-  public: void ctor(Func<ReadOnlyMemory<Byte>, Object, CancellationToken, ValueTask<>> func, Object state);
-  public: void Write(Array<Byte> buffer, Int32 offset, Int32 count);
-  public: void Write(ReadOnlySpan<Byte> span);
-  public: Task<> WriteAsync(Array<Byte> buffer, Int32 offset, Int32 length, CancellationToken cancellationToken);
-  public: ValueTask<> WriteAsync(ReadOnlyMemory<Byte> buffer, CancellationToken cancellationToken);
-  public: void Flush();
-  public: Task<> FlushAsync(CancellationToken token);
-  public: Int32 Read(Array<Byte> buffer, Int32 offset, Int32 count);
-  public: Int64 Seek(Int64 offset, SeekOrigin origin);
-  public: void SetLength(Int64 value);
-  private: ReadOnlySpanAction<Byte, Object> _action;
-  private: Func<ReadOnlyMemory<Byte>, Object, CancellationToken, ValueTask<>> _func;
-  private: Object _state;
 };
 CLASS(NullStream) : public Stream::in {
   public: Boolean get_CanRead();
@@ -273,8 +244,6 @@ CLASS(NullStream) : public Stream::in {
   public: void ctor();
   public: void CopyTo(Stream destination, Int32 bufferSize);
   public: Task<> CopyToAsync(Stream destination, Int32 bufferSize, CancellationToken cancellationToken);
-  public: void CopyTo(ReadOnlySpanAction<Byte, Object> callback, Object state, Int32 bufferSize);
-  public: Task<> CopyToAsync(Func<ReadOnlyMemory<Byte>, Object, CancellationToken, ValueTask<>> callback, Object state, Int32 bufferSize, CancellationToken cancellationToken);
   protected: void Dispose(Boolean disposing);
   public: void Flush();
   public: Task<> FlushAsync(CancellationToken cancellationToken);

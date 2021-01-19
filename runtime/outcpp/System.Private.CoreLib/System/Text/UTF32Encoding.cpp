@@ -460,7 +460,7 @@ Int32 UTF32Encoding___::GetCharCount(Byte* bytes, Int32 count, DecoderNLS baseDe
     }
     num2 = 0;
     if (num3 > 1114111 || (num3 >= 55296 && num3 <= 57343)) {
-      Array<Byte> bytes2 = (!_bigEndian) ? rt::newarr<Array<Byte>>(4) : rt::newarr<Array<Byte>>(4);
+      Array<Byte> bytes2 = ((!_bigEndian) ? rt::newarr<Array<Byte>>(4) : rt::newarr<Array<Byte>>(4));
       num += decoderFallbackBuffer->InternalFallback(bytes2, bytes);
       num3 = 0u;
     } else {
@@ -523,7 +523,7 @@ Int32 UTF32Encoding___::GetChars(Byte* bytes, Int32 byteCount, Char* chars, Int3
     }
     num = 0;
     if (num2 > 1114111 || (num2 >= 55296 && num2 <= 57343)) {
-      Array<Byte> bytes2 = (!_bigEndian) ? rt::newarr<Array<Byte>>(4) : rt::newarr<Array<Byte>>(4);
+      Array<Byte> bytes2 = ((!_bigEndian) ? rt::newarr<Array<Byte>>(4) : rt::newarr<Array<Byte>>(4));
       Char* chars2 = chars;
       Boolean flag = decoderFallbackBuffer->InternalFallback(bytes2, bytes, chars2);
       chars = chars2;

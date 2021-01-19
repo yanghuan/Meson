@@ -121,7 +121,7 @@ Type TypeNameParser___::ResolveType(Assembly assembly, Array<String> names, Func
   } else {
     type = typeResolver(assembly, text, ignoreCase);
     if (type == nullptr && throwOnError) {
-      String message = (assembly == nullptr) ? SR::Format(SR::get_TypeLoad_ResolveType(), text) : SR::Format(SR::get_TypeLoad_ResolveTypeFromAssembly(), text, assembly->get_FullName());
+      String message = ((assembly == nullptr) ? SR::Format(SR::get_TypeLoad_ResolveType(), text) : SR::Format(SR::get_TypeLoad_ResolveTypeFromAssembly(), text, assembly->get_FullName()));
       rt::throw_exception<TypeLoadException>(message);
     }
   }

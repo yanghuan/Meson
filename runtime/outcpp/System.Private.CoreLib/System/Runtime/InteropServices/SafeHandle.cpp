@@ -7,6 +7,7 @@
 #include <System.Private.CoreLib/System/Runtime/InteropServices/SafeHandle-dep.h>
 #include <System.Private.CoreLib/System/SR-dep.h>
 #include <System.Private.CoreLib/System/Threading/Interlocked-dep.h>
+#include <System.Private.CoreLib/System/UInt32-dep.h>
 
 namespace System::Private::CoreLib::System::Runtime::InteropServices::SafeHandleNamespace {
 using namespace System::Threading;
@@ -62,7 +63,7 @@ void SafeHandle___::DangerousAddRef(Boolean& success) {
   Int32 value;
   do {
     state = _state;
-    if ((state & 1) != 0) {
+    if (((UInt32)state & (true ? 1u : 0u)) != 0) {
       rt::throw_exception<ObjectDisposedException>("SafeHandle", SR::get_ObjectDisposed_SafeHandleClosed());
     }
     value = state + 4;
@@ -80,13 +81,13 @@ void SafeHandle___::InternalRelease(Boolean disposeOrFinalizeOperation) {
   Int32 num;
   do {
     state = _state;
-    if (disposeOrFinalizeOperation && (state & 2) != 0) {
+    if (disposeOrFinalizeOperation && ((UInt32)state & 2u) != 0) {
       return;
     }
     if ((state & -4) == 0) {
       rt::throw_exception<ObjectDisposedException>("SafeHandle", SR::get_ObjectDisposed_SafeHandleClosed());
     }
-    flag = ((state & -3) == 4 && _ownsHandle && !get_IsInvalid());
+    flag = (state & -3) == 4 && _ownsHandle && !get_IsInvalid();
     num = state - 4;
     if ((state & -4) == 4) {
       num |= 1;

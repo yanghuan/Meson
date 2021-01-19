@@ -154,35 +154,24 @@ void AsyncLocalValueMap::MultiElementAsyncLocalValueMap___::UnsafeStore(Int32 in
 
 IAsyncLocalValueMap AsyncLocalValueMap::MultiElementAsyncLocalValueMap___::Set(IAsyncLocal key, Object value, Boolean treatNullValueAsNonexistent) {
   for (Int32 i = 0; i < _keyValues->get_Length(); i++) {
-    if (key != _keyValues[i].get_Key()) {
-      continue;
-    }
-    if (value != nullptr || !treatNullValueAsNonexistent) {
-      MultiElementAsyncLocalValueMap multiElementAsyncLocalValueMap = rt::newobj<MultiElementAsyncLocalValueMap>(_keyValues->get_Length());
-      Array<>::in::Copy(_keyValues, multiElementAsyncLocalValueMap->_keyValues, _keyValues->get_Length());
-      multiElementAsyncLocalValueMap->_keyValues[i] = KeyValuePair<IAsyncLocal, Object>(key, value);
-      return multiElementAsyncLocalValueMap;
-    }
-    if (_keyValues->get_Length() == 4) {
-      switch (i.get()) {
-        default:
-          return rt::newobj<ThreeElementAsyncLocalValueMap>(_keyValues[0].get_Key(), _keyValues[0].get_Value(), _keyValues[1].get_Key(), _keyValues[1].get_Value(), _keyValues[2].get_Key(), _keyValues[2].get_Value());
-        case 2:
-          return rt::newobj<ThreeElementAsyncLocalValueMap>(_keyValues[0].get_Key(), _keyValues[0].get_Value(), _keyValues[1].get_Key(), _keyValues[1].get_Value(), _keyValues[3].get_Key(), _keyValues[3].get_Value());
-        case 1:
-          return rt::newobj<ThreeElementAsyncLocalValueMap>(_keyValues[0].get_Key(), _keyValues[0].get_Value(), _keyValues[2].get_Key(), _keyValues[2].get_Value(), _keyValues[3].get_Key(), _keyValues[3].get_Value());
-        case 0:
-          return rt::newobj<ThreeElementAsyncLocalValueMap>(_keyValues[1].get_Key(), _keyValues[1].get_Value(), _keyValues[2].get_Key(), _keyValues[2].get_Value(), _keyValues[3].get_Key(), _keyValues[3].get_Value());
+    if (key == _keyValues[i].get_Key()) {
+      if (value != nullptr || !treatNullValueAsNonexistent) {
+        MultiElementAsyncLocalValueMap multiElementAsyncLocalValueMap = rt::newobj<MultiElementAsyncLocalValueMap>(_keyValues->get_Length());
+        Array<>::in::Copy(_keyValues, multiElementAsyncLocalValueMap->_keyValues, _keyValues->get_Length());
+        multiElementAsyncLocalValueMap->_keyValues[i] = KeyValuePair<IAsyncLocal, Object>(key, value);
+        return multiElementAsyncLocalValueMap;
       }
+      if (_keyValues->get_Length() == 4) {
+      }
+      MultiElementAsyncLocalValueMap multiElementAsyncLocalValueMap2 = rt::newobj<MultiElementAsyncLocalValueMap>(_keyValues->get_Length() - 1);
+      if (i != 0) {
+        Array<>::in::Copy(_keyValues, multiElementAsyncLocalValueMap2->_keyValues, i);
+      }
+      if (i != _keyValues->get_Length() - 1) {
+        Array<>::in::Copy(_keyValues, i + 1, multiElementAsyncLocalValueMap2->_keyValues, i, _keyValues->get_Length() - i - 1);
+      }
+      return multiElementAsyncLocalValueMap2;
     }
-    MultiElementAsyncLocalValueMap multiElementAsyncLocalValueMap2 = rt::newobj<MultiElementAsyncLocalValueMap>(_keyValues->get_Length() - 1);
-    if (i != 0) {
-      Array<>::in::Copy(_keyValues, multiElementAsyncLocalValueMap2->_keyValues, i);
-    }
-    if (i != _keyValues->get_Length() - 1) {
-      Array<>::in::Copy(_keyValues, i + 1, multiElementAsyncLocalValueMap2->_keyValues, i, _keyValues->get_Length() - i - 1);
-    }
-    return multiElementAsyncLocalValueMap2;
   }
   if (value == nullptr && treatNullValueAsNonexistent) {
     return (MultiElementAsyncLocalValueMap)this;

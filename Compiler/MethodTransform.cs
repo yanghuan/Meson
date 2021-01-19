@@ -1005,7 +1005,7 @@ namespace Meson.Compiler {
 
     public SyntaxNode VisitForeachStatement(ForeachStatement foreachStatement) {
       var variableType = foreachStatement.VariableType.AcceptExpression(this);
-      var variableName = foreachStatement.VariableNameToken.Accept<IdentifierSyntax>(this);
+      var variableName = foreachStatement.VariableDesignation.Accept<IdentifierSyntax>(this);
       var expression = foreachStatement.InExpression.AcceptExpression(this);
       var embeddedStatement = foreachStatement.EmbeddedStatement.AcceptStatement(this);
       return new ForeachStatementSyntax(new RightRefExpressionSyntax(variableType), variableName, new IndirectionExpressionSyntax(expression), embeddedStatement);
@@ -1433,6 +1433,30 @@ namespace Meson.Compiler {
     }
 
     public SyntaxNode VisitFunctionPointerType(FunctionPointerType functionPointerType) {
+      throw new NotImplementedException();
+    }
+
+    public SyntaxNode VisitDeclarationExpression(DeclarationExpression declarationExpression) {
+      throw new NotImplementedException();
+    }
+
+    public SyntaxNode VisitSwitchExpression(SwitchExpression switchExpression) {
+      throw new NotImplementedException();
+    }
+
+    public SyntaxNode VisitSwitchExpressionSection(SwitchExpressionSection switchExpressionSection) {
+      throw new NotImplementedException();
+    }
+
+    public SyntaxNode VisitFunctionPointerType(FunctionPointerAstType functionPointerType) {
+      throw new NotImplementedException();
+    }
+
+    public SyntaxNode VisitSingleVariableDesignation(SingleVariableDesignation singleVariableDesignation) {
+      return singleVariableDesignation.IdentifierToken.Accept<IdentifierSyntax>(this);
+    }
+
+    public SyntaxNode VisitParenthesizedVariableDesignation(ParenthesizedVariableDesignation parenthesizedVariableDesignation) {
       throw new NotImplementedException();
     }
   }

@@ -1,14 +1,63 @@
 #include "Latin1Encoding-dep.h"
 
 #include <System.Private.CoreLib/System/ArgumentOutOfRangeException-dep.h>
+#include <System.Private.CoreLib/System/ExceptionArgument.h>
+#include <System.Private.CoreLib/System/ExceptionResource.h>
 #include <System.Private.CoreLib/System/Int64-dep.h>
+#include <System.Private.CoreLib/System/Math-dep.h>
+#include <System.Private.CoreLib/System/Runtime/InteropServices/MemoryMarshal-dep.h>
 #include <System.Private.CoreLib/System/SR-dep.h>
-#include <System.Private.CoreLib/System/Text/EncoderFallbackBuffer-dep.h>
+#include <System.Private.CoreLib/System/Text/DecoderFallback-dep.h>
+#include <System.Private.CoreLib/System/Text/DecoderNLS-dep.h>
+#include <System.Private.CoreLib/System/Text/EncoderLatin1BestFitFallback-dep.h>
+#include <System.Private.CoreLib/System/Text/EncoderNLS-dep.h>
 #include <System.Private.CoreLib/System/Text/EncoderReplacementFallback-dep.h>
-#include <System.Private.CoreLib/System/Text/Encoding-dep.h>
 #include <System.Private.CoreLib/System/Text/Latin1Encoding-dep.h>
+#include <System.Private.CoreLib/System/Text/Latin1Utility-dep.h>
+#include <System.Private.CoreLib/System/ThrowHelper-dep.h>
+#include <System.Private.CoreLib/System/UInt32-dep.h>
 
 namespace System::Private::CoreLib::System::Text::Latin1EncodingNamespace {
+using namespace System::Runtime::InteropServices;
+
+Object Latin1EncodingSealed___::Clone() {
+  return rt::newobj<Latin1Encoding>();
+}
+
+void Latin1EncodingSealed___::ctor() {
+}
+
+void Latin1Encoding___::__c___::cctor() {
+  __9 = rt::newobj<__c>();
+}
+
+void Latin1Encoding___::__c___::ctor() {
+}
+
+void Latin1Encoding___::__c___::_GetString_b__29_0(Span<Char> chars, ValueTuple<Latin1Encoding, Array<Byte>> args) {
+  {
+    Byte* pBytes = args.Item2;
+    {
+      Char* pChars = chars;
+      args.Item1->GetCharsCommon(pBytes, args.Item2->get_Length(), pChars, chars.get_Length());
+    }
+  }
+}
+
+void Latin1Encoding___::__c___::_GetString_b__30_0(Span<Char> chars, ValueTuple<Latin1Encoding, Array<Byte>, Int32> args) {
+  {
+    Byte* ptr = args.Item2;
+    {
+      Char* pChars = chars;
+      args.Item1->GetCharsCommon(ptr + args.Item3, chars.get_Length(), pChars, chars.get_Length());
+    }
+  }
+}
+
+ReadOnlySpan<Byte> Latin1Encoding___::get_Preamble() {
+  return rt::default__;
+}
+
 Boolean Latin1Encoding___::get_IsSingleByte() {
   return true;
 }
@@ -16,167 +65,74 @@ Boolean Latin1Encoding___::get_IsSingleByte() {
 void Latin1Encoding___::ctor() {
 }
 
-Int32 Latin1Encoding___::GetByteCount(Char* chars, Int32 charCount, EncoderNLS encoder) {
-  Char c = '\0';
-  EncoderReplacementFallback encoderReplacementFallback;
-  if (encoder != nullptr) {
-    c = encoder->_charLeftOver;
-    encoderReplacementFallback = (rt::as<EncoderReplacementFallback>(encoder->get_Fallback()));
-  } else {
-    encoderReplacementFallback = (rt::as<EncoderReplacementFallback>(Encoding::in::get_EncoderFallback()));
+void Latin1Encoding___::SetDefaultFallbacks() {
+  encoderFallback = EncoderLatin1BestFitFallback::in::SingletonInstance;
+  decoderFallback = DecoderFallback::in::get_ReplacementFallback();
+}
+
+Int32 Latin1Encoding___::GetByteCount(Char* chars, Int32 count) {
+  if (chars == nullptr) {
+    ThrowHelper::ThrowArgumentNullException(ExceptionArgument::chars);
   }
-  if (encoderReplacementFallback != nullptr && encoderReplacementFallback->get_MaxCharCount() == 1) {
-    if (c > '\0') {
-      charCount++;
-    }
-    return charCount;
+  if (count < 0) {
+    ThrowHelper::ThrowArgumentOutOfRangeException(ExceptionArgument::count, ExceptionResource::ArgumentOutOfRange_NeedNonNegNum);
   }
-  Int32 num = 0;
-  Char* ptr = chars + charCount;
-  EncoderFallbackBuffer encoderFallbackBuffer = nullptr;
-  if (c > '\0') {
-    encoderFallbackBuffer = encoder->get_FallbackBuffer();
-    encoderFallbackBuffer->InternalInitialize(chars, ptr, encoder, false);
-    Char* chars2 = chars;
-    encoderFallbackBuffer->InternalFallback(c, chars2);
-    chars = chars2;
+  return GetByteCountCommon(chars, count);
+}
+
+Int32 Latin1Encoding___::GetByteCount(Array<Char> chars, Int32 index, Int32 count) {
+  if (chars == nullptr) {
+    ThrowHelper::ThrowArgumentNullException(ExceptionArgument::chars, ExceptionResource::ArgumentNull_Array);
   }
-  Char c2;
-  while ((c2 = ((encoderFallbackBuffer != nullptr) ? encoderFallbackBuffer->InternalGetNextChar() : '\0')) != 0 || chars < ptr) {
-    if (c2 == '\0') {
-      c2 = *chars;
-      chars++;
-    }
-    if (c2 > 'ÿ') {
-      if (encoderFallbackBuffer == nullptr) {
-        encoderFallbackBuffer = ((encoder != nullptr) ? encoder->get_FallbackBuffer() : encoderFallback->CreateFallbackBuffer());
-        encoderFallbackBuffer->InternalInitialize(ptr - charCount, ptr, encoder, false);
-      }
-      Char* chars2 = chars;
-      encoderFallbackBuffer->InternalFallback(c2, chars2);
-      chars = chars2;
-    } else {
-      num++;
+  if ((index | count) < 0) {
+    ThrowHelper::ThrowArgumentOutOfRangeException((index < 0) ? ExceptionArgument::index : ExceptionArgument::count, ExceptionResource::ArgumentOutOfRange_NeedNonNegNum);
+  }
+  if (chars->get_Length() - index < count) {
+    ThrowHelper::ThrowArgumentOutOfRangeException(ExceptionArgument::chars, ExceptionResource::ArgumentOutOfRange_IndexCountBuffer);
+  }
+  {
+    Char* ptr = chars;
+    return GetByteCountCommon(ptr + index, count);
+  }
+}
+
+Int32 Latin1Encoding___::GetByteCount(ReadOnlySpan<Char> chars) {
+  {
+    Char* pChars = &MemoryMarshal::GetReference(chars);
+    return GetByteCountCommon(pChars, chars.get_Length());
+  }
+}
+
+Int32 Latin1Encoding___::GetByteCount(String s) {
+  if (s == nullptr) {
+    ThrowHelper::ThrowArgumentNullException(ExceptionArgument::s);
+  }
+  {
+    Char* ptr = s;
+    Char* pChars = ptr;
+    return GetByteCountCommon(pChars, s->get_Length());
+  }
+}
+
+Int32 Latin1Encoding___::GetByteCountCommon(Char* pChars, Int32 charCount) {
+  Int32 charsConsumed;
+  Int32 num = GetByteCountFast(pChars, charCount, nullptr, charsConsumed);
+  if (charsConsumed != charCount) {
+    num += GetByteCountWithFallback(pChars, charCount, charsConsumed);
+    if (num < 0) {
+      Encoding::in::ThrowConversionOverflow();
     }
   }
   return num;
 }
 
-Int32 Latin1Encoding___::GetBytes(Char* chars, Int32 charCount, Byte* bytes, Int32 byteCount, EncoderNLS encoder) {
-  Char c = '\0';
-  EncoderReplacementFallback encoderReplacementFallback = nullptr;
-  if (encoder != nullptr) {
-    c = encoder->_charLeftOver;
-    encoderReplacementFallback = (rt::as<EncoderReplacementFallback>(encoder->get_Fallback()));
-  } else {
-    encoderReplacementFallback = (rt::as<EncoderReplacementFallback>(Encoding::in::get_EncoderFallback()));
+Int32 Latin1Encoding___::GetByteCountFast(Char* pChars, Int32 charsLength, EncoderFallback fallback, Int32& charsConsumed) {
+  Int32 num = charsLength;
+  if (!FallbackSupportsFastGetByteCount(fallback)) {
+    num = (Int32)Latin1Utility::GetIndexOfFirstNonLatin1Char(pChars, (UInt32)charsLength);
   }
-  Char* ptr = chars + charCount;
-  Byte* ptr2 = bytes;
-  Char* ptr3 = chars;
-  if (encoderReplacementFallback != nullptr && encoderReplacementFallback->get_MaxCharCount() == 1) {
-    Char c2 = encoderReplacementFallback->get_DefaultString()[0];
-    if (c2 <= 'ÿ') {
-      if (c > '\0') {
-        if (byteCount == 0) {
-          ThrowBytesOverflow(encoder, true);
-        }
-        *(bytes++) = (Byte)c2;
-        byteCount--;
-      }
-      if (byteCount < charCount) {
-        ThrowBytesOverflow(encoder, byteCount < 1);
-        ptr = chars + byteCount;
-      }
-      while (chars < ptr) {
-        Char* intPtr = chars;
-        chars = intPtr + 1;
-        Char c3 = *intPtr;
-        if (c3 > 'ÿ') {
-          *(bytes++) = (Byte)c2;
-        } else {
-          *(bytes++) = (Byte)c3;
-        }
-      }
-      if (encoder != nullptr) {
-        encoder->_charLeftOver = '\0';
-        encoder->_charsUsed = (Int32)(chars - ptr3);
-      }
-      return (Int32)(bytes - ptr2);
-    }
-  }
-  Byte* ptr4 = bytes + byteCount;
-  EncoderFallbackBuffer encoderFallbackBuffer = nullptr;
-  if (c > '\0') {
-    encoderFallbackBuffer = encoder->get_FallbackBuffer();
-    encoderFallbackBuffer->InternalInitialize(chars, ptr, encoder, true);
-    Char* chars2 = chars;
-    encoderFallbackBuffer->InternalFallback(c, chars2);
-    chars = chars2;
-    if (encoderFallbackBuffer->get_Remaining() > ptr4 - bytes) {
-      ThrowBytesOverflow(encoder, true);
-    }
-  }
-  Char c4;
-  while ((c4 = ((encoderFallbackBuffer != nullptr) ? encoderFallbackBuffer->InternalGetNextChar() : '\0')) != 0 || chars < ptr) {
-    if (c4 == '\0') {
-      c4 = *chars;
-      chars++;
-    }
-    if (c4 > 'ÿ') {
-      if (encoderFallbackBuffer == nullptr) {
-        encoderFallbackBuffer = ((encoder != nullptr) ? encoder->get_FallbackBuffer() : encoderFallback->CreateFallbackBuffer());
-        encoderFallbackBuffer->InternalInitialize(ptr - charCount, ptr, encoder, true);
-      }
-      Char* chars2 = chars;
-      encoderFallbackBuffer->InternalFallback(c4, chars2);
-      chars = chars2;
-      if (encoderFallbackBuffer->get_Remaining() > ptr4 - bytes) {
-        chars--;
-        encoderFallbackBuffer->InternalReset();
-        ThrowBytesOverflow(encoder, chars == ptr3);
-        break;
-      }
-      continue;
-    }
-    if (bytes >= ptr4) {
-      if (encoderFallbackBuffer == nullptr || !encoderFallbackBuffer->bFallingBack) {
-        chars--;
-      }
-      ThrowBytesOverflow(encoder, chars == ptr3);
-      break;
-    }
-    *bytes = (Byte)c4;
-    bytes++;
-  }
-  if (encoder != nullptr) {
-    if (encoderFallbackBuffer != nullptr && !encoderFallbackBuffer->bUsedEncoder) {
-      encoder->_charLeftOver = '\0';
-    }
-    encoder->_charsUsed = (Int32)(chars - ptr3);
-  }
-  return (Int32)(bytes - ptr2);
-}
-
-Int32 Latin1Encoding___::GetCharCount(Byte* bytes, Int32 count, DecoderNLS decoder) {
-  return count;
-}
-
-Int32 Latin1Encoding___::GetChars(Byte* bytes, Int32 byteCount, Char* chars, Int32 charCount, DecoderNLS decoder) {
-  if (charCount < byteCount) {
-    ThrowCharsOverflow(decoder, charCount < 1);
-    byteCount = charCount;
-  }
-  Byte* ptr = bytes + byteCount;
-  while (bytes < ptr) {
-    *chars = (Char)(*bytes);
-    chars++;
-    bytes++;
-  }
-  if (decoder != nullptr) {
-    decoder->_bytesUsed = byteCount;
-  }
-  return byteCount;
+  charsConsumed = num;
+  return num;
 }
 
 Int32 Latin1Encoding___::GetMaxByteCount(Int32 charCount) {
@@ -193,31 +149,316 @@ Int32 Latin1Encoding___::GetMaxByteCount(Int32 charCount) {
   return (Int32)num;
 }
 
+Int32 Latin1Encoding___::GetBytes(Char* chars, Int32 charCount, Byte* bytes, Int32 byteCount) {
+  if (chars == nullptr || bytes == nullptr) {
+    ThrowHelper::ThrowArgumentNullException((chars == nullptr) ? ExceptionArgument::chars : ExceptionArgument::bytes, ExceptionResource::ArgumentNull_Array);
+  }
+  if ((charCount | byteCount) < 0) {
+    ThrowHelper::ThrowArgumentOutOfRangeException((charCount < 0) ? ExceptionArgument::charCount : ExceptionArgument::byteCount, ExceptionResource::ArgumentOutOfRange_NeedNonNegNum);
+  }
+  return GetBytesCommon(chars, charCount, bytes, byteCount);
+}
+
+Int32 Latin1Encoding___::GetBytes(Array<Char> chars, Int32 charIndex, Int32 charCount, Array<Byte> bytes, Int32 byteIndex) {
+  if (chars == nullptr || bytes == nullptr) {
+    ThrowHelper::ThrowArgumentNullException((chars == nullptr) ? ExceptionArgument::chars : ExceptionArgument::bytes, ExceptionResource::ArgumentNull_Array);
+  }
+  if ((charIndex | charCount) < 0) {
+    ThrowHelper::ThrowArgumentOutOfRangeException((charIndex < 0) ? ExceptionArgument::charIndex : ExceptionArgument::charCount, ExceptionResource::ArgumentOutOfRange_NeedNonNegNum);
+  }
+  if (chars->get_Length() - charIndex < charCount) {
+    ThrowHelper::ThrowArgumentOutOfRangeException(ExceptionArgument::chars, ExceptionResource::ArgumentOutOfRange_IndexCount);
+  }
+  if ((UInt32)byteIndex > bytes->get_Length()) {
+    ThrowHelper::ThrowArgumentOutOfRangeException(ExceptionArgument::byteIndex, ExceptionResource::ArgumentOutOfRange_Index);
+  }
+  {
+    Char* ptr = chars;
+    {
+      Byte* ptr2 = bytes;
+      return GetBytesCommon(ptr + charIndex, charCount, ptr2 + byteIndex, bytes->get_Length() - byteIndex);
+    }
+  }
+}
+
+Int32 Latin1Encoding___::GetBytes(ReadOnlySpan<Char> chars, Span<Byte> bytes) {
+  {
+    Char* pChars = &MemoryMarshal::GetReference(chars);
+    {
+      Byte* pBytes = &MemoryMarshal::GetReference(bytes);
+      return GetBytesCommon(pChars, chars.get_Length(), pBytes, bytes.get_Length());
+    }
+  }
+}
+
+Int32 Latin1Encoding___::GetBytes(String s, Int32 charIndex, Int32 charCount, Array<Byte> bytes, Int32 byteIndex) {
+  if (s == nullptr || bytes == nullptr) {
+    ThrowHelper::ThrowArgumentNullException((s == nullptr) ? ExceptionArgument::s : ExceptionArgument::bytes, ExceptionResource::ArgumentNull_Array);
+  }
+  if ((charIndex | charCount) < 0) {
+    ThrowHelper::ThrowArgumentOutOfRangeException((charIndex < 0) ? ExceptionArgument::charIndex : ExceptionArgument::charCount, ExceptionResource::ArgumentOutOfRange_NeedNonNegNum);
+  }
+  if (s->get_Length() - charIndex < charCount) {
+    ThrowHelper::ThrowArgumentOutOfRangeException(ExceptionArgument::s, ExceptionResource::ArgumentOutOfRange_IndexCount);
+  }
+  if ((UInt32)byteIndex > bytes->get_Length()) {
+    ThrowHelper::ThrowArgumentOutOfRangeException(ExceptionArgument::byteIndex, ExceptionResource::ArgumentOutOfRange_Index);
+  }
+  {
+    Char* ptr = s;
+    Char* ptr2 = ptr;
+    {
+      Byte* ptr3 = bytes;
+      return GetBytesCommon(ptr2 + charIndex, charCount, ptr3 + byteIndex, bytes->get_Length() - byteIndex);
+    }
+  }
+}
+
+Int32 Latin1Encoding___::GetBytesCommon(Char* pChars, Int32 charCount, Byte* pBytes, Int32 byteCount) {
+  Int32 charsConsumed;
+  Int32 bytesFast = GetBytesFast(pChars, charCount, pBytes, byteCount, charsConsumed);
+  if (charsConsumed == charCount) {
+    return bytesFast;
+  }
+  return GetBytesWithFallback(pChars, charCount, pBytes, byteCount, charsConsumed, bytesFast);
+}
+
+Int32 Latin1Encoding___::GetBytesFast(Char* pChars, Int32 charsLength, Byte* pBytes, Int32 bytesLength, Int32& charsConsumed) {
+  return charsConsumed = (Int32)Latin1Utility::NarrowUtf16ToLatin1(pChars, pBytes, (UInt32)Math::Min(charsLength, bytesLength));
+}
+
+Int32 Latin1Encoding___::GetCharCount(Byte* bytes, Int32 count) {
+  if (bytes == nullptr) {
+    ThrowHelper::ThrowArgumentNullException(ExceptionArgument::bytes);
+  }
+  if (count < 0) {
+    ThrowHelper::ThrowArgumentOutOfRangeException(ExceptionArgument::count, ExceptionResource::ArgumentOutOfRange_NeedNonNegNum);
+  }
+  return count;
+}
+
+Int32 Latin1Encoding___::GetCharCount(Array<Byte> bytes) {
+  if (bytes == nullptr) {
+    ThrowHelper::ThrowArgumentNullException(ExceptionArgument::bytes);
+  }
+  return bytes->get_Length();
+}
+
+Int32 Latin1Encoding___::GetCharCount(Array<Byte> bytes, Int32 index, Int32 count) {
+  if (bytes == nullptr) {
+    ThrowHelper::ThrowArgumentNullException(ExceptionArgument::bytes, ExceptionResource::ArgumentNull_Array);
+  }
+  if ((index | count) < 0) {
+    ThrowHelper::ThrowArgumentOutOfRangeException((index < 0) ? ExceptionArgument::index : ExceptionArgument::count, ExceptionResource::ArgumentOutOfRange_NeedNonNegNum);
+  }
+  if (bytes->get_Length() - index < count) {
+    ThrowHelper::ThrowArgumentOutOfRangeException(ExceptionArgument::bytes, ExceptionResource::ArgumentOutOfRange_IndexCountBuffer);
+  }
+  return count;
+}
+
+Int32 Latin1Encoding___::GetCharCount(ReadOnlySpan<Byte> bytes) {
+  return bytes.get_Length();
+}
+
+Int32 Latin1Encoding___::GetCharCountFast(Byte* pBytes, Int32 bytesLength, DecoderFallback fallback, Int32& bytesConsumed) {
+  bytesConsumed = bytesLength;
+  return bytesLength;
+}
+
 Int32 Latin1Encoding___::GetMaxCharCount(Int32 byteCount) {
   if (byteCount < 0) {
-    rt::throw_exception<ArgumentOutOfRangeException>("byteCount", SR::get_ArgumentOutOfRange_NeedNonNegNum());
+    ThrowHelper::ThrowArgumentOutOfRangeException(ExceptionArgument::byteCount, ExceptionResource::ArgumentOutOfRange_NeedNonNegNum);
   }
-  Int64 num = byteCount;
-  if (Encoding::in::get_DecoderFallback()->get_MaxCharCount() > 1) {
-    num *= Encoding::in::get_DecoderFallback()->get_MaxCharCount();
+  return byteCount;
+}
+
+Int32 Latin1Encoding___::GetChars(Byte* bytes, Int32 byteCount, Char* chars, Int32 charCount) {
+  if (bytes == nullptr || chars == nullptr) {
+    ThrowHelper::ThrowArgumentNullException((bytes == nullptr) ? ExceptionArgument::bytes : ExceptionArgument::chars, ExceptionResource::ArgumentNull_Array);
   }
-  if (num > Int32::MaxValue) {
-    rt::throw_exception<ArgumentOutOfRangeException>("byteCount", SR::get_ArgumentOutOfRange_GetCharCountOverflow());
+  if ((byteCount | charCount) < 0) {
+    ThrowHelper::ThrowArgumentOutOfRangeException((byteCount < 0) ? ExceptionArgument::byteCount : ExceptionArgument::charCount, ExceptionResource::ArgumentOutOfRange_NeedNonNegNum);
   }
-  return (Int32)num;
+  return GetCharsCommon(bytes, byteCount, chars, charCount);
+}
+
+Array<Char> Latin1Encoding___::GetChars(Array<Byte> bytes) {
+  if (bytes == nullptr) {
+    ThrowHelper::ThrowArgumentNullException(ExceptionArgument::bytes);
+  }
+  if (bytes->get_Length() == 0) {
+    return Array<>::in::Empty<Char>();
+  }
+  Array<Char> array = rt::newarr<Array<Char>>(bytes->get_Length());
+  {
+    Byte* pBytes = bytes;
+    {
+      Char* pChars = array;
+      GetCharsCommon(pBytes, bytes->get_Length(), pChars, array->get_Length());
+    }
+  }
+  return array;
+}
+
+Int32 Latin1Encoding___::GetChars(Array<Byte> bytes, Int32 byteIndex, Int32 byteCount, Array<Char> chars, Int32 charIndex) {
+  if (bytes == nullptr || chars == nullptr) {
+    ThrowHelper::ThrowArgumentNullException((bytes == nullptr) ? ExceptionArgument::bytes : ExceptionArgument::chars, ExceptionResource::ArgumentNull_Array);
+  }
+  if ((byteIndex | byteCount) < 0) {
+    ThrowHelper::ThrowArgumentOutOfRangeException((byteIndex < 0) ? ExceptionArgument::byteIndex : ExceptionArgument::byteCount, ExceptionResource::ArgumentOutOfRange_NeedNonNegNum);
+  }
+  if (bytes->get_Length() - byteIndex < byteCount) {
+    ThrowHelper::ThrowArgumentOutOfRangeException(ExceptionArgument::bytes, ExceptionResource::ArgumentOutOfRange_IndexCountBuffer);
+  }
+  if ((UInt32)charIndex > (UInt32)chars->get_Length()) {
+    ThrowHelper::ThrowArgumentOutOfRangeException(ExceptionArgument::charIndex, ExceptionResource::ArgumentOutOfRange_Index);
+  }
+  {
+    Byte* ptr = bytes;
+    {
+      Char* ptr2 = chars;
+      return GetCharsCommon(ptr + byteIndex, byteCount, ptr2 + charIndex, chars->get_Length() - charIndex);
+    }
+  }
+}
+
+Array<Char> Latin1Encoding___::GetChars(Array<Byte> bytes, Int32 index, Int32 count) {
+  if (bytes == nullptr) {
+    ThrowHelper::ThrowArgumentNullException(ExceptionArgument::bytes, ExceptionResource::ArgumentNull_Array);
+  }
+  if ((index | count) < 0) {
+    ThrowHelper::ThrowArgumentOutOfRangeException((index < 0) ? ExceptionArgument::index : ExceptionArgument::count, ExceptionResource::ArgumentOutOfRange_NeedNonNegNum);
+  }
+  if (bytes->get_Length() - index < count) {
+    ThrowHelper::ThrowArgumentOutOfRangeException(ExceptionArgument::bytes, ExceptionResource::ArgumentOutOfRange_IndexCountBuffer);
+  }
+  Array<Char> array = rt::newarr<Array<Char>>(count);
+  {
+    Byte* ptr = bytes;
+    {
+      Char* pChars = array;
+      GetCharsCommon(ptr + index, count, pChars, array->get_Length());
+    }
+  }
+  return array;
+}
+
+Int32 Latin1Encoding___::GetChars(ReadOnlySpan<Byte> bytes, Span<Char> chars) {
+  {
+    Byte* pBytes = &MemoryMarshal::GetReference(bytes);
+    {
+      Char* pChars = &MemoryMarshal::GetReference(chars);
+      return GetCharsCommon(pBytes, bytes.get_Length(), pChars, chars.get_Length());
+    }
+  }
+}
+
+String Latin1Encoding___::GetString(Array<Byte> bytes) {
+  if (bytes == nullptr) {
+    ThrowHelper::ThrowArgumentNullException(ExceptionArgument::bytes);
+  }
+  SpanAction<Char, ValueTuple<Latin1Encoding, Array<Byte>>> as = __c::in::__9__29_0;
+  return String::in::Create(bytes->get_Length(), {(Latin1Encoding)this, bytes}, as != nullptr ? as : (__c::in::__9__29_0 = {__c::in::__9, &__c::in::_GetString_b__29_0}));
+}
+
+String Latin1Encoding___::GetString(Array<Byte> bytes, Int32 index, Int32 count) {
+  if (bytes == nullptr) {
+    ThrowHelper::ThrowArgumentNullException(ExceptionArgument::bytes, ExceptionResource::ArgumentNull_Array);
+  }
+  if ((index | count) < 0) {
+    ThrowHelper::ThrowArgumentOutOfRangeException((index < 0) ? ExceptionArgument::index : ExceptionArgument::count, ExceptionResource::ArgumentOutOfRange_NeedNonNegNum);
+  }
+  if (bytes->get_Length() - index < count) {
+    ThrowHelper::ThrowArgumentOutOfRangeException(ExceptionArgument::bytes, ExceptionResource::ArgumentOutOfRange_IndexCountBuffer);
+  }
+  SpanAction<Char, ValueTuple<Latin1Encoding, Array<Byte>, Int32>> as = __c::in::__9__30_0;
+  return String::in::Create(count, {(Latin1Encoding)this, bytes, index}, as != nullptr ? as : (__c::in::__9__30_0 = {__c::in::__9, &__c::in::_GetString_b__30_0}));
+}
+
+Int32 Latin1Encoding___::GetCharsCommon(Byte* pBytes, Int32 byteCount, Char* pChars, Int32 charCount) {
+  if (byteCount > charCount) {
+    ThrowCharsOverflow();
+  }
+  Latin1Utility::WidenLatin1ToUtf16(pBytes, pChars, (UInt32)byteCount);
+  return byteCount;
+}
+
+Int32 Latin1Encoding___::GetCharsFast(Byte* pBytes, Int32 bytesLength, Char* pChars, Int32 charsLength, Int32& bytesConsumed) {
+  Int32 num = Math::Min(bytesLength, charsLength);
+  Latin1Utility::WidenLatin1ToUtf16(pBytes, pChars, (UInt32)num);
+  bytesConsumed = num;
+  return num;
+}
+
+Decoder Latin1Encoding___::GetDecoder() {
+  return rt::newobj<DecoderNLS>((Latin1Encoding)this);
+}
+
+Encoder Latin1Encoding___::GetEncoder() {
+  return rt::newobj<EncoderNLS>((Latin1Encoding)this);
+}
+
+Boolean Latin1Encoding___::TryGetByteCount(Rune value, Int32& byteCount) {
+  if (value.get_Value() <= 255) {
+    byteCount = 1;
+    return true;
+  }
+  byteCount = 0;
+  return false;
+}
+
+OperationStatus Latin1Encoding___::EncodeRune(Rune value, Span<Byte> bytes, Int32& bytesWritten) {
+  if (value.get_Value() <= 255) {
+    if (!bytes.get_IsEmpty()) {
+      bytes[0] = (Byte)value.get_Value();
+      bytesWritten = 1;
+      return OperationStatus::Done;
+    }
+    bytesWritten = 0;
+    return OperationStatus::DestinationTooSmall;
+  }
+  bytesWritten = 0;
+  return OperationStatus::InvalidData;
+}
+
+OperationStatus Latin1Encoding___::DecodeFirstRune(ReadOnlySpan<Byte> bytes, Rune& value, Int32& bytesConsumed) {
+  if (!bytes.get_IsEmpty()) {
+    Byte b = bytes[0];
+    if (b <= Byte::MaxValue) {
+      value = Rune(b);
+      bytesConsumed = 1;
+      return OperationStatus::Done;
+    }
+    value = Rune::get_ReplacementChar();
+    bytesConsumed = 1;
+    return OperationStatus::InvalidData;
+  }
+  value = Rune::get_ReplacementChar();
+  bytesConsumed = 0;
+  return OperationStatus::NeedMoreData;
 }
 
 Boolean Latin1Encoding___::IsAlwaysNormalized(NormalizationForm form) {
   return form == NormalizationForm::FormC;
 }
 
-Array<Char> Latin1Encoding___::GetBestFitUnicodeToBytesData() {
-  return arrayCharBestFit;
+Boolean Latin1Encoding___::FallbackSupportsFastGetByteCount(EncoderFallback fallback) {
+  if (fallback == nullptr) {
+    return false;
+  }
+  if (rt::is<EncoderLatin1BestFitFallback>(fallback)) {
+    return true;
+  }
+  EncoderReplacementFallback encoderReplacementFallback = rt::as<EncoderReplacementFallback>(fallback);
+  if (encoderReplacementFallback != nullptr && encoderReplacementFallback->get_MaxCharCount() == 1 && encoderReplacementFallback->get_DefaultString()[0] <= 'ÿ') {
+    return true;
+  }
+  return false;
 }
 
 void Latin1Encoding___::cctor() {
-  s_default = rt::newobj<Latin1Encoding>();
-  arrayCharBestFit = rt::newarr<Array<Char>>(604);
+  s_default = rt::newobj<Latin1EncodingSealed>();
 }
 
 } // namespace System::Private::CoreLib::System::Text::Latin1EncodingNamespace

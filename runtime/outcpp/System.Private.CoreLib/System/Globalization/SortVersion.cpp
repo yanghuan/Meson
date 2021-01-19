@@ -2,6 +2,7 @@
 
 #include <System.Private.CoreLib/System/Byte-dep.h>
 #include <System.Private.CoreLib/System/Globalization/SortVersion-dep.h>
+#include <System.Private.CoreLib/System/UInt32-dep.h>
 
 namespace System::Private::CoreLib::System::Globalization::SortVersionNamespace {
 Int32 SortVersion___::get_FullVersion() {
@@ -23,7 +24,7 @@ void SortVersion___::ctor(Int32 nlsVersion, Int32 effectiveId, Guid customVersio
     Byte h = (Byte)(effectiveId >> 24);
     Byte i = (Byte)((effectiveId & 16711680) >> 16);
     Byte j = (Byte)((effectiveId & 65280) >> 8);
-    Byte k = (Byte)(effectiveId & 255);
+    Byte k = (Byte)((UInt32)effectiveId & 255u);
     customVersion = Guid(0, 0, 0, 0, 0, 0, 0, h, i, j, k);
   }
   m_SortId = customVersion;

@@ -33,7 +33,7 @@ void EncoderFallbackBuffer___::InternalInitialize(Char* charStart, Char* charEnd
 }
 
 EncoderFallbackBuffer EncoderFallbackBuffer___::CreateAndInitialize(Encoding encoding, EncoderNLS encoder, Int32 originalCharCount) {
-  EncoderFallbackBuffer encoderFallbackBuffer = (encoder == nullptr) ? encoding->get_EncoderFallback()->CreateFallbackBuffer() : encoder->get_FallbackBuffer();
+  EncoderFallbackBuffer encoderFallbackBuffer = ((encoder == nullptr) ? encoding->get_EncoderFallback()->CreateFallbackBuffer() : encoder->get_FallbackBuffer());
   encoderFallbackBuffer->encoding = encoding;
   encoderFallbackBuffer->encoder = encoder;
   encoderFallbackBuffer->originalCharCount = originalCharCount;
@@ -42,7 +42,7 @@ EncoderFallbackBuffer EncoderFallbackBuffer___::CreateAndInitialize(Encoding enc
 
 Char EncoderFallbackBuffer___::InternalGetNextChar() {
   Char nextChar = GetNextChar();
-  bFallingBack = (nextChar != '\0');
+  bFallingBack = nextChar != '\0';
   if (nextChar == '\0') {
     iRecursionCount = 0;
   }
@@ -87,7 +87,7 @@ Boolean EncoderFallbackBuffer___::TryDrainRemainingDataForGetBytes(Span<Byte> by
   Int32 length = bytes.get_Length();
   while (true) {
     Rune nextRune;
-    Rune rune = nextRune = GetNextRune();
+    Rune rune = (nextRune = GetNextRune());
     if (rune.get_Value() == 0) {
       break;
     }
@@ -116,7 +116,7 @@ Int32 EncoderFallbackBuffer___::DrainRemainingDataForGetByteCount() {
   Int32 num = 0;
   while (true) {
     Rune nextRune;
-    Rune rune = nextRune = GetNextRune();
+    Rune rune = (nextRune = GetNextRune());
     if (rune.get_Value() == 0) {
       break;
     }

@@ -14,8 +14,6 @@ CLASS(DecoderFallback) : public object {
   public: Int32 get_MaxCharCount();
   public: DecoderFallbackBuffer CreateFallbackBuffer();
   public: void ctor();
-  private: static DecoderFallback s_replacementFallback;
-  private: static DecoderFallback s_exceptionFallback;
 };
 } // namespace DecoderFallbackNamespace
 using DecoderFallback = DecoderFallbackNamespace::DecoderFallback;

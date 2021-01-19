@@ -102,7 +102,7 @@ String StringReader___::ReadToEnd() {
   if (_s == nullptr) {
     rt::throw_exception<ObjectDisposedException>(nullptr, SR::get_ObjectDisposed_ReaderClosed());
   }
-  String result = (_pos != 0) ? _s->Substring(_pos, _length - _pos) : _s;
+  String result = ((_pos != 0) ? _s->Substring(_pos, _length - _pos) : _s);
   _pos = _length;
   return result;
 }
@@ -157,7 +157,7 @@ ValueTask<Int32> StringReader___::ReadBlockAsync(Memory<Char> buffer, Cancellati
   if (!cancellationToken.get_IsCancellationRequested()) {
     return ValueTask<Int32>(ReadBlock(buffer.get_Span()));
   }
-  return ValueTask<Int32>(Task<>::in::FromCanceled<Int32>(cancellationToken));
+  return ValueTask<>::FromCanceled<Int32>(cancellationToken);
 }
 
 Task<Int32> StringReader___::ReadAsync(Array<Char> buffer, Int32 index, Int32 count) {
@@ -178,7 +178,7 @@ ValueTask<Int32> StringReader___::ReadAsync(Memory<Char> buffer, CancellationTok
   if (!cancellationToken.get_IsCancellationRequested()) {
     return ValueTask<Int32>(Read(buffer.get_Span()));
   }
-  return ValueTask<Int32>(Task<>::in::FromCanceled<Int32>(cancellationToken));
+  return ValueTask<>::FromCanceled<Int32>(cancellationToken);
 }
 
 } // namespace System::Private::CoreLib::System::IO::StringReaderNamespace

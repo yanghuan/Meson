@@ -379,7 +379,7 @@ namespace rt {
       return T::op_Implicit(*this);
     }
 
-    template <class R> requires(std::is_same_v<R, decltype(R::op_Implicit(ref()))>)
+    template <class R, class T1 = T> requires(std::is_same_v<R, decltype(R::op_Implicit(ref<T1>()))>)
     operator R() {
       return R::op_Implicit(*this);
     }

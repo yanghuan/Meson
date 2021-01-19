@@ -7,7 +7,6 @@
 #include <System.Private.CoreLib/System/IConvertible.h>
 #include <System.Private.CoreLib/System/IFormatProvider.h>
 #include <System.Private.CoreLib/System/InvalidCastException-dep.h>
-#include <System.Private.CoreLib/System/NotSupportedException-dep.h>
 #include <System.Private.CoreLib/System/Runtime/InteropServices/BStrWrapper-dep.h>
 #include <System.Private.CoreLib/System/Runtime/InteropServices/CurrencyWrapper-dep.h>
 #include <System.Private.CoreLib/System/Runtime/InteropServices/DispatchWrapper-dep.h>
@@ -16,9 +15,7 @@
 #include <System.Private.CoreLib/System/Runtime/InteropServices/VarEnum.h>
 #include <System.Private.CoreLib/System/SR-dep.h>
 #include <System.Private.CoreLib/System/String-dep.h>
-#include <System.Private.CoreLib/System/TimeSpan-dep.h>
 #include <System.Private.CoreLib/System/Type-dep.h>
-#include <System.Private.CoreLib/System/TypeCode.h>
 #include <System.Private.CoreLib/System/Variant-dep.h>
 
 namespace System::Private::CoreLib::System::VariantNamespace {
@@ -181,46 +178,6 @@ Variant::Variant(Object obj) {
 }
 
 Object Variant::ToObject() {
-  switch (get_CVType().get()) {
-    case 0:
-      return nullptr;
-    case 2:
-      return (Int32)_data != 0;
-    case 4:
-      return (SByte)_data;
-    case 5:
-      return (Byte)_data;
-    case 3:
-      return (Char)_data;
-    case 6:
-      return (Int16)_data;
-    case 7:
-      return (UInt16)_data;
-    case 8:
-      return (Int32)_data;
-    case 9:
-      return (UInt32)_data;
-    case 10:
-      return _data;
-    case 11:
-      return (UInt64)_data;
-    case 12:
-      return BitConverter::Int32BitsToSingle((Int32)_data);
-    case 13:
-      return BitConverter::Int64BitsToDouble(_data);
-    case 16:
-      return DateTime(_data);
-    case 17:
-      return TimeSpan(_data);
-    case 21:
-      return BoxEnum();
-    case 22:
-      return Type::in::Missing;
-    case 23:
-      return DBNull::in::Value;
-    default:
-      return _objref;
-  }
 }
 
 void Variant::MarshalHelperConvertObjectToVariant(Object o, Variant& v) {
@@ -231,66 +188,6 @@ void Variant::MarshalHelperConvertObjectToVariant(Object o, Variant& v) {
   IConvertible convertible = rt::as<IConvertible>(o);
   if (convertible != nullptr) {
     IFormatProvider invariantCulture = CultureInfo::in::get_InvariantCulture();
-    Variant variant;
-    switch (convertible->GetTypeCode()) {
-      case TypeCode::Empty:
-        variant = Empty;
-        break;
-      case TypeCode::Object:
-        variant = Variant(o);
-        break;
-      case TypeCode::DBNull:
-        variant = DBNull;
-        break;
-      case TypeCode::Boolean:
-        variant = Variant(convertible->ToBoolean(invariantCulture));
-        break;
-      case TypeCode::Char:
-        variant = Variant(convertible->ToChar(invariantCulture));
-        break;
-      case TypeCode::SByte:
-        variant = Variant(convertible->ToSByte(invariantCulture));
-        break;
-      case TypeCode::Byte:
-        variant = Variant(convertible->ToByte(invariantCulture));
-        break;
-      case TypeCode::Int16:
-        variant = Variant(convertible->ToInt16(invariantCulture));
-        break;
-      case TypeCode::UInt16:
-        variant = Variant(convertible->ToUInt16(invariantCulture));
-        break;
-      case TypeCode::Int32:
-        variant = Variant(convertible->ToInt32(invariantCulture));
-        break;
-      case TypeCode::UInt32:
-        variant = Variant(convertible->ToUInt32(invariantCulture));
-        break;
-      case TypeCode::Int64:
-        variant = Variant(convertible->ToInt64(invariantCulture));
-        break;
-      case TypeCode::UInt64:
-        variant = Variant(convertible->ToUInt64(invariantCulture));
-        break;
-      case TypeCode::Single:
-        variant = Variant(convertible->ToSingle(invariantCulture));
-        break;
-      case TypeCode::Double:
-        variant = Variant(convertible->ToDouble(invariantCulture));
-        break;
-      case TypeCode::Decimal:
-        variant = Variant(convertible->ToDecimal(invariantCulture));
-        break;
-      case TypeCode::DateTime:
-        variant = Variant(convertible->ToDateTime(invariantCulture));
-        break;
-      case TypeCode::String:
-        variant = Variant(convertible->ToString(invariantCulture));
-        break;
-      default:
-        rt::throw_exception<NotSupportedException>(SR::Format(SR::get_NotSupported_UnknownTypeCode(), convertible->GetTypeCode()));
-    }
-    v = variant;
   } else {
     v = Variant(o);
   }
@@ -328,85 +225,10 @@ void Variant::MarshalHelperCastVariant(Object pValue, Int32 vt, Variant& v) {
     rt::throw_exception<InvalidCastException>(SR::get_InvalidCast_CannotCoerceByRefVariant());
   }
   IFormatProvider invariantCulture = CultureInfo::in::get_InvariantCulture();
-  switch (vt.get()) {
-    case 0:
-      variant = Empty;
-      break;
-    case 1:
-      variant = DBNull;
-      break;
-    case 2:
-      variant = Variant(convertible->ToInt16(invariantCulture));
-      break;
-    case 3:
-      variant = Variant(convertible->ToInt32(invariantCulture));
-      break;
-    case 4:
-      variant = Variant(convertible->ToSingle(invariantCulture));
-      break;
-    case 5:
-      variant = Variant(convertible->ToDouble(invariantCulture));
-      break;
-    case 6:
-      variant = Variant(rt::newobj<CurrencyWrapper>(convertible->ToDecimal(invariantCulture)));
-      break;
-    case 7:
-      variant = Variant(convertible->ToDateTime(invariantCulture));
-      break;
-    case 8:
-      variant = Variant(convertible->ToString(invariantCulture));
-      break;
-    case 9:
-      variant = Variant(rt::newobj<DispatchWrapper>(convertible));
-      break;
-    case 10:
-      variant = Variant(rt::newobj<ErrorWrapper>(convertible->ToInt32(invariantCulture)));
-      break;
-    case 11:
-      variant = Variant(convertible->ToBoolean(invariantCulture));
-      break;
-    case 12:
-      variant = Variant(convertible);
-      break;
-    case 13:
-      variant = Variant(rt::newobj<UnknownWrapper>(convertible));
-      break;
-    case 14:
-      variant = Variant(convertible->ToDecimal(invariantCulture));
-      break;
-    case 16:
-      variant = Variant(convertible->ToSByte(invariantCulture));
-      break;
-    case 17:
-      variant = Variant(convertible->ToByte(invariantCulture));
-      break;
-    case 18:
-      variant = Variant(convertible->ToUInt16(invariantCulture));
-      break;
-    case 19:
-      variant = Variant(convertible->ToUInt32(invariantCulture));
-      break;
-    case 20:
-      variant = Variant(convertible->ToInt64(invariantCulture));
-      break;
-    case 21:
-      variant = Variant(convertible->ToUInt64(invariantCulture));
-      break;
-    case 22:
-      variant = Variant(convertible->ToInt32(invariantCulture));
-      break;
-    case 23:
-      variant = Variant(convertible->ToUInt32(invariantCulture));
-      break;
-    default:
-      rt::throw_exception<InvalidCastException>(SR::get_InvalidCast_CannotCoerceByRefVariant());
-  }
-  v = variant;
 }
 
 void Variant::cctor() {
   ClassTypes = rt::newarr<Array<Type>>(23);
-  Empty = rt::default__;
   Missing = Variant(22, Type::in::Missing, 0);
   DBNull = Variant(23, DBNull::in::Value, 0);
 }

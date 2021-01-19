@@ -3,7 +3,9 @@
 #include <System.Private.CoreLib/System/ArgumentException-dep.h>
 #include <System.Private.CoreLib/System/ArgumentNullException-dep.h>
 #include <System.Private.CoreLib/System/Char-dep.h>
+#include <System.Private.CoreLib/System/Collections/Generic/KeyValuePair-dep.h>
 #include <System.Private.CoreLib/System/Collections/Hashtable-dep.h>
+#include <System.Private.CoreLib/System/LocalAppContextSwitches-dep.h>
 #include <System.Private.CoreLib/System/MemoryExtensions-dep.h>
 #include <System.Private.CoreLib/System/Object-dep.h>
 #include <System.Private.CoreLib/System/ReadOnlySpan-dep.h>
@@ -15,6 +17,7 @@
 
 namespace System::Private::CoreLib::System::Text::EncodingTableNamespace {
 using namespace System::Collections;
+using namespace System::Collections::Generic;
 using namespace System::Threading;
 
 Int32 EncodingTable::GetCodePageFromName(String name) {
@@ -55,15 +58,44 @@ Int32 EncodingTable::InternalGetCodePageFromName(String name) {
 }
 
 Array<EncodingInfo> EncodingTable::GetEncodings() {
-  Array<EncodingInfo> array = rt::newarr<Array<EncodingInfo>>(s_mappedCodePages->get_Length());
-  for (Int32 i = 0; i < s_mappedCodePages->get_Length(); i++) {
-    Int32 num = i;
-    UInt16 codePage = s_mappedCodePages[i];
-    Int32 num2 = s_webNameIndices[i];
-    Int32 length = s_webNameIndices[i + 1] - num2;
-    array[num] = rt::newobj<EncodingInfo>(codePage, "utf-16utf-16BEutf-32utf-32BEus-asciiiso-8859-1utf-7utf-8"->Substring(num2, length), GetDisplayName(s_mappedCodePages[i], i));
+  Array<UInt16> array = s_mappedCodePages;
+  Array<EncodingInfo> array2 = rt::newarr<Array<EncodingInfo>>(LocalAppContextSwitches::get_EnableUnsafeUTF7Encoding() ? array->get_Length() : (array->get_Length() - 1));
+  String text = "utf-16utf-16BEutf-32utf-32BEus-asciiiso-8859-1utf-7utf-8";
+  Array<Int32> array3 = s_webNameIndices;
+  Int32 num = 0;
+  for (Int32 i = 0; i < array->get_Length(); i++) {
+    Int32 num2 = array[i];
+    if (num2 != 65000 || LocalAppContextSwitches::get_EnableUnsafeUTF7Encoding()) {
+      Int32 num3 = num++;
+      Int32 num4 = array3[i];
+      Int32 length = array3[i + 1] - num4;
+      array2[num3] = rt::newobj<EncodingInfo>(num2, text->Substring(num4, length), GetDisplayName(num2, i));
+    }
   }
-  return array;
+  return array2;
+}
+
+Array<EncodingInfo> EncodingTable::GetEncodings(Dictionary<Int32, EncodingInfo> encodingInfoList) {
+  Array<UInt16> array = s_mappedCodePages;
+  String text = "utf-16utf-16BEutf-32utf-32BEus-asciiiso-8859-1utf-7utf-8";
+  Array<Int32> array2 = s_webNameIndices;
+  for (Int32 i = 0; i < array->get_Length(); i++) {
+    Int32 num = array[i];
+    if (!encodingInfoList->ContainsKey(num) && (num != 65000 || LocalAppContextSwitches::get_EnableUnsafeUTF7Encoding())) {
+      Int32 num2 = array2[i];
+      Int32 length = array2[i + 1] - num2;
+      encodingInfoList[num] = rt::newobj<EncodingInfo>(num, text->Substring(num2, length), GetDisplayName(num, i));
+    }
+  }
+  if (!LocalAppContextSwitches::get_EnableUnsafeUTF7Encoding()) {
+    encodingInfoList->Remove(65000);
+  }
+  Array<EncodingInfo> array3 = rt::newarr<Array<EncodingInfo>>(encodingInfoList->get_Count());
+  Int32 num3 = 0;
+  for (KeyValuePair<Int32, EncodingInfo>&& encodingInfo : *encodingInfoList) {
+    array3[num3++] = encodingInfo.get_Value();
+  }
+  return array3;
 }
 
 CodePageDataItem EncodingTable::GetCodePageDataItem(Int32 codePage) {

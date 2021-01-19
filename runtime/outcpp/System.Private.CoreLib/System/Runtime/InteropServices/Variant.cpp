@@ -127,7 +127,7 @@ void Variant::CopyFromIndirect(Object value) {
   }
   if ((varEnum & VarEnum::VT_ARRAY) != 0) {
     Variant variant;
-    Marshal::GetNativeVariantForObject(value, (IntPtr)(void*)(&variant));
+    Marshal::GetNativeVariantForObject(value, (IntPtr)(&variant));
     *(IntPtr*)(void*)_typeUnion._unionTypes._byref = variant._typeUnion._unionTypes._byref;
     return;
   }

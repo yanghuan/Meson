@@ -24,7 +24,7 @@ IntPtr UTF8Marshaler::ConvertToNative(Int32 flags, String strManaged, IntPtr pNa
     strManaged->GetBytesFromEncoding(ptr, cbNativeBuffer, Encoding::in::get_UTF8());
   }
   *(ptr + cbNativeBuffer) = 0;
-  return (IntPtr)(void*)ptr;
+  return (IntPtr)ptr;
 }
 
 String UTF8Marshaler::ConvertToManaged(IntPtr cstr) {

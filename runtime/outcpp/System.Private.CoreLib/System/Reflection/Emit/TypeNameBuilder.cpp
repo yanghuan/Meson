@@ -242,7 +242,7 @@ void TypeNameBuilder___::AddAssemblyQualifiedName(Type type, Format format) {
     Array<Type> genericArguments = type2->GetGenericArguments();
     OpenGenericArguments();
     for (Int32 i = 0; i < genericArguments->get_Length(); i++) {
-      Format format2 = (format == Format::FullName) ? Format::AssemblyQualifiedName : format;
+      Format format2 = ((format == Format::FullName) ? Format::AssemblyQualifiedName : format);
       OpenGenericArgument();
       AddAssemblyQualifiedName(genericArguments[i], format2);
       CloseGenericArgument();

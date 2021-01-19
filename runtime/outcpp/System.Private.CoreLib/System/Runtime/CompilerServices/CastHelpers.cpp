@@ -10,7 +10,6 @@
 #include <System.Private.CoreLib/System/Threading/Interlocked-dep.h>
 #include <System.Private.CoreLib/System/Threading/Volatile-dep.h>
 #include <System.Private.CoreLib/System/Type-dep.h>
-#include <System.Private.CoreLib/System/UInt32-dep.h>
 #include <System.Private.CoreLib/System/UInt64-dep.h>
 
 namespace System::Private::CoreLib::System::Runtime::CompilerServices::CastHelpersNamespace {
@@ -57,14 +56,14 @@ CastHelpers::CastResult CastHelpers::TryGet(UIntPtr source, UIntPtr target) {
         if (num3 != reference._version) {
           break;
         }
-        return (CastResult)(UInt32)targetAndResult;
+        return (CastResult)(UInt64)targetAndResult;
       }
     }
     if (num3 == 0) {
       break;
     }
     num2++;
-    num = ((num + num2) & TableMask(tableData));
+    num = (num + num2) & TableMask(tableData);
   }
   return CastResult::MaybeCast;
 }
@@ -90,25 +89,25 @@ Object CastHelpers::IsInstanceOfInterface(void* toTypeHnd, Object obj) {
   if (obj != nullptr) {
     methodTable = RuntimeHelpers::GetMethodTable(obj);
     UIntPtr uIntPtr = (UIntPtr)(void*)methodTable->InterfaceCount;
-    if (uIntPtr == (UIntPtr)(void*)nullptr) {
+    if (uIntPtr == (UIntPtr)(void*)(void*)nullptr) {
       goto IL_0095;
     }
     MethodTable* interfaceMap = methodTable->InterfaceMap;
-    UIntPtr uIntPtr2 = (UIntPtr)(void*)nullptr;
+    UIntPtr uIntPtr2 = (UIntPtr)(void*)(void*)nullptr;
     while (*(interfaceMap + (UInt64)(UIntPtr)(void*)((Int64)(UInt64)uIntPtr2 + 0)) != toTypeHnd) {
-      if ((uIntPtr = (UIntPtr)(void*)((UInt64)(Int64)(UInt64)uIntPtr - 1)) != (UIntPtr)(void*)nullptr) {
+      if ((uIntPtr = (UIntPtr)(void*)((UInt64)(Int64)(UInt64)uIntPtr - 1)) != (UIntPtr)(void*)(void*)nullptr) {
         if (*(interfaceMap + (UInt64)(UIntPtr)(void*)((Int64)(UInt64)uIntPtr2 + 1)) == toTypeHnd) {
           break;
         }
-        if ((uIntPtr = (UIntPtr)(void*)((UInt64)(Int64)(UInt64)uIntPtr - 1)) != (UIntPtr)(void*)nullptr) {
+        if ((uIntPtr = (UIntPtr)(void*)((UInt64)(Int64)(UInt64)uIntPtr - 1)) != (UIntPtr)(void*)(void*)nullptr) {
           if (*(interfaceMap + (UInt64)(UIntPtr)(void*)((Int64)(UInt64)uIntPtr2 + 2)) == toTypeHnd) {
             break;
           }
-          if ((uIntPtr = (UIntPtr)(void*)((UInt64)(Int64)(UInt64)uIntPtr - 1)) != (UIntPtr)(void*)nullptr) {
+          if ((uIntPtr = (UIntPtr)(void*)((UInt64)(Int64)(UInt64)uIntPtr - 1)) != (UIntPtr)(void*)(void*)nullptr) {
             if (*(interfaceMap + (UInt64)(UIntPtr)(void*)((Int64)(UInt64)uIntPtr2 + 3)) == toTypeHnd) {
               break;
             }
-            if ((uIntPtr = (UIntPtr)(void*)((UInt64)(Int64)(UInt64)uIntPtr - 1)) != (UIntPtr)(void*)nullptr) {
+            if ((uIntPtr = (UIntPtr)(void*)((UInt64)(Int64)(UInt64)uIntPtr - 1)) != (UIntPtr)(void*)(void*)nullptr) {
               uIntPtr2 = (UIntPtr)(void*)((UInt64)(Int64)(UInt64)uIntPtr2 + 4);
               continue;
             }
@@ -174,14 +173,6 @@ Object CastHelpers::IsInstanceOfClass(void* toTypeHnd, Object obj) {
 }
 
 Object CastHelpers::IsInstance_Helper(void* toTypeHnd, Object obj) {
-  switch (TryGet((UIntPtr)(void*)RuntimeHelpers::GetMethodTable(obj), (UIntPtr)toTypeHnd)) {
-    case CastResult::CanCast:
-      return obj;
-    case CastResult::CannotCast:
-      return nullptr;
-    default:
-      return IsInstanceOfAny_NoCacheLookup(toTypeHnd, obj);
-  }
 }
 
 Object CastHelpers::ChkCastAny(void* toTypeHnd, Object obj) {
@@ -198,7 +189,7 @@ Object CastHelpers::ChkCastAny(void* toTypeHnd, Object obj) {
 }
 
 Object CastHelpers::ChkCast_Helper(void* toTypeHnd, Object obj) {
-  CastResult castResult = TryGet((UIntPtr)(void*)RuntimeHelpers::GetMethodTable(obj), (UIntPtr)toTypeHnd);
+  CastResult castResult = TryGet((UIntPtr)RuntimeHelpers::GetMethodTable(obj), (UIntPtr)toTypeHnd);
   if (castResult == CastResult::CanCast) {
     return obj;
   }
@@ -209,25 +200,25 @@ Object CastHelpers::ChkCastInterface(void* toTypeHnd, Object obj) {
   if (obj != nullptr) {
     MethodTable* methodTable = RuntimeHelpers::GetMethodTable(obj);
     UIntPtr uIntPtr = (UIntPtr)(void*)methodTable->InterfaceCount;
-    if (uIntPtr == (UIntPtr)(void*)nullptr) {
+    if (uIntPtr == (UIntPtr)(void*)(void*)nullptr) {
       goto IL_0097;
     }
     MethodTable* interfaceMap = methodTable->InterfaceMap;
-    UIntPtr uIntPtr2 = (UIntPtr)(void*)nullptr;
+    UIntPtr uIntPtr2 = (UIntPtr)(void*)(void*)nullptr;
     while (*(interfaceMap + (UInt64)(UIntPtr)(void*)((Int64)(UInt64)uIntPtr2 + 0)) != toTypeHnd) {
-      if ((uIntPtr = (UIntPtr)(void*)((UInt64)(Int64)(UInt64)uIntPtr - 1)) != (UIntPtr)(void*)nullptr) {
+      if ((uIntPtr = (UIntPtr)(void*)((UInt64)(Int64)(UInt64)uIntPtr - 1)) != (UIntPtr)(void*)(void*)nullptr) {
         if (*(interfaceMap + (UInt64)(UIntPtr)(void*)((Int64)(UInt64)uIntPtr2 + 1)) == toTypeHnd) {
           break;
         }
-        if ((uIntPtr = (UIntPtr)(void*)((UInt64)(Int64)(UInt64)uIntPtr - 1)) != (UIntPtr)(void*)nullptr) {
+        if ((uIntPtr = (UIntPtr)(void*)((UInt64)(Int64)(UInt64)uIntPtr - 1)) != (UIntPtr)(void*)(void*)nullptr) {
           if (*(interfaceMap + (UInt64)(UIntPtr)(void*)((Int64)(UInt64)uIntPtr2 + 2)) == toTypeHnd) {
             break;
           }
-          if ((uIntPtr = (UIntPtr)(void*)((UInt64)(Int64)(UInt64)uIntPtr - 1)) != (UIntPtr)(void*)nullptr) {
+          if ((uIntPtr = (UIntPtr)(void*)((UInt64)(Int64)(UInt64)uIntPtr - 1)) != (UIntPtr)(void*)(void*)nullptr) {
             if (*(interfaceMap + (UInt64)(UIntPtr)(void*)((Int64)(UInt64)uIntPtr2 + 3)) == toTypeHnd) {
               break;
             }
-            if ((uIntPtr = (UIntPtr)(void*)((UInt64)(Int64)(UInt64)uIntPtr - 1)) != (UIntPtr)(void*)nullptr) {
+            if ((uIntPtr = (UIntPtr)(void*)((UInt64)(Int64)(UInt64)uIntPtr - 1)) != (UIntPtr)(void*)(void*)nullptr) {
               uIntPtr2 = (UIntPtr)(void*)((UInt64)(Int64)(UInt64)uIntPtr2 + 4);
               continue;
             }
@@ -318,7 +309,7 @@ void CastHelpers::StelemRef(Array<> array, Int32 index, Object obj) {
 }
 
 void CastHelpers::StelemRef_Helper(Object& element, void* elementType, Object obj) {
-  CastResult castResult = TryGet((UIntPtr)(void*)RuntimeHelpers::GetMethodTable(obj), (UIntPtr)elementType);
+  CastResult castResult = TryGet((UIntPtr)RuntimeHelpers::GetMethodTable(obj), (UIntPtr)elementType);
   if (castResult == CastResult::CanCast) {
     WriteBarrier(element, obj);
   } else {

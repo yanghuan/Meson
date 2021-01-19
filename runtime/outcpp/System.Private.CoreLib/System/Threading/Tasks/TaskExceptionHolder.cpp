@@ -45,7 +45,7 @@ void TaskExceptionHolder___::Add(Object exceptionObject, Boolean representsCance
 void TaskExceptionHolder___::SetCancellationException(Object exceptionObject) {
   OperationCanceledException ex = rt::as<OperationCanceledException>(exceptionObject);
   if (ex == nullptr) {
-    ExceptionDispatchInfo exceptionDispatchInfo = m_cancellationException = (rt::as<ExceptionDispatchInfo>(exceptionObject));
+    ExceptionDispatchInfo exceptionDispatchInfo = (m_cancellationException = rt::as<ExceptionDispatchInfo>(exceptionObject));
   } else {
     m_cancellationException = ExceptionDispatchInfo::in::Capture(ex);
   }

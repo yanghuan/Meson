@@ -5,7 +5,6 @@
 #include <System.Private.CoreLib/System/ArgumentNullException-dep.h>
 #include <System.Private.CoreLib/System/Int32-dep.h>
 #include <System.Private.CoreLib/System/IntPtr-dep.h>
-#include <System.Private.CoreLib/System/IO/DirectoryNotFoundException-dep.h>
 #include <System.Private.CoreLib/System/IO/Win32Marshal-dep.h>
 #include <System.Private.CoreLib/System/Runtime/InteropServices/Marshal-dep.h>
 #include <System.Private.CoreLib/System/SR-dep.h>
@@ -36,16 +35,6 @@ void EventWaitHandle___::ctor(Boolean initialState, EventResetMode mode, String 
 
 EventWaitHandle EventWaitHandle___::OpenExisting(String name) {
   EventWaitHandle result;
-  switch (OpenExistingWorker(name, result)) {
-    case WaitHandle::in::OpenExistingResult::NameNotFound:
-      rt::throw_exception<WaitHandleCannotBeOpenedException>();
-    case WaitHandle::in::OpenExistingResult::NameInvalid:
-      rt::throw_exception<WaitHandleCannotBeOpenedException>(SR::Format(SR::get_Threading_WaitHandleCannotBeOpenedException_InvalidHandle(), name));
-    case WaitHandle::in::OpenExistingResult::PathNotFound:
-      rt::throw_exception<DirectoryNotFoundException>(SR::Format(SR::get_IO_PathNotFound_Path(), name));
-    default:
-      return result;
-  }
 }
 
 Boolean EventWaitHandle___::TryOpenExisting(String name, EventWaitHandle& result) {
@@ -57,9 +46,9 @@ void EventWaitHandle___::ctor(SafeWaitHandle handle) {
 }
 
 void EventWaitHandle___::CreateEventCore(Boolean initialState, EventResetMode mode, String name, Boolean& createdNew) {
-  UInt32 num = initialState ? 2u : 0u;
+  UInt32 num = (initialState ? 2u : 0u);
   if (mode == EventResetMode::ManualReset) {
-    num |= 1;
+    num |= 1u;
   }
   SafeWaitHandle safeWaitHandle = Interop::Kernel32::CreateEventEx(IntPtr::Zero, name, num, 34603010u);
   Int32 lastWin32Error = Marshal::GetLastWin32Error();
@@ -70,7 +59,7 @@ void EventWaitHandle___::CreateEventCore(Boolean initialState, EventResetMode mo
     }
     rt::throw_exception(Win32Marshal::GetExceptionForWin32Error(lastWin32Error, name));
   }
-  createdNew = (lastWin32Error != 183);
+  createdNew = lastWin32Error != 183;
   WaitHandle::in::set_SafeWaitHandle(safeWaitHandle);
 }
 

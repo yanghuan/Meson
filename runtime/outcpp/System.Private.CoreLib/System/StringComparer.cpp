@@ -15,11 +15,11 @@ namespace System::Private::CoreLib::System::StringComparerNamespace {
 using namespace System::Globalization;
 
 StringComparer StringComparer___::get_InvariantCulture() {
-  return s_invariantCulture;
+  return CultureAwareComparer::in::InvariantCaseSensitiveInstance;
 }
 
 StringComparer StringComparer___::get_InvariantCultureIgnoreCase() {
-  return s_invariantCultureIgnoreCase;
+  return CultureAwareComparer::in::InvariantIgnoreCaseInstance;
 }
 
 StringComparer StringComparer___::get_CurrentCulture() {
@@ -31,30 +31,14 @@ StringComparer StringComparer___::get_CurrentCultureIgnoreCase() {
 }
 
 StringComparer StringComparer___::get_Ordinal() {
-  return s_ordinal;
+  return OrdinalCaseSensitiveComparer::in::Instance;
 }
 
 StringComparer StringComparer___::get_OrdinalIgnoreCase() {
-  return s_ordinalIgnoreCase;
+  return OrdinalIgnoreCaseComparer::in::Instance;
 }
 
 StringComparer StringComparer___::FromComparison(StringComparison comparisonType) {
-  switch (comparisonType) {
-    case StringComparison::CurrentCulture:
-      return get_CurrentCulture();
-    case StringComparison::CurrentCultureIgnoreCase:
-      return get_CurrentCultureIgnoreCase();
-    case StringComparison::InvariantCulture:
-      return get_InvariantCulture();
-    case StringComparison::InvariantCultureIgnoreCase:
-      return get_InvariantCultureIgnoreCase();
-    case StringComparison::Ordinal:
-      return get_Ordinal();
-    case StringComparison::OrdinalIgnoreCase:
-      return get_OrdinalIgnoreCase();
-    default:
-      rt::throw_exception<ArgumentException>(SR::get_NotSupported_StringComparison(), "comparisonType");
-  }
 }
 
 StringComparer StringComparer___::Create(CultureInfo culture, Boolean ignoreCase) {
@@ -124,13 +108,6 @@ Int32 StringComparer___::GetHashCode(Object obj) {
 }
 
 void StringComparer___::ctor() {
-}
-
-void StringComparer___::cctor() {
-  s_invariantCulture = rt::newobj<CultureAwareComparer>(CultureInfo::in::get_InvariantCulture(), CompareOptions::None);
-  s_invariantCultureIgnoreCase = rt::newobj<CultureAwareComparer>(CultureInfo::in::get_InvariantCulture(), CompareOptions::IgnoreCase);
-  s_ordinal = rt::newobj<OrdinalCaseSensitiveComparer>();
-  s_ordinalIgnoreCase = rt::newobj<OrdinalIgnoreCaseComparer>();
 }
 
 } // namespace System::Private::CoreLib::System::StringComparerNamespace

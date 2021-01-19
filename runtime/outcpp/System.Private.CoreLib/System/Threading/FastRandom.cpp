@@ -15,7 +15,7 @@ Int32 FastRandom::Next(Int32 maxValue) {
   _x = _y;
   _y = _z;
   _z = _w;
-  _w = (_w ^ (_w >> 19) ^ (num ^ (num >> 8)));
+  _w = _w ^ (_w >> 19) ^ (num ^ (num >> 8));
   return (Int32)(_w % (UInt32)maxValue);
 }
 

@@ -158,7 +158,7 @@ Func<Object, Stream, Object> ResourceReader___::__c___::_InitializeBinaryFormatt
 void ResourceReader___::ctor(Stream stream, Dictionary<String, ResourceLocator> resCache, Boolean permitDeserialization) {
   _resCache = resCache;
   _store = rt::newobj<BinaryReader>(stream, Encoding::in::get_UTF8());
-  _ums = (rt::as<UnmanagedMemoryStream>(stream));
+  _ums = rt::as<UnmanagedMemoryStream>(stream);
   _permitDeserialization = permitDeserialization;
   ReadResources();
 }
@@ -167,8 +167,8 @@ Object ResourceReader___::DeserializeObject(Int32 typeIndex) {
   if (!_permitDeserialization) {
     rt::throw_exception<NotSupportedException>(SR::get_NotSupported_ResourceObjectSerialization());
   }
-  if (_binaryFormatter == nullptr) {
-    InitializeBinaryFormatter();
+  if (_binaryFormatter == nullptr && !InitializeBinaryFormatter()) {
+    rt::throw_exception<NotSupportedException>(SR::get_BinaryFormatter_SerializationDisallowed());
   }
   Type type = FindType(typeIndex);
   Object obj = s_deserializeMethod(_binaryFormatter, _store->get_BaseStream());
@@ -178,12 +178,13 @@ Object ResourceReader___::DeserializeObject(Int32 typeIndex) {
   return obj;
 }
 
-void ResourceReader___::InitializeBinaryFormatter() {
+Boolean ResourceReader___::InitializeBinaryFormatter() {
   Func<Type> as = __c::in::__9__6_0;
   LazyInitializer::EnsureInitialized(s_binaryFormatterType, as != nullptr ? as : (__c::in::__9__6_0 = {__c::in::__9, &__c::in::_InitializeBinaryFormatter_b__6_0}));
   Func<Func<Object, Stream, Object>> is = __c::in::__9__6_1;
   LazyInitializer::EnsureInitialized(s_deserializeMethod, is != nullptr ? is : (__c::in::__9__6_1 = {__c::in::__9, &__c::in::_InitializeBinaryFormatter_b__6_1}));
   _binaryFormatter = Activator::CreateInstance(s_binaryFormatterType);
+  return true;
 }
 
 Boolean ResourceReader___::ValidateReaderType(String readerType) {
@@ -219,7 +220,7 @@ void ResourceReader___::GetResourceData(String resourceName, String& resourceTyp
     }
     Array<>::in::Sort(array);
     Int32 num4 = Array<>::in::BinarySearch(array, num);
-    Int64 num5 = (num4 < _numResources - 1) ? (array[num4 + 1] + _dataSectionOffset) : _store->get_BaseStream()->get_Length();
+    Int64 num5 = ((num4 < _numResources - 1) ? (array[num4 + 1] + _dataSectionOffset) : _store->get_BaseStream()->get_Length());
     Int32 num6 = (Int32)(num5 - (num + _dataSectionOffset));
     _store->get_BaseStream()->set_Position(_dataSectionOffset + num);
     ResourceTypeCode resourceTypeCode = (ResourceTypeCode)_store->Read7BitEncodedInt();
@@ -256,7 +257,7 @@ void ResourceReader___::ctor(Stream stream) {
   }
   _resCache = rt::newobj<Dictionary<String, ResourceLocator>>(FastResourceComparer::in::Default);
   _store = rt::newobj<BinaryReader>(stream, Encoding::in::get_UTF8());
-  _ums = (rt::as<UnmanagedMemoryStream>(stream));
+  _ums = rt::as<UnmanagedMemoryStream>(stream);
   ReadResources();
 }
 
@@ -308,7 +309,7 @@ Int32 ResourceReader___::GetNameHash(Int32 index) {
 }
 
 Int32 ResourceReader___::GetNamePosition(Int32 index) {
-  Int32 num = (_ums != nullptr) ? ReadUnalignedI4(_namePositionsPtr + index) : _namePositions[index];
+  Int32 num = ((_ums != nullptr) ? ReadUnalignedI4(_namePositionsPtr + index) : _namePositions[index]);
   if (num < 0 || num > _dataSectionOffset - _nameSectionOffset) {
     rt::throw_exception<FormatException>(SR::Format(SR::get_BadImageFormat_ResourcesNameInvalidOffset(), num));
   }
@@ -339,7 +340,7 @@ Int32 ResourceReader___::FindPosForResource(String name) {
   while (num2 <= i) {
     num3 = num2 + i >> 1;
     Int32 nameHash = GetNameHash(num3);
-    Int32 num4 = (nameHash != num) ? ((nameHash >= num) ? 1 : (-1)) : 0;
+    Int32 num4 = ((nameHash != num) ? ((nameHash >= num) ? 1 : (-1)) : 0);
     if (num4 == 0) {
       flag = true;
       break;
@@ -479,7 +480,7 @@ String ResourceReader___::LoadString(Int32 pos) {
   } else {
     ResourceTypeCode resourceTypeCode = (ResourceTypeCode)num;
     if (resourceTypeCode != ResourceTypeCode::String && resourceTypeCode != 0) {
-      String p = (resourceTypeCode >= ResourceTypeCode::StartOfUserTypes) ? FindType((Int32)(resourceTypeCode - 64))->get_FullName() : resourceTypeCode->ToString();
+      String p = ((resourceTypeCode >= ResourceTypeCode::StartOfUserTypes) ? FindType((Int32)(resourceTypeCode - 64))->get_FullName() : resourceTypeCode->ToString());
       rt::throw_exception<InvalidOperationException>(SR::Format(SR::get_InvalidOperation_ResourceNotString_Type(), p));
     }
     if (resourceTypeCode == ResourceTypeCode::String) {

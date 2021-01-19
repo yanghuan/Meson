@@ -9,6 +9,7 @@
 #include <System.Private.CoreLib/System/InvalidOperationException-dep.h>
 #include <System.Private.CoreLib/System/Math-dep.h>
 #include <System.Private.CoreLib/System/MemoryExtensions-dep.h>
+#include <System.Private.CoreLib/System/OperatingSystem-dep.h>
 #include <System.Private.CoreLib/System/OutOfMemoryException-dep.h>
 #include <System.Private.CoreLib/System/ReadOnlySpan-dep.h>
 #include <System.Private.CoreLib/System/Runtime/InteropServices/Marshal-dep.h>
@@ -59,7 +60,7 @@ String Normalization::IcuNormalize(String strInput, NormalizationForm normalizat
   Array<Char> array = nullptr;
   try {
     Char as[512] = {};
-    Span<Char> span = (strInput->get_Length() > 512) ? ((Span<Char>)(array = ArrayPool<Char>::in::get_Shared()->Rent(strInput->get_Length()))) : as;
+    Span<Char> span = ((strInput->get_Length() > 512) ? ((Span<Char>)(array = ArrayPool<Char>::in::get_Shared()->Rent(strInput->get_Length()))) : as);
     Span<Char> span2 = span;
     for (Int32 i = 0; i < 2; i++) {
       Int32 num;
@@ -105,6 +106,8 @@ String Normalization::IcuNormalize(String strInput, NormalizationForm normalizat
 }
 
 void Normalization::ValidateArguments(String strInput, NormalizationForm normalizationForm) {
+  if (OperatingSystem::in::IsBrowser()) {
+  }
   if (normalizationForm != NormalizationForm::FormC && normalizationForm != NormalizationForm::FormD && normalizationForm != NormalizationForm::FormKC && normalizationForm != NormalizationForm::FormKD) {
     rt::throw_exception<ArgumentException>(SR::get_Argument_InvalidNormalizationForm(), "normalizationForm");
   }
@@ -166,7 +169,7 @@ String Normalization::NlsNormalize(String strInput, NormalizationForm normalizat
   Array<Char> array = nullptr;
   try {
     Char as[512] = {};
-    Span<Char> span = (strInput->get_Length() > 512) ? ((Span<Char>)(array = ArrayPool<Char>::in::get_Shared()->Rent(strInput->get_Length()))) : as;
+    Span<Char> span = ((strInput->get_Length() > 512) ? ((Span<Char>)(array = ArrayPool<Char>::in::get_Shared()->Rent(strInput->get_Length()))) : as);
     Span<Char> span2 = span;
     while (true) {
       Int32 num;

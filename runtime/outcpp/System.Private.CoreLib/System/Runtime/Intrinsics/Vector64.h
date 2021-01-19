@@ -66,12 +66,15 @@ class Vector64<> {
   public: static Vector64<UInt16> Create(UInt16 e0, UInt16 e1, UInt16 e2, UInt16 e3);
   public: static Vector64<UInt32> Create(UInt32 e0, UInt32 e1);
   public: static Vector64<Byte> CreateScalar(Byte value);
+  public: static Vector64<Double> CreateScalar(Double value);
   public: static Vector64<Int16> CreateScalar(Int16 value);
   public: static Vector64<Int32> CreateScalar(Int32 value);
+  public: static Vector64<Int64> CreateScalar(Int64 value);
   public: static Vector64<SByte> CreateScalar(SByte value);
   public: static Vector64<Single> CreateScalar(Single value);
   public: static Vector64<UInt16> CreateScalar(UInt16 value);
   public: static Vector64<UInt32> CreateScalar(UInt32 value);
+  public: static Vector64<UInt64> CreateScalar(UInt64 value);
   public: static Vector64<Byte> CreateScalarUnsafe(Byte value);
   public: static Vector64<Int16> CreateScalarUnsafe(Int16 value);
   public: static Vector64<Int32> CreateScalarUnsafe(Int32 value);
@@ -107,12 +110,15 @@ class Vector64<> {
   public: static Vector64<UInt16> _Create_g__SoftwareFallback27_0(UInt16 e0, UInt16 e1, UInt16 e2, UInt16 e3);
   public: static Vector64<UInt32> _Create_g__SoftwareFallback28_0(UInt32 e0, UInt32 e1);
   public: static Vector64<Byte> _CreateScalar_g__SoftwareFallback29_0(Byte value);
-  public: static Vector64<Int16> _CreateScalar_g__SoftwareFallback30_0(Int16 value);
-  public: static Vector64<Int32> _CreateScalar_g__SoftwareFallback31_0(Int32 value);
-  public: static Vector64<SByte> _CreateScalar_g__SoftwareFallback32_0(SByte value);
-  public: static Vector64<Single> _CreateScalar_g__SoftwareFallback33_0(Single value);
-  public: static Vector64<UInt16> _CreateScalar_g__SoftwareFallback34_0(UInt16 value);
-  public: static Vector64<UInt32> _CreateScalar_g__SoftwareFallback35_0(UInt32 value);
+  public: static Vector64<Double> _CreateScalar_g__SoftwareFallback30_0(Double value);
+  public: static Vector64<Int16> _CreateScalar_g__SoftwareFallback31_0(Int16 value);
+  public: static Vector64<Int32> _CreateScalar_g__SoftwareFallback32_0(Int32 value);
+  public: static Vector64<Int64> _CreateScalar_g__SoftwareFallback33_0(Int64 value);
+  public: static Vector64<SByte> _CreateScalar_g__SoftwareFallback34_0(SByte value);
+  public: static Vector64<Single> _CreateScalar_g__SoftwareFallback35_0(Single value);
+  public: static Vector64<UInt16> _CreateScalar_g__SoftwareFallback36_0(UInt16 value);
+  public: static Vector64<UInt32> _CreateScalar_g__SoftwareFallback37_0(UInt32 value);
+  public: static Vector64<UInt64> _CreateScalar_g__SoftwareFallback38_0(UInt64 value);
 };
 template <class T>
 struct Vector64<T> : public valueType<Vector64<T>> {

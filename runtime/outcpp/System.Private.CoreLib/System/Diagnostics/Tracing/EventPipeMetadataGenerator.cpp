@@ -78,8 +78,8 @@ Array<Byte> EventPipeMetadataGenerator___::GenerateMetadata(Int32 eventId, Strin
         num2 += size2;
       }
     }
-    UInt32 num4 = (opcode != 0) ? 6u : 0u;
-    UInt32 num5 = (num2 != 0) ? (num2 + 5) : 0u;
+    UInt32 num4 = ((opcode != 0) ? 6u : 0u);
+    UInt32 num5 = ((num2 != 0) ? (num2 + 5) : 0u);
     UInt32 num6 = num5 + num4;
     UInt32 num7 = num + num6;
     array = rt::newarr<Array<Byte>>(num7);

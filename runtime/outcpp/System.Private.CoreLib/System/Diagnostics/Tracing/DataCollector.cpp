@@ -7,7 +7,6 @@
 #include <System.Private.CoreLib/System/Runtime/InteropServices/GCHandleType.h>
 #include <System.Private.CoreLib/System/Runtime/InteropServices/Marshal-dep.h>
 #include <System.Private.CoreLib/System/SR-dep.h>
-#include <System.Private.CoreLib/System/UInt64-dep.h>
 #include <System.Private.CoreLib/System/UIntPtr-dep.h>
 
 namespace System::Private::CoreLib::System::Diagnostics::Tracing::DataCollectorNamespace {
@@ -157,7 +156,7 @@ void DataCollector::EnsureBuffer(Int32 additionalSize) {
 }
 
 void DataCollector::GrowBuffer(Int32 required) {
-  Int32 num = (buffer == nullptr) ? 64 : buffer->get_Length();
+  Int32 num = ((buffer == nullptr) ? 64 : buffer->get_Length());
   do {
     num *= 2;
   } while (num < required);
@@ -186,7 +185,7 @@ void DataCollector::ScalarsBegin() {
     if (datasEnd <= ptr) {
       rt::throw_exception<IndexOutOfRangeException>(SR::get_EventSource_DataDescriptorsOutOfRange());
     }
-    ptr->set_DataPointer((IntPtr)(void*)scratch);
+    ptr->set_DataPointer((IntPtr)scratch);
     writingScalars = true;
   }
 }
@@ -195,7 +194,7 @@ void DataCollector::ScalarsEnd() {
   {
     if (writingScalars) {
       EventSource::in::EventData* ptr = datas;
-      ptr->m_Size = (Int32)(scratch - (Byte*)(UInt64)(UIntPtr)ptr->m_Ptr);
+      ptr->m_Size = (Int32)(scratch - (Byte*)(UIntPtr)ptr->m_Ptr);
       datas = ptr + 1;
       writingScalars = false;
     }

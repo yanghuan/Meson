@@ -23,7 +23,7 @@ String PathHelper::Normalize(String path) {
   Span<Char> initialBuffer = as;
   ValueStringBuilder builder = ValueStringBuilder(initialBuffer);
   GetFullPathName(MemoryExtensions::AsSpan(path), builder);
-  String result = (MemoryExtensions::IndexOf(builder.AsSpan(), '~') >= 0) ? TryExpandShortFileName(builder, path) : (MemoryExtensions::Equals(MemoryExtensions, builder.AsSpan(), MemoryExtensions::AsSpan(path), StringComparison::Ordinal) ? path : builder.ToString());
+  String result = ((MemoryExtensions::IndexOf(builder.AsSpan(), '~') >= 0) ? TryExpandShortFileName(builder, path) : (MemoryExtensions::Equals(MemoryExtensions, builder.AsSpan(), MemoryExtensions::AsSpan(path), StringComparison::Ordinal) ? path : builder.ToString()));
   builder.Dispose();
   return result;
 }
@@ -33,7 +33,7 @@ String PathHelper::Normalize(ValueStringBuilder& path) {
   Span<Char> initialBuffer = as;
   ValueStringBuilder builder = ValueStringBuilder(initialBuffer);
   GetFullPathName(path.AsSpan(true), builder);
-  String result = (MemoryExtensions::IndexOf(builder.AsSpan(), '~') >= 0) ? TryExpandShortFileName(builder, nullptr) : builder.ToString();
+  String result = ((MemoryExtensions::IndexOf(builder.AsSpan(), '~') >= 0) ? TryExpandShortFileName(builder, nullptr) : builder.ToString());
   builder.Dispose();
   return result;
 }
@@ -82,7 +82,7 @@ String PathHelper::TryExpandShortFileName(ValueStringBuilder& outputBuilder, Str
       buffer[2] = '?';
     }
   } else {
-    flag2 = (!PathInternal::IsDevice(outputBuilder.AsSpan()) && outputBuilder.get_Length() > 1 && outputBuilder[0] == '\\' && outputBuilder[1] == '\\');
+    flag2 = !PathInternal::IsDevice(outputBuilder.AsSpan()) && outputBuilder.get_Length() > 1 && outputBuilder[0] == '\\' && outputBuilder[1] == '\\';
     num = PrependDevicePathChars(outputBuilder, flag2, buffer);
   }
   rootLength += num;
@@ -126,7 +126,7 @@ String PathHelper::TryExpandShortFileName(ValueStringBuilder& outputBuilder, Str
     reference[6] = '\\';
   }
   ReadOnlySpan<Char> span = reference.AsSpan(num);
-  String result = (originalPath != nullptr && MemoryExtensions::Equals(MemoryExtensions, span, MemoryExtensions::AsSpan(originalPath), StringComparison::Ordinal)) ? originalPath : span.ToString();
+  String result = ((originalPath != nullptr && MemoryExtensions::Equals(MemoryExtensions, span, MemoryExtensions::AsSpan(originalPath), StringComparison::Ordinal)) ? originalPath : span.ToString());
   buffer.Dispose();
   return result;
 }

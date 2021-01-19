@@ -4,7 +4,7 @@
 #include <System.Private.CoreLib/System/ArgumentOutOfRangeException-dep.h>
 #include <System.Private.CoreLib/System/Double-dep.h>
 #include <System.Private.CoreLib/System/GCCollectionMode.h>
-#include <System.Private.CoreLib/System/Int64-dep.h>
+#include <System.Private.CoreLib/System/GCKind.h>
 #include <System.Private.CoreLib/System/InvalidOperationException-dep.h>
 #include <System.Private.CoreLib/System/Single-dep.h>
 #include <System.Private.CoreLib/System/SR-dep.h>
@@ -15,14 +15,16 @@ Int32 GC::get_MaxGeneration() {
 }
 
 GCMemoryInfo GC::GetGCMemoryInfo() {
-  UInt64 highMemLoadThresholdBytes;
-  UInt64 totalAvailableMemoryBytes;
-  UInt64 lastRecordedMemLoadBytes;
-  UInt32 lastRecordedMemLoadPct;
-  UIntPtr lastRecordedHeapSizeBytes;
-  UIntPtr lastRecordedFragmentationBytes;
-  GetMemoryInfo(highMemLoadThresholdBytes, totalAvailableMemoryBytes, lastRecordedMemLoadBytes, lastRecordedMemLoadPct, lastRecordedHeapSizeBytes, lastRecordedFragmentationBytes);
-  return GCMemoryInfo((Int64)highMemLoadThresholdBytes, (Int64)lastRecordedMemLoadBytes, (Int64)totalAvailableMemoryBytes, (Int64)(UInt64)lastRecordedHeapSizeBytes, (Int64)(UInt64)lastRecordedFragmentationBytes);
+  return GetGCMemoryInfo(GCKind::Any);
+}
+
+GCMemoryInfo GC::GetGCMemoryInfo(GCKind kind) {
+  if (kind < GCKind::Any || kind > GCKind::Background) {
+    rt::throw_exception<ArgumentOutOfRangeException>("kind", SR::Format(SR::get_ArgumentOutOfRange_Bounds_Lower_Upper(), GCKind::Any, GCKind::Background));
+  }
+  GCMemoryInfoData data = rt::newobj<GCMemoryInfoData>();
+  GetMemoryInfo(data, (Int32)kind);
+  return GCMemoryInfo(data);
 }
 
 void GC::AddMemoryPressure(Int64 bytesAllocated) {
@@ -185,16 +187,6 @@ Boolean GC::StartNoGCRegionWorker(Int64 totalSize, Boolean hasLohSize, Int64 loh
     if (lohSize > totalSize) {
       rt::throw_exception<ArgumentOutOfRangeException>("lohSize", "lohSize can't be greater than totalSize");
     }
-  }
-  switch (_StartNoGCRegion(totalSize, hasLohSize, lohSize, disallowFullBlockingGC).get()) {
-    case 1:
-      return false;
-    case 3:
-      rt::throw_exception<InvalidOperationException>("The NoGCRegion mode was already in progress");
-    case 2:
-      rt::throw_exception<ArgumentOutOfRangeException>("totalSize", "totalSize is too large. For more information about setting the maximum size, see \"Latency Modes\" in http://go.microsoft.com/fwlink/?LinkId=522706");
-    default:
-      return true;
   }
 }
 

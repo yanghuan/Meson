@@ -11,6 +11,7 @@
 #include <System.Private.CoreLib/System/String-dep.h>
 #include <System.Private.CoreLib/System/Text/EncoderReplacementFallback-dep.h>
 #include <System.Private.CoreLib/System/Text/UTF7Encoding-dep.h>
+#include <System.Private.CoreLib/System/UInt32-dep.h>
 
 namespace System::Private::CoreLib::System::Text::UTF7EncodingNamespace {
 using namespace System::Runtime::InteropServices;
@@ -409,7 +410,7 @@ Int32 UTF7Encoding___::GetBytes(Char* chars, Int32 charCount, Byte* bytes, Int32
       }
       num2 = 0;
     }
-    num = ((num << 16) | nextChar);
+    num = (num << 16) | nextChar;
     num2 += 16;
     while (num2 >= 6) {
       num2 -= 6;
@@ -458,7 +459,7 @@ Int32 UTF7Encoding___::GetChars(Byte* bytes, Int32 byteCount, Char* chars, Int32
     flag = decoder->firstByte;
   }
   if (num2 >= 16) {
-    if (!encodingCharBuffer->AddChar((Char)((num >> num2 - 16) & 65535))) {
+    if (!encodingCharBuffer->AddChar((Char)((UInt32)(num >> num2 - 16) & 65535u))) {
       ThrowCharsOverflow(decoder, true);
     }
     num2 -= 16;
@@ -470,12 +471,12 @@ Int32 UTF7Encoding___::GetChars(Byte* bytes, Int32 byteCount, Char* chars, Int32
       SByte b;
       if (nextByte < 128 && (b = _base64Values[nextByte]) >= 0) {
         flag = false;
-        num = ((num << 6) | (Byte)b);
+        num = (num << 6) | (Byte)b;
         num2 += 6;
         if (num2 < 16) {
           continue;
         }
-        num3 = ((num >> num2 - 16) & 65535);
+        num3 = (num >> num2 - 16) & 65535;
         num2 -= 16;
       } else {
         num2 = -1;

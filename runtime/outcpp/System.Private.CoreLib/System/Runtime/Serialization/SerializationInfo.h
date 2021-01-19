@@ -4,9 +4,6 @@
 #include <System.Private.CoreLib/System/Int32.h>
 #include <System.Private.CoreLib/System/Object.h>
 
-namespace System::Private::CoreLib::System::Threading {
-FORWARD(AsyncLocal, T)
-} // namespace System::Private::CoreLib::System::Threading
 namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)
 FORWARDS(Byte)
@@ -24,6 +21,9 @@ FORWARDS(UInt16)
 FORWARDS(UInt32)
 FORWARDS(UInt64)
 } // namespace System::Private::CoreLib::System
+namespace System::Private::CoreLib::System::Threading {
+FORWARD(AsyncLocal, T)
+} // namespace System::Private::CoreLib::System::Threading
 namespace System::Private::CoreLib::System::Collections::Generic {
 FORWARD(Dictionary, TKey, TValue)
 } // namespace System::Private::CoreLib::System::Collections::Generic
@@ -35,8 +35,6 @@ namespace SerializationInfoNamespace {
 using namespace System::Collections::Generic;
 using namespace System::Threading;
 CLASS(SerializationInfo) : public object {
-  public: static AsyncLocal<Boolean> get_AsyncDeserializationInProgress() { return AsyncDeserializationInProgress; }
-  public: static Boolean get_DeserializationInProgress();
   public: String get_FullTypeName();
   public: void set_FullTypeName(String value);
   public: String get_AssemblyName();
@@ -47,9 +45,8 @@ CLASS(SerializationInfo) : public object {
   private: void set_IsAssemblyNameSetExplicit(Boolean value) { IsAssemblyNameSetExplicit = value; }
   public: Int32 get_MemberCount();
   public: Type get_ObjectType();
-  public: static void ThrowIfDeserializationInProgress();
-  public: static void ThrowIfDeserializationInProgress(String switchSuffix, Int32& cachedValue);
-  public: static DeserializationToken StartDeserialization();
+  public: static AsyncLocal<Boolean> get_AsyncDeserializationInProgress() { return AsyncDeserializationInProgress; }
+  public: static Boolean get_DeserializationInProgress();
   public: void ctor(Type type, IFormatterConverter converter);
   public: void ctor(Type type, IFormatterConverter converter, Boolean requireSameTokenInPartialTrust);
   public: void SetType(Type type);
@@ -93,6 +90,9 @@ CLASS(SerializationInfo) : public object {
   public: Decimal GetDecimal(String name);
   public: DateTime GetDateTime(String name);
   public: String GetString(String name);
+  public: static void ThrowIfDeserializationInProgress();
+  public: static void ThrowIfDeserializationInProgress(String switchSuffix, Int32& cachedValue);
+  public: static DeserializationToken StartDeserialization();
   public: static void cctor();
   private: Array<String> _names;
   private: Array<Object> _values;
@@ -103,9 +103,9 @@ CLASS(SerializationInfo) : public object {
   private: String _rootTypeName;
   private: String _rootTypeAssemblyName;
   private: Type _rootType;
-  private: static AsyncLocal<Boolean> AsyncDeserializationInProgress;
   private: Boolean IsFullTypeNameSetExplicit;
   private: Boolean IsAssemblyNameSetExplicit;
+  private: static AsyncLocal<Boolean> AsyncDeserializationInProgress;
 };
 } // namespace SerializationInfoNamespace
 using SerializationInfo = SerializationInfoNamespace::SerializationInfo;

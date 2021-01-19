@@ -6,7 +6,6 @@
 #include <System.Private.CoreLib/System/ArgumentOutOfRangeException-dep.h>
 #include <System.Private.CoreLib/System/Buffer-dep.h>
 #include <System.Private.CoreLib/System/Globalization/CultureInfo-dep.h>
-#include <System.Private.CoreLib/System/Int64-dep.h>
 #include <System.Private.CoreLib/System/InvalidOperationException-dep.h>
 #include <System.Private.CoreLib/System/MemoryExtensions-dep.h>
 #include <System.Private.CoreLib/System/ReadOnlySpan-dep.h>
@@ -169,22 +168,6 @@ UriHostNameType Uri___::get_HostNameType() {
     EnsureUriInfo();
   } else {
     EnsureHostString(false);
-  }
-  switch (get_HostType()) {
-    case Flags::DnsHostType:
-      return UriHostNameType::Dns;
-    case Flags::IPv4HostType:
-      return UriHostNameType::IPv4;
-    case Flags::IPv6HostType:
-      return UriHostNameType::IPv6;
-    case Flags::BasicHostType:
-      return UriHostNameType::Basic;
-    case Flags::UncHostType:
-      return UriHostNameType::Basic;
-    case Flags::HostTypeMask:
-      return UriHostNameType::Unknown;
-    default:
-      return UriHostNameType::Unknown;
   }
 }
 
@@ -516,6 +499,7 @@ void Uri___::CreateUri(Uri baseUri, String relativeUri, Boolean dontEscape) {
   _flags = Flags::Zero;
   _info = nullptr;
   _syntax = nullptr;
+  _originalUnicodeString = nullptr;
   CreateThis(relativeUri, dontEscape, UriKind::Absolute);
 }
 
@@ -549,6 +533,7 @@ void Uri___::ctor(Uri baseUri, Uri relativeUri) {
   _flags = Flags::Zero;
   _info = nullptr;
   _syntax = nullptr;
+  _originalUnicodeString = nullptr;
   CreateThis(newUriString, userEscaped, UriKind::Absolute);
 }
 
@@ -578,36 +563,6 @@ void Uri___::GetCombinedString(Uri baseUri, String relativeStr, Boolean dontEsca
 }
 
 UriFormatException Uri___::GetException(ParsingError err) {
-  switch (err) {
-    case ParsingError::None:
-      return nullptr;
-    case ParsingError::BadFormat:
-      return rt::newobj<UriFormatException>(SR::get_net_uri_BadFormat());
-    case ParsingError::BadScheme:
-      return rt::newobj<UriFormatException>(SR::get_net_uri_BadScheme());
-    case ParsingError::BadAuthority:
-      return rt::newobj<UriFormatException>(SR::get_net_uri_BadAuthority());
-    case ParsingError::EmptyUriString:
-      return rt::newobj<UriFormatException>(SR::get_net_uri_EmptyUri());
-    case ParsingError::SchemeLimit:
-      return rt::newobj<UriFormatException>(SR::get_net_uri_SchemeLimit());
-    case ParsingError::SizeLimit:
-      return rt::newobj<UriFormatException>(SR::get_net_uri_SizeLimit());
-    case ParsingError::MustRootedPath:
-      return rt::newobj<UriFormatException>(SR::get_net_uri_MustRootedPath());
-    case ParsingError::BadHostName:
-      return rt::newobj<UriFormatException>(SR::get_net_uri_BadHostName());
-    case ParsingError::NonEmptyHost:
-      return rt::newobj<UriFormatException>(SR::get_net_uri_BadFormat());
-    case ParsingError::BadPort:
-      return rt::newobj<UriFormatException>(SR::get_net_uri_BadPort());
-    case ParsingError::BadAuthorityTerminator:
-      return rt::newobj<UriFormatException>(SR::get_net_uri_BadAuthorityTerminator());
-    case ParsingError::CannotCreateRelative:
-      return rt::newobj<UriFormatException>(SR::get_net_uri_CannotCreateRelative());
-    default:
-      return rt::newobj<UriFormatException>(SR::get_net_uri_BadFormat());
-  }
 }
 
 Boolean Uri___::StaticIsFile(UriParser syntax) {
@@ -621,7 +576,7 @@ String Uri___::GetLocalPath() {
     Int32 num;
     if (NotAny(Flags::HostNotCanonical | Flags::PathNotCanonical | Flags::ShouldBeCompressed)) {
       num = (get_IsUncPath() ? (_info->Offset.Host - 2) : _info->Offset.Path);
-      String text = (get_IsImplicitFile() && _info->Offset.Host == ((!get_IsDosPath()) ? 2 : 0) && _info->Offset.Query == _info->Offset.End) ? _string : ((get_IsDosPath() && (_string[num] == '/' || _string[num] == '\\')) ? _string->Substring(num + 1, _info->Offset.Query - num - 1) : _string->Substring(num, _info->Offset.Query - num));
+      String text = ((get_IsImplicitFile() && _info->Offset.Host == ((!get_IsDosPath()) ? 2 : 0) && _info->Offset.Query == _info->Offset.End) ? _string : ((get_IsDosPath() && (_string[num] == '/' || _string[num] == '\\')) ? _string->Substring(num + 1, _info->Offset.Query - num - 1) : _string->Substring(num, _info->Offset.Query - num)));
       if (get_IsDosPath() && text[1] == '|') {
         text = text->Remove(1, 1);
         text = text->Insert(1, ":");
@@ -648,7 +603,7 @@ String Uri___::GetLocalPath() {
     }
 
     UInt16 num2 = (UInt16)destPosition;
-    UnescapeMode unescapeMode = (InFact(Flags::PathNotCanonical) && !get_IsImplicitFile()) ? (UnescapeMode::Unescape | UnescapeMode::UnescapeAll) : UnescapeMode::CopyOnly;
+    UnescapeMode unescapeMode = ((InFact(Flags::PathNotCanonical) && !get_IsImplicitFile()) ? (UnescapeMode::Unescape | UnescapeMode::UnescapeAll) : UnescapeMode::CopyOnly);
     UriHelper::UnescapeString(_string, num, _info->Offset.Query, array, destPosition, 'ÿ', 'ÿ', 'ÿ', unescapeMode, _syntax, true);
     if (array[1] == '|') {
       array[1] = ':';
@@ -716,11 +671,11 @@ String Uri___::GetLeftPart(UriPartial part) {
       if (NotAny(Flags::AuthorityFound) || get_IsDosPath()) {
         return String::in::Empty;
       }
-      return GetParts(UriComponents::Scheme | UriComponents::UserInfo | UriComponents::Host | UriComponents::Port, UriFormat::UriEscaped);
+      return GetParts(UriComponents::SchemeAndServer | UriComponents::UserInfo, UriFormat::UriEscaped);
     case UriPartial::Path:
-      return GetParts(UriComponents::Scheme | UriComponents::UserInfo | UriComponents::Host | UriComponents::Port | UriComponents::Path, UriFormat::UriEscaped);
+      return GetParts(UriComponents::SchemeAndServer | UriComponents::UserInfo | UriComponents::Path, UriFormat::UriEscaped);
     case UriPartial::Query:
-      return GetParts(UriComponents::Scheme | UriComponents::UserInfo | UriComponents::Host | UriComponents::Port | UriComponents::Path | UriComponents::Query, UriFormat::UriEscaped);
+      return GetParts(UriComponents::HttpRequestUrl | UriComponents::UserInfo, UriFormat::UriEscaped);
     default:
       rt::throw_exception<ArgumentException>(SR::Format(SR::get_Argument_InvalidUriSubcomponent(), part), "part");
   }
@@ -768,42 +723,15 @@ Boolean Uri___::CheckSchemeName(String schemeName) {
 }
 
 Boolean Uri___::IsHexDigit(Char character) {
-  if ((UInt32)(character - 48) > 9u && (UInt32)(character - 65) > 5u) {
-    return (UInt32)(character - 97) <= 5u;
-  }
-  return true;
+  return HexConverter::IsHexChar(character);
 }
 
 Int32 Uri___::FromHex(Char digit) {
-  switch (digit.get()) {
-    default:
-      rt::throw_exception<ArgumentException>(nullptr, "digit");
-    case 'a':
-    case 'b':
-    case 'c':
-    case 'd':
-    case 'e':
-    case 'f':
-      return digit - 97 + 10;
-    case 'A':
-    case 'B':
-    case 'C':
-    case 'D':
-    case 'E':
-    case 'F':
-      return digit - 65 + 10;
-    case '0':
-    case '1':
-    case '2':
-    case '3':
-    case '4':
-    case '5':
-    case '6':
-    case '7':
-    case '8':
-    case '9':
-      return digit - 48;
+  Int32 num = HexConverter::FromChar(digit);
+  if (num == 255) {
+    rt::throw_exception<ArgumentException>(nullptr, "digit");
   }
+  return num;
 }
 
 Int32 Uri___::GetHashCode() {
@@ -1005,9 +933,9 @@ ParsingError Uri___::PrivateParseMinimal() {
   Int32 num = (Int32)(_flags & Flags::IndexMask);
   Int32 num2 = _string->get_Length();
   String newHost = nullptr;
-  _flags &= ~(Flags::SchemeNotCanonical | Flags::UserNotCanonical | Flags::HostNotCanonical | Flags::PortNotCanonical | Flags::PathNotCanonical | Flags::QueryNotCanonical | Flags::FragmentNotCanonical | Flags::E_UserNotCanonical | Flags::E_HostNotCanonical | Flags::E_PortNotCanonical | Flags::E_PathNotCanonical | Flags::E_QueryNotCanonical | Flags::E_FragmentNotCanonical | Flags::ShouldBeCompressed | Flags::FirstSlashAbsent | Flags::BackslashInPath | Flags::UserDrivenParsing);
+  _flags &= ~(Flags::IndexMask | Flags::UserDrivenParsing);
   {
-    Char* ptr = ((_flags & Flags::HostUnicodeNormalized) == Flags::Zero) ? get_OriginalString() : _string;
+    Char* ptr = (((_flags & Flags::HostUnicodeNormalized) == Flags::Zero) ? get_OriginalString() : _string);
     Char* ptr2 = ptr;
     if (num2 > num && UriHelper::IsLWS(*(ptr2 + num2 - 1))) {
       num2--;
@@ -1064,7 +992,7 @@ ParsingError Uri___::PrivateParseMinimal() {
           if ((_flags & (Flags::HasUnicode | Flags::HostUnicodeNormalized)) == Flags::HasUnicode) {
             _string = _string->Substring(0, num);
           }
-          _flags |= (Flags)((Int64)num | 458752);
+          _flags |= (Flags)((UInt64)num | 458752);
           return ParsingError::None;
         }
 
@@ -1077,7 +1005,7 @@ ParsingError Uri___::PrivateParseMinimal() {
           if ((_flags & (Flags::HasUnicode | Flags::HostUnicodeNormalized)) == Flags::HasUnicode) {
             _string = _string->Substring(0, num);
           }
-          _flags |= (Flags)((Int64)num | 458752);
+          _flags |= (Flags)((UInt64)num | 458752);
           return ParsingError::None;
         }
       }
@@ -1187,7 +1115,7 @@ void Uri___::CreateUriInfo(Flags cF) {
                 if ((UInt32)num3 <= 9u) {
                   flag2 = true;
                   if (num3 == 0) {
-                    cF |= (Flags::PortNotCanonical | Flags::E_PortNotCanonical);
+                    cF |= Flags::PortNotCanonical | Flags::E_PortNotCanonical;
                   }
                   for (i++; i < uriInfo->Offset.End; i++) {
                     Int32 num4 = *(ptr2 + i) - 48;
@@ -1202,7 +1130,7 @@ void Uri___::CreateUriInfo(Flags cF) {
                 uriInfo->Offset.PortValue = (UInt16)num3;
                 cF |= Flags::NotDefaultPort;
               } else {
-                cF |= (Flags::PortNotCanonical | Flags::E_PortNotCanonical);
+                cF |= Flags::PortNotCanonical | Flags::E_PortNotCanonical;
               }
               uriInfo->Offset.Path = (UInt16)i;
             }
@@ -1215,7 +1143,7 @@ void Uri___::CreateUriInfo(Flags cF) {
   Interlocked::CompareExchange(_info, uriInfo, (UriInfo)nullptr);
   Flags flags = _flags;
   while ((flags & Flags::MinimalUriInfoSet) == Flags::Zero) {
-    Flags value = (Flags)((UInt64)((Int64)flags & -65536) | (UInt64)cF);
+    Flags value = (Flags)(((UInt64)flags & 18446744073709486080) | (UInt64)cF);
     UInt64 num5 = Interlocked::CompareExchange(Unsafe::As<Flags, UInt64>(_flags), (UInt64)value, (UInt64)flags);
     if (num5 == (UInt64)flags) {
       break;
@@ -1261,11 +1189,11 @@ void Uri___::CreateHostString() {
       }
     } else if (NotAny(Flags::CanonicalDnsHost)) {
       if (_info->ScopeId != nullptr) {
-        flags |= (Flags::HostNotCanonical | Flags::E_HostNotCanonical);
+        flags |= Flags::HostNotCanonical | Flags::E_HostNotCanonical;
       } else {
         for (Int32 i = 0; i < text->get_Length(); i++) {
           if (_info->Offset.Host + i >= _info->Offset.End || text[i] != _string[_info->Offset.Host + i]) {
-            flags |= (Flags::HostNotCanonical | Flags::E_HostNotCanonical);
+            flags |= Flags::HostNotCanonical | Flags::E_HostNotCanonical;
             break;
           }
         }
@@ -1332,23 +1260,23 @@ void Uri___::GetHostViaCustomSyntax() {
       }
     }
     if (err != 0 || (flags & Flags::HostTypeMask) == Flags::HostTypeMask) {
-      _flags = (Flags)(((Int64)_flags & -458753) | 327680);
+      _flags = (Flags)(((UInt64)_flags & 18446744073709092863) | 327680);
     } else {
       text = CreateHostStringHelper(text, 0, text->get_Length(), flags, _info->ScopeId);
       for (Int32 i = 0; i < text->get_Length(); i++) {
         if (_info->Offset.Host + i >= _info->Offset.End || text[i] != _string[_info->Offset.Host + i]) {
-          _flags |= (Flags::HostNotCanonical | Flags::E_HostNotCanonical);
+          _flags |= Flags::HostNotCanonical | Flags::E_HostNotCanonical;
           break;
         }
       }
-      _flags = (Flags)((UInt64)((Int64)_flags & -458753) | (UInt64)(flags & Flags::HostTypeMask));
+      _flags = (Flags)(((UInt64)_flags & 18446744073709092863) | (UInt64)(flags & Flags::HostTypeMask));
     }
   }
   String text2 = _syntax->InternalGetComponents((Uri)this, UriComponents::StrongPort, UriFormat::UriEscaped);
   Int32 num = 0;
   if (text2 == nullptr || text2->get_Length() == 0) {
     _flags &= ~Flags::NotDefaultPort;
-    _flags |= (Flags::PortNotCanonical | Flags::E_PortNotCanonical);
+    _flags |= Flags::PortNotCanonical | Flags::E_PortNotCanonical;
     _info->Offset.PortValue = 0;
   } else {
     for (Int32 j = 0; j < text2->get_Length(); j++) {
@@ -1363,7 +1291,7 @@ void Uri___::GetHostViaCustomSyntax() {
       } else {
         _flags |= Flags::NotDefaultPort;
       }
-      _flags |= (Flags::PortNotCanonical | Flags::E_PortNotCanonical);
+      _flags |= Flags::PortNotCanonical | Flags::E_PortNotCanonical;
       _info->Offset.PortValue = (UInt16)num;
     }
   }
@@ -1377,13 +1305,13 @@ String Uri___::GetParts(UriComponents uriParts, UriFormat formatAs) {
 String Uri___::GetEscapedParts(UriComponents uriParts) {
   UInt16 num = (UInt16)(((UInt16)_flags & 16256) >> 6);
   if (InFact(Flags::SchemeNotCanonical)) {
-    num = (UInt16)(num | 1);
+    num = (UInt16)(num | 1u);
   }
   if ((uriParts & UriComponents::Path) != 0) {
     if (InFact(Flags::ShouldBeCompressed | Flags::FirstSlashAbsent | Flags::BackslashInPath)) {
-      num = (UInt16)(num | 16);
+      num = (UInt16)(num | 16u);
     } else if (get_IsDosPath() && _string[_info->Offset.Path + get_SecuredPathIndex() - 1] == '|') {
-      num = (UInt16)(num | 16);
+      num = (UInt16)(num | 16u);
     }
 
   }
@@ -1397,12 +1325,12 @@ String Uri___::GetEscapedParts(UriComponents uriParts) {
 }
 
 String Uri___::GetUnescapedParts(UriComponents uriParts, UriFormat formatAs) {
-  UInt16 num = (UInt16)((UInt16)_flags & 127);
+  UInt16 num = (UInt16)((UInt16)_flags & 127u);
   if ((uriParts & UriComponents::Path) != 0) {
     if ((_flags & (Flags::ShouldBeCompressed | Flags::FirstSlashAbsent | Flags::BackslashInPath)) != Flags::Zero) {
-      num = (UInt16)(num | 16);
+      num = (UInt16)(num | 16u);
     } else if (get_IsDosPath() && _string[_info->Offset.Path + get_SecuredPathIndex() - 1] == '|') {
-      num = (UInt16)(num | 16);
+      num = (UInt16)(num | 16u);
     }
 
   }
@@ -1417,7 +1345,7 @@ String Uri___::GetUnescapedParts(UriComponents uriParts, UriFormat formatAs) {
 
 String Uri___::ReCreateParts(UriComponents parts, UInt16 nonCanonical, UriFormat formatAs) {
   EnsureHostString(false);
-  String text = ((parts & UriComponents::Host) == 0) ? String::in::Empty : _info->Host;
+  String text = (((parts & UriComponents::Host) == 0) ? String::in::Empty : _info->Host);
   Int32 num = (_info->Offset.End - _info->Offset.User) * ((formatAs != UriFormat::UriEscaped) ? 1 : 12);
   Array<Char> array = rt::newarr<Array<Char>>(text->get_Length() + num + _syntax->get_SchemeName()->get_Length() + 3 + 1);
   num = 0;
@@ -1433,7 +1361,7 @@ String Uri___::ReCreateParts(UriComponents parts, UInt16 nonCanonical, UriFormat
     }
   }
   if ((parts & UriComponents::UserInfo) != 0 && InFact(Flags::HasUserInfo)) {
-    if ((nonCanonical & 2) != 0) {
+    if ((nonCanonical & 2u) != 0) {
       switch (formatAs) {
         case UriFormat::UriEscaped:
           if (NotAny(Flags::UserEscaped)) {
@@ -1463,7 +1391,7 @@ String Uri___::ReCreateParts(UriComponents parts, UInt16 nonCanonical, UriFormat
     }
   }
   if ((parts & UriComponents::Host) != 0 && text->get_Length() != 0) {
-    UnescapeMode unescapeMode = (formatAs != UriFormat::UriEscaped && get_HostType() == Flags::BasicHostType && (nonCanonical & 4) != 0) ? ((formatAs == UriFormat::Unescaped) ? (UnescapeMode::Unescape | UnescapeMode::UnescapeAll) : (InFact(Flags::UserEscaped) ? UnescapeMode::Unescape : UnescapeMode::EscapeUnescape)) : UnescapeMode::CopyOnly;
+    UnescapeMode unescapeMode = ((formatAs != UriFormat::UriEscaped && get_HostType() == Flags::BasicHostType && (nonCanonical & 4u) != 0) ? ((formatAs == UriFormat::Unescaped) ? (UnescapeMode::Unescape | UnescapeMode::UnescapeAll) : (InFact(Flags::UserEscaped) ? UnescapeMode::Unescape : UnescapeMode::EscapeUnescape)) : UnescapeMode::CopyOnly);
     if ((parts & UriComponents::NormalizedHost) != 0) {
       {
         Char* ptr = text;
@@ -1477,7 +1405,7 @@ String Uri___::ReCreateParts(UriComponents parts, UInt16 nonCanonical, UriFormat
       }
     }
     array = UriHelper::UnescapeString(text, 0, text->get_Length(), array, num, '/', '?', '#', unescapeMode, _syntax, false);
-    if ((parts & UriComponents::SerializationInfoString) != 0 && get_HostType() == Flags::IPv6HostType && _info->ScopeId != nullptr) {
+    if (((UInt32)parts & 2147483648u) != 0 && get_HostType() == Flags::IPv6HostType && _info->ScopeId != nullptr) {
       _info->ScopeId->CopyTo(0, array, num - 1, _info->ScopeId->get_Length());
       num += _info->ScopeId->get_Length();
       array[num - 1] = ']';
@@ -1527,7 +1455,7 @@ String Uri___::ReCreateParts(UriComponents parts, UInt16 nonCanonical, UriFormat
     if (parts != UriComponents::Query) {
       array[num++] = '?';
     }
-    if ((nonCanonical & 32) != 0) {
+    if ((nonCanonical & 32u) != 0) {
       switch (formatAs) {
         case UriFormat::UriEscaped:
           if (NotAny(Flags::UserEscaped)) {
@@ -1537,7 +1465,7 @@ String Uri___::ReCreateParts(UriComponents parts, UInt16 nonCanonical, UriFormat
           }
           break;
         case (UriFormat)32767:
-          array = UriHelper::UnescapeString(_string, startIndex, _info->Offset.Fragment, array, num, '#', 'ÿ', 'ÿ', (UnescapeMode)((InFact(Flags::UserEscaped) ? 2 : 3) | 4), _syntax, true);
+          array = UriHelper::UnescapeString(_string, startIndex, _info->Offset.Fragment, array, num, '#', 'ÿ', 'ÿ', (InFact(Flags::UserEscaped) ? UnescapeMode::Unescape : UnescapeMode::EscapeUnescape) | UnescapeMode::V1ToStringFlag, _syntax, true);
           break;
         case UriFormat::Unescaped:
           array = UriHelper::UnescapeString(_string, startIndex, _info->Offset.Fragment, array, num, '#', 'ÿ', 'ÿ', UnescapeMode::Unescape | UnescapeMode::UnescapeAll, _syntax, true);
@@ -1555,7 +1483,7 @@ String Uri___::ReCreateParts(UriComponents parts, UInt16 nonCanonical, UriFormat
     if (parts != UriComponents::Fragment) {
       array[num++] = '#';
     }
-    if ((nonCanonical & 64) != 0) {
+    if ((nonCanonical & 64u) != 0) {
       switch (formatAs) {
         case UriFormat::UriEscaped:
           if (NotAny(Flags::UserEscaped)) {
@@ -1565,7 +1493,7 @@ String Uri___::ReCreateParts(UriComponents parts, UInt16 nonCanonical, UriFormat
           }
           break;
         case (UriFormat)32767:
-          array = UriHelper::UnescapeString(_string, startIndex, _info->Offset.End, array, num, '#', 'ÿ', 'ÿ', (UnescapeMode)((InFact(Flags::UserEscaped) ? 2 : 3) | 4), _syntax, false);
+          array = UriHelper::UnescapeString(_string, startIndex, _info->Offset.End, array, num, '#', 'ÿ', 'ÿ', (InFact(Flags::UserEscaped) ? UnescapeMode::Unescape : UnescapeMode::EscapeUnescape) | UnescapeMode::V1ToStringFlag, _syntax, false);
           break;
         case UriFormat::Unescaped:
           array = UriHelper::UnescapeString(_string, startIndex, _info->Offset.End, array, num, '#', 'ÿ', 'ÿ', UnescapeMode::Unescape | UnescapeMode::UnescapeAll, _syntax, false);
@@ -1650,7 +1578,7 @@ void Uri___::ParseRemaining() {
         num = _originalUnicodeString->get_Length();
       } else {
         ReadOnlySpan<Char> span = MemoryExtensions::AsSpan(_originalUnicodeString, num);
-        Int32 num2 = (!_syntax->InFact(UriSyntaxFlags::MayHaveQuery)) ? MemoryExtensions::IndexOf(span, '#') : ((!_syntax->InFact(UriSyntaxFlags::MayHaveFragment)) ? MemoryExtensions::IndexOf(span, '?') : MemoryExtensions::IndexOfAny(span, '?', '#'));
+        Int32 num2 = ((!_syntax->InFact(UriSyntaxFlags::MayHaveQuery)) ? MemoryExtensions::IndexOf(span, '#') : ((!_syntax->InFact(UriSyntaxFlags::MayHaveFragment)) ? MemoryExtensions::IndexOf(span, '?') : MemoryExtensions::IndexOfAny(span, '?', '#')));
         num = ((num2 == -1) ? _originalUnicodeString->get_Length() : (num2 + num));
       }
       _string += EscapeUnescapeIri(_originalUnicodeString, start, num, UriComponents::Path);
@@ -1674,11 +1602,11 @@ void Uri___::ParseRemaining() {
     Boolean flag2 = false;
     if (get_IsDosPath() || ((_flags & Flags::AuthorityFound) != Flags::Zero && ((flags2 & (UriSyntaxFlags::ConvertPathSlashes | UriSyntaxFlags::CompressPath)) != 0 || _syntax->InFact(UriSyntaxFlags::UnEscapeDotsAndSlashes)))) {
       if ((check & Check::DotSlashEscaped) != 0 && _syntax->InFact(UriSyntaxFlags::UnEscapeDotsAndSlashes)) {
-        flags |= (Flags::PathNotCanonical | Flags::E_PathNotCanonical);
+        flags |= Flags::PathNotCanonical | Flags::E_PathNotCanonical;
         flag2 = true;
       }
       if ((flags2 & UriSyntaxFlags::ConvertPathSlashes) != 0 && (check & Check::BackslashInPath) != 0) {
-        flags |= (Flags::PathNotCanonical | Flags::E_PathNotCanonical);
+        flags |= Flags::PathNotCanonical | Flags::E_PathNotCanonical;
         flag2 = true;
       }
       if ((flags2 & UriSyntaxFlags::CompressPath) != 0 && ((flags & Flags::E_PathNotCanonical) != Flags::Zero || (check & Check::DotSlashAttn) != 0)) {
@@ -1777,7 +1705,7 @@ void Uri___::ParseRemaining() {
     }
     _info->Offset.End = (UInt16)scheme;
   }
-  flags |= (Flags::AllUriInfoSet | Flags::RestUnicodeNormalized);
+  flags |= Flags::AllUriInfoSet | Flags::RestUnicodeNormalized;
   InterlockedSetFlags(flags);
 }
 
@@ -1798,7 +1726,7 @@ Int32 Uri___::ParseSchemeCheckImplicitFile(Char* uriString, Int32 length, Parsin
   if ((c = *(uriString + i + 1)) == ':' || c == '|') {
     if (UriHelper::IsAsciiLetter(*(uriString + i))) {
       if ((c = *(uriString + i + 2)) == '\\' || c == '/') {
-        flags |= (Flags::AuthorityFound | Flags::DosPath | Flags::ImplicitFile);
+        flags |= Flags::AuthorityFound | Flags::DosPath | Flags::ImplicitFile;
         syntax = UriParser::in::FileUri;
         return i;
       }
@@ -1814,7 +1742,7 @@ Int32 Uri___::ParseSchemeCheckImplicitFile(Char* uriString, Int32 length, Parsin
   }
   if ((c = *(uriString + i)) == '/' || c == '\\') {
     if ((c = *(uriString + i + 1)) == '\\' || c == '/') {
-      flags |= (Flags::AuthorityFound | Flags::UncPath | Flags::ImplicitFile);
+      flags |= Flags::AuthorityFound | Flags::UncPath | Flags::ImplicitFile;
       syntax = UriParser::in::FileUri;
       for (i += 2; i < length; i++) {
         if ((c = *(uriString + i)) != '/' && c != '\\') {
@@ -1842,7 +1770,7 @@ ParsingError Uri___::CheckSchemeSyntax(ReadOnlySpan<Char> span, UriParser& synta
     if ((UInt32)(c - 65) > 25u) {
       return c;
     }
-    return (Char)(c | 32);
+    return (Char)(c | 32u);
   };
   if (span.get_Length() == 0) {
     return ParsingError::BadScheme;
@@ -1875,7 +1803,7 @@ ParsingError Uri___::CheckSchemeSyntax(ReadOnlySpan<Char> span, UriParser& synta
     case 'X':
     case 'Y':
     case 'Z':
-      c2 = (Char)(c2 | 32);
+      c2 = (Char)(c2 | 32u);
       break;
     default:
       return ParsingError::BadScheme;
@@ -1960,7 +1888,7 @@ ParsingError Uri___::CheckSchemeSyntax(ReadOnlySpan<Char> span, UriParser& synta
   {
     Char* value = span;
     SpanAction<Char, ValueTuple<IntPtr, Int32>> as = __c::in::__9__151_1;
-    lwrCaseScheme = String::in::Create(span.get_Length(), {(IntPtr)(void*)value, span.get_Length()}, as != nullptr ? as : (__c::in::__9__151_1 = {__c::in::__9, &__c::in::_CheckSchemeSyntax_b__151_1}));
+    lwrCaseScheme = String::in::Create(span.get_Length(), {(IntPtr)value, span.get_Length()}, as != nullptr ? as : (__c::in::__9__151_1 = {__c::in::__9, &__c::in::_CheckSchemeSyntax_b__151_1}));
   }
   syntax = UriParser::in::FindOrFetchAsUnknownV1Syntax(lwrCaseScheme);
   return ParsingError::None;
@@ -2364,7 +2292,7 @@ Array<Char> Uri___::GetCanonicalPath(Array<Char> dest, Int32& pos, UriFormat for
     if (InFact(Flags::PathNotCanonical)) {
       switch (formatAs) {
         case (UriFormat)32767:
-          unescapeMode = (UnescapeMode)((InFact(Flags::UserEscaped) ? 2 : 3) | 4);
+          unescapeMode = (InFact(Flags::UserEscaped) ? UnescapeMode::Unescape : UnescapeMode::EscapeUnescape) | UnescapeMode::V1ToStringFlag;
           if (get_IsImplicitFile()) {
             unescapeMode &= ~UnescapeMode::Unescape;
           }
@@ -2572,7 +2500,7 @@ String Uri___::CombineUri(Uri basePart, String relativePart, UriFormat uriFormat
     if (relativePart->get_Length() >= 2 && relativePart[1] == '/') {
       return basePart->get_Scheme() + ":" + relativePart;
     }
-    text2 = ((basePart->get_HostType() != Flags::IPv6HostType) ? basePart->GetParts(UriComponents::Scheme | UriComponents::UserInfo | UriComponents::Host | UriComponents::Port, uriFormat) : (basePart->GetParts(UriComponents::Scheme | UriComponents::UserInfo, uriFormat) + "[" + basePart->get_DnsSafeHost() + "]" + basePart->GetParts(UriComponents::Port | UriComponents::KeepDelimiter, uriFormat)));
+    text2 = ((basePart->get_HostType() != Flags::IPv6HostType) ? basePart->GetParts(UriComponents::SchemeAndServer | UriComponents::UserInfo, uriFormat) : (basePart->GetParts(UriComponents::Scheme | UriComponents::UserInfo, uriFormat) + "[" + basePart->get_DnsSafeHost() + "]" + basePart->GetParts(UriComponents::Port | UriComponents::KeepDelimiter, uriFormat)));
     if (!flag || c != '\\') {
       return text2 + relativePart;
     }
@@ -2592,7 +2520,7 @@ String Uri___::CombineUri(Uri basePart, String relativePart, UriFormat uriFormat
   }
   relativePart->CopyTo(0, array, num2, relativePart->get_Length());
   c = (basePart->get_Syntax()->InFact(UriSyntaxFlags::MayHaveQuery) ? '?' : 'ÿ');
-  Char c2 = (!basePart->get_IsImplicitFile() && basePart->get_Syntax()->InFact(UriSyntaxFlags::MayHaveFragment)) ? '#' : 'ÿ';
+  Char c2 = ((!basePart->get_IsImplicitFile() && basePart->get_Syntax()->InFact(UriSyntaxFlags::MayHaveFragment)) ? '#' : 'ÿ');
   ReadOnlySpan<Char> readOnlySpan = String::in::Empty;
   if (c != 'ÿ' || c2 != 'ÿ') {
     Int32 j;
@@ -2617,7 +2545,7 @@ String Uri___::CombineUri(Uri basePart, String relativePart, UriFormat uriFormat
     }
     text2 = "\\\\" + basePart->GetParts(UriComponents::Host, UriFormat::Unescaped);
   } else {
-    text2 = basePart->GetParts(UriComponents::Scheme | UriComponents::UserInfo | UriComponents::Host | UriComponents::Port, uriFormat);
+    text2 = basePart->GetParts(UriComponents::SchemeAndServer | UriComponents::UserInfo, uriFormat);
   }
 
   array = Compress(array, basePart->get_SecuredPathIndex(), num2, basePart->get_Syntax());
@@ -2715,7 +2643,7 @@ void Uri___::CreateThis(String uri, Boolean dontEscape, UriKind uriKind) {
     rt::throw_exception<ArgumentException>(SR::Format(SR::get_net_uri_InvalidUriKind(), uriKind));
   }
   String as = uri;
-  _string = (as != nullptr ? as : String::in::Empty);
+  _string = as != nullptr ? as : String::in::Empty;
   if (dontEscape) {
     _flags |= Flags::UserEscaped;
   }
@@ -2775,7 +2703,7 @@ void Uri___::InitializeUri(ParsingError err, UriKind uriKind, UriFormatException
         try {
           EnsureParseRemaining();
         } catch (UriFormatException ex) {
-          UriFormatException ex2 = e = ex;
+          UriFormatException ex2 = (e = ex);
         }
       }
       return;
@@ -2792,7 +2720,7 @@ void Uri___::InitializeUri(ParsingError err, UriKind uriKind, UriFormatException
       return;
     }
     if (err != 0 || InFact(Flags::ErrorOrParsingRecursion)) {
-      _flags = (Flags::UserDrivenParsing | (_flags & Flags::UserEscaped));
+      _flags = Flags::UserDrivenParsing | (_flags & Flags::UserEscaped);
     } else if (uriKind == UriKind::Relative) {
       e = GetException(ParsingError::CannotCreateRelative);
     }
@@ -2801,12 +2729,12 @@ void Uri___::InitializeUri(ParsingError err, UriKind uriKind, UriFormatException
       try {
         EnsureParseRemaining();
       } catch (UriFormatException ex3) {
-        UriFormatException ex4 = e = ex3;
+        UriFormatException ex4 = (e = ex3);
       }
     }
   } else if (err != 0 && uriKind != UriKind::Absolute && err <= ParsingError::EmptyUriString) {
     e = nullptr;
-    _flags &= (Flags::UserEscaped | Flags::HasUnicode);
+    _flags &= Flags::UserEscaped | Flags::HasUnicode;
     if (flag) {
       _string = EscapeUnescapeIri(_originalUnicodeString, 0, _originalUnicodeString->get_Length(), (UriComponents)0);
       if (_string->get_Length() > 65535) {
@@ -2896,10 +2824,10 @@ Boolean Uri___::TryCreate(Uri baseUri, Uri relativeUri, Uri& result) {
 }
 
 String Uri___::GetComponents(UriComponents components, UriFormat format) {
-  if ((components & UriComponents::SerializationInfoString) != 0 && components != UriComponents::SerializationInfoString) {
+  if (((UInt32)components & 2147483648u) != 0 && components != UriComponents::SerializationInfoString) {
     rt::throw_exception<ArgumentOutOfRangeException>("components", components, SR::get_net_uri_NotJustSerialization());
   }
-  if ((format & (UriFormat)(-4)) != 0) {
+  if (((UInt32)format & 4294967292u) != 0) {
     rt::throw_exception<ArgumentOutOfRangeException>("format");
   }
   if (get_IsNotAbsoluteUri()) {
@@ -2969,19 +2897,19 @@ Boolean Uri___::InternalIsWellFormedOriginalString() {
       return false;
     }
     EnsureParseRemaining();
-    Flags flags = _flags & (Flags::E_UserNotCanonical | Flags::E_HostNotCanonical | Flags::E_PortNotCanonical | Flags::E_PathNotCanonical | Flags::E_QueryNotCanonical | Flags::E_FragmentNotCanonical | Flags::UserIriCanonical | Flags::PathIriCanonical | Flags::QueryIriCanonical | Flags::FragmentIriCanonical);
+    Flags flags = _flags & (Flags::E_CannotDisplayCanonical | Flags::IriCanonical);
     if ((flags & Flags::IriCanonical) != Flags::Zero) {
       if ((flags & (Flags::E_UserNotCanonical | Flags::UserIriCanonical)) == (Flags::E_UserNotCanonical | Flags::UserIriCanonical)) {
-        flags = (Flags)((UInt64)flags & 18446743523953737599);
+        flags &= ~(Flags::E_UserNotCanonical | Flags::UserIriCanonical);
       }
       if ((flags & (Flags::E_PathNotCanonical | Flags::PathIriCanonical)) == (Flags::E_PathNotCanonical | Flags::PathIriCanonical)) {
-        flags = (Flags)((UInt64)flags & 18446742974197922815);
+        flags &= ~(Flags::E_PathNotCanonical | Flags::PathIriCanonical);
       }
       if ((flags & (Flags::E_QueryNotCanonical | Flags::QueryIriCanonical)) == (Flags::E_QueryNotCanonical | Flags::QueryIriCanonical)) {
-        flags = (Flags)((UInt64)flags & 18446741874686294015);
+        flags &= ~(Flags::E_QueryNotCanonical | Flags::QueryIriCanonical);
       }
       if ((flags & (Flags::E_FragmentNotCanonical | Flags::FragmentIriCanonical)) == (Flags::E_FragmentNotCanonical | Flags::FragmentIriCanonical)) {
-        flags = (Flags)((UInt64)flags & 18446739675663036415);
+        flags &= ~(Flags::E_FragmentNotCanonical | Flags::FragmentIriCanonical);
       }
     }
     if ((flags & Flags::E_CannotDisplayCanonical & (Flags::E_UserNotCanonical | Flags::E_PathNotCanonical | Flags::E_QueryNotCanonical | Flags::E_FragmentNotCanonical)) != Flags::Zero) {
@@ -3090,7 +3018,7 @@ Uri Uri___::CreateHelper(String uriString, Boolean dontEscape, UriKind uriKind, 
     }
     return nullptr;
   } catch (UriFormatException ex) {
-    UriFormatException ex2 = e = ex;
+    UriFormatException ex2 = (e = ex);
     return nullptr;
   }
 }
@@ -3114,11 +3042,11 @@ Uri Uri___::ResolveHelper(Uri baseUri, Uri relativeUri, String& newUriString, Bo
     return nullptr;
   }
   if (text[0] == '#' && !baseUri->get_IsImplicitFile() && baseUri->get_Syntax()->InFact(UriSyntaxFlags::MayHaveFragment)) {
-    newUriString = baseUri->GetParts(UriComponents::Scheme | UriComponents::UserInfo | UriComponents::Host | UriComponents::Port | UriComponents::Path | UriComponents::Query, UriFormat::UriEscaped) + text;
+    newUriString = baseUri->GetParts(UriComponents::HttpRequestUrl | UriComponents::UserInfo, UriFormat::UriEscaped) + text;
     return nullptr;
   }
   if (text[0] == '?' && !baseUri->get_IsImplicitFile() && baseUri->get_Syntax()->InFact(UriSyntaxFlags::MayHaveQuery)) {
-    newUriString = baseUri->GetParts(UriComponents::Scheme | UriComponents::UserInfo | UriComponents::Host | UriComponents::Port | UriComponents::Path, UriFormat::UriEscaped) + text;
+    newUriString = baseUri->GetParts(UriComponents::SchemeAndServer | UriComponents::UserInfo | UriComponents::Path, UriFormat::UriEscaped) + text;
     return nullptr;
   }
   if (text->get_Length() >= 3 && (text[1] == ':' || text[1] == '|') && UriHelper::IsAsciiLetter(text[0]) && (text[2] == '\\' || text[2] == '/')) {
@@ -3127,7 +3055,7 @@ Uri Uri___::ResolveHelper(Uri baseUri, Uri relativeUri, String& newUriString, Bo
       return nullptr;
     }
     if (baseUri->get_Syntax()->InFact(UriSyntaxFlags::AllowDOSPath)) {
-      String str = (!baseUri->InFact(Flags::AuthorityFound)) ? (baseUri->get_Syntax()->InFact(UriSyntaxFlags::PathIsRooted) ? ":/" : ":") : (baseUri->get_Syntax()->InFact(UriSyntaxFlags::PathIsRooted) ? ":///" : "://");
+      String str = ((!baseUri->InFact(Flags::AuthorityFound)) ? (baseUri->get_Syntax()->InFact(UriSyntaxFlags::PathIsRooted) ? ":/" : ":") : (baseUri->get_Syntax()->InFact(UriSyntaxFlags::PathIsRooted) ? ":///" : "://"));
       newUriString = baseUri->get_Scheme() + str + text;
       return nullptr;
     }
@@ -3163,7 +3091,7 @@ String Uri___::GetComponentsHelper(UriComponents uriComponents, UriFormat uriFor
   if (uriComponents == UriComponents::Scheme) {
     return _syntax->get_SchemeName();
   }
-  if ((uriComponents & UriComponents::SerializationInfoString) != 0) {
+  if (((UInt32)uriComponents & 2147483648u) != 0) {
     uriComponents |= UriComponents::AbsoluteUri;
   }
   EnsureParseRemaining();
@@ -3230,8 +3158,8 @@ Boolean Uri___::IsBaseOfHelper(Uri uriLink) {
   if (get_Syntax()->get_SchemeName() != uriLink->get_Syntax()->get_SchemeName()) {
     return false;
   }
-  String parts = GetParts(UriComponents::Scheme | UriComponents::UserInfo | UriComponents::Host | UriComponents::Port | UriComponents::Path | UriComponents::Query, UriFormat::SafeUnescaped);
-  String parts2 = uriLink->GetParts(UriComponents::Scheme | UriComponents::UserInfo | UriComponents::Host | UriComponents::Port | UriComponents::Path | UriComponents::Query, UriFormat::SafeUnescaped);
+  String parts = GetParts(UriComponents::HttpRequestUrl | UriComponents::UserInfo, UriFormat::SafeUnescaped);
+  String parts2 = uriLink->GetParts(UriComponents::HttpRequestUrl | UriComponents::UserInfo, UriFormat::SafeUnescaped);
   {
     Char* ptr = parts;
     Char* selfPtr = ptr;
@@ -3247,7 +3175,7 @@ void Uri___::CreateThisFromUri(Uri otherUri) {
   _info = nullptr;
   _flags = otherUri->_flags;
   if (InFact(Flags::MinimalUriInfoSet)) {
-    _flags &= ~(Flags::SchemeNotCanonical | Flags::UserNotCanonical | Flags::HostNotCanonical | Flags::PortNotCanonical | Flags::PathNotCanonical | Flags::QueryNotCanonical | Flags::FragmentNotCanonical | Flags::E_UserNotCanonical | Flags::E_HostNotCanonical | Flags::E_PortNotCanonical | Flags::E_PathNotCanonical | Flags::E_QueryNotCanonical | Flags::E_FragmentNotCanonical | Flags::ShouldBeCompressed | Flags::FirstSlashAbsent | Flags::BackslashInPath | Flags::MinimalUriInfoSet | Flags::AllUriInfoSet);
+    _flags &= ~(Flags::IndexMask | Flags::MinimalUriInfoSet | Flags::AllUriInfoSet);
     Int32 num = otherUri->_info->Offset.Path;
     if (InFact(Flags::NotDefaultPort)) {
       while (otherUri->_string[num] != ':' && num > otherUri->_info->Offset.Host) {
@@ -3285,7 +3213,7 @@ Char Uri___::_CheckSchemeSyntax_g__ToLowerCaseAscii151_0(Char c) {
   if ((UInt32)(c - 65) > 25u) {
     return c;
   }
-  return (Char)(c | 32);
+  return (Char)(c | 32u);
 }
 
 } // namespace System::Private::Uri::System::UriNamespace

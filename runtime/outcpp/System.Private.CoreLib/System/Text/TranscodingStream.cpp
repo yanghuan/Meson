@@ -443,15 +443,14 @@ ValueTask<Int32> TranscodingStream___::ReadAsync(Memory<Byte> buffer, Cancellati
   };
   EnsurePreReadConditions();
   if (cancellationToken.get_IsCancellationRequested()) {
-    return ValueTask<Int32>(Task<>::in::FromCanceled<Int32>(cancellationToken));
+    return ValueTask<>::FromCanceled<Int32>(cancellationToken);
   }
   return ReadAsyncCore(buffer, cancellationToken);
 }
 
 Int32 TranscodingStream___::ReadByte() {
   Byte as[1] = {};
-  Span<Byte> span = Span<Byte>(as, 1);
-  Span<Byte> buffer = span;
+  Span<Byte> buffer = as;
   if (Read(buffer) != 0) {
     return buffer[0];
   }
@@ -564,7 +563,7 @@ ValueTask<> TranscodingStream___::WriteAsync(ReadOnlyMemory<Byte> buffer, Cancel
   };
   EnsurePreWriteConditions();
   if (cancellationToken.get_IsCancellationRequested()) {
-    return ValueTask<>(Task<>::in::FromCanceled(cancellationToken));
+    return ValueTask<>::FromCanceled(cancellationToken);
   }
   return WriteAsyncCore(buffer, cancellationToken);
 }

@@ -76,7 +76,7 @@ String ContractHelper::GetFailureMessage(ContractFailureKind failureKind, String
 }
 
 String ContractHelper::GetDisplayMessage(ContractFailureKind failureKind, String userMessage, String conditionText) {
-  String text = String::in::IsNullOrEmpty(conditionText) ? "" : GetFailureMessage(failureKind, conditionText);
+  String text = (String::in::IsNullOrEmpty(conditionText) ? "" : GetFailureMessage(failureKind, conditionText));
   if (!String::in::IsNullOrEmpty(userMessage)) {
     return text + "  " + userMessage;
   }

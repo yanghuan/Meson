@@ -8,7 +8,7 @@ SessionMask SessionMask::get_All() {
 }
 
 SessionMask::SessionMask(UInt32 mask) {
-  m_mask = (mask & 15);
+  m_mask = mask & 15u;
 }
 
 UInt64 SessionMask::ToEventKeywords() {

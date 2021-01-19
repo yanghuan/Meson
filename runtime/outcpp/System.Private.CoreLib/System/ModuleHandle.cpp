@@ -41,8 +41,7 @@ Boolean ModuleHandle::Equals(Object obj) {
   if (!rt::is<ModuleHandle>(obj)) {
     return false;
   }
-  ModuleHandle moduleHandle = (ModuleHandle)obj;
-  return moduleHandle.m_ptr == m_ptr;
+  return ((ModuleHandle)obj).m_ptr == m_ptr;
 }
 
 Boolean ModuleHandle::Equals(ModuleHandle handle) {

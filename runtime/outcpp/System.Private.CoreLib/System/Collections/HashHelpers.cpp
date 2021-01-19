@@ -17,7 +17,7 @@ ConditionalWeakTable<Object, SerializationInfo> HashHelpers::get_SerializationIn
 }
 
 Boolean HashHelpers::IsPrime(Int32 candidate) {
-  if ((candidate & 1) != 0) {
+  if (((UInt32)candidate & (true ? 1u : 0u)) != 0) {
     Int32 num = (Int32)Math::Sqrt(candidate);
     for (Int32 i = 3; i <= num; i += 2) {
       if (candidate % i == 0) {

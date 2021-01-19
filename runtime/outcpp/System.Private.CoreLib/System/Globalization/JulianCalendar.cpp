@@ -66,7 +66,7 @@ void JulianCalendar___::CheckDayRange(Int32 year, Int32 month, Int32 day) {
   if (year == 1 && month == 1 && day < 3) {
     rt::throw_exception<ArgumentOutOfRangeException>(nullptr, SR::get_ArgumentOutOfRange_BadYearMonthDay());
   }
-  Array<Int32> array = (year % 4 == 0) ? s_daysToMonth366 : s_daysToMonth365;
+  Array<Int32> array = ((year % 4 == 0) ? s_daysToMonth366 : s_daysToMonth365);
   Int32 num = array[month] - array[month - 1];
   if (day < 1 || day > num) {
     rt::throw_exception<ArgumentOutOfRangeException>("day", day, SR::Format(SR::get_ArgumentOutOfRange_Range(), 1, num));
@@ -89,7 +89,7 @@ Int32 JulianCalendar___::GetDatePart(Int64 ticks, Int32 part) {
   if (part == 1) {
     return num2 + 1;
   }
-  Array<Int32> array = (num4 == 3) ? s_daysToMonth366 : s_daysToMonth365;
+  Array<Int32> array = ((num4 == 3) ? s_daysToMonth366 : s_daysToMonth365);
   Int32 i;
   for (i = (num2 >> 5) + 1; num2 >= array[i]; i++) {
   }
@@ -100,7 +100,7 @@ Int32 JulianCalendar___::GetDatePart(Int64 ticks, Int32 part) {
 }
 
 Int64 JulianCalendar___::DateToTicks(Int32 year, Int32 month, Int32 day) {
-  Array<Int32> array = (year % 4 == 0) ? s_daysToMonth366 : s_daysToMonth365;
+  Array<Int32> array = ((year % 4 == 0) ? s_daysToMonth366 : s_daysToMonth365);
   Int32 num = year - 1;
   Int32 num2 = num * 365 + num / 4 + array[month - 1] + day - 1;
   return (num2 - 2) * 864000000000;
@@ -121,7 +121,7 @@ DateTime JulianCalendar___::AddMonths(DateTime time, Int32 months) {
     datePart2 = 12 + (num2 + 1) % 12;
     datePart += (num2 - 11) / 12;
   }
-  Array<Int32> array = (datePart % 4 == 0 && (datePart % 100 != 0 || datePart % 400 == 0)) ? s_daysToMonth366 : s_daysToMonth365;
+  Array<Int32> array = ((datePart % 4 == 0 && (datePart % 100 != 0 || datePart % 400 == 0)) ? s_daysToMonth366 : s_daysToMonth365);
   Int32 num3 = array[datePart2] - array[datePart2 - 1];
   if (num > num3) {
     num = num3;
@@ -150,7 +150,7 @@ Int32 JulianCalendar___::GetDayOfYear(DateTime time) {
 Int32 JulianCalendar___::GetDaysInMonth(Int32 year, Int32 month, Int32 era) {
   CheckYearEraRange(year, era);
   CheckMonthRange(month);
-  Array<Int32> array = (year % 4 == 0) ? s_daysToMonth366 : s_daysToMonth365;
+  Array<Int32> array = ((year % 4 == 0) ? s_daysToMonth366 : s_daysToMonth365);
   return array[month] - array[month - 1];
 }
 

@@ -23,7 +23,7 @@ Boolean EnumeratorViewOfEnumVariant___::MoveNext() {
     return false;
   }
   Int32 num = 0;
-  if (_enumVariantObject->Next(1, _nextArray, (IntPtr)(void*)(&num)) == 1) {
+  if (_enumVariantObject->Next(1, _nextArray, (IntPtr)(&num)) == 1) {
     _fetchedLastObject = true;
     if (num == 0) {
       _current = nullptr;
@@ -39,6 +39,8 @@ void EnumeratorViewOfEnumVariant___::Reset() {
   if (num < 0) {
     Marshal::ThrowExceptionForHR(num);
   }
+  _fetchedLastObject = false;
+  _current = nullptr;
 }
 
 Object EnumeratorViewOfEnumVariant___::GetUnderlyingObject() {

@@ -7,7 +7,6 @@
 #include <System.Private.CoreLib/System/ArgumentException-dep.h>
 #include <System.Private.CoreLib/System/Collections/Generic/Dictionary-dep.h>
 #include <System.Private.CoreLib/System/Exception-dep.h>
-#include <System.Private.CoreLib/System/IntPtr-dep.h>
 #include <System.Private.CoreLib/System/InvalidCastException-dep.h>
 #include <System.Private.CoreLib/System/InvalidOperationException-dep.h>
 #include <System.Private.CoreLib/System/IO/Path-dep.h>
@@ -54,11 +53,15 @@ Type ComActivator::BasicClassFactory___::GetValidatedInterfaceType(Type classTyp
   rt::throw_exception<InvalidCastException>();
 }
 
-void ComActivator::BasicClassFactory___::ValidateObjectIsMarshallableAsInterface(Object obj, Type interfaceType) {
-  if (!(interfaceType == typeof<Object>())) {
-    IntPtr comInterfaceForObject = Marshal::GetComInterfaceForObject(obj, interfaceType, CustomQueryInterfaceMode::Ignore);
-    Marshal::Release(comInterfaceForObject);
+IntPtr ComActivator::BasicClassFactory___::GetObjectAsInterface(Object obj, Type interfaceType) {
+  if (interfaceType == typeof<Object>()) {
+    return Marshal::GetIUnknownForObject(obj);
   }
+  IntPtr comInterfaceForObject = Marshal::GetComInterfaceForObject(obj, interfaceType, CustomQueryInterfaceMode::Ignore);
+  if (comInterfaceForObject == IntPtr::Zero) {
+    rt::throw_exception<InvalidCastException>();
+  }
+  return comInterfaceForObject;
 }
 
 Object ComActivator::BasicClassFactory___::CreateAggregatedObject(Object pUnkOuter, Object comObject) {
@@ -72,13 +75,13 @@ Object ComActivator::BasicClassFactory___::CreateAggregatedObject(Object pUnkOut
   }
 }
 
-void ComActivator::BasicClassFactory___::CreateInstance(Object pUnkOuter, Guid& riid, Object& ppvObject) {
+void ComActivator::BasicClassFactory___::CreateInstance(Object pUnkOuter, Guid& riid, IntPtr& ppvObject) {
   Type validatedInterfaceType = GetValidatedInterfaceType(_classType, riid, pUnkOuter);
-  ppvObject = Activator::CreateInstance(_classType);
+  Object obj = Activator::CreateInstance(_classType);
   if (pUnkOuter != nullptr) {
-    ppvObject = CreateAggregatedObject(pUnkOuter, ppvObject);
+    obj = CreateAggregatedObject(pUnkOuter, obj);
   }
-  ValidateObjectIsMarshallableAsInterface(ppvObject, validatedInterfaceType);
+  ppvObject = GetObjectAsInterface(obj, validatedInterfaceType);
 }
 
 void ComActivator::BasicClassFactory___::LockServer(Boolean fLock) {
@@ -91,7 +94,7 @@ void ComActivator::LicenseClassFactory___::ctor(Guid clsid, Type classType) {
   _classType = classType;
 }
 
-void ComActivator::LicenseClassFactory___::CreateInstance(Object pUnkOuter, Guid& riid, Object& ppvObject) {
+void ComActivator::LicenseClassFactory___::CreateInstance(Object pUnkOuter, Guid& riid, IntPtr& ppvObject) {
   CreateInstanceInner(pUnkOuter, riid, nullptr, true, ppvObject);
 }
 
@@ -111,17 +114,17 @@ void ComActivator::LicenseClassFactory___::RequestLicKey(Int32 dwReserved, Strin
   pBstrKey = _licenseProxy->RequestLicKey(_classType);
 }
 
-void ComActivator::LicenseClassFactory___::CreateInstanceLic(Object pUnkOuter, Object pUnkReserved, Guid& riid, String bstrKey, Object& ppvObject) {
+void ComActivator::LicenseClassFactory___::CreateInstanceLic(Object pUnkOuter, Object pUnkReserved, Guid& riid, String bstrKey, IntPtr& ppvObject) {
   CreateInstanceInner(pUnkOuter, riid, bstrKey, false, ppvObject);
 }
 
-void ComActivator::LicenseClassFactory___::CreateInstanceInner(Object pUnkOuter, Guid& riid, String key, Boolean isDesignTime, Object& ppvObject) {
+void ComActivator::LicenseClassFactory___::CreateInstanceInner(Object pUnkOuter, Guid& riid, String key, Boolean isDesignTime, IntPtr& ppvObject) {
   Type validatedInterfaceType = BasicClassFactory::in::GetValidatedInterfaceType(_classType, riid, pUnkOuter);
-  ppvObject = _licenseProxy->AllocateAndValidateLicense(_classType, key, isDesignTime);
+  Object obj = _licenseProxy->AllocateAndValidateLicense(_classType, key, isDesignTime);
   if (pUnkOuter != nullptr) {
-    ppvObject = BasicClassFactory::in::CreateAggregatedObject(pUnkOuter, ppvObject);
+    obj = BasicClassFactory::in::CreateAggregatedObject(pUnkOuter, obj);
   }
-  BasicClassFactory::in::ValidateObjectIsMarshallableAsInterface(ppvObject, validatedInterfaceType);
+  ppvObject = BasicClassFactory::in::GetObjectAsInterface(obj, validatedInterfaceType);
 }
 
 Object ComActivator::GetClassFactoryForType(ComActivationContext cxt) {
@@ -139,7 +142,7 @@ Object ComActivator::GetClassFactoryForType(ComActivationContext cxt) {
 }
 
 void ComActivator::ClassRegistrationScenarioForType(ComActivationContext cxt, Boolean register一) {
-  String str = register一 ? "ComRegisterFunctionAttribute" : "ComUnregisterFunctionAttribute";
+  String str = (register一 ? "ComRegisterFunctionAttribute" : "ComUnregisterFunctionAttribute");
   Type type = Type::in::GetType("System.Runtime.InteropServices." + str + ", System.Runtime.InteropServices", false);
   if (type == nullptr) {
     return;
@@ -156,16 +159,16 @@ void ComActivator::ClassRegistrationScenarioForType(ComActivationContext cxt, Bo
     for (MethodInfo&& methodInfo : *array) {
       if (methodInfo->GetCustomAttributes(type, true)->get_Length() != 0) {
         if (!methodInfo->get_IsStatic()) {
-          String resourceFormat = register一 ? SR::get_InvalidOperation_NonStaticComRegFunction() : SR::get_InvalidOperation_NonStaticComUnRegFunction();
+          String resourceFormat = (register一 ? SR::get_InvalidOperation_NonStaticComRegFunction() : SR::get_InvalidOperation_NonStaticComUnRegFunction());
           rt::throw_exception<InvalidOperationException>(SR::Format(resourceFormat, Array<>::in::Empty<Object>()));
         }
         Array<ParameterInfo> parameters = methodInfo->GetParameters();
         if (methodInfo->get_ReturnType() != typeof<void>() || parameters == nullptr || parameters->get_Length() != 1 || (parameters[0]->get_ParameterType() != typeof<String>() && parameters[0]->get_ParameterType() != typeof<Type>())) {
-          String resourceFormat2 = register一 ? SR::get_InvalidOperation_InvalidComRegFunctionSig() : SR::get_InvalidOperation_InvalidComUnRegFunctionSig();
+          String resourceFormat2 = (register一 ? SR::get_InvalidOperation_InvalidComRegFunctionSig() : SR::get_InvalidOperation_InvalidComUnRegFunctionSig());
           rt::throw_exception<InvalidOperationException>(SR::Format(resourceFormat2, Array<>::in::Empty<Object>()));
         }
         if (flag) {
-          String resourceFormat3 = register一 ? SR::get_InvalidOperation_MultipleComRegFunctions() : SR::get_InvalidOperation_MultipleComUnRegFunctions();
+          String resourceFormat3 = (register一 ? SR::get_InvalidOperation_MultipleComRegFunctions() : SR::get_InvalidOperation_MultipleComUnRegFunctions());
           rt::throw_exception<InvalidOperationException>(SR::Format(resourceFormat3, Array<>::in::Empty<Object>()));
         }
         Array<Object> array2 = rt::newarr<Array<Object>>(1);

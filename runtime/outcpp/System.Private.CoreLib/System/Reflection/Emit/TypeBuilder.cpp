@@ -32,6 +32,7 @@
 #include <System.Private.CoreLib/System/Reflection/Emit/TypeNameBuilder-dep.h>
 #include <System.Private.CoreLib/System/Runtime/CompilerServices/RuntimeHelpers-dep.h>
 #include <System.Private.CoreLib/System/SR-dep.h>
+#include <System.Private.CoreLib/System/UInt32-dep.h>
 #include <System.Private.CoreLib/System/ValueType-dep.h>
 
 namespace System::Private::CoreLib::System::Reflection::Emit::TypeBuilderNamespace {
@@ -316,7 +317,7 @@ void TypeBuilder___::SetConstantValue(ModuleBuilder module, Int32 tk, Type destT
       destType = destType->GetElementType();
     }
     Type as = Nullable<>::GetUnderlyingType(destType);
-    destType = (as != nullptr ? as : destType);
+    destType = as != nullptr ? as : destType;
     if (destType->get_IsEnum()) {
       EnumBuilder enumBuilder = rt::as<EnumBuilder>(destType);
       Type type2;
@@ -687,7 +688,7 @@ Boolean TypeBuilder___::IsAssignableFrom(Type c) {
     return true;
   }
   TypeBuilder typeBuilder = rt::as<TypeBuilder>(c);
-  Type type = (!(typeBuilder != nullptr)) ? c : typeBuilder->m_bakedRuntimeType;
+  Type type = ((!(typeBuilder != nullptr)) ? c : typeBuilder->m_bakedRuntimeType);
   if (type != nullptr && rt::is<RuntimeType>(type)) {
     if (m_bakedRuntimeType == nullptr) {
       return false;
@@ -1105,7 +1106,7 @@ ConstructorBuilder TypeBuilder___::DefineConstructorNoLock(MethodAttributes attr
   CheckContext(requiredCustomModifiers);
   CheckContext(optionalCustomModifiers);
   ThrowIfCreated();
-  String name = ((attributes & MethodAttributes::Static) != 0) ? ConstructorInfo::in::TypeConstructorName : ConstructorInfo::in::ConstructorName;
+  String name = (((attributes & MethodAttributes::Static) != 0) ? ConstructorInfo::in::TypeConstructorName : ConstructorInfo::in::ConstructorName);
   attributes |= MethodAttributes::SpecialName;
   ConstructorBuilder result = rt::newobj<ConstructorBuilder>(name, attributes, callingConvention, parameterTypes, requiredCustomModifiers, optionalCustomModifiers, m_module, (TypeBuilder)this);
   m_constructorCount++;
@@ -1327,7 +1328,7 @@ TypeInfo TypeBuilder___::CreateTypeNoLock() {
     for (Int32 j = 0; j < m_typeInterfaces->get_Count(); j++) {
       array2[j] = m_module->GetTypeTokenInternal(m_typeInterfaces[j]).get_Token();
     }
-    Int32 tkParent = (m_declMeth == nullptr) ? m_DeclaringType->m_tdType.get_Token() : m_declMeth->GetToken().get_Token();
+    Int32 tkParent = ((m_declMeth == nullptr) ? m_DeclaringType->m_tdType.get_Token() : m_declMeth->GetToken().get_Token());
     m_tdType = TypeToken(DefineGenericParam(QCallModule(module), m_strName, tkParent, m_genParamAttributes, m_genParamPos, array2));
     if (m_ca != nullptr) {
       for (CustAttr&& item : *m_ca) {
@@ -1337,7 +1338,7 @@ TypeInfo TypeBuilder___::CreateTypeNoLock() {
     m_hasBeenCreated = true;
     return (TypeBuilder)this;
   }
-  if ((m_tdType.get_Token() & 16777215) != 0 && (num & 16777215) != 0) {
+  if (((UInt32)m_tdType.get_Token() & 16777215u) != 0 && ((UInt32)num & 16777215u) != 0) {
     SetParentType(QCallModule(module), m_tdType.get_Token(), num);
   }
   if (m_inst != nullptr) {

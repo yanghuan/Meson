@@ -170,7 +170,7 @@ ConcurrentExclusiveSchedulerPair::in::CompletionState ConcurrentExclusiveSchedul
 void ConcurrentExclusiveSchedulerPair___::__c___::_CompleteTaskAsync_b__30_0(Object state) {
   ConcurrentExclusiveSchedulerPair concurrentExclusiveSchedulerPair = (ConcurrentExclusiveSchedulerPair)state;
   List<Exception> exceptions = concurrentExclusiveSchedulerPair->m_completionState->m_exceptions;
-  Boolean flag = (exceptions != nullptr && exceptions->get_Count() > 0) ? concurrentExclusiveSchedulerPair->m_completionState->TrySetException(exceptions) : concurrentExclusiveSchedulerPair->m_completionState->TrySetResult();
+  Boolean flag = ((exceptions != nullptr && exceptions->get_Count() > 0) ? concurrentExclusiveSchedulerPair->m_completionState->TrySetException(exceptions) : concurrentExclusiveSchedulerPair->m_completionState->TrySetResult());
   concurrentExclusiveSchedulerPair->m_threadProcessingMode->Dispose();
 }
 

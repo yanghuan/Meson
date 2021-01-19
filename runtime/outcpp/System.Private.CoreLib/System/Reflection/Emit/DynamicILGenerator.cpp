@@ -91,7 +91,7 @@ void DynamicILGenerator___::Emit(OpCode opcode, ConstructorInfo con) {
     rt::throw_exception<ArgumentException>(SR::get_Argument_MustBeRuntimeMethodInfo(), "con");
   }
   RuntimeType runtimeType = runtimeConstructorInfo->GetRuntimeType();
-  Int32 value = (!(runtimeType != nullptr) || (!runtimeType->get_IsGenericType() && !runtimeType->get_IsArray())) ? GetTokenFor(runtimeConstructorInfo) : GetTokenFor(runtimeConstructorInfo, runtimeType);
+  Int32 value = ((!(runtimeType != nullptr) || (!runtimeType->get_IsGenericType() && !runtimeType->get_IsArray())) ? GetTokenFor(runtimeConstructorInfo) : GetTokenFor(runtimeConstructorInfo, runtimeType));
   EnsureCapacity(7);
   InternalEmit(opcode);
   UpdateStackSize(opcode, 1);
@@ -120,7 +120,7 @@ void DynamicILGenerator___::Emit(OpCode opcode, FieldInfo field) {
   if (runtimeFieldInfo == nullptr) {
     rt::throw_exception<ArgumentException>(SR::get_Argument_MustBeRuntimeFieldInfo(), "field");
   }
-  Int32 value = (!(field->get_DeclaringType() == nullptr)) ? GetTokenFor(runtimeFieldInfo, runtimeFieldInfo->GetRuntimeType()) : GetTokenFor(runtimeFieldInfo);
+  Int32 value = ((!(field->get_DeclaringType() == nullptr)) ? GetTokenFor(runtimeFieldInfo, runtimeFieldInfo->GetRuntimeType()) : GetTokenFor(runtimeFieldInfo));
   EnsureCapacity(7);
   InternalEmit(opcode);
   PutInteger4(value);

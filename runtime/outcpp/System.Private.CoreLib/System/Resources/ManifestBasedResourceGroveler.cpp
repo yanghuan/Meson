@@ -142,7 +142,7 @@ ResourceSet ManifestBasedResourceGroveler___::CreateResourceSet(Stream store, As
         resourceReader = (IResourceReader)Activator::CreateInstance(type, store);
       }
       Array<Object> args = rt::newarr<Array<Object>>(1);
-      Type type2 = (!(_mediator->get_UserResourceSet() == nullptr)) ? _mediator->get_UserResourceSet() : Type::in::GetType(text2, true, false);
+      Type type2 = ((!(_mediator->get_UserResourceSet() == nullptr)) ? _mediator->get_UserResourceSet() : Type::in::GetType(text2, true, false));
       return (ResourceSet)Activator::CreateInstance(type2, BindingFlags::Instance | BindingFlags::Public | BindingFlags::NonPublic | BindingFlags::CreateInstance, nullptr, args, nullptr, nullptr);
     }
     store->set_Position(position);
@@ -170,9 +170,9 @@ Stream ManifestBasedResourceGroveler___::GetManifestResourceStream(Assembly sate
 
 Stream ManifestBasedResourceGroveler___::CaseInsensitiveManifestResourceStreamLookup(Assembly satellite, String name) {
   Type locationInfo = _mediator->get_LocationInfo();
-  String text = ((Object)locationInfo != nullptr) ? locationInfo->get_Namespace() : nullptr;
+  String text = (((Object)locationInfo != nullptr) ? locationInfo->get_Namespace() : nullptr);
   Char ptr = Type::in::Delimiter;
-  String text2 = (text != nullptr && name != nullptr) ? String::in::Concat(text, ReadOnlySpan<Char>(ptr, 1), name) : (text + name);
+  String text2 = ((text != nullptr && name != nullptr) ? String::in::Concat(text, ReadOnlySpan<Char>(ptr, 1), name) : (text + name));
   String text3 = nullptr;
   Array<String> manifestResourceNames = satellite->GetManifestResourceNames();
   for (String&& text4 : *manifestResourceNames) {

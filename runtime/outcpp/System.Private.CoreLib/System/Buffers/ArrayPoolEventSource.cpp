@@ -11,16 +11,16 @@ void ArrayPoolEventSource___::BufferRented(Int32 bufferId, Int32 bufferSize, Int
   EventSource::in::EventData as[4] = {};
   EventSource::in::EventData* ptr = as;
   ptr->set_Size(4);
-  ptr->set_DataPointer((IntPtr)(void*)(&bufferId));
+  ptr->set_DataPointer((IntPtr)(&bufferId));
   ptr->set_Reserved(0);
   ptr[1].set_Size(4);
-  ptr[1].set_DataPointer((IntPtr)(void*)(&bufferSize));
+  ptr[1].set_DataPointer((IntPtr)(&bufferSize));
   ptr[1].set_Reserved(0);
   ptr[2].set_Size(4);
-  ptr[2].set_DataPointer((IntPtr)(void*)(&poolId));
+  ptr[2].set_DataPointer((IntPtr)(&poolId));
   ptr[2].set_Reserved(0);
   ptr[3].set_Size(4);
-  ptr[3].set_DataPointer((IntPtr)(void*)(&bucketId));
+  ptr[3].set_DataPointer((IntPtr)(&bucketId));
   ptr[3].set_Reserved(0);
   WriteEventCore(1, 4, ptr);
 }
@@ -29,19 +29,19 @@ void ArrayPoolEventSource___::BufferAllocated(Int32 bufferId, Int32 bufferSize, 
   EventSource::in::EventData as[5] = {};
   EventSource::in::EventData* ptr = as;
   ptr->set_Size(4);
-  ptr->set_DataPointer((IntPtr)(void*)(&bufferId));
+  ptr->set_DataPointer((IntPtr)(&bufferId));
   ptr->set_Reserved(0);
   ptr[1].set_Size(4);
-  ptr[1].set_DataPointer((IntPtr)(void*)(&bufferSize));
+  ptr[1].set_DataPointer((IntPtr)(&bufferSize));
   ptr[1].set_Reserved(0);
   ptr[2].set_Size(4);
-  ptr[2].set_DataPointer((IntPtr)(void*)(&poolId));
+  ptr[2].set_DataPointer((IntPtr)(&poolId));
   ptr[2].set_Reserved(0);
   ptr[3].set_Size(4);
-  ptr[3].set_DataPointer((IntPtr)(void*)(&bucketId));
+  ptr[3].set_DataPointer((IntPtr)(&bucketId));
   ptr[3].set_Reserved(0);
   ptr[4].set_Size(4);
-  ptr[4].set_DataPointer((IntPtr)(void*)(&reason));
+  ptr[4].set_DataPointer((IntPtr)(&reason));
   ptr[4].set_Reserved(0);
   WriteEventCore(2, 5, ptr);
 }

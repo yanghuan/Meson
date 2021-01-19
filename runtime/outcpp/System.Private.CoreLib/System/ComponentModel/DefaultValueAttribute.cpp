@@ -25,7 +25,7 @@ void DefaultValueAttribute___::ctor(Type type, String value) {
     conversionResult = nullptr;
     if (s_convertFromInvariantString == nullptr) {
       Type type2 = Type::in::GetType("System.ComponentModel.TypeDescriptor, System.ComponentModel.TypeConverter", false);
-      MethodInfo methodInfo = ((Object)type2 != nullptr) ? type2->GetMethod("ConvertFromInvariantString", BindingFlags::Static | BindingFlags::NonPublic) : nullptr;
+      MethodInfo methodInfo = (((Object)type2 != nullptr) ? type2->GetMethod("ConvertFromInvariantString", BindingFlags::Static | BindingFlags::NonPublic) : nullptr);
       Volatile::Write(s_convertFromInvariantString, (methodInfo == nullptr) ? rt::newobj<Object>() : methodInfo->CreateDelegate(typeof<Func<Type, String, Object>>()));
     }
     Func<Type, String, Object> func = rt::as<Func<Type, String, Object>>(s_convertFromInvariantString);
@@ -141,7 +141,7 @@ Boolean DefaultValueAttribute___::_ctor_g__TryConvertFromInvariantString2_0(Type
   conversionResult = nullptr;
   if (s_convertFromInvariantString == nullptr) {
     Type type = Type::in::GetType("System.ComponentModel.TypeDescriptor, System.ComponentModel.TypeConverter", false);
-    MethodInfo methodInfo = ((Object)type != nullptr) ? type->GetMethod("ConvertFromInvariantString", BindingFlags::Static | BindingFlags::NonPublic) : nullptr;
+    MethodInfo methodInfo = (((Object)type != nullptr) ? type->GetMethod("ConvertFromInvariantString", BindingFlags::Static | BindingFlags::NonPublic) : nullptr);
     Volatile::Write(s_convertFromInvariantString, (methodInfo == nullptr) ? rt::newobj<Object>() : methodInfo->CreateDelegate(typeof<Func<Type, String, Object>>()));
   }
   Func<Type, String, Object> func = rt::as<Func<Type, String, Object>>(s_convertFromInvariantString);

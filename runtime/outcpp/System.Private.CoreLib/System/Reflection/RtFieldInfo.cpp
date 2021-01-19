@@ -63,7 +63,7 @@ INVOCATION_FLAGS RtFieldInfo___::InitializeInvocationFlags() {
       iNVOCATION_FLAGS |= INVOCATION_FLAGS::INVOCATION_FLAGS_FIELD_SPECIAL_CAST;
     }
   }
-  return m_invocationFlags = (iNVOCATION_FLAGS | INVOCATION_FLAGS::INVOCATION_FLAGS_INITIALIZED);
+  return m_invocationFlags = iNVOCATION_FLAGS | INVOCATION_FLAGS::INVOCATION_FLAGS_INITIALIZED;
 }
 
 void RtFieldInfo___::ctor(RuntimeFieldHandleInternal handle, RuntimeType declaringType, RuntimeType::in::RuntimeTypeCache reflectedTypeCache, BindingFlags bindingFlags) {

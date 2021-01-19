@@ -1,10 +1,10 @@
 #include "Statics-dep.h"
 
-#include <System.Private.CoreLib/Microsoft/Reflection/ReflectionExtensions-dep.h>
 #include <System.Private.CoreLib/System/ArgumentException-dep.h>
 #include <System.Private.CoreLib/System/ArgumentOutOfRangeException-dep.h>
 #include <System.Private.CoreLib/System/Boolean-dep.h>
 #include <System.Private.CoreLib/System/Char-dep.h>
+#include <System.Private.CoreLib/System/Collections/Generic/IEnumerable.h>
 #include <System.Private.CoreLib/System/Collections/Generic/KeyValuePair-dep.h>
 #include <System.Private.CoreLib/System/DateTime-dep.h>
 #include <System.Private.CoreLib/System/DateTimeOffset-dep.h>
@@ -32,7 +32,6 @@
 #include <System.Private.CoreLib/System/IntPtr-dep.h>
 #include <System.Private.CoreLib/System/NotSupportedException-dep.h>
 #include <System.Private.CoreLib/System/Nullable-dep.h>
-#include <System.Private.CoreLib/System/Object-dep.h>
 #include <System.Private.CoreLib/System/Reflection/TypeFilter-dep.h>
 #include <System.Private.CoreLib/System/Runtime/CompilerServices/CompilerGeneratedAttribute-dep.h>
 #include <System.Private.CoreLib/System/SByte-dep.h>
@@ -46,7 +45,6 @@
 #include <System.Private.CoreLib/System/UIntPtr-dep.h>
 
 namespace System::Private::CoreLib::System::Diagnostics::Tracing::StaticsNamespace {
-using namespace Microsoft::Reflection;
 using namespace System::Collections::Generic;
 using namespace System::Reflection;
 using namespace System::Runtime::CompilerServices;
@@ -67,9 +65,9 @@ void Statics::EncodeTags(Int32 tags, Int32& pos, Array<Byte> metadata) {
   Int32 num = tags & 268435455;
   Boolean flag;
   do {
-    Byte b = (Byte)((num >> 21) & 127);
-    flag = ((num & 2097151) != 0);
-    b = (Byte)(b | (Byte)(flag ? 128 : 0));
+    Byte b = (Byte)((UInt32)(num >> 21) & 127u);
+    flag = (num & 2097151) != 0;
+    b = (Byte)(b | (Byte)(flag ? 128u : 0u));
     num <<= 7;
     if (metadata != nullptr) {
       metadata[pos] = b;
@@ -110,99 +108,28 @@ TraceLoggingDataType Statics::MakeDataType(TraceLoggingDataType baseType, EventF
 }
 
 TraceLoggingDataType Statics::Format8(EventFieldFormat format, TraceLoggingDataType native) {
-  switch (format) {
-    case EventFieldFormat::Default:
-      return native;
-    case EventFieldFormat::String:
-      return TraceLoggingDataType::Char8;
-    case EventFieldFormat::Boolean:
-      return TraceLoggingDataType::Boolean8;
-    case EventFieldFormat::Hexadecimal:
-      return TraceLoggingDataType::HexInt8;
-    default:
-      return MakeDataType(native, format);
-  }
 }
 
 TraceLoggingDataType Statics::Format16(EventFieldFormat format, TraceLoggingDataType native) {
-  switch (format) {
-    case EventFieldFormat::Default:
-      return native;
-    case EventFieldFormat::String:
-      return TraceLoggingDataType::Char16;
-    case EventFieldFormat::Hexadecimal:
-      return TraceLoggingDataType::HexInt16;
-    default:
-      return MakeDataType(native, format);
-  }
 }
 
 TraceLoggingDataType Statics::Format32(EventFieldFormat format, TraceLoggingDataType native) {
-  switch (format) {
-    case EventFieldFormat::Default:
-      return native;
-    case EventFieldFormat::Boolean:
-      return TraceLoggingDataType::Boolean32;
-    case EventFieldFormat::Hexadecimal:
-      return TraceLoggingDataType::HexInt32;
-    case EventFieldFormat::HResult:
-      return TraceLoggingDataType::HResult;
-    default:
-      return MakeDataType(native, format);
-  }
 }
 
 TraceLoggingDataType Statics::Format64(EventFieldFormat format, TraceLoggingDataType native) {
-  switch (format) {
-    case EventFieldFormat::Default:
-      return native;
-    case EventFieldFormat::Hexadecimal:
-      return TraceLoggingDataType::HexInt64;
-    default:
-      return MakeDataType(native, format);
-  }
 }
 
 TraceLoggingDataType Statics::FormatPtr(EventFieldFormat format, TraceLoggingDataType native) {
-  switch (format) {
-    case EventFieldFormat::Default:
-      return native;
-    case EventFieldFormat::Hexadecimal:
-      return HexIntPtrType;
-    default:
-      return MakeDataType(native, format);
-  }
-}
-
-Boolean Statics::IsValueType(Type type) {
-  return ReflectionExtensions::IsValueType(type);
-}
-
-Boolean Statics::IsEnum(Type type) {
-  return ReflectionExtensions::IsEnum(type);
-}
-
-IEnumerable<PropertyInfo> Statics::GetProperties(Type type) {
-  return type->GetProperties();
-}
-
-MethodInfo Statics::GetGetMethod(PropertyInfo propInfo) {
-  return propInfo->GetGetMethod();
 }
 
 Boolean Statics::HasCustomAttribute(PropertyInfo propInfo, Type attributeType) {
-  Array<Object> customAttributes = propInfo->GetCustomAttributes(attributeType, false);
-  return customAttributes->get_Length() != 0;
-}
-
-Array<Type> Statics::GetGenericArguments(Type type) {
-  return type->GetGenericArguments();
+  return propInfo->IsDefined(attributeType, false);
 }
 
 Type Statics::FindEnumerableElementType(Type type) {
   Type type2 = nullptr;
   if (IsGenericMatch(type, typeof<IEnumerable<T>>())) {
-    type2 = GetGenericArguments(type)[0];
+    type2 = type->GetGenericArguments()[0];
   } else {
     Array<Type> array = type->FindInterfaces(&IsGenericMatch, typeof<IEnumerable<T>>());
     Array<Type> array2 = array;
@@ -211,14 +138,14 @@ Type Statics::FindEnumerableElementType(Type type) {
         type2 = nullptr;
         break;
       }
-      type2 = GetGenericArguments(type3)[0];
+      type2 = type3->GetGenericArguments()[0];
     }
   }
   return type2;
 }
 
 Boolean Statics::IsGenericMatch(Type type, Object openType) {
-  if (ReflectionExtensions::IsGenericType(type)) {
+  if (type->get_IsGenericType()) {
     return type->GetGenericTypeDefinition() == (Type)openType;
   }
   return false;
@@ -283,7 +210,7 @@ TraceLoggingTypeInfo Statics::CreateDefaultTypeInfo(Type dataType, List<Type> re
     }
     return rt::newobj<ArrayTypeInfo>(dataType, TraceLoggingTypeInfo::in::GetInstance(elementType, recursionCheck));
   }
-  if (IsEnum(dataType)) {
+  if (dataType->get_IsEnum()) {
     dataType = Enum::in::GetUnderlyingType(dataType);
   }
   if (dataType == typeof<String>()) {

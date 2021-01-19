@@ -4,7 +4,6 @@
 #include <System.Console/System/Text/OSEncoding-dep.h>
 #include <System.Private.CoreLib/System/ArgumentNullException-dep.h>
 #include <System.Private.CoreLib/System/ArgumentOutOfRangeException-dep.h>
-#include <System.Private.CoreLib/System/Int64-dep.h>
 #include <System.Private.CoreLib/System/IntPtr-dep.h>
 
 namespace System::Console::System::Text::OSEncoderNamespace {
@@ -35,7 +34,7 @@ Int32 OSEncoder___::GetByteCount(Array<Char> chars, Int32 index, Int32 count, Bo
   {
     Char* ptr = chars;
     Char c;
-    Char* chars2 = (ptr == nullptr) ? (&c) : (ptr + index);
+    Char* chars2 = ((ptr == nullptr) ? (&c) : (ptr + index));
     return GetByteCount(chars2, count, flush);
   }
 }
@@ -51,7 +50,7 @@ Int32 OSEncoder___::ConvertWithLeftOverChar(Char* chars, Int32 count, Byte* byte
   }
   Int32 num2 = OSEncoding::in::WideCharToMultiByte(_encoding->get_CodePage(), ptr, num + 1, bytes, byteCount);
   if (count - num > 0) {
-    num2 += OSEncoding::in::WideCharToMultiByte(_encoding->get_CodePage(), chars + num, count - num, (Byte*)(Int64)((bytes == nullptr) ? ((IntPtr)(void*)nullptr) : ((IntPtr)(bytes + num2))), (bytes != nullptr) ? (byteCount - num2) : 0);
+    num2 += OSEncoding::in::WideCharToMultiByte(_encoding->get_CodePage(), chars + num, count - num, (Byte*)((bytes == nullptr) ? ((IntPtr)(void*)(void*)nullptr) : ((IntPtr)(bytes + num2))), (bytes != nullptr) ? (byteCount - num2) : 0);
   }
   return num2;
 }
@@ -103,7 +102,7 @@ Int32 OSEncoder___::GetBytes(Array<Char> chars, Int32 charIndex, Int32 charCount
     {
       Byte* ptr2 = &bytes[0];
       Char c;
-      Char* chars2 = (ptr == nullptr) ? (&c) : (ptr + charIndex);
+      Char* chars2 = ((ptr == nullptr) ? (&c) : (ptr + charIndex));
       return GetBytes(chars2, charCount, ptr2 + byteIndex, bytes->get_Length() - byteIndex, flush);
     }
   }
@@ -119,7 +118,7 @@ Int32 OSEncoder___::GetBytes(Char* chars, Int32 charCount, Byte* bytes, Int32 by
   if (byteCount == 0) {
     return 0;
   }
-  Char c = (charCount > 0 && !flush && Char::IsHighSurrogate(*(chars + charCount - 1))) ? *(chars + charCount - 1) : '\0';
+  Char c = ((charCount > 0 && !flush && Char::IsHighSurrogate(*(chars + charCount - 1))) ? *(chars + charCount - 1) : '\0');
   if (c != 0) {
     charCount--;
   }
@@ -167,7 +166,7 @@ void OSEncoder___::Convert(Array<Char> chars, Int32 charIndex, Int32 charCount, 
     {
       Byte* ptr2 = &bytes[0];
       Char c;
-      Char* chars2 = (ptr == nullptr) ? (&c) : (ptr + charIndex);
+      Char* chars2 = ((ptr == nullptr) ? (&c) : (ptr + charIndex));
       Convert(chars2, charCount, ptr2 + byteIndex, byteCount, flush, charsUsed, bytesUsed, completed);
     }
   }
@@ -190,7 +189,7 @@ void OSEncoder___::Convert(Char* chars, Int32 charCount, Byte* bytes, Int32 byte
   if (num > 0) {
     bytesUsed = GetBytes(chars, num, bytes, byteCount, flush);
     charsUsed = num;
-    completed = (_charLeftOver == '\0' && charCount == num);
+    completed = _charLeftOver == '\0' && charCount == num;
   } else {
     bytesUsed = 0;
     charsUsed = 0;

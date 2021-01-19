@@ -23,6 +23,7 @@
 #include <System.Private.CoreLib/System/Globalization/ThaiBuddhistCalendar-dep.h>
 #include <System.Private.CoreLib/System/Globalization/UmAlQuraCalendar-dep.h>
 #include <System.Private.CoreLib/System/InvalidOperationException-dep.h>
+#include <System.Private.CoreLib/System/MemoryExtensions-dep.h>
 #include <System.Private.CoreLib/System/Span-dep.h>
 #include <System.Private.CoreLib/System/SR-dep.h>
 #include <System.Private.CoreLib/System/String-dep.h>
@@ -107,9 +108,27 @@ CultureInfo CultureInfo___::get_InvariantCulture() {
 
 CultureInfo CultureInfo___::get_Parent() {
   if (_parent == nullptr) {
-    String parentName = _cultureData->get_ParentName();
-    CultureInfo as = CreateCultureInfoNoThrow(parentName, _cultureData->get_UseUserOverride());
-    CultureInfo value = (!String::in::IsNullOrEmpty(parentName)) ? (as != nullptr ? as : get_InvariantCulture()) : get_InvariantCulture();
+    String text = _cultureData->get_ParentName();
+    if (text == "zh") {
+      if (_name->get_Length() == 5 && _name[2] == '-') {
+        if ((_name[3] == 'C' && _name[4] == 'N') || (_name[3] == 'S' && _name[4] == 'G')) {
+          text = "zh-Hans";
+        } else if ((_name[3] == 'H' && _name[4] == 'K') || (_name[3] == 'M' && _name[4] == 'O') || (_name[3] == 'T' && _name[4] == 'W')) {
+          text = "zh-Hant";
+        }
+
+      } else if (_name->get_Length() > 8 && MemoryExtensions::Equals(MemoryExtensions, MemoryExtensions::AsSpan(_name, 2, 4), "-Han", StringComparison::Ordinal) && _name[7] == '-') {
+        if (_name[6] == 't') {
+          text = "zh-Hant";
+        } else if (_name[6] == 's') {
+          text = "zh-Hans";
+        }
+
+      }
+
+    }
+    CultureInfo as = CreateCultureInfoNoThrow(text, _cultureData->get_UseUserOverride());
+    CultureInfo value = ((!String::in::IsNullOrEmpty(text)) ? (as != nullptr ? as : get_InvariantCulture()) : get_InvariantCulture());
     Interlocked::CompareExchange(_parent, value, (CultureInfo)nullptr);
   }
   return _parent;
@@ -194,10 +213,9 @@ Boolean CultureInfo___::get_IsNeutralCulture() {
 }
 
 CultureTypes CultureInfo___::get_CultureTypes() {
-  CultureTypes cultureTypes = _cultureData->get_IsNeutralCulture() ? CultureTypes::NeutralCultures : CultureTypes::SpecificCultures;
-  if (_cultureData->get_IsWin32Installed()) {
-    cultureTypes |= CultureTypes::InstalledWin32Cultures;
-  }
+  CultureTypes cultureTypes = (_cultureData->get_IsNeutralCulture() ? CultureTypes::NeutralCultures : CultureTypes::SpecificCultures);
+  Boolean isWin32Installed = CultureData::in::get_IsWin32Installed();
+  cultureTypes |= CultureTypes::InstalledWin32Cultures;
   if (_cultureData->get_IsSupplementalCustomCulture()) {
     cultureTypes |= CultureTypes::UserCustomCulture;
   }
@@ -252,6 +270,9 @@ Calendar CultureInfo___::get_Calendar() {
 }
 
 Array<Calendar> CultureInfo___::get_OptionalCalendars() {
+  if (GlobalizationMode::get_Invariant()) {
+    return rt::newarr<Array<GregorianCalendar>>(1);
+  }
   Array<CalendarId> calendarIds = _cultureData->get_CalendarIds();
   Array<Calendar> array = rt::newarr<Array<Calendar>>(calendarIds->get_Length());
   for (Int32 i = 0; i < array->get_Length(); i++) {
@@ -277,7 +298,7 @@ Dictionary<String, CultureInfo> CultureInfo___::get_CachedCulturesByName() {
   if (dictionary == nullptr) {
     dictionary = rt::newobj<Dictionary<String, CultureInfo>>();
     Dictionary<String, CultureInfo> as = Interlocked::CompareExchange(s_cachedCulturesByName, dictionary, (Dictionary<String, CultureInfo>)nullptr);
-    dictionary = (as != nullptr ? as : dictionary);
+    dictionary = as != nullptr ? as : dictionary;
   }
   return dictionary;
 }
@@ -287,9 +308,13 @@ Dictionary<Int32, CultureInfo> CultureInfo___::get_CachedCulturesByLcid() {
   if (dictionary == nullptr) {
     dictionary = rt::newobj<Dictionary<Int32, CultureInfo>>();
     Dictionary<Int32, CultureInfo> as = Interlocked::CompareExchange(s_cachedCulturesByLcid, dictionary, (Dictionary<Int32, CultureInfo>)nullptr);
-    dictionary = (as != nullptr ? as : dictionary);
+    dictionary = as != nullptr ? as : dictionary;
   }
   return dictionary;
+}
+
+void CultureInfo___::set_UserDefaultLocaleName(String value) {
+  UserDefaultLocaleName = value;
 }
 
 void CultureInfo___::AsyncLocalSetCurrentCulture(AsyncLocalValueChangedArgs<CultureInfo> args) {
@@ -323,13 +348,12 @@ void CultureInfo___::ctor(String name, Boolean useUserOverride) {
   }
   _cultureData = cultureData;
   _name = _cultureData->get_CultureName();
-  _isInherited = (GetType() != typeof<CultureInfo>());
+  _isInherited = GetType() != typeof<CultureInfo>();
 }
 
 void CultureInfo___::ctor(CultureData cultureData, Boolean isReadOnly) {
   _cultureData = cultureData;
   _name = cultureData->get_CultureName();
-  _isInherited = false;
   _isReadOnly = isReadOnly;
 }
 
@@ -357,7 +381,7 @@ void CultureInfo___::ctor(Int32 culture, Boolean useUserOverride) {
       rt::throw_exception<CultureNotFoundException>("culture", culture, SR::get_Argument_CultureNotSupported());
   }
   _cultureData = CultureData::in::GetCultureData(culture, useUserOverride);
-  _isInherited = (GetType() != typeof<CultureInfo>());
+  _isInherited = GetType() != typeof<CultureInfo>();
   _name = _cultureData->get_CultureName();
 }
 
@@ -369,7 +393,7 @@ void CultureInfo___::ctor(String cultureName, String textAndCompareCultureName) 
   if (cultureData == nullptr) {
     rt::throw_exception<CultureNotFoundException>("cultureName", cultureName, SR::get_Argument_CultureNotSupported());
   }
-  CultureData cultureData2 = _cultureData = cultureData;
+  CultureData cultureData2 = (_cultureData = cultureData);
   _name = _cultureData->get_CultureName();
   CultureInfo cultureInfo = GetCultureInfo(textAndCompareCultureName);
   _compareInfo = cultureInfo->get_CompareInfo();
@@ -469,6 +493,7 @@ Object CultureInfo___::GetFormat(Type formatType) {
 }
 
 void CultureInfo___::ClearCachedData() {
+  UserDefaultLocaleName = GetUserDefaultLocaleName();
   s_userDefaultCulture = GetUserDefaultCulture();
   s_userDefaultUICulture = GetUserDefaultUICulture();
   RegionInfo::in::s_currentRegionInfo = nullptr;
@@ -674,7 +699,7 @@ CultureInfo CultureInfo___::GetCultureInfo(String name, Boolean predefinedOnly) 
   if (name == nullptr) {
     rt::throw_exception<ArgumentNullException>("name");
   }
-  if (predefinedOnly) {
+  if (predefinedOnly && !GlobalizationMode::get_Invariant()) {
     if (!GlobalizationMode::get_UseNls()) {
       return IcuGetPredefinedCultureInfo(name);
     }
@@ -702,24 +727,21 @@ CultureInfo CultureInfo___::IcuGetPredefinedCultureInfo(String name) {
 }
 
 CultureInfo CultureInfo___::NlsGetPredefinedCultureInfo(String name) {
-  CultureInfo cultureInfo = GetCultureInfo(name);
-  String englishName = cultureInfo->get_EnglishName();
-  if (englishName->StartsWith("Unknown ", StringComparison::Ordinal) && englishName->get_Length() > 8 && (englishName->IndexOf("Locale", 8, StringComparison::Ordinal) == 8 || englishName->IndexOf("Language", 8, StringComparison::Ordinal) == 8)) {
+  if (CultureData::in::GetLocaleInfoExInt(name, 125u) == 1) {
     rt::throw_exception<CultureNotFoundException>("name", SR::Format(SR::get_Argument_InvalidPredefinedCultureName(), name));
   }
-  return cultureInfo;
+  return GetCultureInfo(name);
 }
 
 CultureInfo CultureInfo___::GetUserDefaultCulture() {
   if (GlobalizationMode::get_Invariant()) {
     return get_InvariantCulture();
   }
-  String as = CultureData::in::GetLocaleInfoEx(nullptr, 92u);
-  String text = as != nullptr ? as : CultureData::in::GetLocaleInfoEx("!x-sys-default-locale", 92u);
-  if (text == nullptr) {
+  String userDefaultLocaleName = UserDefaultLocaleName;
+  if (userDefaultLocaleName == nullptr) {
     return get_InvariantCulture();
   }
-  return GetCultureByName(text);
+  return GetCultureByName(userDefaultLocaleName);
 }
 
 CultureInfo CultureInfo___::GetUserDefaultUICulture() {
@@ -730,7 +752,7 @@ CultureInfo CultureInfo___::GetUserDefaultUICulture() {
   UInt32 num2 = 0u;
   if (Interop::Kernel32::GetUserPreferredUILanguages(8u, &num, nullptr, &num2) != 0) {
     Char as[(Int32)num2] = {};
-    Span<Char> span = (num2 > 256) ? ((Span<Char>)rt::newarr<Array<Char>>(num2)) : as;
+    Span<Char> span = ((num2 > 256) ? ((Span<Char>)rt::newarr<Array<Char>>(num2)) : as);
     Span<Char> span2 = span;
     {
       Char* pwszLanguagesBuffer = span2;
@@ -742,8 +764,22 @@ CultureInfo CultureInfo___::GetUserDefaultUICulture() {
   return InitializeUserDefaultCulture();
 }
 
+String CultureInfo___::GetUserDefaultLocaleName() {
+  String text;
+  if (!GlobalizationMode::get_Invariant()) {
+    text = CultureData::in::GetLocaleInfoEx(nullptr, 92u);
+    if (text == nullptr) {
+      return CultureData::in::GetLocaleInfoEx("!x-sys-default-locale", 92u);
+    }
+  } else {
+    text = get_InvariantCulture()->get_Name();
+  }
+  return text;
+}
+
 void CultureInfo___::cctor() {
   s_InvariantCultureInfo = rt::newobj<CultureInfo>(CultureData::in::get_Invariant(), true);
+  UserDefaultLocaleName = GetUserDefaultLocaleName();
 }
 
 } // namespace System::Private::CoreLib::System::Globalization::CultureInfoNamespace

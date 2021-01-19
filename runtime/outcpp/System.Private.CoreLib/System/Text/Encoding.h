@@ -128,7 +128,7 @@ CLASS(Encoding) : public object {
   public: Boolean get_IsReadOnly();
   public: void set_IsReadOnly(Boolean value);
   public: static Encoding get_ASCII();
-  private: static Encoding get_Latin1();
+  public: static Encoding get_Latin1();
   public: Int32 get_CodePage();
   public: static Encoding get_Unicode();
   public: static Encoding get_BigEndianUnicode();
@@ -147,6 +147,7 @@ CLASS(Encoding) : public object {
   public: static Encoding GetEncoding(Int32 codepage, EncoderFallback encoderFallback, DecoderFallback decoderFallback);
   public: static Encoding GetEncoding(String name);
   public: static Encoding GetEncoding(String name, EncoderFallback encoderFallback, DecoderFallback decoderFallback);
+  private: static Encoding FilterDisallowedEncodings(Encoding encoding);
   public: static Array<EncodingInfo> GetEncodings();
   public: Array<Byte> GetPreamble();
   private: void GetDataItem();
@@ -187,8 +188,6 @@ CLASS(Encoding) : public object {
   public: Boolean Equals(Object value);
   public: Int32 GetHashCode();
   public: static Stream CreateTranscodingStream(Stream innerStream, Encoding innerStreamEncoding, Encoding outerStreamEncoding, Boolean leaveOpen = false);
-  public: Array<Char> GetBestFitUnicodeToBytesData();
-  public: Array<Char> GetBestFitBytesToUnicodeData();
   public: void ThrowBytesOverflow();
   public: void ThrowBytesOverflow(EncoderNLS encoder, Boolean nothingEncoded);
   public: static void ThrowConversionOverflow();

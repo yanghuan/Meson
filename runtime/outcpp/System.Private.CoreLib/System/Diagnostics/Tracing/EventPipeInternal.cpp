@@ -18,10 +18,10 @@ void EventPipeInternal::EventPipeProviderConfigurationNative::MarshalToNative(Ev
 
 void EventPipeInternal::EventPipeProviderConfigurationNative::Release() {
   if (m_pProviderName != nullptr) {
-    Marshal::FreeCoTaskMem((IntPtr)(void*)m_pProviderName);
+    Marshal::FreeCoTaskMem((IntPtr)m_pProviderName);
   }
   if (m_pFilterData != nullptr) {
-    Marshal::FreeCoTaskMem((IntPtr)(void*)m_pFilterData);
+    Marshal::FreeCoTaskMem((IntPtr)m_pFilterData);
   }
 }
 
@@ -47,7 +47,7 @@ UInt64 EventPipeInternal::Enable(String outputFile, EventPipeSerializationFormat
     }
     {
       EventPipeProviderConfigurationNative* value = span;
-      Marshal::FreeCoTaskMem((IntPtr)(void*)value);
+      Marshal::FreeCoTaskMem((IntPtr)value);
     }
   }
 }

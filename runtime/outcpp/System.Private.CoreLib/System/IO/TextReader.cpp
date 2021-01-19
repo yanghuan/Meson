@@ -10,6 +10,7 @@
 #include <System.Private.CoreLib/System/IO/IOException-dep.h>
 #include <System.Private.CoreLib/System/IO/TextReader-dep.h>
 #include <System.Private.CoreLib/System/Memory-dep.h>
+#include <System.Private.CoreLib/System/ReadOnlyMemory-dep.h>
 #include <System.Private.CoreLib/System/Runtime/CompilerServices/ConfiguredValueTaskAwaitable-dep.h>
 #include <System.Private.CoreLib/System/Runtime/InteropServices/MemoryMarshal-dep.h>
 #include <System.Private.CoreLib/System/SR-dep.h>
@@ -394,7 +395,7 @@ template <>
 ValueTask<Int32> TextReader___::ReadAsync(Memory<Char> buffer, CancellationToken cancellationToken) {
   ArraySegment<Char> segment;
   Func<Object, Int32> as = __c::in::__9__16_0;
-  return ValueTask<Int32>(MemoryMarshal::TryGetArray(buffer, segment) ? ReadAsync(segment.get_Array(), segment.get_Offset(), segment.get_Count()) : Task<Int32>::in::get_Factory()->StartNew(as != nullptr ? as : (__c::in::__9__16_0 = {__c::in::__9, &__c::in::_ReadAsync_b__16_0}), Tuple<>::Create((TextReader)this, buffer), cancellationToken, TaskCreationOptions::DenyChildAttach, TaskScheduler::in::get_Default()));
+  return ValueTask<Int32>(MemoryMarshal::TryGetArray((ReadOnlyMemory<Char>)buffer, segment) ? ReadAsync(segment.get_Array(), segment.get_Offset(), segment.get_Count()) : Task<Int32>::in::get_Factory()->StartNew(as != nullptr ? as : (__c::in::__9__16_0 = {__c::in::__9, &__c::in::_ReadAsync_b__16_0}), Tuple<>::Create((TextReader)this, buffer), cancellationToken, TaskCreationOptions::DenyChildAttach, TaskScheduler::in::get_Default()));
 }
 
 ValueTask<Int32> TextReader___::ReadAsyncInternal(Memory<Char> buffer, CancellationToken cancellationToken) {
@@ -420,7 +421,7 @@ template <>
 ValueTask<Int32> TextReader___::ReadBlockAsync(Memory<Char> buffer, CancellationToken cancellationToken) {
   ArraySegment<Char> segment;
   Func<Object, Int32> as = __c::in::__9__19_0;
-  return ValueTask<Int32>(MemoryMarshal::TryGetArray(buffer, segment) ? ReadBlockAsync(segment.get_Array(), segment.get_Offset(), segment.get_Count()) : Task<Int32>::in::get_Factory()->StartNew(as != nullptr ? as : (__c::in::__9__19_0 = {__c::in::__9, &__c::in::_ReadBlockAsync_b__19_0}), Tuple<>::Create((TextReader)this, buffer), cancellationToken, TaskCreationOptions::DenyChildAttach, TaskScheduler::in::get_Default()));
+  return ValueTask<Int32>(MemoryMarshal::TryGetArray((ReadOnlyMemory<Char>)buffer, segment) ? ReadBlockAsync(segment.get_Array(), segment.get_Offset(), segment.get_Count()) : Task<Int32>::in::get_Factory()->StartNew(as != nullptr ? as : (__c::in::__9__19_0 = {__c::in::__9, &__c::in::_ReadBlockAsync_b__19_0}), Tuple<>::Create((TextReader)this, buffer), cancellationToken, TaskCreationOptions::DenyChildAttach, TaskScheduler::in::get_Default()));
 }
 
 ValueTask<Int32> TextReader___::ReadBlockAsyncInternal(Memory<Char> buffer, CancellationToken cancellationToken) {

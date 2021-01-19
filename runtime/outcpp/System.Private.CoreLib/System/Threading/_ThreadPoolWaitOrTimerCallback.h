@@ -6,7 +6,7 @@ namespace System::Private::CoreLib::System {
 FORWARDS(Boolean)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Threading {
-FORWARD_(ContextCallback, T1, T2)
+FORWARD(ContextCallback)
 FORWARD(ExecutionContext)
 FORWARD(WaitOrTimerCallback)
 namespace _ThreadPoolWaitOrTimerCallbackNamespace {
@@ -20,8 +20,8 @@ CLASS(_ThreadPoolWaitOrTimerCallback) : public object {
   private: WaitOrTimerCallback _waitOrTimerCallback;
   private: ExecutionContext _executionContext;
   private: Object _state;
-  private: static ContextCallback<> _ccbt;
-  private: static ContextCallback<> _ccbf;
+  private: static ContextCallback _ccbt;
+  private: static ContextCallback _ccbf;
 };
 } // namespace _ThreadPoolWaitOrTimerCallbackNamespace
 using _ThreadPoolWaitOrTimerCallback = _ThreadPoolWaitOrTimerCallbackNamespace::_ThreadPoolWaitOrTimerCallback;

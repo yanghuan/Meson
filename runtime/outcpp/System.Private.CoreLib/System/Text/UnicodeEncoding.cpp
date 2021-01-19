@@ -295,13 +295,13 @@ Int32 UnicodeEncoding___::GetByteCount(Char* chars, Int32 count, EncoderNLS enco
     Char* chars2;
     if ((c2 = ((encoderFallbackBuffer != nullptr) ? encoderFallbackBuffer->InternalGetNextChar() : '\0')) != 0 || chars < ptr) {
       if (c2 == '\0') {
-        if ((bigEndian ^ BitConverter::IsLittleEndian) && ((Int64)chars & 7) == 0 && c == '\0') {
+        if ((bigEndian ^ BitConverter::IsLittleEndian) && ((UInt64)chars & 7) == 0 && c == '\0') {
           UInt64* ptr2 = (UInt64*)(ptr - 3);
           UInt64* ptr3;
           for (ptr3 = (UInt64*)chars; ptr3 < ptr2; ptr3++) {
-            if ((-9223231297218904064 & (Int64)(*ptr3)) != 0) {
-              UInt64 num2 = (UInt64)((-576188069258921984 & (Int64)(*ptr3)) ^ -2882066263381583872);
-              if ((((Int64)num2 & -281474976710656) == 0 || (num2 & 281470681743360) == 0 || (num2 & 4294901760u) == 0 || (num2 & 65535) == 0) && (-287953294993589248 & (Int64)(*ptr3)) != (BitConverter::IsLittleEndian ? (-2593835887162763264) : (-2882061865335071744))) {
+            if ((9223512776490647552 & *ptr3) != 0) {
+              UInt64 num2 = (17870556004450629632 & *ptr3) ^ 15564677810327967744;
+              if (((num2 & 18446462598732840960) == 0 || (num2 & 281470681743360) == 0 || (num2 & 4294901760u) == 0 || (num2 & 65535) == 0) && (18158790778715962368 & *ptr3) != (UInt64)(BitConverter::IsLittleEndian ? (-2593835887162763264) : (-2882061865335071744))) {
                 break;
               }
             }
@@ -412,14 +412,14 @@ Int32 UnicodeEncoding___::GetBytes(Char* chars, Int32 charCount, Byte* bytes, In
     Char* chars2;
     if ((c2 = ((encoderFallbackBuffer != nullptr) ? encoderFallbackBuffer->InternalGetNextChar() : '\0')) != 0 || chars < ptr2) {
       if (c2 == '\0') {
-        if ((bigEndian ^ BitConverter::IsLittleEndian) && ((Int64)chars & 7) == 0 && c == '\0') {
+        if ((bigEndian ^ BitConverter::IsLittleEndian) && ((UInt64)chars & 7) == 0 && c == '\0') {
           UInt64* ptr5 = (UInt64*)(chars - 3 + ((ptr - bytes >> 1 < ptr2 - chars) ? (ptr - bytes >> 1) : (ptr2 - chars)));
           UInt64* ptr6 = (UInt64*)chars;
           UInt64* ptr7 = (UInt64*)bytes;
           while (ptr6 < ptr5) {
-            if ((-9223231297218904064 & (Int64)(*ptr6)) != 0) {
-              UInt64 num = (UInt64)((-576188069258921984 & (Int64)(*ptr6)) ^ -2882066263381583872);
-              if ((((Int64)num & -281474976710656) == 0 || (num & 281470681743360) == 0 || (num & 4294901760u) == 0 || (num & 65535) == 0) && (-287953294993589248 & (Int64)(*ptr6)) != (BitConverter::IsLittleEndian ? (-2593835887162763264) : (-2882061865335071744))) {
+            if ((9223512776490647552 & *ptr6) != 0) {
+              UInt64 num = (17870556004450629632 & *ptr6) ^ 15564677810327967744;
+              if (((num & 18446462598732840960) == 0 || (num & 281470681743360) == 0 || (num & 4294901760u) == 0 || (num & 65535) == 0) && (18158790778715962368 & *ptr6) != (UInt64)(BitConverter::IsLittleEndian ? (-2593835887162763264) : (-2882061865335071744))) {
                 break;
               }
             }
@@ -557,13 +557,13 @@ Int32 UnicodeEncoding___::GetCharCount(Byte* bytes, Int32 count, DecoderNLS base
     }
   }
   while (bytes < ptr) {
-    if ((bigEndian ^ BitConverter::IsLittleEndian) && ((Int64)bytes & 7) == 0 && num == -1 && c == '\0') {
+    if ((bigEndian ^ BitConverter::IsLittleEndian) && ((UInt64)bytes & 7) == 0 && num == -1 && c == '\0') {
       UInt64* ptr2 = (UInt64*)(ptr - 7);
       UInt64* ptr3;
       for (ptr3 = (UInt64*)bytes; ptr3 < ptr2; ptr3++) {
-        if ((-9223231297218904064 & (Int64)(*ptr3)) != 0) {
-          UInt64 num3 = (UInt64)((-576188069258921984 & (Int64)(*ptr3)) ^ -2882066263381583872);
-          if ((((Int64)num3 & -281474976710656) == 0 || (num3 & 281470681743360) == 0 || (num3 & 4294901760u) == 0 || (num3 & 65535) == 0) && (-287953294993589248 & (Int64)(*ptr3)) != (BitConverter::IsLittleEndian ? (-2593835887162763264) : (-2882061865335071744))) {
+        if ((9223512776490647552 & *ptr3) != 0) {
+          UInt64 num3 = (17870556004450629632 & *ptr3) ^ 15564677810327967744;
+          if (((num3 & 18446462598732840960) == 0 || (num3 & 281470681743360) == 0 || (num3 & 4294901760u) == 0 || (num3 & 65535) == 0) && (18158790778715962368 & *ptr3) != (UInt64)(BitConverter::IsLittleEndian ? (-2593835887162763264) : (-2882061865335071744))) {
             break;
           }
         }
@@ -579,7 +579,7 @@ Int32 UnicodeEncoding___::GetCharCount(Byte* bytes, Int32 count, DecoderNLS base
         break;
       }
     }
-    Char c2 = (!bigEndian) ? ((Char)((*(bytes++) << 8) | num)) : ((Char)((num << 8) | *(bytes++)));
+    Char c2 = ((!bigEndian) ? ((Char)((*(bytes++) << 8) | num)) : ((Char)((num << 8) | *(bytes++))));
     num = -1;
     if (c2 >= '\0' && c2 <= 'ÿ') {
       if (c2 <= 'ÿ') {
@@ -661,14 +661,14 @@ Int32 UnicodeEncoding___::GetChars(Byte* bytes, Int32 byteCount, Char* chars, In
   Byte* ptr3 = bytes;
   Char* ptr4 = chars;
   while (bytes < ptr) {
-    if ((bigEndian ^ BitConverter::IsLittleEndian) && ((Int64)chars & 7) == 0 && num == -1 && c == '\0') {
+    if ((bigEndian ^ BitConverter::IsLittleEndian) && ((UInt64)chars & 7) == 0 && num == -1 && c == '\0') {
       UInt64* ptr5 = (UInt64*)(bytes - 7 + ((ptr - bytes >> 1 < ptr2 - chars) ? (ptr - bytes) : (ptr2 - chars << 1)));
       UInt64* ptr6 = (UInt64*)bytes;
       UInt64* ptr7 = (UInt64*)chars;
       while (ptr6 < ptr5) {
-        if ((-9223231297218904064 & (Int64)(*ptr6)) != 0) {
-          UInt64 num2 = (UInt64)((-576188069258921984 & (Int64)(*ptr6)) ^ -2882066263381583872);
-          if ((((Int64)num2 & -281474976710656) == 0 || (num2 & 281470681743360) == 0 || (num2 & 4294901760u) == 0 || (num2 & 65535) == 0) && (-287953294993589248 & (Int64)(*ptr6)) != (BitConverter::IsLittleEndian ? (-2593835887162763264) : (-2882061865335071744))) {
+        if ((9223512776490647552 & *ptr6) != 0) {
+          UInt64 num2 = (17870556004450629632 & *ptr6) ^ 15564677810327967744;
+          if (((num2 & 18446462598732840960) == 0 || (num2 & 281470681743360) == 0 || (num2 & 4294901760u) == 0 || (num2 & 65535) == 0) && (18158790778715962368 & *ptr6) != (UInt64)(BitConverter::IsLittleEndian ? (-2593835887162763264) : (-2882061865335071744))) {
             break;
           }
         }
@@ -686,7 +686,7 @@ Int32 UnicodeEncoding___::GetChars(Byte* bytes, Int32 byteCount, Char* chars, In
       num = *(bytes++);
       continue;
     }
-    Char c2 = (!bigEndian) ? ((Char)((*(bytes++) << 8) | num)) : ((Char)((num << 8) | *(bytes++)));
+    Char c2 = ((!bigEndian) ? ((Char)((*(bytes++) << 8) | num)) : ((Char)((num << 8) | *(bytes++))));
     num = -1;
     if (c2 >= '\0' && c2 <= 'ÿ') {
       if (c2 <= 'ÿ') {

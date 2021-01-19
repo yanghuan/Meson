@@ -36,7 +36,7 @@ UInt16 BinaryPrimitives::ReverseEndianness(UInt16 value) {
 }
 
 UInt32 BinaryPrimitives::ReverseEndianness(UInt32 value) {
-  return BitOperations::RotateRight(value & 16711935, 8) + BitOperations::RotateLeft(value & 4278255360u, 8);
+  return BitOperations::RotateRight(value & 16711935u, 8) + BitOperations::RotateLeft(value & 4278255360u, 8);
 }
 
 UInt64 BinaryPrimitives::ReverseEndianness(UInt64 value) {
@@ -108,81 +108,81 @@ UInt64 BinaryPrimitives::ReadUInt64BigEndian(ReadOnlySpan<Byte> source) {
 Boolean BinaryPrimitives::TryReadDoubleBigEndian(ReadOnlySpan<Byte> source, Double& value) {
   if (BitConverter::IsLittleEndian) {
     Int64 value2;
-    Boolean result = MemoryMarshal::TryRead(source, value2);
+    Boolean result = MemoryMarshal::TryRead<Int64>(source, value2);
     value = BitConverter::Int64BitsToDouble(ReverseEndianness(value2));
     return result;
   }
-  return MemoryMarshal::TryRead(source, value);
+  return MemoryMarshal::TryRead<Double>(source, value);
 }
 
 Boolean BinaryPrimitives::TryReadInt16BigEndian(ReadOnlySpan<Byte> source, Int16& value) {
   if (BitConverter::IsLittleEndian) {
     Int16 value2;
-    Boolean result = MemoryMarshal::TryRead(source, value2);
+    Boolean result = MemoryMarshal::TryRead<Int16>(source, value2);
     value = ReverseEndianness(value2);
     return result;
   }
-  return MemoryMarshal::TryRead(source, value);
+  return MemoryMarshal::TryRead<Int16>(source, value);
 }
 
 Boolean BinaryPrimitives::TryReadInt32BigEndian(ReadOnlySpan<Byte> source, Int32& value) {
   if (BitConverter::IsLittleEndian) {
     Int32 value2;
-    Boolean result = MemoryMarshal::TryRead(source, value2);
+    Boolean result = MemoryMarshal::TryRead<Int32>(source, value2);
     value = ReverseEndianness(value2);
     return result;
   }
-  return MemoryMarshal::TryRead(source, value);
+  return MemoryMarshal::TryRead<Int32>(source, value);
 }
 
 Boolean BinaryPrimitives::TryReadInt64BigEndian(ReadOnlySpan<Byte> source, Int64& value) {
   if (BitConverter::IsLittleEndian) {
     Int64 value2;
-    Boolean result = MemoryMarshal::TryRead(source, value2);
+    Boolean result = MemoryMarshal::TryRead<Int64>(source, value2);
     value = ReverseEndianness(value2);
     return result;
   }
-  return MemoryMarshal::TryRead(source, value);
+  return MemoryMarshal::TryRead<Int64>(source, value);
 }
 
 Boolean BinaryPrimitives::TryReadSingleBigEndian(ReadOnlySpan<Byte> source, Single& value) {
   if (BitConverter::IsLittleEndian) {
     Int32 value2;
-    Boolean result = MemoryMarshal::TryRead(source, value2);
+    Boolean result = MemoryMarshal::TryRead<Int32>(source, value2);
     value = BitConverter::Int32BitsToSingle(ReverseEndianness(value2));
     return result;
   }
-  return MemoryMarshal::TryRead(source, value);
+  return MemoryMarshal::TryRead<Single>(source, value);
 }
 
 Boolean BinaryPrimitives::TryReadUInt16BigEndian(ReadOnlySpan<Byte> source, UInt16& value) {
   if (BitConverter::IsLittleEndian) {
     UInt16 value2;
-    Boolean result = MemoryMarshal::TryRead(source, value2);
+    Boolean result = MemoryMarshal::TryRead<UInt16>(source, value2);
     value = ReverseEndianness(value2);
     return result;
   }
-  return MemoryMarshal::TryRead(source, value);
+  return MemoryMarshal::TryRead<UInt16>(source, value);
 }
 
 Boolean BinaryPrimitives::TryReadUInt32BigEndian(ReadOnlySpan<Byte> source, UInt32& value) {
   if (BitConverter::IsLittleEndian) {
     UInt32 value2;
-    Boolean result = MemoryMarshal::TryRead(source, value2);
+    Boolean result = MemoryMarshal::TryRead<UInt32>(source, value2);
     value = ReverseEndianness(value2);
     return result;
   }
-  return MemoryMarshal::TryRead(source, value);
+  return MemoryMarshal::TryRead<UInt32>(source, value);
 }
 
 Boolean BinaryPrimitives::TryReadUInt64BigEndian(ReadOnlySpan<Byte> source, UInt64& value) {
   if (BitConverter::IsLittleEndian) {
     UInt64 value2;
-    Boolean result = MemoryMarshal::TryRead(source, value2);
+    Boolean result = MemoryMarshal::TryRead<UInt64>(source, value2);
     value = ReverseEndianness(value2);
     return result;
   }
-  return MemoryMarshal::TryRead(source, value);
+  return MemoryMarshal::TryRead<UInt64>(source, value);
 }
 
 Double BinaryPrimitives::ReadDoubleLittleEndian(ReadOnlySpan<Byte> source) {
@@ -250,39 +250,39 @@ UInt64 BinaryPrimitives::ReadUInt64LittleEndian(ReadOnlySpan<Byte> source) {
 Boolean BinaryPrimitives::TryReadDoubleLittleEndian(ReadOnlySpan<Byte> source, Double& value) {
   if (!BitConverter::IsLittleEndian) {
     Int64 value2;
-    Boolean result = MemoryMarshal::TryRead(source, value2);
+    Boolean result = MemoryMarshal::TryRead<Int64>(source, value2);
     value = BitConverter::Int64BitsToDouble(ReverseEndianness(value2));
     return result;
   }
-  return MemoryMarshal::TryRead(source, value);
+  return MemoryMarshal::TryRead<Double>(source, value);
 }
 
 Boolean BinaryPrimitives::TryReadInt16LittleEndian(ReadOnlySpan<Byte> source, Int16& value) {
   if (BitConverter::IsLittleEndian) {
-    return MemoryMarshal::TryRead(source, value);
+    return MemoryMarshal::TryRead<Int16>(source, value);
   }
   Int16 value2;
-  Boolean result = MemoryMarshal::TryRead(source, value2);
+  Boolean result = MemoryMarshal::TryRead<Int16>(source, value2);
   value = ReverseEndianness(value2);
   return result;
 }
 
 Boolean BinaryPrimitives::TryReadInt32LittleEndian(ReadOnlySpan<Byte> source, Int32& value) {
   if (BitConverter::IsLittleEndian) {
-    return MemoryMarshal::TryRead(source, value);
+    return MemoryMarshal::TryRead<Int32>(source, value);
   }
   Int32 value2;
-  Boolean result = MemoryMarshal::TryRead(source, value2);
+  Boolean result = MemoryMarshal::TryRead<Int32>(source, value2);
   value = ReverseEndianness(value2);
   return result;
 }
 
 Boolean BinaryPrimitives::TryReadInt64LittleEndian(ReadOnlySpan<Byte> source, Int64& value) {
   if (BitConverter::IsLittleEndian) {
-    return MemoryMarshal::TryRead(source, value);
+    return MemoryMarshal::TryRead<Int64>(source, value);
   }
   Int64 value2;
-  Boolean result = MemoryMarshal::TryRead(source, value2);
+  Boolean result = MemoryMarshal::TryRead<Int64>(source, value2);
   value = ReverseEndianness(value2);
   return result;
 }
@@ -290,39 +290,39 @@ Boolean BinaryPrimitives::TryReadInt64LittleEndian(ReadOnlySpan<Byte> source, In
 Boolean BinaryPrimitives::TryReadSingleLittleEndian(ReadOnlySpan<Byte> source, Single& value) {
   if (!BitConverter::IsLittleEndian) {
     Int32 value2;
-    Boolean result = MemoryMarshal::TryRead(source, value2);
+    Boolean result = MemoryMarshal::TryRead<Int32>(source, value2);
     value = BitConverter::Int32BitsToSingle(ReverseEndianness(value2));
     return result;
   }
-  return MemoryMarshal::TryRead(source, value);
+  return MemoryMarshal::TryRead<Single>(source, value);
 }
 
 Boolean BinaryPrimitives::TryReadUInt16LittleEndian(ReadOnlySpan<Byte> source, UInt16& value) {
   if (BitConverter::IsLittleEndian) {
-    return MemoryMarshal::TryRead(source, value);
+    return MemoryMarshal::TryRead<UInt16>(source, value);
   }
   UInt16 value2;
-  Boolean result = MemoryMarshal::TryRead(source, value2);
+  Boolean result = MemoryMarshal::TryRead<UInt16>(source, value2);
   value = ReverseEndianness(value2);
   return result;
 }
 
 Boolean BinaryPrimitives::TryReadUInt32LittleEndian(ReadOnlySpan<Byte> source, UInt32& value) {
   if (BitConverter::IsLittleEndian) {
-    return MemoryMarshal::TryRead(source, value);
+    return MemoryMarshal::TryRead<UInt32>(source, value);
   }
   UInt32 value2;
-  Boolean result = MemoryMarshal::TryRead(source, value2);
+  Boolean result = MemoryMarshal::TryRead<UInt32>(source, value2);
   value = ReverseEndianness(value2);
   return result;
 }
 
 Boolean BinaryPrimitives::TryReadUInt64LittleEndian(ReadOnlySpan<Byte> source, UInt64& value) {
   if (BitConverter::IsLittleEndian) {
-    return MemoryMarshal::TryRead(source, value);
+    return MemoryMarshal::TryRead<UInt64>(source, value);
   }
   UInt64 value2;
-  Boolean result = MemoryMarshal::TryRead(source, value2);
+  Boolean result = MemoryMarshal::TryRead<UInt64>(source, value2);
   value = ReverseEndianness(value2);
   return result;
 }

@@ -375,7 +375,7 @@ Object Hashtable___::get_Item(Object key) {
     if (bucket.key == nullptr) {
       return nullptr;
     }
-    if ((bucket.hash_coll & Int32::MaxValue) == num && KeyEquals(bucket.key, key)) {
+    if ((bucket.hash_coll & 2147483647) == num && KeyEquals(bucket.key, key)) {
       return bucket.val;
     }
     num3 = (Int32)((num3 + incr) % (Int64)(UInt32)buckets->get_Length());
@@ -438,7 +438,7 @@ void Hashtable___::ctor(Int32 capacity, Single loadFactor) {
   if (num > 2147483647) {
     rt::throw_exception<ArgumentException>(SR::get_Arg_HTCapacityOverflow(), "capacity");
   }
-  Int32 num2 = (num > 3) ? HashHelpers::GetPrime((Int32)num) : 3;
+  Int32 num2 = ((num > 3) ? HashHelpers::GetPrime((Int32)num) : 3);
   _buckets = rt::newarr<Array<bucket>>(num2);
   _loadsize = (Int32)(_loadFactor * (Single)num2);
   _isWriterInProgress = false;
@@ -503,7 +503,7 @@ void Hashtable___::ctor(SerializationInfo info, StreamingContext context) {
 }
 
 UInt32 Hashtable___::InitHash(Object key, Int32 hashsize, UInt32& seed, UInt32& incr) {
-  UInt32 result = seed = (UInt32)(GetHash(key) & Int32::MaxValue);
+  UInt32 result = (seed = (UInt32)GetHash(key) & 2147483647u);
   incr = 1 + seed * 101 % (UInt32)(hashsize - 1);
   return result;
 }
@@ -564,7 +564,7 @@ Boolean Hashtable___::ContainsKey(Object key) {
     if (bucket.key == nullptr) {
       return false;
     }
-    if ((bucket.hash_coll & Int32::MaxValue) == num && KeyEquals(bucket.key, key)) {
+    if ((bucket.hash_coll & 2147483647) == num && KeyEquals(bucket.key, key)) {
       return true;
     }
     num3 = (Int32)((num3 + incr) % (Int64)(UInt32)buckets->get_Length());
@@ -675,7 +675,7 @@ void Hashtable___::rehash(Int32 newsize) {
   for (Int32 i = 0; i < _buckets->get_Length(); i++) {
     bucket bucket = _buckets[i];
     if (bucket.key != nullptr && bucket.key != _buckets) {
-      Int32 hashcode = bucket.hash_coll & Int32::MaxValue;
+      Int32 hashcode = bucket.hash_coll & 2147483647;
       putEntry(array, bucket.key, bucket.val, hashcode);
     }
   }
@@ -750,7 +750,7 @@ void Hashtable___::Insert(Object key, Object nvalue, Boolean add) {
       _isWriterInProgress = false;
       return;
     }
-    if ((_buckets[num4].hash_coll & Int32::MaxValue) == num && KeyEquals(_buckets[num4].key, key)) {
+    if ((_buckets[num4].hash_coll & 2147483647) == num && KeyEquals(_buckets[num4].key, key)) {
       if (add) {
         rt::throw_exception<ArgumentException>(SR::Format(SR::get_Argument_AddingDuplicate__(), _buckets[num4].key, key));
       }
@@ -806,7 +806,7 @@ void Hashtable___::Remove(Object key) {
   bucket bucket;
   do {
     bucket = _buckets[num3];
-    if ((bucket.hash_coll & Int32::MaxValue) == num && KeyEquals(bucket.key, key)) {
+    if ((bucket.hash_coll & 2147483647) == num && KeyEquals(bucket.key, key)) {
       _isWriterInProgress = true;
       _buckets[num3].hash_coll &= Int32::MinValue;
       if (_buckets[num3].hash_coll != 0) {

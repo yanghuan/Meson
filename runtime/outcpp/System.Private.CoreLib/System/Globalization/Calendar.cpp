@@ -37,7 +37,7 @@ Boolean Calendar___::get_IsReadOnly() {
 
 Int32 Calendar___::get_CurrentEraValue() {
   if (_currentEraValue == -1) {
-    _currentEraValue = CalendarData::in::GetCalendarData(get_BaseCalendarID())->iCurrentEra;
+    _currentEraValue = CalendarData::in::GetCalendarCurrentEra((Calendar)this);
   }
   return _currentEraValue;
 }
@@ -203,16 +203,6 @@ Int32 Calendar___::GetWeekOfYear(DateTime time, CalendarWeekRule rule, DayOfWeek
   if (firstDayOfWeek < DayOfWeek::Sunday || firstDayOfWeek > DayOfWeek::Saturday) {
     rt::throw_exception<ArgumentOutOfRangeException>("firstDayOfWeek", firstDayOfWeek, SR::Format(SR::get_ArgumentOutOfRange_Range(), DayOfWeek::Sunday, DayOfWeek::Saturday));
   }
-  switch (rule) {
-    case CalendarWeekRule::FirstDay:
-      return GetFirstDayWeekOfYear(time, (Int32)firstDayOfWeek);
-    case CalendarWeekRule::FirstFullWeek:
-      return GetWeekOfYearFullDays(time, (Int32)firstDayOfWeek, 7);
-    case CalendarWeekRule::FirstFourDayWeek:
-      return GetWeekOfYearFullDays(time, (Int32)firstDayOfWeek, 4);
-    default:
-      rt::throw_exception<ArgumentOutOfRangeException>("rule", rule, SR::Format(SR::get_ArgumentOutOfRange_Range(), CalendarWeekRule::FirstDay, CalendarWeekRule::FirstFourDayWeek));
-  }
 }
 
 Boolean Calendar___::IsLeapDay(Int32 year, Int32 month, Int32 day) {
@@ -300,7 +290,7 @@ Int64 Calendar___::TimeToTicks(Int32 hour, Int32 minute, Int32 second, Int32 mil
 }
 
 Int32 Calendar___::GetSystemTwoDigitYearSetting(CalendarId CalID, Int32 defaultYearValue) {
-  Int32 num = GlobalizationMode::get_UseNls() ? CalendarData::in::NlsGetTwoDigitYearMax(CalID) : CalendarData::in::IcuGetTwoDigitYearMax(CalID);
+  Int32 num = (GlobalizationMode::get_UseNls() ? CalendarData::in::NlsGetTwoDigitYearMax(CalID) : CalendarData::in::IcuGetTwoDigitYearMax(CalID));
   if (num < 0) {
     return defaultYearValue;
   }

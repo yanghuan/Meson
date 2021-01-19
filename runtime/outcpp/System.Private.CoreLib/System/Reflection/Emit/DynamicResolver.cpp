@@ -91,7 +91,7 @@ Array<Byte> DynamicResolver___::GetCodeInfo(Int32& stackSize, Int32& initLocals,
       rt::throw_exception<FormatException>();
     }
     Byte b = m_exceptionHeader[0];
-    if ((b & 64) != 0) {
+    if ((b & 64u) != 0) {
       Int32 num = m_exceptionHeader[3] << 16;
       num |= m_exceptionHeader[2] << 8;
       num |= m_exceptionHeader[1];

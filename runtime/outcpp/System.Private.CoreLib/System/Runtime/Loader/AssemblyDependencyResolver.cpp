@@ -103,7 +103,7 @@ String AssemblyDependencyResolver___::ResolveUnmanagedDllToPath(String unmanaged
   if (unmanagedDllName == nullptr) {
     rt::throw_exception<ArgumentNullException>("unmanagedDllName");
   }
-  Array<String> array = (!unmanagedDllName->Contains(Path::DirectorySeparatorChar)) ? _nativeSearchPaths : _assemblyDirectorySearchPaths;
+  Array<String> array = ((!unmanagedDllName->Contains(Path::DirectorySeparatorChar)) ? _nativeSearchPaths : _assemblyDirectorySearchPaths);
   Boolean isRelativePath = !Path::IsPathFullyQualified(unmanagedDllName);
   for (LibraryNameVariation&& item : *LibraryNameVariation::DetermineLibraryNameVariations(unmanagedDllName, isRelativePath)) {
     String path = item.Prefix + unmanagedDllName + item.Suffix;

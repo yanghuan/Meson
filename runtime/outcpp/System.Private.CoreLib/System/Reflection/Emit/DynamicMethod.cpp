@@ -225,25 +225,25 @@ void DynamicMethod___::set_InitLocals(Boolean value) {
 }
 
 void DynamicMethod___::ctor(String name, Type returnType, Array<Type> parameterTypes) {
-  Init(name, MethodAttributes::FamANDAssem | MethodAttributes::Family | MethodAttributes::Static, CallingConventions::Standard, returnType, parameterTypes, nullptr, nullptr, false, true);
+  Init(name, MethodAttributes::Public | MethodAttributes::Static, CallingConventions::Standard, returnType, parameterTypes, nullptr, nullptr, false, true);
 }
 
 void DynamicMethod___::ctor(String name, Type returnType, Array<Type> parameterTypes, Boolean restrictedSkipVisibility) {
-  Init(name, MethodAttributes::FamANDAssem | MethodAttributes::Family | MethodAttributes::Static, CallingConventions::Standard, returnType, parameterTypes, nullptr, nullptr, restrictedSkipVisibility, true);
+  Init(name, MethodAttributes::Public | MethodAttributes::Static, CallingConventions::Standard, returnType, parameterTypes, nullptr, nullptr, restrictedSkipVisibility, true);
 }
 
 void DynamicMethod___::ctor(String name, Type returnType, Array<Type> parameterTypes, Module m) {
   if (m == nullptr) {
     rt::throw_exception<ArgumentNullException>("m");
   }
-  Init(name, MethodAttributes::FamANDAssem | MethodAttributes::Family | MethodAttributes::Static, CallingConventions::Standard, returnType, parameterTypes, nullptr, m, false, false);
+  Init(name, MethodAttributes::Public | MethodAttributes::Static, CallingConventions::Standard, returnType, parameterTypes, nullptr, m, false, false);
 }
 
 void DynamicMethod___::ctor(String name, Type returnType, Array<Type> parameterTypes, Module m, Boolean skipVisibility) {
   if (m == nullptr) {
     rt::throw_exception<ArgumentNullException>("m");
   }
-  Init(name, MethodAttributes::FamANDAssem | MethodAttributes::Family | MethodAttributes::Static, CallingConventions::Standard, returnType, parameterTypes, nullptr, m, skipVisibility, false);
+  Init(name, MethodAttributes::Public | MethodAttributes::Static, CallingConventions::Standard, returnType, parameterTypes, nullptr, m, skipVisibility, false);
 }
 
 void DynamicMethod___::ctor(String name, MethodAttributes attributes, CallingConventions callingConvention, Type returnType, Array<Type> parameterTypes, Module m, Boolean skipVisibility) {
@@ -257,14 +257,14 @@ void DynamicMethod___::ctor(String name, Type returnType, Array<Type> parameterT
   if (owner == nullptr) {
     rt::throw_exception<ArgumentNullException>("owner");
   }
-  Init(name, MethodAttributes::FamANDAssem | MethodAttributes::Family | MethodAttributes::Static, CallingConventions::Standard, returnType, parameterTypes, owner, nullptr, false, false);
+  Init(name, MethodAttributes::Public | MethodAttributes::Static, CallingConventions::Standard, returnType, parameterTypes, owner, nullptr, false, false);
 }
 
 void DynamicMethod___::ctor(String name, Type returnType, Array<Type> parameterTypes, Type owner, Boolean skipVisibility) {
   if (owner == nullptr) {
     rt::throw_exception<ArgumentNullException>("owner");
   }
-  Init(name, MethodAttributes::FamANDAssem | MethodAttributes::Family | MethodAttributes::Static, CallingConventions::Standard, returnType, parameterTypes, owner, nullptr, skipVisibility, false);
+  Init(name, MethodAttributes::Public | MethodAttributes::Static, CallingConventions::Standard, returnType, parameterTypes, owner, nullptr, skipVisibility, false);
 }
 
 void DynamicMethod___::ctor(String name, MethodAttributes attributes, CallingConventions callingConvention, Type returnType, Array<Type> parameterTypes, Type owner, Boolean skipVisibility) {
@@ -314,7 +314,7 @@ void DynamicMethod___::Init(String name, MethodAttributes attributes, CallingCon
       if (signature[i] == nullptr) {
         rt::throw_exception<ArgumentException>(SR::get_Arg_InvalidTypeInSignature());
       }
-      m_parameterTypes[i] = (rt::as<RuntimeType>(signature[i]->get_UnderlyingSystemType()));
+      m_parameterTypes[i] = rt::as<RuntimeType>(signature[i]->get_UnderlyingSystemType());
       if (m_parameterTypes[i] == nullptr || m_parameterTypes[i] == typeof<void>()) {
         rt::throw_exception<ArgumentException>(SR::get_Arg_InvalidTypeInSignature());
       }
@@ -337,7 +337,7 @@ void DynamicMethod___::Init(String name, MethodAttributes attributes, CallingCon
     } else {
       RuntimeType runtimeType = nullptr;
       if (owner != nullptr) {
-        runtimeType = (rt::as<RuntimeType>(owner->get_UnderlyingSystemType()));
+        runtimeType = rt::as<RuntimeType>(owner->get_UnderlyingSystemType());
       }
       if (runtimeType != nullptr) {
         if (runtimeType->get_HasElementType() || runtimeType->get_ContainsGenericParameters() || runtimeType->get_IsGenericParameter() || runtimeType->get_IsInterface()) {
@@ -424,7 +424,7 @@ Object DynamicMethod___::Invoke(Object obj, BindingFlags invokeAttr, Binder bind
   GetMethodDescriptor();
   Signature signature = rt::newobj<Signature>(m_methodHandle, m_parameterTypes, m_returnType, get_CallingConvention());
   Int32 num = signature->get_Arguments()->get_Length();
-  Int32 num2 = (parameters != nullptr) ? parameters->get_Length() : 0;
+  Int32 num2 = ((parameters != nullptr) ? parameters->get_Length() : 0);
   if (num != num2) {
     rt::throw_exception<TargetParameterCountException>(SR::get_Arg_ParmCnt());
   }

@@ -48,7 +48,7 @@ void MemoryFailPoint___::ctor(Int32 sizeInMegabytes) {
   if (sizeInMegabytes <= 0) {
     rt::throw_exception<ArgumentOutOfRangeException>("sizeInMegabytes", SR::get_ArgumentOutOfRange_NeedNonNegNum());
   }
-  UInt64 num = _reservedMemory = (UInt64)((Int64)sizeInMegabytes << 20);
+  UInt64 num = (_reservedMemory = (UInt64)((Int64)sizeInMegabytes << 20));
   UInt64 num2 = (UInt64)(Math::Ceiling((Double)num / (Double)s_GCSegmentSize) * (Double)s_GCSegmentSize);
   if (num2 >= s_topOfMemory) {
     rt::throw_exception<InsufficientMemoryException>(SR::get_InsufficientMemory_MemFailPoint_TooBig());
@@ -184,8 +184,6 @@ void MemoryFailPoint___::GrowPageFileIfNecessaryAndPossible(UIntPtr numBytes) {
 
 void MemoryFailPoint___::cctor() {
   s_topOfMemory = GetTopOfMemory();
-  s_hiddenLastKnownFreeAddressSpace = 0;
-  s_hiddenLastTimeCheckingAddressSpace = 0;
   s_GCSegmentSize = GC::GetSegmentSize();
 }
 

@@ -185,19 +185,6 @@ Boolean TimeSpanFormat::TryFormat(TimeSpan value, Span<Char> destination, Int32&
     if (c == 'c' || (c | 32) == 116) {
       return TryFormatStandard(value, StandardFormat::C, nullptr, destination, charsWritten);
     }
-    Int32 num;
-    switch (c.get()) {
-      default:
-        rt::throw_exception<FormatException>(SR::get_Format_InvalidString());
-      case 'G':
-        num = 1;
-        break;
-      case 'g':
-        num = 2;
-        break;
-    }
-    StandardFormat format2 = (StandardFormat)num;
-    return TryFormatStandard(value, format2, DateTimeFormatInfo::in::GetInstance(formatProvider)->get_DecimalSeparator(), destination, charsWritten);
   }
   StringBuilder stringBuilder = FormatCustomized(value, format, DateTimeFormatInfo::in::GetInstance(formatProvider));
   if (stringBuilder->get_Length() <= destination.get_Length()) {
@@ -223,7 +210,7 @@ String TimeSpanFormat::FormatG(TimeSpan value, DateTimeFormatInfo dtfi, Standard
   String decimalSeparator = dtfi->get_DecimalSeparator();
   Int32 num = 25 + decimalSeparator->get_Length();
   Char as[num] = {};
-  Span<Char> span = (num >= 128) ? ((Span<Char>)rt::newarr<Array<Char>>(num)) : as;
+  Span<Char> span = ((num >= 128) ? ((Span<Char>)rt::newarr<Array<Char>>(num)) : as);
   Span<Char> destination = span;
   Int32 charsWritten;
   TryFormatStandard(value, format, decimalSeparator, destination, charsWritten);

@@ -71,7 +71,7 @@ void FieldBuilder___::ctor(TypeBuilder typeBuilder, String fieldName, Type type,
   m_fieldName = fieldName;
   m_typeBuilder = typeBuilder;
   m_fieldType = type;
-  m_Attributes = (attributes & ~(FieldAttributes::RTSpecialName | FieldAttributes::HasFieldMarshal | FieldAttributes::HasDefault | FieldAttributes::HasFieldRVA));
+  m_Attributes = attributes & ~FieldAttributes::ReservedMask;
   SignatureHelper fieldSigHelper = SignatureHelper::in::GetFieldSigHelper(m_typeBuilder->get_Module());
   fieldSigHelper->AddArgument(type, requiredCustomModifiers, optionalCustomModifiers);
   Int32 length;

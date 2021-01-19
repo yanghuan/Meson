@@ -22,6 +22,7 @@
 #include <System.Private.CoreLib/System/SR-dep.h>
 #include <System.Private.CoreLib/System/String-dep.h>
 #include <System.Private.CoreLib/System/Text/StringBuilder-dep.h>
+#include <System.Private.CoreLib/System/UInt32-dep.h>
 
 namespace System::Private::CoreLib::System::Reflection::Emit::SignatureHelperNamespace {
 using namespace System::Buffers::Binary;
@@ -174,7 +175,7 @@ void SignatureHelper___::ctor(Module mod, Type type) {
 void SignatureHelper___::Init(Module mod) {
   m_signature = rt::newarr<Array<Byte>>(32);
   m_currSig = 0;
-  m_module = (rt::as<ModuleBuilder>(mod));
+  m_module = rt::as<ModuleBuilder>(mod);
   m_argCount = 0;
   m_sigDone = false;
   m_sizeLoc = -1;
@@ -270,7 +271,7 @@ void SignatureHelper___::AddOneArgTypeHelperWorker(Type clsArgument, Boolean las
   }
   if (rt::is<TypeBuilder>(clsArgument)) {
     TypeBuilder typeBuilder = (TypeBuilder)clsArgument;
-    TypeToken clsToken = (!typeBuilder->get_Module()->Equals(m_module)) ? m_module->GetTypeToken(clsArgument) : typeBuilder->get_TypeToken();
+    TypeToken clsToken = ((!typeBuilder->get_Module()->Equals(m_module)) ? m_module->GetTypeToken(clsArgument) : typeBuilder->get_TypeToken());
     if (clsArgument->get_IsValueType()) {
       InternalAddTypeToken(clsToken, CorElementType::ELEMENT_TYPE_VALUETYPE);
     } else {
@@ -280,7 +281,7 @@ void SignatureHelper___::AddOneArgTypeHelperWorker(Type clsArgument, Boolean las
   }
   if (rt::is<EnumBuilder>(clsArgument)) {
     TypeBuilder typeBuilder2 = ((EnumBuilder)clsArgument)->m_typeBuilder;
-    TypeToken clsToken2 = (!typeBuilder2->get_Module()->Equals(m_module)) ? m_module->GetTypeToken(clsArgument) : typeBuilder2->get_TypeToken();
+    TypeToken clsToken2 = ((!typeBuilder2->get_Module()->Equals(m_module)) ? m_module->GetTypeToken(clsArgument) : typeBuilder2->get_TypeToken());
     if (clsArgument->get_IsValueType()) {
       InternalAddTypeToken(clsToken2, CorElementType::ELEMENT_TYPE_VALUETYPE);
     } else {
@@ -430,7 +431,7 @@ void SignatureHelper___::SetNumberOfSignatureElements(Boolean forceCopy) {
       m_signature[m_sizeLoc] = (Byte)m_argCount;
       return;
     }
-    Int32 num = (m_argCount < 128) ? 1 : ((m_argCount >= 16384) ? 4 : 2);
+    Int32 num = ((m_argCount < 128) ? 1 : ((m_argCount >= 16384) ? 4 : 2));
     Array<Byte> array = rt::newarr<Array<Byte>>(m_currSig + num - 1);
     array[0] = m_signature[0];
     Buffer::BlockCopy(m_signature, m_sizeLoc + 1, array, m_sizeLoc + num, currSig - (m_sizeLoc + 1));
@@ -469,18 +470,18 @@ Array<Byte> SignatureHelper___::InternalGetSignatureArray() {
   Int32 dstOffset = 0;
   array[dstOffset++] = m_signature[0];
   if (argCount <= 127) {
-    array[dstOffset++] = (Byte)(argCount & 255);
+    array[dstOffset++] = (Byte)((UInt32)argCount & 255u);
   } else if (argCount <= 16383) {
-    array[dstOffset++] = (Byte)((argCount >> 8) | 128);
-    array[dstOffset++] = (Byte)(argCount & 255);
+    array[dstOffset++] = (Byte)((UInt32)(argCount >> 8) | 128u);
+    array[dstOffset++] = (Byte)((UInt32)argCount & 255u);
   } else {
     if (argCount > 536870911) {
       rt::throw_exception<ArgumentException>(SR::get_Argument_LargeInteger());
     }
-    array[dstOffset++] = (Byte)((argCount >> 24) | 192);
-    array[dstOffset++] = (Byte)((argCount >> 16) & 255);
-    array[dstOffset++] = (Byte)((argCount >> 8) & 255);
-    array[dstOffset++] = (Byte)(argCount & 255);
+    array[dstOffset++] = (Byte)((UInt32)(argCount >> 24) | 192u);
+    array[dstOffset++] = (Byte)((UInt32)(argCount >> 16) & 255u);
+    array[dstOffset++] = (Byte)((UInt32)(argCount >> 8) & 255u);
+    array[dstOffset++] = (Byte)((UInt32)argCount & 255u);
   }
 
   Buffer::BlockCopy(m_signature, 2, array, dstOffset, currSig - 2);

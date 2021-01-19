@@ -114,13 +114,12 @@ String UriHelper::EscapeString(String stringToEscape, Boolean checkExistingEscap
   if ((forceEscape1 | forceEscape2) == 0) {
     readOnlySpan = unreserved;
   } else {
-    Byte as[128] = {};
-    Span<Boolean> span = Span<Boolean>(as, 128);
-    Span<Boolean> span2 = span;
-    unreserved.CopyTo(span2);
-    span2[forceEscape1] = false;
-    span2[forceEscape2] = false;
-    readOnlySpan = span2;
+    Boolean as[128] = {};
+    Span<Boolean> span = as;
+    unreserved.CopyTo(span);
+    span[forceEscape1] = false;
+    span[forceEscape2] = false;
+    readOnlySpan = span;
   }
   Int32 i;
   for (i = 0; i < stringToEscape->get_Length(); i++) {
@@ -153,13 +152,12 @@ Array<Char> UriHelper::EscapeString(ReadOnlySpan<Char> stringToEscape, Array<Cha
   if ((forceEscape1 | forceEscape2) == 0) {
     readOnlySpan = get_UnreservedReservedTable();
   } else {
-    Byte as[128] = {};
-    Span<Boolean> span = Span<Boolean>(as, 128);
-    Span<Boolean> span2 = span;
-    get_UnreservedReservedTable().CopyTo(span2);
-    span2[forceEscape1] = false;
-    span2[forceEscape2] = false;
-    readOnlySpan = span2;
+    Boolean as[128] = {};
+    Span<Boolean> span = as;
+    get_UnreservedReservedTable().CopyTo(span);
+    span[forceEscape1] = false;
+    span[forceEscape2] = false;
+    readOnlySpan = span;
   }
   Int32 i;
   for (i = 0; i < stringToEscape.get_Length(); i++) {
@@ -193,16 +191,15 @@ Array<Char> UriHelper::EscapeString(ReadOnlySpan<Char> stringToEscape, Array<Cha
 
 void UriHelper::EscapeStringToBuilder(ReadOnlySpan<Char> stringToEscape, ValueStringBuilder& vsb, ReadOnlySpan<Boolean> noEscape, Boolean checkExistingEscaped) {
   Byte as[4] = {};
-  Span<Byte> span = Span<Byte>(as, 4);
-  Span<Byte> destination = span;
+  Span<Byte> destination = as;
   SpanRuneEnumerator spanRuneEnumerator = MemoryExtensions::EnumerateRunes(stringToEscape);
   while (spanRuneEnumerator.MoveNext()) {
     Rune current = spanRuneEnumerator.get_Current();
     if (!current.get_IsAscii()) {
       Int32 bytesWritten;
       current.TryEncodeToUtf8(destination, bytesWritten);
-      Span<Byte> span2 = destination.Slice(0, bytesWritten);
-      for (Byte&& value : *span2) {
+      Span<Byte> span = destination.Slice(0, bytesWritten);
+      for (Byte&& value : *span) {
         vsb.Append('%');
         HexConverter::ToCharsBuffer(value, vsb.AppendSpan(2));
       }
@@ -390,14 +387,13 @@ void UriHelper::UnescapeString(Char* pStr, Int32 start, Int32 end, ValueStringBu
 
 void UriHelper::MatchUTF8Sequence(ValueStringBuilder& dest, Span<Char> unescapedChars, Int32 charCount, Array<Byte> bytes, Int32 byteCount, Boolean isQuery, Boolean iriParsing) {
   Byte as[4] = {};
-  Span<Byte> span = Span<Byte>(as, 4);
-  Span<Byte> span2 = span;
+  Span<Byte> span = as;
   Int32 num = 0;
   {
     Char* ptr = unescapedChars;
     for (Int32 i = 0; i < charCount; i++) {
       Boolean flag = Char::IsHighSurrogate(*(ptr + i));
-      Span<Byte> bytes2 = span2;
+      Span<Byte> bytes2 = span;
       Int32 bytes3 = Encoding::in::get_UTF8()->GetBytes(unescapedChars.Slice(i, (!flag) ? 1 : 2), bytes2);
       bytes2 = bytes2.Slice(0, bytes3);
       Boolean flag2 = false;
@@ -458,25 +454,13 @@ void UriHelper::EscapeAsciiChar(Byte b, ValueStringBuilder& to) {
   HexConverter::ToCharsBuffer(b, to.AppendSpan(2));
 }
 
-Char UriHelper::DecodeHexChars(UInt32 first, UInt32 second) {
-  first -= 48;
-  if (first > 9) {
-    if ((UInt32)((first - 17) & -33) > 5) {
-      goto IL_0055;
-    }
-    first = ((first + 48) | 32) - 97 + 10;
+Char UriHelper::DecodeHexChars(Int32 first, Int32 second) {
+  Int32 num = HexConverter::FromChar(first);
+  Int32 num2 = HexConverter::FromChar(second);
+  if ((num | num2) == 255) {
+    return 'ÿ';
   }
-  second -= 48;
-  if (second > 9) {
-    if ((UInt32)((second - 17) & -33) > 5) {
-      goto IL_0055;
-    }
-    second = ((second + 48) | 32) - 97 + 10;
-  }
-  return (Char)((first << 4) | second);
-
-IL_0055:
-  return 'ÿ';
+  return (Char)((num << 4) | num2);
 }
 
 Boolean UriHelper::IsNotSafeForUnescape(Char ch) {
@@ -515,10 +499,7 @@ Boolean UriHelper::IsAsciiLetterOrDigit(Char character) {
 }
 
 Boolean UriHelper::IsHexDigit(Char character) {
-  if (((UInt32)(character - 65) & -33) >= 6) {
-    return (UInt32)(character - 48) < 10u;
-  }
-  return true;
+  return HexConverter::IsHexChar(character);
 }
 
 Boolean UriHelper::IsBidiControlCharacter(Char ch) {
@@ -546,7 +527,7 @@ String UriHelper::StripBidiControlCharacters(ReadOnlySpan<Char> strToClean, Stri
   {
     Char* value = &MemoryMarshal::GetReference(strToClean);
     SpanAction<Char, ValueTuple<IntPtr, Int32>> as = __c::in::__9__27_0;
-    return String::in::Create(strToClean.get_Length() - num, {(IntPtr)(void*)value, strToClean.get_Length()}, as != nullptr ? as : (__c::in::__9__27_0 = {__c::in::__9, &__c::in::_StripBidiControlCharacters_b__27_0}));
+    return String::in::Create(strToClean.get_Length() - num, {(IntPtr)value, strToClean.get_Length()}, as != nullptr ? as : (__c::in::__9__27_0 = {__c::in::__9, &__c::in::_StripBidiControlCharacters_b__27_0}));
   }
 }
 

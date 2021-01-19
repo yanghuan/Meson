@@ -1,12 +1,11 @@
 #include "MethodTable-dep.h"
 
-#include <System.Private.CoreLib/System/Int32-dep.h>
 #include <System.Private.CoreLib/System/IntPtr-dep.h>
 #include <System.Private.CoreLib/System/UInt32-dep.h>
 
 namespace System::Private::CoreLib::System::Runtime::CompilerServices::MethodTableNamespace {
 Boolean MethodTable::get_HasComponentSize() {
-  return ((Int32)Flags & Int32::MinValue) != 0;
+  return (Flags & 2147483648u) != 0;
 }
 
 Boolean MethodTable::get_ContainsGCPointers() {
@@ -14,7 +13,7 @@ Boolean MethodTable::get_ContainsGCPointers() {
 }
 
 Boolean MethodTable::get_NonTrivialInterfaceCast() {
-  return (Flags & 1078460416) != 0;
+  return (Flags & 1080557568) != 0;
 }
 
 Boolean MethodTable::get_HasTypeEquivalence() {

@@ -76,7 +76,7 @@ LazyHelper LazyHelper___::Create(LazyThreadSafetyMode mode, Boolean useDefaultCo
       return PublicationOnlyViaConstructor;
     case LazyThreadSafetyMode::ExecutionAndPublication:
       {
-        LazyState state = useDefaultConstructor ? LazyState::ExecutionAndPublicationViaConstructor : LazyState::ExecutionAndPublicationViaFactory;
+        LazyState state = (useDefaultConstructor ? LazyState::ExecutionAndPublicationViaConstructor : LazyState::ExecutionAndPublicationViaFactory);
         return rt::newobj<LazyHelper>(state);
       }default:
       rt::throw_exception<ArgumentOutOfRangeException>("mode", SR::get_Lazy_ctor_ModeInvalid());

@@ -5,9 +5,9 @@ void GenericUriParser___::ctor(GenericUriParserOptions options) {
 }
 
 UriSyntaxFlags GenericUriParser___::MapGenericParserOptions(GenericUriParserOptions options) {
-  UriSyntaxFlags uriSyntaxFlags = UriSyntaxFlags::MustHaveAuthority | UriSyntaxFlags::MayHaveUserInfo | UriSyntaxFlags::MayHavePort | UriSyntaxFlags::MayHavePath | UriSyntaxFlags::MayHaveQuery | UriSyntaxFlags::MayHaveFragment | UriSyntaxFlags::AllowUncHost | UriSyntaxFlags::AllowDnsHost | UriSyntaxFlags::AllowIPv4Host | UriSyntaxFlags::AllowIPv6Host | UriSyntaxFlags::PathIsRooted | UriSyntaxFlags::ConvertPathSlashes | UriSyntaxFlags::CompressPath | UriSyntaxFlags::CanonicalizeAsFilePath | UriSyntaxFlags::UnEscapeDotsAndSlashes;
+  UriSyntaxFlags uriSyntaxFlags = UriSyntaxFlags::AllowAnInternetHost | UriSyntaxFlags::MustHaveAuthority | UriSyntaxFlags::MayHaveUserInfo | UriSyntaxFlags::MayHavePort | UriSyntaxFlags::MayHavePath | UriSyntaxFlags::MayHaveQuery | UriSyntaxFlags::MayHaveFragment | UriSyntaxFlags::AllowUncHost | UriSyntaxFlags::PathIsRooted | UriSyntaxFlags::ConvertPathSlashes | UriSyntaxFlags::CompressPath | UriSyntaxFlags::CanonicalizeAsFilePath | UriSyntaxFlags::UnEscapeDotsAndSlashes;
   if ((options & GenericUriParserOptions::GenericAuthority) != 0) {
-    uriSyntaxFlags &= ~(UriSyntaxFlags::MayHaveUserInfo | UriSyntaxFlags::MayHavePort | UriSyntaxFlags::AllowUncHost | UriSyntaxFlags::AllowDnsHost | UriSyntaxFlags::AllowIPv4Host | UriSyntaxFlags::AllowIPv6Host);
+    uriSyntaxFlags &= ~(UriSyntaxFlags::AllowAnInternetHost | UriSyntaxFlags::MayHaveUserInfo | UriSyntaxFlags::MayHavePort | UriSyntaxFlags::AllowUncHost);
     uriSyntaxFlags |= UriSyntaxFlags::AllowAnyOtherHost;
   }
   if ((options & GenericUriParserOptions::AllowEmptyAuthority) != 0) {

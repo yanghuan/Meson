@@ -69,7 +69,7 @@ void GregorianCalendar___::ctor(GregorianCalendarTypes type) {
 
 Int64 GregorianCalendar___::GetAbsoluteDate(Int32 year, Int32 month, Int32 day) {
   if (year >= 1 && year <= 9999 && month >= 1 && month <= 12) {
-    Array<Int32> array = (year % 4 == 0 && (year % 100 != 0 || year % 400 == 0)) ? DaysToMonth366 : DaysToMonth365;
+    Array<Int32> array = ((year % 4 == 0 && (year % 100 != 0 || year % 400 == 0)) ? DaysToMonth366 : DaysToMonth365);
     if (day >= 1 && day <= array[month] - array[month - 1]) {
       Int32 num = year - 1;
       return num * 365 + num / 4 - num / 100 + num / 400 + array[month - 1] + day - 1;
@@ -98,7 +98,7 @@ DateTime GregorianCalendar___::AddMonths(DateTime time, Int32 months) {
     month = 12 + (num + 1) % 12;
     year += (num - 11) / 12;
   }
-  Array<Int32> array = (year % 4 == 0 && (year % 100 != 0 || year % 400 == 0)) ? DaysToMonth366 : DaysToMonth365;
+  Array<Int32> array = ((year % 4 == 0 && (year % 100 != 0 || year % 400 == 0)) ? DaysToMonth366 : DaysToMonth365);
   Int32 num2 = array[month] - array[month - 1];
   if (day > num2) {
     day = num2;
@@ -134,7 +134,7 @@ Int32 GregorianCalendar___::GetDaysInMonth(Int32 year, Int32 month, Int32 era) {
   if (month < 1 || month > 12) {
     rt::throw_exception<ArgumentOutOfRangeException>("month", month, SR::get_ArgumentOutOfRange_Month());
   }
-  Array<Int32> array = (year % 4 == 0 && (year % 100 != 0 || year % 400 == 0)) ? DaysToMonth366 : DaysToMonth365;
+  Array<Int32> array = ((year % 4 == 0 && (year % 100 != 0 || year % 400 == 0)) ? DaysToMonth366 : DaysToMonth365);
   return array[month] - array[month - 1];
 }
 
@@ -184,7 +184,7 @@ Boolean GregorianCalendar___::IsValidDay(Int32 year, Int32 month, Int32 day, Int
   if ((era != 0 && era != 1) || year < 1 || year > 9999 || month < 1 || month > 12 || day < 1) {
     return false;
   }
-  Array<Int32> array = (year % 4 == 0 && (year % 100 != 0 || year % 400 == 0)) ? DaysToMonth366 : DaysToMonth365;
+  Array<Int32> array = ((year % 4 == 0 && (year % 100 != 0 || year % 400 == 0)) ? DaysToMonth366 : DaysToMonth365);
   return day <= array[month] - array[month - 1];
 }
 

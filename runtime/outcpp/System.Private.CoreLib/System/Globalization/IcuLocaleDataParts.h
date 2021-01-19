@@ -10,7 +10,7 @@ enum class IcuLocaleDataParts : int32_t {
   MacCodePage = 3,
   EbcdicCodePage = 4,
   GeoId = 5,
-  DigitSubstitution = 6,
+  DigitSubstitutionOrListSeparator = 6,
   SpecificLocaleIndex = 7,
   ConsoleLocaleIndex = 8,
 };

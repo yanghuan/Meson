@@ -7,6 +7,7 @@
 #include <System.Private.CoreLib/System/Object-dep.h>
 #include <System.Private.CoreLib/System/SR-dep.h>
 #include <System.Private.CoreLib/System/Type-dep.h>
+#include <System.Private.CoreLib/System/UInt32-dep.h>
 
 namespace System::Private::CoreLib::System::CultureAwareComparerNamespace {
 void CultureAwareComparer___::ctor(CultureInfo culture, CompareOptions options) {
@@ -14,7 +15,7 @@ void CultureAwareComparer___::ctor(CultureInfo culture, CompareOptions options) 
 
 void CultureAwareComparer___::ctor(CompareInfo compareInfo, CompareOptions options) {
   _compareInfo = compareInfo;
-  if ((options & ~(CompareOptions::IgnoreCase | CompareOptions::IgnoreNonSpace | CompareOptions::IgnoreSymbols | CompareOptions::IgnoreKanaType | CompareOptions::IgnoreWidth | CompareOptions::StringSort)) != 0) {
+  if (((UInt32)options & 3758096352u) != 0) {
     rt::throw_exception<ArgumentException>(SR::get_Argument_InvalidFlag(), "options");
   }
   _options = options;
@@ -76,6 +77,11 @@ void CultureAwareComparer___::GetObjectData(SerializationInfo info, StreamingCon
   info->AddValue("_compareInfo", _compareInfo);
   info->AddValue("_options", _options);
   info->AddValue("_ignoreCase", (_options & CompareOptions::IgnoreCase) != 0);
+}
+
+void CultureAwareComparer___::cctor() {
+  InvariantCaseSensitiveInstance = rt::newobj<CultureAwareComparer>(CompareInfo::in::Invariant, CompareOptions::None);
+  InvariantIgnoreCaseInstance = rt::newobj<CultureAwareComparer>(CompareInfo::in::Invariant, CompareOptions::IgnoreCase);
 }
 
 } // namespace System::Private::CoreLib::System::CultureAwareComparerNamespace

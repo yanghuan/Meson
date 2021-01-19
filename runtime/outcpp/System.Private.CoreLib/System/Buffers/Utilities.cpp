@@ -7,7 +7,7 @@ namespace System::Private::CoreLib::System::Buffers::UtilitiesNamespace {
 using namespace System::Numerics;
 
 Int32 Utilities::SelectBucketIndex(Int32 bufferSize) {
-  return BitOperations::Log2((UInt32)((bufferSize - 1) | 15)) - 3;
+  return BitOperations::Log2((UInt32)(bufferSize - 1) | 15u) - 3;
 }
 
 Int32 Utilities::GetMaxSizeForBucket(Int32 binIndex) {

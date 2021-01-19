@@ -433,7 +433,7 @@ void NumberFormatInfo___::VerifyDigitSubstitution(DigitShapes digitSub, String p
 }
 
 void NumberFormatInfo___::UpdateHasInvariantNumberSigns() {
-  _hasInvariantNumberSigns = (_positiveSign == "+" && _negativeSign == "-");
+  _hasInvariantNumberSigns = _positiveSign == "+" && _negativeSign == "-";
 }
 
 void NumberFormatInfo___::ctor(CultureData cultureData) {
@@ -532,24 +532,24 @@ NumberFormatInfo NumberFormatInfo___::ReadOnly(NumberFormatInfo nfi) {
 
 void NumberFormatInfo___::ValidateParseStyleInteger(NumberStyles style) {
   auto throwInvalid = [](NumberStyles value) -> void {
-    if ((value & ~(NumberStyles::AllowLeadingWhite | NumberStyles::AllowTrailingWhite | NumberStyles::AllowLeadingSign | NumberStyles::AllowTrailingSign | NumberStyles::AllowParentheses | NumberStyles::AllowDecimalPoint | NumberStyles::AllowThousands | NumberStyles::AllowExponent | NumberStyles::AllowCurrencySymbol | NumberStyles::AllowHexSpecifier)) != 0) {
+    if (((UInt32)value & 4294966272u) != 0) {
       rt::throw_exception<ArgumentException>(SR::get_Argument_InvalidNumberStyles(), "style");
     }
     rt::throw_exception<ArgumentException>(SR::get_Arg_InvalidHexStyle());
   };
-  if ((style & ~(NumberStyles::AllowLeadingWhite | NumberStyles::AllowTrailingWhite | NumberStyles::AllowLeadingSign | NumberStyles::AllowTrailingSign | NumberStyles::AllowParentheses | NumberStyles::AllowDecimalPoint | NumberStyles::AllowThousands | NumberStyles::AllowExponent | NumberStyles::AllowCurrencySymbol)) != 0 && (style & ~(NumberStyles::AllowLeadingWhite | NumberStyles::AllowTrailingWhite | NumberStyles::AllowHexSpecifier)) != 0) {
+  if (((UInt32)style & 4294966784u) != 0 && ((UInt32)style & 4294966780u) != 0) {
     throwInvalid(style);
   }
 }
 
 void NumberFormatInfo___::ValidateParseStyleFloatingPoint(NumberStyles style) {
   auto throwInvalid = [](NumberStyles value) -> void {
-    if ((value & ~(NumberStyles::AllowLeadingWhite | NumberStyles::AllowTrailingWhite | NumberStyles::AllowLeadingSign | NumberStyles::AllowTrailingSign | NumberStyles::AllowParentheses | NumberStyles::AllowDecimalPoint | NumberStyles::AllowThousands | NumberStyles::AllowExponent | NumberStyles::AllowCurrencySymbol | NumberStyles::AllowHexSpecifier)) != 0) {
+    if (((UInt32)value & 4294966272u) != 0) {
       rt::throw_exception<ArgumentException>(SR::get_Argument_InvalidNumberStyles(), "style");
     }
     rt::throw_exception<ArgumentException>(SR::get_Arg_HexStyleNotSupported());
   };
-  if ((style & ~(NumberStyles::AllowLeadingWhite | NumberStyles::AllowTrailingWhite | NumberStyles::AllowLeadingSign | NumberStyles::AllowTrailingSign | NumberStyles::AllowParentheses | NumberStyles::AllowDecimalPoint | NumberStyles::AllowThousands | NumberStyles::AllowExponent | NumberStyles::AllowCurrencySymbol)) != 0) {
+  if (((UInt32)style & 4294966784u) != 0) {
     throwInvalid(style);
   }
 }
@@ -566,14 +566,14 @@ NumberFormatInfo NumberFormatInfo___::_GetInstance_g__GetProviderNonNull42_0(IFo
 }
 
 void NumberFormatInfo___::_ValidateParseStyleInteger_g__throwInvalid133_0(NumberStyles value) {
-  if ((value & ~(NumberStyles::AllowLeadingWhite | NumberStyles::AllowTrailingWhite | NumberStyles::AllowLeadingSign | NumberStyles::AllowTrailingSign | NumberStyles::AllowParentheses | NumberStyles::AllowDecimalPoint | NumberStyles::AllowThousands | NumberStyles::AllowExponent | NumberStyles::AllowCurrencySymbol | NumberStyles::AllowHexSpecifier)) != 0) {
+  if (((UInt32)value & 4294966272u) != 0) {
     rt::throw_exception<ArgumentException>(SR::get_Argument_InvalidNumberStyles(), "style");
   }
   rt::throw_exception<ArgumentException>(SR::get_Arg_InvalidHexStyle());
 }
 
 void NumberFormatInfo___::_ValidateParseStyleFloatingPoint_g__throwInvalid134_0(NumberStyles value) {
-  if ((value & ~(NumberStyles::AllowLeadingWhite | NumberStyles::AllowTrailingWhite | NumberStyles::AllowLeadingSign | NumberStyles::AllowTrailingSign | NumberStyles::AllowParentheses | NumberStyles::AllowDecimalPoint | NumberStyles::AllowThousands | NumberStyles::AllowExponent | NumberStyles::AllowCurrencySymbol | NumberStyles::AllowHexSpecifier)) != 0) {
+  if (((UInt32)value & 4294966272u) != 0) {
     rt::throw_exception<ArgumentException>(SR::get_Argument_InvalidNumberStyles(), "style");
   }
   rt::throw_exception<ArgumentException>(SR::get_Arg_HexStyleNotSupported());

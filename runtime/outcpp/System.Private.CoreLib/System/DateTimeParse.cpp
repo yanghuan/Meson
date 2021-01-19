@@ -1,6 +1,5 @@
 #include "DateTimeParse-dep.h"
 
-#include <System.Private.CoreLib/System/ArgumentNullException-dep.h>
 #include <System.Private.CoreLib/System/ArgumentOutOfRangeException-dep.h>
 #include <System.Private.CoreLib/System/DateTimeFormat-dep.h>
 #include <System.Private.CoreLib/System/DateTimeKind.h>
@@ -9,7 +8,6 @@
 #include <System.Private.CoreLib/System/DayOfWeek.h>
 #include <System.Private.CoreLib/System/DTSubString-dep.h>
 #include <System.Private.CoreLib/System/DTSubStringType.h>
-#include <System.Private.CoreLib/System/FormatException-dep.h>
 #include <System.Private.CoreLib/System/Globalization/Calendar-dep.h>
 #include <System.Private.CoreLib/System/Globalization/CalendarId.h>
 #include <System.Private.CoreLib/System/Globalization/CompareOptions.h>
@@ -26,7 +24,6 @@
 #include <System.Private.CoreLib/System/Math-dep.h>
 #include <System.Private.CoreLib/System/ParseFailureKind.h>
 #include <System.Private.CoreLib/System/ParseFlags.h>
-#include <System.Private.CoreLib/System/SR-dep.h>
 #include <System.Private.CoreLib/System/StringComparison.h>
 #include <System.Private.CoreLib/System/Text/StringBuilder-dep.h>
 #include <System.Private.CoreLib/System/Text/StringBuilderCache-dep.h>
@@ -466,7 +463,7 @@ Boolean DateTimeParse::Lex(DS dps, __DTString& str, DateTimeToken& dtok, DateTim
         if (tokenValue >= 100) {
           if (raw.year == -1) {
             raw.year = tokenValue;
-            TokenType tokenType2 = separatorToken = str.GetSeparatorToken(dtfi, indexBeforeSeparator, charBeforeSeparator);
+            TokenType tokenType2 = (separatorToken = str.GetSeparatorToken(dtfi, indexBeforeSeparator, charBeforeSeparator));
             if (tokenType2 != TokenType::SEP_End) {
               if (tokenType2 != TokenType::SEP_Space) {
                 if (tokenType2 != TokenType::SEP_DateOrOffset || s_dateParsingStates[(Int32)dps][12] <= DS::ERROR) {
@@ -1969,7 +1966,7 @@ Boolean DateTimeParse::MatchAbbreviatedMonthName(__DTString& str, DateTimeFormat
   Int32 maxMatchStrLen = 0;
   result = -1;
   if (str.GetNext()) {
-    Int32 num = (dtfi->GetMonthName(13)->get_Length() == 0) ? 12 : 13;
+    Int32 num = ((dtfi->GetMonthName(13)->get_Length() == 0) ? 12 : 13);
     for (Int32 i = 1; i <= num; i++) {
       String abbreviatedMonthName = dtfi->GetAbbreviatedMonthName(i);
       Int32 matchLength = abbreviatedMonthName->get_Length();
@@ -2002,7 +1999,7 @@ Boolean DateTimeParse::MatchMonthName(__DTString& str, DateTimeFormatInfo dtfi, 
   Int32 maxMatchStrLen = 0;
   result = -1;
   if (str.GetNext()) {
-    Int32 num = (dtfi->GetMonthName(13)->get_Length() == 0) ? 12 : 13;
+    Int32 num = ((dtfi->GetMonthName(13)->get_Length() == 0) ? 12 : 13);
     for (Int32 i = 1; i <= num; i++) {
       String monthName = dtfi->GetMonthName(i);
       Int32 matchLength = monthName->get_Length();
@@ -2629,8 +2626,8 @@ Boolean DateTimeParse::DoStrictParse(ReadOnlySpan<Char> s, ReadOnlySpan<Char> fo
   ParsingInfo parseInfo;
   parseInfo.Init();
   parseInfo.calendar = dtfi->set_Calendar();
-  parseInfo.fAllowInnerWhite = ((styles & DateTimeStyles::AllowInnerWhite) != 0);
-  parseInfo.fAllowTrailingWhite = ((styles & DateTimeStyles::AllowTrailingWhite) != 0);
+  parseInfo.fAllowInnerWhite = (styles & DateTimeStyles::AllowInnerWhite) != 0;
+  parseInfo.fAllowTrailingWhite = (styles & DateTimeStyles::AllowTrailingWhite) != 0;
   if (formatParam.get_Length() == 1) {
     Char c = formatParam[0];
     if (styles == DateTimeStyles::None) {
@@ -2976,7 +2973,7 @@ Boolean DateTimeParse::ParseFormatO(ReadOnlySpan<Char> source, DateTimeResult& r
           result.SetBadDateTimeFailure();
           return false;
         }
-        result.flags |= (ParseFlags::TimeZoneUsed | ParseFlags::TimeZoneUtc);
+        result.flags |= ParseFlags::TimeZoneUsed | ParseFlags::TimeZoneUtc;
         break;
       case '+':
       case '-':
@@ -3030,24 +3027,6 @@ Boolean DateTimeParse::ParseFormatO(ReadOnlySpan<Char> source, DateTimeResult& r
 }
 
 Exception DateTimeParse::GetDateTimeParseException(DateTimeResult& result) {
-  switch (result.failure) {
-    case ParseFailureKind::ArgumentNull:
-      return rt::newobj<ArgumentNullException>(result.failureArgumentName, SR::GetResourceString(result.failureMessageID));
-    case ParseFailureKind::Format:
-      return rt::newobj<FormatException>(SR::GetResourceString(result.failureMessageID));
-    case ParseFailureKind::FormatWithParameter:
-      return rt::newobj<FormatException>(SR::Format(SR::GetResourceString(result.failureMessageID), result.failureMessageFormatArgument));
-    case ParseFailureKind::FormatBadDateTimeCalendar:
-      return rt::newobj<FormatException>(SR::Format(SR::GetResourceString(result.failureMessageID), rt::newstr<String>(result.originalDateTimeString), result.calendar));
-    case ParseFailureKind::FormatWithOriginalDateTime:
-      return rt::newobj<FormatException>(SR::Format(SR::GetResourceString(result.failureMessageID), rt::newstr<String>(result.originalDateTimeString)));
-    case ParseFailureKind::FormatWithFormatSpecifier:
-      return rt::newobj<FormatException>(SR::Format(SR::GetResourceString(result.failureMessageID), rt::newstr<String>(result.failedFormatSpecifier)));
-    case ParseFailureKind::FormatWithOriginalDateTimeAndParameter:
-      return rt::newobj<FormatException>(SR::Format(SR::GetResourceString(result.failureMessageID), rt::newstr<String>(result.originalDateTimeString), result.failureMessageFormatArgument));
-    default:
-      return nullptr;
-  }
 }
 
 void DateTimeParse::cctor() {

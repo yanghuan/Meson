@@ -193,14 +193,6 @@ String Version___::ToString() {
 }
 
 String Version___::ToString(Int32 fieldCount) {
-  switch (fieldCount.get()) {
-    default:
-      return StringBuilderCache::GetStringAndRelease(ToCachedStringBuilder(fieldCount));
-    case 1:
-      return _Major.ToString();
-    case 0:
-      return String::in::Empty;
-  }
 }
 
 Boolean Version___::TryFormat(Span<Char> destination, Int32& charsWritten) {

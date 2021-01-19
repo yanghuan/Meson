@@ -17,7 +17,6 @@ Boolean EventAttribute___::get_IsOpcodeSet() {
 void EventAttribute___::ctor(Int32 eventId) {
   EventId = eventId;
   Level = EventLevel::Informational;
-  m_opcodeSet = false;
 }
 
 } // namespace System::Private::CoreLib::System::Diagnostics::Tracing::EventAttributeNamespace

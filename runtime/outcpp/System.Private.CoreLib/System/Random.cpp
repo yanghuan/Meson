@@ -17,7 +17,7 @@ void Random___::ctor(Int32 Seed) {
   _seedArray = rt::newarr<Array<Int32>>(56);
   Object::in::ctor();
   Int32 num = 0;
-  Int32 num2 = (Seed == Int32::MinValue) ? Int32::MaxValue : Math::Abs(Seed);
+  Int32 num2 = ((Seed == Int32::MinValue) ? Int32::MaxValue : Math::Abs(Seed));
   Int32 num3 = 161803398 - num2;
   _seedArray[55] = num3;
   Int32 num4 = 1;
@@ -44,7 +44,6 @@ void Random___::ctor(Int32 Seed) {
       }
     }
   }
-  _inext = 0;
   _inextp = 21;
 }
 

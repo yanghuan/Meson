@@ -113,7 +113,7 @@ AssemblyNameFlags AssemblyName___::get_Flags() {
 
 void AssemblyName___::set_Flags(AssemblyNameFlags value) {
   _flags &= (AssemblyNameFlags)3824;
-  _flags |= (value & (AssemblyNameFlags)(-3825));
+  _flags |= value & (AssemblyNameFlags)(-3825);
 }
 
 AssemblyHashAlgorithm AssemblyName___::get_HashAlgorithm() {
@@ -343,7 +343,7 @@ Array<Char> AssemblyName___::EscapeString(String input, Int32 start, Int32 end, 
         num = i + 1;
       } else if (c == '%' && rsvd == '%') {
         dest = EnsureDestinationSize(ptr3, dest, i, 3, 120, destPos, num);
-        if (i + 2 < end && EscapedAscii(*(ptr3 + i + 1), *(ptr3 + i + 2)) != 'ÿ') {
+        if (i + 2 < end && HexConverter::IsHexChar(*(ptr3 + i + 1)) && HexConverter::IsHexChar(*(ptr3 + i + 2))) {
           dest[destPos++] = '%';
           dest[destPos++] = *(ptr3 + i + 1);
           dest[destPos++] = *(ptr3 + i + 2);
@@ -385,17 +385,6 @@ void AssemblyName___::EscapeAsciiChar(Char ch, Array<Char> to, Int32& pos) {
   to[pos++] = '%';
   to[pos++] = HexConverter::ToCharUpper((Int32)ch >> 4);
   to[pos++] = HexConverter::ToCharUpper(ch);
-}
-
-Char AssemblyName___::EscapedAscii(Char digit, Char next) {
-  if ((digit < '0' || digit > '9') && (digit < 'A' || digit > 'F') && (digit < 'a' || digit > 'f')) {
-    return 'ÿ';
-  }
-  Int32 num = (digit <= '9') ? (digit - 48) : (((digit <= 'F') ? (digit - 65) : (digit - 97)) + 10);
-  if ((next < '0' || next > '9') && (next < 'A' || next > 'F') && (next < 'a' || next > 'f')) {
-    return 'ÿ';
-  }
-  return (Char)((num << 4) + ((next <= '9') ? (next - 48) : (((next <= 'F') ? (next - 65) : (next - 97)) + 10)));
 }
 
 Boolean AssemblyName___::IsReservedUnreservedOrHash(Char c) {

@@ -1700,7 +1700,7 @@ void ArrayList___::ArrayListEnumeratorSimple___::ctor(ArrayList list) {
   _list = list;
   _index = -1;
   _version = list->_version;
-  _isArrayList = (list->GetType() == typeof<ArrayList>());
+  _isArrayList = list->GetType() == typeof<ArrayList>();
   _currentElement = s_dummyObject;
 }
 
@@ -1935,7 +1935,7 @@ void ArrayList___::CopyTo(Int32 index, Array<> array, Int32 arrayIndex, Int32 co
 
 void ArrayList___::EnsureCapacity(Int32 min) {
   if (_items->get_Length() < min) {
-    Int32 num = (_items->get_Length() == 0) ? 4 : (_items->get_Length() * 2);
+    Int32 num = ((_items->get_Length() == 0) ? 4 : (_items->get_Length() * 2));
     if ((UInt32)num > 2146435071u) {
       num = 2146435071;
     }

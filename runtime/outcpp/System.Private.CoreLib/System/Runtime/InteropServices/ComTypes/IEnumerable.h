@@ -8,6 +8,7 @@ FORWARD(IEnumerator)
 namespace System::Private::CoreLib::System::Runtime::InteropServices::ComTypes {
 namespace IEnumerableNamespace {
 using namespace System::Collections;
+using IEnumerator = Collections::IEnumerator;
 CLASS(IEnumerable) : public object {
   public: IEnumerator GetEnumerator();
   public: static constexpr rt::TypeCode code = rt::TypeCode::Interface;

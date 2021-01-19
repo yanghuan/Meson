@@ -38,7 +38,7 @@ using namespace System::Text;
 
 void ConsolePal::WindowsConsoleStream___::ctor(IntPtr handle, FileAccess access, Boolean useFileAPIs) {
   _handle = handle;
-  _isPipe = (Interop::Kernel32::GetFileType(handle) == 3);
+  _isPipe = Interop::Kernel32::GetFileType(handle) == 3;
   _useFileAPIs = useFileAPIs;
 }
 
@@ -84,7 +84,7 @@ Int32 ConsolePal::WindowsConsoleStream___::ReadFileNative(IntPtr hFile, Array<By
   {
     Byte* ptr = &bytes[0];
     if (useFileAPIs) {
-      flag = (Interop::Kernel32::ReadFile(hFile, ptr + offset, count, bytesRead, IntPtr::Zero) != 0);
+      flag = Interop::Kernel32::ReadFile(hFile, ptr + offset, count, bytesRead, IntPtr::Zero) != 0;
     } else {
       Int32 lpNumberOfCharsRead;
       flag = Interop::Kernel32::ReadConsole(hFile, ptr + offset, count / 2, lpNumberOfCharsRead, IntPtr::Zero);
@@ -326,16 +326,6 @@ void ConsolePal::set_CursorVisible(Boolean value) {
   }
 }
 
-Int32 ConsolePal::get_CursorLeft() {
-  Interop::Kernel32::CONSOLE_SCREEN_BUFFER_INFO bufferInfo = GetBufferInfo();
-  return bufferInfo.dwCursorPosition.X;
-}
-
-Int32 ConsolePal::get_CursorTop() {
-  Interop::Kernel32::CONSOLE_SCREEN_BUFFER_INFO bufferInfo = GetBufferInfo();
-  return bufferInfo.dwCursorPosition.Y;
-}
-
 String ConsolePal::get_Title() {
   Char as[256] = {};
   Span<Char> initialBuffer = as;
@@ -376,8 +366,7 @@ void ConsolePal::set_Title(String value) {
 }
 
 Int32 ConsolePal::get_BufferWidth() {
-  Interop::Kernel32::CONSOLE_SCREEN_BUFFER_INFO bufferInfo = GetBufferInfo();
-  return bufferInfo.dwSize.X;
+  return GetBufferInfo().dwSize.X;
 }
 
 void ConsolePal::set_BufferWidth(Int32 value) {
@@ -385,8 +374,7 @@ void ConsolePal::set_BufferWidth(Int32 value) {
 }
 
 Int32 ConsolePal::get_BufferHeight() {
-  Interop::Kernel32::CONSOLE_SCREEN_BUFFER_INFO bufferInfo = GetBufferInfo();
-  return bufferInfo.dwSize.Y;
+  return GetBufferInfo().dwSize.Y;
 }
 
 void ConsolePal::set_BufferHeight(Int32 value) {
@@ -394,18 +382,15 @@ void ConsolePal::set_BufferHeight(Int32 value) {
 }
 
 Int32 ConsolePal::get_LargestWindowWidth() {
-  Interop::Kernel32::COORD largestConsoleWindowSize = Interop::Kernel32::GetLargestConsoleWindowSize(get_OutputHandle());
-  return largestConsoleWindowSize.X;
+  return Interop::Kernel32::GetLargestConsoleWindowSize(get_OutputHandle()).X;
 }
 
 Int32 ConsolePal::get_LargestWindowHeight() {
-  Interop::Kernel32::COORD largestConsoleWindowSize = Interop::Kernel32::GetLargestConsoleWindowSize(get_OutputHandle());
-  return largestConsoleWindowSize.Y;
+  return Interop::Kernel32::GetLargestConsoleWindowSize(get_OutputHandle()).Y;
 }
 
 Int32 ConsolePal::get_WindowLeft() {
-  Interop::Kernel32::CONSOLE_SCREEN_BUFFER_INFO bufferInfo = GetBufferInfo();
-  return bufferInfo.srWindow.Left;
+  return GetBufferInfo().srWindow.Left;
 }
 
 void ConsolePal::set_WindowLeft(Int32 value) {
@@ -413,8 +398,7 @@ void ConsolePal::set_WindowLeft(Int32 value) {
 }
 
 Int32 ConsolePal::get_WindowTop() {
-  Interop::Kernel32::CONSOLE_SCREEN_BUFFER_INFO bufferInfo = GetBufferInfo();
-  return bufferInfo.srWindow.Top;
+  return GetBufferInfo().srWindow.Top;
 }
 
 void ConsolePal::set_WindowTop(Int32 value) {
@@ -603,6 +587,11 @@ void ConsolePal::ResetColor() {
   Interop::Kernel32::SetConsoleTextAttribute(get_OutputHandle(), _defaultColors);
 }
 
+ValueTuple<Int32, Int32> ConsolePal::GetCursorPosition() {
+  Interop::Kernel32::CONSOLE_SCREEN_BUFFER_INFO bufferInfo = GetBufferInfo();
+  return {bufferInfo.dwCursorPosition.X, bufferInfo.dwCursorPosition.Y};
+}
+
 void ConsolePal::Beep() {
   Interop::Kernel32::Beep(800, 200);
 }
@@ -624,8 +613,7 @@ void ConsolePal::MoveBufferArea(Int32 sourceLeft, Int32 sourceTop, Int32 sourceW
   if (sourceBackColor < ConsoleColor::Black || sourceBackColor > ConsoleColor::White) {
     rt::throw_exception<ArgumentException>(SR::get_Arg_InvalidConsoleColor(), "sourceBackColor");
   }
-  Interop::Kernel32::CONSOLE_SCREEN_BUFFER_INFO bufferInfo = GetBufferInfo();
-  Interop::Kernel32::COORD dwSize = bufferInfo.dwSize;
+  Interop::Kernel32::COORD dwSize = GetBufferInfo().dwSize;
   if (sourceLeft < 0 || sourceLeft > dwSize.X) {
     rt::throw_exception<ArgumentOutOfRangeException>("sourceLeft", sourceLeft, SR::get_ArgumentOutOfRange_ConsoleBufferBoundaries());
   }
@@ -730,8 +718,7 @@ void ConsolePal::SetCursorPosition(Int32 left, Int32 top) {
 }
 
 void ConsolePal::SetBufferSize(Int32 width, Int32 height) {
-  Interop::Kernel32::CONSOLE_SCREEN_BUFFER_INFO bufferInfo = GetBufferInfo();
-  Interop::Kernel32::SMALL_RECT srWindow = bufferInfo.srWindow;
+  Interop::Kernel32::SMALL_RECT srWindow = GetBufferInfo().srWindow;
   if (width < srWindow.Right + 1 || width >= 32767) {
     rt::throw_exception<ArgumentOutOfRangeException>("width", width, SR::get_ArgumentOutOfRange_ConsoleBufferLessThanWindowSize());
   }
@@ -815,7 +802,7 @@ void ConsolePal::SetWindowSize(Int32 width, Int32 height) {
 }
 
 Interop::Kernel32::Color ConsolePal::ConsoleColorToColorAttribute(ConsoleColor color, Boolean isBackground) {
-  if ((color & (ConsoleColor)(-16)) != 0) {
+  if (((UInt32)color & 4294967280u) != 0) {
     rt::throw_exception<ArgumentException>(SR::get_Arg_InvalidConsoleColor());
   }
   Interop::Kernel32::Color color2 = (Interop::Kernel32::Color)color;
@@ -855,7 +842,7 @@ Interop::Kernel32::CONSOLE_SCREEN_BUFFER_INFO ConsolePal::GetBufferInfo(Boolean 
     rt::throw_exception(Win32Marshal::GetExceptionForWin32Error(lastWin32Error));
   }
   if (!_haveReadDefaultColors) {
-    _defaultColors = (Byte)(lpConsoleScreenBufferInfo.wAttributes & 255);
+    _defaultColors = (Byte)((UInt32)lpConsoleScreenBufferInfo.wAttributes & 255u);
     _haveReadDefaultColors = true;
   }
   succeeded = true;

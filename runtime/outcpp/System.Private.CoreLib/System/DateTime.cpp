@@ -93,14 +93,6 @@ Int32 DateTime::get_Hour() {
 }
 
 DateTimeKind DateTime::get_Kind() {
-  switch (get_InternalKind().get()) {
-    case 0:
-      return DateTimeKind::Unspecified;
-    case 4611686018427387904:
-      return DateTimeKind::Utc;
-    default:
-      return DateTimeKind::Local;
-  }
 }
 
 Int32 DateTime::get_Millisecond() {
@@ -155,7 +147,7 @@ DateTime DateTime::get_UtcNow() {
     GetSystemTimeWithLeapSecondsHandling(&time);
     return CreateDateTimeFromSystemTime(time);
   }
-  return DateTime((UInt64)((GetSystemTimeAsFileTime() + 504911232000000000) | 4611686018427387904));
+  return DateTime((UInt64)(GetSystemTimeAsFileTime() + 504911232000000000) | 4611686018427387904);
 }
 
 DateTime::DateTime(Int64 ticks) {
@@ -183,7 +175,7 @@ DateTime::DateTime(Int64 ticks, DateTimeKind kind, Boolean isAmbiguousDst) {
   if (ticks < 0 || ticks > 3155378975999999999) {
     rt::throw_exception<ArgumentOutOfRangeException>("ticks", SR::get_ArgumentOutOfRange_DateTimeBadTicks());
   }
-  _dateData = (UInt64)(ticks | (isAmbiguousDst ? (-4611686018427387904) : Int64::MinValue));
+  _dateData = (UInt64)ticks | (isAmbiguousDst ? 13835058055282163712 : 9223372036854775808);
 }
 
 DateTime::DateTime(Int32 year, Int32 month, Int32 day) {
@@ -462,7 +454,7 @@ Int64 DateTime::DateToTicks(Int32 year, Int32 month, Int32 day) {
   if (year < 1 || year > 9999 || month < 1 || month > 12 || day < 1) {
     ThrowHelper::ThrowArgumentOutOfRange_BadYearMonthDay();
   }
-  Array<Int32> array = IsLeapYear(year) ? s_daysToMonth366 : s_daysToMonth365;
+  Array<Int32> array = (IsLeapYear(year) ? s_daysToMonth366 : s_daysToMonth365);
   if (day > array[month] - array[month - 1]) {
     ThrowHelper::ThrowArgumentOutOfRange_BadYearMonthDay();
   }
@@ -482,7 +474,7 @@ Int32 DateTime::DaysInMonth(Int32 year, Int32 month) {
   if (month < 1 || month > 12) {
     rt::throw_exception<ArgumentOutOfRangeException>("month", SR::get_ArgumentOutOfRange_Month());
   }
-  Array<Int32> array = IsLeapYear(year) ? s_daysToMonth366 : s_daysToMonth365;
+  Array<Int32> array = (IsLeapYear(year) ? s_daysToMonth366 : s_daysToMonth365);
   return array[month] - array[month - 1];
 }
 
@@ -628,7 +620,7 @@ Int32 DateTime::GetDatePart(Int32 part) {
   if (part == 1) {
     return num + 1;
   }
-  Array<Int32> array = (num5 == 3 && (num4 != 24 || num3 == 3)) ? s_daysToMonth366 : s_daysToMonth365;
+  Array<Int32> array = ((num5 == 3 && (num4 != 24 || num3 == 3)) ? s_daysToMonth366 : s_daysToMonth365);
   Int32 i;
   for (i = (num >> 5) + 1; num >= array[i]; i++) {
   }
@@ -656,7 +648,7 @@ void DateTime::GetDate(Int32& year, Int32& month, Int32& day) {
   }
   year = num2 * 400 + num3 * 100 + num4 * 4 + num5 + 1;
   num -= num5 * 365;
-  Array<Int32> array = (num5 == 3 && (num4 != 24 || num3 == 3)) ? s_daysToMonth366 : s_daysToMonth365;
+  Array<Int32> array = ((num5 == 3 && (num4 != 24 || num3 == 3)) ? s_daysToMonth366 : s_daysToMonth365);
   Int32 i;
   for (i = (num >> 5) + 1; num >= array[i]; i++) {
   }
@@ -711,7 +703,7 @@ Boolean DateTime::IsLeapYear(Int32 year) {
     ThrowHelper::ThrowArgumentOutOfRange_Year();
   }
   if ((year & 3) == 0) {
-    if ((year & 15) != 0) {
+    if (((UInt32)year & 15u) != 0) {
       return year % 25 != 0;
     }
     return true;
@@ -827,7 +819,7 @@ Int64 DateTime::ToFileTime() {
 }
 
 Int64 DateTime::ToFileTimeUtc() {
-  Int64 num = (((Int64)get_InternalKind() & Int64::MinValue) != 0) ? ToUniversalTime().get_InternalTicks() : get_InternalTicks();
+  Int64 num = (((get_InternalKind() & 9223372036854775808) != 0) ? ToUniversalTime().get_InternalTicks() : get_InternalTicks());
   if (s_systemSupportsLeapSeconds) {
     return ToFileTimeLeapSecondsAware(num);
   }
@@ -1091,7 +1083,7 @@ Boolean DateTime::TryCreate(Int32 year, Int32 month, Int32 day, Int32 hour, Int3
   if (year < 1 || year > 9999 || month < 1 || month > 12) {
     return false;
   }
-  Array<Int32> array = IsLeapYear(year) ? s_daysToMonth366 : s_daysToMonth365;
+  Array<Int32> array = (IsLeapYear(year) ? s_daysToMonth366 : s_daysToMonth365);
   if (day < 1 || day > array[month] - array[month - 1]) {
     return false;
   }
@@ -1126,14 +1118,6 @@ Boolean DateTime::SystemSupportsLeapSeconds() {
 
 Boolean DateTime::IsValidTimeWithLeapSeconds(Int32 year, Int32 month, Int32 day, Int32 hour, Int32 minute, Int32 second, DateTimeKind kind) {
   FullSystemTime fullSystemTime = FullSystemTime(year, month, DateTime(year, month, day).get_DayOfWeek(), day, hour, minute, second);
-  switch (kind) {
-    case DateTimeKind::Local:
-      return ValidateSystemTime(&fullSystemTime.systemTime, true);
-    case DateTimeKind::Utc:
-      return ValidateSystemTime(&fullSystemTime.systemTime, false);
-    default:
-      return ValidateSystemTime(&fullSystemTime.systemTime, true) || ValidateSystemTime(&fullSystemTime.systemTime, false);
-  }
 }
 
 DateTime DateTime::FromFileTimeLeapSecondsAware(Int64 fileTime) {
@@ -1158,7 +1142,7 @@ DateTime DateTime::CreateDateTimeFromSystemTime(FullSystemTime& time) {
   num += TimeToTicks(time.systemTime.Hour, time.systemTime.Minute, time.systemTime.Second);
   num += (Int64)time.systemTime.Milliseconds * 10000;
   num += time.hundredNanoSecond;
-  return DateTime((UInt64)(num | 4611686018427387904));
+  return DateTime((UInt64)num | 4611686018427387904);
 }
 
 void DateTime::cctor() {

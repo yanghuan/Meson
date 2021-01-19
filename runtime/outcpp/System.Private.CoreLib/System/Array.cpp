@@ -159,7 +159,7 @@ void Array___<>::SorterObjectArray::Heapsort(Int32 lo, Int32 hi) {
 void Array___<>::SorterObjectArray::DownHeap(Int32 i, Int32 n, Int32 lo) {
   Object obj = keys[lo + i - 1];
   Array<Object> array = items;
-  Object obj2 = (array != nullptr) ? array[lo + i - 1] : nullptr;
+  Object obj2 = ((array != nullptr) ? array[lo + i - 1] : nullptr);
   while (i <= n / 2) {
     Int32 num = 2 * i;
     if (num < n && comparer->Compare(keys[lo + num - 1], keys[lo + num]) < 0) {
@@ -185,7 +185,7 @@ void Array___<>::SorterObjectArray::InsertionSort(Int32 lo, Int32 hi) {
     Int32 num = i;
     Object obj = keys[i + 1];
     Array<Object> array = items;
-    Object obj2 = (array != nullptr) ? array[i + 1] : nullptr;
+    Object obj2 = ((array != nullptr) ? array[i + 1] : nullptr);
     while (num >= lo && comparer->Compare(obj, keys[num]) < 0) {
       keys[num + 1] = keys[num];
       if (items != nullptr) {
@@ -315,7 +315,7 @@ void Array___<>::SorterGenericArray::Heapsort(Int32 lo, Int32 hi) {
 void Array___<>::SorterGenericArray::DownHeap(Int32 i, Int32 n, Int32 lo) {
   Object value = keys->GetValue(lo + i - 1);
   Array<> array = items;
-  Object value2 = (array != nullptr) ? array->GetValue(lo + i - 1) : nullptr;
+  Object value2 = ((array != nullptr) ? array->GetValue(lo + i - 1) : nullptr);
   while (i <= n / 2) {
     Int32 num = 2 * i;
     if (num < n && comparer->Compare(keys->GetValue(lo + num - 1), keys->GetValue(lo + num)) < 0) {
@@ -341,7 +341,7 @@ void Array___<>::SorterGenericArray::InsertionSort(Int32 lo, Int32 hi) {
     Int32 num = i;
     Object value = keys->GetValue(i + 1);
     Array<> array = items;
-    Object value2 = (array != nullptr) ? array->GetValue(i + 1) : nullptr;
+    Object value2 = ((array != nullptr) ? array->GetValue(i + 1) : nullptr);
     while (num >= lo && comparer->Compare(value, keys->GetValue(num)) < 0) {
       keys->SetValue(keys->GetValue(num), num + 1);
       if (items != nullptr) {
@@ -776,7 +776,7 @@ Int32 Array___<>::GetLowerBound(Int32 dimension) {
 
 Boolean Array___<>::IsValueOfElementType(Object value) {
   MethodTable* methodTable = RuntimeHelpers::GetMethodTable((Array<>)this);
-  return (IntPtr)methodTable->ElementType == (IntPtr)(void*)RuntimeHelpers::GetMethodTable(value);
+  return (IntPtr)methodTable->ElementType == (IntPtr)RuntimeHelpers::GetMethodTable(value);
 }
 
 void Array___<>::ctor() {
@@ -1023,7 +1023,7 @@ Int32 Array___<>::GetHashCodeOfIStructuralEquatable(IEqualityComparer comparer) 
     ThrowHelper::ThrowArgumentNullException(ExceptionArgument::comparer);
   }
   HashCode hashCode;
-  for (Int32 i = (get_Length() >= 8) ? (get_Length() - 8) : 0; i < get_Length(); i++) {
+  for (Int32 i = ((get_Length() >= 8) ? (get_Length() - 8) : 0); i < get_Length(); i++) {
     hashCode.Add<Int32>(comparer->GetHashCode(GetValue(i)));
   }
   return hashCode.ToHashCode();

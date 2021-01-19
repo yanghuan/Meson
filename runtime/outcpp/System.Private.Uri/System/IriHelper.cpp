@@ -57,8 +57,7 @@ String IriHelper::EscapeUnescapeIri(Char* pInput, Int32 start, Int32 end, UriCom
   Array<Byte> array = nullptr;
   Int32 i = start;
   Byte as[4] = {};
-  Span<Byte> span = Span<Byte>(as, 4);
-  Span<Byte> destination = span;
+  Span<Byte> destination = as;
   for (; i < end; i++) {
     Char c;
     if ((c = *(pInput + i)) == '%') {
@@ -132,9 +131,9 @@ String IriHelper::EscapeUnescapeIri(Char* pInput, Int32 start, Int32 end, UriCom
         }
 
         Int32 length = result.EncodeToUtf8(destination);
-        Span<Byte> span2 = destination.Slice(0, length);
-        Span<Byte> span3 = span2;
-        for (Byte&& b : *span3) {
+        Span<Byte> span = destination.Slice(0, length);
+        Span<Byte> span2 = span;
+        for (Byte&& b : *span2) {
           UriHelper::EscapeAsciiChar(b, dest);
         }
       }

@@ -6,11 +6,14 @@
 #include <System.Private.CoreLib/System/ExceptionArgument.h>
 #include <System.Private.CoreLib/System/SR-dep.h>
 #include <System.Private.CoreLib/System/Threading/Interlocked-dep.h>
-#include <System.Private.CoreLib/System/Threading/Tasks/AsyncCausalityTracer-dep.h>
+#include <System.Private.CoreLib/System/Threading/Tasks/AsyncCausalityStatus.h>
+#include <System.Private.CoreLib/System/Threading/Tasks/CausalityRelation.h>
 #include <System.Private.CoreLib/System/Threading/Tasks/InternalTaskOptions.h>
 #include <System.Private.CoreLib/System/Threading/Tasks/TaskFactory-dep.h>
+#include <System.Private.CoreLib/System/Threading/Tasks/TplEventSource-dep.h>
 #include <System.Private.CoreLib/System/Threading/Tasks/VoidTaskResult-dep.h>
 #include <System.Private.CoreLib/System/ThrowHelper-dep.h>
+#include <System.Private.CoreLib/System/UInt32-dep.h>
 
 namespace System::Private::CoreLib::System::Threading::Tasks::TaskFactoryNamespace {
 Boolean TaskFactory___<>::CompleteOnCountdownPromise___<>::get_InvokeMayRunArbitraryCode() {
@@ -27,19 +30,25 @@ Boolean TaskFactory___<>::CompleteOnCountdownPromise___<>::get_ShouldNotifyDebug
 void TaskFactory___<>::CompleteOnCountdownPromise___<>::ctor(Array<Task<>> tasksCopy) {
   _tasks = tasksCopy;
   _count = tasksCopy->get_Length();
-  Boolean loggingOn = AsyncCausalityTracer::get_LoggingOn();
+  if (TplEventSource::in::Log->IsEnabled()) {
+    TplEventSource::in::Log->TraceOperationBegin(Task<>::in::get_Id(), "TaskFactory.ContinueWhenAll", 0);
+  }
   if (Task<>::in::s_asyncDebuggingEnabled) {
     Task<>::in::AddToActiveTasks((CompleteOnCountdownPromise<>)this);
   }
 }
 
 void TaskFactory___<>::CompleteOnCountdownPromise___<>::Invoke(Task<> completingTask) {
-  Boolean loggingOn = AsyncCausalityTracer::get_LoggingOn();
+  if (TplEventSource::in::Log->IsEnabled()) {
+    TplEventSource::in::Log->TraceOperationRelation(Task<>::in::get_Id(), CausalityRelation::Join);
+  }
   if (completingTask->get_IsWaitNotificationEnabled()) {
     SetNotificationForWaitCompletion(true);
   }
   if (Interlocked::Decrement(_count) == 0) {
-    Boolean loggingOn2 = AsyncCausalityTracer::get_LoggingOn();
+    if (TplEventSource::in::Log->IsEnabled()) {
+      TplEventSource::in::Log->TraceOperationEnd(Task<>::in::get_Id(), AsyncCausalityStatus::Completed);
+    }
     if (Task<>::in::s_asyncDebuggingEnabled) {
       Task<>::in::RemoveFromActiveTasks((CompleteOnCountdownPromise<>)this);
     }
@@ -56,7 +65,9 @@ void TaskFactory___<>::CompleteOnInvokePromise___::ctor(IList<Task<>> tasks, Boo
   if (isSyncBlocking) {
     _stateFlags = 2;
   }
-  Boolean loggingOn = AsyncCausalityTracer::get_LoggingOn();
+  if (TplEventSource::in::Log->IsEnabled()) {
+    TplEventSource::in::Log->TraceOperationBegin(Task<>::in::get_Id(), "TaskFactory.ContinueWhenAny", 0);
+  }
   if (Task<>::in::s_asyncDebuggingEnabled) {
     Task<>::in::AddToActiveTasks((CompleteOnInvokePromise)this);
   }
@@ -65,10 +76,13 @@ void TaskFactory___<>::CompleteOnInvokePromise___::ctor(IList<Task<>> tasks, Boo
 void TaskFactory___<>::CompleteOnInvokePromise___::Invoke(Task<> completingTask) {
   Int32 stateFlags = _stateFlags;
   Int32 num = stateFlags & 2;
-  if ((stateFlags & 1) != 0 || Interlocked::Exchange(_stateFlags, num | 1) != num) {
+  if (((UInt32)stateFlags & (true ? 1u : 0u)) != 0 || Interlocked::Exchange(_stateFlags, num | 1) != num) {
     return;
   }
-  Boolean loggingOn = AsyncCausalityTracer::get_LoggingOn();
+  if (TplEventSource::in::Log->IsEnabled()) {
+    TplEventSource::in::Log->TraceOperationRelation(Task<>::in::get_Id(), CausalityRelation::Choice);
+    TplEventSource::in::Log->TraceOperationEnd(Task<>::in::get_Id(), AsyncCausalityStatus::Completed);
+  }
   if (Task<>::in::s_asyncDebuggingEnabled) {
     Task<>::in::RemoveFromActiveTasks((CompleteOnInvokePromise)this);
   }
@@ -138,7 +152,7 @@ void TaskFactory___<>::ctor(CancellationToken cancellationToken, TaskCreationOpt
 }
 
 void TaskFactory___<>::CheckCreationOptions(TaskCreationOptions creationOptions) {
-  if ((creationOptions & ~(TaskCreationOptions::PreferFairness | TaskCreationOptions::LongRunning | TaskCreationOptions::AttachedToParent | TaskCreationOptions::DenyChildAttach | TaskCreationOptions::HideScheduler | TaskCreationOptions::RunContinuationsAsynchronously)) != 0) {
+  if (((UInt32)creationOptions & 4294967200u) != 0) {
     ThrowHelper::ThrowArgumentOutOfRangeException(ExceptionArgument::creationOptions);
   }
 }
@@ -210,7 +224,7 @@ void TaskFactory___<>::CheckFromAsyncOptions(TaskCreationOptions creationOptions
       rt::throw_exception<ArgumentOutOfRangeException>("creationOptions", SR::get_Task_FromAsync_PreferFairness());
     }
   }
-  if ((creationOptions & ~(TaskCreationOptions::PreferFairness | TaskCreationOptions::LongRunning | TaskCreationOptions::AttachedToParent | TaskCreationOptions::DenyChildAttach | TaskCreationOptions::HideScheduler)) != 0) {
+  if (((UInt32)creationOptions & 4294967264u) != 0) {
     ThrowHelper::ThrowArgumentOutOfRangeException(ExceptionArgument::creationOptions);
   }
 }
@@ -337,10 +351,10 @@ void TaskFactory___<>::CheckMultiTaskContinuationOptions(TaskContinuationOptions
   if ((continuationOptions & (TaskContinuationOptions::LongRunning | TaskContinuationOptions::ExecuteSynchronously)) == (TaskContinuationOptions::LongRunning | TaskContinuationOptions::ExecuteSynchronously)) {
     rt::throw_exception<ArgumentOutOfRangeException>("continuationOptions", SR::get_Task_ContinueWith_ESandLR());
   }
-  if ((continuationOptions & ~(TaskContinuationOptions::PreferFairness | TaskContinuationOptions::LongRunning | TaskContinuationOptions::AttachedToParent | TaskContinuationOptions::DenyChildAttach | TaskContinuationOptions::HideScheduler | TaskContinuationOptions::LazyCancellation | TaskContinuationOptions::NotOnRanToCompletion | TaskContinuationOptions::NotOnFaulted | TaskContinuationOptions::NotOnCanceled | TaskContinuationOptions::ExecuteSynchronously)) != 0) {
+  if (((UInt32)continuationOptions & 4293984192u) != 0) {
     rt::throw_exception<ArgumentOutOfRangeException>("continuationOptions");
   }
-  if ((continuationOptions & (TaskContinuationOptions::NotOnRanToCompletion | TaskContinuationOptions::NotOnFaulted | TaskContinuationOptions::NotOnCanceled)) != 0) {
+  if ((continuationOptions & (TaskContinuationOptions::OnlyOnRanToCompletion | TaskContinuationOptions::NotOnRanToCompletion)) != 0) {
     rt::throw_exception<ArgumentOutOfRangeException>("continuationOptions", SR::get_Task_MultiTaskContinuation_FireOptions());
   }
 }

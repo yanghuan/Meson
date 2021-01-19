@@ -1,7 +1,6 @@
 #include "CancellationTokenSource-dep.h"
 
 #include <System.Private.CoreLib/System/AggregateException-dep.h>
-#include <System.Private.CoreLib/System/ArgumentException-dep.h>
 #include <System.Private.CoreLib/System/ArgumentNullException-dep.h>
 #include <System.Private.CoreLib/System/ArgumentOutOfRangeException-dep.h>
 #include <System.Private.CoreLib/System/Collections/Generic/List-dep.h>
@@ -48,7 +47,7 @@ void CancellationTokenSource___::CallbackNode___::ctor(CallbackPartition partiti
 void CancellationTokenSource___::CallbackNode___::ExecuteCallback() {
   ExecutionContext executionContext = ExecutionContext;
   if (executionContext != nullptr) {
-    ContextCallback<> as = __c::in::__9__9_0;
+    ContextCallback as = __c::in::__9__9_0;
     ExecutionContext::in::RunInternal(executionContext, as != nullptr ? as : (__c::in::__9__9_0 = {__c::in::__9, &__c::in::_ExecuteCallback_b__9_0}), (CallbackNode)this);
   } else {
     Callback(CallbackState);
@@ -336,14 +335,14 @@ CancellationTokenRegistration CancellationTokenSource___::InternalRegister(Actio
     if (array == nullptr) {
       array = rt::newarr<Array<CallbackPartition>>(s_numPartitions);
       Array<CallbackPartition> as = Interlocked::CompareExchange(_callbackPartitions, array, (Array<CallbackPartition>)nullptr);
-      array = (as != nullptr ? as : array);
+      array = as != nullptr ? as : array;
     }
     Int32 num = Environment::get_CurrentManagedThreadId() & s_numPartitionsMask;
     CallbackPartition callbackPartition = array[num];
     if (callbackPartition == nullptr) {
       callbackPartition = rt::newobj<CallbackPartition>((CancellationTokenSource)this);
       CallbackPartition as = Interlocked::CompareExchange(array[num], callbackPartition, (CallbackPartition)nullptr);
-      callbackPartition = (as != nullptr ? as : callbackPartition);
+      callbackPartition = as != nullptr ? as : callbackPartition;
     }
     Boolean lockTaken = false;
     callbackPartition->Lock.Enter(lockTaken);
@@ -482,16 +481,6 @@ CancellationTokenSource CancellationTokenSource___::CreateLinkedTokenSource(Canc
 CancellationTokenSource CancellationTokenSource___::CreateLinkedTokenSource(Array<CancellationToken> tokens) {
   if (tokens == nullptr) {
     rt::throw_exception<ArgumentNullException>("tokens");
-  }
-  switch (tokens->get_Length().get()) {
-    case 0:
-      rt::throw_exception<ArgumentException>(SR::get_CancellationToken_CreateLinkedToken_TokensIsEmpty());
-    case 1:
-      return CreateLinkedTokenSource(tokens[0]);
-    case 2:
-      return CreateLinkedTokenSource(tokens[0], tokens[1]);
-    default:
-      return rt::newobj<LinkedNCancellationTokenSource>(tokens);
   }
 }
 

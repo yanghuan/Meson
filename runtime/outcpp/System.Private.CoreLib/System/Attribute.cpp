@@ -158,7 +158,7 @@ Array<Attribute> Attribute___::InternalParamGetCustomAttributes(ParameterInfo pa
       list->Add(type2);
     }
   }
-  Array<Attribute> array = (customAttributes->get_Length() != 0) ? ((Array<Attribute>)customAttributes) : CreateAttributeArrayHelper(type, 0);
+  Array<Attribute> array = ((customAttributes->get_Length() != 0) ? ((Array<Attribute>)customAttributes) : CreateAttributeArrayHelper(type, 0));
   if ((Object)param->get_Member()->get_DeclaringType() == nullptr) {
     return array;
   }
@@ -287,14 +287,6 @@ Array<Attribute> Attribute___::GetCustomAttributes(MemberInfo element, Type type
   if (!type->IsSubclassOf(typeof<Attribute>()) && type != typeof<Attribute>()) {
     rt::throw_exception<ArgumentException>(SR::get_Argument_MustHaveAttributeBaseClass());
   }
-  switch (element->get_MemberType()) {
-    case MemberTypes::Property:
-      return InternalGetCustomAttributes((PropertyInfo)element, type, inherit);
-    case MemberTypes::Event:
-      return InternalGetCustomAttributes((EventInfo)element, type, inherit);
-    default:
-      return rt::as<Array<Attribute>>(element->GetCustomAttributes(type, inherit));
-  }
 }
 
 Array<Attribute> Attribute___::GetCustomAttributes(MemberInfo element) {
@@ -304,14 +296,6 @@ Array<Attribute> Attribute___::GetCustomAttributes(MemberInfo element) {
 Array<Attribute> Attribute___::GetCustomAttributes(MemberInfo element, Boolean inherit) {
   if (element == nullptr) {
     rt::throw_exception<ArgumentNullException>("element");
-  }
-  switch (element->get_MemberType()) {
-    case MemberTypes::Property:
-      return InternalGetCustomAttributes((PropertyInfo)element, typeof<Attribute>(), inherit);
-    case MemberTypes::Event:
-      return InternalGetCustomAttributes((EventInfo)element, typeof<Attribute>(), inherit);
-    default:
-      return rt::as<Array<Attribute>>(element->GetCustomAttributes(typeof<Attribute>(), inherit));
   }
 }
 
@@ -328,14 +312,6 @@ Boolean Attribute___::IsDefined(MemberInfo element, Type attributeType, Boolean 
   }
   if (!attributeType->IsSubclassOf(typeof<Attribute>()) && attributeType != typeof<Attribute>()) {
     rt::throw_exception<ArgumentException>(SR::get_Argument_MustHaveAttributeBaseClass());
-  }
-  switch (element->get_MemberType()) {
-    case MemberTypes::Property:
-      return InternalIsDefined((PropertyInfo)element, attributeType, inherit);
-    case MemberTypes::Event:
-      return InternalIsDefined((EventInfo)element, attributeType, inherit);
-    default:
-      return element->IsDefined(attributeType, inherit);
   }
 }
 
@@ -411,16 +387,6 @@ Boolean Attribute___::IsDefined(ParameterInfo element, Type attributeType, Boole
     rt::throw_exception<ArgumentException>(SR::get_Argument_MustHaveAttributeBaseClass());
   }
   MemberInfo member = element->get_Member();
-  switch (member->get_MemberType()) {
-    case MemberTypes::Method:
-      return InternalParamIsDefined(element, attributeType, inherit);
-    case MemberTypes::Constructor:
-      return element->IsDefined(attributeType, false);
-    case MemberTypes::Property:
-      return element->IsDefined(attributeType, false);
-    default:
-      rt::throw_exception<ArgumentException>(SR::get_Argument_InvalidParamInfo());
-  }
 }
 
 Attribute Attribute___::GetCustomAttribute(ParameterInfo element, Type attributeType) {

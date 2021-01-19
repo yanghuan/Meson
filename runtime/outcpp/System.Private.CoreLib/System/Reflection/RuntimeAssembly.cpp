@@ -57,7 +57,11 @@ Object RuntimeAssembly___::get_SyncRoot() {
 }
 
 String RuntimeAssembly___::get_CodeBase() {
-  return GetCodeBase(false);
+  String codeBase = GetCodeBase();
+  if (codeBase == nullptr) {
+    rt::throw_exception<NotSupportedException>(SR::get_NotSupported_CodeBase());
+  }
+  return codeBase;
 }
 
 String RuntimeAssembly___::get_FullName() {
@@ -139,11 +143,13 @@ IntPtr RuntimeAssembly___::GetUnderlyingNativeHandle() {
   return m_assembly;
 }
 
-String RuntimeAssembly___::GetCodeBase(Boolean copiedName) {
+String RuntimeAssembly___::GetCodeBase() {
   String s = nullptr;
   RuntimeAssembly assembly = (RuntimeAssembly)this;
-  GetCodeBase(QCallAssembly(assembly), copiedName, StringHandleOnStack(s));
-  return s;
+  if (GetCodeBase(QCallAssembly(assembly), StringHandleOnStack(s))) {
+    return s;
+  }
+  return nullptr;
 }
 
 RuntimeAssembly RuntimeAssembly___::GetNativeHandle() {
@@ -151,7 +157,7 @@ RuntimeAssembly RuntimeAssembly___::GetNativeHandle() {
 }
 
 AssemblyName RuntimeAssembly___::GetName(Boolean copiedName) {
-  String codeBase = GetCodeBase(copiedName);
+  String codeBase = GetCodeBase();
   AssemblyName assemblyName = rt::newobj<AssemblyName>(GetSimpleName(), GetPublicKey(), nullptr, GetVersion(), GetLocale(), GetHashAlgorithm(), AssemblyVersionCompatibility::SameMachine, codeBase, GetFlags() | AssemblyNameFlags::PublicKey, nullptr);
   Module manifestModule = get_ManifestModule();
   if (manifestModule->get_MDStreamVersion() > 65536) {
@@ -187,9 +193,9 @@ Stream RuntimeAssembly___::GetManifestResourceStream(Type type, String name) {
   if (type == nullptr && name == nullptr) {
     rt::throw_exception<ArgumentNullException>("type");
   }
-  String text = ((Object)type != nullptr) ? type->get_Namespace() : nullptr;
+  String text = (((Object)type != nullptr) ? type->get_Namespace() : nullptr);
   Char ptr = Type::in::Delimiter;
-  String name2 = (text != nullptr && name != nullptr) ? String::in::Concat(text, ReadOnlySpan<Char>(ptr, 1), name) : (text + name);
+  String name2 = ((text != nullptr && name != nullptr) ? String::in::Concat(text, ReadOnlySpan<Char>(ptr, 1), name) : (text + name));
   return GetManifestResourceStream(name2);
 }
 
@@ -259,6 +265,9 @@ Module RuntimeAssembly___::GetModule(String name) {
 }
 
 FileStream RuntimeAssembly___::GetFile(String name) {
+  if (get_Location()->get_Length() == 0) {
+    rt::throw_exception<FileNotFoundException>(SR::get_IO_NoFileTableInInMemoryAssemblies());
+  }
   RuntimeModule runtimeModule = (RuntimeModule)GetModule(name);
   if (runtimeModule == nullptr) {
     return nullptr;
@@ -267,6 +276,9 @@ FileStream RuntimeAssembly___::GetFile(String name) {
 }
 
 Array<FileStream> RuntimeAssembly___::GetFiles(Boolean getResourceModules) {
+  if (get_Location()->get_Length() == 0) {
+    rt::throw_exception<FileNotFoundException>(SR::get_IO_NoFileTableInInMemoryAssemblies());
+  }
   Array<Module> modules = GetModules(getResourceModules);
   Array<FileStream> array = rt::newarr<Array<FileStream>>(modules->get_Length());
   for (Int32 i = 0; i < array->get_Length(); i++) {
@@ -352,9 +364,9 @@ Assembly RuntimeAssembly___::GetSatelliteAssembly(CultureInfo culture, Version v
 Assembly RuntimeAssembly___::InternalGetSatelliteAssembly(CultureInfo culture, Version version, Boolean throwOnFileNotFound) {
   AssemblyName assemblyName = rt::newobj<AssemblyName>();
   assemblyName->SetPublicKey(GetPublicKey());
-  assemblyName->set_Flags((GetFlags() | AssemblyNameFlags::PublicKey));
+  assemblyName->set_Flags(GetFlags() | AssemblyNameFlags::PublicKey);
   Version as = version;
-  assemblyName->set_Version((as != nullptr ? as : GetVersion()));
+  assemblyName->set_Version(as != nullptr ? as : GetVersion());
   assemblyName->set_CultureInfo(culture);
   assemblyName->set_Name(GetSimpleName() + ".resources");
   StackCrawlMark stackMark = StackCrawlMark::LookForMe;

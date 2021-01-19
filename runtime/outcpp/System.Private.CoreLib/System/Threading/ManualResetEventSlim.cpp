@@ -39,7 +39,7 @@ Int32 ManualResetEventSlim___::get_SpinCount() {
 }
 
 void ManualResetEventSlim___::set_SpinCount(Int32 value) {
-  m_combinedState = ((m_combinedState & -1073217537) | (value << 19));
+  m_combinedState = (m_combinedState & -1073217537) | (value << 19);
 }
 
 Int32 ManualResetEventSlim___::get_Waiters() {
@@ -228,7 +228,7 @@ void ManualResetEventSlim___::Dispose() {
 }
 
 void ManualResetEventSlim___::Dispose(Boolean disposing) {
-  if ((m_combinedState & 1073741824) != 0) {
+  if (((UInt32)m_combinedState & 1073741824u) != 0) {
     return;
   }
   m_combinedState |= 1073741824;
@@ -246,7 +246,7 @@ void ManualResetEventSlim___::Dispose(Boolean disposing) {
 }
 
 void ManualResetEventSlim___::ThrowIfDisposed() {
-  if ((m_combinedState & 1073741824) != 0) {
+  if (((UInt32)m_combinedState & 1073741824u) != 0) {
     rt::throw_exception<ObjectDisposedException>(SR::get_ManualResetEventSlim_Disposed());
   }
 }

@@ -58,7 +58,7 @@ void AbandonedMutexException___::ctor(SerializationInfo info, StreamingContext c
 
 void AbandonedMutexException___::SetupException(Int32 location, WaitHandle handle) {
   _mutexIndex = location;
-  _mutex = (rt::as<Mutex>(handle));
+  _mutex = rt::as<Mutex>(handle);
 }
 
 } // namespace System::Private::CoreLib::System::Threading::AbandonedMutexExceptionNamespace

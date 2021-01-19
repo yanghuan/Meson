@@ -7,7 +7,6 @@
 #include <System.Private.CoreLib/System/ArgumentException-dep.h>
 #include <System.Private.CoreLib/System/ArgumentNullException-dep.h>
 #include <System.Private.CoreLib/System/Collections/Generic/IList.h>
-#include <System.Private.CoreLib/System/Convert-dep.h>
 #include <System.Private.CoreLib/System/CtorDelegate-dep.h>
 #include <System.Private.CoreLib/System/DefaultBinder-dep.h>
 #include <System.Private.CoreLib/System/Empty-dep.h>
@@ -31,7 +30,6 @@
 #include <System.Private.CoreLib/System/Reflection/Assembly-dep.h>
 #include <System.Private.CoreLib/System/Reflection/BindingFlags.h>
 #include <System.Private.CoreLib/System/Reflection/ConstructorInfo-dep.h>
-#include <System.Private.CoreLib/System/Reflection/CorElementType.h>
 #include <System.Private.CoreLib/System/Reflection/CustomAttribute-dep.h>
 #include <System.Private.CoreLib/System/Reflection/CustomAttributeData-dep.h>
 #include <System.Private.CoreLib/System/Reflection/DefaultMemberAttribute-dep.h>
@@ -144,7 +142,7 @@ Boolean RuntimeType___::RuntimeTypeCache___::get_IsGlobal() {
 void RuntimeType___::RuntimeTypeCache___::ctor(RuntimeType runtimeType) {
   m_typeCode = TypeCode::Empty;
   m_runtimeType = runtimeType;
-  m_isGlobal = (RuntimeTypeHandle::GetModule(runtimeType)->get_RuntimeType() == runtimeType);
+  m_isGlobal = RuntimeTypeHandle::GetModule(runtimeType)->get_RuntimeType() == runtimeType;
 }
 
 String RuntimeType___::RuntimeTypeCache___::ConstructName(String& name, TypeNameFormatFlags formatFlags) {
@@ -184,7 +182,7 @@ RuntimeType RuntimeType___::RuntimeTypeCache___::GetEnclosingType() {
   if (m_enclosingType == nullptr) {
     RuntimeType declaringType = RuntimeTypeHandle::GetDeclaringType(GetRuntimeType());
     RuntimeType as = declaringType;
-    m_enclosingType = (as != nullptr ? as : ((RuntimeType)typeof<void>()));
+    m_enclosingType = as != nullptr ? as : ((RuntimeType)typeof<void>());
   }
   if (!(m_enclosingType == typeof<void>())) {
     return m_enclosingType;
@@ -214,7 +212,7 @@ String RuntimeType___::RuntimeTypeCache___::GetDefaultMemberName() {
         }
       }
       if (customAttributeData != nullptr) {
-        m_defaultMemberName = (rt::as<String>(customAttributeData->get_ConstructorArguments()[0].get_Value()));
+        m_defaultMemberName = rt::as<String>(customAttributeData->get_ConstructorArguments()[0].get_Value());
         break;
       }
       runtimeType = runtimeType->GetBaseType();
@@ -231,7 +229,7 @@ Array<Object> RuntimeType___::RuntimeTypeCache___::GetEmptyArray() {
 MethodInfo RuntimeType___::RuntimeTypeCache___::GetGenericMethodInfo(RuntimeMethodHandleInternal genericMethod) {
   LoaderAllocator loaderAllocator = RuntimeMethodHandle::GetLoaderAllocator(genericMethod);
   RuntimeMethodInfo runtimeMethodInfo = rt::newobj<RuntimeMethodInfo>(genericMethod, RuntimeMethodHandle::GetDeclaringType(genericMethod), (RuntimeTypeCache)this, RuntimeMethodHandle::GetAttributes(genericMethod), (BindingFlags)(-1), loaderAllocator);
-  RuntimeMethodInfo runtimeMethodInfo2 = (loaderAllocator == nullptr) ? s_methodInstantiations[runtimeMethodInfo] : loaderAllocator->m_methodInstantiations[runtimeMethodInfo];
+  RuntimeMethodInfo runtimeMethodInfo2 = ((loaderAllocator == nullptr) ? s_methodInstantiations[runtimeMethodInfo] : loaderAllocator->m_methodInstantiations[runtimeMethodInfo]);
   if (runtimeMethodInfo2 != nullptr) {
     return runtimeMethodInfo2;
   }
@@ -596,7 +594,7 @@ MethodBase RuntimeType___::GetMethodBase(RuntimeType reflectedType, RuntimeMetho
 
   }
   methodHandle = RuntimeMethodHandle::GetStubIfNeeded(methodHandle, runtimeType, array);
-  MethodBase result = RuntimeMethodHandle::IsConstructor(methodHandle) ? reflectedType->get_Cache()->GetConstructor(runtimeType, methodHandle) : ((!RuntimeMethodHandle::HasMethodInstantiation(methodHandle) || RuntimeMethodHandle::IsGenericMethodDefinition(methodHandle)) ? reflectedType->get_Cache()->GetMethod(runtimeType, methodHandle) : reflectedType->get_Cache()->GetGenericMethodInfo(methodHandle));
+  MethodBase result = (RuntimeMethodHandle::IsConstructor(methodHandle) ? reflectedType->get_Cache()->GetConstructor(runtimeType, methodHandle) : ((!RuntimeMethodHandle::HasMethodInstantiation(methodHandle) || RuntimeMethodHandle::IsGenericMethodDefinition(methodHandle)) ? reflectedType->get_Cache()->GetMethod(runtimeType, methodHandle) : reflectedType->get_Cache()->GetGenericMethodInfo(methodHandle)));
   GC::KeepAlive(array);
   return result;
 }
@@ -698,7 +696,7 @@ void RuntimeType___::SplitName(String fullname, String& name, String& ns) {
 }
 
 BindingFlags RuntimeType___::FilterPreCalculate(Boolean isPublic, Boolean isInherited, Boolean isStatic) {
-  BindingFlags bindingFlags = isPublic ? BindingFlags::Public : BindingFlags::NonPublic;
+  BindingFlags bindingFlags = (isPublic ? BindingFlags::Public : BindingFlags::NonPublic);
   if (isInherited) {
     bindingFlags |= BindingFlags::DeclaredOnly;
     if (isStatic) {
@@ -874,6 +872,10 @@ Boolean RuntimeType___::FilterApplyMethodBase(MethodBase methodBase, BindingFlag
 
 void RuntimeType___::ctor() {
   rt::throw_exception<NotSupportedException>();
+}
+
+IntPtr RuntimeType___::GetUnderlyingNativeHandle() {
+  return m_handle;
 }
 
 Boolean RuntimeType___::CacheEquals(Object o) {
@@ -1536,7 +1538,7 @@ Object RuntimeType___::CheckValue(Object value, Binder binder, CultureInfo cultu
   Boolean flag = Type::in::get_IsPointer() || get_IsEnum() || Type::in::get_IsPrimitive();
   if (flag) {
     Pointer pointer = rt::as<Pointer>(value);
-    RuntimeType valueType = (pointer == nullptr) ? ((RuntimeType)value->GetType()) : ((RuntimeType)pointer->GetPointerType());
+    RuntimeType valueType = ((pointer == nullptr) ? ((RuntimeType)value->GetType()) : ((RuntimeType)pointer->GetPointerType()));
     if (CanValueSpecialCast(valueType, (RuntimeType)this)) {
       if (pointer != nullptr) {
         return pointer->GetPointerValue();
@@ -1567,7 +1569,7 @@ Object RuntimeType___::TryChangeType(Object value, Binder binder, CultureInfo cu
 
     if (needsSpecialCast) {
       Pointer pointer = rt::as<Pointer>(value);
-      RuntimeType valueType = (pointer == nullptr) ? ((RuntimeType)value->GetType()) : ((RuntimeType)pointer->GetPointerType());
+      RuntimeType valueType = ((pointer == nullptr) ? ((RuntimeType)value->GetType()) : ((RuntimeType)pointer->GetPointerType()));
       if (CanValueSpecialCast(valueType, (RuntimeType)this)) {
         if (pointer != nullptr) {
           return pointer->GetPointerValue();
@@ -1587,7 +1589,7 @@ Object RuntimeType___::InvokeMember(String name, BindingFlags bindingFlags, Bind
     rt::throw_exception<ArgumentException>(SR::get_Arg_NoAccessSpec(), "bindingFlags");
   }
   if ((bindingFlags & (BindingFlags)255) == 0) {
-    bindingFlags |= (BindingFlags::Instance | BindingFlags::Public);
+    bindingFlags |= BindingFlags::Instance | BindingFlags::Public;
     if ((bindingFlags & BindingFlags::CreateInstance) == 0) {
       bindingFlags |= BindingFlags::Static;
     }
@@ -1606,26 +1608,26 @@ Object RuntimeType___::InvokeMember(String name, BindingFlags bindingFlags, Bind
     if ((bindingFlags & (BindingFlags::InvokeMethod | BindingFlags::GetProperty | BindingFlags::SetProperty | BindingFlags::PutDispProperty | BindingFlags::PutRefDispProperty)) == 0) {
       rt::throw_exception<ArgumentException>(SR::get_Arg_COMAccess(), "bindingFlags");
     }
-    if ((bindingFlags & BindingFlags::GetProperty) != 0 && (bindingFlags & (BindingFlags::InvokeMethod | BindingFlags::GetProperty | BindingFlags::SetProperty | BindingFlags::PutDispProperty | BindingFlags::PutRefDispProperty) & ~(BindingFlags::InvokeMethod | BindingFlags::GetProperty)) != 0) {
+    if ((bindingFlags & BindingFlags::GetProperty) != 0 && ((UInt32)(bindingFlags & (BindingFlags::InvokeMethod | BindingFlags::GetProperty | BindingFlags::SetProperty | BindingFlags::PutDispProperty | BindingFlags::PutRefDispProperty)) & 4294962943u) != 0) {
       rt::throw_exception<ArgumentException>(SR::get_Arg_PropSetGet(), "bindingFlags");
     }
-    if ((bindingFlags & BindingFlags::InvokeMethod) != 0 && (bindingFlags & (BindingFlags::InvokeMethod | BindingFlags::GetProperty | BindingFlags::SetProperty | BindingFlags::PutDispProperty | BindingFlags::PutRefDispProperty) & ~(BindingFlags::InvokeMethod | BindingFlags::GetProperty)) != 0) {
+    if ((bindingFlags & BindingFlags::InvokeMethod) != 0 && ((UInt32)(bindingFlags & (BindingFlags::InvokeMethod | BindingFlags::GetProperty | BindingFlags::SetProperty | BindingFlags::PutDispProperty | BindingFlags::PutRefDispProperty)) & 4294962943u) != 0) {
       rt::throw_exception<ArgumentException>(SR::get_Arg_PropSetInvoke(), "bindingFlags");
     }
-    if ((bindingFlags & BindingFlags::SetProperty) != 0 && (bindingFlags & (BindingFlags::InvokeMethod | BindingFlags::GetProperty | BindingFlags::SetProperty | BindingFlags::PutDispProperty | BindingFlags::PutRefDispProperty) & ~BindingFlags::SetProperty) != 0) {
+    if ((bindingFlags & BindingFlags::SetProperty) != 0 && ((UInt32)(bindingFlags & (BindingFlags::InvokeMethod | BindingFlags::GetProperty | BindingFlags::SetProperty | BindingFlags::PutDispProperty | BindingFlags::PutRefDispProperty)) & 4294959103u) != 0) {
       rt::throw_exception<ArgumentException>(SR::get_Arg_COMPropSetPut(), "bindingFlags");
     }
-    if ((bindingFlags & BindingFlags::PutDispProperty) != 0 && (bindingFlags & (BindingFlags::InvokeMethod | BindingFlags::GetProperty | BindingFlags::SetProperty | BindingFlags::PutDispProperty | BindingFlags::PutRefDispProperty) & ~BindingFlags::PutDispProperty) != 0) {
+    if ((bindingFlags & BindingFlags::PutDispProperty) != 0 && ((UInt32)(bindingFlags & (BindingFlags::InvokeMethod | BindingFlags::GetProperty | BindingFlags::SetProperty | BindingFlags::PutDispProperty | BindingFlags::PutRefDispProperty)) & 4294950911u) != 0) {
       rt::throw_exception<ArgumentException>(SR::get_Arg_COMPropSetPut(), "bindingFlags");
     }
-    if ((bindingFlags & BindingFlags::PutRefDispProperty) != 0 && (bindingFlags & (BindingFlags::InvokeMethod | BindingFlags::GetProperty | BindingFlags::SetProperty | BindingFlags::PutDispProperty | BindingFlags::PutRefDispProperty) & ~BindingFlags::PutRefDispProperty) != 0) {
+    if ((bindingFlags & BindingFlags::PutRefDispProperty) != 0 && ((UInt32)(bindingFlags & (BindingFlags::InvokeMethod | BindingFlags::GetProperty | BindingFlags::SetProperty | BindingFlags::PutDispProperty | BindingFlags::PutRefDispProperty)) & 4294934527u) != 0) {
       rt::throw_exception<ArgumentException>(SR::get_Arg_COMPropSetPut(), "bindingFlags");
     }
     if (name == nullptr) {
       rt::throw_exception<ArgumentNullException>("name");
     }
-    Array<Boolean> byrefModifiers = (modifiers != nullptr) ? modifiers[0].get_IsByRefArray() : nullptr;
-    Int32 culture2 = (culture == nullptr) ? 1033 : culture->get_LCID();
+    Array<Boolean> byrefModifiers = ((modifiers != nullptr) ? modifiers[0].get_IsByRefArray() : nullptr);
+    Int32 culture2 = ((culture == nullptr) ? 1033 : culture->get_LCID());
     Boolean flag = (bindingFlags & BindingFlags::DoNotWrapExceptions) != 0;
     try {
       return InvokeDispMethod(name, bindingFlags, target, providedArgs, byrefModifiers, culture2, namedParams);
@@ -1636,7 +1638,7 @@ Object RuntimeType___::InvokeMember(String name, BindingFlags bindingFlags, Bind
   if (namedParams != nullptr && Array<>::in::IndexOf(namedParams, (String)nullptr) != -1) {
     rt::throw_exception<ArgumentException>(SR::get_Arg_NamedParamNull(), "namedParams");
   }
-  Int32 num = (providedArgs != nullptr) ? providedArgs->get_Length() : 0;
+  Int32 num = ((providedArgs != nullptr) ? providedArgs->get_Length() : 0);
   if (binder == nullptr) {
     binder = Type::in::get_DefaultBinder();
   }
@@ -1654,7 +1656,7 @@ Object RuntimeType___::InvokeMember(String name, BindingFlags bindingFlags, Bind
   }
   if (name->get_Length() == 0 || name->Equals((String)"[DISPID=0]")) {
     String as = GetDefaultMemberName();
-    name = (as != nullptr ? as : "ToString");
+    name = as != nullptr ? as : "ToString";
   }
   Boolean flag2 = (bindingFlags & BindingFlags::GetField) != 0;
   Boolean flag3 = (bindingFlags & BindingFlags::SetField) != 0;
@@ -1687,7 +1689,7 @@ Object RuntimeType___::InvokeMember(String name, BindingFlags bindingFlags, Bind
 
     if (fieldInfo != nullptr) {
       if (fieldInfo->get_FieldType()->get_IsArray() || (Object)fieldInfo->get_FieldType() == typeof<Array<>>()) {
-        Int32 num2 = ((bindingFlags & BindingFlags::GetField) == 0) ? (num - 1) : num;
+        Int32 num2 = (((bindingFlags & BindingFlags::GetField) == 0) ? (num - 1) : num);
         if (num2 > 0) {
           Array<Int32> array2 = rt::newarr<Array<Int32>>(num2);
           for (Int32 i = 0; i < num2; i++) {
@@ -1994,7 +1996,7 @@ void RuntimeType___::WrapArgsForInvokeCall(Array<Object> aArgs, Array<Int32> aAr
       Array<> array = (Array<>)aArgs[i];
       Int32 length = array->get_Length();
       Array<Object> array2 = (Array<Object>)Array<>::in::CreateInstance(type, length);
-      ConstructorInfo constructorInfo = (!flag) ? type->GetConstructor(rt::newarr<Array<Type>>(1)) : type->GetConstructor(rt::newarr<Array<Type>>(1));
+      ConstructorInfo constructorInfo = ((!flag) ? type->GetConstructor(rt::newarr<Array<Type>>(1)) : type->GetConstructor(rt::newarr<Array<Type>>(1)));
       for (Int32 j = 0; j < length; j++) {
         if (flag) {
           array2[j] = constructorInfo->Invoke(rt::newarr<Array<Object>>(1));
@@ -2137,52 +2139,6 @@ TypeCode RuntimeType___::GetTypeCodeImpl() {
   if (typeCode != 0) {
     return typeCode;
   }
-  switch (RuntimeTypeHandle::GetCorElementType((RuntimeType)this)) {
-    case CorElementType::ELEMENT_TYPE_BOOLEAN:
-      typeCode = TypeCode::Boolean;
-      break;
-    case CorElementType::ELEMENT_TYPE_CHAR:
-      typeCode = TypeCode::Char;
-      break;
-    case CorElementType::ELEMENT_TYPE_I1:
-      typeCode = TypeCode::SByte;
-      break;
-    case CorElementType::ELEMENT_TYPE_U1:
-      typeCode = TypeCode::Byte;
-      break;
-    case CorElementType::ELEMENT_TYPE_I2:
-      typeCode = TypeCode::Int16;
-      break;
-    case CorElementType::ELEMENT_TYPE_U2:
-      typeCode = TypeCode::UInt16;
-      break;
-    case CorElementType::ELEMENT_TYPE_I4:
-      typeCode = TypeCode::Int32;
-      break;
-    case CorElementType::ELEMENT_TYPE_U4:
-      typeCode = TypeCode::UInt32;
-      break;
-    case CorElementType::ELEMENT_TYPE_I8:
-      typeCode = TypeCode::Int64;
-      break;
-    case CorElementType::ELEMENT_TYPE_U8:
-      typeCode = TypeCode::UInt64;
-      break;
-    case CorElementType::ELEMENT_TYPE_R4:
-      typeCode = TypeCode::Single;
-      break;
-    case CorElementType::ELEMENT_TYPE_R8:
-      typeCode = TypeCode::Double;
-      break;
-    case CorElementType::ELEMENT_TYPE_VALUETYPE:
-      typeCode = ((!((RuntimeType)this == Convert::ConvertTypes[15])) ? ((!((RuntimeType)this == Convert::ConvertTypes[16])) ? ((!get_IsEnum()) ? TypeCode::Object : Type::in::GetTypeCode(Enum::in::GetUnderlyingType((RuntimeType)this))) : TypeCode::DateTime) : TypeCode::Decimal);
-      break;
-    default:
-      typeCode = ((!((RuntimeType)this == Convert::ConvertTypes[2])) ? ((!((RuntimeType)this == Convert::ConvertTypes[18])) ? TypeCode::Object : TypeCode::String) : TypeCode::DBNull);
-      break;
-  }
-  get_Cache()->set_TypeCode(typeCode);
-  return typeCode;
 }
 
 Boolean RuntimeType___::HasElementTypeImpl() {

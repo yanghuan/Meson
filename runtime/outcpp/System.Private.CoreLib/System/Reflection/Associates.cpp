@@ -124,7 +124,7 @@ void Associates::AssignAssociates(MetadataImport scope, Int32 mdPropEvent, Runti
   Boolean isPublic = (attributes & Attributes::ComposedOfNoPublicMembers) == 0;
   Boolean isStatic = (attributes & Attributes::ComposedOfNoStaticMembers) == 0;
   bindingFlags = RuntimeType::in::FilterPreCalculate(isPublic, isInherited, isStatic);
-  composedOfAllPrivateMethods = ((attributes & Attributes::ComposedOfAllPrivateMethods) != 0);
+  composedOfAllPrivateMethods = (attributes & Attributes::ComposedOfAllPrivateMethods) != 0;
   other = ((list != nullptr) ? list->ToArray() : nullptr);
 }
 

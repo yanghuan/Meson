@@ -150,7 +150,7 @@ void EncoderNLS___::Convert(Char* chars, Int32 charCount, Byte* bytes, Int32 byt
   _charsUsed = 0;
   bytesUsed = _encoding->GetBytes(chars, charCount, bytes, byteCount, (EncoderNLS)this);
   charsUsed = _charsUsed;
-  completed = (charsUsed == charCount && (!flush || !get_HasState()) && (_fallbackBuffer == nullptr || _fallbackBuffer->get_Remaining() == 0));
+  completed = charsUsed == charCount && (!flush || !get_HasState()) && (_fallbackBuffer == nullptr || _fallbackBuffer->get_Remaining() == 0);
 }
 
 void EncoderNLS___::ClearMustFlush() {

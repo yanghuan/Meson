@@ -14,6 +14,7 @@
 #include <System.Private.CoreLib/System/IO/UnmanagedMemoryStream-dep.h>
 #include <System.Private.CoreLib/System/Math-dep.h>
 #include <System.Private.CoreLib/System/NotSupportedException-dep.h>
+#include <System.Private.CoreLib/System/ReadOnlyMemory-dep.h>
 #include <System.Private.CoreLib/System/ReadOnlySpan-dep.h>
 #include <System.Private.CoreLib/System/Runtime/InteropServices/MemoryMarshal-dep.h>
 #include <System.Private.CoreLib/System/Span-dep.h>
@@ -92,7 +93,7 @@ void UnmanagedMemoryStream___::set_PositionPointer(Byte* value) {
   if (value < _mem) {
     rt::throw_exception<IOException>(SR::get_IO_SeekBeforeBegin());
   }
-  Int64 num = value - _mem;
+  Int64 num = (Int64)value - (Int64)_mem;
   if (num < 0) {
     rt::throw_exception<ArgumentOutOfRangeException>("value", SR::get_ArgumentOutOfRange_UnmanagedMemStreamLength());
   }
@@ -100,8 +101,6 @@ void UnmanagedMemoryStream___::set_PositionPointer(Byte* value) {
 }
 
 void UnmanagedMemoryStream___::ctor() {
-  _mem = nullptr;
-  _isOpen = false;
 }
 
 void UnmanagedMemoryStream___::ctor(SafeBuffer buffer, Int64 offset, Int64 length) {
@@ -184,46 +183,6 @@ void UnmanagedMemoryStream___::Initialize(Byte* pointer, Int64 length, Int64 cap
   _capacity = capacity;
   _access = access;
   _isOpen = true;
-}
-
-void UnmanagedMemoryStream___::CopyTo(ReadOnlySpanAction<Byte, Object> callback, Object state, Int32 bufferSize) {
-  if (GetType() != typeof<UnmanagedMemoryStream>()) {
-    Stream::in::CopyTo(callback, state, bufferSize);
-    return;
-  }
-  if (callback == nullptr) {
-    rt::throw_exception<ArgumentNullException>("callback");
-  }
-  EnsureNotClosed();
-  EnsureReadable();
-  Int64 num = Interlocked::Read(_position);
-  Int64 num2 = Interlocked::Read(_length);
-  Int64 num3 = num2 - num;
-  if (num3 <= 0) {
-    return;
-  }
-  Int32 num4 = (Int32)num3;
-  if (num4 < 0) {
-    return;
-  }
-  if (_buffer != nullptr) {
-    Byte* pointer = nullptr;
-    try {
-      _buffer->AcquirePointer(pointer);
-      ReadOnlySpan<Byte> span = ReadOnlySpan<Byte>(pointer + num + _offset, num4);
-      Interlocked::Exchange(_position, num + num3);
-      callback(span, state);
-    } catch (...) {
-    } finally: {
-      if (pointer != nullptr) {
-        _buffer->ReleasePointer();
-      }
-    }
-  } else {
-    ReadOnlySpan<Byte> span2 = ReadOnlySpan<Byte>(_mem + num, num4);
-    Interlocked::Exchange(_position, num + num3);
-    callback(span2, state);
-  }
 }
 
 void UnmanagedMemoryStream___::Dispose(Boolean disposing) {
@@ -351,13 +310,13 @@ Task<Int32> UnmanagedMemoryStream___::ReadAsync(Array<Byte> buffer, Int32 offset
 template <>
 ValueTask<Int32> UnmanagedMemoryStream___::ReadAsync(Memory<Byte> buffer, CancellationToken cancellationToken) {
   if (cancellationToken.get_IsCancellationRequested()) {
-    return ValueTask<Int32>(Task<>::in::FromCanceled<Int32>(cancellationToken));
+    return ValueTask<>::FromCanceled<Int32>(cancellationToken);
   }
   try {
     ArraySegment<Byte> segment;
-    return ValueTask<Int32>(MemoryMarshal::TryGetArray(buffer, segment) ? Read(segment.get_Array(), segment.get_Offset(), segment.get_Count()) : Read(buffer.get_Span()));
+    return ValueTask<Int32>(MemoryMarshal::TryGetArray((ReadOnlyMemory<Byte>)buffer, segment) ? Read(segment.get_Array(), segment.get_Offset(), segment.get_Count()) : Read(buffer.get_Span()));
   } catch (Exception exception) {
-    return ValueTask<Int32>(Task<>::in::FromException<Int32>(exception));
+    return ValueTask<>::FromException<Int32>(exception);
   }
 }
 
@@ -534,7 +493,7 @@ Task<> UnmanagedMemoryStream___::WriteAsync(Array<Byte> buffer, Int32 offset, In
 template <>
 ValueTask<> UnmanagedMemoryStream___::WriteAsync(ReadOnlyMemory<Byte> buffer, CancellationToken cancellationToken) {
   if (cancellationToken.get_IsCancellationRequested()) {
-    return ValueTask<>(Task<>::in::FromCanceled(cancellationToken));
+    return ValueTask<>::FromCanceled(cancellationToken);
   }
   try {
     ArraySegment<Byte> segment;
@@ -545,7 +504,7 @@ ValueTask<> UnmanagedMemoryStream___::WriteAsync(ReadOnlyMemory<Byte> buffer, Ca
     }
     return rt::default__;
   } catch (Exception exception) {
-    return ValueTask<>(Task<>::in::FromException(exception));
+    return ValueTask<>::FromException(exception);
   }
 }
 

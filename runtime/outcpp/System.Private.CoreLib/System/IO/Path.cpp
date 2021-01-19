@@ -214,7 +214,7 @@ String Path::GetRandomFileName() {
   Byte* ptr = as;
   Interop::GetRandomBytes(ptr, 8);
   SpanAction<Char, IntPtr> is = __c::in::__9__16_0;
-  return String::in::Create(12, (IntPtr)(void*)ptr, is != nullptr ? is : (__c::in::__9__16_0 = {__c::in::__9, &__c::in::_GetRandomFileName_b__16_0}));
+  return String::in::Create(12, (IntPtr)ptr, is != nullptr ? is : (__c::in::__9__16_0 = {__c::in::__9, &__c::in::_GetRandomFileName_b__16_0}));
 }
 
 Boolean Path::IsPathFullyQualified(String path) {
@@ -438,7 +438,7 @@ Boolean Path::TryJoin(ReadOnlySpan<Char> path1, ReadOnlySpan<Char> path2, ReadOn
   if (path3.get_Length() == 0) {
     return TryJoin(path1, path2, destination, charsWritten);
   }
-  Int32 num = (!EndsInDirectorySeparator(path1) && !PathInternal::StartsWithDirectorySeparator(path2)) ? 1 : 0;
+  Int32 num = ((!EndsInDirectorySeparator(path1) && !PathInternal::StartsWithDirectorySeparator(path2)) ? 1 : 0);
   Boolean flag = !EndsInDirectorySeparator(path2) && !PathInternal::StartsWithDirectorySeparator(path3);
   if (flag) {
     num++;
@@ -520,7 +520,7 @@ String Path::JoinInternal(ReadOnlySpan<Char> first, ReadOnlySpan<Char> second) {
     {
       Char* value2 = &MemoryMarshal::GetReference(second);
       SpanAction<Char, ValueTuple<IntPtr, Int32, IntPtr, Int32, Boolean>> as = __c::in::__9__37_0;
-      return String::in::Create(first.get_Length() + second.get_Length() + ((!flag) ? 1 : 0), {(IntPtr)(void*)value, first.get_Length(), (IntPtr)(void*)value2, second.get_Length(), flag}, as != nullptr ? as : (__c::in::__9__37_0 = {__c::in::__9, &__c::in::_JoinInternal_b__37_0}));
+      return String::in::Create(first.get_Length() + second.get_Length() + ((!flag) ? 1 : 0), {(IntPtr)value, first.get_Length(), (IntPtr)value2, second.get_Length(), flag}, as != nullptr ? as : (__c::in::__9__37_0 = {__c::in::__9, &__c::in::_JoinInternal_b__37_0}));
     }
   }
 }
@@ -535,7 +535,7 @@ String Path::JoinInternal(ReadOnlySpan<Char> first, ReadOnlySpan<Char> second, R
       {
         Char* value3 = &MemoryMarshal::GetReference(third);
         SpanAction<Char, ValueTuple<IntPtr, Int32, IntPtr, Int32, IntPtr, Int32, Boolean, Boolean>> as = __c::in::__9__38_0;
-        return String::in::Create(first.get_Length() + second.get_Length() + third.get_Length() + ((!flag) ? 1 : 0) + ((!flag2) ? 1 : 0), {(IntPtr)(void*)value, first.get_Length(), (IntPtr)(void*)value2, second.get_Length(), (IntPtr)(void*)value3, third.get_Length(), flag, flag2}, as != nullptr ? as : (__c::in::__9__38_0 = {__c::in::__9, &__c::in::_JoinInternal_b__38_0}));
+        return String::in::Create(first.get_Length() + second.get_Length() + third.get_Length() + ((!flag) ? 1 : 0) + ((!flag2) ? 1 : 0), {(IntPtr)value, first.get_Length(), (IntPtr)value2, second.get_Length(), (IntPtr)value3, third.get_Length(), flag, flag2}, as != nullptr ? as : (__c::in::__9__38_0 = {__c::in::__9, &__c::in::_JoinInternal_b__38_0}));
       }
     }
   }
@@ -554,7 +554,7 @@ String Path::JoinInternal(ReadOnlySpan<Char> first, ReadOnlySpan<Char> second, R
         {
           Char* value4 = &MemoryMarshal::GetReference(fourth);
           SpanAction<Char, ValueTuple<IntPtr, Int32, IntPtr, Int32, IntPtr, Int32, IntPtr, ValueTuple<Int32, Boolean, Boolean, Boolean>>> as = __c::in::__9__39_0;
-          return String::in::Create(first.get_Length() + second.get_Length() + third.get_Length() + fourth.get_Length() + ((!flag) ? 1 : 0) + ((!flag2) ? 1 : 0) + ((!flag3) ? 1 : 0), {(IntPtr)(void*)value, first.get_Length(), (IntPtr)(void*)value2, second.get_Length(), (IntPtr)(void*)value3, third.get_Length(), (IntPtr)(void*)value4, fourth.get_Length(), flag, flag2, flag3}, as != nullptr ? as : (__c::in::__9__39_0 = {__c::in::__9, &__c::in::_JoinInternal_b__39_0}));
+          return String::in::Create(first.get_Length() + second.get_Length() + third.get_Length() + fourth.get_Length() + ((!flag) ? 1 : 0) + ((!flag2) ? 1 : 0) + ((!flag3) ? 1 : 0), {(IntPtr)value, first.get_Length(), (IntPtr)value2, second.get_Length(), (IntPtr)value3, third.get_Length(), (IntPtr)value4, fourth.get_Length(), flag, flag2, flag3}, as != nullptr ? as : (__c::in::__9__39_0 = {__c::in::__9, &__c::in::_JoinInternal_b__39_0}));
         }
       }
     }
@@ -576,11 +576,11 @@ void Path::Populate83FileNameFromRandomBytes(Byte* bytes, Int32 byteCount, Span<
   chars[5] = (Char)get_Base32Char()[((b & 224) >> 5) | ((b4 & 96) >> 2)];
   chars[6] = (Char)get_Base32Char()[((b2 & 224) >> 5) | ((b5 & 96) >> 2)];
   b3 = (Byte)(b3 >> 5);
-  if ((b4 & 128) != 0) {
-    b3 = (Byte)(b3 | 8);
+  if ((b4 & 128u) != 0) {
+    b3 = (Byte)(b3 | 8u);
   }
-  if ((b5 & 128) != 0) {
-    b3 = (Byte)(b3 | 16);
+  if ((b5 & 128u) != 0) {
+    b3 = (Byte)(b3 | 16u);
   }
   chars[7] = (Char)get_Base32Char()[b3];
   chars[8] = '.';
@@ -715,7 +715,7 @@ String Path::GetFullPath(String path, String basePath) {
     return basePath;
   }
   Int32 length = path->get_Length();
-  String text = (length >= 1 && PathInternal::IsDirectorySeparator(path[0])) ? Join(GetPathRoot(MemoryExtensions::AsSpan(basePath)), MemoryExtensions::AsSpan(path, 1)) : ((length < 2 || !PathInternal::IsValidDriveChar(path[0]) || path[1] != ':') ? JoinInternal(MemoryExtensions::AsSpan(basePath), MemoryExtensions::AsSpan(path)) : ((!MemoryExtensions::EqualsOrdinal(GetVolumeName(MemoryExtensions::AsSpan(path)), GetVolumeName(MemoryExtensions::AsSpan(basePath)))) ? ((!PathInternal::IsDevice(MemoryExtensions::AsSpan(basePath))) ? path->Insert(2, "\\") : ((length == 2) ? JoinInternal(MemoryExtensions::AsSpan(basePath, 0, 4), MemoryExtensions::AsSpan(path), MemoryExtensions::AsSpan("\\")) : JoinInternal(MemoryExtensions::AsSpan(basePath, 0, 4), MemoryExtensions::AsSpan(path, 0, 2), MemoryExtensions::AsSpan("\\"), MemoryExtensions::AsSpan(path, 2)))) : Join(MemoryExtensions::AsSpan(basePath), MemoryExtensions::AsSpan(path, 2))));
+  String text = ((length >= 1 && PathInternal::IsDirectorySeparator(path[0])) ? Join(GetPathRoot(MemoryExtensions::AsSpan(basePath)), MemoryExtensions::AsSpan(path, 1)) : ((length < 2 || !PathInternal::IsValidDriveChar(path[0]) || path[1] != ':') ? JoinInternal(MemoryExtensions::AsSpan(basePath), MemoryExtensions::AsSpan(path)) : ((!MemoryExtensions::EqualsOrdinal(GetVolumeName(MemoryExtensions::AsSpan(path)), GetVolumeName(MemoryExtensions::AsSpan(basePath)))) ? ((!PathInternal::IsDevice(MemoryExtensions::AsSpan(basePath))) ? path->Insert(2, "\\") : ((length == 2) ? JoinInternal(MemoryExtensions::AsSpan(basePath, 0, 4), MemoryExtensions::AsSpan(path), MemoryExtensions::AsSpan("\\")) : JoinInternal(MemoryExtensions::AsSpan(basePath, 0, 4), MemoryExtensions::AsSpan(path, 0, 2), MemoryExtensions::AsSpan("\\"), MemoryExtensions::AsSpan(path, 2)))) : Join(MemoryExtensions::AsSpan(basePath), MemoryExtensions::AsSpan(path, 2)))));
   if (!PathInternal::IsDevice(MemoryExtensions::AsSpan(text))) {
     return GetFullPath(text);
   }

@@ -108,7 +108,6 @@ void SecurityElement___::ctor(String tag) {
     rt::throw_exception<ArgumentException>(SR::Format(SR::get_Argument_InvalidElementTag(), tag));
   }
   _tag = tag;
-  _text = nullptr;
 }
 
 void SecurityElement___::ctor(String tag, String text) {
@@ -415,7 +414,7 @@ String SecurityElement___::SearchForTextOfTag(String tag) {
     return nullptr;
   }
   for (SecurityElement&& item : *get_Children()) {
-    String text = (item != nullptr) ? item->SearchForTextOfTag(tag) : nullptr;
+    String text = ((item != nullptr) ? item->SearchForTextOfTag(tag) : nullptr);
     if (text != nullptr) {
       return text;
     }

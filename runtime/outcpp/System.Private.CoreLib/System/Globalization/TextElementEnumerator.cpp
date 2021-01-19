@@ -27,7 +27,7 @@ void TextElementEnumerator___::ctor(String str, Int32 startIndex) {
 
 Boolean TextElementEnumerator___::MoveNext() {
   _currentTextElementSubstr = nullptr;
-  Int32 num = _currentTextElementOffset += _currentTextElementLength;
+  Int32 num = (_currentTextElementOffset += _currentTextElementLength);
   _currentTextElementLength = 0;
   if (num >= _str->get_Length()) {
     return false;

@@ -7,7 +7,6 @@
 #include <System.Private.CoreLib/System/Globalization/GregorianCalendar-dep.h>
 #include <System.Private.CoreLib/System/Globalization/UmAlQuraCalendar-dep.h>
 #include <System.Private.CoreLib/System/Int16-dep.h>
-#include <System.Private.CoreLib/System/InvalidOperationException-dep.h>
 #include <System.Private.CoreLib/System/SR-dep.h>
 #include <System.Private.CoreLib/System/TimeSpan-dep.h>
 
@@ -150,18 +149,6 @@ Int32 UmAlQuraCalendar___::GetDatePart(DateTime time, Int32 part) {
   Int32 HijriMonth;
   Int32 HijriDay;
   ConvertGregorianToHijri(time, HijriYear, HijriMonth, HijriDay);
-  switch (part.get()) {
-    case 0:
-      return HijriYear;
-    case 2:
-      return HijriMonth;
-    case 3:
-      return HijriDay;
-    case 1:
-      return (Int32)(GetAbsoluteDateUmAlQura(HijriYear, HijriMonth, HijriDay) - GetAbsoluteDateUmAlQura(HijriYear, 1, 1) + 1);
-    default:
-      rt::throw_exception<InvalidOperationException>(SR::get_InvalidOperation_DateTimeParsing());
-  }
 }
 
 DateTime UmAlQuraCalendar___::AddMonths(DateTime time, Int32 months) {

@@ -146,12 +146,12 @@ void AsAnyMarshaler::ConvertToManaged(Object pManagedHome, IntPtr pNativeHome) {
       break;
     case BackPropAction::StringBuilderAnsi:
       {
-        Int32 newLength2 = (!(pNativeHome == IntPtr::Zero)) ? String::in::strlen((Byte*)(void*)pNativeHome) : 0;
+        Int32 newLength2 = ((!(pNativeHome == IntPtr::Zero)) ? String::in::strlen((Byte*)(void*)pNativeHome) : 0);
         ((StringBuilder)pManagedHome)->ReplaceBufferAnsiInternal((SByte*)(void*)pNativeHome, newLength2);
         break;
       }case BackPropAction::StringBuilderUnicode:
       {
-        Int32 newLength = (!(pNativeHome == IntPtr::Zero)) ? String::in::wcslen((Char*)(void*)pNativeHome) : 0;
+        Int32 newLength = ((!(pNativeHome == IntPtr::Zero)) ? String::in::wcslen((Char*)(void*)pNativeHome) : 0);
         ((StringBuilder)pManagedHome)->ReplaceBufferInternal((Char*)(void*)pNativeHome, newLength);
         break;
       }}

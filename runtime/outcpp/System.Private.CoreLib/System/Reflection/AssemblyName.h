@@ -86,7 +86,6 @@ CLASS(AssemblyName) : public object {
   public: static Array<Char> EscapeString(String input, Int32 start, Int32 end, Array<Char> dest, Int32& destPos, Boolean isUriString, Char force1, Char force2, Char rsvd);
   private: static Array<Char> EnsureDestinationSize(Char* pStr, Array<Char> dest, Int32 currentInputPos, Int16 charsToAdd, Int16 minReallocateChars, Int32& destPos, Int32 prevInputPos);
   public: static void EscapeAsciiChar(Char ch, Array<Char> to, Int32& pos);
-  public: static Char EscapedAscii(Char digit, Char next);
   private: static Boolean IsReservedUnreservedOrHash(Char c);
   public: static Boolean IsUnreserved(Char c);
   public: static Boolean IsAsciiLetter(Char character);

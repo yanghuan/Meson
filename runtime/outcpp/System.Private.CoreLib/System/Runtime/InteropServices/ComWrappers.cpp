@@ -25,7 +25,7 @@ Boolean ComWrappers___::TryGetOrCreateComInterfaceForObjectInternal(ComWrappers 
   if (instance == nullptr) {
     rt::throw_exception<ArgumentNullException>("instance");
   }
-  return TryGetOrCreateComInterfaceForObjectInternal(ObjectHandleOnStack::Create(impl), ObjectHandleOnStack::Create(instance), flags, retValue);
+  return TryGetOrCreateComInterfaceForObjectInternal(ObjectHandleOnStack::Create(impl), impl->id, ObjectHandleOnStack::Create(instance), flags, retValue);
 }
 
 void* ComWrappers___::CallComputeVtables(ComWrappersScenario scenario, ComWrappers comWrappersImpl, Object obj, CreateComInterfaceFlags flags, Int32& count) {
@@ -92,7 +92,7 @@ Boolean ComWrappers___::TryGetOrCreateObjectForComInstanceInternal(ComWrappers i
   }
   Object o = wrapperMaybe;
   retValue = nullptr;
-  return TryGetOrCreateObjectForComInstanceInternal(ObjectHandleOnStack::Create(impl), externalComObject, flags, ObjectHandleOnStack::Create(o), ObjectHandleOnStack::Create(retValue));
+  return TryGetOrCreateObjectForComInstanceInternal(ObjectHandleOnStack::Create(impl), impl->id, externalComObject, flags, ObjectHandleOnStack::Create(o), ObjectHandleOnStack::Create(retValue));
 }
 
 void ComWrappers___::CallReleaseObjects(ComWrappers comWrappersImpl, IEnumerable objects) {
@@ -107,7 +107,7 @@ void ComWrappers___::RegisterForTrackerSupport(ComWrappers instance) {
   if (Interlocked::CompareExchange(s_globalInstanceForTrackerSupport, instance, (ComWrappers)nullptr) != nullptr) {
     rt::throw_exception<InvalidOperationException>(SR::get_InvalidOperation_ResetGlobalComWrappersInstance());
   }
-  SetGlobalInstanceRegisteredForTrackerSupport();
+  SetGlobalInstanceRegisteredForTrackerSupport(instance->id);
 }
 
 void ComWrappers___::RegisterForMarshalling(ComWrappers instance) {
@@ -117,7 +117,7 @@ void ComWrappers___::RegisterForMarshalling(ComWrappers instance) {
   if (Interlocked::CompareExchange(s_globalInstanceForMarshalling, instance, (ComWrappers)nullptr) != nullptr) {
     rt::throw_exception<InvalidOperationException>(SR::get_InvalidOperation_ResetGlobalComWrappersInstance());
   }
-  SetGlobalInstanceRegisteredForMarshalling();
+  SetGlobalInstanceRegisteredForMarshalling(instance->id);
 }
 
 void ComWrappers___::GetIUnknownImpl(IntPtr& fpQueryInterface, IntPtr& fpAddRef, IntPtr& fpRelease) {
@@ -134,6 +134,8 @@ Int32 ComWrappers___::CallICustomQueryInterface(Object customQueryInterfaceMaybe
 }
 
 void ComWrappers___::ctor() {
+  id = Interlocked::Increment(s_instanceCounter);
+  Object::in::ctor();
 }
 
 } // namespace System::Private::CoreLib::System::Runtime::InteropServices::ComWrappersNamespace

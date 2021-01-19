@@ -27,7 +27,7 @@ void NameInfo___::ReserveEventIDsBelow(Int32 eventId) {
 
 void NameInfo___::ctor(String name, EventTags tags, Int32 typeMetadataSize) {
   this->name = name;
-  this->tags = (tags & (EventTags)268435455);
+  this->tags = tags & (EventTags)268435455;
   identity = Interlocked::Increment(lastIdentity);
   Int32 pos = 0;
   Statics::EncodeTags((Int32)this->tags, pos, nullptr);

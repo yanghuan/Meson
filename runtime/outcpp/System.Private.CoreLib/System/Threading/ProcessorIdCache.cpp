@@ -15,7 +15,7 @@ Int32 ProcessorIdCache::RefreshCurrentProcessorId() {
   if (num < 0) {
     num = Environment::get_CurrentManagedThreadId();
   }
-  t_currentProcessorIdCache = (((num << 16) & Int32::MaxValue) | s_processorIdRefreshRate);
+  t_currentProcessorIdCache = ((num << 16) & 2147483647) | s_processorIdRefreshRate;
   return num;
 }
 

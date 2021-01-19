@@ -84,7 +84,8 @@ CLASS(String) : public object {
   public: Int32 GetBytesFromEncoding(Byte* pbNativeBuffer, Int32 cbNativeBuffer, Encoding encoding);
   private: static Boolean EqualsHelper(String strA, String strB);
   private: static Int32 CompareOrdinalHelper(String strA, Int32 indexA, Int32 countA, String strB, Int32 indexB, Int32 countB);
-  private: static Boolean EqualsOrdinalIgnoreCase(String strA, String strB);
+  public: static Boolean EqualsOrdinalIgnoreCase(String strA, String strB);
+  private: static Boolean EqualsOrdinalIgnoreCaseNoLengthCheck(String strA, String strB);
   private: static Int32 CompareOrdinalHelper(String strA, String strB);
   public: static Int32 Compare(String strA, String strB);
   public: static Int32 Compare(String strA, String strB, Boolean ignoreCase);
@@ -119,6 +120,7 @@ CLASS(String) : public object {
   public: static Int32 GetHashCode(ReadOnlySpan<Char> value, StringComparison comparisonType);
   public: static Int32 GetHashCodeOrdinalIgnoreCase(ReadOnlySpan<Char> value);
   public: Int32 GetNonRandomizedHashCode();
+  public: Int32 GetNonRandomizedHashCodeOrdinalIgnoreCase();
   public: Boolean StartsWith(String value);
   public: Boolean StartsWith(String value, StringComparison comparisonType);
   public: Boolean StartsWith(String value, Boolean ignoreCase, CultureInfo culture);
@@ -258,11 +260,12 @@ CLASS(String) : public object {
   public: Array<String> Split(Array<String> separator, Int32 count, StringSplitOptions options);
   private: Array<String> SplitInternal(String separator, Array<String> separators, Int32 count, StringSplitOptions options);
   private: Array<String> SplitInternal(String separator, Int32 count, StringSplitOptions options);
-  private: Array<String> SplitKeepEmptyEntries(ReadOnlySpan<Int32> sepList, ReadOnlySpan<Int32> lengthList, Int32 defaultLength, Int32 count);
-  private: Array<String> SplitOmitEmptyEntries(ReadOnlySpan<Int32> sepList, ReadOnlySpan<Int32> lengthList, Int32 defaultLength, Int32 count);
+  private: Array<String> SplitWithoutPostProcessing(ReadOnlySpan<Int32> sepList, ReadOnlySpan<Int32> lengthList, Int32 defaultLength, Int32 count);
+  private: Array<String> SplitWithPostProcessing(ReadOnlySpan<Int32> sepList, ReadOnlySpan<Int32> lengthList, Int32 defaultLength, Int32 count, StringSplitOptions options);
   private: void MakeSeparatorList(ReadOnlySpan<Char> separators, ValueListBuilder<Int32>& sepListBuilder);
   private: void MakeSeparatorList(String separator, ValueListBuilder<Int32>& sepListBuilder);
   private: void MakeSeparatorList(Array<String> separators, ValueListBuilder<Int32>& sepListBuilder, ValueListBuilder<Int32>& lengthListBuilder);
+  private: static void CheckStringSplitOptions(StringSplitOptions options);
   public: String Substring(Int32 startIndex);
   public: String Substring(Int32 startIndex, Int32 length);
   private: String InternalSubString(Int32 startIndex, Int32 length);
@@ -319,6 +322,7 @@ CLASS(String) : public object {
   public: Int32 LastIndexOf(String value, StringComparison comparisonType);
   public: Int32 LastIndexOf(String value, Int32 startIndex, StringComparison comparisonType);
   public: Int32 LastIndexOf(String value, Int32 startIndex, Int32 count, StringComparison comparisonType);
+  public: static Int32 _GetNonRandomizedHashCodeOrdinalIgnoreCase_g__GetNonRandomizedHashCodeOrdinalIgnoreCaseSlow52_0(String str);
   public: static String Empty;
   private: Int32 _stringLength;
   private: Char _firstChar;

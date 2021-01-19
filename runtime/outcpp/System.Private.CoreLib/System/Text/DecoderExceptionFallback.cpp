@@ -23,4 +23,8 @@ Int32 DecoderExceptionFallback___::GetHashCode() {
 void DecoderExceptionFallback___::ctor() {
 }
 
+void DecoderExceptionFallback___::cctor() {
+  s_default = rt::newobj<DecoderExceptionFallback>();
+}
+
 } // namespace System::Private::CoreLib::System::Text::DecoderExceptionFallbackNamespace

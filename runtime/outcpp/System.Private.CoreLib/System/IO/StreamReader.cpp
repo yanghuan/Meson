@@ -135,12 +135,12 @@ void StreamReader___::_ReadLineAsyncInternal_d__59::MoveNext() {
 
       IL_01d2:
         result = awaiter2.GetResult();
-        flag3 = (result > 0);
+        flag3 = result > 0;
         goto IL_01e2;
 
       IL_00a0:
         result2 = awaiter3.GetResult();
-        flag2 = (result2 == 0);
+        flag2 = result2 == 0;
         goto IL_00b0;
 
       IL_00b0:
@@ -188,7 +188,7 @@ void StreamReader___::_ReadLineAsyncInternal_d__59::MoveNext() {
           _s_5__3 = rt::newstr<String>(charBuffer, charPos, num2 - charPos);
         }
         charPos = (streamReader->_charPos = num2 + 1);
-        flag5 = (c == '\r');
+        flag5 = c == '\r';
         flag4 = flag5;
         if (flag4) {
           Boolean flag6 = charPos < charLen;
@@ -350,7 +350,7 @@ void StreamReader___::_ReadAsyncInternal_d__64::MoveNext() {
 
       IL_00a1:
         result = awaiter3.GetResult();
-        flag2 = (result == 0);
+        flag2 = result == 0;
         goto IL_00b1;
 
       IL_00b1:
@@ -387,11 +387,11 @@ void StreamReader___::_ReadAsyncInternal_d__64::MoveNext() {
         goto IL_0327;
 
       IL_034c:
-        streamReader->_isBlocked = (streamReader->_byteLen < _tmpByteBuffer_5__4->get_Length());
+        streamReader->_isBlocked = streamReader->_byteLen < _tmpByteBuffer_5__4->get_Length();
         if (!streamReader->IsPreamble()) {
           if (streamReader->_detectEncoding && streamReader->_byteLen >= 2) {
             streamReader->DetectEncoding();
-            _readToUserBuffer_5__3 = (_count_5__6 >= streamReader->_maxCharsPerBuffer);
+            _readToUserBuffer_5__3 = _count_5__6 >= streamReader->_maxCharsPerBuffer;
           }
           streamReader->_charPos = 0;
           if (_readToUserBuffer_5__3) {
@@ -418,7 +418,7 @@ void StreamReader___::_ReadAsyncInternal_d__64::MoveNext() {
           if (!streamReader->_checkPreamble) {
             streamReader->_byteLen = 0;
           }
-          _readToUserBuffer_5__3 = (_count_5__6 >= streamReader->_maxCharsPerBuffer);
+          _readToUserBuffer_5__3 = _count_5__6 >= streamReader->_maxCharsPerBuffer;
           goto IL_014a;
         }
         goto IL_0446;
@@ -513,7 +513,7 @@ void StreamReader___::_ReadBufferAsync_d__67::MoveNext() {
     goto end_IL_000e;
 
   IL_0201:
-    streamReader->_isBlocked = (streamReader->_byteLen < _tmpByteBuffer_5__2->get_Length());
+    streamReader->_isBlocked = streamReader->_byteLen < _tmpByteBuffer_5__2->get_Length();
     if (!streamReader->IsPreamble()) {
       if (streamReader->_detectEncoding && streamReader->_byteLen >= 2) {
         streamReader->DetectEncoding();
@@ -548,7 +548,7 @@ void StreamReader___::_ReadBufferAsync_d__67::MoveNext() {
     goto IL_01dc;
 
   IL_01dc:
-    Int32 num3 = streamReader->_byteLen = awaiter.GetResult();
+    Int32 num3 = (streamReader->_byteLen = awaiter.GetResult());
     if (streamReader->_byteLen != 0) {
       goto IL_0201;
     }
@@ -649,11 +649,8 @@ void StreamReader___::ctor(Stream stream, Encoding encoding, Boolean detectEncod
   _byteBuffer = rt::newarr<Array<Byte>>(bufferSize);
   _maxCharsPerBuffer = encoding->GetMaxCharCount(bufferSize);
   _charBuffer = rt::newarr<Array<Char>>(_maxCharsPerBuffer);
-  _byteLen = 0;
-  _bytePos = 0;
   _detectEncoding = detectEncodingFromByteOrderMarks;
-  _checkPreamble = (encoding->get_Preamble().get_Length() > 0);
-  _isBlocked = false;
+  _checkPreamble = encoding->get_Preamble().get_Length() > 0;
   _closable = !leaveOpen;
 }
 
@@ -888,7 +885,7 @@ Boolean StreamReader___::IsPreamble() {
     return _checkPreamble;
   }
   ReadOnlySpan<Byte> preamble = _encoding->get_Preamble();
-  Int32 num = (_byteLen >= preamble.get_Length()) ? (preamble.get_Length() - _bytePos) : (_byteLen - _bytePos);
+  Int32 num = ((_byteLen >= preamble.get_Length()) ? (preamble.get_Length() - _bytePos) : (_byteLen - _bytePos));
   Int32 num2 = 0;
   while (num2 < num) {
     if (_byteBuffer[_bytePos] != preamble[_bytePos]) {
@@ -931,7 +928,7 @@ Int32 StreamReader___::ReadBuffer() {
         return _charLen;
       }
     }
-    _isBlocked = (_byteLen < _byteBuffer->get_Length());
+    _isBlocked = _byteLen < _byteBuffer->get_Length();
     if (!IsPreamble()) {
       if (_detectEncoding && _byteLen >= 2) {
         DetectEncoding();
@@ -949,7 +946,7 @@ Int32 StreamReader___::ReadBuffer(Span<Char> userBuffer, Boolean& readToUserBuff
     _byteLen = 0;
   }
   Int32 num = 0;
-  readToUserBuffer = (userBuffer.get_Length() >= _maxCharsPerBuffer);
+  readToUserBuffer = userBuffer.get_Length() >= _maxCharsPerBuffer;
   do {
     if (_checkPreamble) {
       Int32 num2 = _stream->Read(_byteBuffer, _bytePos, _byteBuffer->get_Length() - _bytePos);
@@ -972,11 +969,11 @@ Int32 StreamReader___::ReadBuffer(Span<Char> userBuffer, Boolean& readToUserBuff
         break;
       }
     }
-    _isBlocked = (_byteLen < _byteBuffer->get_Length());
+    _isBlocked = _byteLen < _byteBuffer->get_Length();
     if (!IsPreamble()) {
       if (_detectEncoding && _byteLen >= 2) {
         DetectEncoding();
-        readToUserBuffer = (userBuffer.get_Length() >= _maxCharsPerBuffer);
+        readToUserBuffer = userBuffer.get_Length() >= _maxCharsPerBuffer;
       }
       _charPos = 0;
       if (readToUserBuffer) {
@@ -988,7 +985,7 @@ Int32 StreamReader___::ReadBuffer(Span<Char> userBuffer, Boolean& readToUserBuff
       }
     }
   } while (num == 0);
-  _isBlocked &= (num < userBuffer.get_Length());
+  _isBlocked &= num < userBuffer.get_Length();
   return num;
 }
 
@@ -1093,7 +1090,7 @@ ValueTask<Int32> StreamReader___::ReadAsync(Memory<Char> buffer, CancellationTok
   ThrowIfDisposed();
   CheckAsyncTaskInProgress();
   if (cancellationToken.get_IsCancellationRequested()) {
-    return ValueTask<Int32>(Task<>::in::FromCanceled<Int32>(cancellationToken));
+    return ValueTask<>::FromCanceled<Int32>(cancellationToken);
   }
   return ReadAsyncInternal(buffer, cancellationToken);
 }
@@ -1119,17 +1116,17 @@ ValueTask<Int32> StreamReader___::ReadAsyncInternal(Memory<Char> buffer, Cancell
       if (!_checkPreamble) {
         _byteLen = 0;
       }
-      readToUserBuffer = (count >= _maxCharsPerBuffer);
+      readToUserBuffer = count >= _maxCharsPerBuffer;
       do {
         if (_checkPreamble) {
           Int32 bytePos = _bytePos;
         } else {
         }
-        _isBlocked = (_byteLen < tmpByteBuffer->get_Length());
+        _isBlocked = _byteLen < tmpByteBuffer->get_Length();
         if (!IsPreamble()) {
           if (_detectEncoding && _byteLen >= 2) {
             DetectEncoding();
-            readToUserBuffer = (count >= _maxCharsPerBuffer);
+            readToUserBuffer = count >= _maxCharsPerBuffer;
           }
           _charPos = 0;
           if (readToUserBuffer) {
@@ -1187,7 +1184,7 @@ ValueTask<Int32> StreamReader___::ReadBlockAsync(Memory<Char> buffer, Cancellati
   ThrowIfDisposed();
   CheckAsyncTaskInProgress();
   if (cancellationToken.get_IsCancellationRequested()) {
-    return ValueTask<Int32>(Task<>::in::FromCanceled<Int32>(cancellationToken));
+    return ValueTask<>::FromCanceled<Int32>(cancellationToken);
   }
   ValueTask<Int32> result = ReadBlockAsyncInternal(buffer, cancellationToken);
   if (result.get_IsCompletedSuccessfully()) {
@@ -1209,7 +1206,7 @@ ValueTask<Int32> StreamReader___::ReadBufferAsync(CancellationToken cancellation
       Int32 bytePos = _bytePos;
     } else {
     }
-    _isBlocked = (_byteLen < tmpByteBuffer->get_Length());
+    _isBlocked = _byteLen < tmpByteBuffer->get_Length();
     if (!IsPreamble()) {
       if (_detectEncoding && _byteLen >= 2) {
         DetectEncoding();

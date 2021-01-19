@@ -5,6 +5,7 @@
 
 namespace System::Private::CoreLib::System {
 FORWARDS(Boolean)
+FORWARD(IEquatable, T)
 FORWARDS(Int32)
 FORWARD(Object)
 } // namespace System::Private::CoreLib::System
@@ -14,6 +15,7 @@ enum class ConsoleModifiers : int32_t;
 namespace ConsoleKeyInfoNamespace {
 using namespace ::System::Private::CoreLib::System;
 struct ConsoleKeyInfo : public valueType<ConsoleKeyInfo> {
+  public: using interface = rt::TypeList<IEquatable<ConsoleKeyInfo>>;
   public: Char get_KeyChar();
   public: ConsoleKey get_Key();
   public: ConsoleModifiers get_Modifiers();

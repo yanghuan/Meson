@@ -6,7 +6,6 @@
 #include <System.Private.CoreLib/System/ArgumentOutOfRangeException-dep.h>
 #include <System.Private.CoreLib/System/Boolean-dep.h>
 #include <System.Private.CoreLib/System/IntPtr-dep.h>
-#include <System.Private.CoreLib/System/IO/IOException-dep.h>
 #include <System.Private.CoreLib/System/IO/Win32Marshal-dep.h>
 #include <System.Private.CoreLib/System/Runtime/InteropServices/Marshal-dep.h>
 #include <System.Private.CoreLib/System/SR-dep.h>
@@ -41,16 +40,6 @@ void Semaphore___::ctor(Int32 initialCount, Int32 maximumCount, String name, Boo
 
 Semaphore Semaphore___::OpenExisting(String name) {
   Semaphore result;
-  switch (OpenExistingWorker(name, result)) {
-    case WaitHandle::in::OpenExistingResult::NameNotFound:
-      rt::throw_exception<WaitHandleCannotBeOpenedException>();
-    case WaitHandle::in::OpenExistingResult::NameInvalid:
-      rt::throw_exception<WaitHandleCannotBeOpenedException>(SR::Format(SR::get_Threading_WaitHandleCannotBeOpenedException_InvalidHandle(), name));
-    case WaitHandle::in::OpenExistingResult::PathNotFound:
-      rt::throw_exception<IOException>(SR::Format(SR::get_IO_PathNotFound_Path(), name));
-    default:
-      return result;
-  }
 }
 
 Boolean Semaphore___::TryOpenExisting(String name, Semaphore& result) {
@@ -81,7 +70,7 @@ void Semaphore___::CreateSemaphoreCore(Int32 initialCount, Int32 maximumCount, S
     }
     rt::throw_exception(Win32Marshal::GetExceptionForLastWin32Error());
   }
-  createdNew = (lastWin32Error != 183);
+  createdNew = lastWin32Error != 183;
   WaitHandle::in::set_SafeWaitHandle(safeWaitHandle);
 }
 

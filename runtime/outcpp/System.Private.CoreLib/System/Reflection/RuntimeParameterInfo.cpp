@@ -45,7 +45,7 @@ Type RuntimeParameterInfo___::get_ParameterType() {
 String RuntimeParameterInfo___::get_Name() {
   if (!m_nameIsCached) {
     if (!MetadataToken::IsNullToken(m_tkParamDef)) {
-      String text = NameImpl = m_scope.GetName(m_tkParamDef).ToString();
+      String text = (NameImpl = m_scope.GetName(m_tkParamDef).ToString());
     }
     m_nameIsCached = true;
   }
@@ -86,7 +86,7 @@ ParameterInfo RuntimeParameterInfo___::GetReturnParameter(IRuntimeMethodInfo met
 Array<ParameterInfo> RuntimeParameterInfo___::GetParameters(IRuntimeMethodInfo methodHandle, MemberInfo member, Signature sig, ParameterInfo& returnParameter, Boolean fetchReturnParameter) {
   returnParameter = nullptr;
   Int32 num = sig->get_Arguments()->get_Length();
-  Array<ParameterInfo> array = fetchReturnParameter ? nullptr : rt::newarr<Array<ParameterInfo>>(num);
+  Array<ParameterInfo> array = (fetchReturnParameter ? nullptr : rt::newarr<Array<ParameterInfo>>(num));
   Int32 methodDef = RuntimeMethodHandle::GetMethodDef(methodHandle);
   Int32 num2 = 0;
   if (!MetadataToken::IsNullToken(methodDef)) {
@@ -146,7 +146,7 @@ void RuntimeParameterInfo___::ctor(RuntimeParameterInfo accessor, RuntimePropert
 
 void RuntimeParameterInfo___::ctor(RuntimeParameterInfo accessor, MemberInfo member) {
   MemberImpl = member;
-  m_originalMember = (rt::as<MethodBase>(accessor->MemberImpl));
+  m_originalMember = rt::as<MethodBase>(accessor->MemberImpl);
   NameImpl = accessor->get_Name();
   m_nameIsCached = true;
   ClassImpl = accessor->get_ParameterType();

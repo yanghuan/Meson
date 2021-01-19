@@ -8,7 +8,9 @@
 #include <System.Private.CoreLib/System/DBNull-dep.h>
 #include <System.Private.CoreLib/System/Enum-dep.h>
 #include <System.Private.CoreLib/System/FormatException-dep.h>
+#include <System.Private.CoreLib/System/GC-dep.h>
 #include <System.Private.CoreLib/System/Globalization/CultureInfo-dep.h>
+#include <System.Private.CoreLib/System/HexConverter-dep.h>
 #include <System.Private.CoreLib/System/IConvertible.h>
 #include <System.Private.CoreLib/System/IFormattable.h>
 #include <System.Private.CoreLib/System/InvalidCastException-dep.h>
@@ -38,7 +40,7 @@ Boolean Convert::TryDecodeFromUtf16(ReadOnlySpan<Char> utf16, Span<Byte> bytes, 
   Int32 num3 = 0;
   if (utf16.get_Length() != 0) {
     SByte& reference3 = MemoryMarshal::GetReference(get_DecodingMap());
-    Int32 num4 = (length < (num >> 2) * 3) ? (length / 3 * 4) : (num - 4);
+    Int32 num4 = ((length < (num >> 2) * 3) ? (length / 3 * 4) : (num - 4));
     while (true) {
       if (num2 < num4) {
         Int32 num5 = Decode(Unsafe::Add(reference, num2), reference3);
@@ -169,46 +171,6 @@ Object Convert::ChangeType(Object value, TypeCode typeCode, IFormatProvider prov
   IConvertible convertible = rt::as<IConvertible>(value);
   if (convertible == nullptr) {
     rt::throw_exception<InvalidCastException>(SR::get_InvalidCast_IConvertible());
-  }
-  switch (typeCode) {
-    case TypeCode::Boolean:
-      return convertible->ToBoolean(provider);
-    case TypeCode::Char:
-      return convertible->ToChar(provider);
-    case TypeCode::SByte:
-      return convertible->ToSByte(provider);
-    case TypeCode::Byte:
-      return convertible->ToByte(provider);
-    case TypeCode::Int16:
-      return convertible->ToInt16(provider);
-    case TypeCode::UInt16:
-      return convertible->ToUInt16(provider);
-    case TypeCode::Int32:
-      return convertible->ToInt32(provider);
-    case TypeCode::UInt32:
-      return convertible->ToUInt32(provider);
-    case TypeCode::Int64:
-      return convertible->ToInt64(provider);
-    case TypeCode::UInt64:
-      return convertible->ToUInt64(provider);
-    case TypeCode::Single:
-      return convertible->ToSingle(provider);
-    case TypeCode::Double:
-      return convertible->ToDouble(provider);
-    case TypeCode::Decimal:
-      return convertible->ToDecimal(provider);
-    case TypeCode::DateTime:
-      return convertible->ToDateTime(provider);
-    case TypeCode::String:
-      return convertible->ToString(provider);
-    case TypeCode::Object:
-      return value;
-    case TypeCode::DBNull:
-      rt::throw_exception<InvalidCastException>(SR::get_InvalidCast_DBNull());
-    case TypeCode::Empty:
-      rt::throw_exception<InvalidCastException>(SR::get_InvalidCast_Empty());
-    default:
-      rt::throw_exception<ArgumentException>(SR::get_Arg_UnknownTypeCode());
   }
 }
 
@@ -1059,7 +1021,7 @@ Int32 Convert::ToInt32(Double value) {
     if (value < 2147483647.5) {
       Int32 num = (Int32)value;
       Double num2 = value - (Double)num;
-      if (num2 > 0.5 || (num2 == 0.5 && (num & 1) != 0)) {
+      if (num2 > 0.5 || (num2 == 0.5 && ((UInt32)num & (true ? 1u : 0u)) != 0)) {
         num++;
       }
       return num;
@@ -1067,7 +1029,7 @@ Int32 Convert::ToInt32(Double value) {
   } else if (value >= -2147483648.5) {
     Int32 num3 = (Int32)value;
     Double num4 = value - (Double)num3;
-    if (num4 < -0.5 || (num4 == -0.5 && (num3 & 1) != 0)) {
+    if (num4 < -0.5 || (num4 == -0.5 && ((UInt32)num3 & (true ? 1u : 0u)) != 0)) {
       num3--;
     }
     return num3;
@@ -1175,7 +1137,7 @@ UInt32 Convert::ToUInt32(Double value) {
   if (value >= -0.5 && value < 4294967295.5) {
     UInt32 num = (UInt32)value;
     Double num2 = value - (Double)num;
-    if (num2 > 0.5 || (num2 == 0.5 && (num & 1) != 0)) {
+    if (num2 > 0.5 || (num2 == 0.5 && (num & (true ? 1u : 0u)) != 0)) {
       num++;
     }
     return num;
@@ -2234,7 +2196,7 @@ Boolean Convert::TryFromBase64Chars(ReadOnlySpan<Char> chars, Span<Byte> bytes, 
     Int32 consumed2;
     Int32 charsWritten;
     CopyToTempBufferWithoutWhiteSpace(chars, span, consumed2, charsWritten);
-    if ((charsWritten & 3) != 0) {
+    if (((UInt32)charsWritten & 3u) != 0) {
       bytesWritten = 0;
       return false;
     }
@@ -2385,6 +2347,60 @@ Int32 Convert::FromBase64_ComputeResultLength(Char* inputPtr, Int32 inputLength)
       break;
   }
   return num / 4 * 3 + num2;
+}
+
+Array<Byte> Convert::FromHexString(String s) {
+  if (s == nullptr) {
+    rt::throw_exception<ArgumentNullException>("s");
+  }
+  return FromHexString(MemoryExtensions::AsSpan(s));
+}
+
+Array<Byte> Convert::FromHexString(ReadOnlySpan<Char> chars) {
+  if (chars.get_Length() == 0) {
+    return Array<>::in::Empty<Byte>();
+  }
+  if ((UInt32)chars.get_Length() % 2u != 0) {
+    rt::throw_exception<FormatException>(SR::get_Format_BadHexLength());
+  }
+  Array<Byte> array = GC::AllocateUninitializedArray<Byte>(chars.get_Length() >> 1);
+  if (!HexConverter::TryDecodeFromUtf16(chars, array)) {
+    rt::throw_exception<FormatException>(SR::get_Format_BadHexChar());
+  }
+  return array;
+}
+
+String Convert::ToHexString(Array<Byte> inArray) {
+  if (inArray == nullptr) {
+    rt::throw_exception<ArgumentNullException>("inArray");
+  }
+  return ToHexString(ReadOnlySpan<Byte>(inArray));
+}
+
+String Convert::ToHexString(Array<Byte> inArray, Int32 offset, Int32 length) {
+  if (inArray == nullptr) {
+    rt::throw_exception<ArgumentNullException>("inArray");
+  }
+  if (length < 0) {
+    rt::throw_exception<ArgumentOutOfRangeException>("length", SR::get_ArgumentOutOfRange_Index());
+  }
+  if (offset < 0) {
+    rt::throw_exception<ArgumentOutOfRangeException>("offset", SR::get_ArgumentOutOfRange_GenericPositive());
+  }
+  if (offset > inArray->get_Length() - length) {
+    rt::throw_exception<ArgumentOutOfRangeException>("offset", SR::get_ArgumentOutOfRange_OffsetLength());
+  }
+  return ToHexString(ReadOnlySpan<Byte>(inArray, offset, length));
+}
+
+String Convert::ToHexString(ReadOnlySpan<Byte> bytes) {
+  if (bytes.get_Length() == 0) {
+    return String::in::Empty;
+  }
+  if (bytes.get_Length() > 1073741823) {
+    rt::throw_exception<ArgumentOutOfRangeException>("bytes", SR::get_ArgumentOutOfRange_InputTooLarge());
+  }
+  return HexConverter::ToString(bytes);
 }
 
 void Convert::cctor() {

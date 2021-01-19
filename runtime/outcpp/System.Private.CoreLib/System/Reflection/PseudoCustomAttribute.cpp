@@ -233,12 +233,12 @@ DllImportAttribute PseudoCustomAttribute::GetDllImportCustomAttribute(RuntimeMet
   DllImportAttribute dllImportAttribute = rt::newobj<DllImportAttribute>(importDll);
   dllImportAttribute->EntryPoint = importName;
   dllImportAttribute->CharSet = charSet;
-  dllImportAttribute->SetLastError = ((attributes & PInvokeAttributes::SupportsLastError) != 0);
-  dllImportAttribute->ExactSpelling = ((attributes & PInvokeAttributes::NoMangle) != 0);
-  dllImportAttribute->PreserveSig = ((method->GetMethodImplementationFlags() & MethodImplAttributes::PreserveSig) != 0);
+  dllImportAttribute->SetLastError = (attributes & PInvokeAttributes::SupportsLastError) != 0;
+  dllImportAttribute->ExactSpelling = (attributes & PInvokeAttributes::NoMangle) != 0;
+  dllImportAttribute->PreserveSig = (method->GetMethodImplementationFlags() & MethodImplAttributes::PreserveSig) != 0;
   dllImportAttribute->CallingConvention = callingConvention;
-  dllImportAttribute->BestFitMapping = ((attributes & PInvokeAttributes::BestFitMask) == PInvokeAttributes::BestFitEnabled);
-  dllImportAttribute->ThrowOnUnmappableChar = ((attributes & PInvokeAttributes::ThrowOnUnmappableCharMask) == PInvokeAttributes::ThrowOnUnmappableCharEnabled);
+  dllImportAttribute->BestFitMapping = (attributes & PInvokeAttributes::BestFitMask) == PInvokeAttributes::BestFitEnabled;
+  dllImportAttribute->ThrowOnUnmappableChar = (attributes & PInvokeAttributes::ThrowOnUnmappableCharMask) == PInvokeAttributes::ThrowOnUnmappableCharEnabled;
   return dllImportAttribute;
 }
 
@@ -265,7 +265,7 @@ MarshalAsAttribute PseudoCustomAttribute::GetMarshalAsCustomAttribute(Int32 toke
   String marshalCookie;
   Int32 iidParamIndex;
   MetadataImport::GetMarshalAs(fieldMarshal, unmanagedType, safeArraySubType, safeArrayUserDefinedSubType, arraySubType, sizeParamIndex, sizeConst, marshalType, marshalCookie, iidParamIndex);
-  RuntimeType safeArrayUserDefinedSubType2 = String::in::IsNullOrEmpty(safeArrayUserDefinedSubType) ? nullptr : RuntimeTypeHandle::GetTypeByNameUsingCARules(safeArrayUserDefinedSubType, scope);
+  RuntimeType safeArrayUserDefinedSubType2 = (String::in::IsNullOrEmpty(safeArrayUserDefinedSubType) ? nullptr : RuntimeTypeHandle::GetTypeByNameUsingCARules(safeArrayUserDefinedSubType, scope));
   RuntimeType marshalTypeRef = nullptr;
   try {
     marshalTypeRef = ((marshalType == nullptr) ? nullptr : RuntimeTypeHandle::GetTypeByNameUsingCARules(marshalType, scope));

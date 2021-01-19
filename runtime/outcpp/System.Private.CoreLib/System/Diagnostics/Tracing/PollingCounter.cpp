@@ -32,7 +32,7 @@ void PollingCounter___::WritePayload(Single intervalSec, Int32 pollingIntervalMi
     CounterPayload counterPayload = rt::newobj<CounterPayload>();
     counterPayload->set_Name(DiagnosticCounter::in::get_Name());
     String as = DiagnosticCounter::in::get_DisplayName();
-    counterPayload->set_DisplayName((as != nullptr ? as : ""));
+    counterPayload->set_DisplayName(as != nullptr ? as : "");
     counterPayload->set_Count(1);
     counterPayload->set_IntervalSec(intervalSec);
     counterPayload->set_Series(String::in::Format("Interval={0}", pollingIntervalMillisec));
@@ -43,7 +43,7 @@ void PollingCounter___::WritePayload(Single intervalSec, Int32 pollingIntervalMi
     counterPayload->set_Metadata(GetMetadataString());
     counterPayload->set_StandardDeviation(0);
     String is = DiagnosticCounter::in::get_DisplayUnits();
-    counterPayload->set_DisplayUnits((is != nullptr ? is : ""));
+    counterPayload->set_DisplayUnits(is != nullptr ? is : "");
     _lastVal = num;
     DiagnosticCounter::in::get_EventSource()->Write("EventCounters", EventSourceOptions(), rt::newobj<PollingPayloadType>(counterPayload));
   }

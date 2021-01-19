@@ -113,7 +113,7 @@ Array<Byte> RuntimeModule___::ResolveSignature(Int32 metadataToken) {
   if (!metadataToken2.get_IsMemberRef() && !metadataToken2.get_IsMethodDef() && !metadataToken2.get_IsTypeSpec() && !metadataToken2.get_IsSignature() && !metadataToken2.get_IsFieldDef()) {
     rt::throw_exception<ArgumentException>(SR::Format(SR::get_Argument_InvalidToken(), metadataToken2, (RuntimeModule)this), "metadataToken");
   }
-  ConstArray constArray = (!metadataToken2.get_IsMemberRef()) ? get_MetadataImport().GetSignatureFromToken(metadataToken) : get_MetadataImport().GetMemberRefProps(metadataToken);
+  ConstArray constArray = ((!metadataToken2.get_IsMemberRef()) ? get_MetadataImport().GetSignatureFromToken(metadataToken) : get_MetadataImport().GetMemberRefProps(metadataToken));
   Array<Byte> array = rt::newarr<Array<Byte>>(constArray.get_Length());
   for (Int32 i = 0; i < constArray.get_Length(); i++) {
     array[i] = constArray[i];

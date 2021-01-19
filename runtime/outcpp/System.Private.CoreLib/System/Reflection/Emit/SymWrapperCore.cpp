@@ -1,7 +1,6 @@
 #include "SymWrapperCore-dep.h"
 
 #include <System.Private.CoreLib/System/ArgumentException-dep.h>
-#include <System.Private.CoreLib/System/Int64-dep.h>
 #include <System.Private.CoreLib/System/NotSupportedException-dep.h>
 #include <System.Private.CoreLib/System/Reflection/Emit/SymWrapperCore-dep.h>
 #include <System.Private.CoreLib/System/Runtime/InteropServices/Marshal-dep.h>
@@ -124,7 +123,7 @@ void SymWrapperCore___::SymWriter___::UsingNamespaceOfISymbolWriter(String name)
 }
 
 void SymWrapperCore___::SymWriter___::InternalSetUnderlyingWriter(IntPtr ppUnderlyingWriter) {
-  m_pWriter = (ISymUnmanagedWriter*)(Int64)(*(IntPtr*)(void*)ppUnderlyingWriter);
+  m_pWriter = (ISymUnmanagedWriter*)(*(IntPtr*)(void*)ppUnderlyingWriter);
   m_vtable = (ISymUnmanagedWriterVTable)Marshal::PtrToStructure(m_pWriter->m_unmanagedVTable, typeof<ISymUnmanagedWriterVTable>());
 }
 

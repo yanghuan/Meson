@@ -7,6 +7,7 @@
 #include <System.Private.CoreLib/System/Diagnostics/Tracing/EventKeywords.h>
 #include <System.Private.CoreLib/System/Diagnostics/Tracing/EventLevel.h>
 #include <System.Private.CoreLib/System/Diagnostics/Tracing/EventSource-dep.h>
+#include <System.Private.CoreLib/System/Environment-dep.h>
 #include <System.Private.CoreLib/System/MemoryExtensions-dep.h>
 #include <System.Private.CoreLib/System/NotImplementedException-dep.h>
 #include <System.Private.CoreLib/System/StringComparison.h>
@@ -122,7 +123,7 @@ Int32 ActivityTracker___::ActivityInfo___::AddIdToGuid(Guid* outPtr, Int32 where
     if (ptr < ptr2 && *ptr != 0) {
       if (id < 4096) {
         *ptr = (Byte)(192 + (id >> 8));
-        id &= 255;
+        id &= 255u;
       }
       ptr++;
     }
@@ -136,7 +137,7 @@ Int32 ActivityTracker___::ActivityInfo___::AddIdToGuid(Guid* outPtr, Int32 where
       num--;
     }
   }
-  *(UInt32*)((Byte*)outPtr + 3 * 4) = ((*(UInt32*)outPtr + *(UInt32*)((Byte*)outPtr + 4) + *(UInt32*)((Byte*)outPtr + 2 * 4) + 1503500717) ^ EventSource::in::s_currentPid);
+  *(Int32*)((Byte*)outPtr + 3 * 4) = (Int32)(*(UInt32*)outPtr + *(UInt32*)((Byte*)outPtr + 4) + *(UInt32*)((Byte*)outPtr + 2 * 4) + 1503500717) ^ Environment::get_ProcessId();
   return (Int32)(ptr - (Byte*)outPtr);
 }
 
@@ -168,7 +169,7 @@ void ActivityTracker___::OnStart(String providerName, String activityName, Int32
   }
   ActivityInfo value = m_current->get_Value();
   String text = NormalizeActivityName(providerName, activityName, task);
-  TplEventSource tplEventSource = useTplSource ? TplEventSource::in::Log : nullptr;
+  TplEventSource tplEventSource = (useTplSource ? TplEventSource::in::Log : nullptr);
   Boolean flag = tplEventSource != nullptr && tplEventSource->Debug;
   if (flag) {
     tplEventSource->DebugFacilityMessage("OnStartEnter", text);
@@ -191,7 +192,7 @@ void ActivityTracker___::OnStart(String providerName, String activityName, Int32
       }
     }
   }
-  Int64 uniqueId = (value != nullptr) ? Interlocked::Increment(value->m_lastChildID) : Interlocked::Increment(m_nextId);
+  Int64 uniqueId = ((value != nullptr) ? Interlocked::Increment(value->m_lastChildID) : Interlocked::Increment(m_nextId));
   relatedActivityId = EventSource::in::get_CurrentThreadActivityId();
   ActivityInfo activityInfo2 = rt::newobj<ActivityInfo>(text, uniqueId, value, relatedActivityId, options);
   m_current->set_Value(activityInfo2);
@@ -207,7 +208,7 @@ void ActivityTracker___::OnStop(String providerName, String activityName, Int32 
     return;
   }
   String text = NormalizeActivityName(providerName, activityName, task);
-  TplEventSource tplEventSource = useTplSource ? TplEventSource::in::Log : nullptr;
+  TplEventSource tplEventSource = (useTplSource ? TplEventSource::in::Log : nullptr);
   Boolean flag = tplEventSource != nullptr && tplEventSource->Debug;
   if (flag) {
     tplEventSource->DebugFacilityMessage("OnStopEnter", text);
@@ -306,7 +307,6 @@ void ActivityTracker___::ctor() {
 
 void ActivityTracker___::cctor() {
   s_activityTrackerInstance = rt::newobj<ActivityTracker>();
-  m_nextId = 0;
 }
 
 } // namespace System::Private::CoreLib::System::Diagnostics::Tracing::ActivityTrackerNamespace

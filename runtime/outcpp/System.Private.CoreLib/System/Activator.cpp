@@ -62,7 +62,7 @@ Object Activator::CreateInstance(Type type, BindingFlags bindingAttr, Binder bin
     rt::throw_exception<NotSupportedException>(SR::get_NotSupported_CreateInstanceWithTypeBuilder());
   }
   if ((bindingAttr & (BindingFlags)255) == 0) {
-    bindingAttr |= (BindingFlags::Instance | BindingFlags::Public | BindingFlags::CreateInstance);
+    bindingAttr |= BindingFlags::Instance | BindingFlags::Public | BindingFlags::CreateInstance;
   }
   if (activationAttributes != nullptr && activationAttributes->get_Length() != 0) {
     rt::throw_exception<PlatformNotSupportedException>(SR::get_NotSupported_ActivAttr());

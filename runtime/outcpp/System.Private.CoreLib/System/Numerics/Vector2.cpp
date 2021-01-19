@@ -33,7 +33,7 @@ Vector2 Vector2::get_UnitY() {
 }
 
 Int32 Vector2::GetHashCode() {
-  return HashCode::Combine(X.GetHashCode(), Y.GetHashCode());
+  return HashCode::Combine(X, Y);
 }
 
 Boolean Vector2::Equals(Object obj) {
@@ -99,7 +99,7 @@ Vector2 Vector2::Clamp(Vector2 value1, Vector2 min, Vector2 max) {
 }
 
 Vector2 Vector2::Lerp(Vector2 value1, Vector2 value2, Single amount) {
-  return value1 + (value2 - value1) * amount;
+  return value1 * (1 - amount) + value2 * amount;
 }
 
 Vector2 Vector2::Transform(Vector2 position, Matrix3x2 matrix) {

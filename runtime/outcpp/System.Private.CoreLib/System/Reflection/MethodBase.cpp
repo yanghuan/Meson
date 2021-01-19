@@ -119,7 +119,7 @@ MethodBase MethodBase___::GetMethodFromHandle(RuntimeMethodHandle handle) {
     rt::throw_exception<ArgumentException>(SR::get_Argument_InvalidHandle());
   }
   MethodBase methodBase = RuntimeType::in::GetMethodBase(handle.GetMethodInfo());
-  Type type = ((Object)methodBase != nullptr) ? methodBase->get_DeclaringType() : nullptr;
+  Type type = (((Object)methodBase != nullptr) ? methodBase->get_DeclaringType() : nullptr);
   if (type != nullptr && type->get_IsGenericType()) {
     rt::throw_exception<ArgumentException>(SR::Format(SR::get_Argument_MethodDeclaringTypeGeneric(), methodBase, type->GetGenericTypeDefinition()));
   }

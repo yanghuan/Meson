@@ -48,6 +48,10 @@ ExecutionContext ExecutionContext___::Capture() {
   return executionContext;
 }
 
+ExecutionContext ExecutionContext___::CaptureForRestore() {
+  return Thread::in::get_CurrentThread()->_executionContext;
+}
+
 ExecutionContext ExecutionContext___::ShallowClone(Boolean isFlowSuppressed) {
   if (m_localValues == nullptr || AsyncLocalValueMap::IsEmpty(m_localValues)) {
     if (!isFlowSuppressed) {
@@ -89,14 +93,14 @@ Boolean ExecutionContext___::IsFlowSuppressed() {
   return false;
 }
 
-void ExecutionContext___::Run(ExecutionContext executionContext, ContextCallback<> callback, Object state) {
+void ExecutionContext___::Run(ExecutionContext executionContext, ContextCallback callback, Object state) {
   if (executionContext == nullptr) {
     ThrowNullContext();
   }
   RunInternal(executionContext, callback, state);
 }
 
-void ExecutionContext___::RunInternal(ExecutionContext executionContext, ContextCallback<> callback, Object state) {
+void ExecutionContext___::RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state) {
   Thread currentThread = Thread::in::get_CurrentThread();
   Thread thread = currentThread;
   ExecutionContext executionContext2 = currentThread->_executionContext;
@@ -132,7 +136,28 @@ void ExecutionContext___::RunInternal(ExecutionContext executionContext, Context
   }
 }
 
-void ExecutionContext___::RunFromThreadPoolDispatchLoop(Thread threadPoolThread, ExecutionContext executionContext, ContextCallback<> callback, Object state) {
+void ExecutionContext___::Restore(ExecutionContext executionContext) {
+  if (executionContext == nullptr) {
+    ThrowNullContext();
+  }
+  RestoreInternal(executionContext);
+}
+
+void ExecutionContext___::RestoreInternal(ExecutionContext executionContext) {
+  Thread currentThread = Thread::in::get_CurrentThread();
+  ExecutionContext executionContext2 = currentThread->_executionContext;
+  if (executionContext2 != nullptr && executionContext2->m_isDefault) {
+    executionContext2 = nullptr;
+  }
+  if (executionContext != nullptr && executionContext->m_isDefault) {
+    executionContext = nullptr;
+  }
+  if (executionContext2 != executionContext) {
+    RestoreChangedContextToThread(currentThread, executionContext, executionContext2);
+  }
+}
+
+void ExecutionContext___::RunFromThreadPoolDispatchLoop(Thread threadPoolThread, ExecutionContext executionContext, ContextCallback callback, Object state) {
   if (executionContext != nullptr && !executionContext->m_isDefault) {
     RestoreChangedContextToThread(threadPoolThread, executionContext, nullptr);
   }
@@ -171,8 +196,8 @@ void ExecutionContext___::ResetThreadPoolThread(Thread currentThread) {
 }
 
 void ExecutionContext___::OnValuesChanged(ExecutionContext previousExecutionCtx, ExecutionContext nextExecutionCtx) {
-  Array<IAsyncLocal> array = (previousExecutionCtx != nullptr) ? previousExecutionCtx->m_localChangeNotifications : nullptr;
-  Array<IAsyncLocal> array2 = (nextExecutionCtx != nullptr) ? nextExecutionCtx->m_localChangeNotifications : nullptr;
+  Array<IAsyncLocal> array = ((previousExecutionCtx != nullptr) ? previousExecutionCtx->m_localChangeNotifications : nullptr);
+  Array<IAsyncLocal> array2 = ((nextExecutionCtx != nullptr) ? nextExecutionCtx->m_localChangeNotifications : nullptr);
   try {
     if (array != nullptr && array2 != nullptr) {
       Array<IAsyncLocal> array3 = array;

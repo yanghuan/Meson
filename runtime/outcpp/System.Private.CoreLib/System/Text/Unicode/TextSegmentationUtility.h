@@ -6,9 +6,7 @@
 #include <System.Private.CoreLib/System/ValueType.h>
 
 namespace System::Private::CoreLib::System {
-FORWARD(AsyncCallback)
 FORWARDS(Char)
-FORWARD(IAsyncResult)
 FORWARDS(IntPtr)
 FORWARD(Object)
 } // namespace System::Private::CoreLib::System
@@ -26,8 +24,6 @@ class TextSegmentationUtility {
   private: CLASS(DecodeFirstRune, T) : public MulticastDelegate::in {
     public: void ctor(Object object, IntPtr method);
     public: OperationStatus Invoke(ReadOnlySpan<T> input, Rune& rune, Int32& elementsConsumed);
-    public: IAsyncResult BeginInvoke(ReadOnlySpan<T> input, Rune& rune, Int32& elementsConsumed, AsyncCallback callback, Object object);
-    public: OperationStatus EndInvoke(Rune& rune, Int32& elementsConsumed, IAsyncResult result);
     public: static constexpr rt::TypeCode code = rt::TypeCode::Delegate;
   };
   private: template <class T>

@@ -16,7 +16,7 @@ Array<String> DriveInfoInternal::GetLogicalDrives() {
   UInt32 num = (UInt32)logicalDrives;
   Int32 num2 = 0;
   while (num != 0) {
-    if ((num & 1) != 0) {
+    if ((num & (true ? 1u : 0u)) != 0) {
       num2++;
     }
     num >>= 1;
@@ -27,7 +27,7 @@ Array<String> DriveInfoInternal::GetLogicalDrives() {
   num = (UInt32)logicalDrives;
   num2 = 0;
   while (num != 0) {
-    if ((num & 1) != 0) {
+    if ((num & (true ? 1u : 0u)) != 0) {
       array[num2++] = span.ToString();
     }
     num >>= 1;

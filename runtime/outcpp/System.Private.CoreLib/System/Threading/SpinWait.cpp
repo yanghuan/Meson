@@ -45,7 +45,7 @@ void SpinWait::SpinOnceCore(Int32 sleep1Threshold) {
     if (_count >= sleep1Threshold && sleep1Threshold >= 0) {
       Thread::in::Sleep(1);
     } else {
-      Int32 num = (_count >= 10) ? ((_count - 10) / 2) : _count;
+      Int32 num = ((_count >= 10) ? ((_count - 10) / 2) : _count);
       if (num % 5 == 4) {
         Thread::in::Sleep(0);
       } else {

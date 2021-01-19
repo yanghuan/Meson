@@ -28,14 +28,14 @@ void IncrementingEventCounter___::WritePayload(Single intervalSec, Int32 polling
     incrementingCounterPayload->set_Name(DiagnosticCounter::in::get_Name());
     incrementingCounterPayload->set_IntervalSec(intervalSec);
     String as = DiagnosticCounter::in::get_DisplayName();
-    incrementingCounterPayload->set_DisplayName((as != nullptr ? as : ""));
+    incrementingCounterPayload->set_DisplayName(as != nullptr ? as : "");
     incrementingCounterPayload->set_DisplayRateTimeScale(((DisplayRateTimeScale == TimeSpan::Zero) ? "" : DisplayRateTimeScale.ToString("c")));
     incrementingCounterPayload->set_Series(String::in::Format("Interval={0}", pollingIntervalMillisec));
     incrementingCounterPayload->set_CounterType("Sum");
     incrementingCounterPayload->set_Metadata(GetMetadataString());
     incrementingCounterPayload->set_Increment(_increment - _prevIncrement);
     String is = DiagnosticCounter::in::get_DisplayUnits();
-    incrementingCounterPayload->set_DisplayUnits((is != nullptr ? is : ""));
+    incrementingCounterPayload->set_DisplayUnits(is != nullptr ? is : "");
     _prevIncrement = _increment;
     DiagnosticCounter::in::get_EventSource()->Write("EventCounters", EventSourceOptions(), rt::newobj<IncrementingEventCounterPayloadType>(incrementingCounterPayload));
   }

@@ -70,7 +70,7 @@ Array<Object> EventPipePayloadDecoder::DecodePayload(EventSource::in::EventMetad
       array[i] = BitConverter::Int64BitsToDouble(BinaryPrimitives::ReadInt64LittleEndian(payload));
       payload = payload.Slice(8);
     } else if (parameterType == typeof<Boolean>()) {
-      array[i] = (BinaryPrimitives::ReadInt32LittleEndian(payload) == 1);
+      array[i] = BinaryPrimitives::ReadInt32LittleEndian(payload) == 1;
       payload = payload.Slice(4);
     } else if (parameterType == typeof<Guid>()) {
       array[i] = Guid(payload.Slice(0, 16));

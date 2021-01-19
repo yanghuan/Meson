@@ -8,6 +8,7 @@
 #include <System.Private.CoreLib/System/NotSupportedException-dep.h>
 #include <System.Private.CoreLib/System/SR-dep.h>
 #include <System.Private.CoreLib/System/Text/Encoding-dep.h>
+#include <System.Private.CoreLib/System/UInt32-dep.h>
 
 namespace System::Private::CoreLib::System::Diagnostics::Tracing::FieldMetadataNamespace {
 using namespace System::Text;
@@ -24,7 +25,7 @@ void FieldMetadata___::ctor(String name, TraceLoggingDataType dataType, EventFie
   this->name = name;
   nameSize = Encoding::in::get_UTF8()->GetByteCount(this->name) + 1;
   inType = (Byte)(num | countFlags);
-  outType = (Byte)(((Int32)dataType >> 8) & 127);
+  outType = (Byte)((UInt32)((Int32)dataType >> 8) & 127u);
   this->tags = tags;
   this->fixedCount = fixedCount;
   this->custom = custom;
@@ -64,12 +65,12 @@ void FieldMetadata___::Encode(Int32& pos, Array<Byte> metadata) {
     metadata[pos] = inType;
   }
   pos++;
-  if ((inType & 128) != 0) {
+  if ((inType & 128u) != 0) {
     if (metadata != nullptr) {
       metadata[pos] = outType;
     }
     pos++;
-    if ((outType & 128) != 0) {
+    if ((outType & 128u) != 0) {
       Statics::EncodeTags((Int32)tags, pos, metadata);
     }
   }

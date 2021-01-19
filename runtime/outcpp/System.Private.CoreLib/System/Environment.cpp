@@ -3,7 +3,6 @@
 #include <System.Private.CoreLib/Internal/Win32/Registry-dep.h>
 #include <System.Private.CoreLib/Internal/Win32/RegistryKey-dep.h>
 #include <System.Private.CoreLib/Interop-dep.h>
-#include <System.Private.CoreLib/System/ApplicationModel-dep.h>
 #include <System.Private.CoreLib/System/ArgumentException-dep.h>
 #include <System.Private.CoreLib/System/ArgumentNullException-dep.h>
 #include <System.Private.CoreLib/System/ArgumentOutOfRangeException-dep.h>
@@ -21,14 +20,13 @@
 #include <System.Private.CoreLib/System/IO/PathHelper-dep.h>
 #include <System.Private.CoreLib/System/IO/Win32Marshal-dep.h>
 #include <System.Private.CoreLib/System/MemoryExtensions-dep.h>
+#include <System.Private.CoreLib/System/Object-dep.h>
 #include <System.Private.CoreLib/System/OutOfMemoryException-dep.h>
 #include <System.Private.CoreLib/System/PasteArguments-dep.h>
 #include <System.Private.CoreLib/System/PlatformID.h>
 #include <System.Private.CoreLib/System/ReadOnlySpan-dep.h>
 #include <System.Private.CoreLib/System/Reflection/AssemblyInformationalVersionAttribute-dep.h>
-#include <System.Private.CoreLib/System/Reflection/BindingFlags.h>
 #include <System.Private.CoreLib/System/Reflection/CustomAttributeExtensions-dep.h>
-#include <System.Private.CoreLib/System/Reflection/MethodInfo-dep.h>
 #include <System.Private.CoreLib/System/Runtime/InteropServices/Marshal-dep.h>
 #include <System.Private.CoreLib/System/Runtime/InteropServices/MemoryMarshal-dep.h>
 #include <System.Private.CoreLib/System/Span-dep.h>
@@ -50,29 +48,6 @@ using namespace System::Reflection;
 using namespace System::Runtime::InteropServices;
 using namespace System::Text;
 using namespace System::Threading;
-
-void Environment::WinRTFolderPaths::__c___::cctor() {
-  __9 = rt::newobj<__c>();
-}
-
-void Environment::WinRTFolderPaths::__c___::ctor() {
-}
-
-String Environment::WinRTFolderPaths::__c___::_GetFolderPath_b__1_0(SpecialFolder _p0_, SpecialFolderOption _p1_) {
-  return String::in::Empty;
-}
-
-String Environment::WinRTFolderPaths::GetFolderPath(SpecialFolder folder, SpecialFolderOption option) {
-  if (s_winRTFolderPathsGetFolderPath == nullptr) {
-    Type type = Type::in::GetType("System.WinRTFolderPaths, System.Runtime.WindowsRuntime, Version=4.0.14.0, Culture=neutral, PublicKeyToken=b77a5c561934e089", false);
-    MethodInfo methodInfo = ((Object)type != nullptr) ? type->GetMethod("GetFolderPath", BindingFlags::Static | BindingFlags::Public | BindingFlags::NonPublic, nullptr, rt::newarr<Array<Type>>(2), nullptr) : nullptr;
-    Func<SpecialFolder, SpecialFolderOption, String> func = (Func<SpecialFolder, SpecialFolderOption, String>)(((Object)methodInfo != nullptr) ? methodInfo->CreateDelegate(typeof<Func<SpecialFolder, SpecialFolderOption, String>>()) : nullptr);
-    Func<SpecialFolder, SpecialFolderOption, String> as = __c::in::__9__1_0;
-    Func<SpecialFolder, SpecialFolderOption, String> is = func;
-    s_winRTFolderPathsGetFolderPath = (is != nullptr ? is : as != nullptr ? as : (__c::in::__9__1_0 = {__c::in::__9, &__c::in::_GetFolderPath_b__1_0}));
-  }
-  return s_winRTFolderPathsGetFolderPath(folder, option);
-}
 
 Boolean Environment::WindowsVersion::GetIsWindows8OrAbove() {
   UInt64 conditionMask = Interop::Kernel32::VerSetConditionMask(0, 2u, 3);
@@ -130,13 +105,20 @@ void Environment::set_CurrentDirectory(String value) {
   get_CurrentDirectoryCore(value);
 }
 
+Int32 Environment::get_ProcessId() {
+  if (!s_haveProcessId) {
+    s_processId = GetCurrentProcessId();
+    s_haveProcessId = true;
+  }
+  return s_processId;
+}
+
 Boolean Environment::get_Is64BitProcess() {
   return IntPtr::get_Size() == 8;
 }
 
 Boolean Environment::get_Is64BitOperatingSystem() {
   if (!get_Is64BitProcess()) {
-    return get_Is64BitOperatingSystemWhen32BitProcess();
   }
   return true;
 }
@@ -154,7 +136,7 @@ OperatingSystem Environment::get_OSVersion() {
 
 Version Environment::get_Version() {
   AssemblyInformationalVersionAttribute customAttribute = CustomAttributeExtensions::GetCustomAttribute<AssemblyInformationalVersionAttribute>(typeof<Object>()->get_Assembly());
-  String text = (customAttribute != nullptr) ? customAttribute->get_InformationalVersion() : nullptr;
+  String text = ((customAttribute != nullptr) ? customAttribute->get_InformationalVersion() : nullptr);
   ReadOnlySpan<Char> readOnlySpan = MemoryExtensions::AsSpan(text);
   Int32 num = MemoryExtensions::IndexOfAny(readOnlySpan, '-', '+', ' ');
   if (num != -1) {
@@ -172,9 +154,6 @@ Boolean Environment::get_IsWindows8OrAbove() {
 }
 
 String Environment::get_UserName() {
-  if (ApplicationModel::IsUap) {
-    return "Windows User";
-  }
   Char as[40] = {};
   Span<Char> initialBuffer = as;
   ValueStringBuilder builder = ValueStringBuilder(initialBuffer);
@@ -190,9 +169,6 @@ String Environment::get_UserName() {
 }
 
 String Environment::get_UserDomainName() {
-  if (ApplicationModel::IsUap) {
-    return "Windows Domain";
-  }
   Char as[40] = {};
   Span<Char> initialBuffer = as;
   ValueStringBuilder builder = ValueStringBuilder(initialBuffer);
@@ -208,11 +184,10 @@ String Environment::get_UserDomainName() {
   ValueStringBuilder valueStringBuilder = ValueStringBuilder(initialBuffer);
   UInt32 cchReferencedDomainName = (UInt32)valueStringBuilder.get_Capacity();
   Byte in[68] = {};
-  Span<Byte> span2 = Span<Byte>(in, 68);
-  Span<Byte> span3 = span2;
+  Span<Byte> span2 = in;
   UInt32 cbSid = 68u;
   UInt32 peUse;
-  while (!Interop::Advapi32::LookupAccountNameW(nullptr, builder.GetPinnableReference(), MemoryMarshal::GetReference(span3), cbSid, valueStringBuilder.GetPinnableReference(), cchReferencedDomainName, peUse)) {
+  while (!Interop::Advapi32::LookupAccountNameW(nullptr, builder.GetPinnableReference(), MemoryMarshal::GetReference(span2), cbSid, valueStringBuilder.GetPinnableReference(), cchReferencedDomainName, peUse)) {
     Int32 lastWin32Error = Marshal::GetLastWin32Error();
     if (lastWin32Error != 122) {
       rt::throw_exception<InvalidOperationException>(Win32Marshal::GetMessage(lastWin32Error));
@@ -255,11 +230,6 @@ Int32 Environment::get_SystemPageSize() {
   Interop::Kernel32::SYSTEM_INFO lpSystemInfo;
   Interop::Kernel32::GetSystemInfo(lpSystemInfo);
   return lpSystemInfo.dwPageSize;
-}
-
-Boolean Environment::get_Is64BitOperatingSystemWhen32BitProcess() {
-  Boolean Wow64Process;
-  return Interop::Kernel32::IsWow64Process(Interop::Kernel32::GetCurrentProcess(), Wow64Process) && Wow64Process;
 }
 
 String Environment::get_MachineName() {
@@ -391,14 +361,6 @@ String Environment::GetFolderPath(SpecialFolder folder, SpecialFolderOption opti
 }
 
 Boolean Environment::ValidateAndConvertRegistryTarget(EnvironmentVariableTarget target) {
-  switch (target) {
-    case EnvironmentVariableTarget::Machine:
-      return true;
-    case EnvironmentVariableTarget::User:
-      return false;
-    default:
-      rt::throw_exception<ArgumentOutOfRangeException>("target", target, SR::Format(SR::get_Arg_EnumIllegalVal(), target));
-  }
 }
 
 void Environment::ValidateVariableAndValue(String variable, String& value) {
@@ -420,9 +382,6 @@ void Environment::ValidateVariableAndValue(String variable, String& value) {
 }
 
 String Environment::GetEnvironmentVariableFromRegistry(String variable, Boolean fromMachine) {
-  if (ApplicationModel::IsUap) {
-    return nullptr;
-  }
   {
     RegistryKey registryKey = OpenEnvironmentKeyIfExists(fromMachine, false);
     rt::Using(registryKey);
@@ -431,9 +390,6 @@ String Environment::GetEnvironmentVariableFromRegistry(String variable, Boolean 
 }
 
 void Environment::SetEnvironmentVariableFromRegistry(String variable, String value, Boolean fromMachine) {
-  if (ApplicationModel::IsUap) {
-    return;
-  }
   if (!fromMachine && variable->get_Length() >= 255) {
     rt::throw_exception<ArgumentException>(SR::get_Argument_LongEnvVarValue(), "variable");
   }
@@ -451,15 +407,12 @@ void Environment::SetEnvironmentVariableFromRegistry(String variable, String val
   {
     Char* value2 = "Environment";
     IntPtr pdwResult;
-    IntPtr intPtr = Interop::User32::SendMessageTimeout(IntPtr((Int32)65535), 26, IntPtr::Zero, (IntPtr)(void*)value2, 0, 1000, pdwResult);
+    IntPtr intPtr = Interop::User32::SendMessageTimeout(IntPtr((Int32)65535), 26, IntPtr::Zero, (IntPtr)value2, 0, 1000, pdwResult);
   }
 }
 
 IDictionary Environment::GetEnvironmentVariablesFromRegistry(Boolean fromMachine) {
   Hashtable hashtable = rt::newobj<Hashtable>();
-  if (ApplicationModel::IsUap) {
-    return hashtable;
-  }
   {
     RegistryKey registryKey = OpenEnvironmentKeyIfExists(fromMachine, false);
     rt::Using(registryKey);
@@ -505,9 +458,6 @@ void Environment::GetUserName(ValueStringBuilder& builder) {
 }
 
 String Environment::GetFolderPathCore(SpecialFolder folder, SpecialFolderOption option) {
-  if (ApplicationModel::IsUap) {
-    return WinRTFolderPaths::GetFolderPath(folder, option);
-  }
   String folderGuid;
   switch (folder) {
     case SpecialFolder::ApplicationData:
@@ -680,6 +630,10 @@ String Environment::ExpandEnvironmentVariablesCore(String name) {
   }
   valueStringBuilder.set_Length((Int32)(num - 1));
   return valueStringBuilder.ToString();
+}
+
+Int32 Environment::GetCurrentProcessId() {
+  return (Int32)Interop::Kernel32::GetCurrentProcessId();
 }
 
 OperatingSystem Environment::GetOSVersion() {

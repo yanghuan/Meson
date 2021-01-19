@@ -384,7 +384,7 @@ Array<Type> ModuleBuilder___::GetTypesNoLock() {
   Int32 num = 0;
   for (Type&& value : *_typeBuilderDict->get_Values()) {
     EnumBuilder enumBuilder = rt::as<EnumBuilder>(value);
-    TypeBuilder typeBuilder = (!(enumBuilder != nullptr)) ? ((TypeBuilder)value) : enumBuilder->m_typeBuilder;
+    TypeBuilder typeBuilder = ((!(enumBuilder != nullptr)) ? ((TypeBuilder)value) : enumBuilder->m_typeBuilder);
     if (typeBuilder->IsCreated()) {
       array[num++] = typeBuilder->get_UnderlyingSystemType();
     } else {
@@ -769,7 +769,7 @@ MethodToken ModuleBuilder___::GetMethodTokenNoLock(MethodInfo method, Boolean ge
     if (method->get_DeclaringType() == nullptr) {
       rt::throw_exception<InvalidOperationException>(SR::get_InvalidOperation_CannotImportGlobalFromDifferentModule());
     }
-    Int32 tr = getGenericTypeDefinition ? GetTypeToken(method->get_DeclaringType()).get_Token() : GetTypeTokenInternal(method->get_DeclaringType()).get_Token();
+    Int32 tr = (getGenericTypeDefinition ? GetTypeToken(method->get_DeclaringType()).get_Token() : GetTypeTokenInternal(method->get_DeclaringType()).get_Token());
     num = GetMemberRef(method->get_DeclaringType()->get_Module(), tr, metadataTokenInternal);
   } else {
     if (rt::is<MethodOnTypeBuilderInstantiation>(method)) {
@@ -796,7 +796,7 @@ MethodToken ModuleBuilder___::GetMethodTokenNoLock(MethodInfo method, Boolean ge
     }
     RuntimeMethodInfo runtimeMethodInfo = rt::as<RuntimeMethodInfo>(method);
     if ((Object)runtimeMethodInfo != nullptr) {
-      Int32 tr = getGenericTypeDefinition ? GetTypeToken(declaringType).get_Token() : GetTypeTokenInternal(declaringType).get_Token();
+      Int32 tr = (getGenericTypeDefinition ? GetTypeToken(declaringType).get_Token() : GetTypeTokenInternal(declaringType).get_Token());
       num = GetMemberRefOfMethodInfo(tr, runtimeMethodInfo);
     } else {
       Array<ParameterInfo> parameters2 = method->GetParameters();
@@ -808,7 +808,7 @@ MethodToken ModuleBuilder___::GetMethodTokenNoLock(MethodInfo method, Boolean ge
         array3[j] = parameters2[j]->GetRequiredCustomModifiers();
         array4[j] = parameters2[j]->GetOptionalCustomModifiers();
       }
-      Int32 tr = getGenericTypeDefinition ? GetTypeToken(declaringType).get_Token() : GetTypeTokenInternal(declaringType).get_Token();
+      Int32 tr = (getGenericTypeDefinition ? GetTypeToken(declaringType).get_Token() : GetTypeTokenInternal(declaringType).get_Token());
       SignatureHelper methodSigHelper;
       try {
         methodSigHelper = SignatureHelper::in::GetMethodSigHelper((ModuleBuilder)this, method->get_CallingConvention(), method->get_ReturnType(), method->get_ReturnParameter()->GetRequiredCustomModifiers(), method->get_ReturnParameter()->GetOptionalCustomModifiers(), array2, array3, array4);
@@ -831,7 +831,7 @@ Int32 ModuleBuilder___::GetMethodTokenInternal(MethodBase method, IEnumerable<Ty
     if (!isGenericMethodDefinition) {
       methodInfo2 = methodInfo->GetGenericMethodDefinition();
     }
-    Int32 num = (Equals(methodInfo2->get_Module()) && (!(methodInfo2->get_DeclaringType() != nullptr) || !methodInfo2->get_DeclaringType()->get_IsGenericType())) ? GetMethodTokenInternal(methodInfo2).get_Token() : GetMemberRefToken(methodInfo2, nullptr);
+    Int32 num = ((Equals(methodInfo2->get_Module()) && (!(methodInfo2->get_DeclaringType() != nullptr) || !methodInfo2->get_DeclaringType()->get_IsGenericType())) ? GetMethodTokenInternal(methodInfo2).get_Token() : GetMemberRefToken(methodInfo2, nullptr));
     if (isGenericMethodDefinition && useMethodDef) {
       return num;
     }

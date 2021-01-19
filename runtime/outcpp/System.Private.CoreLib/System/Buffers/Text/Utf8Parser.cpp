@@ -8,6 +8,7 @@
 #include <System.Private.CoreLib/System/DateTimeKind.h>
 #include <System.Private.CoreLib/System/DateTimeOffset-dep.h>
 #include <System.Private.CoreLib/System/DayOfWeek.h>
+#include <System.Private.CoreLib/System/HexConverter-dep.h>
 #include <System.Private.CoreLib/System/Int16-dep.h>
 #include <System.Private.CoreLib/System/Int64-dep.h>
 #include <System.Private.CoreLib/System/Math-dep.h>
@@ -204,29 +205,13 @@ Boolean Utf8Parser::TryParse(ReadOnlySpan<Byte> source, DateTime& value, Int32& 
         DateTimeOffset valueAsOffset;
         return TryParseDateTimeG(source, value, valueAsOffset, bytesConsumed);
       }default:
-      return ParserHelpers::TryParseThrowFormatException(value, bytesConsumed);
+      return ParserHelpers::TryParseThrowFormatException<DateTime>(value, bytesConsumed);
   }
 }
 
 Boolean Utf8Parser::TryParse(ReadOnlySpan<Byte> source, DateTimeOffset& value, Int32& bytesConsumed, Char standardFormat) {
-  switch (standardFormat.get()) {
-    case 'R':
-      return TryParseDateTimeOffsetR(source, 0u, value, bytesConsumed);
-    case 'l':
-      return TryParseDateTimeOffsetR(source, 32u, value, bytesConsumed);
-    case 'O':
-      {
-        DateTimeKind kind;
-        return TryParseDateTimeOffsetO(source, value, bytesConsumed, kind);
-      }case '\0':
-      return TryParseDateTimeOffsetDefault(source, value, bytesConsumed);
-    case 'G':
-      {
-        DateTime value2;
-        return TryParseDateTimeG(source, value2, value, bytesConsumed);
-      }default:
-      return ParserHelpers::TryParseThrowFormatException(value, bytesConsumed);
-  }
+  DateTimeKind kind;
+  DateTime value2;
 }
 
 Boolean Utf8Parser::TryParseDateTimeOffsetDefault(ReadOnlySpan<Byte> source, DateTimeOffset& value, Int32& bytesConsumed) {
@@ -468,7 +453,7 @@ Boolean Utf8Parser::TryCreateDateTime(Int32 year, Int32 month, Int32 day, Int32 
     value = rt::default__;
     return false;
   }
-  Array<Int32> array = DateTime::IsLeapYear(year) ? s_daysToMonth366 : s_daysToMonth365;
+  Array<Int32> array = (DateTime::IsLeapYear(year) ? s_daysToMonth366 : s_daysToMonth365);
   Int32 num2 = year - 1;
   Int32 num3 = num2 * 365 + num2 / 4 - num2 / 100 + num2 / 400 + array[month - 1] + day - 1;
   Int64 num4 = num3 * 864000000000;
@@ -847,7 +832,7 @@ Boolean Utf8Parser::TryParse(ReadOnlySpan<Byte> source, Decimal& value, Int32& b
       options = (ParseNumberOptions)0;
       break;
     default:
-      return ParserHelpers::TryParseThrowFormatException(value, bytesConsumed);
+      return ParserHelpers::TryParseThrowFormatException<Decimal>(value, bytesConsumed);
   }
   Byte as[31] = {};
   Byte* digits = as;
@@ -935,7 +920,7 @@ Boolean Utf8Parser::TryParse(ReadOnlySpan<Byte> source, Guid& value, Int32& byte
       case 'N':
         return TryParseGuidN(source, value, bytesConsumed);
       default:
-        return ParserHelpers::TryParseThrowFormatException(source, value, bytesConsumed);
+        return ParserHelpers::TryParseThrowFormatException<Guid>(source, value, bytesConsumed);
     }
     standardFormat = '\0';
   }
@@ -1098,10 +1083,10 @@ Boolean Utf8Parser::TryParse(ReadOnlySpan<Byte> source, SByte& value, Int32& byt
       case 110:
         return TryParseSByteN(source, value, bytesConsumed);
       case 120:
-        Unsafe::SkipInit(value);
+        Unsafe::SkipInit<SByte>(value);
         return TryParseByteX(source, Unsafe::As<SByte, Byte>(value), bytesConsumed);
       default:
-        return ParserHelpers::TryParseThrowFormatException(source, value, bytesConsumed);
+        return ParserHelpers::TryParseThrowFormatException<SByte>(source, value, bytesConsumed);
     }
     standardFormat = '\0';
   }
@@ -1117,10 +1102,10 @@ Boolean Utf8Parser::TryParse(ReadOnlySpan<Byte> source, Int16& value, Int32& byt
       case 110:
         return TryParseInt16N(source, value, bytesConsumed);
       case 120:
-        Unsafe::SkipInit(value);
+        Unsafe::SkipInit<Int16>(value);
         return TryParseUInt16X(source, Unsafe::As<Int16, UInt16>(value), bytesConsumed);
       default:
-        return ParserHelpers::TryParseThrowFormatException(source, value, bytesConsumed);
+        return ParserHelpers::TryParseThrowFormatException<Int16>(source, value, bytesConsumed);
     }
     standardFormat = '\0';
   }
@@ -1136,10 +1121,10 @@ Boolean Utf8Parser::TryParse(ReadOnlySpan<Byte> source, Int32& value, Int32& byt
       case 110:
         return TryParseInt32N(source, value, bytesConsumed);
       case 120:
-        Unsafe::SkipInit(value);
+        Unsafe::SkipInit<Int32>(value);
         return TryParseUInt32X(source, Unsafe::As<Int32, UInt32>(value), bytesConsumed);
       default:
-        return ParserHelpers::TryParseThrowFormatException(source, value, bytesConsumed);
+        return ParserHelpers::TryParseThrowFormatException<Int32>(source, value, bytesConsumed);
     }
     standardFormat = '\0';
   }
@@ -1155,10 +1140,10 @@ Boolean Utf8Parser::TryParse(ReadOnlySpan<Byte> source, Int64& value, Int32& byt
       case 110:
         return TryParseInt64N(source, value, bytesConsumed);
       case 120:
-        Unsafe::SkipInit(value);
+        Unsafe::SkipInit<Int64>(value);
         return TryParseUInt64X(source, Unsafe::As<Int64, UInt64>(value), bytesConsumed);
       default:
-        return ParserHelpers::TryParseThrowFormatException(source, value, bytesConsumed);
+        return ParserHelpers::TryParseThrowFormatException<Int64>(source, value, bytesConsumed);
     }
     standardFormat = '\0';
   }
@@ -1937,7 +1922,7 @@ Boolean Utf8Parser::TryParse(ReadOnlySpan<Byte> source, Byte& value, Int32& byte
       case 120:
         return TryParseByteX(source, value, bytesConsumed);
       default:
-        return ParserHelpers::TryParseThrowFormatException(source, value, bytesConsumed);
+        return ParserHelpers::TryParseThrowFormatException<Byte>(source, value, bytesConsumed);
     }
     standardFormat = '\0';
   }
@@ -1955,7 +1940,7 @@ Boolean Utf8Parser::TryParse(ReadOnlySpan<Byte> source, UInt16& value, Int32& by
       case 120:
         return TryParseUInt16X(source, value, bytesConsumed);
       default:
-        return ParserHelpers::TryParseThrowFormatException(source, value, bytesConsumed);
+        return ParserHelpers::TryParseThrowFormatException<UInt16>(source, value, bytesConsumed);
     }
     standardFormat = '\0';
   }
@@ -1973,7 +1958,7 @@ Boolean Utf8Parser::TryParse(ReadOnlySpan<Byte> source, UInt32& value, Int32& by
       case 120:
         return TryParseUInt32X(source, value, bytesConsumed);
       default:
-        return ParserHelpers::TryParseThrowFormatException(source, value, bytesConsumed);
+        return ParserHelpers::TryParseThrowFormatException<UInt32>(source, value, bytesConsumed);
     }
     standardFormat = '\0';
   }
@@ -1991,7 +1976,7 @@ Boolean Utf8Parser::TryParse(ReadOnlySpan<Byte> source, UInt64& value, Int32& by
       case 120:
         return TryParseUInt64X(source, value, bytesConsumed);
       default:
-        return ParserHelpers::TryParseThrowFormatException(source, value, bytesConsumed);
+        return ParserHelpers::TryParseThrowFormatException<UInt64>(source, value, bytesConsumed);
     }
     standardFormat = '\0';
   }
@@ -2648,9 +2633,9 @@ Boolean Utf8Parser::TryParseByteX(ReadOnlySpan<Byte> source, Byte& value, Int32&
     value = 0;
     return false;
   }
-  ReadOnlySpan<Byte> hexLookup = ParserHelpers::get_HexLookup();
+  ReadOnlySpan<Byte> charToHexLookup = HexConverter::get_CharToHexLookup();
   Byte index = source[0];
-  Byte b = hexLookup[index];
+  Byte b = charToHexLookup[index];
   if (b == Byte::MaxValue) {
     bytesConsumed = 0;
     value = 0;
@@ -2660,7 +2645,7 @@ Boolean Utf8Parser::TryParseByteX(ReadOnlySpan<Byte> source, Byte& value, Int32&
   if (source.get_Length() <= 2) {
     for (Int32 i = 1; i < source.get_Length(); i++) {
       index = source[i];
-      b = hexLookup[index];
+      b = charToHexLookup[index];
       if (b == Byte::MaxValue) {
         bytesConsumed = i;
         value = (Byte)num;
@@ -2671,7 +2656,7 @@ Boolean Utf8Parser::TryParseByteX(ReadOnlySpan<Byte> source, Byte& value, Int32&
   } else {
     for (Int32 j = 1; j < 2; j++) {
       index = source[j];
-      b = hexLookup[index];
+      b = charToHexLookup[index];
       if (b == Byte::MaxValue) {
         bytesConsumed = j;
         value = (Byte)num;
@@ -2681,7 +2666,7 @@ Boolean Utf8Parser::TryParseByteX(ReadOnlySpan<Byte> source, Byte& value, Int32&
     }
     for (Int32 k = 2; k < source.get_Length(); k++) {
       index = source[k];
-      b = hexLookup[index];
+      b = charToHexLookup[index];
       if (b == Byte::MaxValue) {
         bytesConsumed = k;
         value = (Byte)num;
@@ -2706,9 +2691,9 @@ Boolean Utf8Parser::TryParseUInt16X(ReadOnlySpan<Byte> source, UInt16& value, In
     value = 0;
     return false;
   }
-  ReadOnlySpan<Byte> hexLookup = ParserHelpers::get_HexLookup();
+  ReadOnlySpan<Byte> charToHexLookup = HexConverter::get_CharToHexLookup();
   Byte index = source[0];
-  Byte b = hexLookup[index];
+  Byte b = charToHexLookup[index];
   if (b == Byte::MaxValue) {
     bytesConsumed = 0;
     value = 0;
@@ -2718,7 +2703,7 @@ Boolean Utf8Parser::TryParseUInt16X(ReadOnlySpan<Byte> source, UInt16& value, In
   if (source.get_Length() <= 4) {
     for (Int32 i = 1; i < source.get_Length(); i++) {
       index = source[i];
-      b = hexLookup[index];
+      b = charToHexLookup[index];
       if (b == Byte::MaxValue) {
         bytesConsumed = i;
         value = (UInt16)num;
@@ -2729,7 +2714,7 @@ Boolean Utf8Parser::TryParseUInt16X(ReadOnlySpan<Byte> source, UInt16& value, In
   } else {
     for (Int32 j = 1; j < 4; j++) {
       index = source[j];
-      b = hexLookup[index];
+      b = charToHexLookup[index];
       if (b == Byte::MaxValue) {
         bytesConsumed = j;
         value = (UInt16)num;
@@ -2739,7 +2724,7 @@ Boolean Utf8Parser::TryParseUInt16X(ReadOnlySpan<Byte> source, UInt16& value, In
     }
     for (Int32 k = 4; k < source.get_Length(); k++) {
       index = source[k];
-      b = hexLookup[index];
+      b = charToHexLookup[index];
       if (b == Byte::MaxValue) {
         bytesConsumed = k;
         value = (UInt16)num;
@@ -2764,9 +2749,9 @@ Boolean Utf8Parser::TryParseUInt32X(ReadOnlySpan<Byte> source, UInt32& value, In
     value = 0u;
     return false;
   }
-  ReadOnlySpan<Byte> hexLookup = ParserHelpers::get_HexLookup();
+  ReadOnlySpan<Byte> charToHexLookup = HexConverter::get_CharToHexLookup();
   Byte index = source[0];
-  Byte b = hexLookup[index];
+  Byte b = charToHexLookup[index];
   if (b == Byte::MaxValue) {
     bytesConsumed = 0;
     value = 0u;
@@ -2776,7 +2761,7 @@ Boolean Utf8Parser::TryParseUInt32X(ReadOnlySpan<Byte> source, UInt32& value, In
   if (source.get_Length() <= 8) {
     for (Int32 i = 1; i < source.get_Length(); i++) {
       index = source[i];
-      b = hexLookup[index];
+      b = charToHexLookup[index];
       if (b == Byte::MaxValue) {
         bytesConsumed = i;
         value = num;
@@ -2787,7 +2772,7 @@ Boolean Utf8Parser::TryParseUInt32X(ReadOnlySpan<Byte> source, UInt32& value, In
   } else {
     for (Int32 j = 1; j < 8; j++) {
       index = source[j];
-      b = hexLookup[index];
+      b = charToHexLookup[index];
       if (b == Byte::MaxValue) {
         bytesConsumed = j;
         value = num;
@@ -2797,7 +2782,7 @@ Boolean Utf8Parser::TryParseUInt32X(ReadOnlySpan<Byte> source, UInt32& value, In
     }
     for (Int32 k = 8; k < source.get_Length(); k++) {
       index = source[k];
-      b = hexLookup[index];
+      b = charToHexLookup[index];
       if (b == Byte::MaxValue) {
         bytesConsumed = k;
         value = num;
@@ -2822,9 +2807,9 @@ Boolean Utf8Parser::TryParseUInt64X(ReadOnlySpan<Byte> source, UInt64& value, In
     value = 0;
     return false;
   }
-  ReadOnlySpan<Byte> hexLookup = ParserHelpers::get_HexLookup();
+  ReadOnlySpan<Byte> charToHexLookup = HexConverter::get_CharToHexLookup();
   Byte index = source[0];
-  Byte b = hexLookup[index];
+  Byte b = charToHexLookup[index];
   if (b == Byte::MaxValue) {
     bytesConsumed = 0;
     value = 0;
@@ -2834,7 +2819,7 @@ Boolean Utf8Parser::TryParseUInt64X(ReadOnlySpan<Byte> source, UInt64& value, In
   if (source.get_Length() <= 16) {
     for (Int32 i = 1; i < source.get_Length(); i++) {
       index = source[i];
-      b = hexLookup[index];
+      b = charToHexLookup[index];
       if (b == Byte::MaxValue) {
         bytesConsumed = i;
         value = num;
@@ -2845,7 +2830,7 @@ Boolean Utf8Parser::TryParseUInt64X(ReadOnlySpan<Byte> source, UInt64& value, In
   } else {
     for (Int32 j = 1; j < 16; j++) {
       index = source[j];
-      b = hexLookup[index];
+      b = charToHexLookup[index];
       if (b == Byte::MaxValue) {
         bytesConsumed = j;
         value = num;
@@ -2855,7 +2840,7 @@ Boolean Utf8Parser::TryParseUInt64X(ReadOnlySpan<Byte> source, UInt64& value, In
     }
     for (Int32 k = 16; k < source.get_Length(); k++) {
       index = source[k];
-      b = hexLookup[index];
+      b = charToHexLookup[index];
       if (b == Byte::MaxValue) {
         bytesConsumed = k;
         value = num;
@@ -2926,7 +2911,7 @@ IL_0055:
       num6 |= num7;
     }
   }
-  number.HasNonZeroTail = (num6 != 0);
+  number.HasNonZeroTail = num6 != 0;
   Int32 num8 = i - num2;
   Int32 num9 = i - num5;
   Int32 num10 = Math::Min(num9, num4);
@@ -2955,7 +2940,7 @@ IL_0055:
         num6 |= num13;
       }
     }
-    number.HasNonZeroTail = (num6 != 0);
+    number.HasNonZeroTail = num6 != 0;
     num11 = i - num12;
     Int32 j = num12;
     if (num == 0) {
@@ -3197,7 +3182,7 @@ Boolean Utf8Parser::TryParse(ReadOnlySpan<Byte> source, TimeSpan& value, Int32& 
     case 'g':
       return TryParseTimeSpanLittleG(source, value, bytesConsumed);
     default:
-      return ParserHelpers::TryParseThrowFormatException(value, bytesConsumed);
+      return ParserHelpers::TryParseThrowFormatException<TimeSpan>(value, bytesConsumed);
   }
 }
 

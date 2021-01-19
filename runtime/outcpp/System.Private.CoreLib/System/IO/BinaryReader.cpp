@@ -58,7 +58,7 @@ void BinaryReader___::ctor(Stream input, Encoding encoding, Boolean leaveOpen) {
   }
   _buffer = rt::newarr<Array<Byte>>(num);
   _2BytesPerChar = rt::is<UnicodeEncoding>(encoding);
-  _isMemoryStream = (_stream->GetType() == typeof<MemoryStream>());
+  _isMemoryStream = _stream->GetType() == typeof<MemoryStream>();
   _leaveOpen = leaveOpen;
 }
 
@@ -109,7 +109,7 @@ Int32 BinaryReader___::Read() {
   Char as[1] = {};
   Span<Char> chars = as;
   while (num == 0) {
-    Int32 num3 = (!_2BytesPerChar) ? 1 : 2;
+    Int32 num3 = ((!_2BytesPerChar) ? 1 : 2);
     Int32 num4 = _stream->ReadByte();
     _charBytes[0] = (Byte)num4;
     if (num4 == -1) {
@@ -225,7 +225,7 @@ String BinaryReader___::ReadString() {
   }
   StringBuilder stringBuilder = nullptr;
   do {
-    Int32 count = (num2 - num > 128) ? 128 : (num2 - num);
+    Int32 count = ((num2 - num > 128) ? 128 : (num2 - num));
     Int32 num3 = _stream->Read(_charBytes, 0, count);
     if (num3 == 0) {
       rt::throw_exception(Error::GetEndOfFile());
@@ -435,7 +435,7 @@ Int64 BinaryReader___::Read7BitEncodedInt64() {
   Byte b;
   for (Int32 i = 0; i < 63; i += 7) {
     b = ReadByte();
-    num |= (UInt64)(((Int64)b & 127) << i);
+    num |= ((UInt64)b & 127) << i;
     if ((UInt32)b <= 127u) {
       return (Int64)num;
     }

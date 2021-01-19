@@ -17,7 +17,7 @@ Int32 FastResourceComparer___::GetHashCode(String key) {
 Int32 FastResourceComparer___::HashFunction(String key) {
   UInt32 num = 5381u;
   for (Int32 i = 0; i < key->get_Length(); i++) {
-    num = (((num << 5) + num) ^ key[i]);
+    num = ((num << 5) + num) ^ key[i];
   }
   return (Int32)num;
 }

@@ -11,12 +11,8 @@
 #include <System.Private.CoreLib/System/DateTime-dep.h>
 #include <System.Private.CoreLib/System/Decimal-dep.h>
 #include <System.Private.CoreLib/System/Diagnostics/Tracing/ControllerCommand.h>
-#include <System.Private.CoreLib/System/Diagnostics/Tracing/EtwEventProvider-dep.h>
 #include <System.Private.CoreLib/System/Diagnostics/Tracing/EventListener-dep.h>
-#include <System.Private.CoreLib/System/Diagnostics/Tracing/EventPipeEventProvider-dep.h>
 #include <System.Private.CoreLib/System/Diagnostics/Tracing/EventProvider-dep.h>
-#include <System.Private.CoreLib/System/Diagnostics/Tracing/IEventProvider.h>
-#include <System.Private.CoreLib/System/Diagnostics/Tracing/NoOpEventProvider-dep.h>
 #include <System.Private.CoreLib/System/Diagnostics/Tracing/SessionMask-dep.h>
 #include <System.Private.CoreLib/System/Double-dep.h>
 #include <System.Private.CoreLib/System/Enum-dep.h>
@@ -69,19 +65,6 @@ EventKeywords EventProvider___::get_MatchAnyKeyword() {
 }
 
 void EventProvider___::ctor(EventProviderType providerType) {
-  IEventProvider eventProvider;
-  switch (providerType) {
-    case EventProviderType::ETW:
-      eventProvider = rt::newobj<EtwEventProvider>();
-      break;
-    case EventProviderType::EventPipe:
-      eventProvider = rt::newobj<EventPipeEventProvider>();
-      break;
-    default:
-      eventProvider = rt::newobj<NoOpEventProvider>();
-      break;
-  }
-  m_eventProvider = eventProvider;
 }
 
 void EventProvider___::Register(EventSource eventSource) {
@@ -127,8 +110,6 @@ void EventProvider___::EtwEnableCallBack(Guid& sourceId, Int32 controlCode, Byte
     IDictionary<String, String> dictionary = nullptr;
     Boolean flag = false;
     switch (controlCode.get()) {
-      default:
-        return;
       case 1:
         {
           m_enabled = true;
@@ -159,7 +140,7 @@ void EventProvider___::EtwEnableCallBack(Guid& sourceId, Int32 controlCode, Byte
                   Int32 num3 = FindNull(data, num2);
                   if (num3 < data->get_Length()) {
                     String string = Encoding::in::get_UTF8()->GetString(data, dataStart, num - dataStart);
-                    String text = dictionary[string] = Encoding::in::get_UTF8()->GetString(data, num2, num3 - num2);
+                    String text = (dictionary[string] = Encoding::in::get_UTF8()->GetString(data, num2, num3 - num2));
                   }
                   dataStart = num3 + 1;
                 }
@@ -178,6 +159,8 @@ void EventProvider___::EtwEnableCallBack(Guid& sourceId, Int32 controlCode, Byte
       case 2:
         command = ControllerCommand::SendManifest;
         break;
+      default:
+        return;
     }
     if (!flag) {
       OnControllerCommand(command, dictionary, 0, 0);
@@ -256,7 +239,7 @@ void EventProvider___::GetSessionInfo(SessionInfoCallback action, List<SessionIn
           if (ptr2 != ptr) {
             Byte* value = ptr2;
             ptr2 = nullptr;
-            Marshal::FreeHGlobal((IntPtr)(void*)value);
+            Marshal::FreeHGlobal((IntPtr)value);
           }
           break;
         case 0:
@@ -284,7 +267,7 @@ void EventProvider___::GetSessionInfo(SessionInfoCallback action, List<SessionIn
   } catch (...) {
   } finally: {
     if (ptr2 != nullptr && ptr2 != ptr) {
-      Marshal::FreeHGlobal((IntPtr)(void*)ptr2);
+      Marshal::FreeHGlobal((IntPtr)ptr2);
     }
   }
 }
@@ -313,7 +296,7 @@ Boolean EventProvider___::GetDataFromController(Int32 etwSessionId, Interop::Adv
     {
       RegistryKey registryKey = Registry::LocalMachine->OpenSubKey(str);
       rt::Using(registryKey);
-      data = (rt::as<Array<Byte>>(((registryKey != nullptr) ? registryKey->GetValue(name, nullptr) : nullptr)));
+      data = rt::as<Array<Byte>>(((registryKey != nullptr) ? registryKey->GetValue(name, nullptr) : nullptr));
       if (data != nullptr) {
         command = ControllerCommand::Update;
         return true;
@@ -357,13 +340,13 @@ Object EventProvider___::EncodeObject(Object& data, EventData*& dataDescriptor, 
   Array<Byte> array;
   while (true) {
     dataDescriptor->Reserved = 0u;
-    text = (rt::as<String>(data));
+    text = rt::as<String>(data);
     array = nullptr;
     if (text != nullptr) {
       dataDescriptor->Size = (UInt32)((text->get_Length() + 1) * 2);
       break;
     }
-    if ((array = (rt::as<Array<Byte>>(data))) != nullptr) {
+    if ((array = rt::as<Array<Byte>>(data)) != nullptr) {
       *(Int32*)dataBuffer = array->get_Length();
       dataDescriptor->Ptr = (UInt64)dataBuffer;
       dataDescriptor->Size = 4u;

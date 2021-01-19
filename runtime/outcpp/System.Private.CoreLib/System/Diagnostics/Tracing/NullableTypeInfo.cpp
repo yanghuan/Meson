@@ -24,7 +24,7 @@ void NullableTypeInfo___::WriteMetadata(TraceLoggingMetadataCollector collector,
 void NullableTypeInfo___::WriteData(TraceLoggingDataCollector collector, PropertyValue value) {
   Boolean flag = value.get_ReferenceValue() != nullptr;
   collector->AddScalar(flag);
-  PropertyValue value2 = flag ? valueGetter(value) : valueInfo->get_PropertyValueFactory()(Activator::CreateInstance(valueInfo->get_DataType()));
+  PropertyValue value2 = (flag ? valueGetter(value) : valueInfo->get_PropertyValueFactory()(Activator::CreateInstance(valueInfo->get_DataType())));
   valueInfo->WriteData(collector, value2);
 }
 
