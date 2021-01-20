@@ -225,7 +225,7 @@ Boolean DateTimeParse::ParseTimeZone(__DTString& str, TimeSpan& result) {
     return false;
   }
   Char c = subString[0];
-  if (c != '+' && c != '-') {
+  if (c != u'+' && c != u'-') {
     return false;
   }
   str.ConsumeSubString(subString);
@@ -241,7 +241,7 @@ Boolean DateTimeParse::ParseTimeZone(__DTString& str, TimeSpan& result) {
       hours = value;
       str.ConsumeSubString(subString);
       subString = str.GetSubString();
-      if (subString.length == 1 && subString[0] == ':') {
+      if (subString.length == 1 && subString[0] == u':') {
         str.ConsumeSubString(subString);
         subString = str.GetSubString();
         if (subString.type != DTSubStringType::Number || subString.length < 1 || subString.length > 2) {
@@ -264,7 +264,7 @@ Boolean DateTimeParse::ParseTimeZone(__DTString& str, TimeSpan& result) {
     return false;
   }
   result = TimeSpan(hours, num, 0);
-  if (c == '-') {
+  if (c == u'-') {
     result = result.Negate();
   }
   return true;
@@ -278,7 +278,7 @@ Boolean DateTimeParse::HandleTimeZone(__DTString& str, DateTimeResult& result) {
       num++;
       c = str.Value[str.Index + num];
     }
-    if (c == '+' || c == '-') {
+    if (c == u'+' || c == u'-') {
       str.Index += num;
       if ((result.flags & ParseFlags::TimeZoneUsed) != 0) {
         result.SetBadDateTimeFailure();
@@ -311,7 +311,7 @@ Boolean DateTimeParse::Lex(DS dps, __DTString& str, DateTimeToken& dtok, DateTim
         }
         if (dps == DS::T_NNt && str.Index < str.get_Length() - 1) {
           Char c = str.Value[str.Index];
-          if (c == '.') {
+          if (c == u'.') {
             ParseFraction(str, raw.fraction);
           }
         }
@@ -608,7 +608,7 @@ Boolean DateTimeParse::Lex(DS dps, __DTString& str, DateTimeToken& dtok, DateTim
         result.SetFailure(ParseFailureKind::FormatWithOriginalDateTimeAndParameter, "Format_UnknownDateTimeWord", str.Index);
         return false;
       }
-      if ((str.m_current == '-' || str.m_current == '+') && (result.flags & ParseFlags::TimeZoneUsed) == 0) {
+      if ((str.m_current == u'-' || str.m_current == u'+') && (result.flags & ParseFlags::TimeZoneUsed) == 0) {
         Int32 index = str.Index;
         if (ParseTimeZone(str, result.timeZoneOffset)) {
           result.flags |= ParseFlags::TimeZoneUsed;
@@ -627,14 +627,14 @@ Boolean DateTimeParse::Lex(DS dps, __DTString& str, DateTimeToken& dtok, DateTim
 
 Boolean DateTimeParse::VerifyValidPunctuation(__DTString& str) {
   switch (str.Value[str.Index].get()) {
-    case '#':
+    case u'#':
       {
         Boolean flag = false;
         Boolean flag2 = false;
         for (Int32 j = 0; j < str.get_Length(); j++) {
           Char c = str.Value[j];
           switch (c.get()) {
-            case '#':
+            case u'#':
               if (flag) {
                 if (flag2) {
                   return false;
@@ -644,7 +644,7 @@ Boolean DateTimeParse::VerifyValidPunctuation(__DTString& str) {
                 flag = true;
               }
               break;
-            case '\0':
+            case u'\0':
               if (!flag2) {
                 return false;
               }
@@ -661,7 +661,7 @@ Boolean DateTimeParse::VerifyValidPunctuation(__DTString& str) {
         }
         str.GetNext();
         return true;
-      }case '\0':
+      }case u'\0':
       {
         for (Int32 i = str.Index; i < str.get_Length(); i++) {
           if (str.Value[i] != 0) {
@@ -684,12 +684,12 @@ Boolean DateTimeParse::GetYearMonthDayOrder(String datePattern, Int32& order) {
   for (Int32 i = 0; i < datePattern->get_Length() && num4 < 3; i++) {
     Char c = datePattern[i];
     switch (c.get()) {
-      case '%':
-      case '\\':
+      case u'%':
+      case u'\\':
         i++;
         continue;
-      case '"':
-      case '\'':
+      case u'"':
+      case u'\'':
         flag = !flag;
         break;
     }
@@ -697,20 +697,20 @@ Boolean DateTimeParse::GetYearMonthDayOrder(String datePattern, Int32& order) {
       continue;
     }
     switch (c.get()) {
-      case 'y':
+      case u'y':
         num = num4++;
-        for (; i + 1 < datePattern->get_Length() && datePattern[i + 1] == 'y'; i++) {
+        for (; i + 1 < datePattern->get_Length() && datePattern[i + 1] == u'y'; i++) {
         }
         break;
-      case 'M':
+      case u'M':
         num2 = num4++;
-        for (; i + 1 < datePattern->get_Length() && datePattern[i + 1] == 'M'; i++) {
+        for (; i + 1 < datePattern->get_Length() && datePattern[i + 1] == u'M'; i++) {
         }
         break;
-      case 'd':
+      case u'd':
         {
           Int32 num5 = 1;
-          for (; i + 1 < datePattern->get_Length() && datePattern[i + 1] == 'd'; i++) {
+          for (; i + 1 < datePattern->get_Length() && datePattern[i + 1] == u'd'; i++) {
             num5++;
           }
           if (num5 <= 2) {
@@ -747,12 +747,12 @@ Boolean DateTimeParse::GetYearMonthOrder(String pattern, Int32& order) {
   for (Int32 i = 0; i < pattern->get_Length() && num3 < 2; i++) {
     Char c = pattern[i];
     switch (c.get()) {
-      case '%':
-      case '\\':
+      case u'%':
+      case u'\\':
         i++;
         continue;
-      case '"':
-      case '\'':
+      case u'"':
+      case u'\'':
         flag = !flag;
         break;
     }
@@ -760,14 +760,14 @@ Boolean DateTimeParse::GetYearMonthOrder(String pattern, Int32& order) {
       continue;
     }
     switch (c.get()) {
-      case 'y':
+      case u'y':
         num = num3++;
-        for (; i + 1 < pattern->get_Length() && pattern[i + 1] == 'y'; i++) {
+        for (; i + 1 < pattern->get_Length() && pattern[i + 1] == u'y'; i++) {
         }
         break;
-      case 'M':
+      case u'M':
         num2 = num3++;
-        for (; i + 1 < pattern->get_Length() && pattern[i + 1] == 'M'; i++) {
+        for (; i + 1 < pattern->get_Length() && pattern[i + 1] == u'M'; i++) {
         }
         break;
     }
@@ -792,12 +792,12 @@ Boolean DateTimeParse::GetMonthDayOrder(String pattern, Int32& order) {
   for (Int32 i = 0; i < pattern->get_Length() && num3 < 2; i++) {
     Char c = pattern[i];
     switch (c.get()) {
-      case '%':
-      case '\\':
+      case u'%':
+      case u'\\':
         i++;
         continue;
-      case '"':
-      case '\'':
+      case u'"':
+      case u'\'':
         flag = !flag;
         break;
     }
@@ -805,19 +805,19 @@ Boolean DateTimeParse::GetMonthDayOrder(String pattern, Int32& order) {
       continue;
     }
     switch (c.get()) {
-      case 'd':
+      case u'd':
         {
           Int32 num4 = 1;
-          for (; i + 1 < pattern->get_Length() && pattern[i + 1] == 'd'; i++) {
+          for (; i + 1 < pattern->get_Length() && pattern[i + 1] == u'd'; i++) {
             num4++;
           }
           if (num4 <= 2) {
             num2 = num3++;
           }
           break;
-        }case 'M':
+        }case u'M':
         num = num3++;
-        for (; i + 1 < pattern->get_Length() && pattern[i + 1] == 'M'; i++) {
+        for (; i + 1 < pattern->get_Length() && pattern[i + 1] == u'M'; i++) {
         }
         break;
     }
@@ -1772,7 +1772,7 @@ Boolean DateTimeParse::ParseISO8601(DateTimeRawInfo& raw, __DTString& str, DateT
     return false;
   }
   str.SkipWhiteSpaces();
-  if (!str.Match(':')) {
+  if (!str.Match(u':')) {
     result.SetBadDateTimeFailure();
     return false;
   }
@@ -1783,13 +1783,13 @@ Boolean DateTimeParse::ParseISO8601(DateTimeRawInfo& raw, __DTString& str, DateT
     return false;
   }
   str.SkipWhiteSpaces();
-  if (str.Match(':')) {
+  if (str.Match(u':')) {
     str.SkipWhiteSpaces();
     if (!ParseDigits(str, 2, result2)) {
       result.SetBadDateTimeFailure();
       return false;
     }
-    if (str.Match('.')) {
+    if (str.Match(u'.')) {
       if (!ParseFraction(str, result3)) {
         result.SetBadDateTimeFailure();
         return false;
@@ -1800,16 +1800,16 @@ Boolean DateTimeParse::ParseISO8601(DateTimeRawInfo& raw, __DTString& str, DateT
   }
   if (str.GetNext()) {
     switch (str.GetChar().get()) {
-      case '+':
-      case '-':
+      case u'+':
+      case u'-':
         result.flags |= ParseFlags::TimeZoneUsed;
         if (!ParseTimeZone(str, result.timeZoneOffset)) {
           result.SetBadDateTimeFailure();
           return false;
         }
         break;
-      case 'Z':
-      case 'z':
+      case u'Z':
+      case u'z':
         result.flags |= ParseFlags::TimeZoneUsed;
         result.timeZoneOffset = TimeSpan::Zero;
         result.flags |= ParseFlags::TimeZoneUtc;
@@ -1819,14 +1819,14 @@ Boolean DateTimeParse::ParseISO8601(DateTimeRawInfo& raw, __DTString& str, DateT
         break;
     }
     str.SkipWhiteSpaces();
-    if (str.Match('#')) {
+    if (str.Match(u'#')) {
       if (!VerifyValidPunctuation(str)) {
         result.SetBadDateTimeFailure();
         return false;
       }
       str.SkipWhiteSpaces();
     }
-    if (str.Match('\0') && !VerifyValidPunctuation(str)) {
+    if (str.Match(u'\0') && !VerifyValidPunctuation(str)) {
       result.SetBadDateTimeFailure();
       return false;
     }
@@ -1912,10 +1912,10 @@ Boolean DateTimeParse::ParseSign(__DTString& str, Boolean& result) {
     return false;
   }
   switch (str.GetChar().get()) {
-    case '+':
+    case u'+':
       result = true;
       return true;
-    case '-':
+    case u'-':
       result = false;
       return true;
     default:
@@ -2210,23 +2210,23 @@ Boolean DateTimeParse::CheckDefaultDateTime(DateTimeResult& result, Calendar& ca
 
 String DateTimeParse::ExpandPredefinedFormat(ReadOnlySpan<Char> format, DateTimeFormatInfo& dtfi, ParsingInfo& parseInfo, DateTimeResult& result) {
   switch (format[0].get()) {
-    case 'O':
-    case 'o':
-    case 's':
+    case u'O':
+    case u'o':
+    case u's':
       ConfigureFormatOS(dtfi, parseInfo);
       break;
-    case 'R':
-    case 'r':
+    case u'R':
+    case u'r':
       ConfigureFormatR(dtfi, parseInfo, result);
       break;
-    case 'u':
+    case u'u':
       parseInfo.calendar = GregorianCalendar::in::GetDefaultInstance();
       dtfi = DateTimeFormatInfo::in::get_InvariantInfo();
       if ((result.flags & ParseFlags::CaptureOffset) != 0) {
         result.flags |= ParseFlags::UtcSortPattern;
       }
       break;
-    case 'U':
+    case u'U':
       parseInfo.calendar = GregorianCalendar::in::GetDefaultInstance();
       result.flags |= ParseFlags::TimeZoneUsed;
       result.timeZoneOffset = TimeSpan(0);
@@ -2276,7 +2276,7 @@ Boolean DateTimeParse::ParseByFormat(__DTString& str, __DTString& format, Parsin
   TM result10 = TM::AM;
   Char char一 = format.GetChar();
   switch (char一.get()) {
-    case 'y':
+    case u'y':
       {
         Int32 repeatCount = format.GetRepeatCount();
         Boolean flag;
@@ -2303,7 +2303,7 @@ Boolean DateTimeParse::ParseByFormat(__DTString& str, __DTString& format, Parsin
           return false;
         }
         break;
-      }case 'M':
+      }case u'M':
       {
         Int32 repeatCount = format.GetRepeatCount();
         if (repeatCount <= 2) {
@@ -2328,7 +2328,7 @@ Boolean DateTimeParse::ParseByFormat(__DTString& str, __DTString& format, Parsin
           return false;
         }
         break;
-      }case 'd':
+      }case u'd':
       {
         Int32 repeatCount = format.GetRepeatCount();
         if (repeatCount <= 2) {
@@ -2355,14 +2355,14 @@ Boolean DateTimeParse::ParseByFormat(__DTString& str, __DTString& format, Parsin
           return false;
         }
         break;
-      }case 'g':
+      }case u'g':
       format.GetRepeatCount();
       if (!MatchEraName(str, dtfi, result.era)) {
         result.SetBadDateTimeFailure();
         return false;
       }
       break;
-    case 'h':
+    case u'h':
       {
         parseInfo.fUseHour12 = true;
         Int32 repeatCount = format.GetRepeatCount();
@@ -2374,7 +2374,7 @@ Boolean DateTimeParse::ParseByFormat(__DTString& str, __DTString& format, Parsin
           return false;
         }
         break;
-      }case 'H':
+      }case u'H':
       {
         Int32 repeatCount = format.GetRepeatCount();
         if (!ParseDigits(str, (repeatCount < 2) ? 1 : 2, result6)) {
@@ -2385,7 +2385,7 @@ Boolean DateTimeParse::ParseByFormat(__DTString& str, __DTString& format, Parsin
           return false;
         }
         break;
-      }case 'm':
+      }case u'm':
       {
         Int32 repeatCount = format.GetRepeatCount();
         if (!ParseDigits(str, (repeatCount < 2) ? 1 : 2, result7)) {
@@ -2396,7 +2396,7 @@ Boolean DateTimeParse::ParseByFormat(__DTString& str, __DTString& format, Parsin
           return false;
         }
         break;
-      }case 's':
+      }case u's':
       {
         Int32 repeatCount = format.GetRepeatCount();
         if (!ParseDigits(str, (repeatCount < 2) ? 1 : 2, result8)) {
@@ -2407,12 +2407,12 @@ Boolean DateTimeParse::ParseByFormat(__DTString& str, __DTString& format, Parsin
           return false;
         }
         break;
-      }case 'F':
-    case 'f':
+      }case u'F':
+    case u'f':
       {
         Int32 repeatCount = format.GetRepeatCount();
         if (repeatCount <= 7) {
-          if (!ParseFractionExact(str, repeatCount, result9) && char一 == 'f') {
+          if (!ParseFractionExact(str, repeatCount, result9) && char一 == u'f') {
             result.SetBadDateTimeFailure();
             return false;
           }
@@ -2427,7 +2427,7 @@ Boolean DateTimeParse::ParseByFormat(__DTString& str, __DTString& format, Parsin
         }
         result.SetBadDateTimeFailure();
         return false;
-      }case 't':
+      }case u't':
       {
         Int32 repeatCount = format.GetRepeatCount();
         if (repeatCount == 1) {
@@ -2448,7 +2448,7 @@ Boolean DateTimeParse::ParseByFormat(__DTString& str, __DTString& format, Parsin
         }
 
         break;
-      }case 'z':
+      }case u'z':
       {
         Int32 repeatCount = format.GetRepeatCount();
         TimeSpan result11 = TimeSpan(0);
@@ -2457,15 +2457,15 @@ Boolean DateTimeParse::ParseByFormat(__DTString& str, __DTString& format, Parsin
           return false;
         }
         if ((result.flags & ParseFlags::TimeZoneUsed) != 0 && result11 != result.timeZoneOffset) {
-          result.SetFailure(ParseFailureKind::FormatWithParameter, "Format_RepeatDateTimePattern", 'z');
+          result.SetFailure(ParseFailureKind::FormatWithParameter, "Format_RepeatDateTimePattern", u'z');
           return false;
         }
         result.timeZoneOffset = result11;
         result.flags |= ParseFlags::TimeZoneUsed;
         break;
-      }case 'Z':
+      }case u'Z':
       if ((result.flags & ParseFlags::TimeZoneUsed) != 0 && result.timeZoneOffset != TimeSpan::Zero) {
-        result.SetFailure(ParseFailureKind::FormatWithParameter, "Format_RepeatDateTimePattern", 'Z');
+        result.SetFailure(ParseFailureKind::FormatWithParameter, "Format_RepeatDateTimePattern", u'Z');
         return false;
       }
       result.flags |= ParseFlags::TimeZoneUsed;
@@ -2478,16 +2478,16 @@ Boolean DateTimeParse::ParseByFormat(__DTString& str, __DTString& format, Parsin
       }
       str.Index--;
       break;
-    case 'K':
-      if (str.Match('Z')) {
+    case u'K':
+      if (str.Match(u'Z')) {
         if ((result.flags & ParseFlags::TimeZoneUsed) != 0 && result.timeZoneOffset != TimeSpan::Zero) {
-          result.SetFailure(ParseFailureKind::FormatWithParameter, "Format_RepeatDateTimePattern", 'K');
+          result.SetFailure(ParseFailureKind::FormatWithParameter, "Format_RepeatDateTimePattern", u'K');
           return false;
         }
         result.flags |= ParseFlags::TimeZoneUsed;
         result.timeZoneOffset = TimeSpan(0);
         result.flags |= ParseFlags::TimeZoneUtc;
-      } else if (str.Match('+') || str.Match('-')) {
+      } else if (str.Match(u'+') || str.Match(u'-')) {
         str.Index--;
         TimeSpan result12 = TimeSpan(0);
         if (!ParseTimeZoneOffset(str, 3, result12)) {
@@ -2495,7 +2495,7 @@ Boolean DateTimeParse::ParseByFormat(__DTString& str, __DTString& format, Parsin
           return false;
         }
         if ((result.flags & ParseFlags::TimeZoneUsed) != 0 && result12 != result.timeZoneOffset) {
-          result.SetFailure(ParseFailureKind::FormatWithParameter, "Format_RepeatDateTimePattern", 'K');
+          result.SetFailure(ParseFailureKind::FormatWithParameter, "Format_RepeatDateTimePattern", u'K');
           return false;
         }
         result.timeZoneOffset = result12;
@@ -2503,20 +2503,20 @@ Boolean DateTimeParse::ParseByFormat(__DTString& str, __DTString& format, Parsin
       }
 
       break;
-    case ':':
-      if (((dtfi->get_TimeSeparator()->get_Length() > 1 && dtfi->get_TimeSeparator()[0] == ':') || !str.Match(':')) && !str.Match(dtfi->get_TimeSeparator())) {
+    case u':':
+      if (((dtfi->get_TimeSeparator()->get_Length() > 1 && dtfi->get_TimeSeparator()[0] == u':') || !str.Match(u':')) && !str.Match(dtfi->get_TimeSeparator())) {
         result.SetBadDateTimeFailure();
         return false;
       }
       break;
-    case '/':
-      if (((dtfi->get_DateSeparator()->get_Length() > 1 && dtfi->get_DateSeparator()[0] == '/') || !str.Match('/')) && !str.Match(dtfi->get_DateSeparator())) {
+    case u'/':
+      if (((dtfi->get_DateSeparator()->get_Length() > 1 && dtfi->get_DateSeparator()[0] == u'/') || !str.Match(u'/')) && !str.Match(dtfi->get_DateSeparator())) {
         result.SetBadDateTimeFailure();
         return false;
       }
       break;
-    case '"':
-    case '\'':
+    case u'"':
+    case u'\'':
       {
         StringBuilder stringBuilder = StringBuilderCache::Acquire();
         Int32 repeatCount;
@@ -2528,7 +2528,7 @@ Boolean DateTimeParse::ParseByFormat(__DTString& str, __DTString& format, Parsin
         format.Index += repeatCount - 1;
         String stringAndRelease = StringBuilderCache::GetStringAndRelease(stringBuilder);
         for (Int32 i = 0; i < stringAndRelease->get_Length(); i++) {
-          if (stringAndRelease[i] == ' ' && parseInfo.fAllowInnerWhite) {
+          if (stringAndRelease[i] == u' ' && parseInfo.fAllowInnerWhite) {
             str.SkipWhiteSpaces();
           } else if (!str.Match(stringAndRelease[i])) {
             result.SetBadDateTimeFailure();
@@ -2541,13 +2541,13 @@ Boolean DateTimeParse::ParseByFormat(__DTString& str, __DTString& format, Parsin
           result.timeZoneOffset = TimeSpan::Zero;
         }
         break;
-      }case '%':
-      if (format.Index >= format.Value.get_Length() - 1 || format.Value[format.Index + 1] == '%') {
+      }case u'%':
+      if (format.Index >= format.Value.get_Length() - 1 || format.Value[format.Index + 1] == u'%') {
         result.SetBadFormatSpecifierFailure(format.Value);
         return false;
       }
       break;
-    case '\\':
+    case u'\\':
       if (format.GetNext()) {
         if (!str.Match(format.GetChar())) {
           result.SetBadDateTimeFailure();
@@ -2557,9 +2557,9 @@ Boolean DateTimeParse::ParseByFormat(__DTString& str, __DTString& format, Parsin
       }
       result.SetBadFormatSpecifierFailure(format.Value);
       return false;
-    case '.':
+    case u'.':
       if (!str.Match(char一)) {
-        if (!format.GetNext() || !format.Match('F')) {
+        if (!format.GetNext() || !format.Match(u'F')) {
           result.SetBadDateTimeFailure();
           return false;
         }
@@ -2567,7 +2567,7 @@ Boolean DateTimeParse::ParseByFormat(__DTString& str, __DTString& format, Parsin
       }
       break;
     default:
-      if (char一 == ' ') {
+      if (char一 == u' ') {
         if (!parseInfo.fAllowInnerWhite && !str.Match(char一)) {
           if (parseInfo.fAllowTrailingWhite && format.GetNext() && ParseByFormat(str, format, parseInfo, dtfi, result)) {
             return true;
@@ -2606,7 +2606,7 @@ Boolean DateTimeParse::TryParseQuoteString(ReadOnlySpan<Char> format, Int32 pos,
       flag = true;
       break;
     }
-    if (c2 == '\\') {
+    if (c2 == u'\\') {
       if (pos >= length) {
         return false;
       }
@@ -2632,17 +2632,17 @@ Boolean DateTimeParse::DoStrictParse(ReadOnlySpan<Char> s, ReadOnlySpan<Char> fo
     Char c = formatParam[0];
     if (styles == DateTimeStyles::None) {
       switch (c.get()) {
-        case 'R':
-        case 'r':
+        case u'R':
+        case u'r':
           ConfigureFormatR(dtfi, parseInfo, result);
           return ParseFormatR(s, parseInfo, result);
-        case 'O':
-        case 'o':
+        case u'O':
+        case u'o':
           ConfigureFormatOS(dtfi, parseInfo);
           return ParseFormatO(s, result);
       }
     }
-    if ((result.flags & ParseFlags::CaptureOffset) != 0 && c == 'U') {
+    if ((result.flags & ParseFlags::CaptureOffset) != 0 && c == u'U') {
       result.SetBadFormatSpecifierFailure(formatParam);
       return false;
     }
@@ -2773,7 +2773,7 @@ Boolean DateTimeParse::ParseFormatR(ReadOnlySpan<Char> source, ParsingInfo& pars
       result.SetBadDateTimeFailure();
       return false;
   }
-  if (source[4] != ' ') {
+  if (source[4] != u' ') {
     result.SetBadDateTimeFailure();
     return false;
   }
@@ -2784,7 +2784,7 @@ Boolean DateTimeParse::ParseFormatR(ReadOnlySpan<Char> source, ParsingInfo& pars
     return false;
   }
   Int32 day = (Int32)(num5 * 10 + num6);
-  if (source[7] != ' ') {
+  if (source[7] != u' ') {
     result.SetBadDateTimeFailure();
     return false;
   }
@@ -2847,7 +2847,7 @@ Boolean DateTimeParse::ParseFormatR(ReadOnlySpan<Char> source, ParsingInfo& pars
     return false;
   }
   Int32 year = (Int32)(num11 * 1000 + num12 * 100 + num13 * 10 + num14);
-  if (source[16] != ' ') {
+  if (source[16] != u' ') {
     result.SetBadDateTimeFailure();
     return false;
   }
@@ -2858,7 +2858,7 @@ Boolean DateTimeParse::ParseFormatR(ReadOnlySpan<Char> source, ParsingInfo& pars
     return false;
   }
   Int32 hour = (Int32)(num15 * 10 + num16);
-  if (source[19] != ':') {
+  if (source[19] != u':') {
     result.SetBadDateTimeFailure();
     return false;
   }
@@ -2869,7 +2869,7 @@ Boolean DateTimeParse::ParseFormatR(ReadOnlySpan<Char> source, ParsingInfo& pars
     return false;
   }
   Int32 minute = (Int32)(num17 * 10 + num18);
-  if (source[22] != ':') {
+  if (source[22] != u':') {
     result.SetBadDateTimeFailure();
     return false;
   }
@@ -2880,7 +2880,7 @@ Boolean DateTimeParse::ParseFormatR(ReadOnlySpan<Char> source, ParsingInfo& pars
     return false;
   }
   Int32 second = (Int32)(num19 * 10 + num20);
-  if (source[25] != ' ' || source[26] != 'G' || source[27] != 'M' || source[28] != 'T') {
+  if (source[25] != u' ' || source[26] != u'G' || source[27] != u'M' || source[28] != u'T') {
     result.SetBadDateTimeFailure();
     return false;
   }
@@ -2896,7 +2896,7 @@ Boolean DateTimeParse::ParseFormatR(ReadOnlySpan<Char> source, ParsingInfo& pars
 }
 
 Boolean DateTimeParse::ParseFormatO(ReadOnlySpan<Char> source, DateTimeResult& result) {
-  if ((UInt32)source.get_Length() < 27u || source[4] != '-' || source[7] != '-' || source[10] != 'T' || source[13] != ':' || source[16] != ':' || source[19] != '.') {
+  if ((UInt32)source.get_Length() < 27u || source[4] != u'-' || source[7] != u'-' || source[10] != u'T' || source[13] != u':' || source[16] != u':' || source[19] != u'.') {
     result.SetBadDateTimeFailure();
     return false;
   }
@@ -2968,15 +2968,15 @@ Boolean DateTimeParse::ParseFormatO(ReadOnlySpan<Char> source, DateTimeResult& r
   if ((UInt32)source.get_Length() > 27u) {
     Char c = source[27];
     switch (c.get()) {
-      case 'Z':
+      case u'Z':
         if (source.get_Length() != 28) {
           result.SetBadDateTimeFailure();
           return false;
         }
         result.flags |= ParseFlags::TimeZoneUsed | ParseFlags::TimeZoneUtc;
         break;
-      case '+':
-      case '-':
+      case u'+':
+      case u'-':
         {
           Int32 num25;
           Int32 num26;
@@ -3001,7 +3001,7 @@ Boolean DateTimeParse::ParseFormatO(ReadOnlySpan<Char> source, DateTimeResult& r
             }
             num26 = 29;
           }
-          if (source[num26] != ':') {
+          if (source[num26] != u':') {
             result.SetBadDateTimeFailure();
             return false;
           }
@@ -3014,7 +3014,7 @@ Boolean DateTimeParse::ParseFormatO(ReadOnlySpan<Char> source, DateTimeResult& r
           Int32 minutes = (Int32)(num27 * 10 + num28);
           result.flags |= ParseFlags::TimeZoneUsed;
           result.timeZoneOffset = TimeSpan(num25, minutes, 0);
-          if (c == '-') {
+          if (c == u'-') {
             result.timeZoneOffset = result.timeZoneOffset.Negate();
           }
           break;

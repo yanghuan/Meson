@@ -15,17 +15,17 @@ Boolean UncNameHelper::IsValid(Char* name, Int32 start, Int32& returnedEnd, Bool
   Boolean flag = false;
   Int32 i;
   for (i = start; i < num; i++) {
-    if (*(name + i) == '/' || *(name + i) == '\\' || (notImplicitFile && (*(name + i) == ':' || *(name + i) == '?' || *(name + i) == '#'))) {
+    if (*(name + i) == u'/' || *(name + i) == u'\\' || (notImplicitFile && (*(name + i) == u':' || *(name + i) == u'?' || *(name + i) == u'#'))) {
       num = i;
       break;
     }
-    if (*(name + i) == '.') {
+    if (*(name + i) == u'.') {
       i++;
       break;
     }
-    if (Char::IsLetter(*(name + i)) || *(name + i) == '-' || *(name + i) == '_') {
+    if (Char::IsLetter(*(name + i)) || *(name + i) == u'-' || *(name + i) == u'_') {
       flag = true;
-    } else if (*(name + i) < '0' || *(name + i) > '9') {
+    } else if (*(name + i) < u'0' || *(name + i) > u'9') {
       return false;
     }
 
@@ -34,24 +34,24 @@ Boolean UncNameHelper::IsValid(Char* name, Int32 start, Int32& returnedEnd, Bool
     return false;
   }
   for (; i < num; i++) {
-    if (*(name + i) == '/' || *(name + i) == '\\' || (notImplicitFile && (*(name + i) == ':' || *(name + i) == '?' || *(name + i) == '#'))) {
+    if (*(name + i) == u'/' || *(name + i) == u'\\' || (notImplicitFile && (*(name + i) == u':' || *(name + i) == u'?' || *(name + i) == u'#'))) {
       num = i;
       break;
     }
-    if (*(name + i) == '.') {
-      if (!flag || (i - 1 >= start && *(name + i - 1) == '.')) {
+    if (*(name + i) == u'.') {
+      if (!flag || (i - 1 >= start && *(name + i - 1) == u'.')) {
         return false;
       }
       flag = false;
       continue;
     }
-    if (*(name + i) == '-' || *(name + i) == '_') {
+    if (*(name + i) == u'-' || *(name + i) == u'_') {
       if (!flag) {
         return false;
       }
       continue;
     }
-    if (Char::IsLetter(*(name + i)) || (*(name + i) >= '0' && *(name + i) <= '9')) {
+    if (Char::IsLetter(*(name + i)) || (*(name + i) >= u'0' && *(name + i) <= u'9')) {
       if (!flag) {
         flag = true;
       }
@@ -59,7 +59,7 @@ Boolean UncNameHelper::IsValid(Char* name, Int32 start, Int32& returnedEnd, Bool
     }
     return false;
   }
-  if (i - 1 >= start && *(name + i - 1) == '.') {
+  if (i - 1 >= start && *(name + i - 1) == u'.') {
     flag = true;
   }
   if (!flag) {

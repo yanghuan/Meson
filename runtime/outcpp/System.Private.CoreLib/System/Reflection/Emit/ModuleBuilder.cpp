@@ -79,13 +79,13 @@ Assembly ModuleBuilder___::get_Assembly() {
 String ModuleBuilder___::UnmangleTypeName(String typeName) {
   Int32 startIndex = typeName->get_Length() - 1;
   while (true) {
-    startIndex = typeName->LastIndexOf('+', startIndex);
+    startIndex = typeName->LastIndexOf(u'+', startIndex);
     if (startIndex == -1) {
       break;
     }
     Boolean flag = true;
     Int32 num = startIndex;
-    while (typeName[--num] == '\\') {
+    while (typeName[--num] == u'\\') {
       flag = !flag;
     }
     if (flag) {
@@ -418,7 +418,7 @@ Type ModuleBuilder___::GetTypeNoLock(String className, Boolean throwOnError, Boo
   String text2 = nullptr;
   Int32 num = 0;
   while (num <= className->get_Length()) {
-    Int32 num2 = MemoryExtensions::IndexOfAny(MemoryExtensions::AsSpan(className, num), '[', '*', '&');
+    Int32 num2 = MemoryExtensions::IndexOfAny(MemoryExtensions::AsSpan(className, num), u'[', u'*', u'&');
     if (num2 == -1) {
       text = className;
       text2 = nullptr;
@@ -427,7 +427,7 @@ Type ModuleBuilder___::GetTypeNoLock(String className, Boolean throwOnError, Boo
     num2 += num;
     Int32 num3 = 0;
     Int32 num4 = num2 - 1;
-    while (num4 >= 0 && className[num4] == '\\') {
+    while (num4 >= 0 && className[num4] == u'\\') {
       num3++;
       num4--;
     }

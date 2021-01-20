@@ -535,7 +535,7 @@ ConsoleKeyInfo ConsolePal::ReadKey(Boolean intercept) {
           rt::throw_exception<InvalidOperationException>(SR::get_InvalidOperation_ConsoleReadKeyOnFile());
         }
         Int16 virtualKeyCode = buffer.keyEvent.virtualKeyCode;
-        if ((!IsKeyDownEvent(buffer) && virtualKeyCode != 18) || (buffer.keyEvent.uChar == '\0' && IsModKey(buffer))) {
+        if ((!IsKeyDownEvent(buffer) && virtualKeyCode != 18) || (buffer.keyEvent.uChar == u'\0' && IsModKey(buffer))) {
           continue;
         }
         ConsoleKey consoleKey = (ConsoleKey)virtualKeyCode;
@@ -687,7 +687,7 @@ void ConsolePal::Clear() {
   Interop::Kernel32::CONSOLE_SCREEN_BUFFER_INFO bufferInfo = GetBufferInfo();
   Int32 num = bufferInfo.dwSize.X * bufferInfo.dwSize.Y;
   Int32 pNumCharsWritten = 0;
-  if (!Interop::Kernel32::FillConsoleOutputCharacter(outputHandle, ' ', num, cOORD, pNumCharsWritten)) {
+  if (!Interop::Kernel32::FillConsoleOutputCharacter(outputHandle, u' ', num, cOORD, pNumCharsWritten)) {
     rt::throw_exception(Win32Marshal::GetExceptionForWin32Error(Marshal::GetLastWin32Error()));
   }
   pNumCharsWritten = 0;

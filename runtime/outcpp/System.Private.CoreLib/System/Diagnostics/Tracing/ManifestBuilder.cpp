@@ -64,11 +64,11 @@ void ManifestBuilder___::ctor(String providerName, Guid providerGuid, String dll
   sb->AppendLine("<instrumentationManifest xmlns=\"http://schemas.microsoft.com/win/2004/08/events\">");
   sb->AppendLine(" <instrumentation xmlns:xs=\"http://www.w3.org/2001/XMLSchema\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:win=\"http://manifests.microsoft.com/win/2004/08/windows/events\">");
   sb->AppendLine("  <events xmlns=\"http://schemas.microsoft.com/win/2004/08/events\">");
-  sb->Append((String)"<provider name=\"")->Append(providerName)->Append((String)"\" guid=\"{")->Append(providerGuid.ToString())->Append((Char)'}');
+  sb->Append((String)"<provider name=\"")->Append(providerName)->Append((String)"\" guid=\"{")->Append(providerGuid.ToString())->Append((Char)u'}');
   if (dllName != nullptr) {
     sb->Append((String)"\" resourceFileName=\"")->Append(dllName)->Append((String)"\" messageFileName=\"")->Append(dllName);
   }
-  String value = providerName->Replace("-", "")->Replace('.', '_');
+  String value = providerName->Replace("-", "")->Replace(u'.', u'_');
   sb->Append((String)"\" symbol=\"")->Append(value);
   sb->AppendLine("\">");
 }
@@ -170,19 +170,19 @@ void ManifestBuilder___::StartEvent(String eventName, EventAttribute eventAttrib
   this->eventName = eventName;
   numParams = 0;
   byteArrArgIndices = nullptr;
-  events->Append((String)"  <event")->Append((String)" value=\"")->Append(eventAttribute->get_EventId())->Append((Char)'"')->Append((String)" version=\"")->Append(eventAttribute->get_Version())->Append((Char)'"')->Append((String)" level=\"")->Append(GetLevelName(eventAttribute->get_Level()))->Append((Char)'"')->Append((String)" symbol=\"")->Append(eventName)->Append((Char)'"');
+  events->Append((String)"  <event")->Append((String)" value=\"")->Append(eventAttribute->get_EventId())->Append((Char)u'"')->Append((String)" version=\"")->Append(eventAttribute->get_Version())->Append((Char)u'"')->Append((String)" level=\"")->Append(GetLevelName(eventAttribute->get_Level()))->Append((Char)u'"')->Append((String)" symbol=\"")->Append(eventName)->Append((Char)u'"');
   WriteMessageAttrib(events, "event", eventName, eventAttribute->get_Message());
   if (eventAttribute->get_Keywords() != EventKeywords::None) {
-    events->Append((String)" keywords=\"")->Append(GetKeywords((UInt64)eventAttribute->get_Keywords(), eventName))->Append((Char)'"');
+    events->Append((String)" keywords=\"")->Append(GetKeywords((UInt64)eventAttribute->get_Keywords(), eventName))->Append((Char)u'"');
   }
   if (eventAttribute->get_Opcode() != 0) {
-    events->Append((String)" opcode=\"")->Append(GetOpcodeName(eventAttribute->get_Opcode(), eventName))->Append((Char)'"');
+    events->Append((String)" opcode=\"")->Append(GetOpcodeName(eventAttribute->get_Opcode(), eventName))->Append((Char)u'"');
   }
   if (eventAttribute->get_Task() != 0) {
-    events->Append((String)" task=\"")->Append(GetTaskName(eventAttribute->get_Task(), eventName))->Append((Char)'"');
+    events->Append((String)" task=\"")->Append(GetTaskName(eventAttribute->get_Task(), eventName))->Append((Char)u'"');
   }
   if (eventAttribute->get_Channel() != 0) {
-    events->Append((String)" channel=\"")->Append(GetChannelName(eventAttribute->get_Channel(), eventName, eventAttribute->get_Message()))->Append((Char)'"');
+    events->Append((String)" channel=\"")->Append(GetChannelName(eventAttribute->get_Channel(), eventName, eventAttribute->get_Message()))->Append((Char)u'"');
   }
 }
 
@@ -199,12 +199,12 @@ void ManifestBuilder___::AddEventParameter(Type type, String name) {
     templates->Append((String)"   <data name=\"")->Append(name)->AppendLine("Size\" inType=\"win:UInt32\"/>");
   }
   numParams++;
-  templates->Append((String)"   <data name=\"")->Append(name)->Append((String)"\" inType=\"")->Append(GetTypeName(type))->Append((Char)'"');
+  templates->Append((String)"   <data name=\"")->Append(name)->Append((String)"\" inType=\"")->Append(GetTypeName(type))->Append((Char)u'"');
   if ((type->get_IsArray() || type->get_IsPointer()) && type->GetElementType() == typeof<Byte>()) {
     templates->Append((String)" length=\"")->Append(name)->Append((String)"Size\"");
   }
   if (type->get_IsEnum() && Enum::in::GetUnderlyingType(type) != typeof<UInt64>() && Enum::in::GetUnderlyingType(type) != typeof<Int64>()) {
-    templates->Append((String)" map=\"")->Append(type->get_Name())->Append((Char)'"');
+    templates->Append((String)" map=\"")->Append(type->get_Name())->Append((Char)u'"');
     if (mapsTab == nullptr) {
       mapsTab = rt::newobj<Dictionary<String, Type>>();
     }
@@ -294,14 +294,14 @@ String ManifestBuilder___::CreateManifestString() {
         text2 = providerName + "/" + value->Name;
       }
       sb->Append((String)"  <")->Append((String)"channel");
-      sb->Append((String)" chid=\"")->Append(value->Name)->Append((Char)'"');
-      sb->Append((String)" name=\"")->Append(text2)->Append((Char)'"');
+      sb->Append((String)" chid=\"")->Append(value->Name)->Append((Char)u'"');
+      sb->Append((String)" name=\"")->Append(text2)->Append((Char)u'"');
       WriteMessageAttrib(sb, "channel", value->Name, nullptr);
-      sb->Append((String)" value=\"")->Append(key)->Append((Char)'"');
+      sb->Append((String)" value=\"")->Append(key)->Append((Char)u'"');
       if (text != nullptr) {
-        sb->Append((String)" type=\"")->Append(text)->Append((Char)'"');
+        sb->Append((String)" type=\"")->Append(text)->Append((Char)u'"');
       }
-      sb->Append((String)" enabled=\"")->Append(flag ? "true" : "false")->Append((Char)'"');
+      sb->Append((String)" enabled=\"")->Append(flag ? "true" : "false")->Append((Char)u'"');
       sb->AppendLine("/>");
     }
     sb->AppendLine(" </channels>");
@@ -331,7 +331,7 @@ String ManifestBuilder___::CreateManifestString() {
         if (rawConstantValue != nullptr) {
           UInt64 num = (UInt64)((!rt::is<UInt64>(rawConstantValue)) ? Convert::ToInt64(rawConstantValue) : ((Int64)(UInt64)rawConstantValue));
           if (!flag2 || ((num & (num - 1)) == 0 && num != 0)) {
-            sb->Append((String)"   <map value=\"0x")->Append(num.ToString("x", CultureInfo::in::get_InvariantCulture()))->Append((Char)'"');
+            sb->Append((String)"   <map value=\"0x")->Append(num.ToString("x", CultureInfo::in::get_InvariantCulture()))->Append((Char)u'"');
             WriteMessageAttrib(sb, "map", value3->get_Name() + "." + fieldInfo->get_Name(), fieldInfo->get_Name());
             sb->AppendLine("/>");
             flag3 = true;
@@ -402,7 +402,7 @@ String ManifestBuilder___::CreateManifestString() {
 }
 
 void ManifestBuilder___::WriteNameAndMessageAttribs(StringBuilder stringBuilder, String elementName, String name) {
-  stringBuilder->Append((String)" name=\"")->Append(name)->Append((Char)'"');
+  stringBuilder->Append((String)" name=\"")->Append(name)->Append((Char)u'"');
   WriteMessageAttrib(sb, elementName, name, name);
 }
 
@@ -615,30 +615,30 @@ String ManifestBuilder___::TranslateToManifestConvention(String eventMessage, St
   Int32 i = 0;
   while (i < eventMessage->get_Length()) {
     Int32 num4;
-    if (eventMessage[i] == '%') {
+    if (eventMessage[i] == u'%') {
       UpdateStringBuilder(stringBuilder, eventMessage, num, i - num);
       stringBuilder->Append((String)"%%");
       i++;
       num = i;
-    } else if (i < eventMessage->get_Length() - 1 && ((eventMessage[i] == '{' && eventMessage[i + 1] == '{') || (eventMessage[i] == '}' && eventMessage[i + 1] == '}'))) {
+    } else if (i < eventMessage->get_Length() - 1 && ((eventMessage[i] == u'{' && eventMessage[i + 1] == u'{') || (eventMessage[i] == u'}' && eventMessage[i + 1] == u'}'))) {
       UpdateStringBuilder(stringBuilder, eventMessage, num, i - num);
       stringBuilder->Append(eventMessage[i]);
       i++;
       i++;
       num = i;
-    } else if (eventMessage[i] == '{') {
+    } else if (eventMessage[i] == u'{') {
       Int32 num2 = i;
       i++;
       Int32 num3 = 0;
       for (; i < eventMessage->get_Length() && Char::IsDigit(eventMessage[i]); i++) {
         num3 = num3 * 10 + eventMessage[i] - 48;
       }
-      if (i < eventMessage->get_Length() && eventMessage[i] == '}') {
+      if (i < eventMessage->get_Length() && eventMessage[i] == u'}') {
         i++;
         UpdateStringBuilder(stringBuilder, eventMessage, num, num2 - num);
         Int32 value = TranslateIndexToManifestConvention(num3, evtName);
-        stringBuilder->Append((Char)'%')->Append(value);
-        if (i < eventMessage->get_Length() && eventMessage[i] == '!') {
+        stringBuilder->Append((Char)u'%')->Append(value);
+        if (i < eventMessage->get_Length() && eventMessage[i] == u'!') {
           i++;
           stringBuilder->Append((String)"%!");
         }

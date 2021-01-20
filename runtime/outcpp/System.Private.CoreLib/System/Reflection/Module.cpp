@@ -271,7 +271,7 @@ Boolean Module___::FilterTypeNameImpl(Type cls, Object filterCriteria, StringCom
   }
   if (text->get_Length() > 0) {
     Int32 index = text->get_Length() - 1;
-    if (text[index] == '*') {
+    if (text[index] == u'*') {
       ReadOnlySpan<Char> value = MemoryExtensions::AsSpan(text, 0, text->get_Length() - 1);
       return MemoryExtensions::StartsWith(MemoryExtensions::AsSpan(cls->get_Name()), value, comparison);
     }

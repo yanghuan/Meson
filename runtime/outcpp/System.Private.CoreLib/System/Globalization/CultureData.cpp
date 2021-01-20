@@ -102,7 +102,7 @@ String CultureData___::get_EnglishName() {
       if (String::in::IsNullOrEmpty(text)) {
         String englishLanguageName = get_EnglishLanguageName();
         Int32 index = englishLanguageName->get_Length() - 1;
-        text = ((englishLanguageName[index] != ')') ? (get_EnglishLanguageName() + " (" + get_EnglishCountryName() + ")") : String::in::Concat(MemoryExtensions::AsSpan(get_EnglishLanguageName(), 0, _sEnglishLanguage->get_Length() - 1), ", ", get_EnglishCountryName(), ")"));
+        text = ((englishLanguageName[index] != u')') ? (get_EnglishLanguageName() + " (" + get_EnglishCountryName() + ")") : String::in::Concat(MemoryExtensions::AsSpan(get_EnglishLanguageName(), 0, _sEnglishLanguage->get_Length() - 1), ", ", get_EnglishCountryName(), ")"));
       }
     }
     _sEnglishDisplayName = text;
@@ -686,8 +686,8 @@ String CultureData___::NormalizeCultureName(String name, Boolean& isNeutralName)
   Char as[name->get_Length()] = {};
   Span<Char> span = as;
   Boolean flag = false;
-  for (; i < name->get_Length() && name[i] != '-' && name[i] != '_'; i++) {
-    if (name[i] >= 'A' && name[i] <= 'Z') {
+  for (; i < name->get_Length() && name[i] != u'-' && name[i] != u'_'; i++) {
+    if (name[i] >= u'A' && name[i] <= u'Z') {
       span[i] = (Char)(name[i] + 32);
       flag = true;
     } else {
@@ -698,7 +698,7 @@ String CultureData___::NormalizeCultureName(String name, Boolean& isNeutralName)
     isNeutralName = false;
   }
   for (; i < name->get_Length(); i++) {
-    if (name[i] >= 'a' && name[i] <= 'z') {
+    if (name[i] >= u'a' && name[i] <= u'z') {
       span[i] = (Char)(name[i] - 32);
       flag = true;
     } else {
@@ -724,7 +724,7 @@ CultureData CultureData___::CreateCultureData(String cultureName, Boolean useUse
     cultureData->_iLanguage = 4096;
     return cultureData;
   }
-  if (cultureName->get_Length() == 1 && (cultureName[0] == 'C' || cultureName[0] == 'c')) {
+  if (cultureName->get_Length() == 1 && (cultureName[0] == u'C' || cultureName[0] == u'c')) {
     return get_Invariant();
   }
   CultureData cultureData2 = rt::newobj<CultureData>();
@@ -800,18 +800,18 @@ String CultureData___::StripSecondsFromPattern(String time) {
   Boolean flag = false;
   Int32 num = -1;
   for (Int32 i = 0; i < time->get_Length(); i++) {
-    if (time[i] == '\'') {
+    if (time[i] == u'\'') {
       flag = !flag;
-    } else if (time[i] == '\\') {
+    } else if (time[i] == u'\\') {
       i++;
     } else {
       if (flag) {
         continue;
       }
       switch (time[i].get()) {
-        case 's':
+        case u's':
           {
-            if (i - num <= 4 && i - num > 1 && time[num + 1] != '\'' && time[i - 1] != '\'' && num >= 0) {
+            if (i - num <= 4 && i - num > 1 && time[num + 1] != u'\'' && time[i - 1] != u'\'' && num >= 0) {
               i = num + 1;
             }
             Boolean containsSpace;
@@ -819,9 +819,9 @@ String CultureData___::StripSecondsFromPattern(String time) {
             String value = ((!containsSpace) ? "" : " ");
             time = String::in::Concat(MemoryExtensions::AsSpan(time, 0, i), value, MemoryExtensions::AsSpan(time, indexOfNextTokenAfterSeconds));
             break;
-          }case 'H':
-        case 'h':
-        case 'm':
+          }case u'H':
+        case u'h':
+        case u'm':
           num = i;
           break;
       }
@@ -836,22 +836,22 @@ Int32 CultureData___::GetIndexOfNextTokenAfterSeconds(String time, Int32 index, 
   containsSpace = false;
   while (index < time->get_Length()) {
     switch (time[index].get()) {
-      case '\'':
+      case u'\'':
         flag = !flag;
         break;
-      case '\\':
+      case u'\\':
         index++;
-        if (time[index] == ' ') {
+        if (time[index] == u' ') {
           containsSpace = true;
         }
         break;
-      case ' ':
+      case u' ':
         containsSpace = true;
         break;
-      case 'H':
-      case 'h':
-      case 'm':
-      case 't':
+      case u'H':
+      case u'h':
+      case u'm':
+      case u't':
         if (!flag) {
           return index;
         }
@@ -957,12 +957,12 @@ String CultureData___::UnescapeNlsString(String str, Int32 start, Int32 end) {
   StringBuilder stringBuilder = nullptr;
   for (Int32 i = start; i < str->get_Length() && i <= end; i++) {
     switch (str[i].get()) {
-      case '\'':
+      case u'\'':
         if (stringBuilder == nullptr) {
           stringBuilder = rt::newobj<StringBuilder>(str, start, i - start, str->get_Length());
         }
         break;
-      case '\\':
+      case u'\\':
         if (stringBuilder == nullptr) {
           stringBuilder = rt::newobj<StringBuilder>(str, start, i - start, str->get_Length());
         }
@@ -1017,16 +1017,16 @@ Int32 CultureData___::IndexOfTimePart(String format, Int32 startIndex, String ti
       return i;
     }
     switch (format[i].get()) {
-      case '\\':
+      case u'\\':
         if (i + 1 < format->get_Length()) {
           i++;
           Char c = format[i];
-          if (c != '\'' && c != '\\') {
+          if (c != u'\'' && c != u'\\') {
             i--;
           }
         }
         break;
-      case '\'':
+      case u'\'':
         flag = !flag;
         break;
     }
@@ -1206,7 +1206,7 @@ String CultureData___::IcuGetTimeFormatString(Boolean shortFormat) {
     return String::in::Empty;
   }
   ReadOnlySpan<Char> span = ReadOnlySpan<Char>(ptr, 100);
-  return ConvertIcuTimeFormatString(span.Slice(0, MemoryExtensions::IndexOf(span, '\0')));
+  return ConvertIcuTimeFormatString(span.Slice(0, MemoryExtensions::IndexOf(span, u'\0')));
 }
 
 CultureData CultureData___::IcuGetCultureDataFromRegionName(String regionName) {
@@ -1228,33 +1228,33 @@ String CultureData___::ConvertIcuTimeFormatString(ReadOnlySpan<Char> icuFormatSt
   Int32 length = 0;
   for (Int32 i = 0; i < icuFormatString.get_Length(); i++) {
     switch (icuFormatString[i].get()) {
-      case '\'':
+      case u'\'':
         span[length++] = icuFormatString[i++];
         for (; i < icuFormatString.get_Length(); i++) {
           Char c = icuFormatString[i];
           span[length++] = c;
-          if (c == '\'') {
+          if (c == u'\'') {
             break;
           }
         }
         break;
-      case '.':
-      case ':':
-      case 'H':
-      case 'h':
-      case 'm':
-      case 's':
+      case u'.':
+      case u':':
+      case u'H':
+      case u'h':
+      case u'm':
+      case u's':
         span[length++] = icuFormatString[i];
         break;
-      case ' ':
-      case ' ':
-        span[length++] = ' ';
+      case u' ':
+      case u' ':
+        span[length++] = u' ';
         break;
-      case 'a':
+      case u'a':
         if (!flag) {
           flag = true;
-          span[length++] = 't';
-          span[length++] = 't';
+          span[length++] = u't';
+          span[length++] = u't';
         }
         break;
     }
@@ -1432,9 +1432,9 @@ String CultureData___::ReescapeWin32String(String str) {
   StringBuilder stringBuilder = nullptr;
   Boolean flag = false;
   for (Int32 i = 0; i < str->get_Length(); i++) {
-    if (str[i] == '\'') {
+    if (str[i] == u'\'') {
       if (flag) {
-        if (i + 1 < str->get_Length() && str[i + 1] == '\'') {
+        if (i + 1 < str->get_Length() && str[i + 1] == u'\'') {
           if (stringBuilder == nullptr) {
             stringBuilder = rt::newobj<StringBuilder>(str, 0, i, str->get_Length() * 2);
           }
@@ -1446,7 +1446,7 @@ String CultureData___::ReescapeWin32String(String str) {
       } else {
         flag = true;
       }
-    } else if (str[i] == '\\') {
+    } else if (str[i] == u'\\') {
       if (stringBuilder == nullptr) {
         stringBuilder = rt::newobj<StringBuilder>(str, 0, i, str->get_Length() * 2);
       }
@@ -1477,12 +1477,12 @@ Array<Int32> CultureData___::ConvertWin32GroupString(String win32Str) {
   if (String::in::IsNullOrEmpty(win32Str)) {
     return rt::newarr<Array<Int32>>(1);
   }
-  if (win32Str[0] == '0') {
+  if (win32Str[0] == u'0') {
     return rt::newarr<Array<Int32>>(1);
   }
   Int32 index = win32Str->get_Length() - 1;
   Array<Int32> array;
-  if (win32Str[index] == '0') {
+  if (win32Str[index] == u'0') {
     array = rt::newarr<Array<Int32>>(win32Str->get_Length() / 2);
   } else {
     array = rt::newarr<Array<Int32>>(win32Str->get_Length() / 2 + 2);
@@ -1492,7 +1492,7 @@ Array<Int32> CultureData___::ConvertWin32GroupString(String win32Str) {
   Int32 num = 0;
   Int32 num2 = 0;
   while (num < win32Str->get_Length() && num2 < array->get_Length()) {
-    if (win32Str[num] < '1' || win32Str[num] > '9') {
+    if (win32Str[num] < u'1' || win32Str[num] > u'9') {
       return rt::newarr<Array<Int32>>(1);
     }
     array[num2] = win32Str[num] - 48;
@@ -1613,7 +1613,7 @@ Boolean CultureData___::InitCultureDataCore() {
     }
     _iLanguage = *(Int32*)ptr;
     if (!IsCustomCultureId(_iLanguage)) {
-      Int32 num = sRealName->IndexOf('_');
+      Int32 num = sRealName->IndexOf(u'_');
       if (num > 0) {
         _sName = sRealName->Substring(0, num);
       }
@@ -1637,7 +1637,7 @@ CultureData CultureData___::GetCurrentRegionData() {
       geoInfo = Interop::Kernel32::GetGeoInfo(userGeoID, 4, lpGeoData, span.get_Length(), 0);
     }
     if (geoInfo != 0) {
-      geoInfo -= ((span[geoInfo - 1] == '\0') ? 1 : 0);
+      geoInfo -= ((span[geoInfo - 1] == u'\0') ? 1 : 0);
       CultureData cultureDataForRegion = GetCultureDataForRegion(span.Slice(0, geoInfo).ToString(), true);
       if (cultureDataForRegion != nullptr) {
         return cultureDataForRegion;

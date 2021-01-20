@@ -29,16 +29,16 @@ String VersioningHelper::MakeVersionSafeName(String name, ResourceScope from, Re
     rt::throw_exception<ArgumentNullException>("type", SR::get_ArgumentNull_TypeRequiredByResourceScope());
   }
   StringBuilder stringBuilder = rt::newobj<StringBuilder>(name);
-  Char value = '_';
+  Char value = u'_';
   if ((requirements & SxSRequirements::ProcessID) != 0) {
     stringBuilder->Append(value);
-    stringBuilder->Append((Char)'p');
+    stringBuilder->Append((Char)u'p');
     stringBuilder->Append(Environment::get_ProcessId());
   }
   if ((requirements & SxSRequirements::CLRInstanceID) != 0) {
     String cLRInstanceString = GetCLRInstanceString();
     stringBuilder->Append(value);
-    stringBuilder->Append((Char)'r');
+    stringBuilder->Append((Char)u'r');
     stringBuilder->Append(cLRInstanceString);
   }
   if ((requirements & SxSRequirements::AppDomainID) != 0) {

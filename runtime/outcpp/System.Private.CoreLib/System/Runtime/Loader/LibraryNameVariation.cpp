@@ -34,7 +34,7 @@ Boolean _DetermineLibraryNameVariations_d__4___::MoveNext() {
       return true;
     case 1:
       __1__state = -1;
-      if (isRelativePath && (!forOSLoader || (libName->Contains('.') && !libName->EndsWith('.'))) && !libName->EndsWith(".dll", StringComparison::OrdinalIgnoreCase) && !libName->EndsWith(".exe", StringComparison::OrdinalIgnoreCase)) {
+      if (isRelativePath && (!forOSLoader || (libName->Contains(u'.') && !libName->EndsWith(u'.'))) && !libName->EndsWith(".dll", StringComparison::OrdinalIgnoreCase) && !libName->EndsWith(".exe", StringComparison::OrdinalIgnoreCase)) {
         __2__current = LibraryNameVariation(String::in::Empty, ".dll");
         __1__state = 2;
         return true;

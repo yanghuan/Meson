@@ -21,14 +21,14 @@ void UriBuilder___::set_Extra(String value) {
     value = String::in::Empty;
   }
   if (value->get_Length() > 0) {
-    if (value[0] == '#') {
+    if (value[0] == u'#') {
       get_Fragment(value->Substring(1));
       return;
     }
-    if (value[0] != '?') {
+    if (value[0] != u'?') {
       rt::throw_exception<ArgumentException>(SR::get_Argument_ExtraNotValid(), "value");
     }
-    Int32 num = value->IndexOf('#');
+    Int32 num = value->IndexOf(u'#');
     if (num == -1) {
       num = value->get_Length();
     } else {
@@ -49,7 +49,7 @@ void UriBuilder___::set_Fragment(String value) {
   if (value == nullptr) {
     value = String::in::Empty;
   }
-  if (value->get_Length() > 0 && value[0] != '#') {
+  if (value->get_Length() > 0 && value[0] != u'#') {
     value = "#" + value;
   }
   _fragment = value;
@@ -65,7 +65,7 @@ void UriBuilder___::set_Host(String value) {
     value = String::in::Empty;
   }
   _host = value;
-  if (_host->Contains(':') && _host[0] != '[') {
+  if (_host->Contains(u':') && _host[0] != u'[') {
     _host = "[" + _host + "]";
   }
   _changed = true;
@@ -88,7 +88,7 @@ String UriBuilder___::get_Path() {
 }
 
 void UriBuilder___::set_Path(String value) {
-  _path = (String::in::IsNullOrEmpty(value) ? "/" : Uri::in::InternalEscapeString(value->Replace('\\', '/')));
+  _path = (String::in::IsNullOrEmpty(value) ? "/" : Uri::in::InternalEscapeString(value->Replace(u'\\', u'/')));
   _changed = true;
 }
 
@@ -112,7 +112,7 @@ void UriBuilder___::set_Query(String value) {
   if (value == nullptr) {
     value = String::in::Empty;
   }
-  if (value->get_Length() > 0 && value[0] != '?') {
+  if (value->get_Length() > 0 && value[0] != u'?') {
     value = "?" + value;
   }
   _query = value;
@@ -127,7 +127,7 @@ void UriBuilder___::set_Scheme(String value) {
   if (value == nullptr) {
     value = String::in::Empty;
   }
-  Int32 num = value->IndexOf(':');
+  Int32 num = value->IndexOf(u':');
   if (num != -1) {
     value = value->Substring(0, num);
   }
@@ -225,7 +225,7 @@ void UriBuilder___::Init(Uri uri) {
   _schemeDelimiter = (uri->get_HasAuthority() ? Uri::in::SchemeDelimiter : ":");
   String userInfo = uri->get_UserInfo();
   if (!String::in::IsNullOrEmpty(userInfo)) {
-    Int32 num = userInfo->IndexOf(':');
+    Int32 num = userInfo->IndexOf(u':');
     if (num != -1) {
       _password = userInfo->Substring(num + 1);
       _username = userInfo->Substring(0, num);
@@ -292,7 +292,7 @@ void UriBuilder___::SetFieldsFromUri(Uri uri) {
   _schemeDelimiter = (uri->get_HasAuthority() ? Uri::in::SchemeDelimiter : ":");
   String userInfo = uri->get_UserInfo();
   if (userInfo->get_Length() > 0) {
-    Int32 num = userInfo->IndexOf(':');
+    Int32 num = userInfo->IndexOf(u':');
     if (num != -1) {
       _password = userInfo->Substring(num + 1);
       _username = userInfo->Substring(0, num);
@@ -315,7 +315,7 @@ String UriBuilder___::ToString() {
     }
   }
   String text = ((_scheme->get_Length() != 0) ? (_scheme + _schemeDelimiter) : String::in::Empty);
-  return text + _username + ((_password->get_Length() > 0) ? (":" + _password) : String::in::Empty) + ((_username->get_Length() > 0) ? "@" : String::in::Empty) + _host + ((_port != -1 && _host->get_Length() > 0) ? (":" + _port) : String::in::Empty) + ((_host->get_Length() > 0 && _path->get_Length() != 0 && _path[0] != '/') ? "/" : String::in::Empty) + _path + _query + _fragment;
+  return text + _username + ((_password->get_Length() > 0) ? (":" + _password) : String::in::Empty) + ((_username->get_Length() > 0) ? "@" : String::in::Empty) + _host + ((_port != -1 && _host->get_Length() > 0) ? (":" + _port) : String::in::Empty) + ((_host->get_Length() > 0 && _path->get_Length() != 0 && _path[0] != u'/') ? "/" : String::in::Empty) + _path + _query + _fragment;
 }
 
 } // namespace System::Private::Uri::System::UriBuilderNamespace

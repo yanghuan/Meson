@@ -58,7 +58,7 @@ String OpCode::get_Name() {
   if (text != nullptr) {
     return text;
   }
-  text = Enum::in::GetName(typeof<OpCodeValues>(), opCodeValues)->ToLowerInvariant()->Replace('_', '.');
+  text = Enum::in::GetName(typeof<OpCodeValues>(), opCodeValues)->ToLowerInvariant()->Replace(u'_', u'.');
   Volatile::Write(array[num], text);
   return text;
 }

@@ -12,17 +12,17 @@ using namespace System::Text;
 Int32 DateTimeFormatInfoScanner___::SkipWhiteSpacesAndNonLetter(String pattern, Int32 currentIndex) {
   while (currentIndex < pattern->get_Length()) {
     Char c = pattern[currentIndex];
-    if (c == '\\') {
+    if (c == u'\\') {
       currentIndex++;
       if (currentIndex >= pattern->get_Length()) {
         break;
       }
       c = pattern[currentIndex];
-      if (c == '\'') {
+      if (c == u'\'') {
         continue;
       }
     }
-    if (Char::IsLetter(c) || c == '\'' || c == '.') {
+    if (Char::IsLetter(c) || c == u'\'' || c == u'.') {
       break;
     }
     currentIndex++;
@@ -36,24 +36,24 @@ void DateTimeFormatInfoScanner___::AddDateWordOrPostfix(String formatPostfix, St
   }
   if (str->get_Length() == 1) {
     switch (str[0].get()) {
-      case '.':
+      case u'.':
         AddIgnorableSymbols(".");
         return;
-      case '-':
-      case '/':
-      case '':
-      case 't':
-      case 'å':
-      case 'ö':
-      case 'B':
-      case '\b':
-      case 'Ò':
-      case 'D':
-      case '':
-      case 'Ü':
-      case 'Ô':
-      case '|':
-      case '\b':
+      case u'-':
+      case u'/':
+      case u'分':
+      case u'年':
+      case u'日':
+      case u'时':
+      case u'時':
+      case u'月':
+      case u'秒':
+      case u'년':
+      case u'분':
+      case u'시':
+      case u'월':
+      case u'일':
+      case u'초':
         return;
     }
   }
@@ -71,7 +71,7 @@ void DateTimeFormatInfoScanner___::AddDateWordOrPostfix(String formatPostfix, St
     m_dateWords->Add(str);
   }
   Int32 index = str->get_Length() - 1;
-  if (str[index] == '.') {
+  if (str[index] == u'.') {
     Int32 length = str->get_Length();
     index = 0;
     Int32 length2 = length - 1 - index;
@@ -92,9 +92,9 @@ Int32 DateTimeFormatInfoScanner___::AddDateWords(String pattern, Int32 index, St
   while (index < pattern->get_Length()) {
     Char c = pattern[index];
     switch (c.get()) {
-      case '\'':
+      case u'\'':
         break;
-      case '\\':
+      case u'\\':
         index++;
         if (index < pattern->get_Length()) {
           stringBuilder->Append(pattern[index]);
@@ -147,32 +147,32 @@ void DateTimeFormatInfoScanner___::ScanDateWord(String pattern) {
     Char c = pattern[num];
     Int32 count;
     switch (c.get()) {
-      case '\'':
+      case u'\'':
         num = AddDateWords(pattern, num + 1, nullptr);
         break;
-      case 'M':
-        num = ScanRepeatChar(pattern, 'M', num, count);
-        if (count >= 4 && num < pattern->get_Length() && pattern[num] == '\'') {
+      case u'M':
+        num = ScanRepeatChar(pattern, u'M', num, count);
+        if (count >= 4 && num < pattern->get_Length() && pattern[num] == u'\'') {
           num = AddDateWords(pattern, num + 1, "MMMM");
         }
         _ymdFlags |= FoundDatePattern::FoundMonthPatternFlag;
         break;
-      case 'y':
+      case u'y':
         {
           Int32 count2;
-          num = ScanRepeatChar(pattern, 'y', num, count2);
+          num = ScanRepeatChar(pattern, u'y', num, count2);
           _ymdFlags |= FoundDatePattern::FoundYearPatternFlag;
           break;
-        }case 'd':
-        num = ScanRepeatChar(pattern, 'd', num, count);
+        }case u'd':
+        num = ScanRepeatChar(pattern, u'd', num, count);
         if (count <= 2) {
           _ymdFlags |= FoundDatePattern::FoundDayPatternFlag;
         }
         break;
-      case '\\':
+      case u'\\':
         num += 2;
         break;
-      case '.':
+      case u'.':
         if (_ymdFlags == FoundDatePattern::FoundYMDPatternFlag) {
           AddIgnorableSymbols(".");
           _ymdFlags = FoundDatePattern::None;
@@ -190,24 +190,24 @@ void DateTimeFormatInfoScanner___::ScanDateWord(String pattern) {
 }
 
 Array<String> DateTimeFormatInfoScanner___::GetDateWordsOfDTFI(DateTimeFormatInfo dtfi) {
-  Array<String> allDateTimePatterns = dtfi->GetAllDateTimePatterns('D');
+  Array<String> allDateTimePatterns = dtfi->GetAllDateTimePatterns(u'D');
   for (Int32 i = 0; i < allDateTimePatterns->get_Length(); i++) {
     ScanDateWord(allDateTimePatterns[i]);
   }
-  allDateTimePatterns = dtfi->GetAllDateTimePatterns('d');
+  allDateTimePatterns = dtfi->GetAllDateTimePatterns(u'd');
   for (Int32 i = 0; i < allDateTimePatterns->get_Length(); i++) {
     ScanDateWord(allDateTimePatterns[i]);
   }
-  allDateTimePatterns = dtfi->GetAllDateTimePatterns('y');
+  allDateTimePatterns = dtfi->GetAllDateTimePatterns(u'y');
   for (Int32 i = 0; i < allDateTimePatterns->get_Length(); i++) {
     ScanDateWord(allDateTimePatterns[i]);
   }
   ScanDateWord(dtfi->get_MonthDayPattern());
-  allDateTimePatterns = dtfi->GetAllDateTimePatterns('T');
+  allDateTimePatterns = dtfi->GetAllDateTimePatterns(u'T');
   for (Int32 i = 0; i < allDateTimePatterns->get_Length(); i++) {
     ScanDateWord(allDateTimePatterns[i]);
   }
-  allDateTimePatterns = dtfi->GetAllDateTimePatterns('t');
+  allDateTimePatterns = dtfi->GetAllDateTimePatterns(u't');
   for (Int32 i = 0; i < allDateTimePatterns->get_Length(); i++) {
     ScanDateWord(allDateTimePatterns[i]);
   }
@@ -276,22 +276,22 @@ Boolean DateTimeFormatInfoScanner___::ArrayElementsHaveSpace(Array<String> array
 
 Boolean DateTimeFormatInfoScanner___::ArrayElementsBeginWithDigit(Array<String> array) {
   for (Int32 i = 0; i < array->get_Length(); i++) {
-    if (array[i]->get_Length() <= 0 || array[i][0] < '0' || array[i][0] > '9') {
+    if (array[i]->get_Length() <= 0 || array[i][0] < u'0' || array[i][0] > u'9') {
       continue;
     }
     Int32 j;
-    for (j = 1; j < array[i]->get_Length() && array[i][j] >= '0' && array[i][j] <= '9'; j++) {
+    for (j = 1; j < array[i]->get_Length() && array[i][j] >= u'0' && array[i][j] <= u'9'; j++) {
     }
     if (j == array[i]->get_Length()) {
       return false;
     }
     if (j == array[i]->get_Length() - 1) {
       Char c = array[i][j];
-      if (c == '\b' || c == 'Ô') {
+      if (c == u'月' || c == u'월') {
         return false;
       }
     }
-    if (j == array[i]->get_Length() - 4 && array[i][j] == '\'' && array[i][j + 1] == ' ' && array[i][j + 2] == '\b' && array[i][j + 3] == '\'') {
+    if (j == array[i]->get_Length() - 4 && array[i][j] == u'\'' && array[i][j + 1] == u' ' && array[i][j + 2] == u'月' && array[i][j + 3] == u'\'') {
       return false;
     }
     return true;

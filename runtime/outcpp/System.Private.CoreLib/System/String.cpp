@@ -596,7 +596,7 @@ Int32 String___::GetNonRandomizedHashCodeOrdinalIgnoreCase() {
     Span<Char> span = (((UInt32)num7 >= 64u) ? ((Span<Char>)(array = ArrayPool<Char>::in::get_Shared()->Rent(num7 + 1))) : as);
     Span<Char> destination = span;
     Int32 num8 = Ordinal::ToUpperOrdinal(str, destination);
-    destination[num7] = '\0';
+    destination[num7] = u'\0';
     UInt32 num9 = 352654597u;
     UInt32 num10 = num9;
     {
@@ -1071,7 +1071,7 @@ StringRuneEnumerator String___::EnumerateRunes() {
 }
 
 Int32 String___::wcslen(Char* ptr) {
-  Int32 num = SpanHelpers::IndexOf(*ptr, '\0', Int32::MaxValue);
+  Int32 num = SpanHelpers::IndexOf(*ptr, u'\0', Int32::MaxValue);
   if (num < 0) {
     ThrowMustBeNullTerminatedString();
   }
@@ -1684,7 +1684,7 @@ String String___::JoinCore(Char* separator, Int32 separatorLength, Array<String>
 }
 
 String String___::PadLeft(Int32 totalWidth) {
-  return PadLeft(totalWidth, ' ');
+  return PadLeft(totalWidth, u' ');
 }
 
 String String___::PadLeft(Int32 totalWidth, Char paddingChar) {
@@ -1711,7 +1711,7 @@ String String___::PadLeft(Int32 totalWidth, Char paddingChar) {
 }
 
 String String___::PadRight(Int32 totalWidth) {
-  return PadRight(totalWidth, ' ');
+  return PadRight(totalWidth, u' ');
 }
 
 String String___::PadRight(Int32 totalWidth, Char paddingChar) {
@@ -2711,7 +2711,7 @@ Int32 String___::_GetNonRandomizedHashCodeOrdinalIgnoreCase_g__GetNonRandomizedH
   Span<Char> span = (((UInt32)num >= 64u) ? ((Span<Char>)(array = ArrayPool<Char>::in::get_Shared()->Rent(num + 1))) : as);
   Span<Char> destination = span;
   Int32 num2 = Ordinal::ToUpperOrdinal(str, destination);
-  destination[num] = '\0';
+  destination[num] = u'\0';
   UInt32 num3 = 352654597u;
   UInt32 num4 = num3;
   {

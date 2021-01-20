@@ -58,11 +58,11 @@ Boolean UriHelper::TestForSubPath(Char* selfPtr, Int32 selfLength, Char* otherPt
     Char c = *(selfPtr + i);
     Char c2 = *(otherPtr + i);
     switch (c.get()) {
-      case '#':
-      case '?':
+      case u'#':
+      case u'?':
         return true;
-      case '/':
-        if (c2 != '/') {
+      case u'/':
+        if (c2 != u'/') {
           return false;
         }
         if (!flag) {
@@ -71,7 +71,7 @@ Boolean UriHelper::TestForSubPath(Char* selfPtr, Int32 selfLength, Char* otherPt
         flag = true;
         continue;
       default:
-        if (c2 == '?' || c2 == '#') {
+        if (c2 == u'?' || c2 == u'#') {
           break;
         }
         if (!ignoreCase) {
@@ -88,11 +88,11 @@ Boolean UriHelper::TestForSubPath(Char* selfPtr, Int32 selfLength, Char* otherPt
   }
   for (; i < selfLength; i++) {
     Char c;
-    if ((c = *(selfPtr + i)) != '?') {
+    if ((c = *(selfPtr + i)) != u'?') {
       switch (c.get()) {
-        case '#':
+        case u'#':
           break;
-        case '/':
+        case u'/':
           return false;
         default:
           continue;
@@ -124,7 +124,7 @@ String UriHelper::EscapeString(String stringToEscape, Boolean checkExistingEscap
   Int32 i;
   for (i = 0; i < stringToEscape->get_Length(); i++) {
     Char index;
-    if ((index = stringToEscape[i]) > '') {
+    if ((index = stringToEscape[i]) > u'') {
       break;
     }
     if (!readOnlySpan[index]) {
@@ -162,7 +162,7 @@ Array<Char> UriHelper::EscapeString(ReadOnlySpan<Char> stringToEscape, Array<Cha
   Int32 i;
   for (i = 0; i < stringToEscape.get_Length(); i++) {
     Char index;
-    if ((index = stringToEscape[i]) > '') {
+    if ((index = stringToEscape[i]) > u'') {
       break;
     }
     if (!readOnlySpan[index]) {
@@ -200,7 +200,7 @@ void UriHelper::EscapeStringToBuilder(ReadOnlySpan<Char> stringToEscape, ValueSt
       current.TryEncodeToUtf8(destination, bytesWritten);
       Span<Byte> span = destination.Slice(0, bytesWritten);
       for (Byte&& value : *span) {
-        vsb.Append('%');
+        vsb.Append(u'%');
         HexConverter::ToCharsBuffer(value, vsb.AppendSpan(2));
       }
       continue;
@@ -217,7 +217,7 @@ void UriHelper::EscapeStringToBuilder(ReadOnlySpan<Char> stringToEscape, ValueSt
         if (current2.get_IsAscii() && IsHexDigit((Char)current2.get_Value()) && spanRuneEnumerator2.MoveNext()) {
           Rune current3 = spanRuneEnumerator2.get_Current();
           if (current3.get_IsAscii() && IsHexDigit((Char)current3.get_Value())) {
-            vsb.Append('%');
+            vsb.Append(u'%');
             vsb.Append((Char)current2.get_Value());
             vsb.Append((Char)current3.get_Value());
             spanRuneEnumerator = spanRuneEnumerator2;
@@ -226,7 +226,7 @@ void UriHelper::EscapeStringToBuilder(ReadOnlySpan<Char> stringToEscape, ValueSt
         }
       }
     }
-    vsb.Append('%');
+    vsb.Append(u'%');
     HexConverter::ToCharsBuffer(b, vsb.AppendSpan(2));
   }
 }
@@ -276,9 +276,9 @@ void UriHelper::UnescapeString(Char* pStr, Int32 start, Int32 end, ValueStringBu
   do {
 
   IL_003c:
-    Char c = '\0';
+    Char c = u'\0';
     for (; i < end; i++) {
-      if ((c = *(pStr + i)) == '%') {
+      if ((c = *(pStr + i)) == u'%') {
         if ((unescapeMode & UnescapeMode::Unescape) == 0) {
           flag = true;
           break;
@@ -287,13 +287,13 @@ void UriHelper::UnescapeString(Char* pStr, Int32 start, Int32 end, ValueStringBu
           c = DecodeHexChars(*(pStr + i + 1), *(pStr + i + 2));
           if (unescapeMode < UnescapeMode::UnescapeAll) {
             switch (c.get()) {
-              case 'ÿ':
+              case u'￿':
                 if ((unescapeMode & UnescapeMode::Escape) == 0) {
                   continue;
                 }
                 flag = true;
                 break;
-              case '%':
+              case u'%':
                 i += 2;
                 continue;
               default:
@@ -305,7 +305,7 @@ void UriHelper::UnescapeString(Char* pStr, Int32 start, Int32 end, ValueStringBu
                   i += 2;
                   continue;
                 }
-                if (flag2 && ((c <= '' && IsNotSafeForUnescape(c)) || (c > '' && !IriHelper::CheckIriUnicodeRange(c, isQuery)))) {
+                if (flag2 && ((c <= u'' && IsNotSafeForUnescape(c)) || (c > u'' && !IriHelper::CheckIriUnicodeRange(c, isQuery)))) {
                   i += 2;
                   continue;
                 }
@@ -313,7 +313,7 @@ void UriHelper::UnescapeString(Char* pStr, Int32 start, Int32 end, ValueStringBu
             }
             break;
           }
-          if (c != 'ÿ') {
+          if (c != u'￿') {
             break;
           }
           if (unescapeMode >= UnescapeMode::UnescapeAllOrThrow) {
@@ -333,7 +333,7 @@ void UriHelper::UnescapeString(Char* pStr, Int32 start, Int32 end, ValueStringBu
           flag = true;
           break;
         }
-        if ((unescapeMode & UnescapeMode::V1ToStringFlag) == 0 && (c <= '' || (c >= '' && c <= ''))) {
+        if ((unescapeMode & UnescapeMode::V1ToStringFlag) == 0 && (c <= u'' || (c >= u'' && c <= u''))) {
           flag = true;
           break;
         }
@@ -352,7 +352,7 @@ void UriHelper::UnescapeString(Char* pStr, Int32 start, Int32 end, ValueStringBu
       start = ++i;
       goto IL_003c;
     }
-    if (c <= '') {
+    if (c <= u'') {
       dest.Append(c);
       i += 3;
       start = i;
@@ -364,14 +364,14 @@ void UriHelper::UnescapeString(Char* pStr, Int32 start, Int32 end, ValueStringBu
     }
     array[0] = (Byte)c;
     for (i += 3; i < end; i += 3) {
-      if ((c = *(pStr + i)) != '%') {
+      if ((c = *(pStr + i)) != u'%') {
         break;
       }
       if (i + 2 >= end) {
         break;
       }
       c = DecodeHexChars(*(pStr + i + 1), *(pStr + i + 2));
-      if (c == 'ÿ' || c < '') {
+      if (c == u'￿' || c < u'') {
         break;
       }
       array[byteCount++] = (Byte)c;
@@ -450,7 +450,7 @@ void UriHelper::MatchUTF8Sequence(ValueStringBuilder& dest, Span<Char> unescaped
 }
 
 void UriHelper::EscapeAsciiChar(Byte b, ValueStringBuilder& to) {
-  to.Append('%');
+  to.Append(u'%');
   HexConverter::ToCharsBuffer(b, to.AppendSpan(2));
 }
 
@@ -458,29 +458,29 @@ Char UriHelper::DecodeHexChars(Int32 first, Int32 second) {
   Int32 num = HexConverter::FromChar(first);
   Int32 num2 = HexConverter::FromChar(second);
   if ((num | num2) == 255) {
-    return 'ÿ';
+    return u'￿';
   }
   return (Char)((num << 4) | num2);
 }
 
 Boolean UriHelper::IsNotSafeForUnescape(Char ch) {
-  if (ch <= '' || (ch >= '' && ch <= '')) {
+  if (ch <= u'' || (ch >= u'' && ch <= u'')) {
     return true;
   }
   return ";/?:@&=+$,#[]!'()*%\\#"->Contains(ch);
 }
 
 Boolean UriHelper::IsGenDelim(Char ch) {
-  if (ch != ':' && ch != '/' && ch != '?' && ch != '#' && ch != '[' && ch != ']') {
-    return ch == '@';
+  if (ch != u':' && ch != u'/' && ch != u'?' && ch != u'#' && ch != u'[' && ch != u']') {
+    return ch == u'@';
   }
   return true;
 }
 
 Boolean UriHelper::IsLWS(Char ch) {
-  if (ch <= ' ') {
-    if (ch != ' ' && ch != '\n' && ch != '\r') {
-      return ch == '	';
+  if (ch <= u' ') {
+    if (ch != u' ' && ch != u'\n' && ch != u'\r') {
+      return ch == u'	';
     }
     return true;
   }
@@ -503,8 +503,8 @@ Boolean UriHelper::IsHexDigit(Char character) {
 }
 
 Boolean UriHelper::IsBidiControlCharacter(Char ch) {
-  if (ch != '' && ch != '' && ch != '*' && ch != '+' && ch != ',' && ch != '-') {
-    return ch == '.';
+  if (ch != u'‎' && ch != u'‏' && ch != u'‪' && ch != u'‫' && ch != u'‬' && ch != u'‭') {
+    return ch == u'‮';
   }
   return true;
 }

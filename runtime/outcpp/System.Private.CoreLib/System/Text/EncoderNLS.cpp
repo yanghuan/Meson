@@ -22,7 +22,7 @@ Boolean EncoderNLS___::get_MustFlush() {
 }
 
 Boolean EncoderNLS___::get_HasLeftoverData() {
-  if (_charLeftOver == '\0') {
+  if (_charLeftOver == u'\0') {
     if (_fallbackBuffer != nullptr) {
       return _fallbackBuffer->get_Remaining() > 0;
     }
@@ -32,7 +32,7 @@ Boolean EncoderNLS___::get_HasLeftoverData() {
 }
 
 Boolean EncoderNLS___::get_HasState() {
-  return _charLeftOver != '\0';
+  return _charLeftOver != u'\0';
 }
 
 void EncoderNLS___::ctor(Encoding encoding) {
@@ -42,7 +42,7 @@ void EncoderNLS___::ctor(Encoding encoding) {
 }
 
 void EncoderNLS___::Reset() {
-  _charLeftOver = '\0';
+  _charLeftOver = u'\0';
   if (_fallbackBuffer != nullptr) {
     _fallbackBuffer->Reset();
   }
@@ -162,10 +162,10 @@ Int32 EncoderNLS___::DrainLeftoverDataForGetByteCount(ReadOnlySpan<Char> chars, 
     rt::throw_exception<ArgumentException>(SR::Format(SR::get_Argument_EncoderFallbackNotEmpty(), get_Encoding()->get_EncodingName(), _fallbackBuffer->GetType()));
   }
   charsConsumed = 0;
-  if (_charLeftOver == '\0') {
+  if (_charLeftOver == u'\0') {
     return 0;
   }
-  Char c = '\0';
+  Char c = u'\0';
   if (chars.get_IsEmpty()) {
     if (!get_MustFlush()) {
       return 0;
@@ -191,7 +191,7 @@ Boolean EncoderNLS___::TryDrainLeftoverDataForGetBytes(ReadOnlySpan<Char> chars,
   charsConsumed = 0;
   bytesWritten = 0;
   if (_charLeftOver != 0) {
-    Char c = '\0';
+    Char c = u'\0';
     if (chars.get_IsEmpty()) {
       if (!get_MustFlush()) {
         charsConsumed = 0;
@@ -202,7 +202,7 @@ Boolean EncoderNLS___::TryDrainLeftoverDataForGetBytes(ReadOnlySpan<Char> chars,
       c = chars[0];
     }
     Char charLeftOver = _charLeftOver;
-    _charLeftOver = '\0';
+    _charLeftOver = u'\0';
     Rune result;
     if (Rune::TryCreate(charLeftOver, c, result)) {
       charsConsumed = 1;

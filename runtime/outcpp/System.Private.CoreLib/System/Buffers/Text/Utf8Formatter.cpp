@@ -22,27 +22,27 @@ using namespace System::Buffers::Binary;
 
 template <>
 Boolean Utf8Formatter::TryFormat(Boolean value, Span<Byte> destination, Int32& bytesWritten, StandardFormat format) {
-  Char symbolOrDefault = FormattingHelpers::GetSymbolOrDefault(format, 'G');
+  Char symbolOrDefault = FormattingHelpers::GetSymbolOrDefault(format, u'G');
   if (value) {
-    if (symbolOrDefault == 'G') {
+    if (symbolOrDefault == u'G') {
       if (BinaryPrimitives::TryWriteUInt32BigEndian(destination, 1416787301u)) {
         goto IL_0033;
       }
     } else {
-      if (symbolOrDefault != 'l') {
+      if (symbolOrDefault != u'l') {
         goto IL_0083;
       }
       if (BinaryPrimitives::TryWriteUInt32BigEndian(destination, 1953658213u)) {
         goto IL_0033;
       }
     }
-  } else if (symbolOrDefault == 'G') {
+  } else if (symbolOrDefault == u'G') {
     if (4u < (UInt32)destination.get_Length()) {
       BinaryPrimitives::WriteUInt32BigEndian(destination, 1180789875u);
       goto IL_006e;
     }
   } else {
-    if (symbolOrDefault != 'l') {
+    if (symbolOrDefault != u'l') {
       goto IL_0083;
     }
     if (4u < (UInt32)destination.get_Length()) {
@@ -72,7 +72,7 @@ Boolean Utf8Formatter::TryFormat(DateTimeOffset value, Span<Byte> destination, I
   TimeSpan offset = Utf8Constants::NullUtcOffset;
   Char c = format.get_Symbol();
   if (format.get_IsDefault()) {
-    c = 'G';
+    c = u'G';
     offset = value.get_Offset();
   }
 }
@@ -294,11 +294,11 @@ Boolean Utf8Formatter::TryFormatDateTimeR(DateTime value, Span<Byte> destination
 template <>
 Boolean Utf8Formatter::TryFormat(Decimal value, Span<Byte> destination, Int32& bytesWritten, StandardFormat format) {
   if (format.get_IsDefault()) {
-    format = (Char)'G';
+    format = (Char)u'G';
   }
   switch (format.get_Symbol().get()) {
-    case 'G':
-    case 'g':
+    case u'G':
+    case u'g':
       {
         if (format.get_Precision() != Byte::MaxValue) {
           rt::throw_exception<NotSupportedException>(SR::get_Argument_GWithPrecisionNotSupported());
@@ -311,8 +311,8 @@ Boolean Utf8Formatter::TryFormat(Decimal value, Span<Byte> destination, Int32& b
           number3.IsNegative = false;
         }
         return TryFormatDecimalG(number3, destination, bytesWritten);
-      }case 'F':
-    case 'f':
+      }case u'F':
+    case u'f':
       {
         Byte as[31] = {};
         Byte* digits2 = as;
@@ -321,8 +321,8 @@ Boolean Utf8Formatter::TryFormat(Decimal value, Span<Byte> destination, Int32& b
         Byte b2 = (Byte)((format.get_Precision() == Byte::MaxValue) ? 2 : format.get_Precision());
         Number::RoundNumber(number2, number2.Scale + b2, false);
         return TryFormatDecimalF(number2, destination, bytesWritten, b2);
-      }case 'E':
-    case 'e':
+      }case u'E':
+    case u'e':
       {
         Byte as[31] = {};
         Byte* digits = as;
@@ -512,17 +512,17 @@ Boolean Utf8Formatter::TryFormat(Single value, Span<Byte> destination, Int32& by
 template <>
 Boolean Utf8Formatter::TryFormat(Guid value, Span<Byte> destination, Int32& bytesWritten, StandardFormat format) {
   Int32 num;
-  switch (FormattingHelpers::GetSymbolOrDefault(format, 'D').get()) {
-    case 'D':
+  switch (FormattingHelpers::GetSymbolOrDefault(format, u'D').get()) {
+    case u'D':
       num = -2147483612;
       break;
-    case 'B':
+    case u'B':
       num = -2139260122;
       break;
-    case 'P':
+    case u'P':
       num = -2144786394;
       break;
-    case 'N':
+    case u'N':
       num = 32;
       break;
     default:
@@ -637,21 +637,21 @@ Boolean Utf8Formatter::TryFormatInt64(Int64 value, UInt64 mask, Span<Byte> desti
     return TryFormatInt64Default(value, destination, bytesWritten);
   }
   switch (format.get_Symbol().get()) {
-    case 'G':
-    case 'g':
+    case u'G':
+    case u'g':
       if (format.get_HasPrecision()) {
         rt::throw_exception<NotSupportedException>(SR::get_Argument_GWithPrecisionNotSupported());
       }
       return TryFormatInt64D(value, format.get_Precision(), destination, bytesWritten);
-    case 'D':
-    case 'd':
+    case u'D':
+    case u'd':
       return TryFormatInt64D(value, format.get_Precision(), destination, bytesWritten);
-    case 'N':
-    case 'n':
+    case u'N':
+    case u'n':
       return TryFormatInt64N(value, format.get_Precision(), destination, bytesWritten);
-    case 'x':
+    case u'x':
       return TryFormatUInt64X((UInt64)value & mask, format.get_Precision(), true, destination, bytesWritten);
-    case 'X':
+    case u'X':
       return TryFormatUInt64X((UInt64)value & mask, format.get_Precision(), false, destination, bytesWritten);
     default:
       return FormattingHelpers::TryFormatThrowFormatException(bytesWritten);
@@ -705,21 +705,21 @@ Boolean Utf8Formatter::TryFormatUInt64(UInt64 value, Span<Byte> destination, Int
     return TryFormatUInt64Default(value, destination, bytesWritten);
   }
   switch (format.get_Symbol().get()) {
-    case 'G':
-    case 'g':
+    case u'G':
+    case u'g':
       if (format.get_HasPrecision()) {
         rt::throw_exception<NotSupportedException>(SR::get_Argument_GWithPrecisionNotSupported());
       }
       return TryFormatUInt64D(value, format.get_Precision(), destination, false, bytesWritten);
-    case 'D':
-    case 'd':
+    case u'D':
+    case u'd':
       return TryFormatUInt64D(value, format.get_Precision(), destination, false, bytesWritten);
-    case 'N':
-    case 'n':
+    case u'N':
+    case u'n':
       return TryFormatUInt64N(value, format.get_Precision(), destination, false, bytesWritten);
-    case 'x':
+    case u'x':
       return TryFormatUInt64X(value, format.get_Precision(), true, destination, bytesWritten);
-    case 'X':
+    case u'X':
       return TryFormatUInt64X(value, format.get_Precision(), false, destination, bytesWritten);
     default:
       return FormattingHelpers::TryFormatThrowFormatException(bytesWritten);
@@ -833,17 +833,17 @@ Boolean Utf8Formatter::TryFormatUInt64X(UInt64 value, Byte precision, Boolean us
 
 template <>
 Boolean Utf8Formatter::TryFormat(TimeSpan value, Span<Byte> destination, Int32& bytesWritten, StandardFormat format) {
-  Char c = FormattingHelpers::GetSymbolOrDefault(format, 'c');
+  Char c = FormattingHelpers::GetSymbolOrDefault(format, u'c');
   switch (c.get()) {
-    case 'T':
-    case 't':
-      c = 'c';
+    case u'T':
+    case u't':
+      c = u'c';
       break;
     default:
       return FormattingHelpers::TryFormatThrowFormatException(bytesWritten);
-    case 'G':
-    case 'c':
-    case 'g':
+    case u'G':
+    case u'c':
+    case u'g':
       break;
   }
   Int32 num = 8;
@@ -866,12 +866,12 @@ Boolean Utf8Formatter::TryFormat(TimeSpan value, Span<Byte> destination, Int32& 
 IL_0082:
   Int32 num3 = 0;
   switch (c.get()) {
-    case 'c':
+    case u'c':
       if (valueWithoutTrailingZeros != 0) {
         num3 = 7;
       }
       break;
-    case 'G':
+    case u'G':
       num3 = 7;
       break;
     default:
@@ -899,13 +899,13 @@ IL_0082:
     num6 = FormattingHelpers::DivMod((UInt32)num5, 24u, modulo4);
   }
   Int32 num7 = 2;
-  if (modulo4 < 10 && c == 'g') {
+  if (modulo4 < 10 && c == u'g') {
     num7--;
     num--;
   }
   Int32 num8 = 0;
   if (num6 == 0) {
-    if (c == 'G') {
+    if (c == u'G') {
       num += 2;
       num8 = 1;
     }
@@ -928,7 +928,7 @@ IL_0082:
   if (num8 > 0) {
     FormattingHelpers::WriteDigits(num6, destination.Slice(num9, num8));
     num9 += num8;
-    destination[num9++] = (Byte)((c == 'c') ? 46 : 58);
+    destination[num9++] = (Byte)((c == u'c') ? 46 : 58);
   }
   FormattingHelpers::WriteDigits(modulo4, destination.Slice(num9, num7));
   num9 += num7;

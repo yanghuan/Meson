@@ -24,7 +24,7 @@ using namespace System::Runtime::InteropServices;
 
 Boolean UnicodeEncoding___::Decoder___::get_HasState() {
   if (lastByte == -1) {
-    return lastChar != '\0';
+    return lastChar != u'\0';
   }
   return true;
 }
@@ -36,7 +36,7 @@ void UnicodeEncoding___::Decoder___::ctor(UnicodeEncoding encoding) {
 
 void UnicodeEncoding___::Decoder___::Reset() {
   lastByte = -1;
-  lastChar = '\0';
+  lastChar = u'\0';
   if (_fallbackBuffer != nullptr) {
     _fallbackBuffer->Reset();
   }
@@ -271,12 +271,12 @@ Int32 UnicodeEncoding___::GetByteCount(Char* chars, Int32 count, EncoderNLS enco
   }
   Char* charStart = chars;
   Char* ptr = chars + count;
-  Char c = '\0';
+  Char c = u'\0';
   Boolean flag = false;
   EncoderFallbackBuffer encoderFallbackBuffer = nullptr;
   if (encoder != nullptr) {
     c = encoder->_charLeftOver;
-    if (c > '\0') {
+    if (c > u'\0') {
       num += 2;
     }
     if (encoder->get_InternalHasFallbackBuffer()) {
@@ -293,9 +293,9 @@ Int32 UnicodeEncoding___::GetByteCount(Char* chars, Int32 count, EncoderNLS enco
   while (true) {
     Char c2;
     Char* chars2;
-    if ((c2 = ((encoderFallbackBuffer != nullptr) ? encoderFallbackBuffer->InternalGetNextChar() : '\0')) != 0 || chars < ptr) {
-      if (c2 == '\0') {
-        if ((bigEndian ^ BitConverter::IsLittleEndian) && ((UInt64)chars & 7) == 0 && c == '\0') {
+    if ((c2 = ((encoderFallbackBuffer != nullptr) ? encoderFallbackBuffer->InternalGetNextChar() : u'\0')) != 0 || chars < ptr) {
+      if (c2 == u'\0') {
+        if ((bigEndian ^ BitConverter::IsLittleEndian) && ((UInt64)chars & 7) == 0 && c == u'\0') {
           UInt64* ptr2 = (UInt64*)(ptr - 3);
           UInt64* ptr3;
           for (ptr3 = (UInt64*)chars; ptr3 < ptr2; ptr3++) {
@@ -316,9 +316,9 @@ Int32 UnicodeEncoding___::GetByteCount(Char* chars, Int32 count, EncoderNLS enco
       } else {
         num += 2;
       }
-      if (c2 >= '\0' && c2 <= 'ÿ') {
-        if (c2 <= 'ÿ') {
-          if (c > '\0') {
+      if (c2 >= u'�' && c2 <= u'�') {
+        if (c2 <= u'�') {
+          if (c > u'\0') {
             chars--;
             num -= 2;
             if (encoderFallbackBuffer == nullptr) {
@@ -328,11 +328,11 @@ Int32 UnicodeEncoding___::GetByteCount(Char* chars, Int32 count, EncoderNLS enco
             chars2 = chars;
             encoderFallbackBuffer->InternalFallback(c, chars2);
             chars = chars2;
-            c = '\0';
+            c = u'\0';
           } else {
             c = c2;
           }
-        } else if (c == '\0') {
+        } else if (c == u'\0') {
           num -= 2;
           if (encoderFallbackBuffer == nullptr) {
             encoderFallbackBuffer = ((encoder != nullptr) ? encoder->get_FallbackBuffer() : encoderFallback->CreateFallbackBuffer());
@@ -342,10 +342,10 @@ Int32 UnicodeEncoding___::GetByteCount(Char* chars, Int32 count, EncoderNLS enco
           encoderFallbackBuffer->InternalFallback(c2, chars2);
           chars = chars2;
         } else {
-          c = '\0';
+          c = u'\0';
         }
 
-      } else if (c > '\0') {
+      } else if (c > u'\0') {
         chars--;
         if (encoderFallbackBuffer == nullptr) {
           encoderFallbackBuffer = ((encoder != nullptr) ? encoder->get_FallbackBuffer() : encoderFallback->CreateFallbackBuffer());
@@ -355,7 +355,7 @@ Int32 UnicodeEncoding___::GetByteCount(Char* chars, Int32 count, EncoderNLS enco
         encoderFallbackBuffer->InternalFallback(c, chars2);
         chars = chars2;
         num -= 2;
-        c = '\0';
+        c = u'\0';
       }
 
       continue;
@@ -363,7 +363,7 @@ Int32 UnicodeEncoding___::GetByteCount(Char* chars, Int32 count, EncoderNLS enco
     goto IL_02a0;
 
   IL_02a0:
-    if (c <= '\0') {
+    if (c <= u'\0') {
       break;
     }
     num -= 2;
@@ -380,14 +380,14 @@ Int32 UnicodeEncoding___::GetByteCount(Char* chars, Int32 count, EncoderNLS enco
     chars2 = chars;
     encoderFallbackBuffer->InternalFallback(c, chars2);
     chars = chars2;
-    c = '\0';
+    c = u'\0';
     flag = true;
   }
   return num;
 }
 
 Int32 UnicodeEncoding___::GetBytes(Char* chars, Int32 charCount, Byte* bytes, Int32 byteCount, EncoderNLS encoder) {
-  Char c = '\0';
+  Char c = u'\0';
   Boolean flag = false;
   Byte* ptr = bytes + byteCount;
   Char* ptr2 = chars + charCount;
@@ -410,9 +410,9 @@ Int32 UnicodeEncoding___::GetBytes(Char* chars, Int32 charCount, Byte* bytes, In
   while (true) {
     Char c2;
     Char* chars2;
-    if ((c2 = ((encoderFallbackBuffer != nullptr) ? encoderFallbackBuffer->InternalGetNextChar() : '\0')) != 0 || chars < ptr2) {
-      if (c2 == '\0') {
-        if ((bigEndian ^ BitConverter::IsLittleEndian) && ((UInt64)chars & 7) == 0 && c == '\0') {
+    if ((c2 = ((encoderFallbackBuffer != nullptr) ? encoderFallbackBuffer->InternalGetNextChar() : u'\0')) != 0 || chars < ptr2) {
+      if (c2 == u'\0') {
+        if ((bigEndian ^ BitConverter::IsLittleEndian) && ((UInt64)chars & 7) == 0 && c == u'\0') {
           UInt64* ptr5 = (UInt64*)(chars - 3 + ((ptr - bytes >> 1 < ptr2 - chars) ? (ptr - bytes >> 1) : (ptr2 - chars)));
           UInt64* ptr6 = (UInt64*)chars;
           UInt64* ptr7 = (UInt64*)bytes;
@@ -436,9 +436,9 @@ Int32 UnicodeEncoding___::GetBytes(Char* chars, Int32 charCount, Byte* bytes, In
         c2 = *chars;
         chars++;
       }
-      if (c2 >= '\0' && c2 <= 'ÿ') {
-        if (c2 <= 'ÿ') {
-          if (c > '\0') {
+      if (c2 >= u'�' && c2 <= u'�') {
+        if (c2 <= u'�') {
+          if (c > u'\0') {
             chars--;
             if (encoderFallbackBuffer == nullptr) {
               encoderFallbackBuffer = ((encoder != nullptr) ? encoder->get_FallbackBuffer() : encoderFallback->CreateFallbackBuffer());
@@ -447,13 +447,13 @@ Int32 UnicodeEncoding___::GetBytes(Char* chars, Int32 charCount, Byte* bytes, In
             chars2 = chars;
             encoderFallbackBuffer->InternalFallback(c, chars2);
             chars = chars2;
-            c = '\0';
+            c = u'\0';
           } else {
             c = c2;
           }
           continue;
         }
-        if (c == '\0') {
+        if (c == u'\0') {
           if (encoderFallbackBuffer == nullptr) {
             encoderFallbackBuffer = ((encoder != nullptr) ? encoder->get_FallbackBuffer() : encoderFallback->CreateFallbackBuffer());
             encoderFallbackBuffer->InternalInitialize(ptr4, ptr2, encoder, true);
@@ -471,7 +471,7 @@ Int32 UnicodeEncoding___::GetBytes(Char* chars, Int32 charCount, Byte* bytes, In
             chars -= 2;
           }
           ThrowBytesOverflow(encoder, bytes == ptr3);
-          c = '\0';
+          c = u'\0';
           goto IL_03aa;
         }
         if (bigEndian) {
@@ -481,8 +481,8 @@ Int32 UnicodeEncoding___::GetBytes(Char* chars, Int32 charCount, Byte* bytes, In
           *(bytes++) = (Byte)c;
           *(bytes++) = (Byte)((Int32)c >> 8);
         }
-        c = '\0';
-      } else if (c > '\0') {
+        c = u'\0';
+      } else if (c > u'\0') {
         chars--;
         if (encoderFallbackBuffer == nullptr) {
           encoderFallbackBuffer = ((encoder != nullptr) ? encoder->get_FallbackBuffer() : encoderFallback->CreateFallbackBuffer());
@@ -491,7 +491,7 @@ Int32 UnicodeEncoding___::GetBytes(Char* chars, Int32 charCount, Byte* bytes, In
         chars2 = chars;
         encoderFallbackBuffer->InternalFallback(c, chars2);
         chars = chars2;
-        c = '\0';
+        c = u'\0';
         continue;
       }
 
@@ -515,7 +515,7 @@ Int32 UnicodeEncoding___::GetBytes(Char* chars, Int32 charCount, Byte* bytes, In
     goto IL_03aa;
 
   IL_03aa:
-    if (c <= '\0' || (encoder != nullptr && !encoder->get_MustFlush())) {
+    if (c <= u'\0' || (encoder != nullptr && !encoder->get_MustFlush())) {
       break;
     }
     if (flag) {
@@ -528,7 +528,7 @@ Int32 UnicodeEncoding___::GetBytes(Char* chars, Int32 charCount, Byte* bytes, In
     chars2 = chars;
     encoderFallbackBuffer->InternalFallback(c, chars2);
     chars = chars2;
-    c = '\0';
+    c = u'\0';
     flag = true;
   }
   if (encoder != nullptr) {
@@ -543,13 +543,13 @@ Int32 UnicodeEncoding___::GetCharCount(Byte* bytes, Int32 count, DecoderNLS base
   Byte* ptr = bytes + count;
   Byte* byteStart = bytes;
   Int32 num = -1;
-  Char c = '\0';
+  Char c = u'\0';
   Int32 num2 = count >> 1;
   DecoderFallbackBuffer decoderFallbackBuffer = nullptr;
   if (decoder != nullptr) {
     num = decoder->lastByte;
     c = decoder->lastChar;
-    if (c > '\0') {
+    if (c > u'\0') {
       num2++;
     }
     if (num >= 0 && (count & 1) == 1) {
@@ -557,7 +557,7 @@ Int32 UnicodeEncoding___::GetCharCount(Byte* bytes, Int32 count, DecoderNLS base
     }
   }
   while (bytes < ptr) {
-    if ((bigEndian ^ BitConverter::IsLittleEndian) && ((UInt64)bytes & 7) == 0 && num == -1 && c == '\0') {
+    if ((bigEndian ^ BitConverter::IsLittleEndian) && ((UInt64)bytes & 7) == 0 && num == -1 && c == u'\0') {
       UInt64* ptr2 = (UInt64*)(ptr - 7);
       UInt64* ptr3;
       for (ptr3 = (UInt64*)bytes; ptr3 < ptr2; ptr3++) {
@@ -581,9 +581,9 @@ Int32 UnicodeEncoding___::GetCharCount(Byte* bytes, Int32 count, DecoderNLS base
     }
     Char c2 = ((!bigEndian) ? ((Char)((*(bytes++) << 8) | num)) : ((Char)((num << 8) | *(bytes++))));
     num = -1;
-    if (c2 >= '\0' && c2 <= 'ÿ') {
-      if (c2 <= 'ÿ') {
-        if (c > '\0') {
+    if (c2 >= u'�' && c2 <= u'�') {
+      if (c2 <= u'�') {
+        if (c > u'\0') {
           num2--;
           Array<Byte> array = nullptr;
           array = ((!bigEndian) ? rt::newarr<Array<Byte>>(2) : rt::newarr<Array<Byte>>(2));
@@ -594,7 +594,7 @@ Int32 UnicodeEncoding___::GetCharCount(Byte* bytes, Int32 count, DecoderNLS base
           num2 += decoderFallbackBuffer->InternalFallback(array, bytes);
         }
         c = c2;
-      } else if (c == '\0') {
+      } else if (c == u'\0') {
         num2--;
         Array<Byte> array2 = nullptr;
         array2 = ((!bigEndian) ? rt::newarr<Array<Byte>>(2) : rt::newarr<Array<Byte>>(2));
@@ -604,10 +604,10 @@ Int32 UnicodeEncoding___::GetCharCount(Byte* bytes, Int32 count, DecoderNLS base
         }
         num2 += decoderFallbackBuffer->InternalFallback(array2, bytes);
       } else {
-        c = '\0';
+        c = u'\0';
       }
 
-    } else if (c > '\0') {
+    } else if (c > u'\0') {
       num2--;
       Array<Byte> array3 = nullptr;
       array3 = ((!bigEndian) ? rt::newarr<Array<Byte>>(2) : rt::newarr<Array<Byte>>(2));
@@ -616,12 +616,12 @@ Int32 UnicodeEncoding___::GetCharCount(Byte* bytes, Int32 count, DecoderNLS base
         decoderFallbackBuffer->InternalInitialize(byteStart, nullptr);
       }
       num2 += decoderFallbackBuffer->InternalFallback(array3, bytes);
-      c = '\0';
+      c = u'\0';
     }
 
   }
   if (decoder == nullptr || decoder->get_MustFlush()) {
-    if (c > '\0') {
+    if (c > u'\0') {
       num2--;
       Array<Byte> array4 = nullptr;
       array4 = ((!bigEndian) ? rt::newarr<Array<Byte>>(2) : rt::newarr<Array<Byte>>(2));
@@ -630,7 +630,7 @@ Int32 UnicodeEncoding___::GetCharCount(Byte* bytes, Int32 count, DecoderNLS base
         decoderFallbackBuffer->InternalInitialize(byteStart, nullptr);
       }
       num2 += decoderFallbackBuffer->InternalFallback(array4, bytes);
-      c = '\0';
+      c = u'\0';
     }
     if (num >= 0) {
       if (decoderFallbackBuffer == nullptr) {
@@ -641,7 +641,7 @@ Int32 UnicodeEncoding___::GetCharCount(Byte* bytes, Int32 count, DecoderNLS base
       num = -1;
     }
   }
-  if (c > '\0') {
+  if (c > u'\0') {
     num2--;
   }
   return num2;
@@ -650,7 +650,7 @@ Int32 UnicodeEncoding___::GetCharCount(Byte* bytes, Int32 count, DecoderNLS base
 Int32 UnicodeEncoding___::GetChars(Byte* bytes, Int32 byteCount, Char* chars, Int32 charCount, DecoderNLS baseDecoder) {
   Decoder decoder = (Decoder)baseDecoder;
   Int32 num = -1;
-  Char c = '\0';
+  Char c = u'\0';
   if (decoder != nullptr) {
     num = decoder->lastByte;
     c = decoder->lastChar;
@@ -661,7 +661,7 @@ Int32 UnicodeEncoding___::GetChars(Byte* bytes, Int32 byteCount, Char* chars, In
   Byte* ptr3 = bytes;
   Char* ptr4 = chars;
   while (bytes < ptr) {
-    if ((bigEndian ^ BitConverter::IsLittleEndian) && ((UInt64)chars & 7) == 0 && num == -1 && c == '\0') {
+    if ((bigEndian ^ BitConverter::IsLittleEndian) && ((UInt64)chars & 7) == 0 && num == -1 && c == u'\0') {
       UInt64* ptr5 = (UInt64*)(bytes - 7 + ((ptr - bytes >> 1 < ptr2 - chars) ? (ptr - bytes) : (ptr2 - chars << 1)));
       UInt64* ptr6 = (UInt64*)bytes;
       UInt64* ptr7 = (UInt64*)chars;
@@ -688,9 +688,9 @@ Int32 UnicodeEncoding___::GetChars(Byte* bytes, Int32 byteCount, Char* chars, In
     }
     Char c2 = ((!bigEndian) ? ((Char)((*(bytes++) << 8) | num)) : ((Char)((num << 8) | *(bytes++))));
     num = -1;
-    if (c2 >= '\0' && c2 <= 'ÿ') {
-      if (c2 <= 'ÿ') {
-        if (c > '\0') {
+    if (c2 >= u'�' && c2 <= u'�') {
+      if (c2 <= u'�') {
+        if (c > u'\0') {
           Array<Byte> array = nullptr;
           array = ((!bigEndian) ? rt::newarr<Array<Byte>>(2) : rt::newarr<Array<Byte>>(2));
           if (decoderFallbackBuffer == nullptr) {
@@ -710,7 +710,7 @@ Int32 UnicodeEncoding___::GetChars(Byte* bytes, Int32 byteCount, Char* chars, In
         c = c2;
         continue;
       }
-      if (c == '\0') {
+      if (c == u'\0') {
         Array<Byte> array2 = nullptr;
         array2 = ((!bigEndian) ? rt::newarr<Array<Byte>>(2) : rt::newarr<Array<Byte>>(2));
         if (decoderFallbackBuffer == nullptr) {
@@ -736,8 +736,8 @@ Int32 UnicodeEncoding___::GetChars(Byte* bytes, Int32 byteCount, Char* chars, In
       Char* intPtr = chars;
       chars = intPtr + 1;
       *intPtr = c;
-      c = '\0';
-    } else if (c > '\0') {
+      c = u'\0';
+    } else if (c > u'\0') {
       Array<Byte> array3 = nullptr;
       array3 = ((!bigEndian) ? rt::newarr<Array<Byte>>(2) : rt::newarr<Array<Byte>>(2));
       if (decoderFallbackBuffer == nullptr) {
@@ -753,7 +753,7 @@ Int32 UnicodeEncoding___::GetChars(Byte* bytes, Int32 byteCount, Char* chars, In
         ThrowCharsOverflow(decoder, chars == ptr4);
         break;
       }
-      c = '\0';
+      c = u'\0';
     }
 
     if (chars >= ptr2) {
@@ -766,7 +766,7 @@ Int32 UnicodeEncoding___::GetChars(Byte* bytes, Int32 byteCount, Char* chars, In
     *intPtr2 = c2;
   }
   if (decoder == nullptr || decoder->get_MustFlush()) {
-    if (c > '\0') {
+    if (c > u'\0') {
       Array<Byte> array4 = nullptr;
       array4 = ((!bigEndian) ? rt::newarr<Array<Byte>>(2) : rt::newarr<Array<Byte>>(2));
       if (decoderFallbackBuffer == nullptr) {
@@ -789,7 +789,7 @@ Int32 UnicodeEncoding___::GetChars(Byte* bytes, Int32 byteCount, Char* chars, In
         }
         goto IL_04ea;
       }
-      c = '\0';
+      c = u'\0';
     }
     if (num >= 0) {
       if (decoderFallbackBuffer == nullptr) {

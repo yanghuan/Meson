@@ -46,20 +46,20 @@ void ValueStringBuilder::AppendFormatHelper(IFormatProvider provider, String for
   }
   Int32 num = 0;
   Int32 length = format->get_Length();
-  Char c = '\0';
+  Char c = u'\0';
   ICustomFormatter customFormatter = (ICustomFormatter)((provider != nullptr) ? provider->GetFormat(typeof<ICustomFormatter>()) : nullptr);
   while (true) {
     if (num < length) {
       c = format[num];
       num++;
-      if (c == '}') {
-        if (num < length && format[num] == '}') {
+      if (c == u'}') {
+        if (num < length && format[num] == u'}') {
           num++;
         } else {
           ThrowFormatError();
         }
-      } else if (c == '{') {
-        if (num >= length || format[num] != '{') {
+      } else if (c == u'{') {
+        if (num >= length || format[num] != u'{') {
           num--;
           goto IL_008f;
         }
@@ -76,7 +76,7 @@ void ValueStringBuilder::AppendFormatHelper(IFormatProvider provider, String for
       break;
     }
     num++;
-    if (num == length || (c = format[num]) < '0' || c > '9') {
+    if (num == length || (c = format[num]) < u'0' || c > u'9') {
       ThrowFormatError();
     }
     Int32 num2 = 0;
@@ -87,25 +87,25 @@ void ValueStringBuilder::AppendFormatHelper(IFormatProvider provider, String for
         ThrowFormatError();
       }
       c = format[num];
-    } while (c >= '0' && c <= '9' && num2 < 1000000);
+    } while (c >= u'0' && c <= u'9' && num2 < 1000000);
     if (num2 >= args.get_Length()) {
       rt::throw_exception<FormatException>(SR::get_Format_IndexOutOfRange());
     }
     for (; num < length; num++) {
-      if ((c = format[num]) != ' ') {
+      if ((c = format[num]) != u' ') {
         break;
       }
     }
     Boolean flag = false;
     Int32 num3 = 0;
-    if (c == ',') {
-      for (num++; num < length && format[num] == ' '; num++) {
+    if (c == u',') {
+      for (num++; num < length && format[num] == u' '; num++) {
       }
       if (num == length) {
         ThrowFormatError();
       }
       c = format[num];
-      if (c == '-') {
+      if (c == u'-') {
         flag = true;
         num++;
         if (num == length) {
@@ -113,7 +113,7 @@ void ValueStringBuilder::AppendFormatHelper(IFormatProvider provider, String for
         }
         c = format[num];
       }
-      if (c < '0' || c > '9') {
+      if (c < u'0' || c > u'9') {
         ThrowFormatError();
       }
       do {
@@ -123,17 +123,17 @@ void ValueStringBuilder::AppendFormatHelper(IFormatProvider provider, String for
           ThrowFormatError();
         }
         c = format[num];
-      } while (c >= '0' && c <= '9' && num3 < 1000000);
+      } while (c >= u'0' && c <= u'9' && num3 < 1000000);
     }
     for (; num < length; num++) {
-      if ((c = format[num]) != ' ') {
+      if ((c = format[num]) != u' ') {
         break;
       }
     }
     Object obj = args[num2];
     ReadOnlySpan<Char> readOnlySpan;
     switch (c.get()) {
-      case ':':
+      case u':':
         {
           num++;
           Int32 num4 = num;
@@ -143,12 +143,12 @@ void ValueStringBuilder::AppendFormatHelper(IFormatProvider provider, String for
             }
             c = format[num];
             switch (c.get()) {
-              case '{':
+              case u'{':
                 ThrowFormatError();
                 goto IL_0205;
               default:
                 goto IL_0205;
-              case '}':
+              case u'}':
                 break;
             }
             break;
@@ -163,7 +163,7 @@ void ValueStringBuilder::AppendFormatHelper(IFormatProvider provider, String for
         }default:
         ThrowFormatError();
         break;
-      case '}':
+      case u'}':
         break;
     }
     num++;
@@ -182,7 +182,7 @@ void ValueStringBuilder::AppendFormatHelper(IFormatProvider provider, String for
         _pos += charsWritten;
         Int32 num5 = num3 - charsWritten;
         if (flag && num5 > 0) {
-          Append(' ', num5);
+          Append(u' ', num5);
         }
         continue;
       }
@@ -202,11 +202,11 @@ void ValueStringBuilder::AppendFormatHelper(IFormatProvider provider, String for
     }
     Int32 num6 = num3 - text->get_Length();
     if (!flag && num6 > 0) {
-      Append(' ', num6);
+      Append(u' ', num6);
     }
     Append(text);
     if (flag && num6 > 0) {
-      Append(' ', num6);
+      Append(u' ', num6);
     }
   }
 }
@@ -240,7 +240,7 @@ Char& ValueStringBuilder::GetPinnableReference() {
 Char& ValueStringBuilder::GetPinnableReference(Boolean terminate) {
   if (terminate) {
     EnsureCapacity(get_Length() + 1);
-    _chars[get_Length()] = '\0';
+    _chars[get_Length()] = u'\0';
   }
   return MemoryMarshal::GetReference(_chars);
 }
@@ -254,7 +254,7 @@ String ValueStringBuilder::ToString() {
 ReadOnlySpan<Char> ValueStringBuilder::AsSpan(Boolean terminate) {
   if (terminate) {
     EnsureCapacity(get_Length() + 1);
-    _chars[get_Length()] = '\0';
+    _chars[get_Length()] = u'\0';
   }
   return _chars.Slice(0, _pos);
 }

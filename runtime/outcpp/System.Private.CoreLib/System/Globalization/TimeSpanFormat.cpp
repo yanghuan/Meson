@@ -73,12 +73,12 @@ void TimeSpanFormat::FormatLiterals::Init(ReadOnlySpan<Char> format, Boolean use
   }
   StringBuilder stringBuilder = StringBuilderCache::Acquire();
   Boolean flag = false;
-  Char c = '\'';
+  Char c = u'\'';
   Int32 num = 0;
   for (Int32 j = 0; j < format.get_Length(); j++) {
     switch (format[j].get()) {
-      case '"':
-      case '\'':
+      case u'"':
+      case u'\'':
         if (flag && c == format[j]) {
           if (num < 0 || num > 5) {
             return;
@@ -92,38 +92,38 @@ void TimeSpanFormat::FormatLiterals::Init(ReadOnlySpan<Char> format, Boolean use
         }
 
         continue;
-      case '\\':
+      case u'\\':
         if (!flag) {
           j++;
           continue;
         }
         break;
-      case 'd':
+      case u'd':
         if (!flag) {
           num = 1;
           dd++;
         }
         continue;
-      case 'h':
+      case u'h':
         if (!flag) {
           num = 2;
           hh++;
         }
         continue;
-      case 'm':
+      case u'm':
         if (!flag) {
           num = 3;
           mm++;
         }
         continue;
-      case 's':
+      case u's':
         if (!flag) {
           num = 4;
           ss++;
         }
         continue;
-      case 'F':
-      case 'f':
+      case u'F':
+      case u'f':
         if (!flag) {
           num = 5;
           ff++;
@@ -165,11 +165,11 @@ String TimeSpanFormat::Format(TimeSpan value, String format, IFormatProvider for
   }
   if (format->get_Length() == 1) {
     Char c = format[0];
-    if (c == 'c' || (c | 32) == 116) {
+    if (c == u'c' || (c | 32) == 116) {
       return FormatC(value);
     }
     if ((c | 32) == 103) {
-      return FormatG(value, DateTimeFormatInfo::in::GetInstance(formatProvider), (c == 'G') ? StandardFormat::G : StandardFormat::g);
+      return FormatG(value, DateTimeFormatInfo::in::GetInstance(formatProvider), (c == u'G') ? StandardFormat::G : StandardFormat::g);
     }
     rt::throw_exception<FormatException>(SR::get_Format_InvalidString());
   }
@@ -182,7 +182,7 @@ Boolean TimeSpanFormat::TryFormat(TimeSpan value, Span<Char> destination, Int32&
   }
   if (format.get_Length() == 1) {
     Char c = format[0];
-    if (c == 'c' || (c | 32) == 116) {
+    if (c == u'c' || (c | 32) == 116) {
       return TryFormatStandard(value, StandardFormat::C, nullptr, destination, charsWritten);
     }
   }
@@ -291,12 +291,12 @@ IL_0045:
   }
   Int32 num10 = 0;
   if (value.get_Ticks() < 0) {
-    destination[num10++] = '-';
+    destination[num10++] = u'-';
   }
   if (num9 != 0) {
     WriteDigits(num7, destination.Slice(num10, num9));
     num10 += num9;
-    destination[num10++] = ((format == StandardFormat::C) ? '.' : ':');
+    destination[num10++] = ((format == StandardFormat::C) ? u'.' : u':');
   }
   if (num8 == 2) {
     WriteTwoDigits(result4, destination.Slice(num10));
@@ -304,15 +304,15 @@ IL_0045:
   } else {
     destination[num10++] = (Char)(48 + result4);
   }
-  destination[num10++] = ':';
+  destination[num10++] = u':';
   WriteTwoDigits((UInt32)result3, destination.Slice(num10));
   num10 += 2;
-  destination[num10++] = ':';
+  destination[num10++] = u':';
   WriteTwoDigits((UInt32)result2, destination.Slice(num10));
   num10 += 2;
   if (num4 != 0) {
     if (format == StandardFormat::C) {
-      destination[num10++] = '.';
+      destination[num10++] = u'.';
     } else if (decimalSeparator->get_Length() == 1) {
       destination[num10++] = decimalSeparator[0];
     } else {
@@ -364,28 +364,28 @@ StringBuilder TimeSpanFormat::FormatCustomized(TimeSpan value, ReadOnlySpan<Char
   for (Int32 i = 0; i < format.get_Length(); i += num6) {
     Char c = format[i];
     switch (c.get()) {
-      case 'h':
+      case u'h':
         num6 = DateTimeFormat::ParseRepeatPattern(format, i, c);
         if (num6 <= 2) {
           DateTimeFormat::FormatDigits(result, value2, num6);
           continue;
         }
         break;
-      case 'm':
+      case u'm':
         num6 = DateTimeFormat::ParseRepeatPattern(format, i, c);
         if (num6 <= 2) {
           DateTimeFormat::FormatDigits(result, value3, num6);
           continue;
         }
         break;
-      case 's':
+      case u's':
         num6 = DateTimeFormat::ParseRepeatPattern(format, i, c);
         if (num6 <= 2) {
           DateTimeFormat::FormatDigits(result, value4, num6);
           continue;
         }
         break;
-      case 'f':
+      case u'f':
         num6 = DateTimeFormat::ParseRepeatPattern(format, i, c);
         if (num6 <= 7) {
           num4 = num3;
@@ -394,7 +394,7 @@ StringBuilder TimeSpanFormat::FormatCustomized(TimeSpan value, ReadOnlySpan<Char
           continue;
         }
         break;
-      case 'F':
+      case u'F':
         num6 = DateTimeFormat::ParseRepeatPattern(format, i, c);
         if (num6 <= 7) {
           num4 = num3;
@@ -410,18 +410,18 @@ StringBuilder TimeSpanFormat::FormatCustomized(TimeSpan value, ReadOnlySpan<Char
           continue;
         }
         break;
-      case 'd':
+      case u'd':
         num6 = DateTimeFormat::ParseRepeatPattern(format, i, c);
         if (num6 <= 8) {
           DateTimeFormat::FormatDigits(result, num, num6, true);
           continue;
         }
         break;
-      case '"':
-      case '\'':
+      case u'"':
+      case u'\'':
         num6 = DateTimeFormat::ParseQuoteString(format, i, result);
         continue;
-      case '%':
+      case u'%':
         {
           Int32 num5 = DateTimeFormat::ParseNextChar(format, i);
           if (num5 >= 0 && num5 != 37) {
@@ -431,7 +431,7 @@ StringBuilder TimeSpanFormat::FormatCustomized(TimeSpan value, ReadOnlySpan<Char
             continue;
           }
           break;
-        }case '\\':
+        }case u'\\':
         {
           Int32 num5 = DateTimeFormat::ParseNextChar(format, i);
           if (num5 >= 0) {

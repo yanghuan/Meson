@@ -403,40 +403,40 @@ String TimeZoneInfo___::StringSerializer::GetSerializedString(TimeZoneInfo zone)
   Span<Char> initialBuffer = as;
   ValueStringBuilder serializedText = ValueStringBuilder(initialBuffer);
   SerializeSubstitute(zone->get_Id(), serializedText);
-  serializedText.Append(';');
+  serializedText.Append(u';');
   serializedText.AppendSpanFormattable(zone->get_BaseUtcOffset().get_TotalMinutes(), nullptr, CultureInfo::in::get_InvariantCulture());
-  serializedText.Append(';');
+  serializedText.Append(u';');
   SerializeSubstitute(zone->get_DisplayName(), serializedText);
-  serializedText.Append(';');
+  serializedText.Append(u';');
   SerializeSubstitute(zone->get_StandardName(), serializedText);
-  serializedText.Append(';');
+  serializedText.Append(u';');
   SerializeSubstitute(zone->get_DaylightName(), serializedText);
-  serializedText.Append(';');
+  serializedText.Append(u';');
   Array<AdjustmentRule> adjustmentRules = zone->GetAdjustmentRules();
   Array<AdjustmentRule> array = adjustmentRules;
   for (AdjustmentRule&& adjustmentRule : *array) {
-    serializedText.Append('[');
+    serializedText.Append(u'[');
     serializedText.AppendSpanFormattable(adjustmentRule->get_DateStart(), "MM:dd:yyyy", DateTimeFormatInfo::in::get_InvariantInfo());
-    serializedText.Append(';');
+    serializedText.Append(u';');
     serializedText.AppendSpanFormattable(adjustmentRule->get_DateEnd(), "MM:dd:yyyy", DateTimeFormatInfo::in::get_InvariantInfo());
-    serializedText.Append(';');
+    serializedText.Append(u';');
     serializedText.AppendSpanFormattable(adjustmentRule->get_DaylightDelta().get_TotalMinutes(), nullptr, CultureInfo::in::get_InvariantCulture());
-    serializedText.Append(';');
+    serializedText.Append(u';');
     SerializeTransitionTime(adjustmentRule->get_DaylightTransitionStart(), serializedText);
-    serializedText.Append(';');
+    serializedText.Append(u';');
     SerializeTransitionTime(adjustmentRule->get_DaylightTransitionEnd(), serializedText);
-    serializedText.Append(';');
+    serializedText.Append(u';');
     if (adjustmentRule->get_BaseUtcOffsetDelta() != TimeSpan::Zero) {
       serializedText.AppendSpanFormattable(adjustmentRule->get_BaseUtcOffsetDelta().get_TotalMinutes(), nullptr, CultureInfo::in::get_InvariantCulture());
-      serializedText.Append(';');
+      serializedText.Append(u';');
     }
     if (adjustmentRule->get_NoDaylightTransitions()) {
-      serializedText.Append('1');
-      serializedText.Append(';');
+      serializedText.Append(u'1');
+      serializedText.Append(u';');
     }
-    serializedText.Append(']');
+    serializedText.Append(u']');
   }
-  serializedText.Append(';');
+  serializedText.Append(u';');
   return serializedText.ToString();
 }
 
@@ -465,35 +465,35 @@ TimeZoneInfo___::StringSerializer::StringSerializer(String str) {
 
 void TimeZoneInfo___::StringSerializer::SerializeSubstitute(String text, ValueStringBuilder& serializedText) {
   for (Char&& c : *text) {
-    if (c == '\\' || c == '[' || c == ']' || c == ';') {
-      serializedText.Append('\\');
+    if (c == u'\\' || c == u'[' || c == u']' || c == u';') {
+      serializedText.Append(u'\\');
     }
     serializedText.Append(c);
   }
 }
 
 void TimeZoneInfo___::StringSerializer::SerializeTransitionTime(TransitionTime time, ValueStringBuilder& serializedText) {
-  serializedText.Append('[');
-  serializedText.Append(time.get_IsFixedDateRule() ? '1' : '0');
-  serializedText.Append(';');
+  serializedText.Append(u'[');
+  serializedText.Append(time.get_IsFixedDateRule() ? u'1' : u'0');
+  serializedText.Append(u';');
   serializedText.AppendSpanFormattable(time.get_TimeOfDay(), "HH:mm:ss.FFF", DateTimeFormatInfo::in::get_InvariantInfo());
-  serializedText.Append(';');
+  serializedText.Append(u';');
   serializedText.AppendSpanFormattable(time.get_Month(), nullptr, CultureInfo::in::get_InvariantCulture());
-  serializedText.Append(';');
+  serializedText.Append(u';');
   if (time.get_IsFixedDateRule()) {
     serializedText.AppendSpanFormattable(time.get_Day(), nullptr, CultureInfo::in::get_InvariantCulture());
-    serializedText.Append(';');
+    serializedText.Append(u';');
   } else {
     serializedText.AppendSpanFormattable(time.get_Week(), nullptr, CultureInfo::in::get_InvariantCulture());
-    serializedText.Append(';');
+    serializedText.Append(u';');
     serializedText.AppendSpanFormattable((Int32)time.get_DayOfWeek(), nullptr, CultureInfo::in::get_InvariantCulture());
-    serializedText.Append(';');
+    serializedText.Append(u';');
   }
-  serializedText.Append(']');
+  serializedText.Append(u']');
 }
 
 void TimeZoneInfo___::StringSerializer::VerifyIsEscapableCharacter(Char c) {
-  if (c != '\\' && c != ';' && c != '[' && c != ']') {
+  if (c != u'\\' && c != u';' && c != u'[' && c != u']') {
     rt::throw_exception<SerializationException>(SR::Format(SR::get_Serialization_InvalidEscapeSequence(), c));
   }
 }
@@ -511,13 +511,13 @@ void TimeZoneInfo___::StringSerializer::SkipVersionNextDataFields(Int32 depth) {
         break;
       case State::NotEscaped:
         switch (_serializedText[i].get()) {
-          case '\\':
+          case u'\\':
             state = State::Escaped;
             break;
-          case '[':
+          case u'[':
             depth++;
             break;
-          case ']':
+          case u']':
             depth--;
             if (depth == 0) {
               _currentTokenStartIndex = i + 1;
@@ -529,7 +529,7 @@ void TimeZoneInfo___::StringSerializer::SkipVersionNextDataFields(Int32 depth) {
               return;
             }
             break;
-          case '\0':
+          case u'\0':
             rt::throw_exception<SerializationException>(SR::get_Serialization_InvalidData());
         }
         break;
@@ -558,14 +558,14 @@ String TimeZoneInfo___::StringSerializer::GetNextStringValue() {
         break;
       case State::NotEscaped:
         switch (_serializedText[i].get()) {
-          case '\\':
+          case u'\\':
             state = State::Escaped;
             break;
-          case '[':
+          case u'[':
             rt::throw_exception<SerializationException>(SR::get_Serialization_InvalidData());
-          case ']':
+          case u']':
             rt::throw_exception<SerializationException>(SR::get_Serialization_InvalidData());
-          case ';':
+          case u';':
             _currentTokenStartIndex = i + 1;
             if (_currentTokenStartIndex >= _serializedText->get_Length()) {
               _state = State::EndOfLine;
@@ -573,7 +573,7 @@ String TimeZoneInfo___::StringSerializer::GetNextStringValue() {
               _state = State::StartOfToken;
             }
             return valueStringBuilder.ToString();
-          case '\0':
+          case u'\0':
             rt::throw_exception<SerializationException>(SR::get_Serialization_InvalidData());
           default:
             valueStringBuilder.Append(_serializedText[i]);
@@ -641,10 +641,10 @@ TimeZoneInfo::in::AdjustmentRule TimeZoneInfo___::StringSerializer::GetNextAdjus
   if (_currentTokenStartIndex < 0 || _currentTokenStartIndex >= _serializedText->get_Length()) {
     rt::throw_exception<SerializationException>(SR::get_Serialization_InvalidData());
   }
-  if (_serializedText[_currentTokenStartIndex] == ';') {
+  if (_serializedText[_currentTokenStartIndex] == u';') {
     return nullptr;
   }
-  if (_serializedText[_currentTokenStartIndex] != '[') {
+  if (_serializedText[_currentTokenStartIndex] != u'[') {
     rt::throw_exception<SerializationException>(SR::get_Serialization_InvalidData());
   }
   _currentTokenStartIndex++;
@@ -658,16 +658,16 @@ TimeZoneInfo::in::AdjustmentRule TimeZoneInfo___::StringSerializer::GetNextAdjus
   if (_state == State::EndOfLine || _currentTokenStartIndex >= _serializedText->get_Length()) {
     rt::throw_exception<SerializationException>(SR::get_Serialization_InvalidData());
   }
-  if ((_serializedText[_currentTokenStartIndex] >= '0' && _serializedText[_currentTokenStartIndex] <= '9') || _serializedText[_currentTokenStartIndex] == '-' || _serializedText[_currentTokenStartIndex] == '+') {
+  if ((_serializedText[_currentTokenStartIndex] >= u'0' && _serializedText[_currentTokenStartIndex] <= u'9') || _serializedText[_currentTokenStartIndex] == u'-' || _serializedText[_currentTokenStartIndex] == u'+') {
     baseUtcOffsetDelta = GetNextTimeSpanValue();
   }
-  if (_serializedText[_currentTokenStartIndex] >= '0' && _serializedText[_currentTokenStartIndex] <= '1') {
+  if (_serializedText[_currentTokenStartIndex] >= u'0' && _serializedText[_currentTokenStartIndex] <= u'1') {
     num = GetNextInt32Value();
   }
   if (_state == State::EndOfLine || _currentTokenStartIndex >= _serializedText->get_Length()) {
     rt::throw_exception<SerializationException>(SR::get_Serialization_InvalidData());
   }
-  if (_serializedText[_currentTokenStartIndex] != ']') {
+  if (_serializedText[_currentTokenStartIndex] != u']') {
     SkipVersionNextDataFields(1);
   } else {
     _currentTokenStartIndex++;
@@ -687,13 +687,13 @@ TimeZoneInfo::in::AdjustmentRule TimeZoneInfo___::StringSerializer::GetNextAdjus
 }
 
 TimeZoneInfo::in::TransitionTime TimeZoneInfo___::StringSerializer::GetNextTransitionTimeValue() {
-  if (_state == State::EndOfLine || (_currentTokenStartIndex < _serializedText->get_Length() && _serializedText[_currentTokenStartIndex] == ']')) {
+  if (_state == State::EndOfLine || (_currentTokenStartIndex < _serializedText->get_Length() && _serializedText[_currentTokenStartIndex] == u']')) {
     rt::throw_exception<SerializationException>(SR::get_Serialization_InvalidData());
   }
   if (_currentTokenStartIndex < 0 || _currentTokenStartIndex >= _serializedText->get_Length()) {
     rt::throw_exception<SerializationException>(SR::get_Serialization_InvalidData());
   }
-  if (_serializedText[_currentTokenStartIndex] != '[') {
+  if (_serializedText[_currentTokenStartIndex] != u'[') {
     rt::throw_exception<SerializationException>(SR::get_Serialization_InvalidData());
   }
   _currentTokenStartIndex++;
@@ -724,13 +724,13 @@ TimeZoneInfo::in::TransitionTime TimeZoneInfo___::StringSerializer::GetNextTrans
   if (_state == State::EndOfLine || _currentTokenStartIndex >= _serializedText->get_Length()) {
     rt::throw_exception<SerializationException>(SR::get_Serialization_InvalidData());
   }
-  if (_serializedText[_currentTokenStartIndex] != ']') {
+  if (_serializedText[_currentTokenStartIndex] != u']') {
     SkipVersionNextDataFields(1);
   } else {
     _currentTokenStartIndex++;
   }
   Boolean flag = false;
-  if (_currentTokenStartIndex < _serializedText->get_Length() && _serializedText[_currentTokenStartIndex] == ';') {
+  if (_currentTokenStartIndex < _serializedText->get_Length() && _serializedText[_currentTokenStartIndex] == u';') {
     _currentTokenStartIndex++;
     flag = true;
   }
@@ -1897,7 +1897,7 @@ TimeZoneInfo TimeZoneInfo___::FindSystemTimeZoneById(String id) {
   if (id == nullptr) {
     rt::throw_exception<ArgumentNullException>("id");
   }
-  if (id->get_Length() == 0 || id->get_Length() > 255 || id->Contains('\0')) {
+  if (id->get_Length() == 0 || id->get_Length() > 255 || id->Contains(u'\0')) {
     rt::throw_exception<TimeZoneNotFoundException>(SR::Format(SR::get_TimeZoneNotFound_MissingData(), id));
   }
   CachedData cachedData = s_cachedData;
@@ -2061,12 +2061,12 @@ String TimeZoneInfo___::TryGetLocalizedNameByMuiNativeResource(String resource) 
   if (String::in::IsNullOrEmpty(resource)) {
     return String::in::Empty;
   }
-  Array<String> array = resource->Split(',');
+  Array<String> array = resource->Split(u',');
   if (array->get_Length() != 2) {
     return String::in::Empty;
   }
   String systemDirectory = Environment::get_SystemDirectory();
-  String path = array[0]->TrimStart('@');
+  String path = array[0]->TrimStart(u'@');
   String pcwszFilePath;
   try {
     pcwszFilePath = Path::Combine(systemDirectory, path);

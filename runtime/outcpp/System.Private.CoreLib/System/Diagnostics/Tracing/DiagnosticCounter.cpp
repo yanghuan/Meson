@@ -85,10 +85,10 @@ String DiagnosticCounter___::GetMetadataString() {
   if (!enumerator.MoveNext()) {
     return current.get_Key() + ":" + current.get_Value();
   }
-  StringBuilder stringBuilder = rt::newobj<StringBuilder>()->Append(current.get_Key())->Append((Char)':')->Append(current.get_Value());
+  StringBuilder stringBuilder = rt::newobj<StringBuilder>()->Append(current.get_Key())->Append((Char)u':')->Append(current.get_Value());
   do {
     current = enumerator.get_Current();
-    stringBuilder->Append((Char)',')->Append(current.get_Key())->Append((Char)':')->Append(current.get_Value());
+    stringBuilder->Append((Char)u',')->Append(current.get_Key())->Append((Char)u':')->Append(current.get_Value());
   } while (enumerator.MoveNext());
   return stringBuilder->ToString();
 }

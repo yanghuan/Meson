@@ -61,7 +61,7 @@ Int32 FormattingHelpers::CountDecimalTrailingZeros(UInt32 value, UInt32& valueWi
 
 Char FormattingHelpers::GetSymbolOrDefault(StandardFormat& format, Char defaultSymbol) {
   Char c = format.get_Symbol();
-  if (c == '\0' && format.get_Precision() == 0) {
+  if (c == u'\0' && format.get_Precision() == 0) {
     c = defaultSymbol;
   }
   return c;

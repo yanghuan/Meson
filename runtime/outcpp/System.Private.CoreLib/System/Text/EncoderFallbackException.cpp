@@ -54,7 +54,7 @@ void EncoderFallbackException___::ctor(SerializationInfo serializationInfo, Stre
 }
 
 Boolean EncoderFallbackException___::IsUnknownSurrogate() {
-  return _charUnknownHigh != '\0';
+  return _charUnknownHigh != u'\0';
 }
 
 } // namespace System::Private::CoreLib::System::Text::EncoderFallbackExceptionNamespace

@@ -20,9 +20,9 @@ void TypeNameBuilder___::OpenGenericArguments() {
   _instNesting++;
   _firstInstArg = true;
   if (_useAngleBracketsForGenerics) {
-    Append('<');
+    Append(u'<');
   } else {
-    Append('[');
+    Append(u'[');
   }
 }
 
@@ -31,9 +31,9 @@ void TypeNameBuilder___::CloseGenericArguments() {
   if (_firstInstArg) {
     _str->Remove(_str->get_Length() - 1, 1);
   } else if (_useAngleBracketsForGenerics) {
-    Append('>');
+    Append(u'>');
   } else {
-    Append(']');
+    Append(u']');
   }
 
 }
@@ -41,13 +41,13 @@ void TypeNameBuilder___::CloseGenericArguments() {
 void TypeNameBuilder___::OpenGenericArgument() {
   _nestedName = false;
   if (!_firstInstArg) {
-    Append(',');
+    Append(u',');
   }
   _firstInstArg = false;
   if (_useAngleBracketsForGenerics) {
-    Append('<');
+    Append(u'<');
   } else {
-    Append('[');
+    Append(u'[');
   }
   PushOpenGenericArgument();
 }
@@ -55,9 +55,9 @@ void TypeNameBuilder___::OpenGenericArgument() {
 void TypeNameBuilder___::CloseGenericArgument() {
   if (_hasAssemblySpec) {
     if (_useAngleBracketsForGenerics) {
-      Append('>');
+      Append(u'>');
     } else {
-      Append(']');
+      Append(u']');
     }
   }
   PopOpenGenericArgument();
@@ -65,7 +65,7 @@ void TypeNameBuilder___::CloseGenericArgument() {
 
 void TypeNameBuilder___::AddName(String name) {
   if (_nestedName) {
-    Append('+');
+    Append(u'+');
   }
   _nestedName = true;
   EscapeName(name);
@@ -77,14 +77,14 @@ void TypeNameBuilder___::AddArray(Int32 rank) {
     return;
   }
   if (rank > 64) {
-    _str->Append((Char)'[')->Append(rank)->Append((Char)']');
+    _str->Append((Char)u'[')->Append(rank)->Append((Char)u']');
     return;
   }
-  Append('[');
+  Append(u'[');
   for (Int32 i = 1; i < rank; i++) {
-    Append(',');
+    Append(u',');
   }
-  Append(']');
+  Append(u']');
 }
 
 void TypeNameBuilder___::AddAssemblySpec(String assemblySpec) {
@@ -105,7 +105,7 @@ String TypeNameBuilder___::ToString() {
 
 Boolean TypeNameBuilder___::ContainsReservedChar(String name) {
   for (Char&& c : *name) {
-    if (c == '\0') {
+    if (c == u'\0') {
       break;
     }
     if (IsTypeNameReservedChar(c)) {
@@ -117,13 +117,13 @@ Boolean TypeNameBuilder___::ContainsReservedChar(String name) {
 
 Boolean TypeNameBuilder___::IsTypeNameReservedChar(Char ch) {
   switch (ch.get()) {
-    case '&':
-    case '*':
-    case '+':
-    case ',':
-    case '[':
-    case '\\':
-    case ']':
+    case u'&':
+    case u'*':
+    case u'+':
+    case u',':
+    case u'[':
+    case u'\\':
+    case u']':
       return true;
     default:
       return false;
@@ -135,7 +135,7 @@ void TypeNameBuilder___::EscapeName(String name) {
     for (Char&& c : *name) {
       if (c != 0) {
         if (IsTypeNameReservedChar(c)) {
-          _str->Append((Char)'\\');
+          _str->Append((Char)u'\\');
         }
         _str->Append(c);
         continue;
@@ -152,10 +152,10 @@ void TypeNameBuilder___::EscapeAssemblyName(String name) {
 }
 
 void TypeNameBuilder___::EscapeEmbeddedAssemblyName(String name) {
-  if (name->Contains(']')) {
+  if (name->Contains(u']')) {
     for (Char&& c : *name) {
-      if (c == ']') {
-        Append('\\');
+      if (c == u']') {
+        Append(u'\\');
       }
       Append(c);
     }
@@ -205,9 +205,9 @@ void TypeNameBuilder___::AddElementType(Type type) {
   if (type->get_HasElementType()) {
     AddElementType(type->GetElementType());
     if (type->get_IsPointer()) {
-      Append('*');
+      Append(u'*');
     } else if (type->get_IsByRef()) {
-      Append('&');
+      Append(u'&');
     } else if (type->get_IsSZArray()) {
       Append("[]");
     } else if (type->get_IsArray()) {

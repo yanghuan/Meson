@@ -95,11 +95,11 @@ Boolean PathInternal::RemoveRelativeSegments(ReadOnlySpan<Char> path, Int32 root
       if (IsDirectorySeparator(path[i + 1])) {
         continue;
       }
-      if ((i + 2 == path.get_Length() || IsDirectorySeparator(path[i + 2])) && path[i + 1] == '.') {
+      if ((i + 2 == path.get_Length() || IsDirectorySeparator(path[i + 2])) && path[i + 1] == u'.') {
         i++;
         continue;
       }
-      if (i + 2 < path.get_Length() && (i + 3 == path.get_Length() || IsDirectorySeparator(path[i + 3])) && path[i + 1] == '.' && path[i + 2] == '.') {
+      if (i + 2 < path.get_Length() && (i + 3 == path.get_Length() || IsDirectorySeparator(path[i + 3])) && path[i + 1] == u'.' && path[i + 2] == u'.') {
         Int32 num2;
         for (num2 = sb.get_Length() - 1; num2 >= num; num2--) {
           if (IsDirectorySeparator(sb[num2])) {
@@ -114,8 +114,8 @@ Boolean PathInternal::RemoveRelativeSegments(ReadOnlySpan<Char> path, Int32 root
         continue;
       }
     }
-    if (c != '\\' && c == '/') {
-      c = '\\';
+    if (c != u'\\' && c == u'/') {
+      c = u'\\';
       flag = true;
     }
     sb.Append(c);
@@ -158,9 +158,9 @@ Boolean PathInternal::EndsInDirectorySeparator(ReadOnlySpan<Char> path) {
 }
 
 Boolean PathInternal::IsValidDriveChar(Char value) {
-  if (value < 'A' || value > 'Z') {
-    if (value >= 'a') {
-      return value <= 'z';
+  if (value < u'A' || value > u'Z') {
+    if (value >= u'a') {
+      return value <= u'z';
     }
     return false;
   }
@@ -172,8 +172,8 @@ Boolean PathInternal::EndsWithPeriodOrSpace(String path) {
     return false;
   }
   Char c = path[path->get_Length() - 1];
-  if (c != ' ') {
-    return c == '.';
+  if (c != u' ') {
+    return c == u'.';
   }
   return true;
 }
@@ -197,7 +197,7 @@ String PathInternal::EnsureExtendedPrefix(String path) {
 
 Boolean PathInternal::IsDevice(ReadOnlySpan<Char> path) {
   if (!IsExtended(path)) {
-    if (path.get_Length() >= 4 && IsDirectorySeparator(path[0]) && IsDirectorySeparator(path[1]) && (path[2] == '.' || path[2] == '?')) {
+    if (path.get_Length() >= 4 && IsDirectorySeparator(path[0]) && IsDirectorySeparator(path[1]) && (path[2] == u'.' || path[2] == u'?')) {
       return IsDirectorySeparator(path[3]);
     }
     return false;
@@ -206,15 +206,15 @@ Boolean PathInternal::IsDevice(ReadOnlySpan<Char> path) {
 }
 
 Boolean PathInternal::IsDeviceUNC(ReadOnlySpan<Char> path) {
-  if (path.get_Length() >= 8 && IsDevice(path) && IsDirectorySeparator(path[7]) && path[4] == 'U' && path[5] == 'N') {
-    return path[6] == 'C';
+  if (path.get_Length() >= 8 && IsDevice(path) && IsDirectorySeparator(path[7]) && path[4] == u'U' && path[5] == u'N') {
+    return path[6] == u'C';
   }
   return false;
 }
 
 Boolean PathInternal::IsExtended(ReadOnlySpan<Char> path) {
-  if (path.get_Length() >= 4 && path[0] == '\\' && (path[1] == '\\' || path[1] == '?') && path[2] == '?') {
-    return path[3] == '\\';
+  if (path.get_Length() >= 4 && path[0] == u'\\' && (path[1] == u'\\' || path[1] == u'?') && path[2] == u'?') {
+    return path[3] == u'\\';
   }
   return false;
 }
@@ -242,7 +242,7 @@ Int32 PathInternal::GetRootLength(ReadOnlySpan<Char> path) {
     if (i < length && i > 4 && IsDirectorySeparator(path[i])) {
       i++;
     }
-  } else if (length >= 2 && path[1] == ':' && IsValidDriveChar(path[0])) {
+  } else if (length >= 2 && path[1] == u':' && IsValidDriveChar(path[0])) {
     i = 2;
     if (length > 2 && IsDirectorySeparator(path[2])) {
       i++;
@@ -258,20 +258,20 @@ Boolean PathInternal::IsPartiallyQualified(ReadOnlySpan<Char> path) {
     return true;
   }
   if (IsDirectorySeparator(path[0])) {
-    if (path[1] != '?') {
+    if (path[1] != u'?') {
       return !IsDirectorySeparator(path[1]);
     }
     return false;
   }
-  if (path.get_Length() >= 3 && path[1] == ':' && IsDirectorySeparator(path[2])) {
+  if (path.get_Length() >= 3 && path[1] == u':' && IsDirectorySeparator(path[2])) {
     return !IsValidDriveChar(path[0]);
   }
   return true;
 }
 
 Boolean PathInternal::IsDirectorySeparator(Char c) {
-  if (c != '\\') {
-    return c == '/';
+  if (c != u'\\') {
+    return c == u'/';
   }
   return true;
 }
@@ -283,7 +283,7 @@ String PathInternal::NormalizeDirectorySeparators(String path) {
   Boolean flag = true;
   for (Int32 i = 0; i < path->get_Length(); i++) {
     Char c = path[i];
-    if (IsDirectorySeparator(c) && (c != '\\' || (i > 0 && i + 1 < path->get_Length() && IsDirectorySeparator(path[i + 1])))) {
+    if (IsDirectorySeparator(c) && (c != u'\\' || (i > 0 && i + 1 < path->get_Length() && IsDirectorySeparator(path[i + 1])))) {
       flag = false;
       break;
     }
@@ -297,7 +297,7 @@ String PathInternal::NormalizeDirectorySeparators(String path) {
   Int32 num = 0;
   if (IsDirectorySeparator(path[num])) {
     num++;
-    valueStringBuilder.Append('\\');
+    valueStringBuilder.Append(u'\\');
   }
   for (Int32 j = num; j < path->get_Length(); j++) {
     Char c = path[j];
@@ -305,7 +305,7 @@ String PathInternal::NormalizeDirectorySeparators(String path) {
       if (j + 1 < path->get_Length() && IsDirectorySeparator(path[j + 1])) {
         continue;
       }
-      c = '\\';
+      c = u'\\';
     }
     valueStringBuilder.Append(c);
   }
@@ -318,7 +318,7 @@ Boolean PathInternal::IsEffectivelyEmpty(ReadOnlySpan<Char> path) {
   }
   ReadOnlySpan<Char> readOnlySpan = path;
   for (Char&& c : *readOnlySpan) {
-    if (c != ' ') {
+    if (c != u' ') {
       return false;
     }
   }

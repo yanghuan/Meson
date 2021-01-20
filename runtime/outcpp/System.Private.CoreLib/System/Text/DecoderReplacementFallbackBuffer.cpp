@@ -31,11 +31,11 @@ Char DecoderReplacementFallbackBuffer___::GetNextChar() {
   _fallbackCount--;
   _fallbackIndex++;
   if (_fallbackCount < 0) {
-    return '\0';
+    return u'\0';
   }
   if (_fallbackCount == Int32::MaxValue) {
     _fallbackCount = -1;
-    return '\0';
+    return u'\0';
   }
   return _strDefault[_fallbackIndex];
 }

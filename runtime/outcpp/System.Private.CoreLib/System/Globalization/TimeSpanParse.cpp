@@ -118,7 +118,7 @@ Boolean TimeSpanParse::TimeSpanTokenizer::get_EOL() {
 Char TimeSpanParse::TimeSpanTokenizer::get_NextChar() {
   Int32 num = ++_pos;
   if ((UInt32)num >= (UInt32)_value.get_Length()) {
-    return '\0';
+    return u'\0';
   }
   return _value[num];
 }
@@ -348,17 +348,17 @@ void TimeSpanParse::StringParser::NextChar() {
   if (_pos < _len) {
     _pos++;
   }
-  _ch = ((_pos < _len) ? _str[_pos] : '\0');
+  _ch = ((_pos < _len) ? _str[_pos] : u'\0');
 }
 
 Char TimeSpanParse::StringParser::NextNonDigit() {
   for (Int32 i = _pos; i < _len; i++) {
     Char c = _str[i];
-    if (c < '0' || c > '9') {
+    if (c < u'0' || c > u'9') {
       return c;
     }
   }
-  return '\0';
+  return u'\0';
 }
 
 Boolean TimeSpanParse::StringParser::TryParse(ReadOnlySpan<Char> input, TimeSpanResult& result) {
@@ -369,12 +369,12 @@ Boolean TimeSpanParse::StringParser::TryParse(ReadOnlySpan<Char> input, TimeSpan
   NextChar();
   SkipBlanks();
   Boolean flag = false;
-  if (_ch == '-') {
+  if (_ch == u'-') {
     flag = true;
     NextChar();
   }
   Int64 time;
-  if (NextNonDigit() == ':') {
+  if (NextNonDigit() == u':') {
     if (!ParseTime(time, result)) {
       return false;
     }
@@ -384,7 +384,7 @@ Boolean TimeSpanParse::StringParser::TryParse(ReadOnlySpan<Char> input, TimeSpan
       return false;
     }
     time = i * 864000000000;
-    if (_ch == '.') {
+    if (_ch == u'.') {
       NextChar();
       Int64 time2;
       if (!ParseTime(time2, result)) {
@@ -413,7 +413,7 @@ Boolean TimeSpanParse::StringParser::TryParse(ReadOnlySpan<Char> input, TimeSpan
 Boolean TimeSpanParse::StringParser::ParseInt(Int32 max, Int32& i, TimeSpanResult& result) {
   i = 0;
   Int32 pos = _pos;
-  while (_ch >= '0' && _ch <= '9') {
+  while (_ch >= u'0' && _ch <= u'9') {
     if ((i & 4026531840u) != 0) {
       return result.SetOverflowFailure();
     }
@@ -439,7 +439,7 @@ Boolean TimeSpanParse::StringParser::ParseTime(Int64& time, TimeSpanResult& resu
     return false;
   }
   time = i * 36000000000;
-  if (_ch != ':') {
+  if (_ch != u':') {
     return result.SetBadTimeSpanFailure();
   }
   NextChar();
@@ -447,18 +447,18 @@ Boolean TimeSpanParse::StringParser::ParseTime(Int64& time, TimeSpanResult& resu
     return false;
   }
   time += (Int64)i * 600000000;
-  if (_ch == ':') {
+  if (_ch == u':') {
     NextChar();
-    if (_ch != '.') {
+    if (_ch != u'.') {
       if (!ParseInt(59, i, result)) {
         return false;
       }
       time += (Int64)i * 10000000;
     }
-    if (_ch == '.') {
+    if (_ch == u'.') {
       NextChar();
       Int32 num = 10000000;
-      while (num > 1 && _ch >= '0' && _ch <= '9') {
+      while (num > 1 && _ch >= u'0' && _ch <= u'9') {
         num /= 10;
         time += (_ch - 48) * num;
         NextChar();
@@ -469,7 +469,7 @@ Boolean TimeSpanParse::StringParser::ParseTime(Int64& time, TimeSpanResult& resu
 }
 
 void TimeSpanParse::StringParser::SkipBlanks() {
-  while (_ch == ' ' || _ch == '	') {
+  while (_ch == u' ' || _ch == u'	') {
     NextChar();
   }
 }
@@ -899,13 +899,13 @@ Boolean TimeSpanParse::TryParseExactTimeSpan(ReadOnlySpan<Char> input, ReadOnlyS
   }
   if (format.get_Length() == 1) {
     switch (format[0].get()) {
-      case 'T':
-      case 'c':
-      case 't':
+      case u'T':
+      case u'c':
+      case u't':
         return TryParseTimeSpanConstant(input, result);
-      case 'g':
+      case u'g':
         return TryParseTimeSpan(input, TimeSpanStandardStyles::Localized, formatProvider, result);
-      case 'G':
+      case u'G':
         return TryParseTimeSpan(input, TimeSpanStandardStyles::Localized | TimeSpanStandardStyles::RequireFull, formatProvider, result);
       default:
         return result.SetBadFormatSpecifierFailure(format[0]);
@@ -932,35 +932,35 @@ Boolean TimeSpanParse::TryParseByFormat(ReadOnlySpan<Char> input, ReadOnlySpan<C
   for (; i < format.get_Length(); i += returnValue) {
     Char c = format[i];
     switch (c.get()) {
-      case 'h':
+      case u'h':
         returnValue = DateTimeFormat::ParseRepeatPattern(format, i, c);
         if (returnValue > 2 || flag2 || !ParseExactDigits(tokenizer, returnValue, result3)) {
           return result.SetInvalidStringFailure();
         }
         flag2 = true;
         break;
-      case 'm':
+      case u'm':
         returnValue = DateTimeFormat::ParseRepeatPattern(format, i, c);
         if (returnValue > 2 || flag3 || !ParseExactDigits(tokenizer, returnValue, result4)) {
           return result.SetInvalidStringFailure();
         }
         flag3 = true;
         break;
-      case 's':
+      case u's':
         returnValue = DateTimeFormat::ParseRepeatPattern(format, i, c);
         if (returnValue > 2 || flag4 || !ParseExactDigits(tokenizer, returnValue, result5)) {
           return result.SetInvalidStringFailure();
         }
         flag4 = true;
         break;
-      case 'f':
+      case u'f':
         returnValue = DateTimeFormat::ParseRepeatPattern(format, i, c);
         if (returnValue > 7 || flag5 || !ParseExactDigits(tokenizer, returnValue, returnValue, zeroes, result6)) {
           return result.SetInvalidStringFailure();
         }
         flag5 = true;
         break;
-      case 'F':
+      case u'F':
         returnValue = DateTimeFormat::ParseRepeatPattern(format, i, c);
         if (returnValue > 7 || flag5) {
           return result.SetInvalidStringFailure();
@@ -968,7 +968,7 @@ Boolean TimeSpanParse::TryParseByFormat(ReadOnlySpan<Char> input, ReadOnlySpan<C
         ParseExactDigits(tokenizer, returnValue, returnValue, zeroes, result6);
         flag5 = true;
         break;
-      case 'd':
+      case u'd':
         {
           returnValue = DateTimeFormat::ParseRepeatPattern(format, i, c);
           Int32 zeroes2;
@@ -977,8 +977,8 @@ Boolean TimeSpanParse::TryParseByFormat(ReadOnlySpan<Char> input, ReadOnlySpan<C
           }
           flag = true;
           break;
-        }case '"':
-      case '\'':
+        }case u'"':
+      case u'\'':
         {
           StringBuilder stringBuilder = StringBuilderCache::Acquire();
           if (!DateTimeParse::TryParseQuoteString(format, i, stringBuilder, returnValue)) {
@@ -991,7 +991,7 @@ Boolean TimeSpanParse::TryParseByFormat(ReadOnlySpan<Char> input, ReadOnlySpan<C
           }
           StringBuilderCache::Release(stringBuilder);
           break;
-        }case '%':
+        }case u'%':
         {
           Int32 num = DateTimeFormat::ParseNextChar(format, i);
           if (num >= 0 && num != 37) {
@@ -999,7 +999,7 @@ Boolean TimeSpanParse::TryParseByFormat(ReadOnlySpan<Char> input, ReadOnlySpan<C
             break;
           }
           return result.SetInvalidStringFailure();
-        }case '\\':
+        }case u'\\':
         {
           Int32 num = DateTimeFormat::ParseNextChar(format, i);
           if (num >= 0 && tokenizer.get_NextChar() == (UInt16)num) {
@@ -1038,7 +1038,7 @@ Boolean TimeSpanParse::ParseExactDigits(TimeSpanTokenizer& tokenizer, Int32 minD
   Int32 i;
   for (i = 0; i < maxDigitLength; i++) {
     Char nextChar = tokenizer.get_NextChar();
-    if (nextChar < '0' || nextChar > '9') {
+    if (nextChar < u'0' || nextChar > u'9') {
       tokenizer.BackOne();
       break;
     }

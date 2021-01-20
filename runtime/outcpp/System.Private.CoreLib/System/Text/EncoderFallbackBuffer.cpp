@@ -42,8 +42,8 @@ EncoderFallbackBuffer EncoderFallbackBuffer___::CreateAndInitialize(Encoding enc
 
 Char EncoderFallbackBuffer___::InternalGetNextChar() {
   Char nextChar = GetNextChar();
-  bFallingBack = nextChar != '\0';
-  if (nextChar == '\0') {
+  bFallingBack = nextChar != u'\0';
+  if (nextChar == u'\0') {
     iRecursionCount = 0;
   }
   return nextChar;
@@ -51,7 +51,7 @@ Char EncoderFallbackBuffer___::InternalGetNextChar() {
 
 Boolean EncoderFallbackBuffer___::InternalFallback(ReadOnlySpan<Char> chars, Int32& charsConsumed) {
   Char c = chars[0];
-  Char c2 = '\0';
+  Char c2 = u'\0';
   if (!chars.get_IsEmpty()) {
     c = chars[0];
     if (1u < (UInt32)chars.get_Length()) {

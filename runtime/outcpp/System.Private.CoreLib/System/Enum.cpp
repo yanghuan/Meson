@@ -153,8 +153,8 @@ String Enum___::InternalFlagsFormat(RuntimeType enumType, EnumInfo enumInfo, UIn
   MemoryExtensions::AsSpan(text2).CopyTo(destination);
   destination = destination.Slice(text2->get_Length());
   while (--num3 >= 0) {
-    destination[0] = ',';
-    destination[1] = ' ';
+    destination[0] = u',';
+    destination[1] = u' ';
     destination = destination.Slice(2);
     text2 = names[span[num3]];
     MemoryExtensions::AsSpan(text2).CopyTo(destination);
@@ -420,7 +420,7 @@ Boolean Enum___::TryParseByName(RuntimeType enumType, String originalValueString
   Boolean flag = true;
   UInt64 num = 0;
   while (value.get_Length() > 0) {
-    Int32 num2 = MemoryExtensions::IndexOf(value, ',');
+    Int32 num2 = MemoryExtensions::IndexOf(value, u',');
     ReadOnlySpan<Char> span;
     if (num2 == -1) {
       span = MemoryExtensions::Trim(value);
@@ -468,8 +468,8 @@ Boolean Enum___::TryParseByName(RuntimeType enumType, String originalValueString
 }
 
 Boolean Enum___::StartsNumber(Char c) {
-  if (!Char::IsInRange(c, '0', '9') && c != '-') {
-    return c == '+';
+  if (!Char::IsInRange(c, u'0', u'9') && c != u'-') {
+    return c == u'+';
   }
   return true;
 }
@@ -506,17 +506,17 @@ String Enum___::Format(Type enumType, Object value, String format) {
     String as = GetEnumName(enumType2, ToUInt64(value));
     String is = InternalFlagsFormat(enumType2, ToUInt64(value));
     switch (format[0].get()) {
-      case 'G':
-      case 'g':
+      case u'G':
+      case u'g':
         return as != nullptr ? as : value->ToString();
-      case 'D':
-      case 'd':
+      case u'D':
+      case u'd':
         return value->ToString();
-      case 'X':
-      case 'x':
+      case u'X':
+      case u'x':
         return ValueToHexString(value);
-      case 'F':
-      case 'f':
+      case u'F':
+      case u'f':
         return is != nullptr ? is : value->ToString();
     }
   }
@@ -622,17 +622,17 @@ String Enum___::ToString(String format) {
   if (format->get_Length() == 1) {
     String as = InternalFlagsFormat((RuntimeType)GetType(), ToUInt64());
     switch (format[0].get()) {
-      case 'G':
-      case 'g':
+      case u'G':
+      case u'g':
         return ToString();
-      case 'D':
-      case 'd':
+      case u'D':
+      case u'd':
         return ValueToString();
-      case 'X':
-      case 'x':
+      case u'X':
+      case u'x':
         return ValueToHexString();
-      case 'F':
-      case 'f':
+      case u'F':
+      case u'f':
         return as != nullptr ? as : ValueToString();
     }
   }

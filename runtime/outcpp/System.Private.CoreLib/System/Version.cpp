@@ -229,7 +229,7 @@ StringBuilder Version___::ToCachedStringBuilder(Int32 fieldCount) {
   if (fieldCount == 2) {
     StringBuilder stringBuilder = StringBuilderCache::Acquire();
     stringBuilder->Append(_Major);
-    stringBuilder->Append((Char)'.');
+    stringBuilder->Append((Char)u'.');
     stringBuilder->Append(_Minor);
     return stringBuilder;
   }
@@ -239,9 +239,9 @@ StringBuilder Version___::ToCachedStringBuilder(Int32 fieldCount) {
   if (fieldCount == 3) {
     StringBuilder stringBuilder2 = StringBuilderCache::Acquire();
     stringBuilder2->Append(_Major);
-    stringBuilder2->Append((Char)'.');
+    stringBuilder2->Append((Char)u'.');
     stringBuilder2->Append(_Minor);
-    stringBuilder2->Append((Char)'.');
+    stringBuilder2->Append((Char)u'.');
     stringBuilder2->Append(_Build);
     return stringBuilder2;
   }
@@ -251,11 +251,11 @@ StringBuilder Version___::ToCachedStringBuilder(Int32 fieldCount) {
   if (fieldCount == 4) {
     StringBuilder stringBuilder3 = StringBuilderCache::Acquire();
     stringBuilder3->Append(_Major);
-    stringBuilder3->Append((Char)'.');
+    stringBuilder3->Append((Char)u'.');
     stringBuilder3->Append(_Minor);
-    stringBuilder3->Append((Char)'.');
+    stringBuilder3->Append((Char)u'.');
     stringBuilder3->Append(_Build);
-    stringBuilder3->Append((Char)'.');
+    stringBuilder3->Append((Char)u'.');
     stringBuilder3->Append(_Revision);
     return stringBuilder3;
   }
@@ -286,7 +286,7 @@ Boolean Version___::TryParse(ReadOnlySpan<Char> input, Version& result) {
 }
 
 Version Version___::ParseVersion(ReadOnlySpan<Char> input, Boolean throwOnFailure) {
-  Int32 num = MemoryExtensions::IndexOf(input, '.');
+  Int32 num = MemoryExtensions::IndexOf(input, u'.');
   if (num < 0) {
     if (throwOnFailure) {
       rt::throw_exception<ArgumentException>(SR::get_Arg_VersionString(), "input");
@@ -294,13 +294,13 @@ Version Version___::ParseVersion(ReadOnlySpan<Char> input, Boolean throwOnFailur
     return nullptr;
   }
   Int32 num2 = -1;
-  Int32 num3 = MemoryExtensions::IndexOf(input.Slice(num + 1), '.');
+  Int32 num3 = MemoryExtensions::IndexOf(input.Slice(num + 1), u'.');
   if (num3 != -1) {
     num3 += num + 1;
-    num2 = MemoryExtensions::IndexOf(input.Slice(num3 + 1), '.');
+    num2 = MemoryExtensions::IndexOf(input.Slice(num3 + 1), u'.');
     if (num2 != -1) {
       num2 += num3 + 1;
-      if (MemoryExtensions::Contains(input.Slice(num2 + 1), '.')) {
+      if (MemoryExtensions::Contains(input.Slice(num2 + 1), u'.')) {
         if (throwOnFailure) {
           rt::throw_exception<ArgumentException>(SR::get_Arg_VersionString(), "input");
         }

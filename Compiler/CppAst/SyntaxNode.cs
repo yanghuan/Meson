@@ -160,6 +160,7 @@ namespace Meson.Compiler.CppAst {
     public const string CloseComment = "*/";
     public const string Tilde = "~";
     public const string Question = "?";
+    public const string UTF16Prefix = "u";
 
     private static readonly HashSet<string> ReservedWords = new HashSet<string>() {            
       // compiler reserved words

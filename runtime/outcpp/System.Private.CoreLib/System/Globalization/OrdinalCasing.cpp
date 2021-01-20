@@ -28,7 +28,7 @@ Char OrdinalCasing::ToUpper(Char c) {
 }
 
 Char OrdinalCasing::ToUpperInvariantMode(Char c) {
-  if (c > 'ÿ') {
+  if (c > u'ÿ') {
     return c;
   }
   return (Char)s_basicLatin[c];
@@ -43,7 +43,7 @@ void OrdinalCasing::ToUpperInvariantMode(ReadOnlySpan<Char> source, Span<Char> d
 void OrdinalCasing::ToUpperOrdinal(ReadOnlySpan<Char> source, Span<Char> destination) {
   for (Int32 i = 0; i < source.get_Length(); i++) {
     Char c = source[i];
-    if (c <= 'ÿ') {
+    if (c <= u'ÿ') {
       destination[i] = (Char)s_basicLatin[c];
     } else if (Char::IsHighSurrogate(c) && i < source.get_Length() - 1 && Char::IsLowSurrogate(source[i + 1])) {
       UInt16 hr;
@@ -198,7 +198,7 @@ Int32 OrdinalCasing::CompareStringIgnoreCase(Char& strA, Int32 lengthA, Char& st
   Char& reference = strA;
   Char& reference2 = strB;
   while (num != 0) {
-    if (reference <= 'ÿ' || num == 1 || !Char::IsHighSurrogate(reference) || !Char::IsHighSurrogate(reference2)) {
+    if (reference <= u'ÿ' || num == 1 || !Char::IsHighSurrogate(reference) || !Char::IsHighSurrogate(reference2)) {
       if (reference == reference2) {
         num--;
         reference = Unsafe::Add(reference, 1);

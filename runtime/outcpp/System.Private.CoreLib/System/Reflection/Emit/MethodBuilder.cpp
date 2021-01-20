@@ -131,7 +131,7 @@ void MethodBuilder___::ctor(String name, MethodAttributes attributes, CallingCon
   if (name->get_Length() == 0) {
     rt::throw_exception<ArgumentException>(SR::get_Argument_EmptyName(), "name");
   }
-  if (name[0] == '\0') {
+  if (name[0] == u'\0') {
     rt::throw_exception<ArgumentException>(SR::get_Argument_IllegalName(), "name");
   }
   if (mod == nullptr) {

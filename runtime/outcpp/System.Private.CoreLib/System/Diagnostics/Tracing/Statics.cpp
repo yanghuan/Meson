@@ -91,14 +91,14 @@ Int32 Statics::Combine(Int32 settingValue1, Int32 settingValue2) {
 }
 
 void Statics::CheckName(String name) {
-  if (name != nullptr && 0 <= name->IndexOf('\0')) {
+  if (name != nullptr && 0 <= name->IndexOf(u'\0')) {
     rt::throw_exception<ArgumentOutOfRangeException>("name");
   }
 }
 
 Boolean Statics::ShouldOverrideFieldName(String fieldName) {
   if (fieldName->get_Length() <= 2) {
-    return fieldName[0] == '_';
+    return fieldName[0] == u'_';
   }
   return false;
 }

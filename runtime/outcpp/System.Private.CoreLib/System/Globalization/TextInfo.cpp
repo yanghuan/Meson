@@ -151,7 +151,7 @@ String TextInfo___::ToLower(String str) {
 }
 
 Char TextInfo___::ChangeCase(Char c, Boolean toUpper) {
-  Char result = '\0';
+  Char result = u'\0';
   ChangeCaseCore(&c, 1, &result, 1, toUpper);
   return result;
 }
@@ -308,7 +308,7 @@ String TextInfo___::ToTitleCase(String str) {
     Int32 charLength;
     UnicodeCategory unicodeCategoryInternal = CharUnicodeInfo::GetUnicodeCategoryInternal(str, num, charLength);
     if (Char::CheckLetter(unicodeCategoryInternal)) {
-      if (flag && num < str->get_Length() - 1 && (str[num] == 'i' || str[num] == 'I') && (str[num + 1] == 'j' || str[num + 1] == 'J')) {
+      if (flag && num < str->get_Length() - 1 && (str[num] == u'i' || str[num] == u'I') && (str[num + 1] == u'j' || str[num + 1] == u'J')) {
         result->Append((String)"IJ");
         num += 2;
       } else {
@@ -323,7 +323,7 @@ String TextInfo___::ToTitleCase(String str) {
             flag2 = true;
           }
           num += charLength;
-        } else if (str[num] == '\'') {
+        } else if (str[num] == u'\'') {
           num++;
           if (flag2) {
             if (text == nullptr) {
@@ -388,25 +388,25 @@ Int32 TextInfo___::AddTitlecaseLetter(StringBuilder& result, String& input, Int3
     inputIndex++;
   } else {
     switch (input[inputIndex].get()) {
-      case 'Ä':
-      case 'Å':
-      case 'Æ':
-        result->Append((Char)'Å');
+      case u'Ǆ':
+      case u'ǅ':
+      case u'ǆ':
+        result->Append((Char)u'ǅ');
         break;
-      case 'Ç':
-      case 'È':
-      case 'É':
-        result->Append((Char)'È');
+      case u'Ǉ':
+      case u'ǈ':
+      case u'ǉ':
+        result->Append((Char)u'ǈ');
         break;
-      case 'Ê':
-      case 'Ë':
-      case 'Ì':
-        result->Append((Char)'Ë');
+      case u'Ǌ':
+      case u'ǋ':
+      case u'ǌ':
+        result->Append((Char)u'ǋ');
         break;
-      case 'ñ':
-      case 'ò':
-      case 'ó':
-        result->Append((Char)'ò');
+      case u'Ǳ':
+      case u'ǲ':
+      case u'ǳ':
+        result->Append((Char)u'ǲ');
         break;
       default:
         result->Append(ToUpper(input[inputIndex]));

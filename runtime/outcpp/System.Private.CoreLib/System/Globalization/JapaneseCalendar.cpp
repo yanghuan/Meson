@@ -227,7 +227,7 @@ Array<EraInfo> JapaneseCalendar___::IcuGetJapaneseEras() {
   if (!CalendarData::in::EnumCalendarInfo("ja", CalendarId::JAPAN, CalendarDataType::AbbrevEraNames, calendarData2)) {
     calendarData2 = s_abbreviatedEnglishEraNames;
   }
-  if (calendarData2[calendarData2->get_Length() - 1]->get_Length() == 0 || calendarData2[calendarData2->get_Length() - 1][0] > '') {
+  if (calendarData2[calendarData2->get_Length() - 1]->get_Length() == 0 || calendarData2[calendarData2->get_Length() - 1][0] > u'') {
     calendarData2 = s_abbreviatedEnglishEraNames;
   }
   Int32 num3 = ((calendarData2 == s_abbreviatedEnglishEraNames) ? (list->get_Count() - 1) : (calendarData2->get_Length() - 1));
@@ -322,7 +322,7 @@ EraInfo JapaneseCalendar___::GetEraFromValue(String value, String data) {
   if (!Int32::TryParse(readOnlySpan.Slice(0, 4), NumberStyles::None, NumberFormatInfo::in::get_InvariantInfo(), result) || !Int32::TryParse(readOnlySpan.Slice(5, 2), NumberStyles::None, NumberFormatInfo::in::get_InvariantInfo(), result2) || !Int32::TryParse(readOnlySpan.Slice(8, 2), NumberStyles::None, NumberFormatInfo::in::get_InvariantInfo(), result3)) {
     return nullptr;
   }
-  Array<String> array = data->Split('_');
+  Array<String> array = data->Split(u'_');
   if (array->get_Length() != 4) {
     return nullptr;
   }

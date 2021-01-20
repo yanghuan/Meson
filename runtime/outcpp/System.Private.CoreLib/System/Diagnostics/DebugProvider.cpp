@@ -73,7 +73,7 @@ String DebugProvider___::GetIndentString() {
   if (indentString != nullptr && indentString->get_Length() == num) {
     return _indentString;
   }
-  return _indentString = rt::newstr<String>(' ', num);
+  return _indentString = rt::newstr<String>(u' ', num);
 }
 
 void DebugProvider___::FailCore(String stackTrace, String message, String detailMessage, String errorSource) {

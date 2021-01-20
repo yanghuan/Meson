@@ -153,7 +153,7 @@ void AssemblyName___::ctor(String assemblyName) {
   if (assemblyName == nullptr) {
     rt::throw_exception<ArgumentNullException>("assemblyName");
   }
-  if (assemblyName->get_Length() == 0 || assemblyName[0] == '\0') {
+  if (assemblyName->get_Length() == 0 || assemblyName[0] == u'\0') {
     rt::throw_exception<ArgumentException>(SR::get_Format_StringZeroLength());
   }
   _name = assemblyName;
@@ -302,7 +302,7 @@ String AssemblyName___::EscapeCodeBase(String codebase) {
     return String::in::Empty;
   }
   Int32 destPos = 0;
-  Array<Char> array = EscapeString(codebase, 0, codebase->get_Length(), nullptr, destPos, true, 'ÿ', 'ÿ', 'ÿ');
+  Array<Char> array = EscapeString(codebase, 0, codebase->get_Length(), nullptr, destPos, true, u'￿', u'￿', u'￿');
   if (array == nullptr) {
     return codebase;
   }
@@ -319,13 +319,13 @@ Array<Char> AssemblyName___::EscapeString(String input, Int32 start, Int32 end, 
     Char* ptr3 = ptr2;
     for (; i < end; i++) {
       Char c = *(ptr3 + i);
-      if (c > '') {
+      if (c > u'') {
         Int16 num2 = (Int16)Math::Min(end - i, 39);
         Int16 num3 = 1;
-        while (num3 < num2 && *(ptr3 + i + num3) > '') {
+        while (num3 < num2 && *(ptr3 + i + num3) > u'') {
           num3 = (Int16)(num3 + 1);
         }
-        if (*(ptr3 + i + num3 - 1) >= '\0' && *(ptr3 + i + num3 - 1) <= 'ÿ') {
+        if (*(ptr3 + i + num3 - 1) >= u'�' && *(ptr3 + i + num3 - 1) <= u'�') {
           if (num3 == 1 || num3 == end - i) {
             rt::throw_exception<FormatException>(SR::get_Arg_FormatException());
           }
@@ -341,15 +341,15 @@ Array<Char> AssemblyName___::EscapeString(String input, Int32 start, Int32 end, 
           EscapeAsciiChar((Char)*(ptr + num3), dest, destPos);
         }
         num = i + 1;
-      } else if (c == '%' && rsvd == '%') {
+      } else if (c == u'%' && rsvd == u'%') {
         dest = EnsureDestinationSize(ptr3, dest, i, 3, 120, destPos, num);
         if (i + 2 < end && HexConverter::IsHexChar(*(ptr3 + i + 1)) && HexConverter::IsHexChar(*(ptr3 + i + 2))) {
-          dest[destPos++] = '%';
+          dest[destPos++] = u'%';
           dest[destPos++] = *(ptr3 + i + 1);
           dest[destPos++] = *(ptr3 + i + 2);
           i += 2;
         } else {
-          EscapeAsciiChar('%', dest, destPos);
+          EscapeAsciiChar(u'%', dest, destPos);
         }
         num = i + 1;
       } else if (c == force1 || c == force2 || (c != rsvd && (isUriString ? (!IsReservedUnreservedOrHash(c)) : (!IsUnreserved(c))))) {
@@ -382,7 +382,7 @@ Array<Char> AssemblyName___::EnsureDestinationSize(Char* pStr, Array<Char> dest,
 }
 
 void AssemblyName___::EscapeAsciiChar(Char ch, Array<Char> to, Int32& pos) {
-  to[pos++] = '%';
+  to[pos++] = u'%';
   to[pos++] = HexConverter::ToCharUpper((Int32)ch >> 4);
   to[pos++] = HexConverter::ToCharUpper(ch);
 }
@@ -402,9 +402,9 @@ Boolean AssemblyName___::IsUnreserved(Char c) {
 }
 
 Boolean AssemblyName___::IsAsciiLetter(Char character) {
-  if (character < 'a' || character > 'z') {
-    if (character >= 'A') {
-      return character <= 'Z';
+  if (character < u'a' || character > u'z') {
+    if (character >= u'A') {
+      return character <= u'Z';
     }
     return false;
   }
@@ -413,8 +413,8 @@ Boolean AssemblyName___::IsAsciiLetter(Char character) {
 
 Boolean AssemblyName___::IsAsciiLetterOrDigit(Char character) {
   if (!IsAsciiLetter(character)) {
-    if (character >= '0') {
-      return character <= '9';
+    if (character >= u'0') {
+      return character <= u'9';
     }
     return false;
   }

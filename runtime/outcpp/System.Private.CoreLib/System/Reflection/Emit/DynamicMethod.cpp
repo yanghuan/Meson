@@ -97,11 +97,11 @@ void DynamicMethod___::RTDynamicMethod___::ctor(DynamicMethod owner, String name
 String DynamicMethod___::RTDynamicMethod___::ToString() {
   ValueStringBuilder sbParamList = ValueStringBuilder(100);
   sbParamList.Append(get_ReturnType()->FormatTypeName());
-  sbParamList.Append(' ');
+  sbParamList.Append(u' ');
   sbParamList.Append(get_Name());
-  sbParamList.Append('(');
+  sbParamList.Append(u'(');
   MethodBase::in::AppendParameters(sbParamList, GetParameterTypes(), get_CallingConvention());
-  sbParamList.Append(')');
+  sbParamList.Append(u')');
   return sbParamList.ToString();
 }
 

@@ -1816,7 +1816,7 @@ Array<Byte> EventSource___::CreateManifestAndDescriptors(Type eventSourceType, S
           continue;
         }
 
-        if (methodInfo->get_Name()->LastIndexOf('.') >= 0) {
+        if (methodInfo->get_Name()->LastIndexOf(u'.') >= 0) {
           manifestBuilder->ManifestError(SR::Format(SR::get_EventSource_EventMustNotBeExplicitImplementation(), methodInfo->get_Name(), eventAttribute->get_EventId()));
         }
         num++;
@@ -2455,16 +2455,16 @@ Int32 EventSource___::AddValueToMetaData(List<Byte> metaData, String value) {
   Int32 count = metaData->get_Count();
   Char c = value[0];
   switch (c.get()) {
-    case '@':
+    case u'@':
       metaData->AddRange(Encoding::in::get_UTF8()->GetBytes(value->Substring(1)));
       break;
-    case '{':
+    case u'{':
       metaData->AddRange(Guid(value).ToByteArray());
       break;
-    case '#':
+    case u'#':
       {
         for (Int32 i = 1; i < value->get_Length(); i++) {
-          if (value[i] != ' ') {
+          if (value[i] != u' ') {
             if (i + 1 >= value->get_Length()) {
               rt::throw_exception<ArgumentException>(SR::get_EventSource_EvenHexDigits(), "traits");
             }
@@ -2474,7 +2474,7 @@ Int32 EventSource___::AddValueToMetaData(List<Byte> metaData, String value) {
         }
         break;
       }default:
-      if ('A' <= c || ' ' == c) {
+      if (u'A' <= c || u' ' == c) {
         metaData->AddRange(Encoding::in::get_UTF8()->GetBytes(value));
         break;
       }
@@ -2484,13 +2484,13 @@ Int32 EventSource___::AddValueToMetaData(List<Byte> metaData, String value) {
 }
 
 Int32 EventSource___::HexDigit(Char c) {
-  if ('0' <= c && c <= '9') {
+  if (u'0' <= c && c <= u'9') {
     return c - 48;
   }
-  if ('a' <= c) {
+  if (u'a' <= c) {
     c = (Char)(c - 32);
   }
-  if ('A' <= c && c <= 'F') {
+  if (u'A' <= c && c <= u'F') {
     return c - 65 + 10;
   }
   rt::throw_exception<ArgumentException>(SR::Format(SR::get_EventSource_BadHexDigit(), c), "traits");

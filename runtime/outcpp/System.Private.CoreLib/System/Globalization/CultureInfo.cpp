@@ -110,17 +110,17 @@ CultureInfo CultureInfo___::get_Parent() {
   if (_parent == nullptr) {
     String text = _cultureData->get_ParentName();
     if (text == "zh") {
-      if (_name->get_Length() == 5 && _name[2] == '-') {
-        if ((_name[3] == 'C' && _name[4] == 'N') || (_name[3] == 'S' && _name[4] == 'G')) {
+      if (_name->get_Length() == 5 && _name[2] == u'-') {
+        if ((_name[3] == u'C' && _name[4] == u'N') || (_name[3] == u'S' && _name[4] == u'G')) {
           text = "zh-Hans";
-        } else if ((_name[3] == 'H' && _name[4] == 'K') || (_name[3] == 'M' && _name[4] == 'O') || (_name[3] == 'T' && _name[4] == 'W')) {
+        } else if ((_name[3] == u'H' && _name[4] == u'K') || (_name[3] == u'M' && _name[4] == u'O') || (_name[3] == u'T' && _name[4] == u'W')) {
           text = "zh-Hant";
         }
 
-      } else if (_name->get_Length() > 8 && MemoryExtensions::Equals(MemoryExtensions, MemoryExtensions::AsSpan(_name, 2, 4), "-Han", StringComparison::Ordinal) && _name[7] == '-') {
-        if (_name[6] == 't') {
+      } else if (_name->get_Length() > 8 && MemoryExtensions::Equals(MemoryExtensions, MemoryExtensions::AsSpan(_name, 2, 4), "-Han", StringComparison::Ordinal) && _name[7] == u'-') {
+        if (_name[6] == u't') {
           text = "zh-Hant";
-        } else if (_name[6] == 's') {
+        } else if (_name[6] == u's') {
           text = "zh-Hans";
         }
 
@@ -415,7 +415,7 @@ CultureInfo CultureInfo___::CreateSpecificCulture(String name) {
   } catch (ArgumentException) {
     cultureInfo = nullptr;
     for (Int32 i = 0; i < name->get_Length(); i++) {
-      if ('-' == name[i]) {
+      if (u'-' == name[i]) {
         try {
           cultureInfo = rt::newobj<CultureInfo>(name->Substring(0, i));
         } catch (ArgumentException) {
@@ -436,7 +436,7 @@ CultureInfo CultureInfo___::CreateSpecificCulture(String name) {
 
 Boolean CultureInfo___::VerifyCultureName(String cultureName, Boolean throwException) {
   for (Char&& c : *cultureName) {
-    if (!Char::IsLetterOrDigit(c) && c != '-' && c != '_') {
+    if (!Char::IsLetterOrDigit(c) && c != u'-' && c != u'_') {
       if (throwException) {
         rt::throw_exception<ArgumentException>(SR::Format(SR::get_Argument_InvalidResourceCultureName(), cultureName));
       }

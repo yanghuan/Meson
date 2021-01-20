@@ -138,7 +138,7 @@ Version Environment::get_Version() {
   AssemblyInformationalVersionAttribute customAttribute = CustomAttributeExtensions::GetCustomAttribute<AssemblyInformationalVersionAttribute>(typeof<Object>()->get_Assembly());
   String text = ((customAttribute != nullptr) ? customAttribute->get_InformationalVersion() : nullptr);
   ReadOnlySpan<Char> readOnlySpan = MemoryExtensions::AsSpan(text);
-  Int32 num = MemoryExtensions::IndexOfAny(readOnlySpan, '-', '+', ' ');
+  Int32 num = MemoryExtensions::IndexOfAny(readOnlySpan, u'-', u'+', u' ');
   if (num != -1) {
     readOnlySpan = readOnlySpan.Slice(0, num);
   }
@@ -159,7 +159,7 @@ String Environment::get_UserName() {
   ValueStringBuilder builder = ValueStringBuilder(initialBuffer);
   GetUserName(builder);
   ReadOnlySpan<Char> span = builder.AsSpan();
-  Int32 num = MemoryExtensions::IndexOf(span, '\\');
+  Int32 num = MemoryExtensions::IndexOf(span, u'\\');
   if (num != -1) {
     span = span.Slice(num + 1);
   }
@@ -174,7 +174,7 @@ String Environment::get_UserDomainName() {
   ValueStringBuilder builder = ValueStringBuilder(initialBuffer);
   GetUserName(builder);
   ReadOnlySpan<Char> span = builder.AsSpan();
-  Int32 num = MemoryExtensions::IndexOf(span, '\\');
+  Int32 num = MemoryExtensions::IndexOf(span, u'\\');
   if (num != -1) {
     builder.set_Length(num);
     return builder.ToString();
@@ -211,7 +211,7 @@ String Environment::get_CurrentDirectoryCore() {
     rt::throw_exception(Win32Marshal::GetExceptionForLastWin32Error());
   }
   outputBuilder.set_Length((Int32)currentDirectory);
-  if (MemoryExtensions::Contains(outputBuilder.AsSpan(), '~')) {
+  if (MemoryExtensions::Contains(outputBuilder.AsSpan(), u'~')) {
     String result = PathHelper::TryExpandShortFileName(outputBuilder, nullptr);
     outputBuilder.Dispose();
     return result;
@@ -370,13 +370,13 @@ void Environment::ValidateVariableAndValue(String variable, String& value) {
   if (variable->get_Length() == 0) {
     rt::throw_exception<ArgumentException>(SR::get_Argument_StringZeroLength(), "variable");
   }
-  if (variable[0] == '\0') {
+  if (variable[0] == u'\0') {
     rt::throw_exception<ArgumentException>(SR::get_Argument_StringFirstCharIsZero(), "variable");
   }
-  if (variable->Contains('=')) {
+  if (variable->Contains(u'=')) {
     rt::throw_exception<ArgumentException>(SR::get_Argument_IllegalEnvVarName(), "variable");
   }
-  if (String::in::IsNullOrEmpty(value) || value[0] == '\0') {
+  if (String::in::IsNullOrEmpty(value) || value[0] == u'\0') {
     value = nullptr;
   }
 }
@@ -642,7 +642,7 @@ OperatingSystem Environment::GetOSVersion() {
     rt::throw_exception<InvalidOperationException>(SR::get_InvalidOperation_GetVersion());
   }
   Version version = rt::newobj<Version>((Int32)osvi.dwMajorVersion, (Int32)osvi.dwMinorVersion, (Int32)osvi.dwBuildNumber, 0);
-  if (*osvi.szCSDVersion == '\0') {
+  if (*osvi.szCSDVersion == u'\0') {
     return rt::newobj<OperatingSystem>(PlatformID::Win32NT, version);
   }
   return rt::newobj<OperatingSystem>(PlatformID::Win32NT, version, rt::newstr<String>(osvi.szCSDVersion));
@@ -702,9 +702,9 @@ IDictionary Environment::GetEnvironmentVariables() {
     Hashtable hashtable = rt::newobj<Hashtable>();
     for (Int32 i = 0; i < span.get_Length(); i++) {
       Int32 num = i;
-      for (; span[i] != '=' && span[i] != 0; i++) {
+      for (; span[i] != u'=' && span[i] != 0; i++) {
       }
-      if (span[i] == '\0') {
+      if (span[i] == u'\0') {
         continue;
       }
       if (i - num == 0) {

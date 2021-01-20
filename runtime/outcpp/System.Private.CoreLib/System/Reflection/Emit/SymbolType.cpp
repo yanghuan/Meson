@@ -92,7 +92,7 @@ Type SymbolType___::FormCompoundType(String format, Type baseType, Int32 curInde
   if (format == nullptr || curIndex == format->get_Length()) {
     return baseType;
   }
-  if (format[curIndex] == '&') {
+  if (format[curIndex] == u'&') {
     SymbolType symbolType = rt::newobj<SymbolType>(TypeKind::IsByRef);
     symbolType->SetFormat(format, curIndex, 1);
     curIndex++;
@@ -102,24 +102,24 @@ Type SymbolType___::FormCompoundType(String format, Type baseType, Int32 curInde
     symbolType->SetElementType(baseType);
     return symbolType;
   }
-  if (format[curIndex] == '[') {
+  if (format[curIndex] == u'[') {
     SymbolType symbolType = rt::newobj<SymbolType>(TypeKind::IsArray);
     Int32 num = curIndex;
     curIndex++;
     Int32 num2 = 0;
     Int32 num3 = -1;
-    while (format[curIndex] != ']') {
-      if (format[curIndex] == '*') {
+    while (format[curIndex] != u']') {
+      if (format[curIndex] == u'*') {
         symbolType->m_isSzArray = false;
         curIndex++;
       }
-      if ((format[curIndex] >= '0' && format[curIndex] <= '9') || format[curIndex] == '-') {
+      if ((format[curIndex] >= u'0' && format[curIndex] <= u'9') || format[curIndex] == u'-') {
         Boolean flag = false;
-        if (format[curIndex] == '-') {
+        if (format[curIndex] == u'-') {
           flag = true;
           curIndex++;
         }
-        while (format[curIndex] >= '0' && format[curIndex] <= '9') {
+        while (format[curIndex] >= u'0' && format[curIndex] <= u'9') {
           num2 *= 10;
           num2 += format[curIndex] - 48;
           curIndex++;
@@ -129,20 +129,20 @@ Type SymbolType___::FormCompoundType(String format, Type baseType, Int32 curInde
         }
         num3 = num2 - 1;
       }
-      if (format[curIndex] == '.') {
+      if (format[curIndex] == u'.') {
         curIndex++;
-        if (format[curIndex] != '.') {
+        if (format[curIndex] != u'.') {
           rt::throw_exception<ArgumentException>(SR::get_Argument_BadSigFormat());
         }
         curIndex++;
-        if ((format[curIndex] >= '0' && format[curIndex] <= '9') || format[curIndex] == '-') {
+        if ((format[curIndex] >= u'0' && format[curIndex] <= u'9') || format[curIndex] == u'-') {
           Boolean flag2 = false;
           num3 = 0;
-          if (format[curIndex] == '-') {
+          if (format[curIndex] == u'-') {
             flag2 = true;
             curIndex++;
           }
-          while (format[curIndex] >= '0' && format[curIndex] <= '9') {
+          while (format[curIndex] >= u'0' && format[curIndex] <= u'9') {
             num3 *= 10;
             num3 += format[curIndex] - 48;
             curIndex++;
@@ -155,12 +155,12 @@ Type SymbolType___::FormCompoundType(String format, Type baseType, Int32 curInde
           }
         }
       }
-      if (format[curIndex] == ',') {
+      if (format[curIndex] == u',') {
         curIndex++;
         symbolType->SetBounds(num2, num3);
         num2 = 0;
         num3 = -1;
-      } else if (format[curIndex] != ']') {
+      } else if (format[curIndex] != u']') {
         rt::throw_exception<ArgumentException>(SR::get_Argument_BadSigFormat());
       }
 
@@ -171,7 +171,7 @@ Type SymbolType___::FormCompoundType(String format, Type baseType, Int32 curInde
     symbolType->SetElementType(baseType);
     return FormCompoundType(format, symbolType, curIndex);
   }
-  if (format[curIndex] == '*') {
+  if (format[curIndex] == u'*') {
     SymbolType symbolType = rt::newobj<SymbolType>(TypeKind::IsPointer);
     symbolType->SetFormat(format, curIndex, 1);
     curIndex++;

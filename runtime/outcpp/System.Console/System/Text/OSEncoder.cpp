@@ -15,7 +15,7 @@ void OSEncoder___::ctor(Encoding encoding) {
 }
 
 void OSEncoder___::Reset() {
-  _charLeftOver = '\0';
+  _charLeftOver = u'\0';
 }
 
 Int32 OSEncoder___::GetByteCount(Array<Char> chars, Int32 index, Int32 count, Boolean flush) {
@@ -28,7 +28,7 @@ Int32 OSEncoder___::GetByteCount(Array<Char> chars, Int32 index, Int32 count, Bo
   if (chars->get_Length() - index < count) {
     rt::throw_exception<ArgumentOutOfRangeException>("chars", SR::get_ArgumentOutOfRange_IndexCountBuffer());
   }
-  if (chars->get_Length() == 0 && (_charLeftOver == '\0' || !flush)) {
+  if (chars->get_Length() == 0 && (_charLeftOver == u'\0' || !flush)) {
     return 0;
   }
   {
@@ -66,7 +66,7 @@ Int32 OSEncoder___::GetByteCount(Char* chars, Int32 count, Boolean flush) {
   if (flag) {
     count--;
   }
-  if (_charLeftOver == '\0') {
+  if (_charLeftOver == u'\0') {
     if (count <= 0) {
       return 0;
     }
@@ -94,7 +94,7 @@ Int32 OSEncoder___::GetBytes(Array<Char> chars, Int32 charIndex, Int32 charCount
   if (bytes->get_Length() == 0) {
     return 0;
   }
-  if (charCount == 0 && (_charLeftOver == '\0' || !flush)) {
+  if (charCount == 0 && (_charLeftOver == u'\0' || !flush)) {
     return 0;
   }
   {
@@ -118,11 +118,11 @@ Int32 OSEncoder___::GetBytes(Char* chars, Int32 charCount, Byte* bytes, Int32 by
   if (byteCount == 0) {
     return 0;
   }
-  Char c = ((charCount > 0 && !flush && Char::IsHighSurrogate(*(chars + charCount - 1))) ? *(chars + charCount - 1) : '\0');
+  Char c = ((charCount > 0 && !flush && Char::IsHighSurrogate(*(chars + charCount - 1))) ? *(chars + charCount - 1) : u'\0');
   if (c != 0) {
     charCount--;
   }
-  if (_charLeftOver == '\0') {
+  if (_charLeftOver == u'\0') {
     if (charCount <= 0) {
       _charLeftOver = c;
       return 0;
@@ -131,7 +131,7 @@ Int32 OSEncoder___::GetBytes(Char* chars, Int32 charCount, Byte* bytes, Int32 by
     _charLeftOver = c;
     return result;
   }
-  if (charCount == 0 && c == '\0' && !flush) {
+  if (charCount == 0 && c == u'\0' && !flush) {
     return 0;
   }
   Int32 result2 = ConvertWithLeftOverChar(chars, charCount, bytes, byteCount);
@@ -155,7 +155,7 @@ void OSEncoder___::Convert(Array<Char> chars, Int32 charIndex, Int32 charCount, 
   if (bytes->get_Length() - byteIndex < byteCount) {
     rt::throw_exception<ArgumentOutOfRangeException>("bytes", SR::get_ArgumentOutOfRange_IndexCountBuffer());
   }
-  if (bytes->get_Length() == 0 || (chars->get_Length() == 0 && (_charLeftOver == '\0' || !flush))) {
+  if (bytes->get_Length() == 0 || (chars->get_Length() == 0 && (_charLeftOver == u'\0' || !flush))) {
     bytesUsed = 0;
     charsUsed = 0;
     completed = false;
@@ -189,7 +189,7 @@ void OSEncoder___::Convert(Char* chars, Int32 charCount, Byte* bytes, Int32 byte
   if (num > 0) {
     bytesUsed = GetBytes(chars, num, bytes, byteCount, flush);
     charsUsed = num;
-    completed = _charLeftOver == '\0' && charCount == num;
+    completed = _charLeftOver == u'\0' && charCount == num;
   } else {
     bytesUsed = 0;
     charsUsed = 0;

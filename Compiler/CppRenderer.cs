@@ -670,6 +670,7 @@ namespace Meson.Compiler {
     }
 
     internal void Render(CharLiteralExpressionSyntax node) {
+      Write(Tokens.UTF16Prefix);
       Write(Tokens.SingleQuote);
       Write(node.ValueText);
       Write(Tokens.SingleQuote);

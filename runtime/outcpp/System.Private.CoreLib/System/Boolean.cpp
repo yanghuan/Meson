@@ -32,19 +32,19 @@ String Boolean::ToString(IFormatProvider provider) {
 Boolean Boolean::TryFormat(Span<Char> destination, Int32& charsWritten) {
   if (*this) {
     if ((UInt32)destination.get_Length() > 3u) {
-      destination[0] = 'T';
-      destination[1] = 'r';
-      destination[2] = 'u';
-      destination[3] = 'e';
+      destination[0] = u'T';
+      destination[1] = u'r';
+      destination[2] = u'u';
+      destination[3] = u'e';
       charsWritten = 4;
       return true;
     }
   } else if ((UInt32)destination.get_Length() > 4u) {
-    destination[0] = 'F';
-    destination[1] = 'a';
-    destination[2] = 'l';
-    destination[3] = 's';
-    destination[4] = 'e';
+    destination[0] = u'F';
+    destination[1] = u'a';
+    destination[2] = u'l';
+    destination[3] = u's';
+    destination[4] = u'e';
     charsWritten = 5;
     return true;
   }
@@ -91,9 +91,9 @@ Int32 Boolean::CompareTo(Boolean value) {
 }
 
 Boolean Boolean::IsTrueStringIgnoreCase(ReadOnlySpan<Char> value) {
-  if (value.get_Length() == 4 && (value[0] == 't' || value[0] == 'T') && (value[1] == 'r' || value[1] == 'R') && (value[2] == 'u' || value[2] == 'U')) {
-    if (value[3] != 'e') {
-      return value[3] == 'E';
+  if (value.get_Length() == 4 && (value[0] == u't' || value[0] == u'T') && (value[1] == u'r' || value[1] == u'R') && (value[2] == u'u' || value[2] == u'U')) {
+    if (value[3] != u'e') {
+      return value[3] == u'E';
     }
     return true;
   }
@@ -101,9 +101,9 @@ Boolean Boolean::IsTrueStringIgnoreCase(ReadOnlySpan<Char> value) {
 }
 
 Boolean Boolean::IsFalseStringIgnoreCase(ReadOnlySpan<Char> value) {
-  if (value.get_Length() == 5 && (value[0] == 'f' || value[0] == 'F') && (value[1] == 'a' || value[1] == 'A') && (value[2] == 'l' || value[2] == 'L') && (value[3] == 's' || value[3] == 'S')) {
-    if (value[4] != 'e') {
-      return value[4] == 'E';
+  if (value.get_Length() == 5 && (value[0] == u'f' || value[0] == u'F') && (value[1] == u'a' || value[1] == u'A') && (value[2] == u'l' || value[2] == u'L') && (value[3] == u's' || value[3] == u'S')) {
+    if (value[4] != u'e') {
+      return value[4] == u'E';
     }
     return true;
   }
@@ -157,10 +157,10 @@ Boolean Boolean::TryParse(ReadOnlySpan<Char> value, Boolean& result) {
 
 ReadOnlySpan<Char> Boolean::TrimWhiteSpaceAndNull(ReadOnlySpan<Char> value) {
   Int32 i;
-  for (i = 0; i < value.get_Length() && (Char::IsWhiteSpace(value[i]) || value[i] == '\0'); i++) {
+  for (i = 0; i < value.get_Length() && (Char::IsWhiteSpace(value[i]) || value[i] == u'\0'); i++) {
   }
   Int32 num = value.get_Length() - 1;
-  while (num >= i && (Char::IsWhiteSpace(value[num]) || value[num] == '\0')) {
+  while (num >= i && (Char::IsWhiteSpace(value[num]) || value[num] == u'\0')) {
     num--;
   }
   return value.Slice(i, num - i + 1);

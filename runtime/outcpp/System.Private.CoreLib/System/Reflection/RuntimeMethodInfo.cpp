@@ -222,14 +222,14 @@ String RuntimeMethodInfo___::ToString() {
   if (m_toString == nullptr) {
     ValueStringBuilder sbParamList = ValueStringBuilder(100);
     sbParamList.Append(get_ReturnType()->FormatTypeName());
-    sbParamList.Append(' ');
+    sbParamList.Append(u' ');
     sbParamList.Append(get_Name());
     if (get_IsGenericMethod()) {
       sbParamList.Append(RuntimeMethodHandle::ConstructInstantiation((RuntimeMethodInfo)this, TypeNameFormatFlags::FormatBasic));
     }
-    sbParamList.Append('(');
+    sbParamList.Append(u'(');
     MethodBase::in::AppendParameters(sbParamList, GetParameterTypes(), get_CallingConvention());
-    sbParamList.Append(')');
+    sbParamList.Append(u')');
     m_toString = sbParamList.ToString();
   }
   return m_toString;

@@ -28,7 +28,7 @@ Int32 Ordinal::CompareStringIgnoreCase(Char& strA, Int32 lengthA, Char& strB, In
   Int32 num2 = num;
   Char& reference = strA;
   Char& reference2 = strB;
-  Char c = (GlobalizationMode::get_Invariant() ? 'ÿ' : '');
+  Char c = (GlobalizationMode::get_Invariant() ? u'￿' : u'');
   while (num != 0 && reference <= c && reference2 <= c) {
     if (reference == reference2 || ((reference | 32) == (reference2 | 32) && (UInt32)((reference | 32) - 97) <= 25u)) {
       num--;

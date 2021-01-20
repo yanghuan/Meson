@@ -63,18 +63,18 @@ String Vector4::ToString(String format) {
 String Vector4::ToString(String format, IFormatProvider formatProvider) {
   StringBuilder stringBuilder = rt::newobj<StringBuilder>();
   String numberGroupSeparator = NumberFormatInfo::in::GetInstance(formatProvider)->get_NumberGroupSeparator();
-  stringBuilder->Append((Char)'<');
+  stringBuilder->Append((Char)u'<');
   stringBuilder->Append(X.ToString(format, formatProvider));
   stringBuilder->Append(numberGroupSeparator);
-  stringBuilder->Append((Char)' ');
+  stringBuilder->Append((Char)u' ');
   stringBuilder->Append(Y.ToString(format, formatProvider));
   stringBuilder->Append(numberGroupSeparator);
-  stringBuilder->Append((Char)' ');
+  stringBuilder->Append((Char)u' ');
   stringBuilder->Append(Z.ToString(format, formatProvider));
   stringBuilder->Append(numberGroupSeparator);
-  stringBuilder->Append((Char)' ');
+  stringBuilder->Append((Char)u' ');
   stringBuilder->Append(W.ToString(format, formatProvider));
-  stringBuilder->Append((Char)'>');
+  stringBuilder->Append((Char)u'>');
   return stringBuilder->ToString();
 }
 

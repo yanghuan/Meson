@@ -14,8 +14,8 @@ Int32 EncoderLatin1BestFitFallbackBuffer___::get_Remaining() {
 Boolean EncoderLatin1BestFitFallbackBuffer___::Fallback(Char charUnknown, Int32 index) {
   _iCount = (_iSize = 1);
   _cBestFit = TryBestFit(charUnknown);
-  if (_cBestFit == '\0') {
-    _cBestFit = '?';
+  if (_cBestFit == u'\0') {
+    _cBestFit = u'?';
   }
   return true;
 }
@@ -27,7 +27,7 @@ Boolean EncoderLatin1BestFitFallbackBuffer___::Fallback(Char charUnknownHigh, Ch
   if (!Char::IsLowSurrogate(charUnknownLow)) {
     rt::throw_exception<ArgumentOutOfRangeException>("charUnknownLow", SR::Format(SR::get_ArgumentOutOfRange_Range(), 56320, 57343));
   }
-  _cBestFit = '?';
+  _cBestFit = u'?';
   _iCount = (_iSize = 2);
   return true;
 }
@@ -35,11 +35,11 @@ Boolean EncoderLatin1BestFitFallbackBuffer___::Fallback(Char charUnknownHigh, Ch
 Char EncoderLatin1BestFitFallbackBuffer___::GetNextChar() {
   _iCount--;
   if (_iCount < 0) {
-    return '\0';
+    return u'\0';
   }
   if (_iCount == Int32::MaxValue) {
     _iCount = -1;
-    return '\0';
+    return u'\0';
   }
   return _cBestFit;
 }
@@ -81,7 +81,7 @@ Char EncoderLatin1BestFitFallbackBuffer___::TryBestFit(Char cUnknown) {
       return s_arrayCharBestFit[num4 + 1];
     }
   }
-  return '\0';
+  return u'\0';
 }
 
 void EncoderLatin1BestFitFallbackBuffer___::ctor() {

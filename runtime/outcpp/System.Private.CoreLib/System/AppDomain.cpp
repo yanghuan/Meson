@@ -129,7 +129,7 @@ String AppDomain___::ApplyPolicy(String assemblyName) {
   if (assemblyName == nullptr) {
     rt::throw_exception<ArgumentNullException>("assemblyName");
   }
-  if (assemblyName->get_Length() == 0 || assemblyName[0] == '\0') {
+  if (assemblyName->get_Length() == 0 || assemblyName[0] == u'\0') {
     rt::throw_exception<ArgumentException>(SR::get_Argument_StringZeroLength(), "assemblyName");
   }
   return assemblyName;

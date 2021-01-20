@@ -181,6 +181,9 @@ int main() {
 
   AA<void (*)(int)> b = &ff;;
 
+  std::numeric_limits<int64_t>::max();
+
+
   return 0;
 }
 

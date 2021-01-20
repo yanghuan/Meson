@@ -543,10 +543,6 @@ namespace Meson.Compiler {
     }
 
     private static string DecodeCharacter(char ch) {
-      if (ch > byte.MaxValue) {
-        ch = (char)(byte)ch;
-      }
-
       switch (ch) {
         case '\0':
           return "\\0";
@@ -567,7 +563,6 @@ namespace Meson.Compiler {
         case '\'':
           return "\\'";
       }
-
       return ch.ToString();
     }
 

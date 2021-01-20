@@ -78,7 +78,7 @@ Int32 UTF7Encoding___::DecoderUTF7FallbackBuffer___::get_Remaining() {
 
 Boolean UTF7Encoding___::DecoderUTF7FallbackBuffer___::Fallback(Array<Byte> bytesUnknown, Int32 index) {
   cFallback = (Char)bytesUnknown[0];
-  if (cFallback == '\0') {
+  if (cFallback == u'\0') {
     return false;
   }
   iCount = (iSize = 1);
@@ -89,7 +89,7 @@ Char UTF7Encoding___::DecoderUTF7FallbackBuffer___::GetNextChar() {
   if (iCount-- > 0) {
     return cFallback;
   }
-  return '\0';
+  return u'\0';
 }
 
 Boolean UTF7Encoding___::DecoderUTF7FallbackBuffer___::MovePrevious() {
@@ -380,7 +380,7 @@ Int32 UTF7Encoding___::GetBytes(Char* chars, Int32 charCount, Byte* bytes, Int32
   }
   while (encodingByteBuffer->get_MoreData()) {
     Char nextChar = encodingByteBuffer->GetNextChar();
-    if (nextChar < '' && _directEncode[nextChar]) {
+    if (nextChar < u'' && _directEncode[nextChar]) {
       if (num2 >= 0) {
         if (num2 > 0) {
           if (!encodingByteBuffer->AddByte(_base64Bytes[(num << 6 - num2) & 63])) {
@@ -398,7 +398,7 @@ Int32 UTF7Encoding___::GetBytes(Char* chars, Int32 charCount, Byte* bytes, Int32
       }
       continue;
     }
-    if (num2 < 0 && nextChar == '+') {
+    if (num2 < 0 && nextChar == u'+') {
       if (!encodingByteBuffer->AddByte((Byte)(Int32)43, (Byte)(Int32)45)) {
         break;
       }

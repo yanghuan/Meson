@@ -405,7 +405,7 @@ void TypeBuilder___::ctor(String fullname, TypeAttributes attr, Type parent, Arr
   if (fullname->get_Length() == 0) {
     rt::throw_exception<ArgumentException>(SR::get_Argument_EmptyName(), "fullname");
   }
-  if (fullname[0] == '\0') {
+  if (fullname[0] == u'\0') {
     rt::throw_exception<ArgumentException>(SR::get_Argument_IllegalName(), "fullname");
   }
   if (fullname->get_Length() > 1023) {
@@ -430,7 +430,7 @@ void TypeBuilder___::ctor(String fullname, TypeAttributes attr, Type parent, Arr
       array[i] = m_module->GetTypeTokenInternal(interfaces[i]).get_Token();
     }
   }
-  Int32 num = fullname->LastIndexOf('.');
+  Int32 num = fullname->LastIndexOf(u'.');
   if (num == -1 || num == 0) {
     m_strNameSpace = String::in::Empty;
     m_strName = fullname;
@@ -1267,7 +1267,7 @@ EventBuilder TypeBuilder___::DefineEventNoLock(String name, EventAttributes attr
   if (name->get_Length() == 0) {
     rt::throw_exception<ArgumentException>(SR::get_Argument_EmptyName(), "name");
   }
-  if (name[0] == '\0') {
+  if (name[0] == u'\0') {
     rt::throw_exception<ArgumentException>(SR::get_Argument_IllegalName(), "name");
   }
   CheckContext(eventtype);

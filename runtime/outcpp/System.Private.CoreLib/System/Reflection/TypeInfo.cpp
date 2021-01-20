@@ -258,7 +258,7 @@ String TypeInfo___::GetRankString(Int32 rank) {
     rt::throw_exception<IndexOutOfRangeException>();
   }
   if (rank != 1) {
-    return "[" + rt::newstr<String>(',', rank - 1) + "]";
+    return "[" + rt::newstr<String>(u',', rank - 1) + "]";
   }
   return "[*]";
 }

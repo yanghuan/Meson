@@ -229,7 +229,7 @@ Boolean Guid::TryParseGuid(ReadOnlySpan<Char> guidString, GuidResult& result) {
 }
 
 Boolean Guid::TryParseExactB(ReadOnlySpan<Char> guidString, GuidResult& result) {
-  if (guidString.get_Length() != 38 || guidString[0] != '{' || guidString[37] != '}') {
+  if (guidString.get_Length() != 38 || guidString[0] != u'{' || guidString[37] != u'}') {
     result.SetFailure(false, "Format_GuidInvLen");
     return false;
   }
@@ -241,7 +241,7 @@ Boolean Guid::TryParseExactD(ReadOnlySpan<Char> guidString, GuidResult& result) 
     result.SetFailure(false, "Format_GuidInvLen");
     return false;
   }
-  if (guidString[8] != '-' || guidString[13] != '-' || guidString[18] != '-' || guidString[23] != '-') {
+  if (guidString[8] != u'-' || guidString[13] != u'-' || guidString[18] != u'-' || guidString[23] != u'-') {
     result.SetFailure(false, "Format_GuidDashes");
     return false;
   }
@@ -301,7 +301,7 @@ Boolean Guid::TryParseExactN(ReadOnlySpan<Char> guidString, GuidResult& result) 
 }
 
 Boolean Guid::TryParseExactP(ReadOnlySpan<Char> guidString, GuidResult& result) {
-  if (guidString.get_Length() != 38 || guidString[0] != '(' || guidString[37] != ')') {
+  if (guidString.get_Length() != 38 || guidString[0] != u'(' || guidString[37] != u')') {
     result.SetFailure(false, "Format_GuidInvLen");
     return false;
   }
@@ -310,7 +310,7 @@ Boolean Guid::TryParseExactP(ReadOnlySpan<Char> guidString, GuidResult& result) 
 
 Boolean Guid::TryParseExactX(ReadOnlySpan<Char> guidString, GuidResult& result) {
   guidString = EatAllWhitespace(guidString);
-  if (guidString.get_Length() == 0 || guidString[0] != '{') {
+  if (guidString.get_Length() == 0 || guidString[0] != u'{') {
     result.SetFailure(false, "Format_GuidBrace");
     return false;
   }
@@ -319,7 +319,7 @@ Boolean Guid::TryParseExactX(ReadOnlySpan<Char> guidString, GuidResult& result) 
     return false;
   }
   Int32 num = 3;
-  Int32 num2 = MemoryExtensions::IndexOf(guidString.Slice(num), ',');
+  Int32 num2 = MemoryExtensions::IndexOf(guidString.Slice(num), u',');
   if (num2 <= 0) {
     result.SetFailure(false, "Format_GuidComma");
     return false;
@@ -334,7 +334,7 @@ Boolean Guid::TryParseExactX(ReadOnlySpan<Char> guidString, GuidResult& result) 
     return false;
   }
   num = num + num2 + 3;
-  num2 = MemoryExtensions::IndexOf(guidString.Slice(num), ',');
+  num2 = MemoryExtensions::IndexOf(guidString.Slice(num), u',');
   if (num2 <= 0) {
     result.SetFailure(false, "Format_GuidComma");
     return false;
@@ -348,7 +348,7 @@ Boolean Guid::TryParseExactX(ReadOnlySpan<Char> guidString, GuidResult& result) 
     return false;
   }
   num = num + num2 + 3;
-  num2 = MemoryExtensions::IndexOf(guidString.Slice(num), ',');
+  num2 = MemoryExtensions::IndexOf(guidString.Slice(num), u',');
   if (num2 <= 0) {
     result.SetFailure(false, "Format_GuidComma");
     return false;
@@ -357,7 +357,7 @@ Boolean Guid::TryParseExactX(ReadOnlySpan<Char> guidString, GuidResult& result) 
     result.SetFailure(overflow, overflow ? "Overflow_UInt32" : "Format_GuidInvalidChar");
     return false;
   }
-  if ((UInt32)guidString.get_Length() <= (UInt32)(num + num2 + 1) || guidString[num + num2 + 1] != '{') {
+  if ((UInt32)guidString.get_Length() <= (UInt32)(num + num2 + 1) || guidString[num + num2 + 1] != u'{') {
     result.SetFailure(false, "Format_GuidBrace");
     return false;
   }
@@ -369,13 +369,13 @@ Boolean Guid::TryParseExactX(ReadOnlySpan<Char> guidString, GuidResult& result) 
     }
     num = num + num2 + 3;
     if (i < 7) {
-      num2 = MemoryExtensions::IndexOf(guidString.Slice(num), ',');
+      num2 = MemoryExtensions::IndexOf(guidString.Slice(num), u',');
       if (num2 <= 0) {
         result.SetFailure(false, "Format_GuidComma");
         return false;
       }
     } else {
-      num2 = MemoryExtensions::IndexOf(guidString.Slice(num), '}');
+      num2 = MemoryExtensions::IndexOf(guidString.Slice(num), u'}');
       if (num2 <= 0) {
         result.SetFailure(false, "Format_GuidBraceAfterLastNumber");
         return false;
@@ -388,7 +388,7 @@ Boolean Guid::TryParseExactX(ReadOnlySpan<Char> guidString, GuidResult& result) 
     }
     Unsafe::Add(result._parsedGuid._d, i) = (Byte)result2;
   }
-  if (num + num2 + 1 >= guidString.get_Length() || guidString[num + num2 + 1] != '}') {
+  if (num + num2 + 1 >= guidString.get_Length() || guidString[num + num2 + 1] != u'}') {
     result.SetFailure(false, "Format_GuidEndBrace");
     return false;
   }
@@ -413,15 +413,15 @@ Boolean Guid::TryParseHex(ReadOnlySpan<Char> guidString, UInt32& result) {
 
 Boolean Guid::TryParseHex(ReadOnlySpan<Char> guidString, UInt32& result, Boolean& overflow) {
   if (guidString.get_Length() != 0) {
-    if (guidString[0] == '+') {
+    if (guidString[0] == u'+') {
       guidString = guidString.Slice(1);
     }
-    if ((UInt32)guidString.get_Length() > 1u && guidString[0] == '0' && (guidString[1] | 32) == 120) {
+    if ((UInt32)guidString.get_Length() > 1u && guidString[0] == u'0' && (guidString[1] | 32) == 120) {
       guidString = guidString.Slice(2);
     }
   }
   Int32 i;
-  for (i = 0; i < guidString.get_Length() && guidString[i] == '0'; i++) {
+  for (i = 0; i < guidString.get_Length() && guidString[i] == u'0'; i++) {
   }
   Int32 num = 0;
   UInt32 num2 = 0u;
@@ -468,7 +468,7 @@ ReadOnlySpan<Char> Guid::EatAllWhitespace(ReadOnlySpan<Char> str) {
 }
 
 Boolean Guid::IsHexPrefix(ReadOnlySpan<Char> str, Int32 i) {
-  if (i + 1 < str.get_Length() && str[i] == '0') {
+  if (i + 1 < str.get_Length() && str[i] == u'0') {
     return (str[i + 1] | 32) == 120;
   }
   return false;
@@ -646,13 +646,13 @@ Int32 Guid::HexsToChars(Char* guidChars, Int32 a, Int32 b) {
 }
 
 Int32 Guid::HexsToCharsHexOutput(Char* guidChars, Int32 a, Int32 b) {
-  *guidChars = '0';
-  guidChars[1] = 'x';
+  *guidChars = u'0';
+  guidChars[1] = u'x';
   guidChars[2] = HexConverter::ToCharLower(a >> 4);
   guidChars[3] = HexConverter::ToCharLower(a);
-  guidChars[4] = ',';
-  guidChars[5] = '0';
-  guidChars[6] = 'x';
+  guidChars[4] = u',';
+  guidChars[5] = u'0';
+  guidChars[6] = u'x';
   guidChars[7] = HexConverter::ToCharLower(b >> 4);
   guidChars[8] = HexConverter::ToCharLower(b);
   return 9;
@@ -667,22 +667,22 @@ String Guid::ToString(String format, IFormatProvider provider) {
   }
   Int32 length;
   switch (format[0].get()) {
-    case 'D':
-    case 'd':
+    case u'D':
+    case u'd':
       length = 36;
       break;
-    case 'N':
-    case 'n':
+    case u'N':
+    case u'n':
       length = 32;
       break;
-    case 'B':
-    case 'P':
-    case 'b':
-    case 'p':
+    case u'B':
+    case u'P':
+    case u'b':
+    case u'p':
       length = 38;
       break;
-    case 'X':
-    case 'x':
+    case u'X':
+    case u'x':
       length = 68;
       break;
     default:
@@ -707,27 +707,27 @@ Boolean Guid::TryFormat(Span<Char> destination, Int32& charsWritten, ReadOnlySpa
   Int32 num = 0;
   Int32 num2;
   switch (format[0].get()) {
-    case 'D':
-    case 'd':
+    case u'D':
+    case u'd':
       num2 = 36;
       break;
-    case 'N':
-    case 'n':
+    case u'N':
+    case u'n':
       flag = false;
       num2 = 32;
       break;
-    case 'B':
-    case 'b':
+    case u'B':
+    case u'b':
       num = 8192123;
       num2 = 38;
       break;
-    case 'P':
-    case 'p':
+    case u'P':
+    case u'p':
       num = 2687016;
       num2 = 38;
       break;
-    case 'X':
-    case 'x':
+    case u'X':
+    case u'x':
       num = 8192123;
       flag = false;
       flag2 = true;
@@ -751,79 +751,79 @@ Boolean Guid::TryFormat(Span<Char> destination, Int32& charsWritten, ReadOnlySpa
     if (flag2) {
       Char* intPtr2 = ptr2;
       ptr2 = intPtr2 + 1;
-      *intPtr2 = '0';
+      *intPtr2 = u'0';
       Char* intPtr3 = ptr2;
       ptr2 = intPtr3 + 1;
-      *intPtr3 = 'x';
+      *intPtr3 = u'x';
       ptr2 += HexsToChars(ptr2, _a >> 24, _a >> 16);
       ptr2 += HexsToChars(ptr2, _a >> 8, _a);
       Char* intPtr4 = ptr2;
       ptr2 = intPtr4 + 1;
-      *intPtr4 = ',';
+      *intPtr4 = u',';
       Char* intPtr5 = ptr2;
       ptr2 = intPtr5 + 1;
-      *intPtr5 = '0';
+      *intPtr5 = u'0';
       Char* intPtr6 = ptr2;
       ptr2 = intPtr6 + 1;
-      *intPtr6 = 'x';
+      *intPtr6 = u'x';
       ptr2 += HexsToChars(ptr2, _b >> 8, _b);
       Char* intPtr7 = ptr2;
       ptr2 = intPtr7 + 1;
-      *intPtr7 = ',';
+      *intPtr7 = u',';
       Char* intPtr8 = ptr2;
       ptr2 = intPtr8 + 1;
-      *intPtr8 = '0';
+      *intPtr8 = u'0';
       Char* intPtr9 = ptr2;
       ptr2 = intPtr9 + 1;
-      *intPtr9 = 'x';
+      *intPtr9 = u'x';
       ptr2 += HexsToChars(ptr2, _c >> 8, _c);
       Char* intPtr10 = ptr2;
       ptr2 = intPtr10 + 1;
-      *intPtr10 = ',';
+      *intPtr10 = u',';
       Char* intPtr11 = ptr2;
       ptr2 = intPtr11 + 1;
-      *intPtr11 = '{';
+      *intPtr11 = u'{';
       ptr2 += HexsToCharsHexOutput(ptr2, _d, _e);
       Char* intPtr12 = ptr2;
       ptr2 = intPtr12 + 1;
-      *intPtr12 = ',';
+      *intPtr12 = u',';
       ptr2 += HexsToCharsHexOutput(ptr2, _f, _g);
       Char* intPtr13 = ptr2;
       ptr2 = intPtr13 + 1;
-      *intPtr13 = ',';
+      *intPtr13 = u',';
       ptr2 += HexsToCharsHexOutput(ptr2, _h, _i);
       Char* intPtr14 = ptr2;
       ptr2 = intPtr14 + 1;
-      *intPtr14 = ',';
+      *intPtr14 = u',';
       ptr2 += HexsToCharsHexOutput(ptr2, _j, _k);
       Char* intPtr15 = ptr2;
       ptr2 = intPtr15 + 1;
-      *intPtr15 = '}';
+      *intPtr15 = u'}';
     } else {
       ptr2 += HexsToChars(ptr2, _a >> 24, _a >> 16);
       ptr2 += HexsToChars(ptr2, _a >> 8, _a);
       if (flag) {
         Char* intPtr16 = ptr2;
         ptr2 = intPtr16 + 1;
-        *intPtr16 = '-';
+        *intPtr16 = u'-';
       }
       ptr2 += HexsToChars(ptr2, _b >> 8, _b);
       if (flag) {
         Char* intPtr17 = ptr2;
         ptr2 = intPtr17 + 1;
-        *intPtr17 = '-';
+        *intPtr17 = u'-';
       }
       ptr2 += HexsToChars(ptr2, _c >> 8, _c);
       if (flag) {
         Char* intPtr18 = ptr2;
         ptr2 = intPtr18 + 1;
-        *intPtr18 = '-';
+        *intPtr18 = u'-';
       }
       ptr2 += HexsToChars(ptr2, _d, _e);
       if (flag) {
         Char* intPtr19 = ptr2;
         ptr2 = intPtr19 + 1;
-        *intPtr19 = '-';
+        *intPtr19 = u'-';
       }
       ptr2 += HexsToChars(ptr2, _f, _g);
       ptr2 += HexsToChars(ptr2, _h, _i);

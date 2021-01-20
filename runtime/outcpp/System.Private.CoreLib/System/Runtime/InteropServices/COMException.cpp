@@ -31,7 +31,7 @@ void COMException___::ctor(SerializationInfo info, StreamingContext context) {
 String COMException___::ToString() {
   StringBuilder stringBuilder = rt::newobj<StringBuilder>();
   String value = GetType()->ToString();
-  stringBuilder->Append(value)->Append((String)" (0x")->Append(Exception::in::get_HResult().ToString("X8", CultureInfo::in::get_InvariantCulture()))->Append((Char)')');
+  stringBuilder->Append(value)->Append((String)" (0x")->Append(Exception::in::get_HResult().ToString("X8", CultureInfo::in::get_InvariantCulture()))->Append((Char)u')');
   String message = get_Message();
   if (!String::in::IsNullOrEmpty(message)) {
     stringBuilder->Append((String)": ")->Append(message);

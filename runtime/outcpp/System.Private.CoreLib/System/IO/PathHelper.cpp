@@ -23,7 +23,7 @@ String PathHelper::Normalize(String path) {
   Span<Char> initialBuffer = as;
   ValueStringBuilder builder = ValueStringBuilder(initialBuffer);
   GetFullPathName(MemoryExtensions::AsSpan(path), builder);
-  String result = ((MemoryExtensions::IndexOf(builder.AsSpan(), '~') >= 0) ? TryExpandShortFileName(builder, path) : (MemoryExtensions::Equals(MemoryExtensions, builder.AsSpan(), MemoryExtensions::AsSpan(path), StringComparison::Ordinal) ? path : builder.ToString()));
+  String result = ((MemoryExtensions::IndexOf(builder.AsSpan(), u'~') >= 0) ? TryExpandShortFileName(builder, path) : (MemoryExtensions::Equals(MemoryExtensions, builder.AsSpan(), MemoryExtensions::AsSpan(path), StringComparison::Ordinal) ? path : builder.ToString()));
   builder.Dispose();
   return result;
 }
@@ -33,7 +33,7 @@ String PathHelper::Normalize(ValueStringBuilder& path) {
   Span<Char> initialBuffer = as;
   ValueStringBuilder builder = ValueStringBuilder(initialBuffer);
   GetFullPathName(path.AsSpan(true), builder);
-  String result = ((MemoryExtensions::IndexOf(builder.AsSpan(), '~') >= 0) ? TryExpandShortFileName(builder, nullptr) : builder.ToString());
+  String result = ((MemoryExtensions::IndexOf(builder.AsSpan(), u'~') >= 0) ? TryExpandShortFileName(builder, nullptr) : builder.ToString());
   builder.Dispose();
   return result;
 }
@@ -77,12 +77,12 @@ String PathHelper::TryExpandShortFileName(ValueStringBuilder& outputBuilder, Str
   Boolean flag3 = false;
   if (flag) {
     buffer.Append(outputBuilder.AsSpan());
-    if (outputBuilder[2] == '.') {
+    if (outputBuilder[2] == u'.') {
       flag3 = true;
-      buffer[2] = '?';
+      buffer[2] = u'?';
     }
   } else {
-    flag2 = !PathInternal::IsDevice(outputBuilder.AsSpan()) && outputBuilder.get_Length() > 1 && outputBuilder[0] == '\\' && outputBuilder[1] == '\\';
+    flag2 = !PathInternal::IsDevice(outputBuilder.AsSpan()) && outputBuilder.get_Length() > 1 && outputBuilder[0] == u'\\' && outputBuilder[1] == u'\\';
     num = PrependDevicePathChars(outputBuilder, flag2, buffer);
   }
   rootLength += num;
@@ -91,8 +91,8 @@ String PathHelper::TryExpandShortFileName(ValueStringBuilder& outputBuilder, Str
   Int32 num2 = buffer.get_Length() - 1;
   while (!flag4) {
     UInt32 longPathNameW = Interop::Kernel32::GetLongPathNameW(buffer.GetPinnableReference(true), outputBuilder.GetPinnableReference(), (UInt32)outputBuilder.get_Capacity());
-    if (buffer[num2] == '\0') {
-      buffer[num2] = '\\';
+    if (buffer[num2] == u'\0') {
+      buffer[num2] = u'\\';
     }
     if (longPathNameW == 0) {
       Int32 lastWin32Error = Marshal::GetLastWin32Error();
@@ -100,13 +100,13 @@ String PathHelper::TryExpandShortFileName(ValueStringBuilder& outputBuilder, Str
         break;
       }
       num2--;
-      while (num2 > rootLength && buffer[num2] != '\\') {
+      while (num2 > rootLength && buffer[num2] != u'\\') {
         num2--;
       }
       if (num2 == rootLength) {
         break;
       }
-      buffer[num2] = '\0';
+      buffer[num2] = u'\0';
     } else if (longPathNameW > outputBuilder.get_Capacity()) {
       outputBuilder.EnsureCapacity((Int32)longPathNameW);
     } else {
@@ -120,10 +120,10 @@ String PathHelper::TryExpandShortFileName(ValueStringBuilder& outputBuilder, Str
   }
   ValueStringBuilder& reference = flag4 ? outputBuilder : buffer;
   if (flag3) {
-    reference[2] = '.';
+    reference[2] = u'.';
   }
   if (flag2) {
-    reference[6] = '\\';
+    reference[6] = u'\\';
   }
   ReadOnlySpan<Char> span = reference.AsSpan(num);
   String result = ((originalPath != nullptr && MemoryExtensions::Equals(MemoryExtensions, span, MemoryExtensions::AsSpan(originalPath), StringComparison::Ordinal)) ? originalPath : span.ToString());

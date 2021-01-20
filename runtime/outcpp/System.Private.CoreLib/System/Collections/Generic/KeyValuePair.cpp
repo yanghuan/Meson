@@ -11,7 +11,7 @@ String KeyValuePair<>::PairToString(Object key, Object value) {
   Char as[64] = {};
   Span<Char> initialBuffer = as;
   ValueStringBuilder valueStringBuilder = ValueStringBuilder(initialBuffer);
-  valueStringBuilder.Append('[');
+  valueStringBuilder.Append(u'[');
   if (key != nullptr) {
     valueStringBuilder.Append(key->ToString());
   }
@@ -19,7 +19,7 @@ String KeyValuePair<>::PairToString(Object key, Object value) {
   if (value != nullptr) {
     valueStringBuilder.Append(value->ToString());
   }
-  valueStringBuilder.Append(']');
+  valueStringBuilder.Append(u']');
   return valueStringBuilder.ToString();
 }
 

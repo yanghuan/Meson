@@ -330,7 +330,7 @@ IntPtr SecureString___::MarshalToString(Boolean globalAlloc, Boolean unicode) {
       if (unicode) {
         Span<Char> destination = Span<Char>((void*)intPtr, num / 2);
         span.CopyTo(destination);
-        destination[destination.get_Length() - 1] = '\0';
+        destination[destination.get_Length() - 1] = u'\0';
       } else {
         Marshal::GetAnsiStringBytes(span, Span<Byte>((void*)intPtr, num));
       }

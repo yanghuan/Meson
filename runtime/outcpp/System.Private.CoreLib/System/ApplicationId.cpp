@@ -49,20 +49,20 @@ String ApplicationId___::ToString() {
   if (Culture != nullptr) {
     stringBuilder.Append(", culture=\"");
     stringBuilder.Append(Culture);
-    stringBuilder.Append('"');
+    stringBuilder.Append(u'"');
   }
   stringBuilder.Append(", version=\"");
   stringBuilder.Append(Version->ToString());
-  stringBuilder.Append('"');
+  stringBuilder.Append(u'"');
   if (_publicKeyToken != nullptr) {
     stringBuilder.Append(", publicKeyToken=\"");
     EncodeHexString(_publicKeyToken, stringBuilder);
-    stringBuilder.Append('"');
+    stringBuilder.Append(u'"');
   }
   if (ProcessorArchitecture != nullptr) {
     stringBuilder.Append(", processorArchitecture =\"");
     stringBuilder.Append(ProcessorArchitecture);
-    stringBuilder.Append('"');
+    stringBuilder.Append(u'"');
   }
   return stringBuilder.ToString();
 }

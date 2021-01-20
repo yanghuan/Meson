@@ -75,7 +75,7 @@ String IdnMapping___::GetAscii(String unicode, Int32 index, Int32 count) {
   if (count == 0) {
     rt::throw_exception<ArgumentException>(SR::get_Argument_IdnBadLabelSize(), "unicode");
   }
-  if (unicode[index + count - 1] == '\0') {
+  if (unicode[index + count - 1] == u'\0') {
     rt::throw_exception<ArgumentException>(SR::Format(SR::get_Argument_InvalidCharSequence(), index + count - 1), "unicode");
   }
   if (GlobalizationMode::get_Invariant()) {
@@ -115,7 +115,7 @@ String IdnMapping___::GetUnicode(String ascii, Int32 index, Int32 count) {
   if (index > ascii->get_Length() - count) {
     rt::throw_exception<ArgumentOutOfRangeException>("ascii", SR::get_ArgumentOutOfRange_IndexCountBuffer());
   }
-  if (count > 0 && ascii[index + count - 1] == '\0') {
+  if (count > 0 && ascii[index + count - 1] == u'\0') {
     rt::throw_exception<ArgumentException>(SR::get_Argument_IdnBadPunycode(), "ascii");
   }
   if (GlobalizationMode::get_Invariant()) {
@@ -159,7 +159,7 @@ String IdnMapping___::GetAsciiInvariant(String unicode, Int32 index, Int32 count
   }
   String text = unicode;
   Int32 index2 = text->get_Length() - 1;
-  if (text[index2] <= '') {
+  if (text[index2] <= u'') {
     rt::throw_exception<ArgumentException>(SR::Format(SR::get_Argument_InvalidCharSequence(), unicode->get_Length() - 1), "unicode");
   }
   if (get_UseStd3AsciiRules()) {
@@ -174,10 +174,10 @@ Boolean IdnMapping___::ValidateStd3AndAscii(String unicode, Boolean bUseStd3, Bo
   }
   Int32 num = -1;
   for (Int32 i = 0; i < unicode->get_Length(); i++) {
-    if (unicode[i] <= '') {
+    if (unicode[i] <= u'') {
       rt::throw_exception<ArgumentException>(SR::Format(SR::get_Argument_InvalidCharSequence(), i), "unicode");
     }
-    if (bCheckAscii && unicode[i] >= '') {
+    if (bCheckAscii && unicode[i] >= u'') {
       return false;
     }
     if (IsDot(unicode[i])) {
@@ -275,7 +275,7 @@ String IdnMapping___::PunycodeEncode(String unicode) {
       }
       Int32 num7 = 0;
       if (num6 > 0) {
-        stringBuilder->Append((Char)'-');
+        stringBuilder->Append((Char)u'-');
       }
       Int32 num8 = 128;
       Int32 num9 = 0;
@@ -327,7 +327,7 @@ String IdnMapping___::PunycodeEncode(String unicode) {
       rt::throw_exception<ArgumentException>(SR::get_Argument_IdnBadLabelSize(), "unicode");
     }
     if (num != unicode->get_Length()) {
-      stringBuilder->Append((Char)'.');
+      stringBuilder->Append((Char)u'.');
     }
     num2 = num + 1;
     num3 = stringBuilder->set_Length();
@@ -343,8 +343,8 @@ String IdnMapping___::PunycodeEncode(String unicode) {
 }
 
 Boolean IdnMapping___::IsDot(Char c) {
-  if (c != '.' && c != '' && c != '') {
-    return c == 'a';
+  if (c != u'.' && c != u'。' && c != u'．') {
+    return c == u'｡';
   }
   return true;
 }
@@ -358,21 +358,21 @@ Boolean IdnMapping___::Basic(UInt32 cp) {
 }
 
 void IdnMapping___::ValidateStd3(Char c, Boolean bNextToDot) {
-  if (c > ',') {
+  if (c > u',') {
     switch (c.get()) {
       default:
-        if ((c < '[' || c > '`') && (c < '{' || c > '') && !(c == '-' && bNextToDot)) {
+        if ((c < u'[' || c > u'`') && (c < u'{' || c > u'') && !(c == u'-' && bNextToDot)) {
           return;
         }
         break;
-      case '/':
-      case ':':
-      case ';':
-      case '<':
-      case '=':
-      case '>':
-      case '?':
-      case '@':
+      case u'/':
+      case u':':
+      case u';':
+      case u'<':
+      case u'=':
+      case u'>':
+      case u'?':
+      case u'@':
         break;
     }
   }
@@ -406,7 +406,7 @@ String IdnMapping___::PunycodeDecode(String ascii) {
   Int32 num2 = 0;
   Int32 num3 = 0;
   while (num < ascii->get_Length()) {
-    num = ascii->IndexOf('.', num2);
+    num = ascii->IndexOf(u'.', num2);
     if (num < 0 || num > ascii->get_Length()) {
       num = ascii->get_Length();
     }
@@ -423,7 +423,7 @@ String IdnMapping___::PunycodeDecode(String ascii) {
       stringBuilder->Append(ascii, num2, num - num2);
     } else {
       num2 += "xn--"->get_Length();
-      Int32 num4 = ascii->LastIndexOf('-', num - 1);
+      Int32 num4 = ascii->LastIndexOf(u'-', num - 1);
       if (num4 == num - 1) {
         rt::throw_exception<ArgumentException>(SR::get_Argument_IdnBadPunycode(), "ascii");
       }
@@ -433,10 +433,10 @@ String IdnMapping___::PunycodeDecode(String ascii) {
       } else {
         num5 = num4 - num2;
         for (Int32 i = num2; i < num2 + num5; i++) {
-          if (ascii[i] > '') {
+          if (ascii[i] > u'') {
             rt::throw_exception<ArgumentException>(SR::get_Argument_IdnBadPunycode(), "ascii");
           }
-          stringBuilder->Append((Char)((ascii[i] >= 'A' && ascii[i] <= 'Z') ? (ascii[i] - 65 + 97) : ascii[i]));
+          stringBuilder->Append((Char)((ascii[i] >= u'A' && ascii[i] <= u'Z') ? (ascii[i] - 65 + 97) : ascii[i]));
         }
       }
       Int32 num6 = num2 + ((num5 > 0) ? (num5 + 1) : 0);
@@ -521,7 +521,7 @@ String IdnMapping___::PunycodeDecode(String ascii) {
       rt::throw_exception<ArgumentException>(SR::get_Argument_IdnBadLabelSize(), "ascii");
     }
     if (num != ascii->get_Length()) {
-      stringBuilder->Append((Char)'.');
+      stringBuilder->Append((Char)u'.');
     }
     num2 = num + 1;
     num3 = stringBuilder->set_Length();
@@ -533,13 +533,13 @@ String IdnMapping___::PunycodeDecode(String ascii) {
 }
 
 Int32 IdnMapping___::DecodeDigit(Char cp) {
-  if (cp >= '0' && cp <= '9') {
+  if (cp >= u'0' && cp <= u'9') {
     return cp - 48 + 26;
   }
-  if (cp >= 'a' && cp <= 'z') {
+  if (cp >= u'a' && cp <= u'z') {
     return cp - 97;
   }
-  if (cp >= 'A' && cp <= 'Z') {
+  if (cp >= u'A' && cp <= u'Z') {
     return cp - 65;
   }
   rt::throw_exception<ArgumentException>(SR::get_Argument_IdnBadPunycode(), "cp");
@@ -564,8 +564,8 @@ Char IdnMapping___::EncodeBasic(Char bcp) {
 }
 
 Boolean IdnMapping___::HasUpperCaseFlag(Char punychar) {
-  if (punychar >= 'A') {
-    return punychar <= 'Z';
+  if (punychar >= u'A') {
+    return punychar <= u'Z';
   }
   return false;
 }
@@ -644,7 +644,7 @@ void IdnMapping___::CheckInvalidIdnCharacters(Char* s, Int32 count, UInt32 flags
   }
   for (Int32 i = 0; i < count; i++) {
     Char c = *(s + i);
-    if (c <= '' || c == '') {
+    if (c <= u'' || c == u'') {
       rt::throw_exception<ArgumentException>(SR::get_Argument_IdnIllegalName(), paramName);
     }
   }

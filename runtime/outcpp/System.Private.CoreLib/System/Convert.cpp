@@ -437,14 +437,14 @@ Char Convert::ToChar(Object value) {
   if (value != nullptr) {
     return ((IConvertible)value)->ToChar(nullptr);
   }
-  return '\0';
+  return u'\0';
 }
 
 Char Convert::ToChar(Object value, IFormatProvider provider) {
   if (value != nullptr) {
     return ((IConvertible)value)->ToChar(provider);
   }
-  return '\0';
+  return u'\0';
 }
 
 Char Convert::ToChar(Boolean value) {
@@ -555,7 +555,7 @@ SByte Convert::ToSByte(SByte value) {
 }
 
 SByte Convert::ToSByte(Char value) {
-  if (value > '') {
+  if (value > u'') {
     ThrowSByteOverflowException();
   }
   return (SByte)value;
@@ -663,7 +663,7 @@ Byte Convert::ToByte(Byte value) {
 }
 
 Byte Convert::ToByte(Char value) {
-  if (value > 'ÿ') {
+  if (value > u'ÿ') {
     ThrowByteOverflowException();
   }
   return (Byte)value;
@@ -764,7 +764,7 @@ Int16 Convert::ToInt16(Boolean value) {
 }
 
 Int16 Convert::ToInt16(Char value) {
-  if (value > 'ÿ') {
+  if (value > u'翿') {
     ThrowInt16OverflowException();
   }
   return (Int16)value;
@@ -1934,28 +1934,28 @@ String Convert::ToString(Byte value, Int32 toBase) {
   if (toBase != 2 && toBase != 8 && toBase != 10 && toBase != 16) {
     rt::throw_exception<ArgumentException>(SR::get_Arg_InvalidBase());
   }
-  return ParseNumbers::IntToString(value, toBase, -1, ' ', 64);
+  return ParseNumbers::IntToString(value, toBase, -1, u' ', 64);
 }
 
 String Convert::ToString(Int16 value, Int32 toBase) {
   if (toBase != 2 && toBase != 8 && toBase != 10 && toBase != 16) {
     rt::throw_exception<ArgumentException>(SR::get_Arg_InvalidBase());
   }
-  return ParseNumbers::IntToString(value, toBase, -1, ' ', 128);
+  return ParseNumbers::IntToString(value, toBase, -1, u' ', 128);
 }
 
 String Convert::ToString(Int32 value, Int32 toBase) {
   if (toBase != 2 && toBase != 8 && toBase != 10 && toBase != 16) {
     rt::throw_exception<ArgumentException>(SR::get_Arg_InvalidBase());
   }
-  return ParseNumbers::IntToString(value, toBase, -1, ' ', 0);
+  return ParseNumbers::IntToString(value, toBase, -1, u' ', 0);
 }
 
 String Convert::ToString(Int64 value, Int32 toBase) {
   if (toBase != 2 && toBase != 8 && toBase != 10 && toBase != 16) {
     rt::throw_exception<ArgumentException>(SR::get_Arg_InvalidBase());
   }
-  return ParseNumbers::LongToString(value, toBase, -1, ' ', 0);
+  return ParseNumbers::LongToString(value, toBase, -1, u' ', 0);
 }
 
 String Convert::ToBase64String(Array<Byte> inArray) {
@@ -2094,8 +2094,8 @@ Int32 Convert::ConvertToBase64Array(Char* outChars, Byte* inData, Int32 offset, 
     for (i = offset; i < num2; i += 3) {
       if (insertLineBreaks) {
         if (num4 == 76) {
-          *(outChars + num3++) = '\r';
-          *(outChars + num3++) = '\n';
+          *(outChars + num3++) = u'\r';
+          *(outChars + num3++) = u'\n';
           num4 = 0;
         }
         num4 += 4;
@@ -2108,8 +2108,8 @@ Int32 Convert::ConvertToBase64Array(Char* outChars, Byte* inData, Int32 offset, 
     }
     i = num2;
     if (insertLineBreaks && num != 0 && num4 == 76) {
-      *(outChars + num3++) = '\r';
-      *(outChars + num3++) = '\n';
+      *(outChars + num3++) = u'\r';
+      *(outChars + num3++) = u'\n';
     }
     switch (num.get()) {
       case 2:
@@ -2240,8 +2240,8 @@ void Convert::CopyToTempBufferWithoutWhiteSpace(ReadOnlySpan<Char> chars, Span<C
 }
 
 Boolean Convert::IsSpace(Char c) {
-  if (c != ' ' && c != '	' && c != '\r') {
-    return c == '\n';
+  if (c != u' ' && c != u'	' && c != u'\r') {
+    return c == u'\n';
   }
   return true;
 }

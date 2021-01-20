@@ -11,7 +11,7 @@ HebrewNumber::HebrewValue::HebrewValue(HebrewToken token, Int16 value) {
 
 void HebrewNumber::Append(StringBuilder outputBuffer, Int32 Number) {
   Int32 length = outputBuffer->get_Length();
-  Char c = '\0';
+  Char c = u'\0';
   if (Number > 5000) {
     Number -= 5000;
   }
@@ -19,7 +19,7 @@ void HebrewNumber::Append(StringBuilder outputBuffer, Int32 Number) {
   if (num > 0) {
     Number -= num * 100;
     for (Int32 i = 0; i < num / 4; i++) {
-      outputBuffer->Append((Char)'ê');
+      outputBuffer->Append((Char)u'ת');
     }
     Int32 num2 = num % 4;
     if (num2 > 0) {
@@ -30,44 +30,44 @@ void HebrewNumber::Append(StringBuilder outputBuffer, Int32 Number) {
   Number %= 10;
   switch (num3.get()) {
     case 0:
-      c = '\0';
+      c = u'\0';
       break;
     case 1:
-      c = 'Ù';
+      c = u'י';
       break;
     case 2:
-      c = 'Û';
+      c = u'כ';
       break;
     case 3:
-      c = 'Ü';
+      c = u'ל';
       break;
     case 4:
-      c = 'Þ';
+      c = u'מ';
       break;
     case 5:
-      c = 'à';
+      c = u'נ';
       break;
     case 6:
-      c = 'á';
+      c = u'ס';
       break;
     case 7:
-      c = 'â';
+      c = u'ע';
       break;
     case 8:
-      c = 'ä';
+      c = u'פ';
       break;
     case 9:
-      c = 'æ';
+      c = u'צ';
       break;
   }
   Char c2 = (Char)((Number > 0) ? (1488 + Number - 1) : 0);
-  if (c2 == 'Ô' && c == 'Ù') {
-    c2 = 'Õ';
-    c = 'Ø';
+  if (c2 == u'ה' && c == u'י') {
+    c2 = u'ו';
+    c = u'ט';
   }
-  if (c2 == 'Õ' && c == 'Ù') {
-    c2 = 'Ö';
-    c = 'Ø';
+  if (c2 == u'ו' && c == u'י') {
+    c2 = u'ז';
+    c = u'ט';
   }
   if (c != 0) {
     outputBuffer->Append(c);
@@ -76,19 +76,19 @@ void HebrewNumber::Append(StringBuilder outputBuffer, Int32 Number) {
     outputBuffer->Append(c2);
   }
   if (outputBuffer->get_Length() - length > 1) {
-    outputBuffer->Insert(outputBuffer->get_Length() - 1, (Char)'"');
+    outputBuffer->Insert(outputBuffer->get_Length() - 1, (Char)u'"');
   } else {
-    outputBuffer->Append((Char)'\'');
+    outputBuffer->Append((Char)u'\'');
   }
 }
 
 HebrewNumberParsingState HebrewNumber::ParseByChar(Char ch, HebrewNumberParsingContext& context) {
   HebrewToken hebrewToken;
   switch (ch.get()) {
-    case '\'':
+    case u'\'':
       hebrewToken = HebrewToken::SingleQuote;
       break;
-    case '"':
+    case u'"':
       hebrewToken = HebrewToken::DoubleQuote;
       break;
     default:
@@ -115,11 +115,11 @@ HebrewNumberParsingState HebrewNumber::ParseByChar(Char ch, HebrewNumberParsingC
 }
 
 Boolean HebrewNumber::IsDigit(Char ch) {
-  if (ch >= 'Ð' && ch <= s_maxHebrewNumberCh) {
+  if (ch >= u'א' && ch <= s_maxHebrewNumberCh) {
     return s_hebrewValues[ch - 1488].value >= 0;
   }
-  if (ch != '\'') {
-    return ch == '"';
+  if (ch != u'\'') {
+    return ch == u'"';
   }
   return true;
 }

@@ -33,7 +33,7 @@ void Path::__c___::_GetRandomFileName_b__16_0(Span<Char> span, IntPtr key) {
 void Path::__c___::_JoinInternal_b__37_0(Span<Char> destination, ValueTuple<IntPtr, Int32, IntPtr, Int32, Boolean> state) {
   Span<Char>((void*)state.Item1, state.Item2).CopyTo(destination);
   if (!state.Item5) {
-    destination[state.Item2] = '\\';
+    destination[state.Item2] = u'\\';
   }
   Span<Char>((void*)state.Item3, state.Item4).CopyTo(destination.Slice(state.Item2 + ((!state.Item5) ? 1 : 0)));
 }
@@ -41,11 +41,11 @@ void Path::__c___::_JoinInternal_b__37_0(Span<Char> destination, ValueTuple<IntP
 void Path::__c___::_JoinInternal_b__38_0(Span<Char> destination, ValueTuple<IntPtr, Int32, IntPtr, Int32, IntPtr, Int32, Boolean, Boolean> state) {
   Span<Char>((void*)state.Item1, state.Item2).CopyTo(destination);
   if (!state.Item7) {
-    destination[state.Item2] = '\\';
+    destination[state.Item2] = u'\\';
   }
   Span<Char>((void*)state.Item3, state.Item4).CopyTo(destination.Slice(state.Item2 + ((!state.Item7) ? 1 : 0)));
   if (!state.Rest.Item1) {
-    destination[destination.get_Length() - state.Item6 - 1] = '\\';
+    destination[destination.get_Length() - state.Item6 - 1] = u'\\';
   }
   Span<Char>((void*)state.Item5, state.Item6).CopyTo(destination.Slice(destination.get_Length() - state.Item6));
 }
@@ -53,15 +53,15 @@ void Path::__c___::_JoinInternal_b__38_0(Span<Char> destination, ValueTuple<IntP
 void Path::__c___::_JoinInternal_b__39_0(Span<Char> destination, ValueTuple<IntPtr, Int32, IntPtr, Int32, IntPtr, Int32, IntPtr, ValueTuple<Int32, Boolean, Boolean, Boolean>> state) {
   Span<Char>((void*)state.Item1, state.Item2).CopyTo(destination);
   if (!state.Rest.Item2) {
-    destination[state.Item2] = '\\';
+    destination[state.Item2] = u'\\';
   }
   Span<Char>((void*)state.Item3, state.Item4).CopyTo(destination.Slice(state.Item2 + ((!state.Rest.Item2) ? 1 : 0)));
   if (!state.Rest.Item3) {
-    destination[state.Item2 + state.Item4 + ((!state.Rest.Item2) ? 1 : 0)] = '\\';
+    destination[state.Item2 + state.Item4 + ((!state.Rest.Item2) ? 1 : 0)] = u'\\';
   }
   Span<Char>((void*)state.Item5, state.Item6).CopyTo(destination.Slice(state.Item2 + state.Item4 + ((!state.Rest.Item2) ? 1 : 0) + ((!state.Rest.Item3) ? 1 : 0)));
   if (!state.Rest.Item4) {
-    destination[destination.get_Length() - state.Rest.Item1 - 1] = '\\';
+    destination[destination.get_Length() - state.Rest.Item1 - 1] = u'\\';
   }
   Span<Char>((void*)state.Item7, state.Rest.Item1).CopyTo(destination.Slice(destination.get_Length() - state.Rest.Item1));
 }
@@ -89,7 +89,7 @@ String Path::ChangeExtension(String path, String extension) {
   }
   for (Int32 num2 = path->get_Length() - 1; num2 >= 0; num2--) {
     Char c = path[num2];
-    if (c == '.') {
+    if (c == u'.') {
       num = num2;
       break;
     }
@@ -101,7 +101,7 @@ String Path::ChangeExtension(String path, String extension) {
     return path->Substring(0, num);
   }
   ReadOnlySpan<Char> str = MemoryExtensions::AsSpan(path, 0, num);
-  if (!extension->StartsWith('.')) {
+  if (!extension->StartsWith(u'.')) {
     return String::in::Concat(str, ".", extension);
   }
   return String::in::Concat(str, extension);
@@ -154,7 +154,7 @@ ReadOnlySpan<Char> Path::GetExtension(ReadOnlySpan<Char> path) {
   Int32 length = path.get_Length();
   for (Int32 num = length - 1; num >= 0; num--) {
     Char c = path[num];
-    if (c == '.') {
+    if (c == u'.') {
       if (num != length - 1) {
         return path.Slice(num, length - num);
       }
@@ -202,7 +202,7 @@ String Path::GetFileNameWithoutExtension(String path) {
 
 ReadOnlySpan<Char> Path::GetFileNameWithoutExtension(ReadOnlySpan<Char> path) {
   ReadOnlySpan<Char> fileName = GetFileName(path);
-  Int32 num = MemoryExtensions::LastIndexOf(fileName, '.');
+  Int32 num = MemoryExtensions::LastIndexOf(fileName, u'.');
   if (num != -1) {
     return fileName.Slice(0, num);
   }
@@ -238,7 +238,7 @@ Boolean Path::HasExtension(String path) {
 Boolean Path::HasExtension(ReadOnlySpan<Char> path) {
   for (Int32 num = path.get_Length() - 1; num >= 0; num--) {
     Char c = path[num];
-    if (c == '.') {
+    if (c == u'.') {
       return num != path.get_Length() - 1;
     }
     if (PathInternal::IsDirectorySeparator(c)) {
@@ -306,7 +306,7 @@ String Path::Combine(Array<String> paths) {
     }
     Char c2 = valueStringBuilder[valueStringBuilder.get_Length() - 1];
     if (!PathInternal::IsDirectorySeparator(c2)) {
-      valueStringBuilder.Append('\\');
+      valueStringBuilder.Append(u'\\');
     }
     valueStringBuilder.Append(paths[j]);
   }
@@ -389,7 +389,7 @@ String Path::Join(Array<String> paths) {
       continue;
     }
     if (!PathInternal::IsDirectorySeparator(valueStringBuilder[valueStringBuilder.get_Length() - 1]) && !PathInternal::IsDirectorySeparator(text2[0])) {
-      valueStringBuilder.Append('\\');
+      valueStringBuilder.Append(u'\\');
     }
     valueStringBuilder.Append(text2);
   }
@@ -583,7 +583,7 @@ void Path::Populate83FileNameFromRandomBytes(Byte* bytes, Int32 byteCount, Span<
     b3 = (Byte)(b3 | 16u);
   }
   chars[7] = (Char)get_Base32Char()[b3];
-  chars[8] = '.';
+  chars[8] = u'.';
   chars[9] = (Char)get_Base32Char()[bytes[5] & 31];
   chars[10] = (Char)get_Base32Char()[bytes[6] & 31];
 }
@@ -686,7 +686,7 @@ String Path::GetFullPath(String path) {
   if (PathInternal::IsEffectivelyEmpty(MemoryExtensions::AsSpan(path))) {
     rt::throw_exception<ArgumentException>(SR::get_Arg_PathEmpty(), "path");
   }
-  if (path->Contains('\0')) {
+  if (path->Contains(u'\0')) {
     rt::throw_exception<ArgumentException>(SR::get_Argument_InvalidPathChars(), "path");
   }
   if (PathInternal::IsExtended(MemoryExtensions::AsSpan(path))) {
@@ -705,7 +705,7 @@ String Path::GetFullPath(String path, String basePath) {
   if (!IsPathFullyQualified(basePath)) {
     rt::throw_exception<ArgumentException>(SR::get_Arg_BasePathNotFullyQualified(), "basePath");
   }
-  if (basePath->Contains('\0') || path->Contains('\0')) {
+  if (basePath->Contains(u'\0') || path->Contains(u'\0')) {
     rt::throw_exception<ArgumentException>(SR::get_Argument_InvalidPathChars());
   }
   if (IsPathFullyQualified(path)) {
@@ -715,7 +715,7 @@ String Path::GetFullPath(String path, String basePath) {
     return basePath;
   }
   Int32 length = path->get_Length();
-  String text = ((length >= 1 && PathInternal::IsDirectorySeparator(path[0])) ? Join(GetPathRoot(MemoryExtensions::AsSpan(basePath)), MemoryExtensions::AsSpan(path, 1)) : ((length < 2 || !PathInternal::IsValidDriveChar(path[0]) || path[1] != ':') ? JoinInternal(MemoryExtensions::AsSpan(basePath), MemoryExtensions::AsSpan(path)) : ((!MemoryExtensions::EqualsOrdinal(GetVolumeName(MemoryExtensions::AsSpan(path)), GetVolumeName(MemoryExtensions::AsSpan(basePath)))) ? ((!PathInternal::IsDevice(MemoryExtensions::AsSpan(basePath))) ? path->Insert(2, "\\") : ((length == 2) ? JoinInternal(MemoryExtensions::AsSpan(basePath, 0, 4), MemoryExtensions::AsSpan(path), MemoryExtensions::AsSpan("\\")) : JoinInternal(MemoryExtensions::AsSpan(basePath, 0, 4), MemoryExtensions::AsSpan(path, 0, 2), MemoryExtensions::AsSpan("\\"), MemoryExtensions::AsSpan(path, 2)))) : Join(MemoryExtensions::AsSpan(basePath), MemoryExtensions::AsSpan(path, 2)))));
+  String text = ((length >= 1 && PathInternal::IsDirectorySeparator(path[0])) ? Join(GetPathRoot(MemoryExtensions::AsSpan(basePath)), MemoryExtensions::AsSpan(path, 1)) : ((length < 2 || !PathInternal::IsValidDriveChar(path[0]) || path[1] != u':') ? JoinInternal(MemoryExtensions::AsSpan(basePath), MemoryExtensions::AsSpan(path)) : ((!MemoryExtensions::EqualsOrdinal(GetVolumeName(MemoryExtensions::AsSpan(path)), GetVolumeName(MemoryExtensions::AsSpan(basePath)))) ? ((!PathInternal::IsDevice(MemoryExtensions::AsSpan(basePath))) ? path->Insert(2, "\\") : ((length == 2) ? JoinInternal(MemoryExtensions::AsSpan(basePath, 0, 4), MemoryExtensions::AsSpan(path), MemoryExtensions::AsSpan("\\")) : JoinInternal(MemoryExtensions::AsSpan(basePath, 0, 4), MemoryExtensions::AsSpan(path, 0, 2), MemoryExtensions::AsSpan("\\"), MemoryExtensions::AsSpan(path, 2)))) : Join(MemoryExtensions::AsSpan(basePath), MemoryExtensions::AsSpan(path, 2)))));
   if (!PathInternal::IsDevice(MemoryExtensions::AsSpan(text))) {
     return GetFullPath(text);
   }
@@ -756,7 +756,7 @@ String Path::GetTempFileName() {
   if (tempFileNameW == 0) {
     rt::throw_exception(Win32Marshal::GetExceptionForLastWin32Error());
   }
-  path.set_Length(MemoryExtensions::IndexOf(path.get_RawChars(), '\0'));
+  path.set_Length(MemoryExtensions::IndexOf(path.get_RawChars(), u'\0'));
   String result = PathHelper::Normalize(path);
   path.Dispose();
   return result;
@@ -773,7 +773,7 @@ Boolean Path::IsPathRooted(ReadOnlySpan<Char> path) {
   Int32 length = path.get_Length();
   if (length < 1 || !PathInternal::IsDirectorySeparator(path[0])) {
     if (length >= 2 && PathInternal::IsValidDriveChar(path[0])) {
-      return path[1] == ':';
+      return path[1] == u':';
     }
     return false;
   }
@@ -830,10 +830,10 @@ Int32 Path::GetUncRootLength(ReadOnlySpan<Char> path) {
 }
 
 void Path::cctor() {
-  DirectorySeparatorChar = '\\';
-  AltDirectorySeparatorChar = '/';
-  VolumeSeparatorChar = ':';
-  PathSeparator = ';';
+  DirectorySeparatorChar = u'\\';
+  AltDirectorySeparatorChar = u'/';
+  VolumeSeparatorChar = u':';
+  PathSeparator = u';';
   InvalidPathChars = GetInvalidPathChars();
 }
 

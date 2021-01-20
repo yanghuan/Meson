@@ -94,7 +94,7 @@ String Index::ToStringFromEnd() {
   Span<Char> span = as;
   Int32 charsWritten;
   Boolean flag = ((UInt32)get_Value()).TryFormat(span.Slice(1), charsWritten);
-  span[0] = '^';
+  span[0] = u'^';
   return rt::newstr<String>(span.Slice(0, charsWritten + 1));
 }
 

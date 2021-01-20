@@ -86,7 +86,7 @@ Char Char::Parse(String s) {
 }
 
 Boolean Char::TryParse(String s, Char& result) {
-  result = '\0';
+  result = u'\0';
   if (s == nullptr) {
     return false;
   }
@@ -99,7 +99,7 @@ Boolean Char::TryParse(String s, Char& result) {
 
 Boolean Char::IsDigit(Char c) {
   if (IsLatin1(c)) {
-    return IsInRange(c, '0', '9');
+    return IsInRange(c, u'0', u'9');
   }
   return CharUnicodeInfo::GetUnicodeCategory(c) == UnicodeCategory::DecimalDigitNumber;
 }
@@ -290,7 +290,7 @@ Boolean Char::IsDigit(String s, Int32 index) {
   }
   Char c = s[index];
   if (IsLatin1(c)) {
-    return IsInRange(c, '0', '9');
+    return IsInRange(c, u'0', u'9');
   }
   return CharUnicodeInfo::GetUnicodeCategoryInternal(s, index) == UnicodeCategory::DecimalDigitNumber;
 }
@@ -344,7 +344,7 @@ Boolean Char::CheckNumber(UnicodeCategory uc) {
 Boolean Char::IsNumber(Char c) {
   if (IsLatin1(c)) {
     if (IsAscii(c)) {
-      return IsInRange(c, '0', '9');
+      return IsInRange(c, u'0', u'9');
     }
     return CheckNumber(GetLatin1UnicodeCategory(c));
   }
@@ -361,7 +361,7 @@ Boolean Char::IsNumber(String s, Int32 index) {
   Char c = s[index];
   if (IsLatin1(c)) {
     if (IsAscii(c)) {
-      return IsInRange(c, '0', '9');
+      return IsInRange(c, u'0', u'9');
     }
     return CheckNumber(GetLatin1UnicodeCategory(c));
   }
@@ -387,8 +387,8 @@ Boolean Char::CheckSeparator(UnicodeCategory uc) {
 }
 
 Boolean Char::IsSeparatorLatin1(Char c) {
-  if (c != ' ') {
-    return c == ' ';
+  if (c != u' ') {
+    return c == u' ';
   }
   return true;
 }
@@ -415,7 +415,7 @@ Boolean Char::IsSeparator(String s, Int32 index) {
 }
 
 Boolean Char::IsSurrogate(Char c) {
-  return IsInRange(c, '\0', 'ÿ');
+  return IsInRange(c, u'�', u'�');
 }
 
 Boolean Char::IsSurrogate(String s, Int32 index) {
@@ -512,7 +512,7 @@ Double Char::GetNumericValue(String s, Int32 index) {
 }
 
 Boolean Char::IsHighSurrogate(Char c) {
-  return IsInRange(c, '\0', 'ÿ');
+  return IsInRange(c, u'�', u'�');
 }
 
 Boolean Char::IsHighSurrogate(String s, Int32 index) {
@@ -526,7 +526,7 @@ Boolean Char::IsHighSurrogate(String s, Int32 index) {
 }
 
 Boolean Char::IsLowSurrogate(Char c) {
-  return IsInRange(c, '\0', 'ÿ');
+  return IsInRange(c, u'�', u'�');
 }
 
 Boolean Char::IsLowSurrogate(String s, Int32 index) {

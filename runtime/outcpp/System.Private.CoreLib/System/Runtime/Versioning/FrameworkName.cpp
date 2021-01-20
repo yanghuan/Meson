@@ -82,7 +82,7 @@ void FrameworkName___::ctor(String frameworkName) {
   if (frameworkName->get_Length() == 0) {
     rt::throw_exception<ArgumentException>(SR::Format(SR::get_net_emptystringcall(), "frameworkName"), "frameworkName");
   }
-  Array<String> array = frameworkName->Split(',');
+  Array<String> array = frameworkName->Split(u',');
   if (array->get_Length() < 2 || array->get_Length() > 3) {
     rt::throw_exception<ArgumentException>(SR::get_Argument_FrameworkNameTooShort(), "frameworkName");
   }
@@ -94,15 +94,15 @@ void FrameworkName___::ctor(String frameworkName) {
   _profile = String::in::Empty;
   for (Int32 i = 1; i < array->get_Length(); i++) {
     String text = array[i];
-    Int32 num = text->IndexOf('=');
-    if (num == -1 || num != text->LastIndexOf('=')) {
+    Int32 num = text->IndexOf(u'=');
+    if (num == -1 || num != text->LastIndexOf(u'=')) {
       rt::throw_exception<ArgumentException>(SR::get_Argument_FrameworkNameInvalid(), "frameworkName");
     }
     ReadOnlySpan<Char> span = MemoryExtensions::Trim(MemoryExtensions::AsSpan(text, 0, num));
     ReadOnlySpan<Char> input = MemoryExtensions::Trim(MemoryExtensions::AsSpan(text, num + 1));
     if (MemoryExtensions::Equals(MemoryExtensions, span, "Version", StringComparison::OrdinalIgnoreCase)) {
       flag = true;
-      if (input.get_Length() > 0 && (input[0] == 'v' || input[0] == 'V')) {
+      if (input.get_Length() > 0 && (input[0] == u'v' || input[0] == u'V')) {
         input = input.Slice(1);
       }
       try {

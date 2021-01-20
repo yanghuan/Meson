@@ -28,7 +28,7 @@ Boolean EncoderExceptionFallbackBuffer___::Fallback(Char charUnknownHigh, Char c
 }
 
 Char EncoderExceptionFallbackBuffer___::GetNextChar() {
-  return '\0';
+  return u'\0';
 }
 
 Boolean EncoderExceptionFallbackBuffer___::MovePrevious() {
