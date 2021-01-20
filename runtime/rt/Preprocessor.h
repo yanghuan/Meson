@@ -38,14 +38,14 @@
 #define CLASS_VOID_OP(s, d, e) class e = void
 #define TEMPLATE_VOID(seq) (template<BOOST_PP_SEQ_ENUM(BOOST_PP_SEQ_TRANSFORM(CLASS_VOID_OP, _, seq))>)
 
-#define CLASS_MULTI_FORWARD__(n, name, T, seq) \
-  BOOST_PP_TUPLE_ENUM(T)\
-  class name {};\
-  BOOST_PP_TUPLE_ENUM(T)\
-  using n = rt::ref<name<BOOST_PP_SEQ_ENUM(seq)>>;
+#define CLASS_MULTI_FORWARD__(n, name) \
+  template <class... T>\
+  class name { static_cast(false); };\
+  template <class... T>\
+  using n = rt::ref<name<T...>>;
 
-#define CLASS_MULTI_FORWARD_(n, name, seq) CLASS_MULTI_FORWARD__(n, name, TEMPLATE_VOID(seq), seq)
-#define CLASS_FORWARD(name, ...) CLASS_MULTI_FORWARD_(name, NAME_(name, _, _), BOOST_PP_VARIADIC_TO_SEQ(__VA_ARGS__))
+#define CLASS_MULTI_FORWARD_(n, name) CLASS_MULTI_FORWARD__(n, name)
+#define CLASS_FORWARD(name) CLASS_MULTI_FORWARD_(name, NAME_(name, _, _))
 
 #define CLASS_MULTI0(name) \
   template <> \
@@ -98,12 +98,12 @@
 #define FORWARDNX(...) BOOST_PP_IF(BOOST_PP_EQUAL(BOOST_PP_VARIADIC_SIZE(__VA_ARGS__), 1), FORWARDN00_, FORWARDN11_)
 #define FORWARDN(...) FORWARDNX(__VA_ARGS__)(BOOST_PP_VARIADIC_TO_SEQ(__VA_ARGS__))
 
-#define FORWARD_MULTI(n, name, seq, ns) \
-  namespace ns{BOOST_PP_TUPLE_ENUM(TEMPLATE(seq)) class name;}\
-  BOOST_PP_TUPLE_ENUM(TEMPLATE_VOID(seq))\
-  using n = rt::ref<ns::name<BOOST_PP_SEQ_ENUM(seq)>>;
+#define FORWARD_MULTI(n, name, ns) \
+  namespace ns{template<class ...T> class name;}\
+  template<class ...T>\
+  using n = rt::ref<ns::name<T...>>;
 
-#define FORWARD_(name, ...) FORWARD_MULTI(name, NAME(name), BOOST_PP_VARIADIC_TO_SEQ(__VA_ARGS__), BOOST_PP_CAT(name, Namespace))
+#define FORWARD_(name, ...) FORWARD_MULTI(name, NAME(name), BOOST_PP_CAT(name, Namespace))
 
 #define FORWARDN_MULTI(n, name, seq) \
   BOOST_PP_TUPLE_ENUM(TEMPLATE(seq))\
@@ -131,12 +131,12 @@
 #define FORWARDSX(...) BOOST_PP_IF(BOOST_PP_EQUAL(BOOST_PP_VARIADIC_SIZE(__VA_ARGS__), 1), FORWARDS00_, FORWARDS11_)
 #define FORWARDS(...) FORWARDSX(__VA_ARGS__)(BOOST_PP_VARIADIC_TO_SEQ(__VA_ARGS__))
 
-#define FORWARDS_MULTI(n, name, seq, ns) \
-  namespace ns{BOOST_PP_TUPLE_ENUM(TEMPLATE(seq)) struct name;}\
-  BOOST_PP_TUPLE_ENUM(TEMPLATE_VOID(seq))\
-  using n = ns::name<BOOST_PP_SEQ_ENUM(seq)>;
+#define FORWARDS_MULTI(n, name, ns) \
+  namespace ns{template<class ...T> struct name;}\
+  template<class ...T>\
+  using n = ns::name<T...>;
 
-#define FORWARDS_(name, ...) FORWARDS_MULTI(name, name, BOOST_PP_VARIADIC_TO_SEQ(__VA_ARGS__), BOOST_PP_CAT(name, Namespace))
+#define FORWARDS_(name, ...) FORWARDS_MULTI(name, name, BOOST_PP_CAT(name, Namespace))
 
 
 #define FRIENDNS0_(name) \

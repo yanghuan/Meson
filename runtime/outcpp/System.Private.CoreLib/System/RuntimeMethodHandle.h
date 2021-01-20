@@ -25,7 +25,7 @@ FORWARD(RuntimeMethodBody)
 } // namespace System::Private::CoreLib::System::Reflection
 namespace System::Private::CoreLib::System {
 enum class TypeNameFormatFlags : int32_t;
-FORWARD_(Array, T1, T2)
+FORWARD_(Array)
 FORWARDS(Boolean)
 FORWARDS(Int32)
 FORWARDS(IntPtr)

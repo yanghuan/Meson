@@ -6,7 +6,7 @@ namespace System::Private::CoreLib::System {
 FORWARDS(Boolean)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Threading::Tasks {
-FORWARD_(Task, T1, T2)
+FORWARD_(Task)
 namespace ITaskCompletionActionNamespace {
 CLASS(ITaskCompletionAction) : public object {
   public: Boolean get_InvokeMayRunArbitraryCode();

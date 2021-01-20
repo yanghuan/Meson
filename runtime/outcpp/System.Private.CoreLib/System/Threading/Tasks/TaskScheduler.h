@@ -7,15 +7,15 @@ namespace System::Private::CoreLib::System::Collections::Generic {
 FORWARD(IEnumerable, T)
 } // namespace System::Private::CoreLib::System::Collections::Generic
 namespace System::Private::CoreLib::System {
-FORWARD_(Array, T1, T2)
+FORWARD_(Array)
 FORWARDS(Boolean)
-FORWARD_(EventHandler, T1, T2)
+FORWARD_(EventHandler)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Runtime::CompilerServices {
 FORWARD(ConditionalWeakTable, TKey, TValue)
 } // namespace System::Private::CoreLib::System::Runtime::CompilerServices
 namespace System::Private::CoreLib::System::Threading::Tasks {
-FORWARD_(Task, T1, T2)
+FORWARD_(Task)
 FORWARD(UnobservedTaskExceptionEventArgs)
 namespace TaskSchedulerNamespace {
 using namespace System::Collections::Generic;

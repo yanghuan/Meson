@@ -4,7 +4,7 @@
 
 namespace System::Private::CoreLib::System {
 enum class MidpointRounding : int32_t;
-FORWARD_(Array, T1, T2)
+FORWARD_(Array)
 FORWARDS(Int32)
 namespace MathFNamespace {
 class MathF {

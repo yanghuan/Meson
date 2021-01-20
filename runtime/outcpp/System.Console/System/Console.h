@@ -11,7 +11,7 @@ namespace System::Private::CoreLib::System::Text {
 FORWARD(Encoding)
 } // namespace System::Private::CoreLib::System::Text
 namespace System::Private::CoreLib::System {
-FORWARD_(Array, T1, T2)
+FORWARD_(Array)
 FORWARDS(Boolean)
 FORWARDS(Char)
 FORWARDS(Decimal)
@@ -23,7 +23,7 @@ FORWARDS(Single)
 FORWARD(String)
 FORWARDS(UInt32)
 FORWARDS(UInt64)
-FORWARDS_(ValueTuple, T1, T2, T3, T4, T5, T6, T7, T8, T9)
+FORWARDS_(ValueTuple)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Runtime::CompilerServices {
 FORWARD(StrongBox, T)

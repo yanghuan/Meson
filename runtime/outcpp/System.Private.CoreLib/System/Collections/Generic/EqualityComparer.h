@@ -6,7 +6,7 @@ namespace System::Private::CoreLib::System::Collections {
 FORWARD(IEqualityComparer)
 } // namespace System::Private::CoreLib::System::Collections
 namespace System::Private::CoreLib::System {
-FORWARD_(Array, T1, T2)
+FORWARD_(Array)
 FORWARDS(Boolean)
 FORWARDS(Int32)
 } // namespace System::Private::CoreLib::System

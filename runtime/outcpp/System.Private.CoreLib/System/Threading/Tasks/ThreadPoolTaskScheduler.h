@@ -20,7 +20,7 @@ namespace System::Private::CoreLib::System::Threading {
 FORWARD(ParameterizedThreadStart)
 } // namespace System::Private::CoreLib::System::Threading
 namespace System::Private::CoreLib::System::Threading::Tasks {
-FORWARD_(Task, T1, T2)
+FORWARD_(Task)
 namespace ThreadPoolTaskSchedulerNamespace {
 using namespace System::Collections;
 using namespace System::Collections::Generic;

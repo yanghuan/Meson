@@ -14,7 +14,7 @@ FORWARD(RuntimeMethodInfo)
 } // namespace System::Private::CoreLib::System::Reflection
 namespace System::Private::CoreLib::System {
 enum class DelegateBindingFlags : int32_t;
-FORWARD_(Array, T1, T2)
+FORWARD_(Array)
 FORWARDS(Boolean)
 FORWARD(ICloneable)
 FORWARDS(Int32)

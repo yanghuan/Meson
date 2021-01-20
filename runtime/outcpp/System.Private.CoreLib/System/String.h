@@ -32,7 +32,7 @@ FORWARD(SpanAction, T, TArg)
 namespace System::Private::CoreLib::System {
 enum class StringComparison : int32_t;
 enum class TypeCode : int32_t;
-FORWARD_(Array, T1, T2)
+FORWARD_(Array)
 FORWARDS(Boolean)
 FORWARDS(Byte)
 FORWARD(CharEnumerator)
@@ -40,7 +40,7 @@ FORWARDS(DateTime)
 FORWARDS(Decimal)
 FORWARDS(Double)
 FORWARD(ICloneable)
-FORWARD_(IComparable, T1, T2)
+FORWARD_(IComparable)
 FORWARD(IConvertible)
 FORWARD(IEquatable, T)
 FORWARD(IFormatProvider)

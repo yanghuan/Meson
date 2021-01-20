@@ -7,7 +7,7 @@ enum class ContractFailureKind : int32_t;
 FORWARD(ContractFailedEventArgs)
 } // namespace System::Private::CoreLib::System::Diagnostics::Contracts
 namespace System::Private::CoreLib::System {
-FORWARD_(EventHandler, T1, T2)
+FORWARD_(EventHandler)
 FORWARD(Exception)
 FORWARD(String)
 } // namespace System::Private::CoreLib::System

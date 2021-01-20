@@ -15,14 +15,14 @@ FORWARDS(StreamingContext)
 namespace System::Private::CoreLib::System {
 enum class MidpointRounding : int32_t;
 enum class TypeCode : int32_t;
-FORWARD_(Array, T1, T2)
+FORWARD_(Array)
 FORWARDS(Boolean)
 FORWARDS(Byte)
 FORWARDS(Char)
 FORWARDS(Currency)
 FORWARDS(DateTime)
 FORWARDS(Double)
-FORWARD_(IComparable, T1, T2)
+FORWARD_(IComparable)
 FORWARD(IConvertible)
 FORWARD(IEquatable, T)
 FORWARD(IFormatProvider)

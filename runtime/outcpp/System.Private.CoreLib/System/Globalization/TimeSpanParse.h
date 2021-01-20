@@ -9,10 +9,10 @@
 #include <System.Private.CoreLib/System/ValueType.h>
 
 namespace System::Private::CoreLib::System {
-FORWARD_(Array, T1, T2)
+FORWARD_(Array)
 FORWARD(IFormatProvider)
 FORWARDS(Int64)
-FORWARDS_(Nullable, T1, T2)
+FORWARDS_(Nullable)
 FORWARD(String)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Text {

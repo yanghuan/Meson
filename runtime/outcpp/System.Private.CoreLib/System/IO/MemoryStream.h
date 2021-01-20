@@ -5,7 +5,7 @@
 #include <System.Private.CoreLib/System/IO/Stream.h>
 
 namespace System::Private::CoreLib::System {
-FORWARD_(Array, T1, T2)
+FORWARD_(Array)
 FORWARDS(ArraySegment, T)
 FORWARDS(Byte)
 FORWARDS(Int64)
@@ -18,8 +18,8 @@ namespace System::Private::CoreLib::System::Threading {
 FORWARDS(CancellationToken)
 } // namespace System::Private::CoreLib::System::Threading
 namespace System::Private::CoreLib::System::Threading::Tasks {
-FORWARD_(Task, T1, T2)
-FORWARDS_(ValueTask, T1, T2)
+FORWARD_(Task)
+FORWARDS_(ValueTask)
 } // namespace System::Private::CoreLib::System::Threading::Tasks
 namespace System::Private::CoreLib::System::IO {
 enum class SeekOrigin : int32_t;

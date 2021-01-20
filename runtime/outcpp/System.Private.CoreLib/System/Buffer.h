@@ -6,7 +6,7 @@ namespace System::Private::CoreLib::System {
 FORWARDS(UIntPtr)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System {
-FORWARD_(Array, T1, T2)
+FORWARD_(Array)
 FORWARDS(Byte)
 FORWARDS(Int32)
 FORWARDS(Int64)

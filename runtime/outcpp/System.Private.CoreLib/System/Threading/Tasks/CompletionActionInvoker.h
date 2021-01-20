@@ -7,7 +7,7 @@ FORWARD(IThreadPoolWorkItem)
 } // namespace System::Private::CoreLib::System::Threading
 namespace System::Private::CoreLib::System::Threading::Tasks {
 FORWARD(ITaskCompletionAction)
-FORWARD_(Task, T1, T2)
+FORWARD_(Task)
 namespace CompletionActionInvokerNamespace {
 CLASS(CompletionActionInvoker) : public object {
   public: using interface = rt::TypeList<IThreadPoolWorkItem>;

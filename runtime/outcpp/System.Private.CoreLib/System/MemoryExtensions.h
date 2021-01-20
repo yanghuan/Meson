@@ -10,12 +10,12 @@ FORWARDS(SpanRuneEnumerator)
 } // namespace System::Private::CoreLib::System::Text
 namespace System::Private::CoreLib::System {
 enum class StringComparison : int32_t;
-FORWARD_(Array, T1, T2)
+FORWARD_(Array)
 FORWARDS(ArraySegment, T)
 FORWARDS(Boolean)
 FORWARDS(Char)
 FORWARD(Comparison, T)
-FORWARD_(IComparable, T1, T2)
+FORWARD_(IComparable)
 FORWARDS(Index)
 FORWARDS(Int32)
 FORWARDS(Memory, T)

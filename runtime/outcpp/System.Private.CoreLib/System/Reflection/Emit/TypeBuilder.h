@@ -33,7 +33,7 @@ FORWARDS(ParameterModifier)
 FORWARD(PropertyInfo)
 } // namespace System::Private::CoreLib::System::Reflection
 namespace System::Private::CoreLib::System {
-FORWARD_(Array, T1, T2)
+FORWARD_(Array)
 FORWARDS(Byte)
 FORWARDS(Guid)
 FORWARD(RuntimeType)

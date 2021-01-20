@@ -7,7 +7,7 @@
 #include <System.Private.CoreLib/System/Text/Encoding.h>
 
 namespace System::Private::CoreLib::System {
-FORWARD_(Array, T1, T2)
+FORWARD_(Array)
 FORWARDS(Byte)
 FORWARD(Object)
 FORWARDS(ReadOnlySpan, T)

@@ -12,7 +12,7 @@ FORWARD(StringBuilder)
 } // namespace System::Private::CoreLib::System::Text
 namespace System::Private::CoreLib::System {
 FORWARDS(__DTString)
-FORWARD_(Array, T1, T2)
+FORWARD_(Array)
 FORWARDS(Boolean)
 FORWARDS(Char)
 FORWARDS(DateTime)

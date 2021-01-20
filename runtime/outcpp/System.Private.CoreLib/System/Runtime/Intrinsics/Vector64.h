@@ -19,9 +19,9 @@ FORWARDS(UInt16)
 FORWARDS(UInt32)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Runtime::Intrinsics {
-FORWARDS_(Vector128, T1, T2)
+FORWARDS_(Vector128)
 namespace Vector64Namespace {
-template <class T1 = void, class T2 = void>
+template <class ...T>
 class Vector64 {
 };
 template <>
@@ -135,6 +135,6 @@ struct Vector64<T> : public valueType<Vector64<T>> {
   private: UInt64 _00;
 };
 } // namespace Vector64Namespace
-template <class T1 = void, class T2 = void>
-using Vector64 = Vector64Namespace::Vector64<T1, T2>;
+template <class ...T>
+using Vector64 = Vector64Namespace::Vector64<T...>;
 } // namespace System::Private::CoreLib::System::Runtime::Intrinsics

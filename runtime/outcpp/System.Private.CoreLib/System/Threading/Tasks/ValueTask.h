@@ -7,27 +7,27 @@
 #include <System.Private.CoreLib/System/ValueType.h>
 
 namespace System::Private::CoreLib::System {
-FORWARD_(Action, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17)
+FORWARD_(Action)
 FORWARD(Exception)
 FORWARD(IEquatable, T)
 FORWARDS(Int32)
 FORWARD(String)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Threading::Tasks::Sources {
-FORWARD_(IValueTaskSource, T1, T2)
+FORWARD_(IValueTaskSource)
 } // namespace System::Private::CoreLib::System::Threading::Tasks::Sources
 namespace System::Private::CoreLib::System::Threading {
 FORWARDS(CancellationToken)
 } // namespace System::Private::CoreLib::System::Threading
 namespace System::Private::CoreLib::System::Runtime::CompilerServices {
-FORWARDS_(ConfiguredValueTaskAwaitable, T1, T2)
-FORWARDS_(ValueTaskAwaiter, T1, T2)
+FORWARDS_(ConfiguredValueTaskAwaitable)
+FORWARDS_(ValueTaskAwaiter)
 } // namespace System::Private::CoreLib::System::Runtime::CompilerServices
 namespace System::Private::CoreLib::System::Threading::Tasks {
 namespace ValueTaskNamespace {
 using namespace System::Runtime::CompilerServices;
 using namespace System::Threading::Tasks::Sources;
-template <class T1 = void, class T2 = void>
+template <class ...T>
 struct ValueTask {
 };
 template <>
@@ -124,6 +124,6 @@ struct ValueTask<TResult> : public valueType<ValueTask<TResult>> {
   public: Boolean _continueOnCapturedContext;
 };
 } // namespace ValueTaskNamespace
-template <class T1 = void, class T2 = void>
-using ValueTask = ValueTaskNamespace::ValueTask<T1, T2>;
+template <class ...T>
+using ValueTask = ValueTaskNamespace::ValueTask<T...>;
 } // namespace System::Private::CoreLib::System::Threading::Tasks

@@ -9,7 +9,7 @@ FORWARD(IAsyncResult)
 FORWARDS(IntPtr)
 FORWARD(Object)
 namespace EventHandlerNamespace {
-CLASS_FORWARD(EventHandler, T1, T2)
+CLASS_FORWARD(EventHandler)
 CLASS_(EventHandler) : public MulticastDelegate::in {
   public: void ctor(Object object, IntPtr method);
   public: void Invoke(Object sender, EventArgs e);
@@ -25,6 +25,6 @@ CLASS_(EventHandler, TEventArgs) : public MulticastDelegate::in {
   public: static constexpr rt::TypeCode code = rt::TypeCode::Delegate;
 };
 } // namespace EventHandlerNamespace
-template <class T1 = void, class T2 = void>
-using EventHandler = EventHandlerNamespace::EventHandler<T1, T2>;
+template <class ...T>
+using EventHandler = EventHandlerNamespace::EventHandler<T...>;
 } // namespace System::Private::CoreLib::System

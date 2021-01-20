@@ -249,6 +249,10 @@ namespace Meson.Compiler.CppAst {
       Arguments.AddRange(args);
     }
 
+    public TemplateSyntax(IdentifierSyntax t) {
+      Arguments.Add(new TemplateTypenameSyntax(t));
+    }
+
     public TemplateSyntax(IEnumerable<IdentifierSyntax> args) {
       Arguments.AddRange(args.Select(i => new TemplateTypenameSyntax(i)));
     }

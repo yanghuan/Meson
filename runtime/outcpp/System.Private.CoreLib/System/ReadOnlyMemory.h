@@ -7,7 +7,7 @@ namespace System::Private::CoreLib::System::Buffers {
 FORWARDS(MemoryHandle)
 } // namespace System::Private::CoreLib::System::Buffers
 namespace System::Private::CoreLib::System {
-FORWARD_(Array, T1, T2)
+FORWARD_(Array)
 FORWARDS(ArraySegment, T)
 FORWARDS(Boolean)
 FORWARD(IEquatable, T)

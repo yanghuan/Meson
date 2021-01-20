@@ -7,17 +7,17 @@ FORWARDS(IntPtr)
 FORWARDS(UIntPtr)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Numerics {
-FORWARDS_(Vector, T1, T2)
+FORWARDS_(Vector)
 } // namespace System::Private::CoreLib::System::Numerics
 namespace System::Private::CoreLib::System::Runtime::Intrinsics {
-FORWARDS_(Vector128, T1, T2)
-FORWARDS_(Vector256, T1, T2)
+FORWARDS_(Vector128)
+FORWARDS_(Vector256)
 } // namespace System::Private::CoreLib::System::Runtime::Intrinsics
 namespace System::Private::CoreLib::System {
 FORWARDS(Boolean)
 FORWARDS(Byte)
 FORWARDS(Char)
-FORWARD_(IComparable, T1, T2)
+FORWARD_(IComparable)
 FORWARDS(Int32)
 FORWARDS(ReadOnlySpan, T)
 FORWARDS(UInt16)

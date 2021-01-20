@@ -7,7 +7,7 @@
 
 namespace System::Private::CoreLib::System {
 enum class DayOfWeek : int32_t;
-FORWARD_(Array, T1, T2)
+FORWARD_(Array)
 FORWARDS(Boolean)
 FORWARDS(Int64)
 } // namespace System::Private::CoreLib::System

@@ -8,15 +8,15 @@
 #include <System.Private.CoreLib/System/Threading/ManualResetEventSlim.h>
 
 namespace System::Private::CoreLib::System {
-FORWARD_(Action, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17)
+FORWARD_(Action)
 FORWARD(AggregateException)
-FORWARD_(Array, T1, T2)
+FORWARD_(Array)
 FORWARD(Delegate)
 FORWARD(Exception)
-FORWARD_(Func, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18)
+FORWARD_(Func)
 FORWARD(IAsyncResult)
 FORWARD(IDisposable)
-FORWARDS_(Nullable, T1, T2)
+FORWARDS_(Nullable)
 FORWARD(OperationCanceledException)
 FORWARD(Predicate, T)
 FORWARD(String)
@@ -34,10 +34,10 @@ FORWARD(WaitCallback)
 FORWARD(WaitHandle)
 } // namespace System::Private::CoreLib::System::Threading
 namespace System::Private::CoreLib::System::Runtime::CompilerServices {
-FORWARDS_(ConfiguredTaskAwaitable, T1, T2)
+FORWARDS_(ConfiguredTaskAwaitable)
 FORWARD(IAsyncStateMachineBox)
 FORWARD(StrongBox, T)
-FORWARDS_(TaskAwaiter, T1, T2)
+FORWARDS_(TaskAwaiter)
 FORWARDS(YieldAwaitable)
 } // namespace System::Private::CoreLib::System::Runtime::CompilerServices
 namespace System::Private::CoreLib::System::Collections::Generic {
@@ -59,7 +59,7 @@ enum class TaskStatus : int32_t;
 FORWARD(ITaskCompletionAction)
 FORWARD(TaskContinuation)
 FORWARD(TaskExceptionHolder)
-FORWARD_(TaskFactory, T1, T2)
+FORWARD_(TaskFactory)
 FORWARD(TaskScheduler)
 FORWARDS(VoidTaskResult)
 namespace TaskNamespace {
@@ -67,7 +67,7 @@ using namespace System::Collections::Generic;
 using namespace System::Collections::ObjectModel;
 using namespace System::Runtime::CompilerServices;
 using namespace System::Runtime::ExceptionServices;
-CLASS_FORWARD(Task, T1, T2)
+CLASS_FORWARD(Task)
 CLASS_(Task) : public object {
   public: using interface = rt::TypeList<IAsyncResult, IDisposable>;
   private: FRIENDN(DelayPromise)
@@ -400,7 +400,7 @@ CLASS(DelayPromiseWithCancellation) : public Task<>::in::DelayPromise::in {
   private: CancellationToken _token;
   private: CancellationTokenRegistration _registration;
 };
-CLASS_FORWARD(WhenAllPromise, T1, T2)
+CLASS_FORWARD(WhenAllPromise)
 CLASS_(WhenAllPromise) : public Task<>::in {
   public: using interface = rt::TypeList<ITaskCompletionAction>;
   public: Boolean get_InvokeMayRunArbitraryCode();
@@ -506,6 +506,6 @@ CLASS_(Task, TResult) : public Task<>::in {
   private: static TaskFactory<TResult> s_Factory;
 };
 } // namespace TaskNamespace
-template <class T1 = void, class T2 = void>
-using Task = TaskNamespace::Task<T1, T2>;
+template <class ...T>
+using Task = TaskNamespace::Task<T...>;
 } // namespace System::Private::CoreLib::System::Threading::Tasks

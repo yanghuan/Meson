@@ -10,7 +10,7 @@ namespace System::Private::CoreLib::System {
 FORWARDS(Boolean)
 FORWARDS(Char)
 FORWARD(ICloneable)
-FORWARD_(IComparable, T1, T2)
+FORWARD_(IComparable)
 FORWARD(IEquatable, T)
 FORWARD(IFormatProvider)
 FORWARDS(Int16)

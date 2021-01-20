@@ -34,14 +34,14 @@ namespace System::Private::CoreLib::System {
 enum class DateTimeKind : int32_t;
 enum class DayOfWeek : int32_t;
 enum class TimeZoneInfoOptions : int32_t;
-FORWARD_(Array, T1, T2)
+FORWARD_(Array)
 FORWARDS(Char)
 FORWARD(Comparison, T)
 FORWARDS(DateTimeOffset)
 FORWARD(Exception)
 FORWARD(IEquatable, T)
 FORWARDS(Int64)
-FORWARDS_(Nullable, T1, T2)
+FORWARDS_(Nullable)
 FORWARD(String)
 namespace TimeZoneInfoNamespace {
 using namespace Internal::Win32;

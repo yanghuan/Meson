@@ -16,6 +16,9 @@ namespace Meson.Compiler.CppAst {
     public static readonly IdentifierSyntax Void = "void";
     public static readonly IdentifierSyntax Object = "Object";
     public static readonly IdentifierSyntax T = "T";
+    public static readonly IdentifierSyntax VariadicT = "...T";
+    public static readonly IdentifierSyntax TVariadic = "T...";
+
     public static readonly IdentifierSyntax N = "N";
     public static readonly IdentifierSyntax In = "in";
     public static readonly IdentifierSyntax Class = "class";

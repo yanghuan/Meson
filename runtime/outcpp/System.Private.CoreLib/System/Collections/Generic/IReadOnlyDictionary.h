@@ -13,7 +13,7 @@ namespace System::Private::CoreLib::System::Collections::Generic {
 FORWARD(IEnumerable, T)
 FORWARD(IEnumerator, T)
 FORWARD(IReadOnlyCollection, T)
-FORWARDS_(KeyValuePair, T1, T2, T3)
+FORWARDS_(KeyValuePair)
 namespace IReadOnlyDictionaryNamespace {
 template <class T>
 using IEnumerable = Generic::IEnumerable<T>;

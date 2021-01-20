@@ -19,17 +19,17 @@ FORWARDS(UInt16)
 FORWARDS(UInt32)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Numerics {
-FORWARDS_(Vector, T1, T2)
+FORWARDS_(Vector)
 FORWARDS(Vector2)
 FORWARDS(Vector3)
 FORWARDS(Vector4)
 } // namespace System::Private::CoreLib::System::Numerics
 namespace System::Private::CoreLib::System::Runtime::Intrinsics {
-FORWARDS_(Vector256, T1, T2)
-FORWARDS_(Vector64, T1, T2)
+FORWARDS_(Vector256)
+FORWARDS_(Vector64)
 namespace Vector128Namespace {
 using namespace System::Numerics;
-template <class T1 = void, class T2 = void>
+template <class ...T>
 class Vector128 {
 };
 template <>
@@ -196,6 +196,6 @@ struct Vector128<T> : public valueType<Vector128<T>> {
   private: UInt64 _01;
 };
 } // namespace Vector128Namespace
-template <class T1 = void, class T2 = void>
-using Vector128 = Vector128Namespace::Vector128<T1, T2>;
+template <class ...T>
+using Vector128 = Vector128Namespace::Vector128<T...>;
 } // namespace System::Private::CoreLib::System::Runtime::Intrinsics

@@ -16,11 +16,11 @@ FORWARD(Calendar)
 } // namespace System::Private::CoreLib::System::Globalization
 namespace System::Private::CoreLib::System {
 enum class DayOfWeek : int32_t;
-FORWARD_(Array, T1, T2)
+FORWARD_(Array)
 FORWARDS(Boolean)
 FORWARDS(Char)
 FORWARDS(Double)
-FORWARD_(IComparable, T1, T2)
+FORWARD_(IComparable)
 FORWARD(IEquatable, T)
 FORWARD(IFormatProvider)
 FORWARD(IFormattable)

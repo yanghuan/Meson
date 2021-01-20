@@ -5,7 +5,7 @@
 #include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System {
-FORWARD_(Array, T1, T2)
+FORWARD_(Array)
 FORWARDS(Byte)
 FORWARDS(Char)
 FORWARDS(Decimal)
@@ -27,7 +27,7 @@ FORWARD(Encoder)
 FORWARD(Encoding)
 } // namespace System::Private::CoreLib::System::Text
 namespace System::Private::CoreLib::System::Threading::Tasks {
-FORWARDS_(ValueTask, T1, T2)
+FORWARDS_(ValueTask)
 } // namespace System::Private::CoreLib::System::Threading::Tasks
 namespace System::Private::CoreLib::System::IO {
 enum class SeekOrigin : int32_t;

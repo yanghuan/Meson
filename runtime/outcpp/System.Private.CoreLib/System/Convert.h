@@ -4,7 +4,7 @@
 
 namespace System::Private::CoreLib::System {
 enum class TypeCode : int32_t;
-FORWARD_(Array, T1, T2)
+FORWARD_(Array)
 FORWARDS(Boolean)
 FORWARDS(Byte)
 FORWARDS(Char)

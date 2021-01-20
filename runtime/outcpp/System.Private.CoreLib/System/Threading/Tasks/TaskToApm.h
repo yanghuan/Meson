@@ -11,7 +11,7 @@ namespace System::Private::CoreLib::System::Threading {
 FORWARD(WaitHandle)
 } // namespace System::Private::CoreLib::System::Threading
 namespace System::Private::CoreLib::System::Threading::Tasks {
-FORWARD_(Task, T1, T2)
+FORWARD_(Task)
 namespace TaskToApmNamespace {
 class TaskToApm {
   public: CLASS(TaskAsyncResult) : public object {

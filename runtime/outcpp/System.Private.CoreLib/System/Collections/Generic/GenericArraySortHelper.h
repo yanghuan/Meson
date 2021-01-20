@@ -3,18 +3,18 @@
 #include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System {
-FORWARD_(Array, T1, T2)
+FORWARD_(Array)
 FORWARDS(Boolean)
 FORWARDS(Int32)
 FORWARDS(Span, T)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Collections::Generic {
-FORWARD_(IArraySortHelper, T1, T2, T3)
+FORWARD_(IArraySortHelper)
 FORWARD(IComparer, T)
 namespace GenericArraySortHelperNamespace {
 template <class T>
 using IComparer = Generic::IComparer<T>;
-CLASS_FORWARD(GenericArraySortHelper, T1, T2, T3)
+CLASS_FORWARD(GenericArraySortHelper)
 CLASS_(GenericArraySortHelper, T) : public object {
   public: using interface = rt::TypeList<IArraySortHelper<T>>;
   public: void Sort(Span<T> keys, IComparer<T> comparer);
@@ -46,6 +46,6 @@ CLASS_(GenericArraySortHelper, TKey, TValue) : public object {
   public: void ctor();
 };
 } // namespace GenericArraySortHelperNamespace
-template <class T1 = void, class T2 = void, class T3 = void>
-using GenericArraySortHelper = GenericArraySortHelperNamespace::GenericArraySortHelper<T1, T2, T3>;
+template <class ...T>
+using GenericArraySortHelper = GenericArraySortHelperNamespace::GenericArraySortHelper<T...>;
 } // namespace System::Private::CoreLib::System::Collections::Generic

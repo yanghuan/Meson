@@ -13,7 +13,7 @@ enum class NumberStyles : int32_t;
 } // namespace System::Private::CoreLib::System::Globalization
 namespace System::Private::CoreLib::System {
 FORWARDS(Boolean)
-FORWARD_(IComparable, T1, T2)
+FORWARD_(IComparable)
 FORWARD(IEquatable, T)
 FORWARD(IFormatProvider)
 FORWARD(IFormattable)

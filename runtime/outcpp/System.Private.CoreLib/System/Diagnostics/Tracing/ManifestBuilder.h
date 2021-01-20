@@ -6,7 +6,7 @@
 #include <System.Private.CoreLib/System/UInt64.h>
 
 namespace System::Private::CoreLib::System {
-FORWARD_(Array, T1, T2)
+FORWARD_(Array)
 FORWARDS(Byte)
 FORWARD(Comparison, T)
 FORWARDS(Guid)
@@ -16,7 +16,7 @@ FORWARD(Type)
 namespace System::Private::CoreLib::System::Collections::Generic {
 FORWARD(Dictionary, TKey, TValue)
 FORWARD(IList, T)
-FORWARDS_(KeyValuePair, T1, T2, T3)
+FORWARDS_(KeyValuePair)
 FORWARD(List, T)
 } // namespace System::Private::CoreLib::System::Collections::Generic
 namespace System::Private::CoreLib::System::Resources {

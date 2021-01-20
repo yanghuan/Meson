@@ -3,7 +3,7 @@
 #include <System.Private.CoreLib/System/Diagnostics/Tracing/TraceLoggingTypeInfo.h>
 
 namespace System::Private::CoreLib::System {
-FORWARD_(Array, T1, T2)
+FORWARD_(Array)
 FORWARD(Object)
 FORWARD(String)
 FORWARD(Type)

@@ -4,7 +4,7 @@
 #include <System.Private.CoreLib/System/ValueType.h>
 
 namespace System::Private::CoreLib::System {
-FORWARD_(Action, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17)
+FORWARD_(Action)
 FORWARDS(Boolean)
 FORWARD(Exception)
 FORWARD(Object)
@@ -23,7 +23,7 @@ FORWARD(IAsyncStateMachineBox)
 namespace AsyncTaskMethodBuilderNamespace {
 using namespace System::Threading;
 using namespace System::Threading::Tasks;
-template <class T1 = void, class T2 = void>
+template <class ...T>
 struct AsyncTaskMethodBuilder {
 };
 template <>
@@ -99,6 +99,6 @@ struct AsyncTaskMethodBuilder<TResult> : public valueType<AsyncTaskMethodBuilder
   private: Task<TResult> m_task;
 };
 } // namespace AsyncTaskMethodBuilderNamespace
-template <class T1 = void, class T2 = void>
-using AsyncTaskMethodBuilder = AsyncTaskMethodBuilderNamespace::AsyncTaskMethodBuilder<T1, T2>;
+template <class ...T>
+using AsyncTaskMethodBuilder = AsyncTaskMethodBuilderNamespace::AsyncTaskMethodBuilder<T...>;
 } // namespace System::Private::CoreLib::System::Runtime::CompilerServices

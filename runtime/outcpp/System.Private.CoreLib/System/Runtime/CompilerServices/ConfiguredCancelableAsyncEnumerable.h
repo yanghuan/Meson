@@ -9,7 +9,7 @@ FORWARD(IAsyncEnumerable, T)
 FORWARD(IAsyncEnumerator, T)
 } // namespace System::Private::CoreLib::System::Collections::Generic
 namespace System::Private::CoreLib::System::Runtime::CompilerServices {
-FORWARDS_(ConfiguredValueTaskAwaitable, T1, T2)
+FORWARDS_(ConfiguredValueTaskAwaitable)
 namespace ConfiguredCancelableAsyncEnumerableNamespace {
 using namespace System::Collections::Generic;
 using namespace System::Threading;

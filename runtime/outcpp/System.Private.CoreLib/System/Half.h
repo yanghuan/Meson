@@ -9,7 +9,7 @@ FORWARDS(Boolean)
 FORWARDS(Byte)
 FORWARDS(Char)
 FORWARDS(Double)
-FORWARD_(IComparable, T1, T2)
+FORWARD_(IComparable)
 FORWARD(IEquatable, T)
 FORWARD(IFormatProvider)
 FORWARD(IFormattable)
@@ -24,7 +24,7 @@ FORWARDS(Span, T)
 FORWARD(String)
 FORWARDS(UInt32)
 FORWARDS(UInt64)
-FORWARDS_(ValueTuple, T1, T2, T3, T4, T5, T6, T7, T8, T9)
+FORWARDS_(ValueTuple)
 namespace HalfNamespace {
 using namespace System::Globalization;
 struct Half : public valueType<Half> {

@@ -5,10 +5,10 @@
 #include <System.Private.CoreLib/System/ValueType.h>
 
 namespace System::Private::CoreLib::System::Threading::Tasks {
-FORWARDS_(ValueTask, T1, T2)
+FORWARDS_(ValueTask)
 } // namespace System::Private::CoreLib::System::Threading::Tasks
 namespace System::Private::CoreLib::System {
-FORWARD_(Action, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17)
+FORWARD_(Action)
 FORWARD(Exception)
 FORWARDS(Int16)
 FORWARDS(Int32)
@@ -16,7 +16,7 @@ FORWARDS(Int32)
 namespace System::Private::CoreLib::System::Threading::Tasks::Sources {
 enum class ValueTaskSourceOnCompletedFlags : int32_t;
 enum class ValueTaskSourceStatus : int32_t;
-FORWARD_(IValueTaskSource, T1, T2)
+FORWARD_(IValueTaskSource)
 } // namespace System::Private::CoreLib::System::Threading::Tasks::Sources
 namespace System::Private::CoreLib::System::Threading {
 FORWARD(ContextCallback)
@@ -30,7 +30,7 @@ namespace AsyncValueTaskMethodBuilderNamespace {
 using namespace System::Threading;
 using namespace System::Threading::Tasks;
 using namespace System::Threading::Tasks::Sources;
-template <class T1 = void, class T2 = void>
+template <class ...T>
 struct AsyncValueTaskMethodBuilder {
 };
 template <>
@@ -53,7 +53,7 @@ struct AsyncValueTaskMethodBuilder<> : public valueType<AsyncValueTaskMethodBuil
 };
 template <class TResult>
 struct AsyncValueTaskMethodBuilder<TResult> : public valueType<AsyncValueTaskMethodBuilder<TResult>> {
-  CLASS_FORWARD(StateMachineBox, T1, T2, T3)
+  CLASS_FORWARD(StateMachineBox)
   public: CLASS_(StateMachineBox) : public object {
     public: using interface = rt::TypeList<IValueTaskSource<TResult>, IValueTaskSource<>>;
     public: Int16 get_Version();
@@ -117,6 +117,6 @@ struct AsyncValueTaskMethodBuilder<TResult> : public valueType<AsyncValueTaskMet
   private: TResult _result;
 };
 } // namespace AsyncValueTaskMethodBuilderNamespace
-template <class T1 = void, class T2 = void>
-using AsyncValueTaskMethodBuilder = AsyncValueTaskMethodBuilderNamespace::AsyncValueTaskMethodBuilder<T1, T2>;
+template <class ...T>
+using AsyncValueTaskMethodBuilder = AsyncValueTaskMethodBuilderNamespace::AsyncValueTaskMethodBuilder<T...>;
 } // namespace System::Private::CoreLib::System::Runtime::CompilerServices

@@ -6,6 +6,9 @@
 #include <cmath>
 #include <iostream>
 
+#include <rt/GCObject.h>
+
+#if 0
 #include <System.Private.CoreLib/System/IFormatProvider.h>
 #include <System.Private.CoreLib/System/Type-dep.h>
 #include <System.Private.CoreLib/System/Array-dep.h>
@@ -126,12 +129,47 @@ void Test() {
   
 }
 
-int main() {
-  void* p = 2000;
-  int a = 100;
-  if (p != a) {
+#endif
 
-  }
+template<typename... T>
+class My_tuple { 
+
+};
+
+
+template<typename... T>
+using TT_tule = My_tuple<T...>;
+
+namespace TestAction {
+  template<class ...T>
+  struct Action___ {
+    void fN() {
+
+    }
+  };
+
+  template<class... T>
+  using Action = rt::ref<Action___<T...>>;
+
+  template <> struct Action___<> {
+    void f0() {
+
+    }
+  };
+
+  template<class T> struct Action___<T> {
+     void f1() {
+
+    }
+  };
+}
+
+template<class ...T>
+using Action = TestAction::Action<T...>;
+
+int main() {
+  Action<> a;
+  a->f0();
 
   return 0;
 }

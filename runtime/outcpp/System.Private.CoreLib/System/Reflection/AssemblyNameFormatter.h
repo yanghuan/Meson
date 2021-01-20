@@ -3,7 +3,7 @@
 #include <rt/GCObject.h>
 
 namespace System::Private::CoreLib::System {
-FORWARD_(Array, T1, T2)
+FORWARD_(Array)
 FORWARDS(Byte)
 FORWARDS(Char)
 FORWARD(String)
@@ -13,7 +13,7 @@ namespace System::Private::CoreLib::System::Text {
 FORWARD(StringBuilder)
 } // namespace System::Private::CoreLib::System::Text
 namespace System::Private::CoreLib::System::Collections::Generic {
-FORWARDS_(KeyValuePair, T1, T2, T3)
+FORWARDS_(KeyValuePair)
 } // namespace System::Private::CoreLib::System::Collections::Generic
 namespace System::Private::CoreLib::System::Reflection {
 enum class AssemblyContentType : int32_t;

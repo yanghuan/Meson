@@ -13,7 +13,7 @@ FORWARDS(TimeSpan)
 FORWARDS(UInt32)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Threading::Tasks {
-FORWARDS_(ValueTask, T1, T2)
+FORWARDS_(ValueTask)
 } // namespace System::Private::CoreLib::System::Threading::Tasks
 namespace System::Private::CoreLib::System::Threading {
 FORWARD(TimerCallback)

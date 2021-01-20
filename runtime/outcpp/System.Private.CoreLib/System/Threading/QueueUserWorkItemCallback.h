@@ -4,13 +4,13 @@
 #include <System.Private.CoreLib/System/Threading/QueueUserWorkItemCallbackBase.h>
 
 namespace System::Private::CoreLib::System {
-FORWARD_(Action, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17)
+FORWARD_(Action)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Threading {
 FORWARD(ExecutionContext)
 FORWARD(WaitCallback)
 namespace QueueUserWorkItemCallbackNamespace {
-CLASS_FORWARD(QueueUserWorkItemCallback, T1, T2)
+CLASS_FORWARD(QueueUserWorkItemCallback)
 CLASS_(QueueUserWorkItemCallback) : public QueueUserWorkItemCallbackBase::in {
   private: CLASS(__c) : public object {
     public: static void cctor();
@@ -34,6 +34,6 @@ CLASS_(QueueUserWorkItemCallback, TState) : public QueueUserWorkItemCallbackBase
   private: ExecutionContext _context;
 };
 } // namespace QueueUserWorkItemCallbackNamespace
-template <class T1 = void, class T2 = void>
-using QueueUserWorkItemCallback = QueueUserWorkItemCallbackNamespace::QueueUserWorkItemCallback<T1, T2>;
+template <class ...T>
+using QueueUserWorkItemCallback = QueueUserWorkItemCallbackNamespace::QueueUserWorkItemCallback<T...>;
 } // namespace System::Private::CoreLib::System::Threading

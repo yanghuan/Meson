@@ -12,7 +12,7 @@ enum class ExceptionResource : int32_t;
 FORWARD(ArgumentException)
 FORWARD(ArgumentNullException)
 FORWARD(ArgumentOutOfRangeException)
-FORWARD_(Array, T1, T2)
+FORWARD_(Array)
 FORWARD(Exception)
 FORWARDS(Int32)
 FORWARD(InvalidOperationException)

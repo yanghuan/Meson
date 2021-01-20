@@ -4,7 +4,7 @@
 #include <System.Private.CoreLib/System/ReadOnlyMemory.h>
 
 namespace System::Private::CoreLib::System {
-FORWARD_(Array, T1, T2)
+FORWARD_(Array)
 FORWARDS(Memory, T)
 namespace MemoryDebugViewNamespace {
 CLASS(MemoryDebugView, T) : public object {

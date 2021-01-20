@@ -18,13 +18,13 @@ namespace System::Private::CoreLib::System {
 enum class DateTimeKind : int32_t;
 enum class DayOfWeek : int32_t;
 enum class TypeCode : int32_t;
-FORWARD_(Array, T1, T2)
+FORWARD_(Array)
 FORWARDS(Boolean)
 FORWARDS(Byte)
 FORWARDS(Char)
 FORWARDS(Decimal)
 FORWARDS(Double)
-FORWARD_(IComparable, T1, T2)
+FORWARD_(IComparable)
 FORWARD(IConvertible)
 FORWARD(IEquatable, T)
 FORWARD(IFormatProvider)

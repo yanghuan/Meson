@@ -12,7 +12,7 @@ namespace System::Private::CoreLib::System {
 FORWARDS(Boolean)
 namespace WeakReferenceNamespace {
 using namespace System::Runtime::Serialization;
-CLASS_FORWARD(WeakReference, T1, T2)
+CLASS_FORWARD(WeakReference)
 CLASS_(WeakReference) : public object {
   public: using interface = rt::TypeList<ISerializable>;
   public: Boolean get_IsAlive();
@@ -45,6 +45,6 @@ CLASS_(WeakReference, T) : public object {
   public: IntPtr m_handle;
 };
 } // namespace WeakReferenceNamespace
-template <class T1 = void, class T2 = void>
-using WeakReference = WeakReferenceNamespace::WeakReference<T1, T2>;
+template <class ...T>
+using WeakReference = WeakReferenceNamespace::WeakReference<T...>;
 } // namespace System::Private::CoreLib::System

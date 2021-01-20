@@ -3,13 +3,13 @@
 #include <System.Private.CoreLib/System/Threading/Tasks/TaskContinuation.h>
 
 namespace System::Private::CoreLib::System {
-FORWARD_(Array, T1, T2)
+FORWARD_(Array)
 FORWARDS(Boolean)
 FORWARD(Delegate)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Threading::Tasks {
 enum class TaskContinuationOptions : int32_t;
-FORWARD_(Task, T1, T2)
+FORWARD_(Task)
 FORWARD(TaskScheduler)
 namespace ContinueWithTaskContinuationNamespace {
 CLASS(ContinueWithTaskContinuation) : public TaskContinuation::in {

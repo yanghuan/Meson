@@ -7,7 +7,7 @@
 
 namespace System::Private::CoreLib::System {
 enum class DateTimeKind : int32_t;
-FORWARD_(Array, T1, T2)
+FORWARD_(Array)
 FORWARDS(Byte)
 FORWARDS(Char)
 FORWARDS(DateTime)

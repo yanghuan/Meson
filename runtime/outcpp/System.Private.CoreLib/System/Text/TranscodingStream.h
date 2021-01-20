@@ -17,7 +17,7 @@ namespace System::Private::CoreLib::System::Runtime::CompilerServices {
 FORWARD(IAsyncStateMachine)
 } // namespace System::Private::CoreLib::System::Runtime::CompilerServices
 namespace System::Private::CoreLib::System {
-FORWARD_(Array, T1, T2)
+FORWARD_(Array)
 FORWARD(AsyncCallback)
 FORWARD(IAsyncResult)
 FORWARDS(Int64)
@@ -26,8 +26,8 @@ FORWARDS(ReadOnlySpan, T)
 FORWARDS(Span, T)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Threading::Tasks {
-FORWARD_(Task, T1, T2)
-FORWARDS_(ValueTask, T1, T2)
+FORWARD_(Task)
+FORWARDS_(ValueTask)
 } // namespace System::Private::CoreLib::System::Threading::Tasks
 namespace System::Private::CoreLib::System::IO {
 enum class SeekOrigin : int32_t;

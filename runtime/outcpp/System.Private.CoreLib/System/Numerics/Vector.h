@@ -4,7 +4,7 @@
 #include <System.Private.CoreLib/System/ValueType.h>
 
 namespace System::Private::CoreLib::System {
-FORWARD_(Array, T1, T2)
+FORWARD_(Array)
 FORWARDS(Boolean)
 FORWARDS(Byte)
 FORWARDS(Double)
@@ -26,7 +26,7 @@ FORWARDS(UInt64)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Numerics {
 namespace VectorNamespace {
-template <class T1 = void, class T2 = void>
+template <class ...T>
 class Vector {
 };
 template <>
@@ -245,6 +245,6 @@ struct Vector<T> : public valueType<Vector<T>> {
   private: Register register一;
 };
 } // namespace VectorNamespace
-template <class T1 = void, class T2 = void>
-using Vector = VectorNamespace::Vector<T1, T2>;
+template <class ...T>
+using Vector = VectorNamespace::Vector<T...>;
 } // namespace System::Private::CoreLib::System::Numerics

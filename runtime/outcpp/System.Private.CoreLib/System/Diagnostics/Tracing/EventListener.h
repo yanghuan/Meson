@@ -5,11 +5,11 @@
 namespace System::Private::CoreLib::System {
 FORWARDS(Boolean)
 FORWARD(EventArgs)
-FORWARD_(EventHandler, T1, T2)
+FORWARD_(EventHandler)
 FORWARD(IDisposable)
 FORWARDS(Int32)
 FORWARD(String)
-FORWARD_(WeakReference, T1, T2)
+FORWARD_(WeakReference)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Collections::Generic {
 FORWARD(IDictionary, TKey, TValue)

@@ -4,7 +4,7 @@
 #include <System.Private.CoreLib/System/IO/TextReader.h>
 
 namespace System::Private::CoreLib::System {
-FORWARD_(Array, T1, T2)
+FORWARD_(Array)
 FORWARDS(Boolean)
 FORWARDS(Char)
 FORWARDS(Memory, T)
@@ -12,8 +12,8 @@ FORWARDS(Span, T)
 FORWARD(String)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Threading::Tasks {
-FORWARD_(Task, T1, T2)
-FORWARDS_(ValueTask, T1, T2)
+FORWARD_(Task)
+FORWARDS_(ValueTask)
 } // namespace System::Private::CoreLib::System::Threading::Tasks
 namespace System::Private::CoreLib::System::Threading {
 FORWARDS(CancellationToken)

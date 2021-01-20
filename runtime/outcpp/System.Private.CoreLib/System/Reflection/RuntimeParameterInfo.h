@@ -6,7 +6,7 @@
 #include <System.Private.CoreLib/System/Reflection/ParameterInfo.h>
 
 namespace System::Private::CoreLib::System {
-FORWARD_(Array, T1, T2)
+FORWARD_(Array)
 FORWARDS(DateTime)
 FORWARDS(Decimal)
 FORWARD(IRuntimeMethodInfo)

@@ -12,7 +12,7 @@ namespace System::Private::CoreLib::System {
 enum class LazyState : int32_t;
 FORWARDS(Boolean)
 FORWARD(Exception)
-FORWARDS_(Nullable, T1, T2)
+FORWARDS_(Nullable)
 namespace LazyHelperNamespace {
 using namespace System::Runtime::ExceptionServices;
 using namespace System::Threading;

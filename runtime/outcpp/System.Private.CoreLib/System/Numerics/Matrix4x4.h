@@ -13,7 +13,7 @@ FORWARD(Object)
 FORWARD(String)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Runtime::Intrinsics {
-FORWARDS_(Vector128, T1, T2)
+FORWARDS_(Vector128)
 } // namespace System::Private::CoreLib::System::Runtime::Intrinsics
 namespace System::Private::CoreLib::System::Numerics {
 FORWARDS(Matrix3x2)

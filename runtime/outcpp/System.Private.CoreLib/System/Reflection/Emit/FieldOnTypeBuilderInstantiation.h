@@ -10,7 +10,7 @@ FORWARD(Binder)
 FORWARD(Module)
 } // namespace System::Private::CoreLib::System::Reflection
 namespace System::Private::CoreLib::System {
-FORWARD_(Array, T1, T2)
+FORWARD_(Array)
 FORWARDS(Boolean)
 FORWARDS(Int32)
 FORWARD(Object)

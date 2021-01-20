@@ -17,7 +17,7 @@ namespace System::Private::CoreLib::System::Collections::Generic {
 FORWARD(List, T)
 } // namespace System::Private::CoreLib::System::Collections::Generic
 namespace System::Private::CoreLib::System::Threading::Tasks {
-FORWARD_(Task, T1, T2)
+FORWARD_(Task)
 namespace TaskExceptionHolderNamespace {
 using namespace System::Collections::Generic;
 using namespace System::Collections::ObjectModel;

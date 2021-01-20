@@ -6,7 +6,7 @@
 
 namespace System::Private::CoreLib::System {
 FORWARDS(Boolean)
-FORWARDS_(Nullable, T1, T2)
+FORWARDS_(Nullable)
 FORWARDS(TimeSpan)
 FORWARDS(UInt32)
 } // namespace System::Private::CoreLib::System

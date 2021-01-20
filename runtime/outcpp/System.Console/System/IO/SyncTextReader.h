@@ -3,14 +3,14 @@
 #include <System.Private.CoreLib/System/IO/TextReader.h>
 
 namespace System::Private::CoreLib::System {
-FORWARD_(Array, T1, T2)
+FORWARD_(Array)
 FORWARDS(Boolean)
 FORWARDS(Char)
 FORWARDS(Int32)
 FORWARD(String)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Threading::Tasks {
-FORWARD_(Task, T1, T2)
+FORWARD_(Task)
 } // namespace System::Private::CoreLib::System::Threading::Tasks
 namespace System::Console::System::IO {
 namespace SyncTextReaderNamespace {

@@ -8,7 +8,7 @@ namespace System::Private::CoreLib::System::Reflection {
 enum class CallingConventions : int32_t;
 } // namespace System::Private::CoreLib::System::Reflection
 namespace System::Private::CoreLib::System {
-FORWARD_(Array, T1, T2)
+FORWARD_(Array)
 FORWARDS(Boolean)
 FORWARD(IRuntimeFieldInfo)
 FORWARD(IRuntimeMethodInfo)

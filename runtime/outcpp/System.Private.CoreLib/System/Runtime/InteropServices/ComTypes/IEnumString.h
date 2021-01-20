@@ -3,7 +3,7 @@
 #include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System {
-FORWARD_(Array, T1, T2)
+FORWARD_(Array)
 FORWARDS(Int32)
 FORWARDS(IntPtr)
 FORWARD(String)

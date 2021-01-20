@@ -14,10 +14,10 @@ FORWARDS(CancellationToken)
 } // namespace System::Private::CoreLib::System::Threading
 namespace System::Private::CoreLib::System::Threading::Tasks {
 enum class TaskCreationOptions : int32_t;
-FORWARD_(Task, T1, T2)
+FORWARD_(Task)
 namespace TaskCompletionSourceNamespace {
 using namespace System::Collections::Generic;
-CLASS_FORWARD(TaskCompletionSource, T1, T2)
+CLASS_FORWARD(TaskCompletionSource)
 CLASS_(TaskCompletionSource) : public object {
   public: Task<> get_Task();
   public: void ctor();
@@ -55,6 +55,6 @@ CLASS_(TaskCompletionSource, TResult) : public object {
   private: Task<TResult> _task;
 };
 } // namespace TaskCompletionSourceNamespace
-template <class T1 = void, class T2 = void>
-using TaskCompletionSource = TaskCompletionSourceNamespace::TaskCompletionSource<T1, T2>;
+template <class ...T>
+using TaskCompletionSource = TaskCompletionSourceNamespace::TaskCompletionSource<T...>;
 } // namespace System::Private::CoreLib::System::Threading::Tasks

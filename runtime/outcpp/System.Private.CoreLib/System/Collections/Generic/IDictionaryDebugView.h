@@ -3,11 +3,11 @@
 #include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System {
-FORWARD_(Array, T1, T2)
+FORWARD_(Array)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Collections::Generic {
 FORWARD(IDictionary, TKey, TValue)
-FORWARDS_(KeyValuePair, T1, T2, T3)
+FORWARDS_(KeyValuePair)
 namespace IDictionaryDebugViewNamespace {
 template <class TKey, class TValue>
 using IDictionary = Generic::IDictionary<TKey, TValue>;

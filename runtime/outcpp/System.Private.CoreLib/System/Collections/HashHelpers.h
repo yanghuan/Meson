@@ -6,7 +6,7 @@ namespace System::Private::CoreLib::System::Runtime::CompilerServices {
 FORWARD(ConditionalWeakTable, TKey, TValue)
 } // namespace System::Private::CoreLib::System::Runtime::CompilerServices
 namespace System::Private::CoreLib::System {
-FORWARD_(Array, T1, T2)
+FORWARD_(Array)
 FORWARDS(Boolean)
 FORWARDS(Int32)
 FORWARD(Object)

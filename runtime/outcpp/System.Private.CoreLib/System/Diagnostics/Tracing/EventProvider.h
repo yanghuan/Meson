@@ -13,11 +13,11 @@
 #include <System.Private.CoreLib/System/ValueType.h>
 
 namespace System::Private::CoreLib::System {
-FORWARD_(Array, T1, T2)
+FORWARD_(Array)
 FORWARD(IDisposable)
 FORWARDS(IntPtr)
 FORWARD(String)
-FORWARD_(Tuple, T1, T2, T3, T4, T5, T6, T7, T8, T9)
+FORWARD_(Tuple)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Collections::Generic {
 FORWARD(IDictionary, TKey, TValue)

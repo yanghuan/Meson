@@ -3,8 +3,8 @@
 #include <rt/GCObject.h>
 
 namespace System::Private::CoreLib::System {
-FORWARD_(Tuple, T1, T2, T3, T4, T5, T6, T7, T8, T9)
-FORWARDS_(ValueTuple, T1, T2, T3, T4, T5, T6, T7, T8, T9)
+FORWARD_(Tuple)
+FORWARDS_(ValueTuple)
 namespace TupleExtensionsNamespace {
 class TupleExtensions {
   public: template <class T1>

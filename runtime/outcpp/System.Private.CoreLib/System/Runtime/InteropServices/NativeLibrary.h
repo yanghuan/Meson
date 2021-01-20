@@ -5,7 +5,7 @@
 namespace System::Private::CoreLib::System {
 FORWARDS(Boolean)
 FORWARDS(IntPtr)
-FORWARDS_(Nullable, T1, T2)
+FORWARDS_(Nullable)
 FORWARD(String)
 FORWARDS(UInt32)
 } // namespace System::Private::CoreLib::System

@@ -98,14 +98,9 @@ namespace Meson.Compiler {
       IdentifierSyntax name = root_.Name;
       ExpressionSyntax type = classNamespace.Name.TwoColon(name);
       TemplateSyntax template;
-      if (root_.IsArrayType()) {
-        const int kGenericCount = 2;
-        type = new GenericIdentifierSyntax(type, kGenericCount.GetTypeNames());
-        template = kGenericCount.GetVoidTemplate();
-      } else if (typeDefinition.IsMulti) {
-        int typeParameterCount = types.Last().TypeParameterCount + 1;
-        type = new GenericIdentifierSyntax(type, typeParameterCount.GetTypeNames());
-        template = typeParameterCount.GetVoidTemplate();
+      if (root_.IsArrayType() || typeDefinition.IsMulti) {
+        type = new GenericIdentifierSyntax(type, IdentifierSyntax.TVariadic);
+        template = new TemplateSyntax(IdentifierSyntax.VariadicT);
       } else {
         template = root_.GetTemplateSyntax();
         if (template != null) {

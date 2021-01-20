@@ -7,13 +7,13 @@ enum class LazyThreadSafetyMode : int32_t;
 } // namespace System::Private::CoreLib::System::Threading
 namespace System::Private::CoreLib::System {
 FORWARDS(Boolean)
-FORWARD_(Func, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18)
+FORWARD_(Func)
 FORWARD(LazyHelper)
-FORWARDS_(Nullable, T1, T2)
+FORWARDS_(Nullable)
 FORWARD(String)
 namespace LazyNamespace {
 using namespace System::Threading;
-CLASS_FORWARD(Lazy, T1, T2, T3)
+CLASS_FORWARD(Lazy)
 CLASS_(Lazy, T) : public object {
   public: T get_ValueForDebugDisplay();
   public: Nullable<LazyThreadSafetyMode> get_Mode();
@@ -53,6 +53,6 @@ CLASS_(Lazy, T, TMetadata) : public Lazy<T>::in {
   private: TMetadata _metadata;
 };
 } // namespace LazyNamespace
-template <class T1 = void, class T2 = void, class T3 = void>
-using Lazy = LazyNamespace::Lazy<T1, T2, T3>;
+template <class ...T>
+using Lazy = LazyNamespace::Lazy<T...>;
 } // namespace System::Private::CoreLib::System

@@ -14,7 +14,7 @@ namespace System::Private::CoreLib::System::Buffers {
 enum class OperationStatus : int32_t;
 } // namespace System::Private::CoreLib::System::Buffers
 namespace System::Private::CoreLib::System::Runtime::Intrinsics {
-FORWARDS_(Vector128, T1, T2)
+FORWARDS_(Vector128)
 } // namespace System::Private::CoreLib::System::Runtime::Intrinsics
 namespace System::Private::CoreLib::System::Text::Unicode {
 namespace Utf8UtilityNamespace {

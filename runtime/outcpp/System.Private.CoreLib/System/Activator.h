@@ -16,7 +16,7 @@ namespace System::Private::CoreLib::System::Threading {
 enum class StackCrawlMark : int32_t;
 } // namespace System::Private::CoreLib::System::Threading
 namespace System::Private::CoreLib::System {
-FORWARD_(Array, T1, T2)
+FORWARD_(Array)
 FORWARDS(Boolean)
 FORWARD(Object)
 FORWARD(String)

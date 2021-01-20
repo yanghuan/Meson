@@ -9,7 +9,7 @@ FORWARD(Object)
 FORWARD(String)
 FORWARD(Type)
 namespace NullableNamespace {
-template <class T1 = void, class T2 = void>
+template <class ...T>
 class Nullable {
 };
 template <>
@@ -38,6 +38,6 @@ struct Nullable<T> : public valueType<Nullable<T>> {
   public: constexpr Nullable(std::nullptr_t) noexcept {}
 };
 } // namespace NullableNamespace
-template <class T1 = void, class T2 = void>
-using Nullable = NullableNamespace::Nullable<T1, T2>;
+template <class ...T>
+using Nullable = NullableNamespace::Nullable<T...>;
 } // namespace System::Private::CoreLib::System

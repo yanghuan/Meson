@@ -510,8 +510,8 @@ namespace Meson.Compiler {
       return null;
     }
 
-    public static ForwardMacroSyntax GetForwardStatement(this ITypeDefinition type, int genericCount) {
-      return new ForwardMacroSyntax(type.Name, genericCount.GetTypeNames(), type.Kind == TypeKind.Struct ? ForwardMacroKind.MultiStruct : ForwardMacroKind.MultiClass);
+    public static ForwardMacroSyntax GetForwardStatement(this ITypeDefinition type, int _) {
+      return new ForwardMacroSyntax(type.Name, Array.Empty<IdentifierSyntax>(), type.Kind == TypeKind.Struct ? ForwardMacroKind.MultiStruct : ForwardMacroKind.MultiClass);
     }
 
     private static readonly Dictionary<string, string> innerValueTypeNames_ = new Dictionary<string, string>() {

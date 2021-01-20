@@ -7,10 +7,10 @@
 #include <System.Private.CoreLib/System/Threading/Tasks/Task.h>
 
 namespace System::Private::CoreLib::System {
-FORWARD_(Action, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17)
-FORWARD_(Array, T1, T2)
+FORWARD_(Action)
+FORWARD_(Array)
 FORWARD(AsyncCallback)
-FORWARD_(Func, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18)
+FORWARD_(Func)
 FORWARD(IAsyncResult)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Collections::Generic {
@@ -23,9 +23,9 @@ FORWARD(ITaskCompletionAction)
 FORWARD(TaskScheduler)
 namespace TaskFactoryNamespace {
 using namespace System::Collections::Generic;
-CLASS_FORWARD(TaskFactory, T1, T2)
+CLASS_FORWARD(TaskFactory)
 CLASS_(TaskFactory) : public object {
-  CLASS_FORWARD(CompleteOnCountdownPromise, T1, T2)
+  CLASS_FORWARD(CompleteOnCountdownPromise)
   private: CLASS_(CompleteOnCountdownPromise) : public Task<Array<Task<>>>::in {
     public: using interface = rt::TypeList<ITaskCompletionAction>;
     public: Boolean get_InvokeMayRunArbitraryCode();
@@ -344,6 +344,6 @@ CLASS_(TaskFactory, TResult) : public object {
   private: TaskContinuationOptions m_defaultContinuationOptions;
 };
 } // namespace TaskFactoryNamespace
-template <class T1 = void, class T2 = void>
-using TaskFactory = TaskFactoryNamespace::TaskFactory<T1, T2>;
+template <class ...T>
+using TaskFactory = TaskFactoryNamespace::TaskFactory<T...>;
 } // namespace System::Private::CoreLib::System::Threading::Tasks

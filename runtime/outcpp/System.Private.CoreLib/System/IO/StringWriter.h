@@ -9,7 +9,7 @@ FORWARD(StringBuilder)
 FORWARD(UnicodeEncoding)
 } // namespace System::Private::CoreLib::System::Text
 namespace System::Private::CoreLib::System {
-FORWARD_(Array, T1, T2)
+FORWARD_(Array)
 FORWARDS(Char)
 FORWARD(IFormatProvider)
 FORWARDS(Int32)
@@ -18,7 +18,7 @@ FORWARDS(ReadOnlySpan, T)
 FORWARD(String)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Threading::Tasks {
-FORWARD_(Task, T1, T2)
+FORWARD_(Task)
 } // namespace System::Private::CoreLib::System::Threading::Tasks
 namespace System::Private::CoreLib::System::Threading {
 FORWARDS(CancellationToken)

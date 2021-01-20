@@ -5,11 +5,11 @@
 #include <System.Private.CoreLib/System/ValueType.h>
 
 namespace System::Private::CoreLib::System {
-FORWARD_(Array, T1, T2)
+FORWARD_(Array)
 FORWARDS(Boolean)
 FORWARDS(Char)
 FORWARDS(Double)
-FORWARD_(IComparable, T1, T2)
+FORWARD_(IComparable)
 FORWARD(IEquatable, T)
 FORWARD(IFormatProvider)
 FORWARD(IFormattable)

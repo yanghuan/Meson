@@ -3,7 +3,7 @@
 #include <rt/GCObject.h>
 
 namespace System::Private::CoreLib::System::Runtime::Intrinsics {
-FORWARDS_(Vector128, T1, T2)
+FORWARDS_(Vector128)
 } // namespace System::Private::CoreLib::System::Runtime::Intrinsics
 namespace System::Private::CoreLib::System {
 FORWARDS(Boolean)

@@ -7,8 +7,8 @@ enum class LazyThreadSafetyMode : int32_t;
 } // namespace System::Private::CoreLib::System::Threading
 namespace System::Private::CoreLib::System {
 FORWARDS(Boolean)
-FORWARD_(Lazy, T1, T2, T3)
-FORWARDS_(Nullable, T1, T2)
+FORWARD_(Lazy)
+FORWARDS_(Nullable)
 namespace LazyDebugViewNamespace {
 using namespace System::Threading;
 CLASS(LazyDebugView, T) : public object {

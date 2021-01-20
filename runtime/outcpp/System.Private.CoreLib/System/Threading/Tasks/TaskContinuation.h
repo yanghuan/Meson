@@ -3,12 +3,12 @@
 #include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System {
-FORWARD_(Array, T1, T2)
+FORWARD_(Array)
 FORWARDS(Boolean)
 FORWARD(Delegate)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Threading::Tasks {
-FORWARD_(Task, T1, T2)
+FORWARD_(Task)
 namespace TaskContinuationNamespace {
 CLASS(TaskContinuation) : public object {
   public: void Run(Task<> completedTask, Boolean canInlineContinuationTask);

@@ -35,7 +35,7 @@ FORWARD(AssemblyLoadContext)
 } // namespace System::Private::CoreLib::System::Runtime::Loader
 namespace System::Private::CoreLib::System {
 enum class TypeNameFormatFlags : int32_t;
-FORWARD_(Array, T1, T2)
+FORWARD_(Array)
 FORWARDS(Int32)
 FORWARDS(IntPtr)
 FORWARD(IRuntimeMethodInfo)

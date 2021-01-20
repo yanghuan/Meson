@@ -7,7 +7,7 @@
 #include <System.Private.CoreLib/System/Threading/SpinLock.h>
 
 namespace System::Private::CoreLib::System {
-FORWARD_(Array, T1, T2)
+FORWARD_(Array)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Buffers {
 namespace ConfigurableArrayPoolNamespace {

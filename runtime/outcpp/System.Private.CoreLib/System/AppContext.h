@@ -11,7 +11,7 @@ FORWARD(FirstChanceExceptionEventArgs)
 namespace System::Private::CoreLib::System {
 FORWARDS(Boolean)
 FORWARDS(Char)
-FORWARD_(EventHandler, T1, T2)
+FORWARD_(EventHandler)
 FORWARDS(Int32)
 FORWARD(Object)
 FORWARD(String)

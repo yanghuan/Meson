@@ -4,7 +4,7 @@
 #include <System.Private.CoreLib/System/RuntimeType.h>
 
 namespace System::Private::CoreLib::System {
-FORWARD_(Array, T1, T2)
+FORWARD_(Array)
 FORWARD(Attribute)
 FORWARDS(Boolean)
 FORWARDS(Int32)

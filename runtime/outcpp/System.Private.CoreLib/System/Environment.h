@@ -13,7 +13,7 @@ FORWARDS(ValueStringBuilder)
 } // namespace System::Private::CoreLib::System::Text
 namespace System::Private::CoreLib::System {
 enum class EnvironmentVariableTarget : int32_t;
-FORWARD_(Array, T1, T2)
+FORWARD_(Array)
 FORWARDS(Boolean)
 FORWARD(Exception)
 FORWARDS(Int32)

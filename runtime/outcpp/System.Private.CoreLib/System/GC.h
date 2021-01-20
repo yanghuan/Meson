@@ -6,7 +6,7 @@ namespace System::Private::CoreLib::System {
 enum class GCCollectionMode : int32_t;
 enum class GCKind : int32_t;
 enum class GCNotificationStatus : int32_t;
-FORWARD_(Array, T1, T2)
+FORWARD_(Array)
 FORWARDS(GCMemoryInfo)
 FORWARD(GCMemoryInfoData)
 FORWARDS(Int32)
@@ -14,7 +14,7 @@ FORWARDS(Int64)
 FORWARDS(IntPtr)
 FORWARD(Object)
 FORWARDS(UInt64)
-FORWARD_(WeakReference, T1, T2)
+FORWARD_(WeakReference)
 namespace GCNamespace {
 class GC {
   public: enum class GC_ALLOC_FLAGS : int32_t {

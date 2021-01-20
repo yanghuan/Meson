@@ -6,7 +6,7 @@ namespace System::Private::CoreLib::System::Reflection {
 FORWARD(ICustomAttributeProvider)
 } // namespace System::Private::CoreLib::System::Reflection
 namespace System::Private::CoreLib::System {
-FORWARD_(Array, T1, T2)
+FORWARD_(Array)
 FORWARDS(Boolean)
 FORWARD(Type)
 } // namespace System::Private::CoreLib::System

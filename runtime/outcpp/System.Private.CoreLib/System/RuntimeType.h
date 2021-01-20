@@ -56,7 +56,7 @@ namespace System::Private::CoreLib::System {
 enum class TypeCode : int32_t;
 enum class TypeNameFormatFlags : int32_t;
 enum class TypeNameKind : int32_t;
-FORWARD_(Array, T1, T2)
+FORWARD_(Array)
 FORWARDS(Byte)
 FORWARDS(Char)
 FORWARD(CtorDelegate)

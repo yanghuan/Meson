@@ -13,7 +13,7 @@ namespace System::Private::CoreLib::System::Runtime::InteropServices::ComTypes {
 FORWARD(IEnumVARIANT)
 } // namespace System::Private::CoreLib::System::Runtime::InteropServices::ComTypes
 namespace System::Private::CoreLib::System {
-FORWARD_(Array, T1, T2)
+FORWARD_(Array)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Runtime::InteropServices::CustomMarshalers {
 namespace EnumeratorViewOfEnumVariantNamespace {

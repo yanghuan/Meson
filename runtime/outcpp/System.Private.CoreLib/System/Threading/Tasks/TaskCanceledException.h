@@ -14,7 +14,7 @@ FORWARD(SerializationInfo)
 FORWARDS(StreamingContext)
 } // namespace System::Private::CoreLib::System::Runtime::Serialization
 namespace System::Private::CoreLib::System::Threading::Tasks {
-FORWARD_(Task, T1, T2)
+FORWARD_(Task)
 namespace TaskCanceledExceptionNamespace {
 using namespace System::Runtime::Serialization;
 CLASS(TaskCanceledException) : public OperationCanceledException::in {

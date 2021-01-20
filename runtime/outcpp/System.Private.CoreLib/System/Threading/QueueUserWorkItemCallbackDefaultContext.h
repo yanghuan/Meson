@@ -3,13 +3,13 @@
 #include <System.Private.CoreLib/System/Threading/QueueUserWorkItemCallbackBase.h>
 
 namespace System::Private::CoreLib::System {
-FORWARD_(Action, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17)
+FORWARD_(Action)
 FORWARD(Object)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Threading {
 FORWARD(WaitCallback)
 namespace QueueUserWorkItemCallbackDefaultContextNamespace {
-CLASS_FORWARD(QueueUserWorkItemCallbackDefaultContext, T1, T2)
+CLASS_FORWARD(QueueUserWorkItemCallbackDefaultContext)
 CLASS_(QueueUserWorkItemCallbackDefaultContext) : public QueueUserWorkItemCallbackBase::in {
   public: void ctor(WaitCallback callback, Object state);
   public: void Execute();
@@ -23,6 +23,6 @@ CLASS_(QueueUserWorkItemCallbackDefaultContext, TState) : public QueueUserWorkIt
   private: TState _state;
 };
 } // namespace QueueUserWorkItemCallbackDefaultContextNamespace
-template <class T1 = void, class T2 = void>
-using QueueUserWorkItemCallbackDefaultContext = QueueUserWorkItemCallbackDefaultContextNamespace::QueueUserWorkItemCallbackDefaultContext<T1, T2>;
+template <class ...T>
+using QueueUserWorkItemCallbackDefaultContext = QueueUserWorkItemCallbackDefaultContextNamespace::QueueUserWorkItemCallbackDefaultContext<T...>;
 } // namespace System::Private::CoreLib::System::Threading

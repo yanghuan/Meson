@@ -5,7 +5,7 @@
 #include <System.Private.CoreLib/System/Text/Decoder.h>
 
 namespace System::Private::CoreLib::System {
-FORWARD_(Array, T1, T2)
+FORWARD_(Array)
 FORWARDS(Byte)
 FORWARDS(Char)
 FORWARDS(ReadOnlySpan, T)

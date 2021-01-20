@@ -7,7 +7,7 @@ namespace System::Private::CoreLib::System {
 FORWARD(IAsyncDisposable)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Runtime::CompilerServices {
-FORWARDS_(ConfiguredValueTaskAwaitable, T1, T2)
+FORWARDS_(ConfiguredValueTaskAwaitable)
 namespace ConfiguredAsyncDisposableNamespace {
 struct ConfiguredAsyncDisposable : public valueType<ConfiguredAsyncDisposable> {
   public: explicit ConfiguredAsyncDisposable(IAsyncDisposable source, Boolean continueOnCapturedContext);

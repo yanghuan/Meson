@@ -4,7 +4,7 @@
 
 namespace System::Private::CoreLib::System {
 enum class AttributeTargets : int32_t;
-FORWARD_(Array, T1, T2)
+FORWARD_(Array)
 FORWARD(AttributeUsageAttribute)
 FORWARDS(Boolean)
 FORWARDS(Byte)

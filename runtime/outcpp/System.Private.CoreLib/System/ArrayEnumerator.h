@@ -8,7 +8,7 @@ namespace System::Private::CoreLib::System::Collections {
 FORWARD(IEnumerator)
 } // namespace System::Private::CoreLib::System::Collections
 namespace System::Private::CoreLib::System {
-FORWARD_(Array, T1, T2)
+FORWARD_(Array)
 FORWARD(ICloneable)
 namespace ArrayEnumeratorNamespace {
 using namespace System::Collections;

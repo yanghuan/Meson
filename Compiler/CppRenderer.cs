@@ -392,7 +392,7 @@ namespace Meson.Compiler {
         case ClassKind.Array: {
             Write("CLASS_FORWARD");
             Write(Tokens.OpenParentheses);
-            WriteNodesWithSeparated(new IdentifierSyntax[] { node.Name }.Concat(2.GetTypeNames()));
+            node.Name.Render(this);
             Write(Tokens.CloseParentheses);
             WriteNewLine();
 
@@ -408,15 +408,6 @@ namespace Meson.Compiler {
             node.Name.Render(this);
             Write(Tokens.CloseParentheses);
             break;
-            /*
-            Write("ARRAY");
-            Write(Tokens.OpenParentheses);
-            Write(Tokens.OpenParentheses);
-            WriteBlock(node);
-            Write(Tokens.CloseParentheses);
-            Write(Tokens.CloseParentheses);
-            WriteNewLine();
-            return;*/
           }
         case ClassKind.Multi: {
             node.Template ??= new TemplateSyntax();
@@ -426,7 +417,7 @@ namespace Meson.Compiler {
         case ClassKind.MultiRefForward: {
             Write("CLASS_FORWARD");
             Write(Tokens.OpenParentheses);
-            WriteNodesWithSeparated(new IdentifierSyntax[] { node.Name }.Concat(node.Template.TypeNames));
+            node.Name.Render(this);
             Write(Tokens.CloseParentheses);
             WriteNewLine();
             return;

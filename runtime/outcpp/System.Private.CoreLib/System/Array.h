@@ -26,7 +26,7 @@ namespace System::Private::CoreLib::System::Collections::ObjectModel {
 FORWARD(ReadOnlyCollection, T)
 } // namespace System::Private::CoreLib::System::Collections::ObjectModel
 namespace System::Private::CoreLib::System {
-FORWARD_(Action, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17)
+FORWARD_(Action)
 FORWARDS(Boolean)
 FORWARD(Comparison, T)
 FORWARD(Converter, TInput, TOutput)
@@ -51,7 +51,7 @@ using IEqualityComparer = Collections::IEqualityComparer;
 template <class T>
 using IComparer_ = Collections::Generic::IComparer<T>;
 using IEnumerator = Collections::IEnumerator;
-CLASS_FORWARD(Array, T1, T2)
+CLASS_FORWARD(Array)
 CLASS_(Array, T1);
 CLASS_(Array) : public object {
   public: using interface = rt::TypeList<ICloneable, IList, ICollection, IEnumerable, IStructuralComparable, IStructuralEquatable>;
@@ -272,6 +272,6 @@ CLASS_(Array, T) : public rt::Array<T, Array<>::in> {
   public: using interface = rt::TypeList<IList_<T>, IReadOnlyList<T>, IReadOnlyCollection<T>>;
 };
 } // namespace ArrayNamespace
-template <class T1 = void, class T2 = void>
-using Array = ArrayNamespace::Array<T1, T2>;
+template <class ...T>
+using Array = ArrayNamespace::Array<T...>;
 } // namespace System::Private::CoreLib::System

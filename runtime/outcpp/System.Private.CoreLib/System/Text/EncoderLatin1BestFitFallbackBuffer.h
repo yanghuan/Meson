@@ -5,7 +5,7 @@
 #include <System.Private.CoreLib/System/Text/EncoderFallbackBuffer.h>
 
 namespace System::Private::CoreLib::System {
-FORWARD_(Array, T1, T2)
+FORWARD_(Array)
 FORWARDS(Boolean)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Text {

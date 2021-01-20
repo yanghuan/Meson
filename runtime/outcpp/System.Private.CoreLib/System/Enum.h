@@ -15,12 +15,12 @@ enum class CorElementType : uint8_t;
 } // namespace System::Private::CoreLib::System::Reflection
 namespace System::Private::CoreLib::System {
 enum class TypeCode : int32_t;
-FORWARD_(Array, T1, T2)
+FORWARD_(Array)
 FORWARDS(Byte)
 FORWARDS(DateTime)
 FORWARDS(Decimal)
 FORWARDS(Double)
-FORWARD_(IComparable, T1, T2)
+FORWARD_(IComparable)
 FORWARD(IConvertible)
 FORWARD(IFormatProvider)
 FORWARD(IFormattable)

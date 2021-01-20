@@ -18,7 +18,7 @@ namespace System::Private::CoreLib::System::Text {
 FORWARDS(ValueStringBuilder)
 } // namespace System::Private::CoreLib::System::Text
 namespace System::Private::CoreLib::System {
-FORWARD_(Array, T1, T2)
+FORWARD_(Array)
 FORWARDS(Char)
 FORWARDS(Decimal)
 FORWARDS(Double)

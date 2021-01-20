@@ -6,7 +6,7 @@ namespace System::Private::CoreLib::System {
 FORWARD(AsyncCallback)
 FORWARD(IAsyncResult)
 FORWARDS(IntPtr)
-FORWARDS_(Nullable, T1, T2)
+FORWARDS_(Nullable)
 FORWARD(Object)
 FORWARD(String)
 } // namespace System::Private::CoreLib::System

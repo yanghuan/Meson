@@ -8,7 +8,7 @@ namespace System::Private::CoreLib::System {
 enum class DayOfWeek : int32_t;
 enum class TokenType : int32_t;
 FORWARDS(__DTString)
-FORWARD_(Array, T1, T2)
+FORWARD_(Array)
 FORWARDS(Char)
 FORWARD(ICloneable)
 FORWARD(IFormatProvider)

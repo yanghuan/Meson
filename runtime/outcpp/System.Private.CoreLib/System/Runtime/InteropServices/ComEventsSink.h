@@ -10,7 +10,7 @@ FORWARD(IConnectionPoint)
 FORWARD(ITypeInfo)
 } // namespace System::Private::CoreLib::System::Runtime::InteropServices::ComTypes
 namespace System::Private::CoreLib::System {
-FORWARD_(Array, T1, T2)
+FORWARD_(Array)
 FORWARDS(IntPtr)
 FORWARD(String)
 } // namespace System::Private::CoreLib::System

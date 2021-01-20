@@ -33,9 +33,8 @@ namespace Meson.Compiler {
 
     private void Visit() {
       if (IsMulti) {
-        int typeParameterCount = types_.Last().TypeParameterCount + 1;
         ClassSyntax node = new ClassSyntax(Root.Name, Root.Kind == TypeKind.Struct) {
-          Template = typeParameterCount.GetVoidTemplate(),
+          Template = new TemplateSyntax(IdentifierSyntax.VariadicT),
           Kind = HasRef ? ClassKind.MultiRefForward : ClassKind.None,
         };
         parent_.Add(node);

@@ -8,7 +8,7 @@ FORWARD(String)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Collections::Generic {
 namespace KeyValuePairNamespace {
-template <class T1 = void, class T2 = void, class T3 = void>
+template <class ...T>
 class KeyValuePair {
 };
 template <>
@@ -29,6 +29,6 @@ struct KeyValuePair<TKey, TValue> : public valueType<KeyValuePair<TKey, TValue>>
   private: TValue value;
 };
 } // namespace KeyValuePairNamespace
-template <class T1 = void, class T2 = void, class T3 = void>
-using KeyValuePair = KeyValuePairNamespace::KeyValuePair<T1, T2, T3>;
+template <class ...T>
+using KeyValuePair = KeyValuePairNamespace::KeyValuePair<T...>;
 } // namespace System::Private::CoreLib::System::Collections::Generic
