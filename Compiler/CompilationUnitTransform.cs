@@ -326,6 +326,13 @@ namespace Meson.Compiler {
             args.Type = Generator.UIntPtrTypeDefinition;
             break;
           }
+        case TypeKind.FunctionPointer: {
+            var functionPointerType = (FunctionPointerType)args.Type;
+            var returnType = GetTypeName(args.With(functionPointerType.ReturnType, true));
+            var parameterTypes = functionPointerType.ParameterTypes.Select(i => GetTypeName(args.With(i, true)));
+            var pointer = new FunctionPointerExpressionSyntax(returnType, parameterTypes);
+            return IdentifierSyntax.FunctionPointer.Generic(pointer);
+          }
       }
 
       if (args.IsInHead) {

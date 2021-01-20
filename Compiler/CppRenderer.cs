@@ -647,6 +647,18 @@ namespace Meson.Compiler {
       Write(Tokens.CloseComment);
     }
 
+    internal void Render(FunctionPointerExpressionSyntax node) {
+      node.RetuenType.Render(this);
+      WriteSpace();
+      Write(Tokens.OpenParentheses);
+      Write(Tokens.Asterisk);
+      node.Name?.Render(this);
+      Write(Tokens.CloseParentheses);
+      Write(Tokens.OpenParentheses);
+      WriteNodesWithSeparated(node.ParameterTypes);
+      Write(Tokens.CloseParentheses);
+    }
+
     internal void Render(ReturnStatementSyntax node) {
       Write(node.ReturnKeyword);
       if (node.Expression != null) {

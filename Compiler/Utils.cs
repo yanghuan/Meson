@@ -518,7 +518,7 @@ namespace Meson.Compiler {
       ["System.Byte"] = "uint8_t",
       ["System.SByte"] = "int8_t",
       ["System.Boolean"] = "bool",
-      ["System.Char"] = "char8_t",
+      ["System.Char"] = "char16_t",
       ["System.Int16"] = "int16_t",
       ["System.UInt16"] = "uint16_t",
       ["System.Int32"] = "int32_t",

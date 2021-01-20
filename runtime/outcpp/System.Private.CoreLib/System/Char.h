@@ -117,15 +117,15 @@ struct Char : public valueType<Char, rt::TypeCode::Char> {
   public: static Int32 ConvertToUtf32(Char highSurrogate, Char lowSurrogate);
   private: static void ConvertToUtf32_ThrowInvalidArgs(UInt32 highSurrogateOffset);
   public: static Int32 ConvertToUtf32(String s, Int32 index);
-  private: char8_t m_value;
-  public: static constexpr char8_t MaxValue = 'ÿ';
-  public: static constexpr char8_t MinValue = '\0';
+  private: char16_t m_value;
+  public: static constexpr char16_t MaxValue = 'ÿ';
+  public: static constexpr char16_t MinValue = '\0';
   public: constexpr Char() noexcept : m_value(0) {}
-  public: constexpr Char(char8_t value) noexcept : m_value(value) {}
+  public: constexpr Char(char16_t value) noexcept : m_value(value) {}
   public: template <class T> requires(std::is_enum_v<T>)
-  constexpr explicit Char(T value) noexcept : Char((char8_t)value) {}
-  public: constexpr char8_t& get() noexcept { return m_value; }
-  public: constexpr char8_t get() const noexcept { return m_value; }
+  constexpr explicit Char(T value) noexcept : Char((char16_t)value) {}
+  public: constexpr char16_t& get() noexcept { return m_value; }
+  public: constexpr char16_t get() const noexcept { return m_value; }
 };
 } // namespace CharNamespace
 using Char = CharNamespace::Char;

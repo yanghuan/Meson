@@ -37,6 +37,7 @@ namespace Meson.Compiler.CppAst {
     public static readonly IdentifierSyntax IsEnumType = "std::is_enum_v";
     public static readonly IdentifierSyntax IsBoolType = "rt::IsBool";
     public static readonly IdentifierSyntax GetAllocSize = "rt::string::GetAllocSize";
+    public static readonly IdentifierSyntax FunctionPointer = "rt::fp";
     public static readonly IdentifierSyntax EmptyArray = "Array<>::in::Empty";
     public static readonly IdentifierSyntax Out = "out";
     public static readonly IdentifierSyntax Value = "value";
@@ -195,6 +196,22 @@ namespace Meson.Compiler.CppAst {
 
     internal override void Render(CppRenderer renderer) {
       NameExpression.Render(renderer);
+    }
+  }
+
+  internal sealed class FunctionPointerExpressionSyntax : ExpressionSyntax {
+    public ExpressionSyntax RetuenType { get; }
+    public IdentifierSyntax Name { get; set; }
+    public readonly List<ExpressionSyntax> ParameterTypes = new List<ExpressionSyntax>();
+
+    public FunctionPointerExpressionSyntax(ExpressionSyntax retuenType, IEnumerable<ExpressionSyntax> parameterTypes, IdentifierSyntax name = null) {
+      RetuenType = retuenType;
+      ParameterTypes.AddRange(parameterTypes);
+      Name = name;
+    }
+
+    internal override void Render(CppRenderer renderer) {
+      renderer.Render(this);
     }
   }
 }

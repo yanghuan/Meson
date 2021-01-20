@@ -97,7 +97,7 @@ IntPtr RuntimeHelpers::AllocateTypeAssociatedMemory(Type type, Int32 size) {
   return AllocateTypeAssociatedMemoryInternal(QCallTypeHandle(type2), (UInt32)size);
 }
 
-void RuntimeHelpers::DispatchTailCalls(IntPtr callersRetAddrSlot, delegate* callTarget, IntPtr retVal) {
+void RuntimeHelpers::DispatchTailCalls(IntPtr callersRetAddrSlot, rt::fp<void (*)(IntPtr, IntPtr, IntPtr*)> callTarget, IntPtr retVal) {
   IntPtr value;
   TailCallTls* tailCallInfo = GetTailCallInfo(callersRetAddrSlot, &value);
   PortableTailCallFrame* frame = tailCallInfo->Frame;

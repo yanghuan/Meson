@@ -40,7 +40,7 @@
 
 #define CLASS_MULTI_FORWARD__(n, name) \
   template <class... T>\
-  class name { static_cast(false); };\
+  class name {};\
   template <class... T>\
   using n = rt::ref<name<T...>>;
 

@@ -258,13 +258,13 @@ class Interop {
     public: static Boolean IsNLSDefinedString(Int32 Function, UInt32 dwFlags, IntPtr lpVersionInformation, Char* lpString, Int32 cchStr);
     public: static BOOL GetUserPreferredUILanguages(UInt32 dwFlags, UInt32* pulNumLanguages, Char* pwszLanguagesBuffer, UInt32* pcchLanguagesBuffer);
     public: static Int32 GetLocaleInfoEx(String lpLocaleName, UInt32 LCType, void* lpLCData, Int32 cchData);
-    public: static Boolean EnumSystemLocalesEx(delegate* lpLocaleEnumProcEx, UInt32 dwFlags, void* lParam, IntPtr reserved);
-    public: static Boolean EnumTimeFormatsEx(delegate* lpTimeFmtEnumProcEx, String lpLocaleName, UInt32 dwFlags, void* lParam);
+    public: static Boolean EnumSystemLocalesEx(rt::fp<BOOL (*)(Char*, UInt32, void*)> lpLocaleEnumProcEx, UInt32 dwFlags, void* lParam, IntPtr reserved);
+    public: static Boolean EnumTimeFormatsEx(rt::fp<BOOL (*)(Char*, void*)> lpTimeFmtEnumProcEx, String lpLocaleName, UInt32 dwFlags, void* lParam);
     public: static Int32 GetCalendarInfoEx(String lpLocaleName, UInt32 Calendar, IntPtr lpReserved, UInt32 CalType, IntPtr lpCalData, Int32 cchData, Int32& lpValue);
     public: static Int32 GetCalendarInfoEx(String lpLocaleName, UInt32 Calendar, IntPtr lpReserved, UInt32 CalType, IntPtr lpCalData, Int32 cchData, IntPtr lpValue);
     public: static Int32 GetUserGeoID(Int32 geoClass);
     public: static Int32 GetGeoInfo(Int32 location, Int32 geoType, Char* lpGeoData, Int32 cchData, Int32 LangId);
-    public: static Boolean EnumCalendarInfoExEx(delegate* pCalInfoEnumProcExEx, String lpLocaleName, UInt32 Calendar, String lpReserved, UInt32 CalType, void* lParam);
+    public: static Boolean EnumCalendarInfoExEx(rt::fp<BOOL (*)(Char*, UInt32, IntPtr, void*)> pCalInfoEnumProcExEx, String lpLocaleName, UInt32 Calendar, String lpReserved, UInt32 CalType, void* lParam);
     public: static Boolean GetNLSVersionEx(Int32 function, String localeName, NlsVersionInfoEx* lpVersionInformation);
     public: static Int32 ResolveLocaleName(String lpNameToResolve, Char* lpLocaleName, Int32 cchLocaleName);
     public: static Boolean CancelIoEx(SafeHandle handle, NativeOverlapped* lpOverlapped);
@@ -365,7 +365,7 @@ class Interop {
     };
     public: static Int32 GetCalendars(String localeName, Array<CalendarId> calendars, Int32 calendarsCapacity);
     public: static ResultCode GetCalendarInfo(String localeName, CalendarId calendarId, CalendarDataType calendarDataType, Char* result, Int32 resultCapacity);
-    public: static Boolean EnumCalendarInfo(delegate* callback, String localeName, CalendarId calendarId, CalendarDataType calendarDataType, IntPtr context);
+    public: static Boolean EnumCalendarInfo(rt::fp<void (*)(Char*, IntPtr)> callback, String localeName, CalendarId calendarId, CalendarDataType calendarDataType, IntPtr context);
     public: static Int32 GetLatestJapaneseEra();
     public: static Boolean GetJapaneseEraStartDate(Int32 era, Int32& startYear, Int32& startMonth, Int32& startDay);
     public: static void ChangeCase(Char* src, Int32 srcLen, Char* dstBuffer, Int32 dstBufferCapacity, Boolean bToUpper);

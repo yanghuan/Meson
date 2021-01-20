@@ -94,7 +94,7 @@ namespace rt {
 
   template <typename T, typename = void>
   struct GetTypeCode {
-    static_assert(IsComplete<T>::value, "not complete type");
+    static_assert(std::is_void_v<T> || IsComplete<T>::value, "not complete type");
     static constexpr TypeCode value = TypeCode::None;
   };
 
@@ -630,6 +630,9 @@ namespace rt {
   static constexpr bool IsBool = std::is_same_v<T, bool>;
 
   template <class T>
+  using fp = T;
+
+  template <class T>
   auto GetPrimitiveValue(const T& index) {
     if constexpr (CodeOf<T> == TypeCode::None) {
       return index;
@@ -869,7 +872,7 @@ namespace rt {
     auto operator !=(const T1& other) {
       return T::op_Inequality(*static_cast<T*>(this), other);
     }
-
+    
     template <class R, class T1 = T> requires(std::is_same_v<R, decltype(&(T1().GetPinnableReference()))>)
     operator R() {
       return &(static_cast<T*>(this)->GetPinnableReference());

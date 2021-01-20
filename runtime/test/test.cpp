@@ -167,9 +167,19 @@ namespace TestAction {
 template<class ...T>
 using Action = TestAction::Action<T...>;
 
+
+template <class T>
+using AA = T;
+
+void ff(int aa) {
+
+}
+
 int main() {
   Action<> a;
   a->f0();
+
+  AA<void (*)(int)> b = &ff;;
 
   return 0;
 }

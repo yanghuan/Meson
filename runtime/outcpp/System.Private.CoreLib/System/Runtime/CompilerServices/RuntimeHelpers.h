@@ -89,7 +89,7 @@ class RuntimeHelpers {
   private: static IntPtr AllocateTypeAssociatedMemoryInternal(QCallTypeHandle type, UInt32 size);
   private: static IntPtr AllocTailCallArgBuffer(Int32 size, IntPtr gcDesc);
   private: static TailCallTls* GetTailCallInfo(IntPtr retAddrSlot, IntPtr* retAddr);
-  private: static void DispatchTailCalls(IntPtr callersRetAddrSlot, delegate* callTarget, IntPtr retVal);
+  private: static void DispatchTailCalls(IntPtr callersRetAddrSlot, rt::fp<void (*)(IntPtr, IntPtr, IntPtr*)> callTarget, IntPtr retVal);
   public: static Int64 GetILBytesJitted();
   public: static Int32 GetMethodsJittedCount();
   public: template <class T>
