@@ -92,5 +92,6 @@
         "xtree": "cpp",
         "xutility": "cpp",
         "*.ipp": "cpp"
-    }
+    },
+    "git.ignoreLimitWarning": true
 }

@@ -94,13 +94,13 @@ namespace rt {
 
   template <typename T, typename = void>
   struct GetTypeCode {
-    static_assert(std::is_void_v<T> || IsComplete<T>::value, "not complete type");
+    //static_assert(std::is_void_v<T> || IsComplete<T>::value, "not complete type");
     static constexpr TypeCode value = TypeCode::None;
   };
 
   template <typename T>
   struct GetTypeCode<T, std::void_t<decltype(T::code != TypeCode::None)>> {
-    static_assert(IsComplete<T>::value, "not complete type");
+    //static_assert(IsComplete<T>::value, "not complete type");
     static constexpr TypeCode value = T::code;
   };
 
@@ -183,7 +183,7 @@ namespace rt {
 
   template <class T>
   struct ArrayElementType {
-    static_assert(IsComplete<T>::value, "not complete type");
+    //static_assert(IsComplete<T>::value, "not complete type");
     struct __Type {
       struct element_type;
     };
