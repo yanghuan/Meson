@@ -753,19 +753,35 @@ namespace Meson.Compiler {
       return true;
     }
 
+    private static void FillOverrideInterfaceProperty(ITypeDefinition type, IProperty property, HashSet<IProperty> set) {
+      var propertys = type.DirectBaseTypes.Where(i => i.Kind == TypeKind.Interface).SelectMany(i => i.GetDefinition().Properties);
+      set.UnionWith(propertys.Where(i => i.Name == property.Name));
+    }
+
+    public static IEnumerable<IProperty> GetInterfaceGetPropertys(this ITypeDefinition type) {
+      HashSet<IProperty> overrides = new HashSet<IProperty>();
+      List<IProperty> propertys = new List<IProperty>();
+      foreach (var property in type.GetProperties(i => i.DeclaringType.Kind == TypeKind.Interface)) {
+        propertys.Add(property);
+        FillOverrideInterfaceProperty(property.DeclaringTypeDefinition, property, overrides);
+      }
+      propertys.RemoveAll(overrides.Contains);
+      return propertys;
+    }
+
     private static void FillOverrideInterfaceMethod(ITypeDefinition type, IMethod method, HashSet<IMethod> set) {
       var methods = type.DirectBaseTypes.Where(i => i.Kind == TypeKind.Interface).SelectMany(i => i.GetDefinition().Methods);
       set.UnionWith(methods.Where(i => i.Name == method.Name && i.IsSameSignature(method)));
     }
 
     public static IEnumerable<IMethod> GetInterfaceMethods(this ITypeDefinition type) {
-      HashSet<IMethod> overrideMethods = new HashSet<IMethod>();
+      HashSet<IMethod> overrides = new HashSet<IMethod>();
       List<IMethod> methods = new List<IMethod>();
       foreach (var method in type.GetMethods(i => i.DeclaringType.Kind == TypeKind.Interface)) {
         methods.Add(method);
-        FillOverrideInterfaceMethod(method.DeclaringTypeDefinition, method, overrideMethods);
+        FillOverrideInterfaceMethod(method.DeclaringTypeDefinition, method, overrides);
       }
-      methods.RemoveAll(overrideMethods.Contains);
+      methods.RemoveAll(overrides.Contains);
       return methods;
     }
 

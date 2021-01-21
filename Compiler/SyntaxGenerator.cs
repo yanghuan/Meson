@@ -16,11 +16,6 @@ namespace Meson.Compiler {
       public List<ITypeDefinition> Types;
     }
 
-    public Options Options { get; }
-    private readonly Dictionary<IModule, CSharpDecompiler> decompilers_ = new Dictionary<IModule, CSharpDecompiler>();
-    private readonly Dictionary<ITypeDefinition, RefMultiGenericTypeInfo> multiGenericTypes_ = new Dictionary<ITypeDefinition, RefMultiGenericTypeInfo>(TypeDefinitionEqualityComparer.Default);
-    private readonly Dictionary<ISymbol, SymbolNameSyntax> memberNames_ = new Dictionary<ISymbol, SymbolNameSyntax>();
-    private Dictionary<string, HashSet<ITypeDefinition>> namespaceTypes_;
     private static readonly DecompilerSettings decompilerSettings_ = new DecompilerSettings(LanguageVersion.Latest) {
       ThrowExpressions = false,
       StringInterpolation = false,
@@ -37,7 +32,13 @@ namespace Meson.Compiler {
       SwitchStatementOnString = false,
       NativeIntegers = false,
     };
+
+    public Options Options { get; }
+    private readonly Dictionary<IModule, CSharpDecompiler> decompilers_ = new Dictionary<IModule, CSharpDecompiler>();
+    private readonly Dictionary<ITypeDefinition, RefMultiGenericTypeInfo> multiGenericTypes_ = new Dictionary<ITypeDefinition, RefMultiGenericTypeInfo>(TypeDefinitionEqualityComparer.Default);
+    private readonly Dictionary<ISymbol, SymbolNameSyntax> memberNames_ = new Dictionary<ISymbol, SymbolNameSyntax>();
     private readonly List<ITypeDefinition> knownTypes_ = new List<ITypeDefinition>();
+    private Dictionary<string, HashSet<ITypeDefinition>> namespaceTypes_;
 
     public SyntaxGenerator(Options options) {
       Options = options;

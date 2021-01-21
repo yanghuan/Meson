@@ -14,7 +14,6 @@ namespace IEnumeratorNamespace {
 using IEnumerator_ = Collections::IEnumerator;
 CLASS(IEnumerator, T) : public object {
   public: using interface = rt::TypeList<IDisposable, IEnumerator_>;
-  public: Object get_Current();
   public: T get_Current();
   public: void Dispose();
   public: Boolean MoveNext();

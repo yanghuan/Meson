@@ -175,6 +175,17 @@ void ff(int aa) {
 
 }
 
+struct A {
+  struct B
+  {
+    A a;
+    void f(A& a) {
+
+    }
+  };
+};
+
+
 int main() {
   Action<> a;
   a->f0();

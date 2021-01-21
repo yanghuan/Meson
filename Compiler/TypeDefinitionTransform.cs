@@ -636,11 +636,8 @@ namespace Meson.Compiler {
       }
     }
 
-    private static IEnumerable<IProperty> GetPropertys(ITypeDefinition typeDefinition) {
-      if (typeDefinition.Kind == TypeKind.Interface) {
-        return typeDefinition.GetProperties(i => i.DeclaringType.Kind == TypeKind.Interface);
-      }
-      return typeDefinition.Properties;
+    private static IEnumerable<IProperty> GetPropertys(ITypeDefinition type) {
+      return type.Kind != TypeKind.Interface ? type.Properties : type.GetInterfaceGetPropertys();
     }
 
     private void VisitPropertys(ITypeDefinition typeDefinition, ClassSyntax node) {
