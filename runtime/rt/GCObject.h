@@ -379,13 +379,13 @@ namespace rt {
       return T::op_Implicit(*this);
     }
 
-#if defined(_MSC_VER)
-    template <class R> requires(std::is_same_v<R, decltype(R::op_Implicit(ref<T>()))>)
+#if defined(__clang__)
+    template <class R, class T1 = T> requires(std::is_same_v<R, decltype(R::op_Implicit(ref<T1>()))>)
     operator R() {
       return R::op_Implicit(*this);
     }
 #else
-    template <class R, class T1 = T> requires(std::is_same_v<R, decltype(R::op_Implicit(ref<T1>()))>)
+    template <class R> requires(std::is_same_v<R, decltype(R::op_Implicit(ref<T>()))>)
     operator R() {
       return R::op_Implicit(*this);
     }
@@ -885,13 +885,13 @@ namespace rt {
       return &(static_cast<T*>(this)->GetPinnableReference());
     }
 
-#if defined(_MSC_VER)
-    template <class R> requires(std::is_same_v<R, decltype(T::op_Implicit(T()))>)
+#if defined(__clang__)
+    template <class R, class T1 = T> requires(std::is_same_v<R, decltype(T1::op_Implicit(T1()))>)
     operator R() {
       return T::op_Implicit(*static_cast<T*>(this));
     }
 #else
-    template <class R, class T1 = T> requires(std::is_same_v<R, decltype(T1::op_Implicit(T1()))>)
+    template <class R> requires(std::is_same_v<R, decltype(T::op_Implicit(T()))>)
     operator R() {
       return T::op_Implicit(*static_cast<T*>(this));
     }
