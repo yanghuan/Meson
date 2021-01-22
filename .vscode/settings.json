@@ -91,7 +91,10 @@
         "xtr1common": "cpp",
         "xtree": "cpp",
         "xutility": "cpp",
-        "*.ipp": "cpp"
+        "*.ipp": "cpp",
+        "any": "cpp",
+        "resumable": "cpp",
+        "ranges": "cpp"
     },
     "git.ignoreLimitWarning": true
 }

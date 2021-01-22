@@ -61,7 +61,6 @@ FORWARD(TaskContinuation)
 FORWARD(TaskExceptionHolder)
 FORWARD_(TaskFactory)
 FORWARD(TaskScheduler)
-FORWARDS(VoidTaskResult)
 namespace TaskNamespace {
 using namespace System::Collections::Generic;
 using namespace System::Collections::ObjectModel;
@@ -370,7 +369,7 @@ CLASS_(Task) : public object {
   private: static Dictionary<Int32, Task<>> s_currentActiveTasks;
   public: ContingentProperties m_contingentProperties;
   private: static TaskFactory<> Factory;
-  public: static Task<VoidTaskResult> s_cachedCompleted;
+  public: static Task<> s_cachedCompleted;
   private: static ContextCallback s_ecCallback;
 };
 CLASS(DelayPromise) : public Task<>::in {

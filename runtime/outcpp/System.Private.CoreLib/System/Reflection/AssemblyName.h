@@ -100,7 +100,7 @@ CLASS(AssemblyName) : public object {
   private: AssemblyHashAlgorithm _hashAlgorithm;
   private: AssemblyVersionCompatibility _versionCompatibility;
   private: AssemblyNameFlags _flags;
-  public: static constexpr Char c_DummyChar = u'￿';
+  public: static constexpr Char c_DummyChar = u'\0';
   private: static constexpr Int16 c_MaxAsciiCharsReallocate = 40;
   private: static constexpr Int16 c_MaxUnicodeCharsReallocate = 40;
   private: static constexpr Int16 c_MaxUTF_8BytesPerUnicodeChar = 4;

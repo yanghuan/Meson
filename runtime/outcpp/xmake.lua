@@ -18,6 +18,7 @@ target("outcpp-gcc")
 
 target("outcpp-clang")
   set_toolchains("clang")
+  set_toolset("cxxflags", "-ftemplate-backtrace-limit=100")
   set_targetdir("$(buildir)/clang/$(host)/$(mode)/$(arch)")
   set_objectdir("$(buildir)/clang/.objs")
   set_dependir("$(buildir)/clang/.deps")

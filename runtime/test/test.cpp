@@ -140,61 +140,25 @@ class My_tuple {
 template<typename... T>
 using TT_tule = My_tuple<T...>;
 
-namespace TestAction {
-  template<class ...T>
-  struct Action___ {
-    void fN() {
-
-    }
+namespace ArrayNamespace {
+  template <class... T> class Array___; template <class... T> using Array = rt::ref<Array___<T...>>;
+  template<class T1> class Array___<T1>;
+  template <> class Array___<> {
+    public: int a;
   };
-
-  template<class... T>
-  using Action = rt::ref<Action___<T...>>;
-
-  template <> struct Action___<> {
-    void f0() {
-
-    }
-  };
-
-  template<class T> struct Action___<T> {
-     void f1() {
-
-    }
+  template<class T> class Array___<T> {
+    public: int aa;
   };
 }
 
-template<class ...T>
-using Action = TestAction::Action<T...>;
-
-
-template <class T>
-using AA = T;
-
-void ff(int aa) {
-
-}
-
-struct A {
-  struct B
-  {
-    A a;
-    void f(A& a) {
-
-    }
-  };
-};
-
+template <class ...T>
+using Array = ArrayNamespace::Array<T...>;
 
 int main() {
-  Action<> a;
-  a->f0();
-
-  AA<void (*)(int)> b = &ff;;
-
-  std::numeric_limits<int64_t>::max();
-
-
+  Array<> aa;
+  aa->a = 20;
+  Array<int> bb;
+  bb->aa = 22;
   return 0;
 }
 

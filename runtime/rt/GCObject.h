@@ -105,7 +105,7 @@ namespace rt {
   };
 
   template <class T>
-  static constexpr TypeCode CodeOf = GetTypeCode<T>::value;
+  static constexpr TypeCode CodeOf = IsComplete<T>::value ? GetTypeCode<T>::value : TypeCode::None;
 
   template <class T> 
   static constexpr bool IsString = CodeOf<T> == TypeCode::String;
@@ -230,7 +230,7 @@ namespace rt {
   static constexpr bool IsInterfaceConvertible = CodeOf<To> == TypeCode::Interface && IsInterfacesContains<InterfaceOf<From>, To>;
 
   template <class To, class From>
-  static constexpr bool IsConvertible = IsDerived<To, From> || IsArrayConvertible<To, From>::value || IsInterfaceConvertible<To, From>;
+  static constexpr bool IsConvertible = std::is_same_v<To, From> || IsDerived<To, From> || IsArrayConvertible<To, From>::value || IsInterfaceConvertible<To, From>;
 
   template <class T>
   static constexpr bool AlwaysTrue = true;
@@ -878,10 +878,17 @@ namespace rt {
       return &(static_cast<T*>(this)->GetPinnableReference());
     }
 
+#if defined(_MSC_VER)
+    template <class R> requires(std::is_same_v<R, decltype(T::op_Implicit(T()))>)
+    operator R() {
+      return T::op_Implicit(*static_cast<T*>(this));
+    }
+#else
     template <class R, class T1 = T> requires(std::is_same_v<R, decltype(T1::op_Implicit(T1()))>)
     operator R() {
       return T::op_Implicit(*static_cast<T*>(this));
     }
+#endif
 
     template <class R, class T1 = T> requires(std::is_same_v<R, decltype(T1::op_Explicit(T1()))>)
     explicit operator R() {
