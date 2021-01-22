@@ -379,10 +379,17 @@ namespace rt {
       return T::op_Implicit(*this);
     }
 
+#if defined(_MSC_VER)
+    template <class R> requires(std::is_same_v<R, decltype(R::op_Implicit(ref<T>()))>)
+    operator R() {
+      return R::op_Implicit(*this);
+    }
+#else
     template <class R, class T1 = T> requires(std::is_same_v<R, decltype(R::op_Implicit(ref<T1>()))>)
     operator R() {
       return R::op_Implicit(*this);
     }
+#endif
 
     template <class R, class T1 = T> requires(std::is_pointer_v<R> && std::is_same_v<R, decltype(&(T1().GetPinnableReference()))>)
     operator R() {
