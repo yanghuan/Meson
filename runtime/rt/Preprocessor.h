@@ -163,6 +163,8 @@
 
 #define FRIENDN1(n, name, T, seq) \
   BOOST_PP_TUPLE_ENUM(T)\
+  class name;\
+  BOOST_PP_TUPLE_ENUM(T)\
   friend class name;\
   BOOST_PP_TUPLE_ENUM(T)\
   using n = rt::ref<name<BOOST_PP_SEQ_ENUM(seq)>>;
