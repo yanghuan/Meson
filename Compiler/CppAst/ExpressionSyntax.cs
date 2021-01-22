@@ -143,11 +143,11 @@ namespace Meson.Compiler.CppAst {
   }
 
   internal sealed class CharLiteralExpressionSyntax : LiteralExpressionSyntax {
-    public char Value { get; }
+    public char Char { get; set; }
     public string ValueText { get; }
 
-    public CharLiteralExpressionSyntax(char value, string valueText) {
-      Value = value;
+    public CharLiteralExpressionSyntax(char ch, string valueText) {
+      Char = ch;
       ValueText = valueText;
     }
 

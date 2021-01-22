@@ -327,7 +327,7 @@ String Uri___::get_IdnHost() {
           Char as[256] = {};
           Span<Char> initialBuffer = as;
           ValueStringBuilder dest = ValueStringBuilder(initialBuffer);
-          UriHelper::UnescapeString(text, 0, text->get_Length(), dest, u'￿', u'￿', u'￿', UnescapeMode::Unescape | UnescapeMode::UnescapeAll, _syntax, false);
+          UriHelper::UnescapeString(text, 0, text->get_Length(), dest, u'\xffff', u'\xffff', u'\xffff', UnescapeMode::Unescape | UnescapeMode::UnescapeAll, _syntax, false);
           text = dest.ToString();
         }
         break;
@@ -597,14 +597,14 @@ String Uri___::GetLocalPath() {
       array[0] = u'\\';
       array[1] = u'\\';
       destPosition = 2;
-      UriHelper::UnescapeString(host, 0, host->get_Length(), array, destPosition, u'￿', u'￿', u'￿', UnescapeMode::CopyOnly, _syntax, false);
+      UriHelper::UnescapeString(host, 0, host->get_Length(), array, destPosition, u'\xffff', u'\xffff', u'\xffff', UnescapeMode::CopyOnly, _syntax, false);
     } else if (_string[num] == u'/' || _string[num] == u'\\') {
       num++;
     }
 
     UInt16 num2 = (UInt16)destPosition;
     UnescapeMode unescapeMode = ((InFact(Flags::PathNotCanonical) && !get_IsImplicitFile()) ? (UnescapeMode::Unescape | UnescapeMode::UnescapeAll) : UnescapeMode::CopyOnly);
-    UriHelper::UnescapeString(_string, num, _info->Offset.Query, array, destPosition, u'￿', u'￿', u'￿', unescapeMode, _syntax, true);
+    UriHelper::UnescapeString(_string, num, _info->Offset.Query, array, destPosition, u'\xffff', u'\xffff', u'\xffff', unescapeMode, _syntax, true);
     if (array[1] == u'|') {
       array[1] = u':';
     }
@@ -695,7 +695,7 @@ Char Uri___::HexUnescape(String pattern, Int32& index) {
   }
   if (pattern[index] == u'%' && pattern->get_Length() - index >= 3) {
     Char c = UriHelper::DecodeHexChars(pattern[index + 1], pattern[index + 2]);
-    if (c != u'￿') {
+    if (c != u'\xffff') {
       index += 3;
       return c;
     }
@@ -1173,7 +1173,7 @@ void Uri___::CreateHostString() {
       {
         Char* ptr = text;
         Char* str = ptr;
-        check = CheckCanonical(str, idx, text->get_Length(), u'￿');
+        check = CheckCanonical(str, idx, text->get_Length(), u'\xffff');
       }
       if ((check & Check::DisplayCanonical) == 0 && (NotAny(Flags::ImplicitFile) || (check & Check::ReservedFound) != 0)) {
         flags |= Flags::HostNotCanonical;
@@ -1377,14 +1377,14 @@ String Uri___::ReCreateParts(UriComponents parts, UInt16 nonCanonical, UriFormat
           array[num++] = u'@';
           break;
         case UriFormat::Unescaped:
-          array = UriHelper::UnescapeString(_string, _info->Offset.User, _info->Offset.Host, array, num, u'￿', u'￿', u'￿', UnescapeMode::Unescape | UnescapeMode::UnescapeAll, _syntax, false);
+          array = UriHelper::UnescapeString(_string, _info->Offset.User, _info->Offset.Host, array, num, u'\xffff', u'\xffff', u'\xffff', UnescapeMode::Unescape | UnescapeMode::UnescapeAll, _syntax, false);
           break;
         default:
-          array = UriHelper::UnescapeString(_string, _info->Offset.User, _info->Offset.Host, array, num, u'￿', u'￿', u'￿', UnescapeMode::CopyOnly, _syntax, false);
+          array = UriHelper::UnescapeString(_string, _info->Offset.User, _info->Offset.Host, array, num, u'\xffff', u'\xffff', u'\xffff', UnescapeMode::CopyOnly, _syntax, false);
           break;
       }
     } else {
-      UriHelper::UnescapeString(_string, _info->Offset.User, _info->Offset.Host, array, num, u'￿', u'￿', u'￿', UnescapeMode::CopyOnly, _syntax, false);
+      UriHelper::UnescapeString(_string, _info->Offset.User, _info->Offset.Host, array, num, u'\xffff', u'\xffff', u'\xffff', UnescapeMode::CopyOnly, _syntax, false);
     }
     if (parts == UriComponents::UserInfo) {
       num--;
@@ -1461,21 +1461,21 @@ String Uri___::ReCreateParts(UriComponents parts, UInt16 nonCanonical, UriFormat
           if (NotAny(Flags::UserEscaped)) {
             array = UriHelper::EscapeString(MemoryExtensions::AsSpan(_string, startIndex, _info->Offset.Fragment - startIndex), array, num, true, u'#');
           } else {
-            UriHelper::UnescapeString(_string, startIndex, _info->Offset.Fragment, array, num, u'￿', u'￿', u'￿', UnescapeMode::CopyOnly, _syntax, true);
+            UriHelper::UnescapeString(_string, startIndex, _info->Offset.Fragment, array, num, u'\xffff', u'\xffff', u'\xffff', UnescapeMode::CopyOnly, _syntax, true);
           }
           break;
         case (UriFormat)32767:
-          array = UriHelper::UnescapeString(_string, startIndex, _info->Offset.Fragment, array, num, u'#', u'￿', u'￿', (InFact(Flags::UserEscaped) ? UnescapeMode::Unescape : UnescapeMode::EscapeUnescape) | UnescapeMode::V1ToStringFlag, _syntax, true);
+          array = UriHelper::UnescapeString(_string, startIndex, _info->Offset.Fragment, array, num, u'#', u'\xffff', u'\xffff', (InFact(Flags::UserEscaped) ? UnescapeMode::Unescape : UnescapeMode::EscapeUnescape) | UnescapeMode::V1ToStringFlag, _syntax, true);
           break;
         case UriFormat::Unescaped:
-          array = UriHelper::UnescapeString(_string, startIndex, _info->Offset.Fragment, array, num, u'#', u'￿', u'￿', UnescapeMode::Unescape | UnescapeMode::UnescapeAll, _syntax, true);
+          array = UriHelper::UnescapeString(_string, startIndex, _info->Offset.Fragment, array, num, u'#', u'\xffff', u'\xffff', UnescapeMode::Unescape | UnescapeMode::UnescapeAll, _syntax, true);
           break;
         default:
-          array = UriHelper::UnescapeString(_string, startIndex, _info->Offset.Fragment, array, num, u'#', u'￿', u'￿', InFact(Flags::UserEscaped) ? UnescapeMode::Unescape : UnescapeMode::EscapeUnescape, _syntax, true);
+          array = UriHelper::UnescapeString(_string, startIndex, _info->Offset.Fragment, array, num, u'#', u'\xffff', u'\xffff', InFact(Flags::UserEscaped) ? UnescapeMode::Unescape : UnescapeMode::EscapeUnescape, _syntax, true);
           break;
       }
     } else {
-      UriHelper::UnescapeString(_string, startIndex, _info->Offset.Fragment, array, num, u'￿', u'￿', u'￿', UnescapeMode::CopyOnly, _syntax, true);
+      UriHelper::UnescapeString(_string, startIndex, _info->Offset.Fragment, array, num, u'\xffff', u'\xffff', u'\xffff', UnescapeMode::CopyOnly, _syntax, true);
     }
   }
   if ((parts & UriComponents::Fragment) != 0 && _info->Offset.Fragment < _info->Offset.End) {
@@ -1489,21 +1489,21 @@ String Uri___::ReCreateParts(UriComponents parts, UInt16 nonCanonical, UriFormat
           if (NotAny(Flags::UserEscaped)) {
             array = UriHelper::EscapeString(MemoryExtensions::AsSpan(_string, startIndex, _info->Offset.End - startIndex), array, num, true);
           } else {
-            UriHelper::UnescapeString(_string, startIndex, _info->Offset.End, array, num, u'￿', u'￿', u'￿', UnescapeMode::CopyOnly, _syntax, false);
+            UriHelper::UnescapeString(_string, startIndex, _info->Offset.End, array, num, u'\xffff', u'\xffff', u'\xffff', UnescapeMode::CopyOnly, _syntax, false);
           }
           break;
         case (UriFormat)32767:
-          array = UriHelper::UnescapeString(_string, startIndex, _info->Offset.End, array, num, u'#', u'￿', u'￿', (InFact(Flags::UserEscaped) ? UnescapeMode::Unescape : UnescapeMode::EscapeUnescape) | UnescapeMode::V1ToStringFlag, _syntax, false);
+          array = UriHelper::UnescapeString(_string, startIndex, _info->Offset.End, array, num, u'#', u'\xffff', u'\xffff', (InFact(Flags::UserEscaped) ? UnescapeMode::Unescape : UnescapeMode::EscapeUnescape) | UnescapeMode::V1ToStringFlag, _syntax, false);
           break;
         case UriFormat::Unescaped:
-          array = UriHelper::UnescapeString(_string, startIndex, _info->Offset.End, array, num, u'#', u'￿', u'￿', UnescapeMode::Unescape | UnescapeMode::UnescapeAll, _syntax, false);
+          array = UriHelper::UnescapeString(_string, startIndex, _info->Offset.End, array, num, u'#', u'\xffff', u'\xffff', UnescapeMode::Unescape | UnescapeMode::UnescapeAll, _syntax, false);
           break;
         default:
-          array = UriHelper::UnescapeString(_string, startIndex, _info->Offset.End, array, num, u'#', u'￿', u'￿', InFact(Flags::UserEscaped) ? UnescapeMode::Unescape : UnescapeMode::EscapeUnescape, _syntax, false);
+          array = UriHelper::UnescapeString(_string, startIndex, _info->Offset.End, array, num, u'#', u'\xffff', u'\xffff', InFact(Flags::UserEscaped) ? UnescapeMode::Unescape : UnescapeMode::EscapeUnescape, _syntax, false);
           break;
       }
     } else {
-      UriHelper::UnescapeString(_string, startIndex, _info->Offset.End, array, num, u'￿', u'￿', u'￿', UnescapeMode::CopyOnly, _syntax, false);
+      UriHelper::UnescapeString(_string, startIndex, _info->Offset.End, array, num, u'\xffff', u'\xffff', u'\xffff', UnescapeMode::CopyOnly, _syntax, false);
     }
   }
   return rt::newstr<String>(array, 0, num);
@@ -1594,7 +1594,7 @@ void Uri___::ParseRemaining() {
     {
       Char* ptr3 = _string;
       Char* ptr4 = ptr3;
-      check = ((!get_IsImplicitFile() && (flags2 & (UriSyntaxFlags::MayHaveQuery | UriSyntaxFlags::MayHaveFragment)) != 0) ? CheckCanonical(ptr4, scheme, length, ((flags2 & UriSyntaxFlags::MayHaveQuery) != 0) ? u'?' : (_syntax->InFact(UriSyntaxFlags::MayHaveFragment) ? u'#' : u'￾')) : CheckCanonical(ptr4, scheme, length, u'￿'));
+      check = ((!get_IsImplicitFile() && (flags2 & (UriSyntaxFlags::MayHaveQuery | UriSyntaxFlags::MayHaveFragment)) != 0) ? CheckCanonical(ptr4, scheme, length, ((flags2 & UriSyntaxFlags::MayHaveQuery) != 0) ? u'?' : (_syntax->InFact(UriSyntaxFlags::MayHaveFragment) ? u'#' : u'\xfffe')) : CheckCanonical(ptr4, scheme, length, u'\xffff'));
       if ((_flags & Flags::AuthorityFound) != Flags::Zero && (flags2 & UriSyntaxFlags::PathIsRooted) != 0 && (_info->Offset.Path == length || (*(ptr4 + (Int32)_info->Offset.Path) != u'/' && *(ptr4 + (Int32)_info->Offset.Path) != u'\\'))) {
         flags |= Flags::FirstSlashAbsent;
       }
@@ -1660,7 +1660,7 @@ void Uri___::ParseRemaining() {
       Char* ptr6 = ptr5;
       if (scheme < length && *(ptr6 + scheme) == u'?') {
         scheme++;
-        check = CheckCanonical(ptr6, scheme, length, ((flags2 & UriSyntaxFlags::MayHaveFragment) != 0) ? u'#' : u'￾');
+        check = CheckCanonical(ptr6, scheme, length, ((flags2 & UriSyntaxFlags::MayHaveFragment) != 0) ? u'#' : u'\xfffe');
         if ((check & Check::DisplayCanonical) == 0) {
           flags |= Flags::QueryNotCanonical;
         }
@@ -1691,7 +1691,7 @@ void Uri___::ParseRemaining() {
       Char* ptr8 = ptr7;
       if (scheme < length && *(ptr8 + scheme) == u'#') {
         scheme++;
-        check = CheckCanonical(ptr8, scheme, length, u'￾');
+        check = CheckCanonical(ptr8, scheme, length, u'\xfffe');
         if ((check & Check::DisplayCanonical) == 0) {
           flags |= Flags::FragmentNotCanonical;
         }
@@ -2114,7 +2114,7 @@ Uri::in::Check Uri___::CheckCanonical(Char* str, Int32& idx, Int32 end, Char del
   Int32 i;
   for (i = idx; i < end; i++) {
     Char c = *(str + i);
-    if (c <= u'' || (c >= u'' && c <= u'')) {
+    if (c <= u'\x001f' || (c >= u'\x007f' && c <= u'\x009f')) {
       flag = true;
       flag2 = true;
       check |= Check::ReservedFound;
@@ -2145,7 +2145,7 @@ Uri::in::Check Uri___::CheckCanonical(Char* str, Int32& idx, Int32 end, Char del
       break;
     }
     if (c == u'?') {
-      if (get_IsImplicitFile() || (_syntax != nullptr && !_syntax->InFact(UriSyntaxFlags::MayHaveQuery) && delim != u'￾')) {
+      if (get_IsImplicitFile() || (_syntax != nullptr && !_syntax->InFact(UriSyntaxFlags::MayHaveQuery) && delim != u'\xfffe')) {
         check |= Check::ReservedFound;
         flag2 = true;
         flag = true;
@@ -2193,7 +2193,7 @@ Uri::in::Check Uri___::CheckCanonical(Char* str, Int32& idx, Int32 end, Char del
           if (!flag2) {
             flag2 = true;
           }
-          if (i + 2 < end && (c = UriHelper::DecodeHexChars(*(str + i + 1), *(str + i + 2))) != u'￿') {
+          if (i + 2 < end && (c = UriHelper::DecodeHexChars(*(str + i + 1), *(str + i + 2))) != u'\xffff') {
             if (c == u'.' || c == u'/' || c == u'\\') {
               check |= Check::DotSlashEscaped;
             }
@@ -2242,7 +2242,7 @@ Array<Char> Uri___::GetCanonicalPath(Array<Char> dest, Int32& pos, UriFormat for
       if (_syntax->InFact(UriSyntaxFlags::UnEscapeDotsAndSlashes) && InFact(Flags::PathNotCanonical) && !get_IsImplicitFile()) {
         {
           Char* pch = dest;
-          UnescapeOnly(pch, pos, end, u'.', u'/', _syntax->InFact(UriSyntaxFlags::ConvertPathSlashes) ? u'\\' : u'￿');
+          UnescapeOnly(pch, pos, end, u'.', u'/', _syntax->InFact(UriSyntaxFlags::ConvertPathSlashes) ? u'\\' : u'\xffff');
         }
       }
     } else if (InFact(Flags::E_PathNotCanonical) && NotAny(Flags::UserEscaped)) {
@@ -2263,7 +2263,7 @@ Array<Char> Uri___::GetCanonicalPath(Array<Char> dest, Int32& pos, UriFormat for
     if (InFact(Flags::ShouldBeCompressed) && _syntax->InFact(UriSyntaxFlags::UnEscapeDotsAndSlashes) && InFact(Flags::PathNotCanonical) && !get_IsImplicitFile()) {
       {
         Char* pch2 = dest;
-        UnescapeOnly(pch2, pos, end, u'.', u'/', _syntax->InFact(UriSyntaxFlags::ConvertPathSlashes) ? u'\\' : u'￿');
+        UnescapeOnly(pch2, pos, end, u'.', u'/', _syntax->InFact(UriSyntaxFlags::ConvertPathSlashes) ? u'\\' : u'\xffff');
       }
     }
   }
@@ -2314,7 +2314,7 @@ Array<Char> Uri___::GetCanonicalPath(Array<Char> dest, Int32& pos, UriFormat for
     Buffer::BlockCopy(dest, 0, array, 0, end * 2);
     {
       Char* pStr = array;
-      dest = UriHelper::UnescapeString(pStr, pos, end, dest, pos, u'?', u'#', u'￿', unescapeMode, _syntax, false);
+      dest = UriHelper::UnescapeString(pStr, pos, end, dest, pos, u'?', u'#', u'\xffff', unescapeMode, _syntax, false);
     }
   } else {
     pos = end;
@@ -2519,10 +2519,10 @@ String Uri___::CombineUri(Uri basePart, String relativePart, UriFormat uriFormat
     }
   }
   relativePart->CopyTo(0, array, num2, relativePart->get_Length());
-  c = (basePart->get_Syntax()->InFact(UriSyntaxFlags::MayHaveQuery) ? u'?' : u'￿');
-  Char c2 = ((!basePart->get_IsImplicitFile() && basePart->get_Syntax()->InFact(UriSyntaxFlags::MayHaveFragment)) ? u'#' : u'￿');
+  c = (basePart->get_Syntax()->InFact(UriSyntaxFlags::MayHaveQuery) ? u'?' : u'\xffff');
+  Char c2 = ((!basePart->get_IsImplicitFile() && basePart->get_Syntax()->InFact(UriSyntaxFlags::MayHaveFragment)) ? u'#' : u'\xffff');
   ReadOnlySpan<Char> readOnlySpan = String::in::Empty;
-  if (c != u'￿' || c2 != u'￿') {
+  if (c != u'\xffff' || c2 != u'\xffff') {
     Int32 j;
     for (j = 0; j < relativePart->get_Length() && array[num2 + j] != c && array[num2 + j] != c2; j++) {
     }
@@ -2603,7 +2603,7 @@ void Uri___::Escape() {
 String Uri___::Unescape(String path) {
   Array<Char> dest = rt::newarr<Array<Char>>(path->get_Length());
   Int32 destPosition = 0;
-  dest = UriHelper::UnescapeString(path, 0, path->get_Length(), dest, destPosition, u'￿', u'￿', u'￿', UnescapeMode::Unescape | UnescapeMode::UnescapeAll, nullptr, false);
+  dest = UriHelper::UnescapeString(path, 0, path->get_Length(), dest, destPosition, u'\xffff', u'\xffff', u'\xffff', UnescapeMode::Unescape | UnescapeMode::UnescapeAll, nullptr, false);
   return rt::newstr<String>(dest, 0, destPosition);
 }
 
@@ -2625,7 +2625,7 @@ Boolean Uri___::IsReservedCharacter(Char character) {
 }
 
 Boolean Uri___::IsExcludedCharacter(Char character) {
-  if (character > u' ' && character < u'' && character != u'<' && character != u'>' && character != u'#' && character != u'%' && character != u'"' && character != u'{' && character != u'}' && character != u'|' && character != u'\\' && character != u'^' && character != u'[' && character != u']') {
+  if (character > u' ' && character < u'\x007f' && character != u'<' && character != u'>' && character != u'#' && character != u'%' && character != u'"' && character != u'{' && character != u'}' && character != u'|' && character != u'\\' && character != u'^' && character != u'[' && character != u']') {
     return character == u'`';
   }
   return true;
@@ -2759,7 +2759,7 @@ Boolean Uri___::CheckForUnicodeOrEscapedUnreserved(String data) {
         }
         i += 2;
       }
-    } else if (c > u'') {
+    } else if (c > u'\x007f') {
       return true;
     }
 
@@ -2891,7 +2891,7 @@ Boolean Uri___::InternalIsWellFormedOriginalString() {
       if (CheckForColonInFirstPathSegment(_string)) {
         return false;
       }
-      return (CheckCanonical(ptr2, idx, _string->get_Length(), u'￾') & (Check::EscapedCanonical | Check::BackslashInPath)) == Check::EscapedCanonical;
+      return (CheckCanonical(ptr2, idx, _string->get_Length(), u'\xfffe') & (Check::EscapedCanonical | Check::BackslashInPath)) == Check::EscapedCanonical;
     }
     if (get_IsImplicitFile()) {
       return false;
@@ -2968,7 +2968,7 @@ String Uri___::UnescapeDataString(String stringToUnescape) {
   ValueStringBuilder dest = ValueStringBuilder(initialBuffer);
   dest.EnsureCapacity(stringToUnescape->get_Length());
   dest.Append(MemoryExtensions::AsSpan(stringToUnescape, 0, num));
-  UriHelper::UnescapeString(stringToUnescape, num, stringToUnescape->get_Length(), dest, u'￿', u'￿', u'￿', UnescapeMode::Unescape | UnescapeMode::UnescapeAll, nullptr, false);
+  UriHelper::UnescapeString(stringToUnescape, num, stringToUnescape->get_Length(), dest, u'\xffff', u'\xffff', u'\xffff', UnescapeMode::Unescape | UnescapeMode::UnescapeAll, nullptr, false);
   return dest.ToString();
 }
 
@@ -3080,7 +3080,7 @@ String Uri___::GetRelativeSerializationString(UriFormat format) {
         }
         Array<Char> dest = rt::newarr<Array<Char>>(_string->get_Length());
         Int32 destPosition = 0;
-        dest = UriHelper::UnescapeString(_string, 0, _string->get_Length(), dest, destPosition, u'￿', u'￿', u'￿', UnescapeMode::EscapeUnescape, nullptr, false);
+        dest = UriHelper::UnescapeString(_string, 0, _string->get_Length(), dest, destPosition, u'\xffff', u'\xffff', u'\xffff', UnescapeMode::EscapeUnescape, nullptr, false);
         return rt::newstr<String>(dest, 0, destPosition);
       }default:
       rt::throw_exception<ArgumentOutOfRangeException>("format");

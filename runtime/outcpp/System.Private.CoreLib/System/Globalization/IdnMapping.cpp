@@ -159,7 +159,7 @@ String IdnMapping___::GetAsciiInvariant(String unicode, Int32 index, Int32 count
   }
   String text = unicode;
   Int32 index2 = text->get_Length() - 1;
-  if (text[index2] <= u'') {
+  if (text[index2] <= u'\x001f') {
     rt::throw_exception<ArgumentException>(SR::Format(SR::get_Argument_InvalidCharSequence(), unicode->get_Length() - 1), "unicode");
   }
   if (get_UseStd3AsciiRules()) {
@@ -174,10 +174,10 @@ Boolean IdnMapping___::ValidateStd3AndAscii(String unicode, Boolean bUseStd3, Bo
   }
   Int32 num = -1;
   for (Int32 i = 0; i < unicode->get_Length(); i++) {
-    if (unicode[i] <= u'') {
+    if (unicode[i] <= u'\x001f') {
       rt::throw_exception<ArgumentException>(SR::Format(SR::get_Argument_InvalidCharSequence(), i), "unicode");
     }
-    if (bCheckAscii && unicode[i] >= u'') {
+    if (bCheckAscii && unicode[i] >= u'\x007f') {
       return false;
     }
     if (IsDot(unicode[i])) {
@@ -361,7 +361,7 @@ void IdnMapping___::ValidateStd3(Char c, Boolean bNextToDot) {
   if (c > u',') {
     switch (c.get()) {
       default:
-        if ((c < u'[' || c > u'`') && (c < u'{' || c > u'') && !(c == u'-' && bNextToDot)) {
+        if ((c < u'[' || c > u'`') && (c < u'{' || c > u'\x007f') && !(c == u'-' && bNextToDot)) {
           return;
         }
         break;
@@ -433,7 +433,7 @@ String IdnMapping___::PunycodeDecode(String ascii) {
       } else {
         num5 = num4 - num2;
         for (Int32 i = num2; i < num2 + num5; i++) {
-          if (ascii[i] > u'') {
+          if (ascii[i] > u'\x007f') {
             rt::throw_exception<ArgumentException>(SR::get_Argument_IdnBadPunycode(), "ascii");
           }
           stringBuilder->Append((Char)((ascii[i] >= u'A' && ascii[i] <= u'Z') ? (ascii[i] - 65 + 97) : ascii[i]));
@@ -644,7 +644,7 @@ void IdnMapping___::CheckInvalidIdnCharacters(Char* s, Int32 count, UInt32 flags
   }
   for (Int32 i = 0; i < count; i++) {
     Char c = *(s + i);
-    if (c <= u'' || c == u'') {
+    if (c <= u'\x001f' || c == u'\x007f') {
       rt::throw_exception<ArgumentException>(SR::get_Argument_IdnIllegalName(), paramName);
     }
   }

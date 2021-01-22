@@ -361,7 +361,7 @@ Int32 UTF8Encoding___::GetCharsFast(Byte* pBytes, Int32 bytesLength, Char* pChar
 
 Int32 UTF8Encoding___::GetCharsWithFallback(ReadOnlySpan<Byte> bytes, Int32 originalBytesLength, Span<Char> chars, Int32 originalCharsLength, DecoderNLS decoder) {
   DecoderReplacementFallback decoderReplacementFallback = rt::as<DecoderReplacementFallback>(((decoder == nullptr) ? Encoding::in::get_DecoderFallback() : decoder->get_Fallback()));
-  if (decoderReplacementFallback != nullptr && decoderReplacementFallback->get_MaxCharCount() == 1 && decoderReplacementFallback->get_DefaultString()[0] == u'�') {
+  if (decoderReplacementFallback != nullptr && decoderReplacementFallback->get_MaxCharCount() == 1 && decoderReplacementFallback->get_DefaultString()[0] == u'\xfffd') {
     Int32 bytesRead;
     Int32 charsWritten;
     Utf8::ToUtf16(bytes, chars, bytesRead, charsWritten, true, decoder == nullptr || decoder->get_MustFlush());

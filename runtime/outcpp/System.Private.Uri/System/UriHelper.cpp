@@ -124,7 +124,7 @@ String UriHelper::EscapeString(String stringToEscape, Boolean checkExistingEscap
   Int32 i;
   for (i = 0; i < stringToEscape->get_Length(); i++) {
     Char index;
-    if ((index = stringToEscape[i]) > u'') {
+    if ((index = stringToEscape[i]) > u'\x007f') {
       break;
     }
     if (!readOnlySpan[index]) {
@@ -162,7 +162,7 @@ Array<Char> UriHelper::EscapeString(ReadOnlySpan<Char> stringToEscape, Array<Cha
   Int32 i;
   for (i = 0; i < stringToEscape.get_Length(); i++) {
     Char index;
-    if ((index = stringToEscape[i]) > u'') {
+    if ((index = stringToEscape[i]) > u'\x007f') {
       break;
     }
     if (!readOnlySpan[index]) {
@@ -287,7 +287,7 @@ void UriHelper::UnescapeString(Char* pStr, Int32 start, Int32 end, ValueStringBu
           c = DecodeHexChars(*(pStr + i + 1), *(pStr + i + 2));
           if (unescapeMode < UnescapeMode::UnescapeAll) {
             switch (c.get()) {
-              case u'￿':
+              case u'\xffff':
                 if ((unescapeMode & UnescapeMode::Escape) == 0) {
                   continue;
                 }
@@ -305,7 +305,7 @@ void UriHelper::UnescapeString(Char* pStr, Int32 start, Int32 end, ValueStringBu
                   i += 2;
                   continue;
                 }
-                if (flag2 && ((c <= u'' && IsNotSafeForUnescape(c)) || (c > u'' && !IriHelper::CheckIriUnicodeRange(c, isQuery)))) {
+                if (flag2 && ((c <= u'\x009f' && IsNotSafeForUnescape(c)) || (c > u'\x009f' && !IriHelper::CheckIriUnicodeRange(c, isQuery)))) {
                   i += 2;
                   continue;
                 }
@@ -313,7 +313,7 @@ void UriHelper::UnescapeString(Char* pStr, Int32 start, Int32 end, ValueStringBu
             }
             break;
           }
-          if (c != u'￿') {
+          if (c != u'\xffff') {
             break;
           }
           if (unescapeMode >= UnescapeMode::UnescapeAllOrThrow) {
@@ -333,7 +333,7 @@ void UriHelper::UnescapeString(Char* pStr, Int32 start, Int32 end, ValueStringBu
           flag = true;
           break;
         }
-        if ((unescapeMode & UnescapeMode::V1ToStringFlag) == 0 && (c <= u'' || (c >= u'' && c <= u''))) {
+        if ((unescapeMode & UnescapeMode::V1ToStringFlag) == 0 && (c <= u'\x001f' || (c >= u'\x007f' && c <= u'\x009f'))) {
           flag = true;
           break;
         }
@@ -352,7 +352,7 @@ void UriHelper::UnescapeString(Char* pStr, Int32 start, Int32 end, ValueStringBu
       start = ++i;
       goto IL_003c;
     }
-    if (c <= u'') {
+    if (c <= u'\x007f') {
       dest.Append(c);
       i += 3;
       start = i;
@@ -371,7 +371,7 @@ void UriHelper::UnescapeString(Char* pStr, Int32 start, Int32 end, ValueStringBu
         break;
       }
       c = DecodeHexChars(*(pStr + i + 1), *(pStr + i + 2));
-      if (c == u'￿' || c < u'') {
+      if (c == u'\xffff' || c < u'\x0080') {
         break;
       }
       array[byteCount++] = (Byte)c;
@@ -458,13 +458,13 @@ Char UriHelper::DecodeHexChars(Int32 first, Int32 second) {
   Int32 num = HexConverter::FromChar(first);
   Int32 num2 = HexConverter::FromChar(second);
   if ((num | num2) == 255) {
-    return u'￿';
+    return u'\xffff';
   }
   return (Char)((num << 4) | num2);
 }
 
 Boolean UriHelper::IsNotSafeForUnescape(Char ch) {
-  if (ch <= u'' || (ch >= u'' && ch <= u'')) {
+  if (ch <= u'\x001f' || (ch >= u'\x007f' && ch <= u'\x009f')) {
     return true;
   }
   return ";/?:@&=+$,#[]!'()*%\\#"->Contains(ch);
@@ -503,8 +503,8 @@ Boolean UriHelper::IsHexDigit(Char character) {
 }
 
 Boolean UriHelper::IsBidiControlCharacter(Char ch) {
-  if (ch != u'‎' && ch != u'‏' && ch != u'‪' && ch != u'‫' && ch != u'‬' && ch != u'‭') {
-    return ch == u'‮';
+  if (ch != u'\x200e' && ch != u'\x200f' && ch != u'\x202a' && ch != u'\x202b' && ch != u'\x202c' && ch != u'\x202d') {
+    return ch == u'\x202e';
   }
   return true;
 }

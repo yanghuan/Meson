@@ -4655,8 +4655,8 @@ Boolean Number::TrailingZeros(ReadOnlySpan<Char> value, Int32 index) {
 }
 
 Boolean Number::IsSpaceReplacingChar(Char c) {
-  if (c != u' ') {
-    return c == u' ';
+  if (c != u'\x00a0') {
+    return c == u'\x202f';
   }
   return true;
 }

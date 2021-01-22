@@ -1179,12 +1179,12 @@ Array<DateTimeFormatInfo::in::TokenHashValue> DateTimeFormatInfo___::CreateToken
     if (dateWordsOfDTFI != nullptr) {
       for (Int32 i = 0; i < dateWordsOfDTFI->get_Length(); i++) {
         switch (dateWordsOfDTFI[i][0].get()) {
-          case u'':
+          case u'\xe000':
             {
               ReadOnlySpan<Char> monthPostfix = MemoryExtensions::AsSpan(dateWordsOfDTFI[i], 1);
               AddMonthNames(array, monthPostfix);
               break;
-            }case u'':
+            }case u'\xe001':
             {
               String text = dateWordsOfDTFI[i]->Substring(1);
               InsertHash(array, text, TokenType::IgnorableSymbol, 0);
@@ -1324,8 +1324,8 @@ Boolean DateTimeFormatInfo___::TryParseHebrewNumber(__DTString& str, Boolean& ba
 }
 
 Boolean DateTimeFormatInfo___::IsHebrewChar(Char ch) {
-  if (ch >= u'֐') {
-    return ch <= u'׿';
+  if (ch >= u'\x0590') {
+    return ch <= u'\x05ff';
   }
   return false;
 }

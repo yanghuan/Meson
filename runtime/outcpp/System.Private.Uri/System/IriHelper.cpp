@@ -16,9 +16,9 @@ using namespace ::System::Private::CoreLib::System::Text;
 using namespace System::Text;
 
 Boolean IriHelper::CheckIriUnicodeRange(Char unicode, Boolean isQuery) {
-  if ((unicode < u' ' || unicode > u'퟿') && (unicode < u'豈' || unicode > u'﷏') && (unicode < u'ﷰ' || unicode > u'￯')) {
-    if (isQuery && unicode >= u'') {
-      return unicode <= u'';
+  if ((unicode < u'\x00a0' || unicode > u'\xd7ff') && (unicode < u'豈' || unicode > u'\xfdcf') && (unicode < u'ﷰ' || unicode > u'\xffef')) {
+    if (isQuery && unicode >= u'\xe000') {
+      return unicode <= u'\xf8ff';
     }
     return false;
   }
@@ -63,13 +63,13 @@ String IriHelper::EscapeUnescapeIri(Char* pInput, Int32 start, Int32 end, UriCom
     if ((c = *(pInput + i)) == u'%') {
       if (i + 2 < end) {
         c = UriHelper::DecodeHexChars(*(pInput + i + 1), *(pInput + i + 2));
-        if (c == u'￿' || c == u'%' || CheckIsReserved(c, component) || UriHelper::IsNotSafeForUnescape(c)) {
+        if (c == u'\xffff' || c == u'%' || CheckIsReserved(c, component) || UriHelper::IsNotSafeForUnescape(c)) {
           dest.Append(*(pInput + i++));
           dest.Append(*(pInput + i++));
           dest.Append(*(pInput + i));
           continue;
         }
-        if (c <= u'') {
+        if (c <= u'\x007f') {
           dest.Append(c);
           i += 2;
           continue;
@@ -88,7 +88,7 @@ String IriHelper::EscapeUnescapeIri(Char* pInput, Int32 start, Int32 end, UriCom
             break;
           }
           c = UriHelper::DecodeHexChars(*(pInput + i + 1), *(pInput + i + 2));
-          if (c == u'￿' || c < u'') {
+          if (c == u'\xffff' || c < u'\x0080') {
             break;
           }
           array[byteCount++] = (Byte)c;
@@ -107,7 +107,7 @@ String IriHelper::EscapeUnescapeIri(Char* pInput, Int32 start, Int32 end, UriCom
       } else {
         dest.Append(*(pInput + i));
       }
-    } else if (c > u'') {
+    } else if (c > u'\x007f') {
       Boolean isSurrogatePair = false;
       Char c2 = u'\0';
       Boolean flag;

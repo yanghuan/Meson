@@ -793,6 +793,12 @@ namespace Meson.Compiler {
     }
 
     public SyntaxNode VisitPrimitiveExpression(PrimitiveExpression primitiveExpression) {
+      if (primitiveExpression.Value is char ch) {
+        string s = primitiveExpression.ToString();
+        if (s.Length > 4) {
+          return new CharLiteralExpressionSyntax(ch, "\\x" + s[3 .. ^1]);
+        }
+      }
       return Utils.GetPrimitiveExpression(primitiveExpression.Value);
     }
 

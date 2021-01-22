@@ -74,7 +74,7 @@ struct UInt32 : public valueType<UInt32, rt::TypeCode::UInt32> {
   public: static constexpr uint32_t MinValue = 0u;
   public: constexpr UInt32() noexcept : m_value(0) {}
   public: constexpr UInt32(uint32_t value) noexcept : m_value(value) {}
-  public: template <class T> requires(std::is_enum_v<T>)
+  public: template <class T> requires(std::is_enum_v<T> || std::is_pointer_v<T>)
   constexpr explicit UInt32(T value) noexcept : UInt32((uint32_t)value) {}
   public: constexpr uint32_t& get() noexcept { return m_value; }
   public: constexpr uint32_t get() const noexcept { return m_value; }

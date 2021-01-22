@@ -555,7 +555,7 @@ SByte Convert::ToSByte(SByte value) {
 }
 
 SByte Convert::ToSByte(Char value) {
-  if (value > u'') {
+  if (value > u'\x007f') {
     ThrowSByteOverflowException();
   }
   return (SByte)value;

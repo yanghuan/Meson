@@ -1247,7 +1247,7 @@ String CultureData___::ConvertIcuTimeFormatString(ReadOnlySpan<Char> icuFormatSt
         span[length++] = icuFormatString[i];
         break;
       case u' ':
-      case u' ':
+      case u'\x00a0':
         span[length++] = u' ';
         break;
       case u'a':

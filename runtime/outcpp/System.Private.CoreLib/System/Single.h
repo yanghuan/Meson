@@ -98,7 +98,7 @@ struct Single : public valueType<Single, rt::TypeCode::Single> {
   public: static constexpr float NaN = rt::NaN<float>;
   public: constexpr Single() noexcept : m_value(0) {}
   public: constexpr Single(float value) noexcept : m_value(value) {}
-  public: template <class T> requires(std::is_enum_v<T>)
+  public: template <class T> requires(std::is_enum_v<T> || std::is_pointer_v<T>)
   constexpr explicit Single(T value) noexcept : Single((float)value) {}
   public: constexpr float& get() noexcept { return m_value; }
   public: constexpr float get() const noexcept { return m_value; }

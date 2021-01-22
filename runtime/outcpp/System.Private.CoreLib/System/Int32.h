@@ -74,7 +74,7 @@ struct Int32 : public valueType<Int32, rt::TypeCode::Int32> {
   public: static constexpr int32_t MinValue = -2147483648;
   public: constexpr Int32() noexcept : m_value(0) {}
   public: constexpr Int32(int32_t value) noexcept : m_value(value) {}
-  public: template <class T> requires(std::is_enum_v<T>)
+  public: template <class T> requires(std::is_enum_v<T> || std::is_pointer_v<T>)
   constexpr explicit Int32(T value) noexcept : Int32((int32_t)value) {}
   public: constexpr int32_t& get() noexcept { return m_value; }
   public: constexpr int32_t get() const noexcept { return m_value; }

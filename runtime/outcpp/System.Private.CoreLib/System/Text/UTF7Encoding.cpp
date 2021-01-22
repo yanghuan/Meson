@@ -380,7 +380,7 @@ Int32 UTF7Encoding___::GetBytes(Char* chars, Int32 charCount, Byte* bytes, Int32
   }
   while (encodingByteBuffer->get_MoreData()) {
     Char nextChar = encodingByteBuffer->GetNextChar();
-    if (nextChar < u'' && _directEncode[nextChar]) {
+    if (nextChar < u'\x0080' && _directEncode[nextChar]) {
       if (num2 >= 0) {
         if (num2 > 0) {
           if (!encodingByteBuffer->AddByte(_base64Bytes[(num << 6 - num2) & 63])) {

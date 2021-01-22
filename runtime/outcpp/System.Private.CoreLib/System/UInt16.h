@@ -79,7 +79,7 @@ struct UInt16 : public valueType<UInt16, rt::TypeCode::UInt16> {
   public: static constexpr uint16_t MinValue = 0;
   public: constexpr UInt16() noexcept : m_value(0) {}
   public: constexpr UInt16(uint16_t value) noexcept : m_value(value) {}
-  public: template <class T> requires(std::is_enum_v<T>)
+  public: template <class T> requires(std::is_enum_v<T> || std::is_pointer_v<T>)
   constexpr explicit UInt16(T value) noexcept : UInt16((uint16_t)value) {}
   public: constexpr uint16_t& get() noexcept { return m_value; }
   public: constexpr uint16_t get() const noexcept { return m_value; }

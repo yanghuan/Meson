@@ -7,6 +7,9 @@
 #include <iostream>
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/Int32.h>
+#include <System.Private.CoreLib/System/Int64.h>
+#include <System.Private.CoreLib/System/char.h>
 
 #if 0
 #include <System.Private.CoreLib/System/IFormatProvider.h>
@@ -16,8 +19,6 @@
 #include <System.Private.CoreLib/System/UInt32-dep.h>
 #include <System.Private.CoreLib/System/IntPtr-dep.h>
 #include <System.Private.CoreLib/System/UIntPtr-dep.h>
-#include <System.Private.CoreLib/System/Int64-dep.h>
-#include <System.Private.CoreLib/System/UInt64-dep.h>
 #include <System.Private.CoreLib/System/String-dep.h>
 #include <System.Private.CoreLib/System/Boolean-dep.h>
 #include <System.Private.CoreLib/System/Threading/Volatile-dep.h>
@@ -120,45 +121,23 @@ void Test() {
   //constexpr bool cc =  rt::IsInterfacesContains<CultureInfo::in::interface, IFormatProvider::in>;
   //constexpr bool b1 = rt::CodeOf<IFormatProvider::in> == rt::TypeCode::Interface;
   //constexpr auto b2 = IFormatProvider::in::code;
-
   constexpr auto b3 = rt::GetTypeCode<IFormatProvider::in>::value;
   constexpr auto b4 = rt::GetTypeCode<Object::in>::value;
   constexpr auto b5 = rt::GetTypeCode<String::in>::value;
   constexpr auto b6 = rt::GetTypeCode<IConvertible::in>::value;
   constexpr bool dd =  rt::IsInterfaceConvertible<IFormatProvider::in, CultureInfo::in>;
-  
 }
-
 #endif
+
+using namespace System::Private::CoreLib::System;
 
 template<typename... T>
 class My_tuple { 
-
 };
 
-
-template<typename... T>
-using TT_tule = My_tuple<T...>;
-
-namespace ArrayNamespace {
-  template <class... T> class Array___; template <class... T> using Array = rt::ref<Array___<T...>>;
-  template<class T1> class Array___<T1>;
-  template <> class Array___<> {
-    public: int a;
-  };
-  template<class T> class Array___<T> {
-    public: int aa;
-  };
-}
-
-template <class ...T>
-using Array = ArrayNamespace::Array<T...>;
-
 int main() {
-  Array<> aa;
-  aa->a = 20;
-  Array<int> bb;
-  bb->aa = 22;
+  int* p = nullptr;
+  Int32 a = (Int32)p;
   return 0;
 }
 

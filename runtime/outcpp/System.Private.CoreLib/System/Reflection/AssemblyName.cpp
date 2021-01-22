@@ -302,7 +302,7 @@ String AssemblyName___::EscapeCodeBase(String codebase) {
     return String::in::Empty;
   }
   Int32 destPos = 0;
-  Array<Char> array = EscapeString(codebase, 0, codebase->get_Length(), nullptr, destPos, true, u'￿', u'￿', u'￿');
+  Array<Char> array = EscapeString(codebase, 0, codebase->get_Length(), nullptr, destPos, true, u'\xffff', u'\xffff', u'\xffff');
   if (array == nullptr) {
     return codebase;
   }
@@ -319,13 +319,13 @@ Array<Char> AssemblyName___::EscapeString(String input, Int32 start, Int32 end, 
     Char* ptr3 = ptr2;
     for (; i < end; i++) {
       Char c = *(ptr3 + i);
-      if (c > u'') {
+      if (c > u'\x007f') {
         Int16 num2 = (Int16)Math::Min(end - i, 39);
         Int16 num3 = 1;
-        while (num3 < num2 && *(ptr3 + i + num3) > u'') {
+        while (num3 < num2 && *(ptr3 + i + num3) > u'\x007f') {
           num3 = (Int16)(num3 + 1);
         }
-        if (*(ptr3 + i + num3 - 1) >= u'�' && *(ptr3 + i + num3 - 1) <= u'�') {
+        if (*(ptr3 + i + num3 - 1) >= u'\xd800' && *(ptr3 + i + num3 - 1) <= u'\xdbff') {
           if (num3 == 1 || num3 == end - i) {
             rt::throw_exception<FormatException>(SR::get_Arg_FormatException());
           }

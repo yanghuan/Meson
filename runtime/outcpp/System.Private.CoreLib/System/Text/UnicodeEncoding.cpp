@@ -316,8 +316,8 @@ Int32 UnicodeEncoding___::GetByteCount(Char* chars, Int32 count, EncoderNLS enco
       } else {
         num += 2;
       }
-      if (c2 >= u'�' && c2 <= u'�') {
-        if (c2 <= u'�') {
+      if (c2 >= u'\xd800' && c2 <= u'\xdfff') {
+        if (c2 <= u'\xdbff') {
           if (c > u'\0') {
             chars--;
             num -= 2;
@@ -436,8 +436,8 @@ Int32 UnicodeEncoding___::GetBytes(Char* chars, Int32 charCount, Byte* bytes, In
         c2 = *chars;
         chars++;
       }
-      if (c2 >= u'�' && c2 <= u'�') {
-        if (c2 <= u'�') {
+      if (c2 >= u'\xd800' && c2 <= u'\xdfff') {
+        if (c2 <= u'\xdbff') {
           if (c > u'\0') {
             chars--;
             if (encoderFallbackBuffer == nullptr) {
@@ -581,8 +581,8 @@ Int32 UnicodeEncoding___::GetCharCount(Byte* bytes, Int32 count, DecoderNLS base
     }
     Char c2 = ((!bigEndian) ? ((Char)((*(bytes++) << 8) | num)) : ((Char)((num << 8) | *(bytes++))));
     num = -1;
-    if (c2 >= u'�' && c2 <= u'�') {
-      if (c2 <= u'�') {
+    if (c2 >= u'\xd800' && c2 <= u'\xdfff') {
+      if (c2 <= u'\xdbff') {
         if (c > u'\0') {
           num2--;
           Array<Byte> array = nullptr;
@@ -688,8 +688,8 @@ Int32 UnicodeEncoding___::GetChars(Byte* bytes, Int32 byteCount, Char* chars, In
     }
     Char c2 = ((!bigEndian) ? ((Char)((*(bytes++) << 8) | num)) : ((Char)((num << 8) | *(bytes++))));
     num = -1;
-    if (c2 >= u'�' && c2 <= u'�') {
-      if (c2 <= u'�') {
+    if (c2 >= u'\xd800' && c2 <= u'\xdfff') {
+      if (c2 <= u'\xdbff') {
         if (c > u'\0') {
           Array<Byte> array = nullptr;
           array = ((!bigEndian) ? rt::newarr<Array<Byte>>(2) : rt::newarr<Array<Byte>>(2));

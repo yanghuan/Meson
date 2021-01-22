@@ -164,7 +164,7 @@ void WebUtility::HtmlEncode(ReadOnlySpan<Char> input, ValueStringBuilder& output
       continue;
     }
     Int32 num = -1;
-    if (c >= u' ' && c < u'Ā') {
+    if (c >= u'\x00a0' && c < u'Ā') {
       num = c;
     } else if (Char::IsSurrogate(c)) {
       Int32 nextUnicodeScalarValueFromUtf16Surrogate = GetNextUnicodeScalarValueFromUtf16Surrogate(input, i);
@@ -299,7 +299,7 @@ Int32 WebUtility::IndexOfHtmlEncodingChars(ReadOnlySpan<Char> input) {
       }
       continue;
     }
-    if (c >= u' ' && c < u'Ā') {
+    if (c >= u'\x00a0' && c < u'Ā') {
       return i;
     }
     if (Char::IsSurrogate(c)) {

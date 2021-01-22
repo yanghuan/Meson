@@ -388,7 +388,7 @@ Boolean Char::CheckSeparator(UnicodeCategory uc) {
 
 Boolean Char::IsSeparatorLatin1(Char c) {
   if (c != u' ') {
-    return c == u' ';
+    return c == u'\x00a0';
   }
   return true;
 }
@@ -415,7 +415,7 @@ Boolean Char::IsSeparator(String s, Int32 index) {
 }
 
 Boolean Char::IsSurrogate(Char c) {
-  return IsInRange(c, u'�', u'�');
+  return IsInRange(c, u'\xd800', u'\xdfff');
 }
 
 Boolean Char::IsSurrogate(String s, Int32 index) {
@@ -512,7 +512,7 @@ Double Char::GetNumericValue(String s, Int32 index) {
 }
 
 Boolean Char::IsHighSurrogate(Char c) {
-  return IsInRange(c, u'�', u'�');
+  return IsInRange(c, u'\xd800', u'\xdbff');
 }
 
 Boolean Char::IsHighSurrogate(String s, Int32 index) {
@@ -526,7 +526,7 @@ Boolean Char::IsHighSurrogate(String s, Int32 index) {
 }
 
 Boolean Char::IsLowSurrogate(Char c) {
-  return IsInRange(c, u'�', u'�');
+  return IsInRange(c, u'\xdc00', u'\xdfff');
 }
 
 Boolean Char::IsLowSurrogate(String s, Int32 index) {

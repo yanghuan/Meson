@@ -38,7 +38,7 @@ Boolean DomainNameHelper::IsValid(Char* name, Int32 pos, Int32& returnedEnd, Boo
   Char* ptr3;
   for (ptr3 = name + returnedEnd; ptr2 < ptr3; ptr2++) {
     Char c = *ptr2;
-    if (c > u'') {
+    if (c > u'\x007f') {
       return false;
     }
     if (c < u'a' && (c == u'/' || c == u'\\' || (notImplicitFile && (c == u':' || c == u'?' || c == u'#')))) {
@@ -100,18 +100,18 @@ Boolean DomainNameHelper::IsValidByIri(Char* name, Int32 pos, Int32& returnedEnd
       if (*ptr2 > u'ÿ') {
         num++;
       }
-      if (*ptr2 >= u' ') {
+      if (*ptr2 >= u'\x00a0') {
         flag = true;
       }
     }
     if (ptr != ptr2 && (flag ? (num + 4) : num) <= 63) {
       Char* intPtr = ptr;
       ptr = intPtr + 1;
-      if (*intPtr >= u' ' || IsASCIILetterOrDigit(*(ptr - 1), notCanonical)) {
+      if (*intPtr >= u'\x00a0' || IsASCIILetterOrDigit(*(ptr - 1), notCanonical)) {
         while (ptr < ptr2) {
           Char* intPtr2 = ptr;
           ptr = intPtr2 + 1;
-          if (*intPtr2 < u' ' && !IsValidDomainLabelCharacter(*(ptr - 1), notCanonical)) {
+          if (*intPtr2 < u'\x00a0' && !IsValidDomainLabelCharacter(*(ptr - 1), notCanonical)) {
             return false;
           }
         }
@@ -134,7 +134,7 @@ String DomainNameHelper::IdnEquivalent(String hostname) {
   }
   Boolean flag = true;
   for (Char&& c : *hostname) {
-    if (c > u'') {
+    if (c > u'\x007f') {
       flag = false;
       break;
     }
@@ -190,7 +190,7 @@ String DomainNameHelper::UnicodeEquivalent(Char* hostname, Int32 start, Int32 en
           flag2 = true;
         }
       }
-      if (flag && c > u'') {
+      if (flag && c > u'\x007f') {
         flag = false;
         allAscii = false;
       }

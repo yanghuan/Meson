@@ -31,7 +31,7 @@ Array<String> DriveInfoInternal::GetLogicalDrives() {
       array[num2++] = span.ToString();
     }
     num >>= 1;
-    span[0] += u'';
+    span[0] += u'\x0001';
   }
   return array;
 }

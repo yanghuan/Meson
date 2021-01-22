@@ -98,7 +98,7 @@ struct Double : public valueType<Double, rt::TypeCode::Double> {
   public: static constexpr double NaN = rt::NaN<double>;
   public: constexpr Double() noexcept : m_value(0) {}
   public: constexpr Double(double value) noexcept : m_value(value) {}
-  public: template <class T> requires(std::is_enum_v<T>)
+  public: template <class T> requires(std::is_enum_v<T> || std::is_pointer_v<T>)
   constexpr explicit Double(T value) noexcept : Double((double)value) {}
   public: constexpr double& get() noexcept { return m_value; }
   public: constexpr double get() const noexcept { return m_value; }

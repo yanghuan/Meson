@@ -118,11 +118,11 @@ struct Char : public valueType<Char, rt::TypeCode::Char> {
   private: static void ConvertToUtf32_ThrowInvalidArgs(UInt32 highSurrogateOffset);
   public: static Int32 ConvertToUtf32(String s, Int32 index);
   private: char16_t m_value;
-  public: static constexpr char16_t MaxValue = u'\0';
+  public: static constexpr char16_t MaxValue = u'￿';
   public: static constexpr char16_t MinValue = u'\0';
   public: constexpr Char() noexcept : m_value(0) {}
   public: constexpr Char(char16_t value) noexcept : m_value(value) {}
-  public: template <class T> requires(std::is_enum_v<T>)
+  public: template <class T> requires(std::is_enum_v<T> || std::is_pointer_v<T>)
   constexpr explicit Char(T value) noexcept : Char((char16_t)value) {}
   public: constexpr char16_t& get() noexcept { return m_value; }
   public: constexpr char16_t get() const noexcept { return m_value; }

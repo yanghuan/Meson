@@ -227,7 +227,7 @@ Array<EraInfo> JapaneseCalendar___::IcuGetJapaneseEras() {
   if (!CalendarData::in::EnumCalendarInfo("ja", CalendarId::JAPAN, CalendarDataType::AbbrevEraNames, calendarData2)) {
     calendarData2 = s_abbreviatedEnglishEraNames;
   }
-  if (calendarData2[calendarData2->get_Length() - 1]->get_Length() == 0 || calendarData2[calendarData2->get_Length() - 1][0] > u'') {
+  if (calendarData2[calendarData2->get_Length() - 1]->get_Length() == 0 || calendarData2[calendarData2->get_Length() - 1][0] > u'\x007f') {
     calendarData2 = s_abbreviatedEnglishEraNames;
   }
   Int32 num3 = ((calendarData2 == s_abbreviatedEnglishEraNames) ? (list->get_Count() - 1) : (calendarData2->get_Length() - 1));

@@ -723,7 +723,9 @@ namespace Meson.Compiler {
                   IsConstexpr = true,
                   IsNoexcept = true,
                   IsExplicit = true,
-                  Template = new TemplateSyntax(TemplateTypenameSyntax.T) { Requires = IdentifierSyntax.IsEnumType.Generic(IdentifierSyntax.T) },
+                  Template = new TemplateSyntax(TemplateTypenameSyntax.T) { 
+                    Requires = IdentifierSyntax.IsEnumType.Generic(IdentifierSyntax.T).Binary(Tokens.LogicOr, IdentifierSyntax.IsPointerType.Generic(IdentifierSyntax.T))
+                  },
                 };
                 enumTypeConstructor.AddInitializationList(node.Name, IdentifierSyntax.Value.CastTo(typeName));
                 node.Add(enumTypeConstructor);

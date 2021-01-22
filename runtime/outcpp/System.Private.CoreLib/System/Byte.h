@@ -79,7 +79,7 @@ struct Byte : public valueType<Byte, rt::TypeCode::Byte> {
   public: static constexpr uint8_t MinValue = 0;
   public: constexpr Byte() noexcept : m_value(0) {}
   public: constexpr Byte(uint8_t value) noexcept : m_value(value) {}
-  public: template <class T> requires(std::is_enum_v<T>)
+  public: template <class T> requires(std::is_enum_v<T> || std::is_pointer_v<T>)
   constexpr explicit Byte(T value) noexcept : Byte((uint8_t)value) {}
   public: constexpr uint8_t& get() noexcept { return m_value; }
   public: constexpr uint8_t get() const noexcept { return m_value; }
