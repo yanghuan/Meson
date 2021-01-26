@@ -1114,6 +1114,11 @@ inline constexpr T operator +(T a, T1 b) {
   return a + b.get();
 }
 
+template <class T, class T1> requires(std::is_pointer_v<T> && rt::IsArithmetic<T1>) 
+inline constexpr T operator -(T a, T1 b) { 
+  return a - b.get();
+}
+
 template <class T, class T1> requires(std::is_arithmetic_v<T> && rt::IsArithmetic<T1>) 
 inline constexpr bool operator <(T a, T1 b) { 
   return a < b.get();
