@@ -521,6 +521,12 @@ namespace Meson.Compiler {
         WriteSpace();
         node.Body.Render(this);
       } else {
+        if (node.IsDelete) {
+          WriteSpace();
+          Write(Tokens.Equals);
+          WriteSpace();
+          Write(Tokens.Delete);
+        }
         WriteSemicolon();
       }
       WriteNewLine();

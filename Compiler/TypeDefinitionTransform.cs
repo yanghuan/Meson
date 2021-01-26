@@ -127,9 +127,20 @@ namespace Meson.Compiler {
       }
       node.Bases.Add(new BaseSyntax(generic));
       AddInterfaces(type, node, type.DirectBaseTypes.Skip(1));
+      //AddStructDeletes(node);
       parent_.Add(node);
       VisitMembers(type, node);
     }
+
+    /*
+    private static void AddStructDeletes(ClassSyntax node) {
+      var typeRef = node.Name.Ref();
+      var copyAssignment = new MethodDefinitionSyntax("operator =", new ParameterSyntax(typeRef.Ref(), null).ArrayOf()) { 
+        Accessibility = Accessibility.Public,
+        IsDelete = true,
+      };
+      node.Add(copyAssignment);
+    }*/
 
     private ClassKind GetClassKind(ITypeDefinition type) {
       if (IsMulti) {
@@ -374,7 +385,7 @@ namespace Meson.Compiler {
       if (typeDefinition != null) {
         switch (typeDefinition.KnownTypeCode) {
           case KnownTypeCode.Boolean:
-          //case KnownTypeCode.Char:
+          case KnownTypeCode.Char:
           case KnownTypeCode.String:
           case KnownTypeCode.Int32:
             return true;
