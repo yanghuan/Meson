@@ -354,6 +354,7 @@ namespace Meson.Compiler.CppAst {
     public bool IsStatic { get; set; }
     public bool IsConst { get; set; }
     public bool IsInline { get; set; }
+    public bool IsDelete { get; set; }
     public string AccessibilityToken { get; set; }
     public ExpressionSyntax RetuenType { get; }
     public ExpressionSyntax DeclaringType { get; set; }

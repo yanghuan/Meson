@@ -39,6 +39,10 @@ namespace Meson.Compiler.CppAst {
       return new AddressExpressionSyntax(this);
     }
 
+    internal RefExpressionSyntax Ref() {
+      return new RefExpressionSyntax(this);
+    }
+
     internal ReturnStatementSyntax Return() {
       return new ReturnStatementSyntax(this);
     }

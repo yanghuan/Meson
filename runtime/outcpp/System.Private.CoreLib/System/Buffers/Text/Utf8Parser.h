@@ -1,6 +1,7 @@
 #pragma once
 
 #include <System.Private.CoreLib/System/Boolean.h>
+#include <System.Private.CoreLib/System/Char.h>
 #include <System.Private.CoreLib/System/Number.h>
 #include <System.Private.CoreLib/System/UInt32.h>
 #include <System.Private.CoreLib/System/ValueType.h>
@@ -9,7 +10,6 @@ namespace System::Private::CoreLib::System {
 enum class DateTimeKind : int32_t;
 FORWARD_(Array)
 FORWARDS(Byte)
-FORWARDS(Char)
 FORWARDS(DateTime)
 FORWARDS(DateTimeOffset)
 FORWARDS(Decimal)

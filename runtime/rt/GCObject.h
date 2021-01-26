@@ -933,6 +933,7 @@ namespace rt {
 
   template <class T, class Base, TypeCode code>
   struct valueType : public ValueOperator<T, Base, code> {
+    T& operator =(T&&) = delete;
   };
 
   template <class T, size_t N>

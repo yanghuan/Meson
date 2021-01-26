@@ -5,9 +5,13 @@ using System.Threading.Tasks;
 
 namespace Test {
   class Program {
-    private static void Main(string[] args) {
-      char c = 'ÿ';
-      char d = '\uffff';
+    public void f(int a = 0) {
+    }
+
+    public void f1(char c = 'a') {
+    }
+
+    static void Main(string[] args) {
     }
   }
 }

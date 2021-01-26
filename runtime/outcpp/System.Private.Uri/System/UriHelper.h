@@ -1,5 +1,6 @@
 #pragma once
 
+#include <System.Private.CoreLib/System/Char.h>
 #include <System.Private.CoreLib/System/Object.h>
 #include <System.Private.CoreLib/System/String.h>
 
@@ -7,7 +8,6 @@ namespace System::Private::CoreLib::System {
 FORWARD_(Array)
 FORWARDS(Boolean)
 FORWARDS(Byte)
-FORWARDS(Char)
 FORWARDS(Int32)
 FORWARDS(IntPtr)
 FORWARDS(ReadOnlySpan, T)
