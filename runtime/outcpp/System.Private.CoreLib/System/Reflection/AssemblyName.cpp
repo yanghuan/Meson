@@ -315,7 +315,7 @@ Array<Char> AssemblyName___::EscapeString(String input, Int32 start, Int32 end, 
   Byte as[160] = {};
   Byte* ptr = as;
   {
-    Char* ptr2 = input;
+    Char* ptr2 = rt::fixed(input);
     Char* ptr3 = ptr2;
     for (; i < end; i++) {
       Char c = *(ptr3 + i);

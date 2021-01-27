@@ -480,7 +480,7 @@ Array<> Array___<>::CreateInstance(Type elementType, Array<Int32> lengths) {
     }
   }
   {
-    Int32* pLengths = &lengths[0];
+    Int32* pLengths = rt::fixed(&lengths[0]);
     return InternalCreate((void*)runtimeType->get_TypeHandle().get_Value(), lengths->get_Length(), pLengths, nullptr);
   }
 }
@@ -511,9 +511,9 @@ Array<> Array___<>::CreateInstance(Type elementType, Array<Int32> lengths, Array
     }
   }
   {
-    Int32* pLengths = &lengths[0];
+    Int32* pLengths = rt::fixed(&lengths[0]);
     {
-      Int32* pLowerBounds = &lowerBounds[0];
+      Int32* pLowerBounds = rt::fixed(&lowerBounds[0]);
       return InternalCreate((void*)runtimeType->get_TypeHandle().get_Value(), lengths->get_Length(), pLengths, pLowerBounds);
     }
   }
@@ -647,7 +647,7 @@ Object Array___<>::GetValue(Array<Int32> indices) {
   }
   TypedReference typedReference;
   {
-    Int32* pIndices = &indices[0];
+    Int32* pIndices = rt::fixed(&indices[0]);
     InternalGetReference(&typedReference, indices->get_Length(), pIndices);
   }
   return TypedReference::InternalToObject(&typedReference);
@@ -734,7 +734,7 @@ void Array___<>::SetValue(Object value, Array<Int32> indices) {
   }
   TypedReference typedReference;
   {
-    Int32* pIndices = &indices[0];
+    Int32* pIndices = rt::fixed(&indices[0]);
     InternalGetReference(&typedReference, indices->get_Length(), pIndices);
   }
   InternalSetValue(&typedReference, value);

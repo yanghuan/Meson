@@ -443,7 +443,7 @@ void EventSource___::DefineEventPipeEvents() {
       UInt32 version = m_eventData[i].Descriptor.get_Version();
       UInt32 level = m_eventData[i].Descriptor.get_Level();
       {
-        Byte* pMetadata = array;
+        Byte* pMetadata = rt::fixed(array);
         IntPtr eventHandle = m_eventPipeProvider->m_eventProvider->DefineEventHandle(eventId, name, keywords, version, level, pMetadata, metadataLength);
         m_eventData[i].EventHandle = eventHandle;
       }
@@ -548,7 +548,7 @@ void EventSource___::WriteEvent(Int32 eventId, String arg1) {
       arg1 = "";
     }
     {
-      Char* ptr = arg1;
+      Char* ptr = rt::fixed(arg1);
       Char* value = ptr;
       EventData as[1] = {};
       EventData* ptr2 = as;
@@ -571,10 +571,10 @@ void EventSource___::WriteEvent(Int32 eventId, String arg1, String arg2) {
     arg2 = "";
   }
   {
-    Char* ptr = arg1;
+    Char* ptr = rt::fixed(arg1);
     Char* value = ptr;
     {
-      Char* ptr2 = arg2;
+      Char* ptr2 = rt::fixed(arg2);
       Char* value2 = ptr2;
       EventData as[2] = {};
       EventData* ptr3 = as;
@@ -603,13 +603,13 @@ void EventSource___::WriteEvent(Int32 eventId, String arg1, String arg2, String 
     arg3 = "";
   }
   {
-    Char* ptr = arg1;
+    Char* ptr = rt::fixed(arg1);
     Char* value = ptr;
     {
-      Char* ptr2 = arg2;
+      Char* ptr2 = rt::fixed(arg2);
       Char* value2 = ptr2;
       {
-        Char* ptr3 = arg3;
+        Char* ptr3 = rt::fixed(arg3);
         Char* value3 = ptr3;
         EventData as[3] = {};
         EventData* ptr4 = as;
@@ -634,7 +634,7 @@ void EventSource___::WriteEvent(Int32 eventId, String arg1, Int32 arg2) {
       arg1 = "";
     }
     {
-      Char* ptr = arg1;
+      Char* ptr = rt::fixed(arg1);
       Char* value = ptr;
       EventData as[2] = {};
       EventData* ptr2 = as;
@@ -655,7 +655,7 @@ void EventSource___::WriteEvent(Int32 eventId, String arg1, Int32 arg2, Int32 ar
       arg1 = "";
     }
     {
-      Char* ptr = arg1;
+      Char* ptr = rt::fixed(arg1);
       Char* value = ptr;
       EventData as[3] = {};
       EventData* ptr2 = as;
@@ -679,7 +679,7 @@ void EventSource___::WriteEvent(Int32 eventId, String arg1, Int64 arg2) {
       arg1 = "";
     }
     {
-      Char* ptr = arg1;
+      Char* ptr = rt::fixed(arg1);
       Char* value = ptr;
       EventData as[2] = {};
       EventData* ptr2 = as;
@@ -700,7 +700,7 @@ void EventSource___::WriteEvent(Int32 eventId, Int64 arg1, String arg2) {
       arg2 = "";
     }
     {
-      Char* ptr = arg2;
+      Char* ptr = rt::fixed(arg2);
       Char* value = ptr;
       EventData as[2] = {};
       EventData* ptr2 = as;
@@ -721,7 +721,7 @@ void EventSource___::WriteEvent(Int32 eventId, Int32 arg1, String arg2) {
       arg2 = "";
     }
     {
-      Char* ptr = arg2;
+      Char* ptr = rt::fixed(arg2);
       Char* value = ptr;
       EventData as[2] = {};
       EventData* ptr2 = as;
@@ -755,7 +755,7 @@ void EventSource___::WriteEvent(Int32 eventId, Array<Byte> arg1) {
   }
   Int32 size = arg1->get_Length();
   {
-    Byte* value = &arg1[0];
+    Byte* value = rt::fixed(&arg1[0]);
     ptr->set_DataPointer((IntPtr)(&size));
     ptr->set_Size(4);
     ptr->set_Reserved(0);
@@ -788,7 +788,7 @@ void EventSource___::WriteEvent(Int32 eventId, Int64 arg1, Array<Byte> arg2) {
   }
   Int32 size = arg2->get_Length();
   {
-    Byte* value = &arg2[0];
+    Byte* value = rt::fixed(&arg2[0]);
     ptr[1].set_DataPointer((IntPtr)(&size));
     ptr[1].set_Size(4);
     ptr[1].set_Reserved(0);
@@ -1283,7 +1283,7 @@ void EventSource___::WriteEventString(String msgString) {
     SendManifest(manifestBuilder->CreateManifest());
   }
   {
-    Char* ptr = msgString;
+    Char* ptr = rt::fixed(msgString);
     Char* ptr2 = ptr;
     EventDescriptor eventDescriptor = EventDescriptor(0, 0, 0, (Byte)eventLevel, 0, 0, keywords);
     EventProvider::in::EventData eventData;
@@ -1306,7 +1306,7 @@ void EventSource___::WriteEventString(String msgString) {
           Array<Byte> array = EventPipeMetadataGenerator::in::Instance->GenerateMetadata(0, eventName, keywords, (UInt32)eventLevel, 0u, EventOpcode::Info, rt::newarr<Array<EventParameterInfo>>(1));
           UInt32 metadataLength = (UInt32)((array != nullptr) ? array->get_Length() : 0);
           {
-            Byte* pMetadata = array;
+            Byte* pMetadata = rt::fixed(array);
             m_writeEventStringEventHandle = m_eventPipeProvider->m_eventProvider->DefineEventHandle(0u, eventName, keywords, 0u, (UInt32)eventLevel, pMetadata, metadataLength);
           }
         }
@@ -1624,7 +1624,7 @@ void EventSource___::SendManifest(Array<Byte> rawManifest) {
     return;
   }
   {
-    Byte* ptr2 = rawManifest;
+    Byte* ptr2 = rt::fixed(rawManifest);
     EventDescriptor eventDescriptor = EventDescriptor(65534, 1, 0, 0, 254, 65534, 72057594037927935);
     ManifestEnvelope manifestEnvelope;
     manifestEnvelope.Format = ManifestEnvelope::ManifestFormats::SimpleXmlFormat;
@@ -2228,11 +2228,11 @@ void EventSource___::WriteMultiMergeInner(String eventName, EventSourceOptions& 
     *(ptr2 + j) = rt::default__;
   }
   {
-    Byte* pointer = providerMetadata;
+    Byte* pointer = rt::fixed(providerMetadata);
     {
-      Byte* pointer2 = nameInfo->nameMetadata;
+      Byte* pointer2 = rt::fixed(nameInfo->nameMetadata);
       {
-        Byte* pointer3 = eventTypes->typeMetadata;
+        Byte* pointer3 = rt::fixed(eventTypes->typeMetadata);
         ptr->SetMetadata(pointer, providerMetadata->get_Length(), 2);
         ptr[1].SetMetadata(pointer2, nameInfo->nameMetadata->get_Length(), 1);
         ptr[2].SetMetadata(pointer3, eventTypes->typeMetadata->get_Length(), 1);
@@ -2257,7 +2257,7 @@ void EventSource___::WriteMultiMerge(String eventName, EventSourceOptions& optio
     return;
   }
   {
-    EventSourceOptions* ptr2 = &options;
+    EventSourceOptions* ptr2 = rt::fixed(&options);
     EventDescriptor descriptor;
     NameInfo nameInfo = UpdateDescriptor(eventName, eventTypes, options, descriptor);
     if (nameInfo == nullptr) {
@@ -2271,11 +2271,11 @@ void EventSource___::WriteMultiMerge(String eventName, EventSourceOptions& optio
       *(ptr + i) = rt::default__;
     }
     {
-      Byte* pointer = providerMetadata;
+      Byte* pointer = rt::fixed(providerMetadata);
       {
-        Byte* pointer2 = nameInfo->nameMetadata;
+        Byte* pointer2 = rt::fixed(nameInfo->nameMetadata);
         {
-          Byte* pointer3 = eventTypes->typeMetadata;
+          Byte* pointer3 = rt::fixed(eventTypes->typeMetadata);
           ptr->SetMetadata(pointer, providerMetadata->get_Length(), 2);
           ptr[1].SetMetadata(pointer2, nameInfo->nameMetadata->get_Length(), 1);
           ptr[2].SetMetadata(pointer3, eventTypes->typeMetadata->get_Length(), 1);
@@ -2299,7 +2299,7 @@ void EventSource___::WriteImpl(String eventName, EventSourceOptions& options, Ob
   try {
     try {
       {
-        EventSourceOptions* ptr3 = &options;
+        EventSourceOptions* ptr3 = rt::fixed(&options);
         options.set_Opcode((options.get_IsOpcodeSet() ? options.get_Opcode() : GetOpcodeWithDefault(options.get_Opcode(), eventName)));
         EventDescriptor descriptor;
         NameInfo nameInfo = UpdateDescriptor(eventName, eventTypes, options, descriptor);
@@ -2322,11 +2322,11 @@ void EventSource___::WriteImpl(String eventName, EventSourceOptions& options, Ob
         }
         try {
           {
-            Byte* pointer = providerMetadata;
+            Byte* pointer = rt::fixed(providerMetadata);
             {
-              Byte* pointer2 = nameInfo->nameMetadata;
+              Byte* pointer2 = rt::fixed(nameInfo->nameMetadata);
               {
-                Byte* pointer3 = eventTypes->typeMetadata;
+                Byte* pointer3 = rt::fixed(eventTypes->typeMetadata);
                 ptr->SetMetadata(pointer, providerMetadata->get_Length(), 2);
                 ptr[1].SetMetadata(pointer2, nameInfo->nameMetadata->get_Length(), 1);
                 ptr[2].SetMetadata(pointer3, eventTypes->typeMetadata->get_Length(), 1);

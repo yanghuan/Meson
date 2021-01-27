@@ -84,12 +84,12 @@ Array<Byte> EventPipeMetadataGenerator___::GenerateMetadata(Int32 eventId, Strin
     UInt32 num7 = num + num6;
     array = rt::newarr<Array<Byte>>(num7);
     {
-      Byte* ptr = array;
+      Byte* ptr = rt::fixed(array);
       UInt32 offset = 0u;
       WriteToBuffer(ptr, num7, offset, (UInt32)eventId);
       try {
         {
-          Char* ptr2 = eventName;
+          Char* ptr2 = rt::fixed(eventName);
           Char* src = ptr2;
           WriteToBuffer(ptr, num7, offset, (Byte*)src, (UInt32)((eventName->get_Length() + 1) * 2));
         }

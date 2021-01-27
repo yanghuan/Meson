@@ -49,7 +49,7 @@ void WaitHandle___::set_SafeWaitHandle(SafeWaitHandle value) {
 
 Int32 WaitHandle___::WaitMultipleIgnoringSyncContext(Span<IntPtr> waitHandles, Boolean waitAll, Int32 millisecondsTimeout) {
   {
-    IntPtr* waitHandles2 = &MemoryMarshal::GetReference(waitHandles);
+    IntPtr* waitHandles2 = rt::fixed(&MemoryMarshal::GetReference(waitHandles));
     return WaitMultipleIgnoringSyncContext(waitHandles2, waitHandles.get_Length(), waitAll, millisecondsTimeout);
   }
 }

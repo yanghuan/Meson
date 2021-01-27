@@ -45,7 +45,7 @@ Boolean Normalization::IcuIsNormalized(String strInput, NormalizationForm normal
   ValidateArguments(strInput, normalizationForm);
   Int32 num;
   {
-    Char* ptr = strInput;
+    Char* ptr = rt::fixed(strInput);
     Char* src = ptr;
     num = Interop::Globalization::IsNormalized(normalizationForm, src, strInput->get_Length());
   }
@@ -66,11 +66,11 @@ String Normalization::IcuNormalize(String strInput, NormalizationForm normalizat
       Int32 num;
       try {
         {
-          Char* ptr = strInput;
+          Char* ptr = rt::fixed(strInput);
           Char* src = ptr;
           try {
             {
-              Char* dstBuffer = &MemoryMarshal::GetReference(span2);
+              Char* dstBuffer = rt::fixed(&MemoryMarshal::GetReference(span2));
               num = Interop::Globalization::NormalizeString(normalizationForm, src, strInput->get_Length(), dstBuffer, span2.get_Length());
             }
           } catch (...) {
@@ -141,7 +141,7 @@ Boolean Normalization::HasInvalidUnicodeSequence(String s) {
 Boolean Normalization::NlsIsNormalized(String strInput, NormalizationForm normalizationForm) {
   Interop::BOOL bOOL;
   {
-    Char* ptr = strInput;
+    Char* ptr = rt::fixed(strInput);
     Char* source = ptr;
     bOOL = Interop::Normaliz::IsNormalizedString(normalizationForm, source, strInput->get_Length());
   }
@@ -175,11 +175,11 @@ String Normalization::NlsNormalize(String strInput, NormalizationForm normalizat
       Int32 num;
       try {
         {
-          Char* ptr = strInput;
+          Char* ptr = rt::fixed(strInput);
           Char* source = ptr;
           try {
             {
-              Char* destination = &MemoryMarshal::GetReference(span2);
+              Char* destination = rt::fixed(&MemoryMarshal::GetReference(span2));
               num = Interop::Normaliz::NormalizeString(normalizationForm, source, strInput->get_Length(), destination, span2.get_Length());
             }
           } catch (...) {

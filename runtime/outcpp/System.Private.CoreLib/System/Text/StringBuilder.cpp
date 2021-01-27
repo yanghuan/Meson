@@ -237,7 +237,7 @@ void StringBuilder___::ReplaceBufferAnsiInternal(SByte* newBuffer, Int32 newLeng
   }
   Int32 chunkLength;
   {
-    Char* lpWideCharStr = m_ChunkChars;
+    Char* lpWideCharStr = rt::fixed(m_ChunkChars);
     chunkLength = Interop::Kernel32::MultiByteToWideChar(0u, 1u, (Byte*)newBuffer, newLength, lpWideCharStr, newLength);
   }
   m_ChunkOffset = 0;
@@ -256,7 +256,7 @@ void StringBuilder___::InternalCopy(IntPtr dest, Int32 len) {
     Int32 num = stringBuilder->m_ChunkOffset * 2;
     Int32 len2 = stringBuilder->m_ChunkLength * 2;
     {
-      Char* ptr2 = &stringBuilder->m_ChunkChars[0];
+      Char* ptr2 = rt::fixed(&stringBuilder->m_ChunkChars[0]);
       Byte* src = (Byte*)ptr2;
       if (flag) {
         flag = false;
@@ -315,7 +315,7 @@ void StringBuilder___::ctor(String value, Int32 startIndex, Int32 length, Int32 
   m_ChunkChars = GC::AllocateUninitializedArray<Char>(capacity);
   m_ChunkLength = length;
   {
-    Char* ptr = value;
+    Char* ptr = rt::fixed(value);
     Char* ptr2 = ptr;
     ThreadSafeCopy(ptr2 + startIndex, m_ChunkChars, 0, length);
   }
@@ -407,7 +407,7 @@ String StringBuilder___::ToString() {
   String text = String::in::FastAllocateString(get_Length());
   StringBuilder stringBuilder = (StringBuilder)this;
   {
-    Char* ptr = text;
+    Char* ptr = rt::fixed(text);
     Char* ptr2 = ptr;
     do {
       if (stringBuilder->m_ChunkLength > 0) {
@@ -418,7 +418,7 @@ String StringBuilder___::ToString() {
           rt::throw_exception<ArgumentOutOfRangeException>("chunkLength", SR::get_ArgumentOutOfRange_Index());
         }
         {
-          Char* smem = &chunkChars[0];
+          Char* smem = rt::fixed(&chunkChars[0]);
           String::in::wstrcpy(ptr2 + chunkOffset, smem, chunkLength);
         }
       }
@@ -444,7 +444,7 @@ String StringBuilder___::ToString(Int32 startIndex, Int32 length) {
   }
   String text = String::in::FastAllocateString(length);
   {
-    Char* ptr = text;
+    Char* ptr = rt::fixed(text);
     Char* pointer = ptr;
     CopyTo(startIndex, Span<Char>(pointer, length), length);
     return text;
@@ -506,7 +506,7 @@ StringBuilder StringBuilder___::Append(Array<Char> value, Int32 startIndex, Int3
     return (StringBuilder)this;
   }
   {
-    Char* value2 = &value[startIndex];
+    Char* value2 = rt::fixed(&value[startIndex]);
     Append(value2, charCount);
     return (StringBuilder)this;
   }
@@ -527,10 +527,10 @@ StringBuilder StringBuilder___::Append(String value) {
         }
       } else {
         {
-          Char* ptr = value;
+          Char* ptr = rt::fixed(value);
           Char* smem = ptr;
           {
-            Char* dmem = &chunkChars[chunkLength];
+            Char* dmem = rt::fixed(&chunkChars[chunkLength]);
             String::in::wstrcpy(dmem, smem, length);
           }
         }
@@ -545,7 +545,7 @@ StringBuilder StringBuilder___::Append(String value) {
 
 void StringBuilder___::AppendHelper(String value) {
   {
-    Char* ptr = value;
+    Char* ptr = rt::fixed(value);
     Char* value2 = ptr;
     Append(value2, value->get_Length());
   }
@@ -571,7 +571,7 @@ StringBuilder StringBuilder___::Append(String value, Int32 startIndex, Int32 cou
     rt::throw_exception<ArgumentOutOfRangeException>("startIndex", SR::get_ArgumentOutOfRange_Index());
   }
   {
-    Char* ptr = value;
+    Char* ptr = rt::fixed(value);
     Char* ptr2 = ptr;
     Append(ptr2 + startIndex, count);
     return (StringBuilder)this;
@@ -701,7 +701,7 @@ StringBuilder StringBuilder___::Insert(Int32 index, String value, Int32 count) {
   Int32 indexInChunk;
   MakeRoom(index, (Int32)num, chunk, indexInChunk, false);
   {
-    Char* ptr = value;
+    Char* ptr = rt::fixed(value);
     Char* value2 = ptr;
     while (count > 0) {
       ReplaceInPlaceAtChunk(chunk, indexInChunk, value2, value->get_Length());
@@ -803,7 +803,7 @@ StringBuilder StringBuilder___::Append(Object value) {
 StringBuilder StringBuilder___::Append(Array<Char> value) {
   if (value != nullptr && value->get_Length() != 0) {
     {
-      Char* value2 = &value[0];
+      Char* value2 = rt::fixed(&value[0]);
       Append(value2, value->get_Length());
     }
   }
@@ -813,7 +813,7 @@ StringBuilder StringBuilder___::Append(Array<Char> value) {
 StringBuilder StringBuilder___::Append(ReadOnlySpan<Char> value) {
   if (value.get_Length() > 0) {
     {
-      Char* value2 = &MemoryMarshal::GetReference(value);
+      Char* value2 = rt::fixed(&MemoryMarshal::GetReference(value));
       Append(value2, value.get_Length());
     }
   }
@@ -829,7 +829,7 @@ StringBuilder StringBuilder___::AppendJoin(String separator, Array<Object> value
     separator = String::in::Empty;
   }
   {
-    Char* ptr = separator;
+    Char* ptr = rt::fixed(separator);
     Char* separator2 = ptr;
     return AppendJoinCore(separator2, separator->get_Length(), values);
   }
@@ -840,7 +840,7 @@ StringBuilder StringBuilder___::AppendJoin(String separator, Array<String> value
     separator = String::in::Empty;
   }
   {
-    Char* ptr = separator;
+    Char* ptr = rt::fixed(separator);
     Char* separator2 = ptr;
     return AppendJoinCore(separator2, separator->get_Length(), values);
   }
@@ -860,7 +860,7 @@ StringBuilder StringBuilder___::Insert(Int32 index, String value) {
   }
   if (value != nullptr) {
     {
-      Char* ptr = value;
+      Char* ptr = rt::fixed(value);
       Char* value2 = ptr;
       Insert(index, value2, value->get_Length());
     }
@@ -921,7 +921,7 @@ StringBuilder StringBuilder___::Insert(Int32 index, Array<Char> value, Int32 sta
   }
   if (charCount > 0) {
     {
-      Char* value2 = &value[startIndex];
+      Char* value2 = rt::fixed(&value[startIndex]);
       Insert(index, value2, charCount);
     }
   }
@@ -973,7 +973,7 @@ StringBuilder StringBuilder___::Insert(Int32 index, ReadOnlySpan<Char> value) {
   }
   if (value.get_Length() > 0) {
     {
-      Char* value2 = &MemoryMarshal::GetReference(value);
+      Char* value2 = rt::fixed(&MemoryMarshal::GetReference(value));
       Insert(index, value2, value.get_Length());
     }
   }
@@ -1386,7 +1386,7 @@ void StringBuilder___::ReplaceAllInChunk(Array<Int32> replacements, Int32 replac
     return;
   }
   {
-    Char* ptr = value;
+    Char* ptr = rt::fixed(value);
     Char* value2 = ptr;
     Int64 num = (Int64)(value->get_Length() - removeCount) * (Int64)replacementsCount;
     Int32 num2 = (Int32)num;
@@ -1409,7 +1409,7 @@ void StringBuilder___::ReplaceAllInChunk(Array<Int32> replacements, Int32 replac
       Int32 num5 = replacements[num3];
       if (num2 != 0) {
         {
-          Char* value3 = &sourceChunk->m_ChunkChars[num4];
+          Char* value3 = rt::fixed(&sourceChunk->m_ChunkChars[num4]);
           ReplaceInPlaceAtChunk(chunk, indexInChunk, value3, num5 - num4);
         }
       } else {
@@ -1471,7 +1471,7 @@ void StringBuilder___::ThreadSafeCopy(Char* sourcePtr, Array<Char> destination, 
       rt::throw_exception<ArgumentOutOfRangeException>("destinationIndex", SR::get_ArgumentOutOfRange_Index());
     }
     {
-      Char* dmem = &destination[destinationIndex];
+      Char* dmem = rt::fixed(&destination[destinationIndex]);
       String::in::wstrcpy(dmem, sourcePtr, count);
     }
   }
@@ -1488,9 +1488,9 @@ void StringBuilder___::ThreadSafeCopy(Array<Char> source, Int32 sourceIndex, Spa
     rt::throw_exception<ArgumentOutOfRangeException>("destinationIndex", SR::get_ArgumentOutOfRange_Index());
   }
   {
-    Char* smem = &source[sourceIndex];
+    Char* smem = rt::fixed(&source[sourceIndex]);
     {
-      Char* ptr = &MemoryMarshal::GetReference(destination);
+      Char* ptr = rt::fixed(&MemoryMarshal::GetReference(destination));
       String::in::wstrcpy(ptr + destinationIndex, smem, count);
     }
   }
@@ -1558,7 +1558,7 @@ void StringBuilder___::MakeRoom(Int32 index, Int32 count, StringBuilder& chunk, 
   Int32 num2 = Math::Min(count, indexInChunk);
   if (num2 > 0) {
     {
-      Char* ptr = &chunk->m_ChunkChars[0];
+      Char* ptr = rt::fixed(&chunk->m_ChunkChars[0]);
       ThreadSafeCopy(ptr, stringBuilder->m_ChunkChars, 0, num2);
       Int32 num3 = indexInChunk - num2;
       if (num3 >= 0) {

@@ -51,7 +51,7 @@ Boolean EventParameterInfo::GenerateMetadata(Byte* pMetadataBlob, UInt32& offset
   } else {
     EventPipeMetadataGenerator::in::WriteToBuffer(pMetadataBlob, blobSize, offset, (UInt32)typeCodeExtended);
     {
-      Char* ptr = ParameterName;
+      Char* ptr = rt::fixed(ParameterName);
       Char* src = ptr;
       EventPipeMetadataGenerator::in::WriteToBuffer(pMetadataBlob, blobSize, offset, (Byte*)src, (UInt32)((ParameterName->get_Length() + 1) * 2));
     }
@@ -76,7 +76,7 @@ Boolean EventParameterInfo::GenerateMetadataForProperty(PropertyAnalysis propert
       EventPipeMetadataGenerator::in::WriteToBuffer(pMetadataBlob, blobSize, offset, 0u);
     }
     {
-      Char* ptr = property->name;
+      Char* ptr = rt::fixed(property->name);
       Char* src = ptr;
       EventPipeMetadataGenerator::in::WriteToBuffer(pMetadataBlob, blobSize, offset, (Byte*)src, (UInt32)((property->name->get_Length() + 1) * 2));
     }
@@ -87,7 +87,7 @@ Boolean EventParameterInfo::GenerateMetadataForProperty(PropertyAnalysis propert
     }
     EventPipeMetadataGenerator::in::WriteToBuffer(pMetadataBlob, blobSize, offset, (UInt32)typeCodeExtended);
     {
-      Char* ptr2 = property->name;
+      Char* ptr2 = rt::fixed(property->name);
       Char* src2 = ptr2;
       EventPipeMetadataGenerator::in::WriteToBuffer(pMetadataBlob, blobSize, offset, (Byte*)src2, (UInt32)((property->name->get_Length() + 1) * 2));
     }
@@ -109,7 +109,7 @@ Boolean EventParameterInfo::GenerateMetadataForNamedTypeV2(String name, TraceLog
   }
   EventPipeMetadataGenerator::in::WriteToBuffer(pMetadataBlob, blobSize, offset, size);
   {
-    Char* ptr = name;
+    Char* ptr = rt::fixed(name);
     Char* src = ptr;
     EventPipeMetadataGenerator::in::WriteToBuffer(pMetadataBlob, blobSize, offset, (Byte*)src, (UInt32)((name->get_Length() + 1) * 2));
   }

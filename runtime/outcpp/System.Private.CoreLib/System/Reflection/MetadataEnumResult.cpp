@@ -10,7 +10,7 @@ Int32 MetadataEnumResult::get_Item(Int32 index) {
     return largeResult[index];
   }
   {
-    Int32* ptr = smallResult;
+    Int32* ptr = rt::fixed(smallResult);
     return *(ptr + index);
   }
 }

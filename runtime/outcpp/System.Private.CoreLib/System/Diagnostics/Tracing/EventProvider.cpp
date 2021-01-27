@@ -226,7 +226,7 @@ void EventProvider___::GetSessionInfo(SessionInfoCallback action, List<SessionIn
       Int32 num = 0;
       try {
         {
-          Guid* inBuffer = &m_providerId;
+          Guid* inBuffer = rt::fixed(&m_providerId);
           num = Interop::Advapi32::EnumerateTraceGuidsEx(Interop::Advapi32::TRACE_QUERY_INFO_CLASS::TraceGuidQueryInfo, inBuffer, sizeof(Guid), ptr2, ReturnLength, ReturnLength);
         }
       } catch (...) {
@@ -560,28 +560,28 @@ Boolean EventProvider___::WriteEvent(EventDescriptor& eventDescriptor, IntPtr ev
         list2->Add(nullptr);
       }
       {
-        Char* ptr3 = (String)list2[0];
+        Char* ptr3 = rt::fixed((String)list2[0]);
         Char* ptr4 = ptr3;
         {
-          Char* ptr5 = (String)list2[1];
+          Char* ptr5 = rt::fixed((String)list2[1]);
           Char* ptr6 = ptr5;
           {
-            Char* ptr7 = (String)list2[2];
+            Char* ptr7 = rt::fixed((String)list2[2]);
             Char* ptr8 = ptr7;
             {
-              Char* ptr9 = (String)list2[3];
+              Char* ptr9 = rt::fixed((String)list2[3]);
               Char* ptr10 = ptr9;
               {
-                Char* ptr11 = (String)list2[4];
+                Char* ptr11 = rt::fixed((String)list2[4]);
                 Char* ptr12 = ptr11;
                 {
-                  Char* ptr13 = (String)list2[5];
+                  Char* ptr13 = rt::fixed((String)list2[5]);
                   Char* ptr14 = ptr13;
                   {
-                    Char* ptr15 = (String)list2[6];
+                    Char* ptr15 = rt::fixed((String)list2[6]);
                     Char* ptr16 = ptr15;
                     {
-                      Char* ptr17 = (String)list2[7];
+                      Char* ptr17 = rt::fixed((String)list2[7]);
                       Char* ptr18 = ptr17;
                       dataDescriptor = ptr;
                       if (list2[0] != nullptr) {
@@ -624,13 +624,13 @@ Boolean EventProvider___::WriteEvent(EventDescriptor& eventDescriptor, IntPtr ev
         array[l] = GCHandle::Alloc(list2[l], GCHandleType::Pinned);
         if (rt::is<String>(list2[l])) {
           {
-            Char* ptr19 = (String)list2[l];
+            Char* ptr19 = rt::fixed((String)list2[l]);
             Char* ptr20 = ptr19;
             *(dataDescriptor + list[l]).Ptr = (UInt64)ptr20;
           }
         } else {
           {
-            Byte* ptr21 = (Array<Byte>)list2[l];
+            Byte* ptr21 = rt::fixed((Array<Byte>)list2[l]);
             *(dataDescriptor + list[l]).Ptr = (UInt64)ptr21;
           }
         }

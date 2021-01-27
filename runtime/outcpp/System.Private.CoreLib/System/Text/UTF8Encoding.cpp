@@ -54,7 +54,7 @@ Array<Byte> UTF8EncodingSealed___::GetBytesForSmallInput(String s) {
   Int32 length = s->get_Length();
   Int32 bytesCommon;
   {
-    Char* ptr2 = s;
+    Char* ptr2 = rt::fixed(s);
     Char* pChars = ptr2;
     bytesCommon = GetBytesCommon(pChars, length, ptr, 96);
   }
@@ -74,7 +74,7 @@ String UTF8EncodingSealed___::GetStringForSmallInput(Array<Byte> bytes) {
   Int32 byteCount = bytes->get_Length();
   Int32 charsCommon;
   {
-    Byte* pBytes = bytes;
+    Byte* pBytes = rt::fixed(bytes);
     charsCommon = GetCharsCommon(pBytes, byteCount, ptr, 32);
   }
   return rt::newstr<String>(ReadOnlySpan<Char>(*ptr, charsCommon));
@@ -129,7 +129,7 @@ Int32 UTF8Encoding___::GetByteCount(Array<Char> chars, Int32 index, Int32 count)
     ThrowHelper::ThrowArgumentOutOfRangeException(ExceptionArgument::chars, ExceptionResource::ArgumentOutOfRange_IndexCountBuffer);
   }
   {
-    Char* ptr = chars;
+    Char* ptr = rt::fixed(chars);
     return GetByteCountCommon(ptr + index, count);
   }
 }
@@ -139,7 +139,7 @@ Int32 UTF8Encoding___::GetByteCount(String chars) {
     ThrowHelper::ThrowArgumentNullException(ExceptionArgument::chars);
   }
   {
-    Char* ptr = chars;
+    Char* ptr = rt::fixed(chars);
     Char* pChars = ptr;
     return GetByteCountCommon(pChars, chars->get_Length());
   }
@@ -157,7 +157,7 @@ Int32 UTF8Encoding___::GetByteCount(Char* chars, Int32 count) {
 
 Int32 UTF8Encoding___::GetByteCount(ReadOnlySpan<Char> chars) {
   {
-    Char* pChars = &MemoryMarshal::GetReference(chars);
+    Char* pChars = rt::fixed(&MemoryMarshal::GetReference(chars));
     return GetByteCountCommon(pChars, chars.get_Length());
   }
 }
@@ -199,10 +199,10 @@ Int32 UTF8Encoding___::GetBytes(String s, Int32 charIndex, Int32 charCount, Arra
     ThrowHelper::ThrowArgumentOutOfRangeException(ExceptionArgument::byteIndex, ExceptionResource::ArgumentOutOfRange_Index);
   }
   {
-    Char* ptr = s;
+    Char* ptr = rt::fixed(s);
     Char* ptr2 = ptr;
     {
-      Byte* ptr3 = bytes;
+      Byte* ptr3 = rt::fixed(bytes);
       return GetBytesCommon(ptr2 + charIndex, charCount, ptr3 + byteIndex, bytes->get_Length() - byteIndex);
     }
   }
@@ -222,9 +222,9 @@ Int32 UTF8Encoding___::GetBytes(Array<Char> chars, Int32 charIndex, Int32 charCo
     ThrowHelper::ThrowArgumentOutOfRangeException(ExceptionArgument::byteIndex, ExceptionResource::ArgumentOutOfRange_Index);
   }
   {
-    Char* ptr = chars;
+    Char* ptr = rt::fixed(chars);
     {
-      Byte* ptr2 = bytes;
+      Byte* ptr2 = rt::fixed(bytes);
       return GetBytesCommon(ptr + charIndex, charCount, ptr2 + byteIndex, bytes->get_Length() - byteIndex);
     }
   }
@@ -242,9 +242,9 @@ Int32 UTF8Encoding___::GetBytes(Char* chars, Int32 charCount, Byte* bytes, Int32
 
 Int32 UTF8Encoding___::GetBytes(ReadOnlySpan<Char> chars, Span<Byte> bytes) {
   {
-    Char* pChars = &MemoryMarshal::GetReference(chars);
+    Char* pChars = rt::fixed(&MemoryMarshal::GetReference(chars));
     {
-      Byte* pBytes = &MemoryMarshal::GetReference(bytes);
+      Byte* pBytes = rt::fixed(&MemoryMarshal::GetReference(bytes));
       return GetBytesCommon(pChars, chars.get_Length(), pBytes, bytes.get_Length());
     }
   }
@@ -278,7 +278,7 @@ Int32 UTF8Encoding___::GetCharCount(Array<Byte> bytes, Int32 index, Int32 count)
     ThrowHelper::ThrowArgumentOutOfRangeException(ExceptionArgument::bytes, ExceptionResource::ArgumentOutOfRange_IndexCountBuffer);
   }
   {
-    Byte* ptr = bytes;
+    Byte* ptr = rt::fixed(bytes);
     return GetCharCountCommon(ptr + index, count);
   }
 }
@@ -295,7 +295,7 @@ Int32 UTF8Encoding___::GetCharCount(Byte* bytes, Int32 count) {
 
 Int32 UTF8Encoding___::GetCharCount(ReadOnlySpan<Byte> bytes) {
   {
-    Byte* pBytes = &MemoryMarshal::GetReference(bytes);
+    Byte* pBytes = rt::fixed(&MemoryMarshal::GetReference(bytes));
     return GetCharCountCommon(pBytes, bytes.get_Length());
   }
 }
@@ -314,9 +314,9 @@ Int32 UTF8Encoding___::GetChars(Array<Byte> bytes, Int32 byteIndex, Int32 byteCo
     ThrowHelper::ThrowArgumentOutOfRangeException(ExceptionArgument::charIndex, ExceptionResource::ArgumentOutOfRange_Index);
   }
   {
-    Byte* ptr = bytes;
+    Byte* ptr = rt::fixed(bytes);
     {
-      Char* ptr2 = chars;
+      Char* ptr2 = rt::fixed(chars);
       return GetCharsCommon(ptr + byteIndex, byteCount, ptr2 + charIndex, chars->get_Length() - charIndex);
     }
   }
@@ -334,9 +334,9 @@ Int32 UTF8Encoding___::GetChars(Byte* bytes, Int32 byteCount, Char* chars, Int32
 
 Int32 UTF8Encoding___::GetChars(ReadOnlySpan<Byte> bytes, Span<Char> chars) {
   {
-    Byte* pBytes = &MemoryMarshal::GetReference(bytes);
+    Byte* pBytes = rt::fixed(&MemoryMarshal::GetReference(bytes));
     {
-      Char* pChars = &MemoryMarshal::GetReference(chars);
+      Char* pChars = rt::fixed(&MemoryMarshal::GetReference(chars));
       return GetCharsCommon(pBytes, bytes.get_Length(), pChars, chars.get_Length());
     }
   }
@@ -388,7 +388,7 @@ String UTF8Encoding___::GetString(Array<Byte> bytes, Int32 index, Int32 count) {
     return String::in::Empty;
   }
   {
-    Byte* ptr = bytes;
+    Byte* ptr = rt::fixed(bytes);
     return String::in::CreateStringFromEncoding(ptr + index, count, (UTF8Encoding)this);
   }
 }

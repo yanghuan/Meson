@@ -1668,7 +1668,7 @@ Int32 FileStream___::ReadFileNative(SafeFileHandle handle, Span<Byte> bytes, Nat
   Int32 numBytesRead = 0;
   Int32 num;
   {
-    Byte* bytes2 = &MemoryMarshal::GetReference(bytes);
+    Byte* bytes2 = rt::fixed(&MemoryMarshal::GetReference(bytes));
     num = (_useAsyncIO ? Interop::Kernel32::ReadFile(handle, bytes2, bytes.get_Length(), IntPtr::Zero, overlapped) : Interop::Kernel32::ReadFile(handle, bytes2, bytes.get_Length(), numBytesRead, IntPtr::Zero));
   }
   if (num == 0) {
@@ -1683,7 +1683,7 @@ Int32 FileStream___::WriteFileNative(SafeFileHandle handle, ReadOnlySpan<Byte> b
   Int32 numBytesWritten = 0;
   Int32 num;
   {
-    Byte* bytes = &MemoryMarshal::GetReference(buffer);
+    Byte* bytes = rt::fixed(&MemoryMarshal::GetReference(buffer));
     num = (_useAsyncIO ? Interop::Kernel32::WriteFile(handle, bytes, buffer.get_Length(), IntPtr::Zero, overlapped) : Interop::Kernel32::WriteFile(handle, bytes, buffer.get_Length(), numBytesWritten, IntPtr::Zero));
   }
   if (num == 0) {

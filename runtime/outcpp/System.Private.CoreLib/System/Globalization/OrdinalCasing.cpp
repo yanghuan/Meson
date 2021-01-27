@@ -247,9 +247,9 @@ Int32 OrdinalCasing::CompareStringIgnoreCase(Char& strA, Int32 lengthA, Char& st
 
 Int32 OrdinalCasing::IndexOf(ReadOnlySpan<Char> source, ReadOnlySpan<Char> value) {
   {
-    Char* ptr = &MemoryMarshal::GetReference(source);
+    Char* ptr = rt::fixed(&MemoryMarshal::GetReference(source));
     {
-      Char* ptr3 = &MemoryMarshal::GetReference(value);
+      Char* ptr3 = rt::fixed(&MemoryMarshal::GetReference(value));
       Char* ptr2 = ptr + (source.get_Length() - value.get_Length());
       Char* ptr4 = ptr3 + value.get_Length() - 1;
       for (Char* ptr5 = ptr; ptr5 <= ptr2; ptr5++) {
@@ -288,9 +288,9 @@ Int32 OrdinalCasing::IndexOf(ReadOnlySpan<Char> source, ReadOnlySpan<Char> value
 
 Int32 OrdinalCasing::LastIndexOf(ReadOnlySpan<Char> source, ReadOnlySpan<Char> value) {
   {
-    Char* ptr3 = &MemoryMarshal::GetReference(source);
+    Char* ptr3 = rt::fixed(&MemoryMarshal::GetReference(source));
     {
-      Char* ptr = &MemoryMarshal::GetReference(value);
+      Char* ptr = rt::fixed(&MemoryMarshal::GetReference(value));
       Char* ptr2 = ptr + value.get_Length() - 1;
       for (Char* ptr4 = ptr3 + (source.get_Length() - value.get_Length()); ptr4 >= ptr3; ptr4--) {
         Char* ptr5 = ptr;
@@ -329,7 +329,7 @@ Int32 OrdinalCasing::LastIndexOf(ReadOnlySpan<Char> source, ReadOnlySpan<Char> v
 Array<UInt16> OrdinalCasing::InitOrdinalCasingPage(Int32 pageNumber) {
   Array<UInt16> array = rt::newarr<Array<UInt16>>(256);
   {
-    UInt16* ptr = array;
+    UInt16* ptr = rt::fixed(array);
     Char* pTarget = (Char*)ptr;
     Interop::Globalization::InitOrdinalCasingPage(pageNumber, pTarget);
   }

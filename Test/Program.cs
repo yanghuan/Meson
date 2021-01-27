@@ -4,14 +4,12 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace Test {
-  class Program {
-    public void f(int a = 0) {
-    }
-
-    public void f1(char c = 'a') {
-    }
-
+   unsafe class Program {
     static void Main(string[] args) {
+      string s = args[0];
+      fixed (char* p = s) {
+
+      }
     }
   }
 }

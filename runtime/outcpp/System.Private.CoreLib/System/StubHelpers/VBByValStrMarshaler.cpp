@@ -27,7 +27,7 @@ IntPtr VBByValStrMarshaler::ConvertToNative(String strManaged, Boolean fBestFit,
     Int32 cbLength;
     Array<Byte> array = AnsiCharMarshaler::DoAnsiConversion(strManaged, fBestFit, fThrowOnUnmappableChar, cbLength);
     {
-      Byte* src = &array[0];
+      Byte* src = rt::fixed(&array[0]);
       Buffer::Memcpy(ptr, src, cbLength);
     }
     *(ptr + cbLength) = 0;

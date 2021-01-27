@@ -294,7 +294,7 @@ Array<Type> RuntimeTypeHandle::GetInstantiationPublic() {
 RuntimeType RuntimeTypeHandle::Instantiate(Array<Type> inst) {
   Int32 length;
   {
-    IntPtr* pInst = CopyRuntimeTypeHandles(inst, length);
+    IntPtr* pInst = rt::fixed(CopyRuntimeTypeHandles(inst, length));
     RuntimeType o = nullptr;
     RuntimeTypeHandle rth = GetNativeHandle();
     Instantiate(QCallTypeHandle(rth), pInst, length, ObjectHandleOnStack::Create(o));
@@ -360,9 +360,9 @@ Boolean RuntimeTypeHandle::SatisfiesConstraints(RuntimeType paramType, Array<Run
   Int32 length2;
   Array<IntPtr> array2 = CopyRuntimeTypeHandles(inHandles, length2);
   {
-    IntPtr* pTypeContext = array;
+    IntPtr* pTypeContext = rt::fixed(array);
     {
-      IntPtr* pMethodContext = array2;
+      IntPtr* pMethodContext = rt::fixed(array2);
       Boolean result = SatisfiesConstraints(paramType, pTypeContext, length, pMethodContext, length2, toType);
       GC::KeepAlive(typeContext);
       GC::KeepAlive(methodContext);

@@ -41,10 +41,10 @@ Int32 PathInternal::EqualStartingCharacterCount(String first, String second, Boo
   }
   Int32 num = 0;
   {
-    Char* ptr = first;
+    Char* ptr = rt::fixed(first);
     Char* ptr2 = ptr;
     {
-      Char* ptr3 = second;
+      Char* ptr3 = rt::fixed(second);
       Char* ptr4 = ptr3;
       Char* ptr5 = ptr2;
       Char* ptr6 = ptr4;

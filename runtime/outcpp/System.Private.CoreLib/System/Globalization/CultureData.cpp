@@ -1633,7 +1633,7 @@ CultureData CultureData___::GetCurrentRegionData() {
   if (userGeoID != -1) {
     Int32 geoInfo;
     {
-      Char* lpGeoData = span;
+      Char* lpGeoData = rt::fixed(span);
       geoInfo = Interop::Kernel32::GetGeoInfo(userGeoID, 4, lpGeoData, span.get_Length(), 0);
     }
     if (geoInfo != 0) {

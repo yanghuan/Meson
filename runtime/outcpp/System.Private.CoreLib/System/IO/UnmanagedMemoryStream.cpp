@@ -262,7 +262,7 @@ Int32 UnmanagedMemoryStream___::ReadCore(Span<Byte> buffer) {
     return 0;
   }
   {
-    Byte* dest = &MemoryMarshal::GetReference(buffer);
+    Byte* dest = rt::fixed(&MemoryMarshal::GetReference(buffer));
     if (_buffer != nullptr) {
       Byte* pointer = nullptr;
       try {
@@ -443,7 +443,7 @@ void UnmanagedMemoryStream___::WriteCore(ReadOnlySpan<Byte> buffer) {
     }
   }
   {
-    Byte* src = &MemoryMarshal::GetReference(buffer);
+    Byte* src = rt::fixed(&MemoryMarshal::GetReference(buffer));
     if (_buffer != nullptr) {
       Int64 num4 = _capacity - num;
       if (num4 < buffer.get_Length()) {

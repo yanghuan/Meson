@@ -70,7 +70,7 @@ Int32 Encoder___::GetByteCount(Char* chars, Int32 count, Boolean flush) {
 
 Int32 Encoder___::GetByteCount(ReadOnlySpan<Char> chars, Boolean flush) {
   {
-    Char* chars2 = &MemoryMarshal::GetNonNullPinnableReference(chars);
+    Char* chars2 = rt::fixed(&MemoryMarshal::GetNonNullPinnableReference(chars));
     return GetByteCount(chars2, chars.get_Length(), flush);
   }
 }
@@ -99,9 +99,9 @@ Int32 Encoder___::GetBytes(Char* chars, Int32 charCount, Byte* bytes, Int32 byte
 
 Int32 Encoder___::GetBytes(ReadOnlySpan<Char> chars, Span<Byte> bytes, Boolean flush) {
   {
-    Char* chars2 = &MemoryMarshal::GetNonNullPinnableReference(chars);
+    Char* chars2 = rt::fixed(&MemoryMarshal::GetNonNullPinnableReference(chars));
     {
-      Byte* bytes2 = &MemoryMarshal::GetNonNullPinnableReference(bytes);
+      Byte* bytes2 = rt::fixed(&MemoryMarshal::GetNonNullPinnableReference(bytes));
       return GetBytes(chars2, chars.get_Length(), bytes2, bytes.get_Length(), flush);
     }
   }
@@ -154,9 +154,9 @@ void Encoder___::Convert(Char* chars, Int32 charCount, Byte* bytes, Int32 byteCo
 
 void Encoder___::Convert(ReadOnlySpan<Char> chars, Span<Byte> bytes, Boolean flush, Int32& charsUsed, Int32& bytesUsed, Boolean& completed) {
   {
-    Char* chars2 = &MemoryMarshal::GetNonNullPinnableReference(chars);
+    Char* chars2 = rt::fixed(&MemoryMarshal::GetNonNullPinnableReference(chars));
     {
-      Byte* bytes2 = &MemoryMarshal::GetNonNullPinnableReference(bytes);
+      Byte* bytes2 = rt::fixed(&MemoryMarshal::GetNonNullPinnableReference(bytes));
       Convert(chars2, chars.get_Length(), bytes2, bytes.get_Length(), flush, charsUsed, bytesUsed, completed);
     }
   }

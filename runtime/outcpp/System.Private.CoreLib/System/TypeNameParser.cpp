@@ -87,7 +87,7 @@ Type TypeNameParser___::ConstructType(Func<AssemblyName, Assembly> assemblyResol
   }
   Array<Int32> modifiers = GetModifiers();
   {
-    Int32* value = modifiers;
+    Int32* value = rt::fixed(modifiers);
     IntPtr pModifiers = IntPtr(value);
     return RuntimeTypeHandle::GetTypeHelper(type, array, pModifiers, (modifiers != nullptr) ? modifiers->get_Length() : 0);
   }

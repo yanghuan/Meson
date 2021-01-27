@@ -627,7 +627,7 @@ UriHostNameType Uri___::CheckHostName(String name) {
   }
   Int32 end = name->get_Length();
   {
-    Char* ptr = name;
+    Char* ptr = rt::fixed(name);
     Char* name2 = ptr;
     if (name[0] == u'[' && name[name->get_Length() - 1] == u']' && IPv6AddressHelper::IsValid(name2, 1, end) && end == name->get_Length()) {
       return UriHostNameType::IPv6;
@@ -650,7 +650,7 @@ UriHostNameType Uri___::CheckHostName(String name) {
   end = name->get_Length() + 2;
   name = "[" + name + "]";
   {
-    Char* ptr2 = name;
+    Char* ptr2 = rt::fixed(name);
     Char* name3 = ptr2;
     if (IPv6AddressHelper::IsValid(name3, 1, end) && end == name->get_Length()) {
       return UriHostNameType::IPv6;
@@ -908,7 +908,7 @@ ParsingError Uri___::ParseScheme(String uriString, Flags& flags, UriParser& synt
     return ParsingError::SizeLimit;
   }
   {
-    Char* ptr = uriString;
+    Char* ptr = rt::fixed(uriString);
     Char* uriString2 = ptr;
     ParsingError err = ParsingError::None;
     Int32 num = ParseSchemeCheckImplicitFile(uriString2, length, err, flags, syntax);
@@ -935,7 +935,7 @@ ParsingError Uri___::PrivateParseMinimal() {
   String newHost = nullptr;
   _flags &= ~(Flags::IndexMask | Flags::UserDrivenParsing);
   {
-    Char* ptr = (((_flags & Flags::HostUnicodeNormalized) == Flags::Zero) ? get_OriginalString() : _string);
+    Char* ptr = rt::fixed((((_flags & Flags::HostUnicodeNormalized) == Flags::Zero) ? get_OriginalString() : _string));
     Char* ptr2 = ptr;
     if (num2 > num && UriHelper::IsLWS(*(ptr2 + num2 - 1))) {
       num2--;
@@ -1106,7 +1106,7 @@ void Uri___::CreateUriInfo(Flags cF) {
         }
         if (i < uriInfo->Offset.End) {
           {
-            Char* ptr = get_OriginalString();
+            Char* ptr = rt::fixed(get_OriginalString());
             Char* ptr2 = ptr;
             if (*(ptr2 + i) == u':') {
               Int32 num3 = 0;
@@ -1171,7 +1171,7 @@ void Uri___::CreateHostString() {
       Int32 idx = 0;
       Check check;
       {
-        Char* ptr = text;
+        Char* ptr = rt::fixed(text);
         Char* str = ptr;
         check = CheckCanonical(str, idx, text->get_Length(), u'\xffff');
       }
@@ -1251,7 +1251,7 @@ void Uri___::GetHostViaCustomSyntax() {
     ParsingError err = ParsingError::None;
     Flags flags = (Flags)((UInt64)_flags & 18446744073709092863);
     {
-      Char* ptr = text;
+      Char* ptr = rt::fixed(text);
       Char* pString = ptr;
       String newHost = nullptr;
       if (CheckAuthorityHelper(pString, 0, text->get_Length(), err, flags, _syntax, newHost) != text->get_Length()) {
@@ -1394,7 +1394,7 @@ String Uri___::ReCreateParts(UriComponents parts, UInt16 nonCanonical, UriFormat
     UnescapeMode unescapeMode = ((formatAs != UriFormat::UriEscaped && get_HostType() == Flags::BasicHostType && (nonCanonical & 4u) != 0) ? ((formatAs == UriFormat::Unescaped) ? (UnescapeMode::Unescape | UnescapeMode::UnescapeAll) : (InFact(Flags::UserEscaped) ? UnescapeMode::Unescape : UnescapeMode::EscapeUnescape)) : UnescapeMode::CopyOnly);
     if ((parts & UriComponents::NormalizedHost) != 0) {
       {
-        Char* ptr = text;
+        Char* ptr = rt::fixed(text);
         Char* hostname = ptr;
         Boolean allAscii = false;
         Boolean atLeastOneValidIdn = false;
@@ -1530,7 +1530,7 @@ void Uri___::ParseRemaining() {
     Check check = Check::None;
     UriSyntaxFlags flags2 = _syntax->get_Flags();
     {
-      Char* ptr = _string;
+      Char* ptr = rt::fixed(_string);
       Char* ptr2 = ptr;
       GetLengthWithoutTrailingSpaces(_string, length, scheme);
       if (get_IsImplicitFile()) {
@@ -1592,7 +1592,7 @@ void Uri___::ParseRemaining() {
       }
     }
     {
-      Char* ptr3 = _string;
+      Char* ptr3 = rt::fixed(_string);
       Char* ptr4 = ptr3;
       check = ((!get_IsImplicitFile() && (flags2 & (UriSyntaxFlags::MayHaveQuery | UriSyntaxFlags::MayHaveFragment)) != 0) ? CheckCanonical(ptr4, scheme, length, ((flags2 & UriSyntaxFlags::MayHaveQuery) != 0) ? u'?' : (_syntax->InFact(UriSyntaxFlags::MayHaveFragment) ? u'#' : u'\xfffe')) : CheckCanonical(ptr4, scheme, length, u'\xffff'));
       if ((_flags & Flags::AuthorityFound) != Flags::Zero && (flags2 & UriSyntaxFlags::PathIsRooted) != 0 && (_info->Offset.Path == length || (*(ptr4 + (Int32)_info->Offset.Path) != u'/' && *(ptr4 + (Int32)_info->Offset.Path) != u'\\'))) {
@@ -1656,7 +1656,7 @@ void Uri___::ParseRemaining() {
     }
     _info->Offset.Query = (UInt16)scheme;
     {
-      Char* ptr5 = _string;
+      Char* ptr5 = rt::fixed(_string);
       Char* ptr6 = ptr5;
       if (scheme < length && *(ptr6 + scheme) == u'?') {
         scheme++;
@@ -1687,7 +1687,7 @@ void Uri___::ParseRemaining() {
     }
     _info->Offset.Fragment = (UInt16)scheme;
     {
-      Char* ptr7 = _string;
+      Char* ptr7 = rt::fixed(_string);
       Char* ptr8 = ptr7;
       if (scheme < length && *(ptr8 + scheme) == u'#') {
         scheme++;
@@ -1886,7 +1886,7 @@ ParsingError Uri___::CheckSchemeSyntax(ReadOnlySpan<Char> span, UriParser& synta
   }
   String lwrCaseScheme;
   {
-    Char* value = span;
+    Char* value = rt::fixed(span);
     SpanAction<Char, ValueTuple<IntPtr, Int32>> as = __c::in::__9__151_1;
     lwrCaseScheme = String::in::Create(span.get_Length(), {(IntPtr)value, span.get_Length()}, as != nullptr ? as : (__c::in::__9__151_1 = {__c::in::__9, &__c::in::_CheckSchemeSyntax_b__151_1}));
   }
@@ -2241,7 +2241,7 @@ Array<Char> Uri___::GetCanonicalPath(Array<Char> dest, Int32& pos, UriFormat for
       end += _info->Offset.Query - _info->Offset.Path;
       if (_syntax->InFact(UriSyntaxFlags::UnEscapeDotsAndSlashes) && InFact(Flags::PathNotCanonical) && !get_IsImplicitFile()) {
         {
-          Char* pch = dest;
+          Char* pch = rt::fixed(dest);
           UnescapeOnly(pch, pos, end, u'.', u'/', _syntax->InFact(UriSyntaxFlags::ConvertPathSlashes) ? u'\\' : u'\xffff');
         }
       }
@@ -2262,7 +2262,7 @@ Array<Char> Uri___::GetCanonicalPath(Array<Char> dest, Int32& pos, UriFormat for
     end += _info->Offset.Query - _info->Offset.Path;
     if (InFact(Flags::ShouldBeCompressed) && _syntax->InFact(UriSyntaxFlags::UnEscapeDotsAndSlashes) && InFact(Flags::PathNotCanonical) && !get_IsImplicitFile()) {
       {
-        Char* pch2 = dest;
+        Char* pch2 = rt::fixed(dest);
         UnescapeOnly(pch2, pos, end, u'.', u'/', _syntax->InFact(UriSyntaxFlags::ConvertPathSlashes) ? u'\\' : u'\xffff');
       }
     }
@@ -2313,7 +2313,7 @@ Array<Char> Uri___::GetCanonicalPath(Array<Char> dest, Int32& pos, UriFormat for
     Array<Char> array = rt::newarr<Array<Char>>(dest->get_Length());
     Buffer::BlockCopy(dest, 0, array, 0, end * 2);
     {
-      Char* pStr = array;
+      Char* pStr = rt::fixed(array);
       dest = UriHelper::UnescapeString(pStr, pos, end, dest, pos, u'?', u'#', u'\xffff', unescapeMode, _syntax, false);
     }
   } else {
@@ -2884,7 +2884,7 @@ Boolean Uri___::InternalIsWellFormedOriginalString() {
     rt::throw_exception<InvalidOperationException>(SR::Format(SR::get_net_uri_UserDrivenParsing(), GetType()));
   }
   {
-    Char* ptr = _string;
+    Char* ptr = rt::fixed(_string);
     Char* ptr2 = ptr;
     Int32 idx = 0;
     if (!get_IsAbsoluteUri()) {
@@ -2982,7 +2982,7 @@ String Uri___::EscapeDataString(String stringToEscape) {
 
 String Uri___::EscapeUnescapeIri(String input, Int32 start, Int32 end, UriComponents component) {
   {
-    Char* ptr = input;
+    Char* ptr = rt::fixed(input);
     Char* pInput = ptr;
     return IriHelper::EscapeUnescapeIri(pInput, start, end, component);
   }
@@ -3161,10 +3161,10 @@ Boolean Uri___::IsBaseOfHelper(Uri uriLink) {
   String parts = GetParts(UriComponents::HttpRequestUrl | UriComponents::UserInfo, UriFormat::SafeUnescaped);
   String parts2 = uriLink->GetParts(UriComponents::HttpRequestUrl | UriComponents::UserInfo, UriFormat::SafeUnescaped);
   {
-    Char* ptr = parts;
+    Char* ptr = rt::fixed(parts);
     Char* selfPtr = ptr;
     {
-      Char* ptr2 = parts2;
+      Char* ptr2 = rt::fixed(parts2);
       Char* otherPtr = ptr2;
       return UriHelper::TestForSubPath(selfPtr, parts->get_Length(), otherPtr, parts2->get_Length(), get_IsUncOrDosPath() || uriLink->get_IsUncOrDosPath());
     }

@@ -2020,7 +2020,7 @@ Boolean TimeZoneInfo___::TryGetTimeZoneEntryFromRegistry(RegistryKey key, String
     return false;
   }
   {
-    Byte* ptr = &array[0];
+    Byte* ptr = rt::fixed(&array[0]);
     dtzi = *(Interop::Kernel32::REG_TZI_FORMAT*)ptr;
   }
   return true;

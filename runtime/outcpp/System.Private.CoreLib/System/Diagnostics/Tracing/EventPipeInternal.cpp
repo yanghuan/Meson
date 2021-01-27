@@ -33,10 +33,10 @@ UInt64 EventPipeInternal::Enable(String outputFile, EventPipeSerializationFormat
       EventPipeProviderConfigurationNative::MarshalToNative(providers[i], span[i]);
     }
     {
-      Char* ptr = outputFile;
+      Char* ptr = rt::fixed(outputFile);
       Char* outputFile2 = ptr;
       {
-        EventPipeProviderConfigurationNative* providers2 = span;
+        EventPipeProviderConfigurationNative* providers2 = rt::fixed(span);
         return Enable(outputFile2, format, circularBufferSizeInMB, providers2, (UInt32)span.get_Length());
       }
     }
@@ -46,7 +46,7 @@ UInt64 EventPipeInternal::Enable(String outputFile, EventPipeSerializationFormat
       span[j].Release();
     }
     {
-      EventPipeProviderConfigurationNative* value = span;
+      EventPipeProviderConfigurationNative* value = rt::fixed(span);
       Marshal::FreeCoTaskMem((IntPtr)value);
     }
   }

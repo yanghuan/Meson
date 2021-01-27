@@ -35,7 +35,7 @@ IntPtr BSTRMarshaler::ConvertToNative(String strManaged, IntPtr pNativeBuffer) {
     }
   }
   {
-    Char* ptr2 = strManaged;
+    Char* ptr2 = rt::fixed(strManaged);
     Char* src = ptr2;
     Buffer::Memcpy(ptr, (Byte*)src, (strManaged->get_Length() + 1) * 2);
   }

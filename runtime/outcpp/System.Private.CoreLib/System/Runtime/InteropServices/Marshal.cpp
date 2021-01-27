@@ -389,9 +389,9 @@ Int32 Marshal::QueryInterface(IntPtr pUnk, Guid& iid, IntPtr& ppv) {
     rt::throw_exception<ArgumentNullException>("pUnk");
   }
   {
-    Guid* ptr = &iid;
+    Guid* ptr = rt::fixed(&iid);
     {
-      IntPtr* ptr2 = &ppv;
+      IntPtr* ptr2 = rt::fixed(&ppv);
     }
   }
 }
@@ -847,7 +847,7 @@ IntPtr Marshal::StringToHGlobalUni(String s) {
   }
   IntPtr intPtr = AllocHGlobal((IntPtr)num);
   {
-    Char* ptr = s;
+    Char* ptr = rt::fixed(s);
     Char* smem = ptr;
     String::in::wstrcpy((Char*)(void*)intPtr, smem, s->get_Length() + 1);
   }
@@ -864,7 +864,7 @@ IntPtr Marshal::StringToCoTaskMemUni(String s) {
   }
   IntPtr intPtr = AllocCoTaskMem(num);
   {
-    Char* ptr = s;
+    Char* ptr = rt::fixed(s);
     Char* smem = ptr;
     String::in::wstrcpy((Char*)(void*)intPtr, smem, s->get_Length() + 1);
   }
@@ -880,7 +880,7 @@ IntPtr Marshal::StringToCoTaskMemUTF8(String s) {
   Byte* ptr = (Byte*)(void*)intPtr;
   Int32 bytes;
   {
-    Char* ptr2 = s;
+    Char* ptr2 = rt::fixed(s);
     Char* chars = ptr2;
     bytes = Encoding::in::get_UTF8()->GetBytes(chars, s->get_Length(), ptr, maxByteCount);
   }
@@ -1042,7 +1042,7 @@ Int32 Marshal::StringToAnsiString(String s, Byte* buffer, Int32 bufferLength, Bo
   UInt32 num = 0u;
   Int32 num2;
   {
-    Char* ptr = s;
+    Char* ptr = rt::fixed(s);
     Char* lpWideCharStr = ptr;
     num2 = Interop::Kernel32::WideCharToMultiByte(0u, dwFlags, lpWideCharStr, s->get_Length(), buffer, bufferLength, IntPtr::Zero, throwOnUnmappableChar ? IntPtr(&num) : IntPtr::Zero);
   }
@@ -1059,7 +1059,7 @@ Int32 Marshal::GetAnsiStringByteCount(ReadOnlySpan<Char> chars) {
     num = 0;
   } else {
     {
-      Char* lpWideCharStr = chars;
+      Char* lpWideCharStr = rt::fixed(chars);
       num = Interop::Kernel32::WideCharToMultiByte(0u, 1024u, lpWideCharStr, chars.get_Length(), nullptr, 0, IntPtr::Zero, IntPtr::Zero);
       if (num <= 0) {
         rt::throw_exception<ArgumentException>();
@@ -1075,9 +1075,9 @@ void Marshal::GetAnsiStringBytes(ReadOnlySpan<Char> chars, Span<Byte> bytes) {
     num = 0;
   } else {
     {
-      Char* lpWideCharStr = chars;
+      Char* lpWideCharStr = rt::fixed(chars);
       {
-        Byte* lpMultiByteStr = bytes;
+        Byte* lpMultiByteStr = rt::fixed(bytes);
         num = Interop::Kernel32::WideCharToMultiByte(0u, 1024u, lpWideCharStr, chars.get_Length(), lpMultiByteStr, bytes.get_Length(), IntPtr::Zero, IntPtr::Zero);
         if (num <= 0) {
           rt::throw_exception<ArgumentException>();

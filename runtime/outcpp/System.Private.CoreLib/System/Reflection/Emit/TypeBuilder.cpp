@@ -348,14 +348,14 @@ void TypeBuilder___::SetConstantValue(ModuleBuilder module, Int32 tk, Type destT
     CorElementType corElementType = RuntimeTypeHandle::GetCorElementType((RuntimeType)type);
     if (corElementType - 2 <= CorElementType::ELEMENT_TYPE_U8) {
       {
-        Byte* pValue = &RuntimeHelpers::GetRawData(value);
+        Byte* pValue = rt::fixed(&RuntimeHelpers::GetRawData(value));
         SetConstantValue(QCallModule(module), tk, (Int32)corElementType, pValue);
       }
       return;
     }
     if (type == typeof<String>()) {
       {
-        Char* ptr = (String)value;
+        Char* ptr = rt::fixed((String)value);
         Char* pValue2 = ptr;
         SetConstantValue(QCallModule(module), tk, 14, pValue2);
       }

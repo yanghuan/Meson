@@ -233,7 +233,7 @@ void UriHelper::EscapeStringToBuilder(ReadOnlySpan<Char> stringToEscape, ValueSt
 
 Array<Char> UriHelper::UnescapeString(String input, Int32 start, Int32 end, Array<Char> dest, Int32& destPosition, Char rsvd1, Char rsvd2, Char rsvd3, UnescapeMode unescapeMode, UriParser syntax, Boolean isQuery) {
   {
-    Char* ptr = input;
+    Char* ptr = rt::fixed(input);
     Char* pStr = ptr;
     return UnescapeString(pStr, start, end, dest, destPosition, rsvd1, rsvd2, rsvd3, unescapeMode, syntax, isQuery);
   }
@@ -255,7 +255,7 @@ Array<Char> UriHelper::UnescapeString(Char* pStr, Int32 start, Int32 end, Array<
 
 void UriHelper::UnescapeString(String input, Int32 start, Int32 end, ValueStringBuilder& dest, Char rsvd1, Char rsvd2, Char rsvd3, UnescapeMode unescapeMode, UriParser syntax, Boolean isQuery) {
   {
-    Char* ptr = input;
+    Char* ptr = rt::fixed(input);
     Char* pStr = ptr;
     UnescapeString(pStr, start, end, dest, rsvd1, rsvd2, rsvd3, unescapeMode, syntax, isQuery);
   }
@@ -390,7 +390,7 @@ void UriHelper::MatchUTF8Sequence(ValueStringBuilder& dest, Span<Char> unescaped
   Span<Byte> span = as;
   Int32 num = 0;
   {
-    Char* ptr = unescapedChars;
+    Char* ptr = rt::fixed(unescapedChars);
     for (Int32 i = 0; i < charCount; i++) {
       Boolean flag = Char::IsHighSurrogate(*(ptr + i));
       Span<Byte> bytes2 = span;
@@ -525,7 +525,7 @@ String UriHelper::StripBidiControlCharacters(ReadOnlySpan<Char> strToClean, Stri
     return String::in::Empty;
   }
   {
-    Char* value = &MemoryMarshal::GetReference(strToClean);
+    Char* value = rt::fixed(&MemoryMarshal::GetReference(strToClean));
     SpanAction<Char, ValueTuple<IntPtr, Int32>> as = __c::in::__9__27_0;
     return String::in::Create(strToClean.get_Length() - num, {(IntPtr)value, strToClean.get_Length()}, as != nullptr ? as : (__c::in::__9__27_0 = {__c::in::__9, &__c::in::_StripBidiControlCharacters_b__27_0}));
   }

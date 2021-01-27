@@ -755,7 +755,7 @@ CultureInfo CultureInfo___::GetUserDefaultUICulture() {
     Span<Char> span = ((num2 > 256) ? ((Span<Char>)rt::newarr<Array<Char>>(num2)) : as);
     Span<Char> span2 = span;
     {
-      Char* pwszLanguagesBuffer = span2;
+      Char* pwszLanguagesBuffer = rt::fixed(span2);
       if (Interop::Kernel32::GetUserPreferredUILanguages(8u, &num, pwszLanguagesBuffer, &num2) != 0) {
         return GetCultureByName(span2.ToString());
       }

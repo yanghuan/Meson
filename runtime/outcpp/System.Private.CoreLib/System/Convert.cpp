@@ -2002,9 +2002,9 @@ String Convert::ToBase64String(ReadOnlySpan<Byte> bytes, Base64FormattingOptions
   Boolean insertLineBreaks = options == Base64FormattingOptions::InsertLineBreaks;
   String text = String::in::FastAllocateString(ToBase64_CalculateAndValidateOutputLength(bytes.get_Length(), insertLineBreaks));
   {
-    Byte* inData = &MemoryMarshal::GetReference(bytes);
+    Byte* inData = rt::fixed(&MemoryMarshal::GetReference(bytes));
     {
-      Char* ptr = text;
+      Char* ptr = rt::fixed(text);
       Char* outChars = ptr;
       Int32 num = ConvertToBase64Array(outChars, inData, 0, bytes.get_Length(), insertLineBreaks);
     }
@@ -2050,9 +2050,9 @@ Int32 Convert::ToBase64CharArray(Array<Byte> inArray, Int32 offsetIn, Int32 leng
   }
   Int32 result;
   {
-    Char* outChars = &outArray[offsetOut];
+    Char* outChars = rt::fixed(&outArray[offsetOut]);
     {
-      Byte* inData = &inArray[0];
+      Byte* inData = rt::fixed(&inArray[0]);
       result = ConvertToBase64Array(outChars, inData, offsetIn, length, insertLineBreaks);
     }
   }
@@ -2074,9 +2074,9 @@ Boolean Convert::TryToBase64Chars(ReadOnlySpan<Byte> bytes, Span<Char> chars, In
     return false;
   }
   {
-    Char* outChars = &MemoryMarshal::GetReference(chars);
+    Char* outChars = rt::fixed(&MemoryMarshal::GetReference(chars));
     {
-      Byte* inData = &MemoryMarshal::GetReference(bytes);
+      Byte* inData = rt::fixed(&MemoryMarshal::GetReference(bytes));
       charsWritten = ConvertToBase64Array(outChars, inData, 0, bytes.get_Length(), insertLineBreaks);
       return true;
     }
@@ -2089,7 +2089,7 @@ Int32 Convert::ConvertToBase64Array(Char* outChars, Byte* inData, Int32 offset, 
   Int32 num3 = 0;
   Int32 num4 = 0;
   {
-    Char* ptr = &base64Table[0];
+    Char* ptr = rt::fixed(&base64Table[0]);
     Int32 i;
     for (i = offset; i < num2; i += 3) {
       if (insertLineBreaks) {
@@ -2155,7 +2155,7 @@ Array<Byte> Convert::FromBase64String(String s) {
     rt::throw_exception<ArgumentNullException>("s");
   }
   {
-    Char* ptr = s;
+    Char* ptr = rt::fixed(s);
     Char* inputPtr = ptr;
     return FromBase64CharPtr(inputPtr, s->get_Length());
   }
@@ -2263,7 +2263,7 @@ Array<Byte> Convert::FromBase64CharArray(Array<Char> inArray, Int32 offset, Int3
     return Array<>::in::Empty<Byte>();
   }
   {
-    Char* ptr = &inArray[0];
+    Char* ptr = rt::fixed(&inArray[0]);
     return FromBase64CharPtr(ptr + offset, length);
   }
 }

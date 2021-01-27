@@ -82,7 +82,7 @@ void DataCollector::AddNullTerminatedString(String value) {
     bufferPos += num2;
     EnsureBuffer();
     {
-      Char* ptr = value;
+      Char* ptr = rt::fixed(value);
       void* value2 = ptr;
       Marshal::Copy((IntPtr)value2, buffer, startIndex, num2);
     }

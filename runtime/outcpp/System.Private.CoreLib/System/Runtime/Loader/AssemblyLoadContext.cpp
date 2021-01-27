@@ -265,9 +265,9 @@ Assembly AssemblyLoadContext___::InternalLoadFromPath(String assemblyPath, Strin
 Assembly AssemblyLoadContext___::InternalLoad(ReadOnlySpan<Byte> arrAssembly, ReadOnlySpan<Byte> arrSymbols) {
   RuntimeAssembly o = nullptr;
   {
-    Byte* value = arrAssembly;
+    Byte* value = rt::fixed(arrAssembly);
     {
-      Byte* value2 = arrSymbols;
+      Byte* value2 = rt::fixed(arrSymbols);
       LoadFromStream(_nativeAssemblyLoadContext, IntPtr(value), arrAssembly.get_Length(), IntPtr(value2), arrSymbols.get_Length(), ObjectHandleOnStack::Create(o));
     }
   }

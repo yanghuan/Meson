@@ -69,7 +69,7 @@ String String___::IsInterned(String str) {
 void String___::InternalCopy(String src, IntPtr dest, Int32 len) {
   if (len != 0) {
     {
-      Char* ptr = &src->_firstChar;
+      Char* ptr = rt::fixed(&src->_firstChar);
       Byte* src2 = (Byte*)ptr;
       Byte* dest2 = (Byte*)(void*)dest;
       Buffer::Memcpy(dest2, src2, len);
@@ -79,7 +79,7 @@ void String___::InternalCopy(String src, IntPtr dest, Int32 len) {
 
 Int32 String___::GetBytesFromEncoding(Byte* pbNativeBuffer, Int32 cbNativeBuffer, Encoding encoding) {
   {
-    Char* chars = &_firstChar;
+    Char* chars = rt::fixed(&_firstChar);
     return encoding->GetBytes(chars, get_Length(), pbNativeBuffer, cbNativeBuffer);
   }
 }
@@ -112,9 +112,9 @@ Boolean String___::EqualsOrdinalIgnoreCaseNoLengthCheck(String strA, String strB
 Int32 String___::CompareOrdinalHelper(String strA, String strB) {
   Int32 num = Math::Min(strA->get_Length(), strB->get_Length());
   {
-    Char* ptr = &strA->_firstChar;
+    Char* ptr = rt::fixed(&strA->_firstChar);
     {
-      Char* ptr3 = &strB->_firstChar;
+      Char* ptr3 = rt::fixed(&strB->_firstChar);
       Char* ptr2 = ptr;
       Char* ptr4 = ptr3;
       if (ptr2[1] == ptr4[1]) {
@@ -570,7 +570,7 @@ Int32 String___::GetHashCodeOrdinalIgnoreCase(ReadOnlySpan<Char> value) {
 
 Int32 String___::GetNonRandomizedHashCode() {
   {
-    Char* ptr = &_firstChar;
+    Char* ptr = rt::fixed(&_firstChar);
     UInt32 num = 352654597u;
     UInt32 num2 = num;
     UInt32* ptr2 = (UInt32*)ptr;
@@ -600,7 +600,7 @@ Int32 String___::GetNonRandomizedHashCodeOrdinalIgnoreCase() {
     UInt32 num9 = 352654597u;
     UInt32 num10 = num9;
     {
-      Char* ptr3 = destination;
+      Char* ptr3 = rt::fixed(destination);
       UInt32* ptr4 = (UInt32*)ptr3;
       while (num7 > 2) {
         num7 -= 4;
@@ -621,7 +621,7 @@ Int32 String___::GetNonRandomizedHashCodeOrdinalIgnoreCase() {
   UInt32 num2 = num;
   try {
     {
-      Char* ptr = &_firstChar;
+      Char* ptr = rt::fixed(&_firstChar);
       UInt32* ptr2 = (UInt32*)ptr;
       Int32 num3 = get_Length();
       while (true) {
@@ -841,7 +841,7 @@ String String___::CreateStringForSByteConstructor(Byte* pb, Int32 numBytes) {
   }
   String text = FastAllocateString(num);
   {
-    Char* lpWideCharStr = &text->_firstChar;
+    Char* lpWideCharStr = rt::fixed(&text->_firstChar);
     num = Interop::Kernel32::MultiByteToWideChar(0u, 1u, pb, numBytes, lpWideCharStr, num);
   }
   if (num == 0) {
@@ -883,7 +883,7 @@ String String___::Ctor(Char c, Int32 count) {
   String text = FastAllocateString(count);
   if (c != 0) {
     {
-      Char* ptr = &text->_firstChar;
+      Char* ptr = rt::fixed(&text->_firstChar);
       UInt32 num = ((UInt32)c << 16) | c;
       UInt32* ptr2 = (UInt32*)ptr;
       if (count >= 4) {
@@ -1023,7 +1023,7 @@ String String___::CreateStringFromEncoding(Byte* bytes, Int32 byteLength, Encodi
   }
   String text = FastAllocateString(charCount);
   {
-    Char* chars = &text->_firstChar;
+    Char* chars = rt::fixed(&text->_firstChar);
     Int32 chars2 = encoding->GetChars(bytes, byteLength, chars, charCount);
   }
   return text;
@@ -1178,7 +1178,7 @@ String String___::Normalize(NormalizationForm normalizationForm) {
 
 Boolean String___::IsAscii() {
   {
-    Char* pBuffer = &_firstChar;
+    Char* pBuffer = rt::fixed(&_firstChar);
     return ASCIIUtility::GetIndexOfFirstNonAsciiChar(pBuffer, (UIntPtr)(UInt32)get_Length()) == (UInt32)get_Length();
   }
 }
@@ -1500,11 +1500,11 @@ String String___::Insert(Int32 startIndex, String value) {
   Int32 length3 = length + length2;
   String text = FastAllocateString(length3);
   {
-    Char* ptr2 = &_firstChar;
+    Char* ptr2 = rt::fixed(&_firstChar);
     {
-      Char* smem = &value->_firstChar;
+      Char* smem = rt::fixed(&value->_firstChar);
       {
-        Char* ptr = &text->_firstChar;
+        Char* ptr = rt::fixed(&text->_firstChar);
         wstrcpy(ptr, ptr2, startIndex);
         wstrcpy(ptr + startIndex, smem, length2);
         wstrcpy(ptr + startIndex + length2, ptr2 + startIndex, length - startIndex);
@@ -1541,7 +1541,7 @@ String String___::Join(String separator, Array<Object> values) {
     separator = Empty;
   }
   {
-    Char* separator2 = &separator->_firstChar;
+    Char* separator2 = rt::fixed(&separator->_firstChar);
     return JoinCore(separator2, separator->get_Length(), values);
   }
 }
@@ -1578,7 +1578,7 @@ String String___::Join(String separator, Array<String> value, Int32 startIndex, 
     separator = Empty;
   }
   {
-    Char* separator2 = &separator->_firstChar;
+    Char* separator2 = rt::fixed(&separator->_firstChar);
     return JoinCore(separator2, separator->get_Length(), value, startIndex, count);
   }
 }
@@ -1668,7 +1668,7 @@ String String___::JoinCore(Char* separator, Int32 separatorLength, Array<String>
       continue;
     }
     {
-      Char* ptr = &text2->_firstChar;
+      Char* ptr = rt::fixed(&text2->_firstChar);
       if (separatorLength == 1) {
         *(ptr + num4) = *separator;
       } else {
@@ -1698,12 +1698,12 @@ String String___::PadLeft(Int32 totalWidth, Char paddingChar) {
   }
   String text = FastAllocateString(totalWidth);
   {
-    Char* ptr = &text->_firstChar;
+    Char* ptr = rt::fixed(&text->_firstChar);
     for (Int32 i = 0; i < num; i++) {
       *(ptr + i) = paddingChar;
     }
     {
-      Char* smem = &_firstChar;
+      Char* smem = rt::fixed(&_firstChar);
       wstrcpy(ptr + num, smem, length);
     }
   }
@@ -1725,9 +1725,9 @@ String String___::PadRight(Int32 totalWidth, Char paddingChar) {
   }
   String text = FastAllocateString(totalWidth);
   {
-    Char* ptr = &text->_firstChar;
+    Char* ptr = rt::fixed(&text->_firstChar);
     {
-      Char* smem = &_firstChar;
+      Char* smem = rt::fixed(&_firstChar);
       wstrcpy(ptr, smem, length);
     }
     for (Int32 i = 0; i < num; i++) {
@@ -1757,9 +1757,9 @@ String String___::Remove(Int32 startIndex, Int32 count) {
   }
   String text = FastAllocateString(num);
   {
-    Char* ptr2 = &_firstChar;
+    Char* ptr2 = rt::fixed(&_firstChar);
     {
-      Char* ptr = &text->_firstChar;
+      Char* ptr = rt::fixed(&text->_firstChar);
       wstrcpy(ptr, ptr2, startIndex);
       wstrcpy(ptr + startIndex, ptr2 + startIndex + count, num - startIndex);
     }
@@ -1888,7 +1888,7 @@ String String___::Replace(String oldValue, String newValue) {
   Span<Int32> initialSpan = as;
   ValueListBuilder<Int32> valueListBuilder = ValueListBuilder<Int32>(initialSpan);
   {
-    Char* ptr = &_firstChar;
+    Char* ptr = rt::fixed(&_firstChar);
     Int32 num = 0;
     Int32 num2 = get_Length() - oldValue->get_Length();
     while (num <= num2) {
@@ -2319,7 +2319,7 @@ String String___::Trim(Array<Char> trimChars) {
     return TrimWhiteSpaceHelper(TrimType::Both);
   }
   {
-    Char* trimChars2 = &trimChars[0];
+    Char* trimChars2 = rt::fixed(&trimChars[0]);
     return TrimHelper(trimChars2, trimChars->get_Length(), TrimType::Both);
   }
 }
@@ -2337,7 +2337,7 @@ String String___::TrimStart(Array<Char> trimChars) {
     return TrimWhiteSpaceHelper(TrimType::Head);
   }
   {
-    Char* trimChars2 = &trimChars[0];
+    Char* trimChars2 = rt::fixed(&trimChars[0]);
     return TrimHelper(trimChars2, trimChars->get_Length(), TrimType::Head);
   }
 }
@@ -2355,7 +2355,7 @@ String String___::TrimEnd(Array<Char> trimChars) {
     return TrimWhiteSpaceHelper(TrimType::Tail);
   }
   {
-    Char* trimChars2 = &trimChars[0];
+    Char* trimChars2 = rt::fixed(&trimChars[0]);
     return TrimHelper(trimChars2, trimChars->get_Length(), TrimType::Tail);
   }
 }
@@ -2509,7 +2509,7 @@ Int32 String___::IndexOfCharArray(Array<Char> anyOf, Int32 startIndex, Int32 cou
   UInt32* charMap = (UInt32*)(&probabilisticMap);
   InitializeProbabilisticMap(charMap, anyOf);
   {
-    Char* ptr = &_firstChar;
+    Char* ptr = rt::fixed(&_firstChar);
     Char* ptr2 = ptr + startIndex;
     while (count > 0) {
       Int32 num = *ptr2;
@@ -2654,7 +2654,7 @@ Int32 String___::LastIndexOfCharArray(Array<Char> anyOf, Int32 startIndex, Int32
   UInt32* charMap = (UInt32*)(&probabilisticMap);
   InitializeProbabilisticMap(charMap, anyOf);
   {
-    Char* ptr = &_firstChar;
+    Char* ptr = rt::fixed(&_firstChar);
     Char* ptr2 = ptr + startIndex;
     while (count > 0) {
       Int32 num = *ptr2;
@@ -2715,7 +2715,7 @@ Int32 String___::_GetNonRandomizedHashCodeOrdinalIgnoreCase_g__GetNonRandomizedH
   UInt32 num3 = 352654597u;
   UInt32 num4 = num3;
   {
-    Char* ptr = destination;
+    Char* ptr = rt::fixed(destination);
     UInt32* ptr2 = (UInt32*)ptr;
     while (num > 2) {
       num -= 4;

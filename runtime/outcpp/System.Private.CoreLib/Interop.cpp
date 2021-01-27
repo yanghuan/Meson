@@ -23,16 +23,16 @@ Boolean Interop::Kernel32::SYSTEMTIME::Equals(SYSTEMTIME& other) {
 
 String Interop::Kernel32::TIME_DYNAMIC_ZONE_INFORMATION::GetTimeZoneKeyName() {
   {
-    Char* value = TimeZoneKeyName;
+    Char* value = rt::fixed(TimeZoneKeyName);
     return rt::newstr<String>(value);
   }
 }
 
 Interop::Kernel32::TIME_ZONE_INFORMATION::TIME_ZONE_INFORMATION(TIME_DYNAMIC_ZONE_INFORMATION& dtzi) {
   {
-    TIME_ZONE_INFORMATION* ptr = &*this;
+    TIME_ZONE_INFORMATION* ptr = rt::fixed(&*this);
     {
-      TIME_DYNAMIC_ZONE_INFORMATION* ptr2 = &dtzi;
+      TIME_DYNAMIC_ZONE_INFORMATION* ptr2 = rt::fixed(&dtzi);
       *ptr = *(TIME_ZONE_INFORMATION*)ptr2;
     }
   }
@@ -40,14 +40,14 @@ Interop::Kernel32::TIME_ZONE_INFORMATION::TIME_ZONE_INFORMATION(TIME_DYNAMIC_ZON
 
 String Interop::Kernel32::TIME_ZONE_INFORMATION::GetStandardName() {
   {
-    Char* value = StandardName;
+    Char* value = rt::fixed(StandardName);
     return rt::newstr<String>(value);
   }
 }
 
 String Interop::Kernel32::TIME_ZONE_INFORMATION::GetDaylightName() {
   {
-    Char* value = DaylightName;
+    Char* value = rt::fixed(DaylightName);
     return rt::newstr<String>(value);
   }
 }
@@ -96,7 +96,7 @@ Boolean Interop::Kernel32::GetFileAttributesEx(String name, GET_FILEEX_INFO_LEVE
 
 Int32 Interop::Kernel32::GetEnvironmentVariable(String lpName, Span<Char> buffer) {
   {
-    Char* lpBuffer = &MemoryMarshal::GetReference(buffer);
+    Char* lpBuffer = rt::fixed(&MemoryMarshal::GetReference(buffer));
     return GetEnvironmentVariable(lpName, lpBuffer, buffer.get_Length());
   }
 }
@@ -113,7 +113,7 @@ String Interop::Kernel32::GetMessage(Int32 errorCode, IntPtr moduleHandle) {
   Char as[256] = {};
   Span<Char> span = as;
   {
-    Char* lpBuffer = span;
+    Char* lpBuffer = rt::fixed(span);
     Int32 num2 = FormatMessage(num, moduleHandle, (UInt32)errorCode, 0, lpBuffer, span.get_Length(), IntPtr::Zero);
     if (num2 > 0) {
       return GetAndTrimString(span.Slice(0, num2));

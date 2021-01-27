@@ -877,9 +877,9 @@ void CompareInfo___::IcuInitSortHandle() {
 
 Int32 CompareInfo___::IcuCompareString(ReadOnlySpan<Char> string1, ReadOnlySpan<Char> string2, CompareOptions options) {
   {
-    Char* lpStr = &MemoryMarshal::GetReference(string1);
+    Char* lpStr = rt::fixed(&MemoryMarshal::GetReference(string1));
     {
-      Char* lpStr2 = &MemoryMarshal::GetReference(string2);
+      Char* lpStr2 = rt::fixed(&MemoryMarshal::GetReference(string2));
       return Interop::Globalization::CompareString(_sortHandle, lpStr, string1.get_Length(), lpStr2, string2.get_Length(), options);
     }
   }
@@ -893,9 +893,9 @@ Int32 CompareInfo___::IcuIndexOfCore(ReadOnlySpan<Char> source, ReadOnlySpan<Cha
     return IndexOfOrdinalHelper(source, target, options, matchLengthPtr, fromBeginning);
   }
   {
-    Char* pSource = &MemoryMarshal::GetReference(source);
+    Char* pSource = rt::fixed(&MemoryMarshal::GetReference(source));
     {
-      Char* target2 = &MemoryMarshal::GetReference(target);
+      Char* target2 = rt::fixed(&MemoryMarshal::GetReference(target));
       if (fromBeginning) {
         return Interop::Globalization::IndexOf(_sortHandle, target2, target.get_Length(), pSource, source.get_Length(), options, matchLengthPtr);
       }
@@ -906,9 +906,9 @@ Int32 CompareInfo___::IcuIndexOfCore(ReadOnlySpan<Char> source, ReadOnlySpan<Cha
 
 Int32 CompareInfo___::IndexOfOrdinalIgnoreCaseHelper(ReadOnlySpan<Char> source, ReadOnlySpan<Char> target, CompareOptions options, Int32* matchLengthPtr, Boolean fromBeginning) {
   {
-    Char* ptr = &MemoryMarshal::GetReference(source);
+    Char* ptr = rt::fixed(&MemoryMarshal::GetReference(source));
     {
-      Char* ptr3 = &MemoryMarshal::GetReference(target);
+      Char* ptr3 = rt::fixed(&MemoryMarshal::GetReference(target));
       Char* ptr2 = ptr;
       Char* ptr4 = ptr3;
       Int32 num = 0;
@@ -1009,9 +1009,9 @@ Int32 CompareInfo___::IndexOfOrdinalIgnoreCaseHelper(ReadOnlySpan<Char> source, 
 
 Int32 CompareInfo___::IndexOfOrdinalHelper(ReadOnlySpan<Char> source, ReadOnlySpan<Char> target, CompareOptions options, Int32* matchLengthPtr, Boolean fromBeginning) {
   {
-    Char* ptr = &MemoryMarshal::GetReference(source);
+    Char* ptr = rt::fixed(&MemoryMarshal::GetReference(source));
     {
-      Char* ptr3 = &MemoryMarshal::GetReference(target);
+      Char* ptr3 = rt::fixed(&MemoryMarshal::GetReference(target));
       Char* ptr2 = ptr;
       Char* ptr4 = ptr3;
       Int32 num = 0;
@@ -1107,9 +1107,9 @@ Boolean CompareInfo___::IcuStartsWith(ReadOnlySpan<Char> source, ReadOnlySpan<Ch
     return StartsWithOrdinalHelper(source, prefix, options, matchLengthPtr);
   }
   {
-    Char* source2 = &MemoryMarshal::GetReference(source);
+    Char* source2 = rt::fixed(&MemoryMarshal::GetReference(source));
     {
-      Char* target = &MemoryMarshal::GetReference(prefix);
+      Char* target = rt::fixed(&MemoryMarshal::GetReference(prefix));
       return Interop::Globalization::StartsWith(_sortHandle, target, prefix.get_Length(), source2, source.get_Length(), options, matchLengthPtr);
     }
   }
@@ -1118,9 +1118,9 @@ Boolean CompareInfo___::IcuStartsWith(ReadOnlySpan<Char> source, ReadOnlySpan<Ch
 Boolean CompareInfo___::StartsWithOrdinalIgnoreCaseHelper(ReadOnlySpan<Char> source, ReadOnlySpan<Char> prefix, CompareOptions options, Int32* matchLengthPtr) {
   Int32 num = Math::Min(source.get_Length(), prefix.get_Length());
   {
-    Char* ptr = &MemoryMarshal::GetReference(source);
+    Char* ptr = rt::fixed(&MemoryMarshal::GetReference(source));
     {
-      Char* ptr3 = &MemoryMarshal::GetReference(prefix);
+      Char* ptr3 = rt::fixed(&MemoryMarshal::GetReference(prefix));
       Char* ptr2 = ptr;
       Char* ptr4 = ptr3;
       while (true) {
@@ -1175,9 +1175,9 @@ Boolean CompareInfo___::StartsWithOrdinalIgnoreCaseHelper(ReadOnlySpan<Char> sou
 Boolean CompareInfo___::StartsWithOrdinalHelper(ReadOnlySpan<Char> source, ReadOnlySpan<Char> prefix, CompareOptions options, Int32* matchLengthPtr) {
   Int32 num = Math::Min(source.get_Length(), prefix.get_Length());
   {
-    Char* ptr = &MemoryMarshal::GetReference(source);
+    Char* ptr = rt::fixed(&MemoryMarshal::GetReference(source));
     {
-      Char* ptr3 = &MemoryMarshal::GetReference(prefix);
+      Char* ptr3 = rt::fixed(&MemoryMarshal::GetReference(prefix));
       Char* ptr2 = ptr;
       Char* ptr4 = ptr3;
       while (true) {
@@ -1225,9 +1225,9 @@ Boolean CompareInfo___::IcuEndsWith(ReadOnlySpan<Char> source, ReadOnlySpan<Char
     return EndsWithOrdinalHelper(source, suffix, options, matchLengthPtr);
   }
   {
-    Char* source2 = &MemoryMarshal::GetReference(source);
+    Char* source2 = rt::fixed(&MemoryMarshal::GetReference(source));
     {
-      Char* target = &MemoryMarshal::GetReference(suffix);
+      Char* target = rt::fixed(&MemoryMarshal::GetReference(suffix));
       return Interop::Globalization::EndsWith(_sortHandle, target, suffix.get_Length(), source2, source.get_Length(), options, matchLengthPtr);
     }
   }
@@ -1236,9 +1236,9 @@ Boolean CompareInfo___::IcuEndsWith(ReadOnlySpan<Char> source, ReadOnlySpan<Char
 Boolean CompareInfo___::EndsWithOrdinalIgnoreCaseHelper(ReadOnlySpan<Char> source, ReadOnlySpan<Char> suffix, CompareOptions options, Int32* matchLengthPtr) {
   Int32 num = Math::Min(source.get_Length(), suffix.get_Length());
   {
-    Char* ptr = &MemoryMarshal::GetReference(source);
+    Char* ptr = rt::fixed(&MemoryMarshal::GetReference(source));
     {
-      Char* ptr3 = &MemoryMarshal::GetReference(suffix);
+      Char* ptr3 = rt::fixed(&MemoryMarshal::GetReference(suffix));
       Char* ptr2 = ptr + source.get_Length() - 1;
       Char* ptr4 = ptr3 + suffix.get_Length() - 1;
       while (true) {
@@ -1293,9 +1293,9 @@ Boolean CompareInfo___::EndsWithOrdinalIgnoreCaseHelper(ReadOnlySpan<Char> sourc
 Boolean CompareInfo___::EndsWithOrdinalHelper(ReadOnlySpan<Char> source, ReadOnlySpan<Char> suffix, CompareOptions options, Int32* matchLengthPtr) {
   Int32 num = Math::Min(source.get_Length(), suffix.get_Length());
   {
-    Char* ptr = &MemoryMarshal::GetReference(source);
+    Char* ptr = rt::fixed(&MemoryMarshal::GetReference(source));
     {
-      Char* ptr3 = &MemoryMarshal::GetReference(suffix);
+      Char* ptr3 = rt::fixed(&MemoryMarshal::GetReference(suffix));
       Char* ptr2 = ptr + source.get_Length() - 1;
       Char* ptr4 = ptr3 + suffix.get_Length() - 1;
       while (true) {
@@ -1344,12 +1344,12 @@ SortKey CompareInfo___::IcuCreateSortKey(String source, CompareOptions options) 
   }
   Array<Byte> array;
   {
-    Char* ptr = source;
+    Char* ptr = rt::fixed(source);
     Char* str = ptr;
     Int32 sortKey = Interop::Globalization::GetSortKey(_sortHandle, str, source->get_Length(), nullptr, 0, options);
     array = rt::newarr<Array<Byte>>(sortKey);
     {
-      Byte* sortKey2 = array;
+      Byte* sortKey2 = rt::fixed(array);
       if (Interop::Globalization::GetSortKey(_sortHandle, str, source->get_Length(), sortKey2, sortKey, options) != sortKey) {
         rt::throw_exception<ArgumentException>(SR::get_Arg_ExternalException());
       }
@@ -1361,9 +1361,9 @@ SortKey CompareInfo___::IcuCreateSortKey(String source, CompareOptions options) 
 Int32 CompareInfo___::IcuGetSortKey(ReadOnlySpan<Char> source, Span<Byte> destination, CompareOptions options) {
   Int32 sortKey2;
   {
-    Char* str = &MemoryMarshal::GetReference(source);
+    Char* str = rt::fixed(&MemoryMarshal::GetReference(source));
     {
-      Byte* sortKey = &MemoryMarshal::GetReference(destination);
+      Byte* sortKey = rt::fixed(&MemoryMarshal::GetReference(destination));
       sortKey2 = Interop::Globalization::GetSortKey(_sortHandle, str, source.get_Length(), sortKey, destination.get_Length(), options);
     }
   }
@@ -1378,7 +1378,7 @@ Int32 CompareInfo___::IcuGetSortKey(ReadOnlySpan<Char> source, Span<Byte> destin
 
 Int32 CompareInfo___::IcuGetSortKeyLength(ReadOnlySpan<Char> source, CompareOptions options) {
   {
-    Char* str = &MemoryMarshal::GetReference(source);
+    Char* str = rt::fixed(&MemoryMarshal::GetReference(source));
     return Interop::Globalization::GetSortKey(_sortHandle, str, source.get_Length(), nullptr, 0, options);
   }
 }
@@ -1406,9 +1406,9 @@ Int32 CompareInfo___::IcuGetHashCodeOfString(ReadOnlySpan<Char> source, CompareO
   Span<Byte> span = ((num > 1024) ? ((Span<Byte>)(array = ArrayPool<Byte>::in::get_Shared()->Rent(num))) : as);
   Span<Byte> span2 = span;
   {
-    Char* str = &MemoryMarshal::GetNonNullPinnableReference(source);
+    Char* str = rt::fixed(&MemoryMarshal::GetNonNullPinnableReference(source));
     {
-      Byte* sortKey = &MemoryMarshal::GetReference(span2);
+      Byte* sortKey = rt::fixed(&MemoryMarshal::GetReference(span2));
       num = Interop::Globalization::GetSortKey(_sortHandle, str, source.get_Length(), sortKey, span2.get_Length(), options);
     }
     if (num > span2.get_Length()) {
@@ -1417,7 +1417,7 @@ Int32 CompareInfo___::IcuGetHashCodeOfString(ReadOnlySpan<Char> source, CompareO
       }
       span2 = (array = ArrayPool<Byte>::in::get_Shared()->Rent(num));
       {
-        Byte* sortKey2 = &MemoryMarshal::GetReference(span2);
+        Byte* sortKey2 = rt::fixed(&MemoryMarshal::GetReference(span2));
         num = Interop::Globalization::GetSortKey(_sortHandle, str, source.get_Length(), sortKey2, span2.get_Length(), options);
       }
     }
@@ -1443,9 +1443,9 @@ SortVersion CompareInfo___::IcuGetSortVersion() {
 
 Int32 CompareInfo___::InvariantIndexOf(ReadOnlySpan<Char> source, ReadOnlySpan<Char> value, Boolean ignoreCase, Boolean fromBeginning) {
   {
-    Char* source2 = &MemoryMarshal::GetReference(source);
+    Char* source2 = rt::fixed(&MemoryMarshal::GetReference(source));
     {
-      Char* value2 = &MemoryMarshal::GetReference(value);
+      Char* value2 = rt::fixed(&MemoryMarshal::GetReference(value));
       return InvariantFindString(source2, source.get_Length(), value2, value.get_Length(), ignoreCase, fromBeginning);
     }
   }
@@ -1628,9 +1628,9 @@ IntPtr CompareInfo___::NlsGetSortHandle(String cultureName) {
 
 Int32 CompareInfo___::FindStringOrdinal(UInt32 dwFindStringOrdinalFlags, ReadOnlySpan<Char> source, ReadOnlySpan<Char> value, Boolean bIgnoreCase) {
   {
-    Char* lpStringSource = &MemoryMarshal::GetReference(source);
+    Char* lpStringSource = rt::fixed(&MemoryMarshal::GetReference(source));
     {
-      Char* lpStringValue = &MemoryMarshal::GetReference(value);
+      Char* lpStringValue = rt::fixed(&MemoryMarshal::GetReference(value));
       return Interop::Kernel32::FindStringOrdinal(dwFindStringOrdinalFlags, lpStringSource, source.get_Length(), lpStringValue, value.get_Length(), bIgnoreCase ? Interop::BOOL::TRUE : Interop::BOOL::FALSE);
     }
   }
@@ -1652,7 +1652,7 @@ Int32 CompareInfo___::NlsGetHashCodeOfString(ReadOnlySpan<Char> source, CompareO
   }
   UInt32 dwMapFlags = 1024u | (UInt32)GetNativeCompareFlags(options);
   {
-    Char* lpSrcStr = &MemoryMarshal::GetReference(source);
+    Char* lpSrcStr = rt::fixed(&MemoryMarshal::GetReference(source));
     Int32 num2 = Interop::Kernel32::LCMapStringEx((_sortHandle != IntPtr::Zero) ? nullptr : _sortName, dwMapFlags, lpSrcStr, num, nullptr, 0, nullptr, nullptr, _sortHandle);
     if (num2 == 0) {
       rt::throw_exception<ArgumentException>(SR::get_Arg_ExternalException());
@@ -1662,7 +1662,7 @@ Int32 CompareInfo___::NlsGetHashCodeOfString(ReadOnlySpan<Char> source, CompareO
     Span<Byte> span = ((num2 > 512) ? ((Span<Byte>)(array = ArrayPool<Byte>::in::get_Shared()->Rent(num2))) : as);
     Span<Byte> span2 = span;
     {
-      Byte* lpDestStr = &MemoryMarshal::GetReference(span2);
+      Byte* lpDestStr = rt::fixed(&MemoryMarshal::GetReference(span2));
       if (Interop::Kernel32::LCMapStringEx((_sortHandle != IntPtr::Zero) ? nullptr : _sortName, dwMapFlags, lpSrcStr, num, lpDestStr, num2, nullptr, nullptr, _sortHandle) != num2) {
         rt::throw_exception<ArgumentException>(SR::get_Arg_ExternalException());
       }
@@ -1677,9 +1677,9 @@ Int32 CompareInfo___::NlsGetHashCodeOfString(ReadOnlySpan<Char> source, CompareO
 
 Int32 CompareInfo___::NlsCompareStringOrdinalIgnoreCase(Char& string1, Int32 count1, Char& string2, Int32 count2) {
   {
-    Char* lpString = &string1;
+    Char* lpString = rt::fixed(&string1);
     {
-      Char* lpString2 = &string2;
+      Char* lpString2 = rt::fixed(&string2);
       Int32 num = Interop::Kernel32::CompareStringOrdinal(lpString, count1, lpString2, count2, true);
       if (num == 0) {
         rt::throw_exception<ArgumentException>(SR::get_Arg_ExternalException());
@@ -1698,12 +1698,12 @@ Int32 CompareInfo___::NlsCompareString(ReadOnlySpan<Char> string1, ReadOnlySpan<
     string2 = String::in::Empty;
   }
   {
-    Char* ptr = text;
+    Char* ptr = rt::fixed(text);
     Char* lpLocaleName = ptr;
     {
-      Char* lpString = &MemoryMarshal::GetReference(string1);
+      Char* lpString = rt::fixed(&MemoryMarshal::GetReference(string1));
       {
-        Char* lpString2 = &MemoryMarshal::GetReference(string2);
+        Char* lpString2 = rt::fixed(&MemoryMarshal::GetReference(string2));
         Int32 num = Interop::Kernel32::CompareStringEx(lpLocaleName, (UInt32)GetNativeCompareFlags(options), lpString, string1.get_Length(), lpString2, string2.get_Length(), nullptr, nullptr, _sortHandle);
         if (num == 0) {
           rt::throw_exception<ArgumentException>(SR::get_Arg_ExternalException());
@@ -1722,12 +1722,12 @@ Int32 CompareInfo___::FindString(UInt32 dwFindNLSStringFlags, ReadOnlySpan<Char>
     num = -1;
   }
   {
-    Char* ptr = text;
+    Char* ptr = rt::fixed(text);
     Char* lpLocaleName = ptr;
     {
-      Char* lpStringSource2 = &MemoryMarshal::GetReference(lpStringSource);
+      Char* lpStringSource2 = rt::fixed(&MemoryMarshal::GetReference(lpStringSource));
       {
-        Char* lpStringValue2 = &MemoryMarshal::GetReference(lpStringValue);
+        Char* lpStringValue2 = rt::fixed(&MemoryMarshal::GetReference(lpStringValue));
         return Interop::Kernel32::FindNLSStringEx(lpLocaleName, dwFindNLSStringFlags, lpStringSource2, num, lpStringValue2, lpStringValue.get_Length(), pcchFound, nullptr, nullptr, _sortHandle);
       }
     }
@@ -1775,7 +1775,7 @@ SortKey CompareInfo___::NlsCreateSortKey(String source, CompareOptions options) 
   }
   Array<Byte> array;
   {
-    Char* ptr = source;
+    Char* ptr = rt::fixed(source);
     Char* lpSrcStr = ptr;
     Int32 num2 = Interop::Kernel32::LCMapStringEx((_sortHandle != IntPtr::Zero) ? nullptr : _sortName, dwMapFlags, lpSrcStr, num, nullptr, 0, nullptr, nullptr, _sortHandle);
     if (num2 == 0) {
@@ -1783,7 +1783,7 @@ SortKey CompareInfo___::NlsCreateSortKey(String source, CompareOptions options) 
     }
     array = rt::newarr<Array<Byte>>(num2);
     {
-      Byte* lpDestStr = array;
+      Byte* lpDestStr = rt::fixed(array);
       if (Interop::Kernel32::LCMapStringEx((_sortHandle != IntPtr::Zero) ? nullptr : _sortName, dwMapFlags, lpSrcStr, num, lpDestStr, array->get_Length(), nullptr, nullptr, _sortHandle) != num2) {
         rt::throw_exception<ArgumentException>(SR::get_Arg_ExternalException());
       }
@@ -1807,9 +1807,9 @@ Int32 CompareInfo___::NlsGetSortKey(ReadOnlySpan<Char> source, Span<Byte> destin
   }
   Int32 num3;
   {
-    Char* lpSrcStr = &MemoryMarshal::GetReference(source);
+    Char* lpSrcStr = rt::fixed(&MemoryMarshal::GetReference(source));
     {
-      Byte* lpDestStr = &MemoryMarshal::GetReference(destination);
+      Byte* lpDestStr = rt::fixed(&MemoryMarshal::GetReference(destination));
       if (!Environment::get_IsWindows8OrAbove()) {
         Int32 num2 = Interop::Kernel32::LCMapStringEx((_sortHandle != IntPtr::Zero) ? nullptr : _sortName, dwMapFlags, lpSrcStr, num, nullptr, 0, nullptr, nullptr, _sortHandle);
         if (num2 > destination.get_Length()) {
@@ -1840,7 +1840,7 @@ Int32 CompareInfo___::NlsGetSortKeyLength(ReadOnlySpan<Char> source, CompareOpti
   }
   Int32 num2;
   {
-    Char* lpSrcStr = &MemoryMarshal::GetReference(source);
+    Char* lpSrcStr = rt::fixed(&MemoryMarshal::GetReference(source));
     num2 = Interop::Kernel32::LCMapStringEx((_sortHandle != IntPtr::Zero) ? nullptr : _sortName, dwMapFlags, lpSrcStr, num, nullptr, 0, nullptr, nullptr, _sortHandle);
   }
   if (num2 <= 0) {
@@ -1851,7 +1851,7 @@ Int32 CompareInfo___::NlsGetSortKeyLength(ReadOnlySpan<Char> source, CompareOpti
 
 Boolean CompareInfo___::NlsIsSortable(ReadOnlySpan<Char> text) {
   {
-    Char* lpString = &MemoryMarshal::GetReference(text);
+    Char* lpString = rt::fixed(&MemoryMarshal::GetReference(text));
     return Interop::Kernel32::IsNLSDefinedString(1, 0u, IntPtr::Zero, lpString, text.get_Length());
   }
 }

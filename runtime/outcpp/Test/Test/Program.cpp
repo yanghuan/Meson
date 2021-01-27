@@ -1,15 +1,16 @@
 #include "Program-dep.h"
 
+#include <System.Private.CoreLib/System/Char-dep.h>
 #include <Test/Test/Program-dep.h>
 
 namespace Test::Test::ProgramNamespace {
-void Program___::f(Int32 a) {
-}
-
-void Program___::f1(Char c) {
-}
+using namespace ::System::Private::CoreLib::System;
 
 void Program___::Main(Array<String> args) {
+  {
+    Char* ptr = rt::fixed(args[0]);
+    Char* ptr2 = ptr;
+  }
 }
 
 void Program___::ctor() {

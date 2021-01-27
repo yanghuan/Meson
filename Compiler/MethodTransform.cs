@@ -996,7 +996,10 @@ namespace Meson.Compiler {
 
     public SyntaxNode VisitFixedStatement(FixedStatement fixedStatement) {
       var type = fixedStatement.Type.AcceptExpression(this);
-      var variables = fixedStatement.Variables.Select(i => i.Accept<VariableInitializerSyntax>(this));
+      var variables = fixedStatement.Variables.Select(i => i.Accept<VariableInitializerSyntax>(this)).ToArray();
+      foreach (var i in variables) {
+        i.Initializer = IdentifierSyntax.Fixed.Invation(i.Initializer);
+      }
       var declaration = new VariableDeclarationStatementSyntax(type, variables);
       var embeddedStatement = fixedStatement.EmbeddedStatement.AcceptStatement(this);
       var block = new BlockStatementSyntax();

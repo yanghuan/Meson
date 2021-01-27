@@ -12,7 +12,7 @@ using namespace System::Text;
 Array<Byte> AnsiCharMarshaler::DoAnsiConversion(String str, Boolean fBestFit, Boolean fThrowOnUnmappableChar, Int32& cbLength) {
   Array<Byte> array = rt::newarr<Array<Byte>>((str->get_Length() + 1) * Marshal::SystemMaxDBCSCharSize);
   {
-    Byte* buffer = &array[0];
+    Byte* buffer = rt::fixed(&array[0]);
     cbLength = Marshal::StringToAnsiString(str, buffer, array->get_Length(), fBestFit, fThrowOnUnmappableChar);
   }
   return array;

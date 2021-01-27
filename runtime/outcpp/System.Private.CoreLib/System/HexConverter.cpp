@@ -44,7 +44,7 @@ void HexConverter::EncodeToUtf16(ReadOnlySpan<Byte> bytes, Span<Char> chars, Cas
 
 String HexConverter::ToString(ReadOnlySpan<Byte> bytes, Casing casing) {
   {
-    Byte* value = bytes;
+    Byte* value = rt::fixed(bytes);
     SpanAction<Char, ValueTuple<IntPtr, Int32, Casing>> as = __c::in::__9__4_0;
     return String::in::Create(bytes.get_Length() * 2, {(IntPtr)value, bytes.get_Length(), casing}, as != nullptr ? as : (__c::in::__9__4_0 = {__c::in::__9, &__c::in::_ToString_b__4_0}));
   }

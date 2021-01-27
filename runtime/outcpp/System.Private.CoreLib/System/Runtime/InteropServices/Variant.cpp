@@ -245,7 +245,7 @@ Object Variant::ToObject() {
       return get_AsDispatch();
     default:
       {
-        Variant* ptr = &*this;
+        Variant* ptr = rt::fixed(&*this);
         void* value = ptr;
         return Marshal::GetObjectForNativeVariant((IntPtr)value);
       }
@@ -258,7 +258,7 @@ void Variant::Clear() {
     get_VariantType(VarEnum::VT_EMPTY);
   } else if ((variantType & VarEnum::VT_ARRAY) != 0 || variantType == VarEnum::VT_BSTR || variantType == VarEnum::VT_UNKNOWN || variantType == VarEnum::VT_DISPATCH || variantType == VarEnum::VT_VARIANT || variantType == VarEnum::VT_RECORD) {
     {
-      Variant* ptr = &*this;
+      Variant* ptr = rt::fixed(&*this);
       void* value = ptr;
       Interop::OleAut32::VariantClear((IntPtr)value);
     }

@@ -765,7 +765,7 @@ Boolean Matrix4x4::Invert(Matrix4x4 matrix, Matrix4x4& result) {
 Boolean Matrix4x4::Decompose(Matrix4x4 matrix, Vector3& scale, Quaternion& rotation, Vector3& translation) {
   Boolean result = true;
   {
-    Vector3* ptr = &scale;
+    Vector3* ptr = rt::fixed(&scale);
     Single* ptr2 = (Single*)ptr;
     VectorBasis vectorBasis;
     Vector3* ptr3 = (Vector3*)(&vectorBasis);

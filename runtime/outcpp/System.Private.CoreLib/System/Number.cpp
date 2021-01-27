@@ -439,7 +439,7 @@ void Number::BigInteger::Pow10(UInt32 exponent, BigInteger& result) {
   while (exponent != 0) {
     if ((exponent & (true ? 1u : 0u)) != 0) {
       {
-        UInt32* ptr = &s_Pow10BigNumTable[s_Pow10BigNumTableIndices[num]];
+        UInt32* ptr = rt::fixed(&s_Pow10BigNumTable[s_Pow10BigNumTableIndices[num]]);
         Multiply(reference, *(BigInteger*)ptr, reference2);
       }
       BigInteger& reference3 = reference2;
@@ -1777,7 +1777,7 @@ String Number::NegativeInt32ToDecStr(Int32 value, Int32 digits, String sNegative
   Int32 num = Math::Max(digits, FormattingHelpers::CountDigits((UInt32)(-value))) + sNegative->get_Length();
   String text = String::in::FastAllocateString(num);
   {
-    Char* ptr = text;
+    Char* ptr = rt::fixed(text);
     Char* ptr2 = ptr;
     Char* ptr3 = UInt32ToDecChars(ptr2 + num, (UInt32)(-value), digits);
     for (Int32 num2 = sNegative->get_Length() - 1; num2 >= 0; num2--) {
@@ -1798,7 +1798,7 @@ Boolean Number::TryNegativeInt32ToDecStr(Int32 value, Int32 digits, String sNega
   }
   charsWritten = num;
   {
-    Char* ptr = &MemoryMarshal::GetReference(destination);
+    Char* ptr = rt::fixed(&MemoryMarshal::GetReference(destination));
     Char* ptr2 = UInt32ToDecChars(ptr + num, (UInt32)(-value), digits);
     for (Int32 num2 = sNegative->get_Length() - 1; num2 >= 0; num2--) {
       *(--ptr2) = sNegative[num2];
@@ -1814,7 +1814,7 @@ String Number::Int32ToHexStr(Int32 value, Char hexBase, Int32 digits) {
   Int32 num = Math::Max(digits, FormattingHelpers::CountHexDigits((UInt32)value));
   String text = String::in::FastAllocateString(num);
   {
-    Char* ptr = text;
+    Char* ptr = rt::fixed(text);
     Char* ptr2 = ptr;
     Char* ptr3 = Int32ToHexChars(ptr2 + num, (UInt32)value, hexBase, digits);
   }
@@ -1832,7 +1832,7 @@ Boolean Number::TryInt32ToHexStr(Int32 value, Char hexBase, Int32 digits, Span<C
   }
   charsWritten = num;
   {
-    Char* ptr = &MemoryMarshal::GetReference(destination);
+    Char* ptr = rt::fixed(&MemoryMarshal::GetReference(destination));
     Char* ptr2 = Int32ToHexChars(ptr + num, (UInt32)value, hexBase, digits);
   }
   return true;
@@ -1885,7 +1885,7 @@ String Number::UInt32ToDecStr(UInt32 value) {
   }
   String text = String::in::FastAllocateString(num);
   {
-    Char* ptr = text;
+    Char* ptr = rt::fixed(text);
     Char* ptr2 = ptr;
     Char* ptr3 = ptr2 + num;
     do {
@@ -1904,7 +1904,7 @@ String Number::UInt32ToDecStr(UInt32 value, Int32 digits) {
   Int32 num = Math::Max(digits, FormattingHelpers::CountDigits(value));
   String text = String::in::FastAllocateString(num);
   {
-    Char* ptr = text;
+    Char* ptr = rt::fixed(text);
     Char* ptr2 = ptr;
     Char* bufferEnd = ptr2 + num;
     bufferEnd = UInt32ToDecChars(bufferEnd, value, digits);
@@ -1920,7 +1920,7 @@ Boolean Number::TryUInt32ToDecStr(UInt32 value, Int32 digits, Span<Char> destina
   }
   charsWritten = num;
   {
-    Char* ptr = &MemoryMarshal::GetReference(destination);
+    Char* ptr = rt::fixed(&MemoryMarshal::GetReference(destination));
     Char* ptr2 = ptr + num;
     if (digits <= 1) {
       do {
@@ -1971,7 +1971,7 @@ String Number::NegativeInt64ToDecStr(Int64 input, Int32 digits, String sNegative
   Int32 num = Math::Max(digits, FormattingHelpers::CountDigits(value)) + sNegative->get_Length();
   String text = String::in::FastAllocateString(num);
   {
-    Char* ptr = text;
+    Char* ptr = rt::fixed(text);
     Char* ptr2 = ptr;
     Char* bufferEnd = ptr2 + num;
     while (High32(value) != 0) {
@@ -1998,7 +1998,7 @@ Boolean Number::TryNegativeInt64ToDecStr(Int64 input, Int32 digits, String sNega
   }
   charsWritten = num;
   {
-    Char* ptr = &MemoryMarshal::GetReference(destination);
+    Char* ptr = rt::fixed(&MemoryMarshal::GetReference(destination));
     Char* bufferEnd = ptr + num;
     while (High32(value) != 0) {
       bufferEnd = UInt32ToDecChars(bufferEnd, Int64DivMod1E9(value), 9);
@@ -2016,7 +2016,7 @@ String Number::Int64ToHexStr(Int64 value, Char hexBase, Int32 digits) {
   Int32 num = Math::Max(digits, FormattingHelpers::CountHexDigits((UInt64)value));
   String text = String::in::FastAllocateString(num);
   {
-    Char* ptr = text;
+    Char* ptr = rt::fixed(text);
     Char* ptr2 = ptr;
     Char* buffer = ptr2 + num;
     if (High32((UInt64)value) != 0) {
@@ -2037,7 +2037,7 @@ Boolean Number::TryInt64ToHexStr(Int64 value, Char hexBase, Int32 digits, Span<C
   }
   charsWritten = num;
   {
-    Char* ptr = &MemoryMarshal::GetReference(destination);
+    Char* ptr = rt::fixed(&MemoryMarshal::GetReference(destination));
     Char* buffer = ptr + num;
     if (High32((UInt64)value) != 0) {
       buffer = Int32ToHexChars(buffer, Low32((UInt64)value), hexBase, 8);
@@ -2076,7 +2076,7 @@ String Number::UInt64ToDecStr(UInt64 value, Int32 digits) {
   }
   String text = String::in::FastAllocateString(num);
   {
-    Char* ptr = text;
+    Char* ptr = rt::fixed(text);
     Char* ptr2 = ptr;
     Char* bufferEnd = ptr2 + num;
     while (High32(value) != 0) {
@@ -2099,7 +2099,7 @@ Boolean Number::TryUInt64ToDecStr(UInt64 value, Int32 digits, Span<Char> destina
   }
   charsWritten = num;
   {
-    Char* ptr = &MemoryMarshal::GetReference(destination);
+    Char* ptr = rt::fixed(&MemoryMarshal::GetReference(destination));
     Char* bufferEnd = ptr + num;
     while (High32(value) != 0) {
       bufferEnd = UInt32ToDecChars(bufferEnd, Int64DivMod1E9(value), 9);
@@ -2262,7 +2262,7 @@ void Number::NumberToStringFormat(ValueStringBuilder& sb, NumberBuffer& number, 
     Int32 num8 = 0;
     num9 = num2;
     {
-      Char* ptr = &MemoryMarshal::GetReference(format);
+      Char* ptr = rt::fixed(&MemoryMarshal::GetReference(format));
       Char c;
       while (num9 < format.get_Length() && (c = *(ptr + num9++)) != 0) {
         switch (c.get()) {
@@ -2404,7 +2404,7 @@ void Number::NumberToStringFormat(ValueStringBuilder& sb, NumberBuffer& number, 
   }
   Boolean flag3 = false;
   {
-    Char* ptr3 = &MemoryMarshal::GetReference(format);
+    Char* ptr3 = rt::fixed(&MemoryMarshal::GetReference(format));
     Byte* ptr2 = digitsPointer;
     Char c;
     while (num9 < format.get_Length() && (c = *(ptr3 + num9++)) != 0 && c != u';') {
@@ -2561,7 +2561,7 @@ void Number::FormatFixed(ValueStringBuilder& sb, NumberBuffer& number, Int32 nMa
       Int32 digitsCount = number.DigitsCount;
       Int32 num7 = ((num < digitsCount) ? num : digitsCount);
       {
-        Char* ptr2 = &MemoryMarshal::GetReference(sb.AppendSpan(num3));
+        Char* ptr2 = rt::fixed(&MemoryMarshal::GetReference(sb.AppendSpan(num3)));
         Char* ptr3 = ptr2 + num3 - 1;
         for (Int32 num8 = num - 1; num8 >= 0; num8--) {
           Char* intPtr = ptr3;
@@ -2748,7 +2748,7 @@ Int32 Number::FindSection(ReadOnlySpan<Char> format, Int32 section) {
     return 0;
   }
   {
-    Char* ptr = &MemoryMarshal::GetReference(format);
+    Char* ptr = rt::fixed(&MemoryMarshal::GetReference(format));
     Int32 num = 0;
     while (true) {
       if (num >= format.get_Length()) {
@@ -4636,7 +4636,7 @@ Boolean Number::TryParseSingle(ReadOnlySpan<Char> value, NumberStyles styles, Nu
 
 Boolean Number::TryStringToNumber(ReadOnlySpan<Char> value, NumberStyles styles, NumberBuffer& number, NumberFormatInfo info) {
   {
-    Char* ptr = &MemoryMarshal::GetReference(value);
+    Char* ptr = rt::fixed(&MemoryMarshal::GetReference(value));
     Char* str = ptr;
     if (!TryParseNumber(str, str + value.get_Length(), styles, number, info) || ((Int32)(str - ptr) < value.get_Length() && !TrailingZeros(value, (Int32)(str - ptr)))) {
       return false;
@@ -4663,7 +4663,7 @@ Boolean Number::IsSpaceReplacingChar(Char c) {
 
 Char* Number::MatchChars(Char* p, Char* pEnd, String value) {
   {
-    Char* ptr = value;
+    Char* ptr = rt::fixed(value);
     Char* ptr2 = ptr;
     Char* ptr3 = ptr2;
     if (*ptr3 != 0) {

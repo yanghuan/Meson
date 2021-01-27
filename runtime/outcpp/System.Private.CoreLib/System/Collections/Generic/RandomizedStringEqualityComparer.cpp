@@ -41,7 +41,7 @@ Int32 OrdinalIgnoreCaseComparer___::GetHashCode(String obj) {
 void RandomizedStringEqualityComparer___::ctor(IEqualityComparer<String> underlyingComparer) {
   _underlyingComparer = underlyingComparer;
   {
-    MarvinSeed* buffer = &_seed;
+    MarvinSeed* buffer = rt::fixed(&_seed);
     Interop::GetRandomBytes((Byte*)buffer, sizeof(MarvinSeed));
   }
 }

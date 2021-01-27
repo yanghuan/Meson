@@ -63,7 +63,7 @@ Boolean ActivityTracker___::ActivityInfo___::CanBeOrphan() {
 
 void ActivityTracker___::ActivityInfo___::CreateActivityPathGuid(Guid& idRet, Int32& activityPathGuidOffset) {
   {
-    Guid* outPtr = &idRet;
+    Guid* outPtr = rt::fixed(&idRet);
     Int32 whereToAddId = 0;
     if (m_creator != nullptr) {
       whereToAddId = m_creator->m_activityPathGuidOffset;

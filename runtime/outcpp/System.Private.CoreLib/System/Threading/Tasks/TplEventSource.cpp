@@ -162,7 +162,7 @@ void TplEventSource___::AwaitTaskContinuationScheduled(Int32 OriginatingTaskSche
 void TplEventSource___::TraceOperationBegin(Int32 TaskID, String OperationName, Int64 RelatedContext) {
   if (IsEnabled() && IsEnabled(EventLevel::Informational, (EventKeywords)8)) {
     {
-      Char* ptr = OperationName;
+      Char* ptr = rt::fixed(OperationName);
       Char* value = ptr;
       EventSource::in::EventData as[3] = {};
       EventSource::in::EventData* ptr2 = as;

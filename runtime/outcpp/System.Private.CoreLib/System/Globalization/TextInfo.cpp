@@ -169,7 +169,7 @@ String TextInfo___::ToLowerAsciiInvariant(String s) {
     return String::in::Empty;
   }
   {
-    Char* ptr = s;
+    Char* ptr = rt::fixed(s);
     Char* ptr2 = ptr;
     Int32 i;
     for (i = 0; i < s->get_Length() && (UInt32)(*(ptr2 + i) - 65) > 25u; i++) {
@@ -179,7 +179,7 @@ String TextInfo___::ToLowerAsciiInvariant(String s) {
     }
     String text = String::in::FastAllocateString(s->get_Length());
     {
-      Char* ptr3 = text;
+      Char* ptr3 = rt::fixed(text);
       Char* ptr4 = ptr3;
       for (Int32 j = 0; j < i; j++) {
         *(ptr4 + j) = *(ptr2 + j);
@@ -204,7 +204,7 @@ String TextInfo___::ToUpperAsciiInvariant(String s) {
     return String::in::Empty;
   }
   {
-    Char* ptr = s;
+    Char* ptr = rt::fixed(s);
     Char* ptr2 = ptr;
     Int32 i;
     for (i = 0; i < s->get_Length() && (UInt32)(*(ptr2 + i) - 97) > 25u; i++) {
@@ -214,7 +214,7 @@ String TextInfo___::ToUpperAsciiInvariant(String s) {
     }
     String text = String::in::FastAllocateString(s->get_Length());
     {
-      Char* ptr3 = text;
+      Char* ptr3 = rt::fixed(text);
       Char* ptr4 = ptr3;
       for (Int32 j = 0; j < i; j++) {
         *(ptr4 + j) = *(ptr2 + j);

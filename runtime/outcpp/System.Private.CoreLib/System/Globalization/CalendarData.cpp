@@ -28,7 +28,7 @@ void CalendarData___::__c___::ctor() {
 
 Interop::Globalization::ResultCode CalendarData___::__c___::_GetCalendarInfo_b__33_0(Span<Char> buffer, String locale, CalendarId id, CalendarDataType type) {
   {
-    Char* result = buffer;
+    Char* result = rt::fixed(buffer);
     return Interop::Globalization::GetCalendarInfo(locale, id, type, result, buffer.get_Length());
   }
 }

@@ -1460,7 +1460,7 @@ Int32 SpanHelpers::SequenceCompareTo(Char& first, Int32 firstLength, Char& secon
 
 Boolean SpanHelpers::Contains(Char& searchSpace, Char value, Int32 length) {
   {
-    Char* ptr = &searchSpace;
+    Char* ptr = rt::fixed(&searchSpace);
     Char* ptr2 = ptr;
     Char* ptr3 = ptr2 + length;
     if (Vector<>::get_IsHardwareAccelerated() && length >= Vector<UInt16>::get_Count() * 2) {
@@ -2238,7 +2238,7 @@ IL_0148:
 
 Int32 SpanHelpers::LastIndexOf(Char& searchSpace, Char value, Int32 length) {
   {
-    Char* ptr = &searchSpace;
+    Char* ptr = rt::fixed(&searchSpace);
     Char* ptr2 = ptr + length;
     Char* ptr3 = ptr;
     if (Vector<>::get_IsHardwareAccelerated() && length >= Vector<UInt16>::get_Count() * 2) {

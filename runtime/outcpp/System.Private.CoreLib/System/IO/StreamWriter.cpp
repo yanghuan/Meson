@@ -763,9 +763,9 @@ void StreamWriter___::WriteSpan(ReadOnlySpan<Char> buffer, Boolean appendNewLine
     ThrowIfDisposed();
     Array<Char> charBuffer = _charBuffer;
     {
-      Char* ptr = &MemoryMarshal::GetReference(buffer);
+      Char* ptr = rt::fixed(&MemoryMarshal::GetReference(buffer));
       {
-        Char* ptr3 = &charBuffer[0];
+        Char* ptr3 = rt::fixed(&charBuffer[0]);
         Char* ptr2 = ptr;
         Int32 num = buffer.get_Length();
         Int32 num2 = _charPos;

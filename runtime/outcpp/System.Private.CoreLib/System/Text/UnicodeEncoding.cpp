@@ -94,7 +94,7 @@ Int32 UnicodeEncoding___::GetByteCount(Array<Char> chars, Int32 index, Int32 cou
     return 0;
   }
   {
-    Char* ptr = chars;
+    Char* ptr = rt::fixed(chars);
     return GetByteCount(ptr + index, count, nullptr);
   }
 }
@@ -104,7 +104,7 @@ Int32 UnicodeEncoding___::GetByteCount(String s) {
     rt::throw_exception<ArgumentNullException>("s");
   }
   {
-    Char* ptr = s;
+    Char* ptr = rt::fixed(s);
     Char* pChars = ptr;
     return GetByteCount(pChars, s->get_Length(), nullptr);
   }
@@ -135,10 +135,10 @@ Int32 UnicodeEncoding___::GetBytes(String s, Int32 charIndex, Int32 charCount, A
   }
   Int32 byteCount = bytes->get_Length() - byteIndex;
   {
-    Char* ptr = s;
+    Char* ptr = rt::fixed(s);
     Char* ptr2 = ptr;
     {
-      Byte* ptr3 = &MemoryMarshal::GetReference<Byte>(bytes);
+      Byte* ptr3 = rt::fixed(&MemoryMarshal::GetReference<Byte>(bytes));
       return GetBytes(ptr2 + charIndex, charCount, ptr3 + byteIndex, byteCount, nullptr);
     }
   }
@@ -162,9 +162,9 @@ Int32 UnicodeEncoding___::GetBytes(Array<Char> chars, Int32 charIndex, Int32 cha
   }
   Int32 byteCount = bytes->get_Length() - byteIndex;
   {
-    Char* ptr = chars;
+    Char* ptr = rt::fixed(chars);
     {
-      Byte* ptr2 = &MemoryMarshal::GetReference<Byte>(bytes);
+      Byte* ptr2 = rt::fixed(&MemoryMarshal::GetReference<Byte>(bytes));
       return GetBytes(ptr + charIndex, charCount, ptr2 + byteIndex, byteCount, nullptr);
     }
   }
@@ -194,7 +194,7 @@ Int32 UnicodeEncoding___::GetCharCount(Array<Byte> bytes, Int32 index, Int32 cou
     return 0;
   }
   {
-    Byte* ptr = bytes;
+    Byte* ptr = rt::fixed(bytes);
     return GetCharCount(ptr + index, count, nullptr);
   }
 }
@@ -227,9 +227,9 @@ Int32 UnicodeEncoding___::GetChars(Array<Byte> bytes, Int32 byteIndex, Int32 byt
   }
   Int32 charCount = chars->get_Length() - charIndex;
   {
-    Byte* ptr = bytes;
+    Byte* ptr = rt::fixed(bytes);
     {
-      Char* ptr2 = &MemoryMarshal::GetReference<Char>(chars);
+      Char* ptr2 = rt::fixed(&MemoryMarshal::GetReference<Char>(chars));
       return GetChars(ptr + byteIndex, byteCount, ptr2 + charIndex, charCount, nullptr);
     }
   }
@@ -259,7 +259,7 @@ String UnicodeEncoding___::GetString(Array<Byte> bytes, Int32 index, Int32 count
     return String::in::Empty;
   }
   {
-    Byte* ptr = bytes;
+    Byte* ptr = rt::fixed(bytes);
     return String::in::CreateStringFromEncoding(ptr + index, count, (UnicodeEncoding)this);
   }
 }

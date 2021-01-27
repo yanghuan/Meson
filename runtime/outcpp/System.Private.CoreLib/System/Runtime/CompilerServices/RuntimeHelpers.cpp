@@ -40,7 +40,7 @@ void RuntimeHelpers::PrepareMethod(RuntimeMethodHandle method) {
 void RuntimeHelpers::PrepareMethod(RuntimeMethodHandle method, Array<RuntimeTypeHandle> instantiation) {
   Int32 length;
   {
-    IntPtr* pInstantiation = RuntimeTypeHandle::CopyRuntimeTypeHandles(instantiation, length);
+    IntPtr* pInstantiation = rt::fixed(RuntimeTypeHandle::CopyRuntimeTypeHandles(instantiation, length));
     _PrepareMethod(method.GetMethodInfo(), pInstantiation, length);
     GC::KeepAlive(instantiation);
   }

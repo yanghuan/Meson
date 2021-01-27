@@ -62,7 +62,7 @@ Int32 FastResourceComparer___::CompareOrdinal(String a, Array<Byte> bytes, Int32
     return 0;
   }
   {
-    Byte* ptr = bytes;
+    Byte* ptr = rt::fixed(bytes);
     Byte* ptr2 = ptr;
     while (num < num3 && num2 == 0) {
       Int32 num4 = *ptr2 | (ptr2[1] << 8);

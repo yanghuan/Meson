@@ -23,7 +23,7 @@ using namespace System::Runtime::CompilerServices;
 
 void Buffer::_ZeroMemory(Byte& b, UIntPtr byteLength) {
   {
-    Byte* b2 = &b;
+    Byte* b2 = rt::fixed(&b);
     __ZeroMemory(b2, byteLength);
   }
 }
@@ -63,7 +63,7 @@ void Buffer::Memcpy(Byte* dest, Byte* src, Int32 len) {
 void Buffer::Memcpy(Byte* pDest, Int32 destIndex, Array<Byte> src, Int32 srcIndex, Int32 len) {
   if (len != 0) {
     {
-      Byte* ptr = src;
+      Byte* ptr = rt::fixed(src);
       Memcpy(pDest + destIndex, ptr + srcIndex, len);
     }
   }
@@ -269,9 +269,9 @@ void Buffer::_Memmove(Byte* dest, Byte* src, UIntPtr len) {
 
 void Buffer::_Memmove(Byte& dest, Byte& src, UIntPtr len) {
   {
-    Byte* dest2 = &dest;
+    Byte* dest2 = rt::fixed(&dest);
     {
-      Byte* src2 = &src;
+      Byte* src2 = rt::fixed(&src);
       __Memmove(dest2, src2, len);
     }
   }

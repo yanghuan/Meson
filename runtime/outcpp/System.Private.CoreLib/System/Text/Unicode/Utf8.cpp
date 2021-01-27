@@ -14,9 +14,9 @@ OperationStatus Utf8::FromUtf16(ReadOnlySpan<Char> source, Span<Byte> destinatio
   Int32 length = source.get_Length();
   Int32 length2 = destination.get_Length();
   {
-    Char* ptr = &MemoryMarshal::GetReference(source);
+    Char* ptr = rt::fixed(&MemoryMarshal::GetReference(source));
     {
-      Byte* ptr2 = &MemoryMarshal::GetReference(destination);
+      Byte* ptr2 = rt::fixed(&MemoryMarshal::GetReference(destination));
       OperationStatus operationStatus = OperationStatus::Done;
       Char* pInputBufferRemaining = ptr;
       Byte* pOutputBufferRemaining = ptr2;
@@ -54,9 +54,9 @@ OperationStatus Utf8::ToUtf16(ReadOnlySpan<Byte> source, Span<Char> destination,
   Int32 length = source.get_Length();
   Int32 length2 = destination.get_Length();
   {
-    Byte* ptr = &MemoryMarshal::GetReference(source);
+    Byte* ptr = rt::fixed(&MemoryMarshal::GetReference(source));
     {
-      Char* ptr2 = &MemoryMarshal::GetReference(destination);
+      Char* ptr2 = rt::fixed(&MemoryMarshal::GetReference(destination));
       OperationStatus operationStatus = OperationStatus::Done;
       Byte* pInputBufferRemaining = ptr;
       Char* pOutputBufferRemaining = ptr2;

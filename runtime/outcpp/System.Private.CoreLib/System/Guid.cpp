@@ -741,7 +741,7 @@ Boolean Guid::TryFormat(Span<Char> destination, Int32& charsWritten, ReadOnlySpa
     return false;
   }
   {
-    Char* ptr = &MemoryMarshal::GetReference(destination);
+    Char* ptr = rt::fixed(&MemoryMarshal::GetReference(destination));
     Char* ptr2 = ptr;
     if (num != 0) {
       Char* intPtr = ptr2;

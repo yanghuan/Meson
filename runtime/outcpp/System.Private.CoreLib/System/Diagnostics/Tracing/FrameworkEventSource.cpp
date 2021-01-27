@@ -19,7 +19,7 @@ void FrameworkEventSource___::WriteEvent(Int32 eventId, Int64 arg1, Int32 arg2, 
       arg3 = "";
     }
     {
-      Char* ptr = arg3;
+      Char* ptr = rt::fixed(arg3);
       Char* value = ptr;
       EventSource::in::EventData as[6] = {};
       EventSource::in::EventData* ptr2 = as;
@@ -52,7 +52,7 @@ void FrameworkEventSource___::WriteEvent(Int32 eventId, Int64 arg1, Int32 arg2, 
       arg3 = "";
     }
     {
-      Char* ptr = arg3;
+      Char* ptr = rt::fixed(arg3);
       Char* value = ptr;
       EventSource::in::EventData as[3] = {};
       EventSource::in::EventData* ptr2 = as;

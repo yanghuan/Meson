@@ -63,7 +63,7 @@ IntPtr NameInfo___::GetOrCreateEventHandle(EventProvider provider, TraceLoggingE
       Array<Byte> array = EventPipeMetadataGenerator::in::Instance->GenerateEventMetadata(descriptor.get_EventId(), name, (EventKeywords)descriptor.get_Keywords(), (EventLevel)descriptor.get_Level(), descriptor.get_Version(), (EventOpcode)descriptor.get_Opcode(), eventTypes);
       UInt32 metadataLength = (UInt32)((array != nullptr) ? array->get_Length() : 0);
       {
-        Byte* pMetadata = array;
+        Byte* pMetadata = rt::fixed(array);
         result = provider->m_eventProvider->DefineEventHandle((UInt32)descriptor.get_EventId(), name, descriptor.get_Keywords(), descriptor.get_Version(), descriptor.get_Level(), pMetadata, metadataLength);
       }
       eventHandleTable->SetEventHandle(descriptor.get_EventId(), result);

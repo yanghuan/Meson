@@ -82,7 +82,7 @@ String IdnMapping___::GetAscii(String unicode, Int32 index, Int32 count) {
     return GetAsciiInvariant(unicode, index, count);
   }
   {
-    Char* ptr = unicode;
+    Char* ptr = rt::fixed(unicode);
     Char* ptr2 = ptr;
     if (!GlobalizationMode::get_UseNls()) {
       return IcuGetAsciiCore(unicode, ptr2 + index, count);
@@ -122,7 +122,7 @@ String IdnMapping___::GetUnicode(String ascii, Int32 index, Int32 count) {
     return GetUnicodeInvariant(ascii, index, count);
   }
   {
-    Char* ptr = ascii;
+    Char* ptr = rt::fixed(ascii);
     Char* ptr2 = ptr;
     if (!GlobalizationMode::get_UseNls()) {
       return IcuGetUnicodeCore(ascii, ptr2 + index, count);
@@ -597,7 +597,7 @@ String IdnMapping___::IcuGetAsciiCore(String unicodeString, Char* unicode, Int32
   }
   Array<Char> array = rt::newarr<Array<Char>>(num2);
   {
-    Char* ptr2 = &array[0];
+    Char* ptr2 = rt::fixed(&array[0]);
     num2 = Interop::Globalization::ToAscii(icuFlags, unicode, count, ptr2, num2);
     if (num2 == 0 || num2 > array->get_Length()) {
       rt::throw_exception<ArgumentException>(SR::get_Argument_IdnIllegalName(), "unicode");
@@ -616,7 +616,7 @@ String IdnMapping___::IcuGetUnicodeCore(String asciiString, Char* ascii, Int32 c
   }
   Array<Char> array = rt::newarr<Array<Char>>(count);
   {
-    Char* output2 = &array[0];
+    Char* output2 = rt::fixed(&array[0]);
     return IcuGetUnicodeCore(asciiString, ascii, count, icuFlags, output2, count, true);
   }
 }
@@ -631,7 +631,7 @@ String IdnMapping___::IcuGetUnicodeCore(String asciiString, Char* ascii, Int32 c
   }
   if (reattempt) {
     {
-      Char* output2 = rt::newarr<Array<Char>>(num);
+      Char* output2 = rt::fixed(rt::newarr<Array<Char>>(num));
       return IcuGetUnicodeCore(asciiString, ascii, count, flags, output2, num, false);
     }
   }
@@ -663,7 +663,7 @@ String IdnMapping___::NlsGetAsciiCore(String unicodeString, Char* unicode, Int32
   }
   Array<Char> array = rt::newarr<Array<Char>>(num);
   {
-    Char* output2 = &array[0];
+    Char* output2 = rt::fixed(&array[0]);
     return NlsGetAsciiCore(unicodeString, unicode, count, nlsFlags, output2, num);
   }
 }
@@ -689,7 +689,7 @@ String IdnMapping___::NlsGetUnicodeCore(String asciiString, Char* ascii, Int32 c
   }
   Array<Char> array = rt::newarr<Array<Char>>(num);
   {
-    Char* output2 = &array[0];
+    Char* output2 = rt::fixed(&array[0]);
     return NlsGetUnicodeCore(asciiString, ascii, count, nlsFlags, output2, num);
   }
 }

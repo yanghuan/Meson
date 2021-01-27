@@ -84,9 +84,9 @@ RuntimeType ModuleHandle::ResolveTypeHandleInternal(RuntimeModule module, Int32 
   Int32 length2;
   Array<IntPtr> array2 = RuntimeTypeHandle::CopyRuntimeTypeHandles(methodInstantiationContext, length2);
   {
-    IntPtr* typeInstArgs = array;
+    IntPtr* typeInstArgs = rt::fixed(array);
     {
-      IntPtr* methodInstArgs = array2;
+      IntPtr* methodInstArgs = rt::fixed(array2);
       RuntimeType o = nullptr;
       ResolveType(QCallModule(module), typeToken, typeInstArgs, length, methodInstArgs, length2, ObjectHandleOnStack::Create(o));
       GC::KeepAlive(typeInstantiationContext);
@@ -130,9 +130,9 @@ RuntimeMethodHandleInternal ModuleHandle::ResolveMethodHandleInternalCore(Runtim
     rt::throw_exception<ArgumentOutOfRangeException>("methodToken", SR::Format(SR::get_Argument_InvalidToken(), methodToken, ModuleHandle(module)));
   }
   {
-    IntPtr* typeInstArgs = typeInstantiationContext;
+    IntPtr* typeInstArgs = rt::fixed(typeInstantiationContext);
     {
-      IntPtr* methodInstArgs = methodInstantiationContext;
+      IntPtr* methodInstArgs = rt::fixed(methodInstantiationContext);
       return ResolveMethod(QCallModule(module), methodToken, typeInstArgs, typeInstCount, methodInstArgs, methodInstCount);
     }
   }
@@ -160,9 +160,9 @@ IRuntimeFieldInfo ModuleHandle::ResolveFieldHandleInternal(RuntimeModule module,
   Int32 length2;
   Array<IntPtr> array2 = RuntimeTypeHandle::CopyRuntimeTypeHandles(methodInstantiationContext, length2);
   {
-    IntPtr* typeInstArgs = array;
+    IntPtr* typeInstArgs = rt::fixed(array);
     {
-      IntPtr* methodInstArgs = array2;
+      IntPtr* methodInstArgs = rt::fixed(array2);
       IRuntimeFieldInfo o = nullptr;
       ResolveField(QCallModule(module), fieldToken, typeInstArgs, length, methodInstArgs, length2, ObjectHandleOnStack::Create(o));
       GC::KeepAlive(typeInstantiationContext);

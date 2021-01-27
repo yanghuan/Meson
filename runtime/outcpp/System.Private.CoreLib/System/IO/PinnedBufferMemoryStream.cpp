@@ -14,7 +14,7 @@ void PinnedBufferMemoryStream___::ctor(Array<Byte> array) {
   _pinningHandle = GCHandle::Alloc(array, GCHandleType::Pinned);
   Int32 num = array->get_Length();
   {
-    Byte* pointer = &MemoryMarshal::GetReference<Byte>(array);
+    Byte* pointer = rt::fixed(&MemoryMarshal::GetReference<Byte>(array));
     Initialize(pointer, num, num, FileAccess::Read);
   }
 }

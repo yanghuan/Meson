@@ -581,7 +581,7 @@ Int32 Encoding___::GetByteCount(String s, Int32 index, Int32 count) {
     rt::throw_exception<ArgumentOutOfRangeException>("index", SR::get_ArgumentOutOfRange_IndexCount());
   }
   {
-    Char* ptr = s;
+    Char* ptr = rt::fixed(s);
     Char* ptr2 = ptr;
     return GetByteCount(ptr2 + index, count);
   }
@@ -600,7 +600,7 @@ Int32 Encoding___::GetByteCount(Char* chars, Int32 count) {
 
 Int32 Encoding___::GetByteCount(ReadOnlySpan<Char> chars) {
   {
-    Char* chars2 = &MemoryMarshal::GetNonNullPinnableReference(chars);
+    Char* chars2 = rt::fixed(&MemoryMarshal::GetNonNullPinnableReference(chars));
     return GetByteCount(chars2, chars.get_Length());
   }
 }
@@ -642,7 +642,7 @@ Array<Byte> Encoding___::GetBytes(String s, Int32 index, Int32 count) {
     rt::throw_exception<ArgumentOutOfRangeException>("index", SR::get_ArgumentOutOfRange_IndexCount());
   }
   {
-    Char* ptr = s;
+    Char* ptr = rt::fixed(s);
     Char* ptr2 = ptr;
     Int32 byteCount = GetByteCount(ptr2 + index, count);
     if (byteCount == 0) {
@@ -650,7 +650,7 @@ Array<Byte> Encoding___::GetBytes(String s, Int32 index, Int32 count) {
     }
     Array<Byte> array = rt::newarr<Array<Byte>>(byteCount);
     {
-      Byte* bytes = &array[0];
+      Byte* bytes = rt::fixed(&array[0]);
       Int32 bytes2 = GetBytes(ptr2 + index, count, bytes, byteCount);
     }
     return array;
@@ -683,9 +683,9 @@ Int32 Encoding___::GetBytes(Char* chars, Int32 charCount, Byte* bytes, Int32 byt
 
 Int32 Encoding___::GetBytes(ReadOnlySpan<Char> chars, Span<Byte> bytes) {
   {
-    Char* chars2 = &MemoryMarshal::GetNonNullPinnableReference(chars);
+    Char* chars2 = rt::fixed(&MemoryMarshal::GetNonNullPinnableReference(chars));
     {
-      Byte* bytes2 = &MemoryMarshal::GetNonNullPinnableReference(bytes);
+      Byte* bytes2 = rt::fixed(&MemoryMarshal::GetNonNullPinnableReference(bytes));
       return GetBytes(chars2, chars.get_Length(), bytes2, bytes.get_Length());
     }
   }
@@ -711,7 +711,7 @@ Int32 Encoding___::GetCharCount(Byte* bytes, Int32 count) {
 
 Int32 Encoding___::GetCharCount(ReadOnlySpan<Byte> bytes) {
   {
-    Byte* bytes2 = &MemoryMarshal::GetNonNullPinnableReference(bytes);
+    Byte* bytes2 = rt::fixed(&MemoryMarshal::GetNonNullPinnableReference(bytes));
     return GetCharCount(bytes2, bytes.get_Length());
   }
 }
@@ -748,9 +748,9 @@ Int32 Encoding___::GetChars(Byte* bytes, Int32 byteCount, Char* chars, Int32 cha
 
 Int32 Encoding___::GetChars(ReadOnlySpan<Byte> bytes, Span<Char> chars) {
   {
-    Byte* bytes2 = &MemoryMarshal::GetNonNullPinnableReference(bytes);
+    Byte* bytes2 = rt::fixed(&MemoryMarshal::GetNonNullPinnableReference(bytes));
     {
-      Char* chars2 = &MemoryMarshal::GetNonNullPinnableReference(chars);
+      Char* chars2 = rt::fixed(&MemoryMarshal::GetNonNullPinnableReference(chars));
       return GetChars(bytes2, bytes.get_Length(), chars2, chars.get_Length());
     }
   }
@@ -768,7 +768,7 @@ String Encoding___::GetString(Byte* bytes, Int32 byteCount) {
 
 String Encoding___::GetString(ReadOnlySpan<Byte> bytes) {
   {
-    Byte* bytes2 = &MemoryMarshal::GetNonNullPinnableReference(bytes);
+    Byte* bytes2 = rt::fixed(&MemoryMarshal::GetNonNullPinnableReference(bytes));
     return String::in::CreateStringFromEncoding(bytes2, bytes.get_Length(), (Encoding)this);
   }
 }
@@ -914,7 +914,7 @@ Int32 Encoding___::GetByteCountWithFallback(Char* pOriginalChars, Int32 original
 
 Int32 Encoding___::GetByteCountWithFallback(ReadOnlySpan<Char> chars, Int32 originalCharsLength, EncoderNLS encoder) {
   {
-    Char* ptr = &MemoryMarshal::GetReference(chars);
+    Char* ptr = rt::fixed(&MemoryMarshal::GetReference(chars));
     EncoderFallbackBuffer encoderFallbackBuffer = EncoderFallbackBuffer::in::CreateAndInitialize((Encoding)this, encoder, originalCharsLength);
     Int32 num = 0;
     Rune result;
@@ -988,9 +988,9 @@ Int32 Encoding___::GetBytesWithFallback(Char* pOriginalChars, Int32 originalChar
 
 Int32 Encoding___::GetBytesWithFallback(ReadOnlySpan<Char> chars, Int32 originalCharsLength, Span<Byte> bytes, Int32 originalBytesLength, EncoderNLS encoder) {
   {
-    Char* ptr2 = &MemoryMarshal::GetReference(chars);
+    Char* ptr2 = rt::fixed(&MemoryMarshal::GetReference(chars));
     {
-      Byte* ptr = &MemoryMarshal::GetReference(bytes);
+      Byte* ptr = rt::fixed(&MemoryMarshal::GetReference(bytes));
       EncoderFallbackBuffer encoderFallbackBuffer = EncoderFallbackBuffer::in::CreateAndInitialize((Encoding)this, encoder, originalCharsLength);
       do {
         Rune result;
@@ -1079,7 +1079,7 @@ Int32 Encoding___::GetCharCountWithFallback(Byte* pOriginalBytes, Int32 original
 
 Int32 Encoding___::GetCharCountWithFallback(ReadOnlySpan<Byte> bytes, Int32 originalBytesLength, DecoderNLS decoder) {
   {
-    Byte* ptr = &MemoryMarshal::GetReference(bytes);
+    Byte* ptr = rt::fixed(&MemoryMarshal::GetReference(bytes));
     DecoderFallbackBuffer decoderFallbackBuffer = DecoderFallbackBuffer::in::CreateAndInitialize((Encoding)this, decoder, originalBytesLength);
     Int32 num = 0;
     Rune value;
@@ -1150,9 +1150,9 @@ Int32 Encoding___::GetCharsWithFallback(Byte* pOriginalBytes, Int32 originalByte
 
 Int32 Encoding___::GetCharsWithFallback(ReadOnlySpan<Byte> bytes, Int32 originalBytesLength, Span<Char> chars, Int32 originalCharsLength, DecoderNLS decoder) {
   {
-    Byte* ptr2 = &MemoryMarshal::GetReference(bytes);
+    Byte* ptr2 = rt::fixed(&MemoryMarshal::GetReference(bytes));
     {
-      Char* ptr = &MemoryMarshal::GetReference(chars);
+      Char* ptr = rt::fixed(&MemoryMarshal::GetReference(chars));
       DecoderFallbackBuffer decoderFallbackBuffer = DecoderFallbackBuffer::in::CreateAndInitialize((Encoding)this, decoder, originalBytesLength);
       do {
         Rune value;

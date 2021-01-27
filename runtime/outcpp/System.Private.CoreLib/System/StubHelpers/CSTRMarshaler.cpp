@@ -44,7 +44,7 @@ IntPtr CSTRMarshaler::ConvertToNative(Int32 flags, String strManaged, IntPtr pNa
     Array<Byte> array = AnsiCharMarshaler::DoAnsiConversion(strManaged, (flags & 255) != 0, flags >> 8 != 0, num);
     ptr = (Byte*)(void*)Marshal::AllocCoTaskMem(num + 2);
     {
-      Byte* src = &array[0];
+      Byte* src = rt::fixed(&array[0]);
       Buffer::Memcpy(ptr, src, num);
     }
   }
@@ -82,7 +82,7 @@ void CSTRMarshaler::ConvertFixedToNative(Int32 flags, String strManaged, IntPtr 
   UInt32 num2 = 0u;
   Int32 num3;
   {
-    Char* ptr2 = strManaged;
+    Char* ptr2 = rt::fixed(strManaged);
     Char* lpWideCharStr = ptr2;
     num3 = Interop::Kernel32::WideCharToMultiByte(0u, (!flag2) ? 1024u : 0u, lpWideCharStr, num, ptr, length, IntPtr::Zero, flag ? IntPtr(&num2) : IntPtr::Zero);
   }
@@ -108,7 +108,7 @@ String CSTRMarshaler::ConvertFixedToManaged(IntPtr cstr, Int32 length) {
   destination[length] = 0;
   destination[length + 1] = 0;
   {
-    SByte* ptr = destination;
+    SByte* ptr = rt::fixed(destination);
     return rt::newstr<String>(ptr, 0, String::in::strlen((Byte*)ptr));
   }
 }

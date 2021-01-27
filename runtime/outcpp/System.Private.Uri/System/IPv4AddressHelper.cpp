@@ -29,7 +29,7 @@ String IPv4AddressHelper::ParseCanonicalName(String str, Int32 start, Int32 end,
 
 Boolean IPv4AddressHelper::Parse(String name, Byte* numbers, Int32 start, Int32 end) {
   {
-    Char* ptr = name;
+    Char* ptr = rt::fixed(name);
     Char* name2 = ptr;
     Int32 end2 = end;
     Int64 num = ParseNonCanonical(name2, start, end2, true);

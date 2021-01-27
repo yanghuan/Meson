@@ -60,7 +60,7 @@ Int32 EncoderNLS___::GetByteCount(Array<Char> chars, Int32 index, Int32 count, B
   }
   Int32 num = -1;
   {
-    Char* ptr = &MemoryMarshal::GetReference<Char>(chars);
+    Char* ptr = rt::fixed(&MemoryMarshal::GetReference<Char>(chars));
     num = GetByteCount(ptr + index, count, flush);
   }
   return num;
@@ -93,9 +93,9 @@ Int32 EncoderNLS___::GetBytes(Array<Char> chars, Int32 charIndex, Int32 charCoun
   }
   Int32 byteCount = bytes->get_Length() - byteIndex;
   {
-    Char* ptr = &MemoryMarshal::GetReference<Char>(chars);
+    Char* ptr = rt::fixed(&MemoryMarshal::GetReference<Char>(chars));
     {
-      Byte* ptr2 = &MemoryMarshal::GetReference<Byte>(bytes);
+      Byte* ptr2 = rt::fixed(&MemoryMarshal::GetReference<Byte>(bytes));
       return GetBytes(ptr + charIndex, charCount, ptr2 + byteIndex, byteCount, flush);
     }
   }
@@ -130,9 +130,9 @@ void EncoderNLS___::Convert(Array<Char> chars, Int32 charIndex, Int32 charCount,
     rt::throw_exception<ArgumentOutOfRangeException>("bytes", SR::get_ArgumentOutOfRange_IndexCountBuffer());
   }
   {
-    Char* ptr = &MemoryMarshal::GetReference<Char>(chars);
+    Char* ptr = rt::fixed(&MemoryMarshal::GetReference<Char>(chars));
     {
-      Byte* ptr2 = &MemoryMarshal::GetReference<Byte>(bytes);
+      Byte* ptr2 = rt::fixed(&MemoryMarshal::GetReference<Byte>(bytes));
       Convert(ptr + charIndex, charCount, ptr2 + byteIndex, byteCount, flush, charsUsed, bytesUsed, completed);
     }
   }

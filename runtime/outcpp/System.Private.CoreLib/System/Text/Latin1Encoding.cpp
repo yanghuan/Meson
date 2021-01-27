@@ -36,9 +36,9 @@ void Latin1Encoding___::__c___::ctor() {
 
 void Latin1Encoding___::__c___::_GetString_b__29_0(Span<Char> chars, ValueTuple<Latin1Encoding, Array<Byte>> args) {
   {
-    Byte* pBytes = args.Item2;
+    Byte* pBytes = rt::fixed(args.Item2);
     {
-      Char* pChars = chars;
+      Char* pChars = rt::fixed(chars);
       args.Item1->GetCharsCommon(pBytes, args.Item2->get_Length(), pChars, chars.get_Length());
     }
   }
@@ -46,9 +46,9 @@ void Latin1Encoding___::__c___::_GetString_b__29_0(Span<Char> chars, ValueTuple<
 
 void Latin1Encoding___::__c___::_GetString_b__30_0(Span<Char> chars, ValueTuple<Latin1Encoding, Array<Byte>, Int32> args) {
   {
-    Byte* ptr = args.Item2;
+    Byte* ptr = rt::fixed(args.Item2);
     {
-      Char* pChars = chars;
+      Char* pChars = rt::fixed(chars);
       args.Item1->GetCharsCommon(ptr + args.Item3, chars.get_Length(), pChars, chars.get_Length());
     }
   }
@@ -91,14 +91,14 @@ Int32 Latin1Encoding___::GetByteCount(Array<Char> chars, Int32 index, Int32 coun
     ThrowHelper::ThrowArgumentOutOfRangeException(ExceptionArgument::chars, ExceptionResource::ArgumentOutOfRange_IndexCountBuffer);
   }
   {
-    Char* ptr = chars;
+    Char* ptr = rt::fixed(chars);
     return GetByteCountCommon(ptr + index, count);
   }
 }
 
 Int32 Latin1Encoding___::GetByteCount(ReadOnlySpan<Char> chars) {
   {
-    Char* pChars = &MemoryMarshal::GetReference(chars);
+    Char* pChars = rt::fixed(&MemoryMarshal::GetReference(chars));
     return GetByteCountCommon(pChars, chars.get_Length());
   }
 }
@@ -108,7 +108,7 @@ Int32 Latin1Encoding___::GetByteCount(String s) {
     ThrowHelper::ThrowArgumentNullException(ExceptionArgument::s);
   }
   {
-    Char* ptr = s;
+    Char* ptr = rt::fixed(s);
     Char* pChars = ptr;
     return GetByteCountCommon(pChars, s->get_Length());
   }
@@ -173,9 +173,9 @@ Int32 Latin1Encoding___::GetBytes(Array<Char> chars, Int32 charIndex, Int32 char
     ThrowHelper::ThrowArgumentOutOfRangeException(ExceptionArgument::byteIndex, ExceptionResource::ArgumentOutOfRange_Index);
   }
   {
-    Char* ptr = chars;
+    Char* ptr = rt::fixed(chars);
     {
-      Byte* ptr2 = bytes;
+      Byte* ptr2 = rt::fixed(bytes);
       return GetBytesCommon(ptr + charIndex, charCount, ptr2 + byteIndex, bytes->get_Length() - byteIndex);
     }
   }
@@ -183,9 +183,9 @@ Int32 Latin1Encoding___::GetBytes(Array<Char> chars, Int32 charIndex, Int32 char
 
 Int32 Latin1Encoding___::GetBytes(ReadOnlySpan<Char> chars, Span<Byte> bytes) {
   {
-    Char* pChars = &MemoryMarshal::GetReference(chars);
+    Char* pChars = rt::fixed(&MemoryMarshal::GetReference(chars));
     {
-      Byte* pBytes = &MemoryMarshal::GetReference(bytes);
+      Byte* pBytes = rt::fixed(&MemoryMarshal::GetReference(bytes));
       return GetBytesCommon(pChars, chars.get_Length(), pBytes, bytes.get_Length());
     }
   }
@@ -205,10 +205,10 @@ Int32 Latin1Encoding___::GetBytes(String s, Int32 charIndex, Int32 charCount, Ar
     ThrowHelper::ThrowArgumentOutOfRangeException(ExceptionArgument::byteIndex, ExceptionResource::ArgumentOutOfRange_Index);
   }
   {
-    Char* ptr = s;
+    Char* ptr = rt::fixed(s);
     Char* ptr2 = ptr;
     {
-      Byte* ptr3 = bytes;
+      Byte* ptr3 = rt::fixed(bytes);
       return GetBytesCommon(ptr2 + charIndex, charCount, ptr3 + byteIndex, bytes->get_Length() - byteIndex);
     }
   }
@@ -292,9 +292,9 @@ Array<Char> Latin1Encoding___::GetChars(Array<Byte> bytes) {
   }
   Array<Char> array = rt::newarr<Array<Char>>(bytes->get_Length());
   {
-    Byte* pBytes = bytes;
+    Byte* pBytes = rt::fixed(bytes);
     {
-      Char* pChars = array;
+      Char* pChars = rt::fixed(array);
       GetCharsCommon(pBytes, bytes->get_Length(), pChars, array->get_Length());
     }
   }
@@ -315,9 +315,9 @@ Int32 Latin1Encoding___::GetChars(Array<Byte> bytes, Int32 byteIndex, Int32 byte
     ThrowHelper::ThrowArgumentOutOfRangeException(ExceptionArgument::charIndex, ExceptionResource::ArgumentOutOfRange_Index);
   }
   {
-    Byte* ptr = bytes;
+    Byte* ptr = rt::fixed(bytes);
     {
-      Char* ptr2 = chars;
+      Char* ptr2 = rt::fixed(chars);
       return GetCharsCommon(ptr + byteIndex, byteCount, ptr2 + charIndex, chars->get_Length() - charIndex);
     }
   }
@@ -335,9 +335,9 @@ Array<Char> Latin1Encoding___::GetChars(Array<Byte> bytes, Int32 index, Int32 co
   }
   Array<Char> array = rt::newarr<Array<Char>>(count);
   {
-    Byte* ptr = bytes;
+    Byte* ptr = rt::fixed(bytes);
     {
-      Char* pChars = array;
+      Char* pChars = rt::fixed(array);
       GetCharsCommon(ptr + index, count, pChars, array->get_Length());
     }
   }
@@ -346,9 +346,9 @@ Array<Char> Latin1Encoding___::GetChars(Array<Byte> bytes, Int32 index, Int32 co
 
 Int32 Latin1Encoding___::GetChars(ReadOnlySpan<Byte> bytes, Span<Char> chars) {
   {
-    Byte* pBytes = &MemoryMarshal::GetReference(bytes);
+    Byte* pBytes = rt::fixed(&MemoryMarshal::GetReference(bytes));
     {
-      Char* pChars = &MemoryMarshal::GetReference(chars);
+      Char* pChars = rt::fixed(&MemoryMarshal::GetReference(chars));
       return GetCharsCommon(pBytes, bytes.get_Length(), pChars, chars.get_Length());
     }
   }

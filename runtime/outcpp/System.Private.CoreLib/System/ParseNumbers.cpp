@@ -197,7 +197,7 @@ String ParseNumbers::IntToString(Int32 n, Int32 radix, Int32 width, Char padding
   }
   String text = String::in::FastAllocateString(Math::Max(width, num2));
   {
-    Char* ptr = text;
+    Char* ptr = rt::fixed(text);
     Char* ptr2 = ptr;
     Char* ptr3 = ptr2;
     Int32 num5 = text->get_Length() - num2;
@@ -295,7 +295,7 @@ String ParseNumbers::LongToString(Int64 n, Int32 radix, Int32 width, Char paddin
   }
   String text = String::in::FastAllocateString(Math::Max(width, num2));
   {
-    Char* ptr = text;
+    Char* ptr = rt::fixed(text);
     Char* ptr2 = ptr;
     Char* ptr3 = ptr2;
     Int32 num5 = text->get_Length() - num2;

@@ -39,6 +39,7 @@ namespace Meson.Compiler.CppAst {
     public static readonly IdentifierSyntax IsBoolType = "rt::IsBool";
     public static readonly IdentifierSyntax GetAllocSize = "rt::string::GetAllocSize";
     public static readonly IdentifierSyntax FunctionPointer = "rt::fp";
+    public static readonly IdentifierSyntax Fixed = "rt::fixed";
     public static readonly IdentifierSyntax EmptyArray = "Array<>::in::Empty";
     public static readonly IdentifierSyntax Out = "out";
     public static readonly IdentifierSyntax Value = "value";

@@ -126,7 +126,7 @@ void BinaryWriter___::Write(Char ch) {
   }
   Int32 num = 0;
   {
-    Byte* bytes = &_buffer[0];
+    Byte* bytes = rt::fixed(&_buffer[0]);
     num = _encoder->GetBytes(&ch, 1, bytes, _buffer->get_Length(), true);
   }
   OutStream->Write(_buffer, 0, num);
@@ -245,10 +245,10 @@ void BinaryWriter___::WriteWhenEncodingIsNotUtf8(String value, Int32 len) {
     }
     Int32 bytes2;
     {
-      Char* ptr = value;
+      Char* ptr = rt::fixed(value);
       Char* ptr2 = ptr;
       {
-        Byte* bytes = &_largeByteBuffer[0];
+        Byte* bytes = rt::fixed(&_largeByteBuffer[0]);
         bytes2 = _encoder->GetBytes((Char*)(UInt64)ptr2 + (UInt64)(UIntPtr)(void*)(Int64)num2 * 2, num3, bytes, _largeByteBuffer->get_Length(), num3 == num);
       }
     }
