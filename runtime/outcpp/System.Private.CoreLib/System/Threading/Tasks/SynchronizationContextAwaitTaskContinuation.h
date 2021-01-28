@@ -9,7 +9,7 @@ FORWARD_(Action)
 FORWARDS(Boolean)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Threading {
-FORWARD(ContextCallback)
+FORWARD_(ContextCallback)
 FORWARD(SendOrPostCallback)
 FORWARD(SynchronizationContext)
 } // namespace System::Private::CoreLib::System::Threading
@@ -33,10 +33,10 @@ CLASS(SynchronizationContextAwaitTaskContinuation) : public AwaitTaskContinuatio
   public: void Run(Task<> task, Boolean canInlineContinuationTask);
   private: static void PostAction(Object state);
   private: static Action<> GetActionLogDelegate(Int32 continuationId, Action<> action);
-  private: static ContextCallback GetPostActionCallback();
+  private: static ContextCallback<> GetPostActionCallback();
   public: static void cctor();
   private: static SendOrPostCallback s_postCallback;
-  private: static ContextCallback s_postActionCallback;
+  private: static ContextCallback<> s_postActionCallback;
   private: SynchronizationContext m_syncContext;
 };
 } // namespace SynchronizationContextAwaitTaskContinuationNamespace

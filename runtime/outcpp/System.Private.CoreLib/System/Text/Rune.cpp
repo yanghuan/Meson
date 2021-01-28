@@ -1,6 +1,5 @@
 #include "Rune-dep.h"
 
-#include <System.Private.CoreLib/System/ArgumentException-dep.h>
 #include <System.Private.CoreLib/System/ExceptionArgument.h>
 #include <System.Private.CoreLib/System/FormattableString-dep.h>
 #include <System.Private.CoreLib/System/Globalization/CharUnicodeInfo-dep.h>
@@ -9,7 +8,6 @@
 #include <System.Private.CoreLib/System/Runtime/CompilerServices/FormattableStringFactory-dep.h>
 #include <System.Private.CoreLib/System/SByte-dep.h>
 #include <System.Private.CoreLib/System/Span-dep.h>
-#include <System.Private.CoreLib/System/SR-dep.h>
 #include <System.Private.CoreLib/System/Text/Rune-dep.h>
 #include <System.Private.CoreLib/System/Text/Unicode/Utf16Utility-dep.h>
 #include <System.Private.CoreLib/System/Text/UnicodeUtility-dep.h>
@@ -136,7 +134,7 @@ Rune Rune::ChangeCaseCultureAware(Rune rune, TextInfo textInfo, Boolean toUpper)
 }
 
 Int32 Rune::CompareTo(Rune other) {
-  return get_Value() - other.get_Value();
+  return _value.CompareTo(other._value);
 }
 
 OperationStatus Rune::DecodeFromUtf16(ReadOnlySpan<Char> source, Rune& result, Int32& charsConsumed) {
@@ -673,17 +671,6 @@ Rune Rune::ToUpperInvariant(Rune value) {
     return value;
   }
   return ChangeCaseCultureAware(value, TextInfo::in::Invariant, true);
-}
-
-Int32 Rune::CompareToOfIComparable(Object obj) {
-  if (obj == nullptr) {
-    return 1;
-  }
-  if (rt::is<Rune>(obj)) {
-    Rune other = (Rune)obj;
-    return CompareTo(other);
-  }
-  rt::throw_exception<ArgumentException>(SR::get_Arg_MustBeRune());
 }
 
 } // namespace System::Private::CoreLib::System::Text::RuneNamespace

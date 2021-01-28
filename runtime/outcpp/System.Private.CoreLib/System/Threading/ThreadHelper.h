@@ -9,7 +9,7 @@ namespace System::Private::CoreLib::System::Globalization {
 FORWARD(CultureInfo)
 } // namespace System::Private::CoreLib::System::Globalization
 namespace System::Private::CoreLib::System::Threading {
-FORWARD(ContextCallback)
+FORWARD_(ContextCallback)
 FORWARD(ExecutionContext)
 namespace ThreadHelperNamespace {
 using namespace System::Globalization;
@@ -26,7 +26,7 @@ CLASS(ThreadHelper) : public object {
   public: CultureInfo _startUICulture;
   private: Object _startArg;
   private: ExecutionContext _executionContext;
-  public: static ContextCallback s_threadStartContextCallback;
+  public: static ContextCallback<> s_threadStartContextCallback;
 };
 } // namespace ThreadHelperNamespace
 using ThreadHelper = ThreadHelperNamespace::ThreadHelper;

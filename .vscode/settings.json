@@ -94,7 +94,8 @@
         "*.ipp": "cpp",
         "any": "cpp",
         "resumable": "cpp",
-        "ranges": "cpp"
+        "ranges": "cpp",
+        "memory_resource": "cpp"
     },
     "git.ignoreLimitWarning": true
 }

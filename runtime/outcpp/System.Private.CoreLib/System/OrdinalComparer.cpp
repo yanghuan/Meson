@@ -1,7 +1,7 @@
 #include "OrdinalComparer-dep.h"
 
 #include <System.Private.CoreLib/System/ExceptionArgument.h>
-#include <System.Private.CoreLib/System/Globalization/Ordinal-dep.h>
+#include <System.Private.CoreLib/System/Globalization/CompareInfo-dep.h>
 #include <System.Private.CoreLib/System/Object-dep.h>
 #include <System.Private.CoreLib/System/OrdinalComparer-dep.h>
 #include <System.Private.CoreLib/System/StringComparison.h>
@@ -41,7 +41,7 @@ Boolean OrdinalComparer___::Equals(String x, String y) {
     if (x->get_Length() != y->get_Length()) {
       return false;
     }
-    return Ordinal::EqualsIgnoreCase(x->GetRawStringData(), y->GetRawStringData(), x->get_Length());
+    return CompareInfo::in::EqualsOrdinalIgnoreCase(x->GetRawStringData(), y->GetRawStringData(), x->get_Length());
   }
   return x->Equals(y);
 }

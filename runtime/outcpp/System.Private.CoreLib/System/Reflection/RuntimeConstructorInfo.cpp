@@ -14,7 +14,6 @@
 #include <System.Private.CoreLib/System/Reflection/RuntimeParameterInfo-dep.h>
 #include <System.Private.CoreLib/System/Reflection/TargetException-dep.h>
 #include <System.Private.CoreLib/System/Reflection/TargetParameterCountException-dep.h>
-#include <System.Private.CoreLib/System/Runtime/CompilerServices/RuntimeHelpers-dep.h>
 #include <System.Private.CoreLib/System/RuntimeMethodHandle-dep.h>
 #include <System.Private.CoreLib/System/RuntimeTypeHandle-dep.h>
 #include <System.Private.CoreLib/System/SR-dep.h>
@@ -22,7 +21,6 @@
 #include <System.Private.CoreLib/System/Type-dep.h>
 
 namespace System::Private::CoreLib::System::Reflection::RuntimeConstructorInfoNamespace {
-using namespace System::Runtime::CompilerServices;
 using namespace System::Text;
 
 INVOCATION_FLAGS RuntimeConstructorInfo___::get_InvocationFlags() {
@@ -31,9 +29,7 @@ INVOCATION_FLAGS RuntimeConstructorInfo___::get_InvocationFlags() {
     Type declaringType = get_DeclaringType();
     if (declaringType == typeof<void>() || (declaringType != nullptr && declaringType->get_ContainsGenericParameters()) || (get_CallingConvention() & CallingConventions::VarArgs) == CallingConventions::VarArgs) {
       iNVOCATION_FLAGS |= INVOCATION_FLAGS::INVOCATION_FLAGS_NO_INVOKE;
-    } else if (MethodBase::in::get_IsStatic()) {
-      iNVOCATION_FLAGS |= INVOCATION_FLAGS::INVOCATION_FLAGS_RUN_CLASS_CONSTRUCTOR | INVOCATION_FLAGS::INVOCATION_FLAGS_NO_CTOR_INVOKE;
-    } else if (declaringType != nullptr && declaringType->get_IsAbstract()) {
+    } else if (MethodBase::in::get_IsStatic() || (declaringType != nullptr && declaringType->get_IsAbstract())) {
       iNVOCATION_FLAGS |= INVOCATION_FLAGS::INVOCATION_FLAGS_NO_CTOR_INVOKE;
     } else {
       if (declaringType != nullptr && declaringType->get_IsByRefLike()) {
@@ -43,7 +39,6 @@ INVOCATION_FLAGS RuntimeConstructorInfo___::get_InvocationFlags() {
         iNVOCATION_FLAGS |= INVOCATION_FLAGS::INVOCATION_FLAGS_IS_DELEGATE_CTOR;
       }
     }
-
 
     m_invocationFlags = iNVOCATION_FLAGS | INVOCATION_FLAGS::INVOCATION_FLAGS_INITIALIZED;
   }
@@ -269,15 +264,6 @@ Object RuntimeConstructorInfo___::Invoke(Object obj, BindingFlags invokeAttr, Bi
     ThrowNoInvokeException();
   }
   CheckConsistency(obj);
-  if ((invocationFlags & INVOCATION_FLAGS::INVOCATION_FLAGS_RUN_CLASS_CONSTRUCTOR) != 0) {
-    Type declaringType = get_DeclaringType();
-    if (declaringType != nullptr) {
-      RuntimeHelpers::RunClassConstructor(declaringType->get_TypeHandle());
-    } else {
-      RuntimeHelpers::RunModuleConstructor(get_Module()->get_ModuleHandle());
-    }
-    return nullptr;
-  }
   Signature signature = get_Signature();
   Int32 num = signature->get_Arguments()->get_Length();
   Int32 num2 = ((parameters != nullptr) ? parameters->get_Length() : 0);

@@ -11,7 +11,6 @@
 #include <System.Private.CoreLib/System/Exception-dep.h>
 #include <System.Private.CoreLib/System/Globalization/NumberFormatInfo-dep.h>
 #include <System.Private.CoreLib/System/Globalization/NumberStyles.h>
-#include <System.Private.CoreLib/System/Half-dep.h>
 #include <System.Private.CoreLib/System/IFormatProvider.h>
 #include <System.Private.CoreLib/System/Int16-dep.h>
 #include <System.Private.CoreLib/System/Int32-dep.h>

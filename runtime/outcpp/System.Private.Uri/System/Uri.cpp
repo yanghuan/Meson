@@ -499,7 +499,6 @@ void Uri___::CreateUri(Uri baseUri, String relativeUri, Boolean dontEscape) {
   _flags = Flags::Zero;
   _info = nullptr;
   _syntax = nullptr;
-  _originalUnicodeString = nullptr;
   CreateThis(relativeUri, dontEscape, UriKind::Absolute);
 }
 
@@ -533,7 +532,6 @@ void Uri___::ctor(Uri baseUri, Uri relativeUri) {
   _flags = Flags::Zero;
   _info = nullptr;
   _syntax = nullptr;
-  _originalUnicodeString = nullptr;
   CreateThis(newUriString, userEscaped, UriKind::Absolute);
 }
 
@@ -723,15 +721,42 @@ Boolean Uri___::CheckSchemeName(String schemeName) {
 }
 
 Boolean Uri___::IsHexDigit(Char character) {
-  return HexConverter::IsHexChar(character);
+  if ((UInt32)(character - 48) > 9u && (UInt32)(character - 65) > 5u) {
+    return (UInt32)(character - 97) <= 5u;
+  }
+  return true;
 }
 
 Int32 Uri___::FromHex(Char digit) {
-  Int32 num = HexConverter::FromChar(digit);
-  if (num == 255) {
-    rt::throw_exception<ArgumentException>(nullptr, "digit");
+  switch (digit.get()) {
+    default:
+      rt::throw_exception<ArgumentException>(nullptr, "digit");
+    case u'a':
+    case u'b':
+    case u'c':
+    case u'd':
+    case u'e':
+    case u'f':
+      return digit - 97 + 10;
+    case u'A':
+    case u'B':
+    case u'C':
+    case u'D':
+    case u'E':
+    case u'F':
+      return digit - 65 + 10;
+    case u'0':
+    case u'1':
+    case u'2':
+    case u'3':
+    case u'4':
+    case u'5':
+    case u'6':
+    case u'7':
+    case u'8':
+    case u'9':
+      return digit - 48;
   }
-  return num;
 }
 
 Int32 Uri___::GetHashCode() {
@@ -1843,7 +1868,7 @@ ParsingError Uri___::CheckSchemeSyntax(ReadOnlySpan<Char> span, UriParser& synta
       }
       break;
     case 3:
-      switch (((UInt32)c2 << 16) | ((UInt32)ToLowerCaseAscii(span[1]) << 8) | ToLowerCaseAscii(span[2]).get()) {
+      switch ((((UInt32)c2 << 16) | ((UInt32)ToLowerCaseAscii(span[1]) << 8) | ToLowerCaseAscii(span[2])).get()) {
         case 6714480u:
           syntax = UriParser::in::FtpUri;
           return ParsingError::None;
@@ -1853,7 +1878,7 @@ ParsingError Uri___::CheckSchemeSyntax(ReadOnlySpan<Char> span, UriParser& synta
       }
       break;
     case 4:
-      switch (((UInt32)c2 << 24) | ((UInt32)ToLowerCaseAscii(span[1]) << 16) | ((UInt32)ToLowerCaseAscii(span[2]) << 8) | ToLowerCaseAscii(span[3]).get()) {
+      switch ((((UInt32)c2 << 24) | ((UInt32)ToLowerCaseAscii(span[1]) << 16) | ((UInt32)ToLowerCaseAscii(span[2]) << 8) | ToLowerCaseAscii(span[3])).get()) {
         case 1752462448u:
           syntax = UriParser::in::HttpUri;
           return ParsingError::None;

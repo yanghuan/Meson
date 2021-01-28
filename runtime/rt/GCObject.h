@@ -391,11 +391,6 @@ namespace rt {
     }
 #endif
 
-    template <class R, class T1 = T> requires(std::is_pointer_v<R> && std::is_same_v<R, decltype(&(T1().GetPinnableReference()))>)
-    operator R() {
-      return p_ == nullptr ? nullptr : &(get()->GetPinnableReference());
-    }
-
     template <class R, class T1 = T> requires(!IsRef<R> && IsObject<T1>)
     explicit operator R() {
       //TODO 
@@ -846,6 +841,12 @@ namespace rt {
       return static_cast<T*>(this)->get();
     }
 
+    template <class R> requires(std::is_same_v<R, decltype(R::op_Implicit(T()))>)
+    operator R() {
+      auto p = static_cast<T*>(this);
+      return R::op_Implicit(*p);
+    }
+
     template <class R> requires(IsArithmetic<R>)
     explicit operator R() const {
       return static_cast<std::remove_reference_t<decltype(R().get())>>(static_cast<const T*>(this)->get());
@@ -880,11 +881,6 @@ namespace rt {
       return T::op_Inequality(*static_cast<T*>(this), other);
     }
     
-    template <class R, class T1 = T> requires(std::is_same_v<R, decltype(&(T1().GetPinnableReference()))>)
-    operator R() {
-      return &(static_cast<T*>(this)->GetPinnableReference());
-    }
-
 #if defined(__clang__)
     template <class R, class T1 = T> requires(std::is_same_v<R, decltype(T1::op_Implicit(T1()))>)
     operator R() {
@@ -933,7 +929,6 @@ namespace rt {
 
   template <class T, class Base, TypeCode code>
   struct valueType : public ValueOperator<T, Base, code> {
-    T& operator =(T&&) = delete;
   };
 
   template <class T, size_t N>
@@ -967,6 +962,21 @@ namespace rt {
 
   template <class T>
   inline void lock(const T& obj) {
+  }
+
+  template <class T>
+  inline T* fixed(T* obj) {
+    return obj;
+  }
+
+  template <class T>
+  inline auto fixed(ref<T>& obj) {
+    return obj != nullptr ? &obj->GetPinnableReference() : nullptr;
+  }
+
+  template <class T>
+  inline auto fixed(T& obj) {
+    return &obj.GetPinnableReference();
   }
 
   template <class T>

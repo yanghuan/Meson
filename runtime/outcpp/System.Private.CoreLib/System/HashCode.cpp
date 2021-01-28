@@ -49,7 +49,7 @@ UInt32 HashCode::MixFinal(UInt32 hash) {
 
 void HashCode::Add(Int32 value) {
   UInt32 num = _length++;
-  switch (num % 4u.get()) {
+  switch ((num % 4u).get()) {
     case 0u:
       _queue1 = (UInt32)value;
       return;

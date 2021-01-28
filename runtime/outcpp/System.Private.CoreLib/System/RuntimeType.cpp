@@ -874,10 +874,6 @@ void RuntimeType___::ctor() {
   rt::throw_exception<NotSupportedException>();
 }
 
-IntPtr RuntimeType___::GetUnderlyingNativeHandle() {
-  return m_handle;
-}
-
 Boolean RuntimeType___::CacheEquals(Object o) {
   RuntimeType runtimeType = rt::as<RuntimeType>(o);
   if ((Object)runtimeType != nullptr) {
@@ -1975,7 +1971,7 @@ void RuntimeType___::WrapArgsForInvokeCall(Array<Object> aArgs, Array<Int32> aAr
     if (((DispatchWrapperType)aArgsWrapperTypes[i])->HasFlag(DispatchWrapperType::SafeArray)) {
       Type type = nullptr;
       Boolean flag = false;
-      switch (aArgsWrapperTypes[i] & -65537.get()) {
+      switch ((aArgsWrapperTypes[i] & -65537).get()) {
         case 1:
           type = typeof<UnknownWrapper>();
           break;

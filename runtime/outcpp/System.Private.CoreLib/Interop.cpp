@@ -172,4 +172,8 @@ void Interop::GetRandomBytes(Byte* buffer, Int32 length) {
   }
 }
 
+UInt32 Interop::GetCurrentProcessId() {
+  return Kernel32::GetCurrentProcessId();
+}
+
 } // namespace System::Private::CoreLib::InteropNamespace

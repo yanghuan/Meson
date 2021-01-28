@@ -490,6 +490,7 @@ Assembly Assembly___::ReflectionOnlyLoadFrom(String assemblyFile) {
 void Assembly___::cctor() {
   s_loadfile = rt::newobj<Dictionary<String, Assembly>>();
   s_loadFromAssemblyList = rt::newobj<List<String>>();
+  s_forceNullEntryPoint = false;
 }
 
 } // namespace System::Private::CoreLib::System::Reflection::AssemblyNamespace

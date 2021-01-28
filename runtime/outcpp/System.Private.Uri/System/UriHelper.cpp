@@ -454,13 +454,25 @@ void UriHelper::EscapeAsciiChar(Byte b, ValueStringBuilder& to) {
   HexConverter::ToCharsBuffer(b, to.AppendSpan(2));
 }
 
-Char UriHelper::DecodeHexChars(Int32 first, Int32 second) {
-  Int32 num = HexConverter::FromChar(first);
-  Int32 num2 = HexConverter::FromChar(second);
-  if ((num | num2) == 255) {
-    return u'\xffff';
+Char UriHelper::DecodeHexChars(UInt32 first, UInt32 second) {
+  first -= 48;
+  if (first > 9) {
+    if ((UInt32)((first - 17) & -33) > 5) {
+      goto IL_0055;
+    }
+    first = ((first + 48) | 32) - 97 + 10;
   }
-  return (Char)((num << 4) | num2);
+  second -= 48;
+  if (second > 9) {
+    if ((UInt32)((second - 17) & -33) > 5) {
+      goto IL_0055;
+    }
+    second = ((second + 48) | 32) - 97 + 10;
+  }
+  return (Char)((first << 4) | second);
+
+IL_0055:
+  return u'\xffff';
 }
 
 Boolean UriHelper::IsNotSafeForUnescape(Char ch) {
@@ -499,7 +511,10 @@ Boolean UriHelper::IsAsciiLetterOrDigit(Char character) {
 }
 
 Boolean UriHelper::IsHexDigit(Char character) {
-  return HexConverter::IsHexChar(character);
+  if (((UInt32)(character - 65) & -33) >= 6) {
+    return (UInt32)(character - 48) < 10u;
+  }
+  return true;
 }
 
 Boolean UriHelper::IsBidiControlCharacter(Char ch) {

@@ -793,7 +793,7 @@ ValueTask<Int32> FileStream___::ReadAsync(Memory<Byte> buffer, CancellationToken
     return Stream::in::ReadAsync(buffer, cancellationToken);
   }
   if (cancellationToken.get_IsCancellationRequested()) {
-    return ValueTask<>::FromCanceled<Int32>(cancellationToken);
+    return ValueTask<Int32>(Task<>::in::FromCanceled<Int32>(cancellationToken));
   }
   if (get_IsClosed()) {
     rt::throw_exception(Error::GetFileNotOpen());
@@ -879,7 +879,7 @@ ValueTask<> FileStream___::WriteAsync(ReadOnlyMemory<Byte> buffer, CancellationT
     return Stream::in::WriteAsync(buffer, cancellationToken);
   }
   if (cancellationToken.get_IsCancellationRequested()) {
-    return ValueTask<>::FromCanceled(cancellationToken);
+    return ValueTask<>(Task<>::in::FromCanceled<Int32>(cancellationToken));
   }
   if (get_IsClosed()) {
     rt::throw_exception(Error::GetFileNotOpen());
@@ -1887,6 +1887,7 @@ void FileStream___::VerifyHandleIsSync(SafeFileHandle handle) {
 }
 
 void FileStream___::cctor() {
+  s_cachedSerializationSwitch = 0;
   s_ioCallback = &FileStreamCompletionSource::in::IOCallback;
 }
 

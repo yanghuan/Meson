@@ -343,7 +343,7 @@ Array<Char> AssemblyName___::EscapeString(String input, Int32 start, Int32 end, 
         num = i + 1;
       } else if (c == u'%' && rsvd == u'%') {
         dest = EnsureDestinationSize(ptr3, dest, i, 3, 120, destPos, num);
-        if (i + 2 < end && HexConverter::IsHexChar(*(ptr3 + i + 1)) && HexConverter::IsHexChar(*(ptr3 + i + 2))) {
+        if (i + 2 < end && EscapedAscii(*(ptr3 + i + 1), *(ptr3 + i + 2)) != u'\xffff') {
           dest[destPos++] = u'%';
           dest[destPos++] = *(ptr3 + i + 1);
           dest[destPos++] = *(ptr3 + i + 2);
@@ -385,6 +385,17 @@ void AssemblyName___::EscapeAsciiChar(Char ch, Array<Char> to, Int32& pos) {
   to[pos++] = u'%';
   to[pos++] = HexConverter::ToCharUpper((Int32)ch >> 4);
   to[pos++] = HexConverter::ToCharUpper(ch);
+}
+
+Char AssemblyName___::EscapedAscii(Char digit, Char next) {
+  if ((digit < u'0' || digit > u'9') && (digit < u'A' || digit > u'F') && (digit < u'a' || digit > u'f')) {
+    return u'\xffff';
+  }
+  Int32 num = ((digit <= u'9') ? (digit - 48) : (((digit <= u'F') ? (digit - 65) : (digit - 97)) + 10));
+  if ((next < u'0' || next > u'9') && (next < u'A' || next > u'F') && (next < u'a' || next > u'f')) {
+    return u'\xffff';
+  }
+  return (Char)((num << 4) + ((next <= u'9') ? (next - 48) : (((next <= u'F') ? (next - 65) : (next - 97)) + 10)));
 }
 
 Boolean AssemblyName___::IsReservedUnreservedOrHash(Char c) {

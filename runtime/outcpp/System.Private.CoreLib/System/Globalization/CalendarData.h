@@ -26,7 +26,6 @@ FORWARD(StringBuilder)
 namespace System::Private::CoreLib::System::Globalization {
 enum class CalendarDataType : int32_t;
 enum class CalendarId : uint16_t;
-FORWARD(Calendar)
 namespace CalendarDataNamespace {
 using namespace System::Buffers;
 using namespace System::Collections::Generic;
@@ -56,12 +55,12 @@ CLASS(CalendarData) : public object {
   public: void ctor(String localeName, CalendarId calendarId, Boolean bUseUserOverrides);
   private: void InitializeEraNames(String localeName, CalendarId calendarId);
   private: void InitializeAbbreviatedEraNames(String localeName, CalendarId calendarId);
-  public: static Int32 GetCalendarCurrentEra(Calendar calendar);
+  public: static CalendarData GetCalendarData(CalendarId calendarId);
   private: static String CalendarIdToCultureName(CalendarId calendarId);
   private: Boolean SystemSupportsTaiwaneseCalendar();
   private: Boolean IcuLoadCalendarDataFromSystem(String localeName, CalendarId calendarId);
   public: static Int32 IcuGetTwoDigitYearMax(CalendarId calendarId);
-  public: static Int32 IcuGetCalendars(String localeName, Array<CalendarId> calendars);
+  public: static Int32 IcuGetCalendars(String localeName, Boolean useUserOverride, Array<CalendarId> calendars);
   private: static Boolean IcuSystemSupportsTaiwaneseCalendar();
   private: static Boolean GetCalendarInfo(String localeName, CalendarId calendarId, CalendarDataType dataType, String& calendarString);
   private: static Boolean EnumDatePatterns(String localeName, CalendarId calendarId, CalendarDataType dataType, Array<String>& datePatterns);
@@ -73,23 +72,20 @@ CLASS(CalendarData) : public object {
   private: static Boolean EnumEraNames(String localeName, CalendarId calendarId, CalendarDataType dataType, Array<String>& eraNames);
   public: static Boolean EnumCalendarInfo(String localeName, CalendarId calendarId, CalendarDataType dataType, Array<String>& calendarData);
   private: static Boolean EnumCalendarInfo(String localeName, CalendarId calendarId, CalendarDataType dataType, IcuEnumCalendarsData& callbackContext);
-  private: static void EnumCalendarInfoCallback(Char* calendarStringPtr, IntPtr context);
+  private: static void EnumCalendarInfoCallback(String calendarString, IntPtr context);
+  private: Boolean NlsLoadCalendarDataFromSystem(String localeName, CalendarId calendarId);
   public: static Int32 NlsGetTwoDigitYearMax(CalendarId calendarId);
+  public: static Int32 NlsGetCalendars(String localeName, Boolean useUserOverride, Array<CalendarId> calendars);
   private: static Boolean NlsSystemSupportsTaiwaneseCalendar();
+  private: static void CheckSpecialCalendar(CalendarId& calendar, String& localeName);
   private: static Boolean CallGetCalendarInfoEx(String localeName, CalendarId calendar, UInt32 calType, Int32& data);
   private: static Boolean CallGetCalendarInfoEx(String localeName, CalendarId calendar, UInt32 calType, String& data);
   private: static Interop::BOOL EnumCalendarInfoCallback(Char* lpCalendarInfoString, UInt32 calendar, IntPtr pReserved, void* lParam);
-  private: static Interop::BOOL EnumCalendarsCallback(Char* lpCalendarInfoString, UInt32 calendar, IntPtr reserved, void* lParam);
-  private: Boolean LoadCalendarDataFromSystemCore(String localeName, CalendarId calendarId);
-  private: void InsertOrSwapOverride(String value, Array<String>& destination);
-  private: Boolean NlsLoadCalendarDataFromSystem(String localeName, CalendarId calendarId);
-  private: static void NormalizeCalendarId(CalendarId& calendarId, String& localeName);
-  private: static void CheckSpecialCalendar(CalendarId& calendar, String& localeName);
   private: static Boolean CallEnumCalendarInfo(String localeName, CalendarId calendar, UInt32 calType, UInt32 lcType, Array<String>& data);
   private: static Boolean GetCalendarDayInfo(String localeName, CalendarId calendar, UInt32 calType, Array<String>& outputStrings);
   private: static Boolean GetCalendarMonthInfo(String localeName, CalendarId calendar, UInt32 calType, Array<String>& outputStrings);
-  public: static Int32 GetCalendarsCore(String localeName, Boolean useUserOverride, Array<CalendarId> calendars);
-  private: static Int32 NlsGetCalendars(String localeName, Boolean useUserOverride, Array<CalendarId> calendars);
+  private: static Interop::BOOL EnumCalendarsCallback(Char* lpCalendarInfoString, UInt32 calendar, IntPtr reserved, void* lParam);
+  private: static String GetUserDefaultLocaleName();
   public: static void cctor();
   public: String sNativeName;
   public: Array<String> saShortDates;
@@ -108,7 +104,7 @@ CLASS(CalendarData) : public object {
   public: Array<String> saAbbrevMonthGenitiveNames;
   public: Array<String> saLeapYearMonthNames;
   public: Int32 iTwoDigitYearMax;
-  private: Int32 iCurrentEra;
+  public: Int32 iCurrentEra;
   public: Boolean bUseUserOverrides;
   public: static CalendarData Invariant;
 };

@@ -3,13 +3,12 @@
 #include <System.Private.CoreLib/Internal/Runtime/CompilerServices/Unsafe-dep.h>
 #include <System.Private.CoreLib/System/BitConverter-dep.h>
 #include <System.Private.CoreLib/System/Int16-dep.h>
+#include <System.Private.CoreLib/System/Int32-dep.h>
 #include <System.Private.CoreLib/System/Int64-dep.h>
 #include <System.Private.CoreLib/System/IntPtr-dep.h>
 #include <System.Private.CoreLib/System/Numerics/BitOperations-dep.h>
 #include <System.Private.CoreLib/System/Numerics/Vector-dep.h>
-#include <System.Private.CoreLib/System/PlatformNotSupportedException-dep.h>
-#include <System.Private.CoreLib/System/Runtime/Intrinsics/Arm/AdvSimd-dep.h>
-#include <System.Private.CoreLib/System/Runtime/Intrinsics/Vector64-dep.h>
+#include <System.Private.CoreLib/System/Runtime/Intrinsics/Vector128-dep.h>
 #include <System.Private.CoreLib/System/Runtime/Intrinsics/X86/Sse2-dep.h>
 #include <System.Private.CoreLib/System/Runtime/Intrinsics/X86/Sse41-dep.h>
 #include <System.Private.CoreLib/System/SByte-dep.h>
@@ -19,7 +18,6 @@ namespace System::Private::CoreLib::System::Text::ASCIIUtilityNamespace {
 using namespace Internal::Runtime::CompilerServices;
 using namespace System::Numerics;
 using namespace System::Runtime::Intrinsics;
-using namespace System::Runtime::Intrinsics::Arm;
 using namespace System::Runtime::Intrinsics::X86;
 
 Boolean ASCIIUtility::AllBytesInUInt64AreAscii(UInt64 value) {
@@ -34,17 +32,6 @@ Boolean ASCIIUtility::AllCharsInUInt64AreAscii(UInt64 value) {
   return (value & 18410996206198128512) == 0;
 }
 
-Int32 ASCIIUtility::GetIndexOfFirstNonAsciiByteInLane_AdvSimd(Vector128<Byte> value, Vector128<Byte> bitmask) {
-  if (!AdvSimd::in::Arm64::in::get_IsSupported() || !BitConverter::IsLittleEndian) {
-    rt::throw_exception<PlatformNotSupportedException>();
-  }
-  Vector128<Byte> left = Vector128<>::AsByte(AdvSimd::in::ShiftRightArithmetic(Vector128<>::AsSByte(value), 7));
-  Vector128<Byte> vector = AdvSimd::in::And(left, bitmask);
-  vector = AdvSimd::in::Arm64::in::AddPairwise(vector, vector);
-  UInt64 value2 = Vector128<>::ToScalar(Vector128<>::AsUInt64(vector));
-  return BitOperations::TrailingZeroCount(value2) >> 2;
-}
-
 Boolean ASCIIUtility::FirstCharInUInt32IsAscii(UInt32 value) {
   if (!BitConverter::IsLittleEndian || (value & 65408u) != 0) {
     if (!BitConverter::IsLittleEndian) {
@@ -56,27 +43,27 @@ Boolean ASCIIUtility::FirstCharInUInt32IsAscii(UInt32 value) {
 }
 
 UIntPtr ASCIIUtility::GetIndexOfFirstNonAsciiByte(Byte* pBuffer, UIntPtr bufferLength) {
-  if (!Sse2::in::get_IsSupported() && (!AdvSimd::in::Arm64::in::get_IsSupported() || !BitConverter::IsLittleEndian)) {
+  if (!Sse2::in::get_IsSupported()) {
     return GetIndexOfFirstNonAsciiByte_Default(pBuffer, bufferLength);
   }
-  return GetIndexOfFirstNonAsciiByte_Intrinsified(pBuffer, bufferLength);
+  return GetIndexOfFirstNonAsciiByte_Sse2(pBuffer, bufferLength);
 }
 
 UIntPtr ASCIIUtility::GetIndexOfFirstNonAsciiByte_Default(Byte* pBuffer, UIntPtr bufferLength) {
-  Byte* ptr = pBuffer;
+  Byte* value = pBuffer;
   if (Vector<>::get_IsHardwareAccelerated() && bufferLength >= (UInt32)(2 * Vector<SByte>::get_Count())) {
     UInt32 count = (UInt32)Vector<SByte>::get_Count();
     if (Vector<>::GreaterThanOrEqualAll(Unsafe::ReadUnaligned<Vector<SByte>>(pBuffer), Vector<SByte>::get_Zero())) {
-      Byte* ptr2 = pBuffer + bufferLength - count;
-      pBuffer = (Byte*)((UInt64)(pBuffer + count) & (UInt64)(Int64)(IntPtr)(void*)(~(UInt64)(count - 1)));
+      Byte* ptr = pBuffer + bufferLength - count;
+      pBuffer = (Byte*)(void*)(UIntPtr)(void*)((UInt64)(Int64)(IntPtr)(void*)((UInt64)(Int64)(UInt64)(UIntPtr)pBuffer + (UInt64)count) & (UInt64)(Int64)(IntPtr)(void*)(~(UInt64)(count - 1)));
       while (!Vector<>::LessThanAny(Unsafe::Read<Vector<SByte>>(pBuffer), Vector<SByte>::get_Zero())) {
         pBuffer += count;
-        if (pBuffer > ptr2) {
+        if (pBuffer > ptr) {
           break;
         }
       }
-      bufferLength = (UIntPtr)((UInt64)bufferLength - (UInt64)pBuffer);
-      bufferLength = (UIntPtr)(bufferLength + ptr);
+      bufferLength = (UIntPtr)((UInt64)bufferLength - (UInt64)(Int64)(UInt64)(UIntPtr)pBuffer);
+      bufferLength = (UIntPtr)((UInt64)bufferLength + (UInt64)(Int64)(UInt64)(UIntPtr)value);
     }
   }
   while (true) {
@@ -89,7 +76,7 @@ UIntPtr ASCIIUtility::GetIndexOfFirstNonAsciiByte_Default(Byte* pBuffer, UIntPtr
           num = num2;
           pBuffer += 4;
         }
-        goto IL_00f9;
+        goto IL_011a;
       }
       pBuffer += 8;
       bufferLength -= 8;
@@ -98,14 +85,14 @@ UIntPtr ASCIIUtility::GetIndexOfFirstNonAsciiByte_Default(Byte* pBuffer, UIntPtr
     if ((bufferLength & 4) != 0) {
       num = Unsafe::ReadUnaligned<UInt32>(pBuffer);
       if (!AllBytesInUInt32AreAscii(num)) {
-        goto IL_00f9;
+        goto IL_011a;
       }
       pBuffer += 4;
     }
     if ((bufferLength & 2) != 0) {
       num = Unsafe::ReadUnaligned<UInt16>(pBuffer);
       if (!AllBytesInUInt32AreAscii(num)) {
-        goto IL_00f9;
+        goto IL_011a;
       }
       pBuffer += 2;
     }
@@ -114,194 +101,115 @@ UIntPtr ASCIIUtility::GetIndexOfFirstNonAsciiByte_Default(Byte* pBuffer, UIntPtr
     }
     break;
 
-  IL_00f9:
+  IL_011a:
     pBuffer += CountNumberOfLeadingAsciiBytesFromUInt32WithSomeNonAsciiData(num);
     break;
   }
-  return (UIntPtr)(pBuffer - (UInt64)ptr);
+  return (UIntPtr)((UInt64)(Int64)(UInt64)(UIntPtr)pBuffer - (UInt64)(Int64)(UInt64)(UIntPtr)value);
 }
 
-Boolean ASCIIUtility::ContainsNonAsciiByte_Sse2(UInt32 sseMask) {
-  return sseMask != 0;
-}
-
-Boolean ASCIIUtility::ContainsNonAsciiByte_AdvSimd(UInt32 advSimdIndex) {
-  return advSimdIndex < 16;
-}
-
-UIntPtr ASCIIUtility::GetIndexOfFirstNonAsciiByte_Intrinsified(Byte* pBuffer, UIntPtr bufferLength) {
+UIntPtr ASCIIUtility::GetIndexOfFirstNonAsciiByte_Sse2(Byte* pBuffer, UIntPtr bufferLength) {
   UInt32 num = (UInt32)Unsafe::SizeOf<Vector128<Byte>>();
   UIntPtr uIntPtr = (UIntPtr)(num - 1);
-  Vector128<Byte> bitmask = (BitConverter::IsLittleEndian ? Vector128<>::AsByte(Vector128<>::Create((UInt16)(Int32)4097)) : Vector128<>::AsByte(Vector128<>::Create((UInt16)(Int32)272)));
-  UInt32 num2 = UInt32::MaxValue;
-  UInt32 num3 = UInt32::MaxValue;
-  UInt32 num4 = UInt32::MaxValue;
-  UInt32 num5 = UInt32::MaxValue;
-  Byte* ptr = pBuffer;
+  Byte* value = pBuffer;
+  UInt32 num2;
   if (bufferLength >= num) {
-    if (Sse2::in::get_IsSupported()) {
-      num2 = (UInt32)Sse2::in::MoveMask(Sse2::in::LoadVector128(pBuffer));
-      if (!ContainsNonAsciiByte_Sse2(num2)) {
-        goto IL_0092;
+    num2 = (UInt32)Sse2::in::MoveMask(Sse2::in::LoadVector128(pBuffer));
+    if (num2 == 0) {
+      if (bufferLength < 2 * num) {
+        goto IL_00bf;
       }
-    } else {
-      if (!AdvSimd::in::Arm64::in::get_IsSupported()) {
-        rt::throw_exception<PlatformNotSupportedException>();
+      pBuffer = (Byte*)(void*)(UIntPtr)(void*)((UInt64)(Int64)(IntPtr)(void*)((UInt64)(Int64)(UInt64)(UIntPtr)pBuffer + (UInt64)num) & (UInt64)(Int64)(IntPtr)(void*)(~(UInt64)uIntPtr));
+      bufferLength = (UIntPtr)((UInt64)bufferLength + (UInt64)(Int64)(UInt64)(UIntPtr)value);
+      bufferLength = (UIntPtr)((UInt64)bufferLength - (UInt64)(Int64)(UInt64)(UIntPtr)pBuffer);
+      if (bufferLength < 2 * num) {
+        goto IL_00aa;
       }
-      num4 = (UInt32)GetIndexOfFirstNonAsciiByteInLane_AdvSimd(AdvSimd::in::LoadVector128(pBuffer), bitmask);
-      if (!ContainsNonAsciiByte_AdvSimd(num4)) {
-        goto IL_0092;
+      Byte* ptr = (Byte*)(void*)(UIntPtr)(void*)((UInt64)(Int64)(IntPtr)(void*)((Int64)(UInt64)(UIntPtr)pBuffer + (Int64)bufferLength) - (UInt64)(2 * num));
+      UInt32 num3;
+      while (true) {
+        Vector128<Byte> value2 = Sse2::in::LoadAlignedVector128(pBuffer);
+        Vector128<Byte> value3 = Sse2::in::LoadAlignedVector128(pBuffer + num);
+        num2 = (UInt32)Sse2::in::MoveMask(value2);
+        num3 = (UInt32)Sse2::in::MoveMask(value3);
+        if ((num2 | num3) != 0) {
+          break;
+        }
+        pBuffer += 2 * num;
+        if (pBuffer <= ptr) {
+          continue;
+        }
+        goto IL_00aa;
+      }
+      if (num2 == 0) {
+        pBuffer += num;
+        num2 = num3;
       }
     }
-    goto IL_024f;
+    goto IL_0107;
   }
   if ((bufferLength & 8) != 0) {
     Int32 size = UIntPtr::get_Size();
-    UInt64 num6 = Unsafe::ReadUnaligned<UInt64>(pBuffer);
-    if (!AllBytesInUInt64AreAscii(num6)) {
-      num6 &= 9259542123273814144;
-      pBuffer += (UInt64)(UIntPtr)(void*)(BitOperations::TrailingZeroCount(num6) >> 3);
-      goto IL_020e;
+    UInt64 num4 = Unsafe::ReadUnaligned<UInt64>(pBuffer);
+    if (!AllBytesInUInt64AreAscii(num4)) {
+      num4 &= 9259542123273814144;
+      pBuffer += (UInt64)(UIntPtr)(void*)(BitOperations::TrailingZeroCount(num4) >> 3);
+      goto IL_00ed;
     }
     pBuffer += 8;
   }
   if ((bufferLength & 4) != 0) {
-    UInt32 value = Unsafe::ReadUnaligned<UInt32>(pBuffer);
-    if (!AllBytesInUInt32AreAscii(value)) {
-      pBuffer += CountNumberOfLeadingAsciiBytesFromUInt32WithSomeNonAsciiData(value);
-      goto IL_020e;
+    UInt32 value4 = Unsafe::ReadUnaligned<UInt32>(pBuffer);
+    if (!AllBytesInUInt32AreAscii(value4)) {
+      pBuffer += CountNumberOfLeadingAsciiBytesFromUInt32WithSomeNonAsciiData(value4);
+      goto IL_00ed;
     }
     pBuffer += 4;
   }
   if ((bufferLength & 2) != 0) {
-    UInt32 value = Unsafe::ReadUnaligned<UInt16>(pBuffer);
-    if (!AllBytesInUInt32AreAscii(value)) {
-      pBuffer += (UInt64)(UIntPtr)(void*)((Int64)(IntPtr)(void*)((Int64)(SByte)value >> 7) + 1);
-      goto IL_020e;
+    UInt32 value4 = Unsafe::ReadUnaligned<UInt16>(pBuffer);
+    if (!AllBytesInUInt32AreAscii(value4)) {
+      pBuffer += (UInt64)(UIntPtr)(void*)((Int64)(IntPtr)(void*)((Int64)(SByte)value4 >> 7) + 1);
+      goto IL_00ed;
     }
     pBuffer += 2;
   }
   if ((bufferLength & 1) != 0 && *pBuffer >= 0) {
     pBuffer++;
   }
-  goto IL_020e;
+  goto IL_00ed;
 
-IL_01ac:
-  pBuffer += num;
-  goto IL_01b2;
+IL_00ed:
+  return (UIntPtr)((UInt64)(Int64)(UInt64)(UIntPtr)pBuffer - (UInt64)(Int64)(UInt64)(UIntPtr)value);
 
-IL_01b2:
-  if ((UIntPtr)(void*)((UInt64)(Byte)bufferLength & (UInt64)(Int64)(UInt64)uIntPtr) == (UIntPtr)(void*)(void*)nullptr) {
-    goto IL_020e;
-  }
-  pBuffer += (UInt64)(UIntPtr)(void*)((Int64)(IntPtr)(void*)((UInt64)bufferLength & (UInt64)(Int64)(UInt64)uIntPtr) - (Int64)num);
-  if (Sse2::in::get_IsSupported()) {
-    num2 = (UInt32)Sse2::in::MoveMask(Sse2::in::LoadVector128(pBuffer));
-    if (!ContainsNonAsciiByte_Sse2(num2)) {
-      goto IL_0208;
-    }
-  } else {
-    if (!AdvSimd::in::Arm64::in::get_IsSupported()) {
-      rt::throw_exception<PlatformNotSupportedException>();
-    }
-    num4 = (UInt32)GetIndexOfFirstNonAsciiByteInLane_AdvSimd(AdvSimd::in::LoadVector128(pBuffer), bitmask);
-    if (!ContainsNonAsciiByte_AdvSimd(num4)) {
-      goto IL_0208;
-    }
-  }
-  goto IL_024f;
+IL_0107:
+  pBuffer += (UInt32)BitOperations::TrailingZeroCount(num2);
+  goto IL_00ed;
 
-IL_0092:
-  if (bufferLength < 2 * num) {
-    goto IL_01ac;
-  }
-  pBuffer = (Byte*)((UInt64)(pBuffer + num) & (UInt64)(Int64)(IntPtr)(void*)(~(UInt64)uIntPtr));
-  bufferLength = (UIntPtr)(bufferLength + ptr);
-  bufferLength = (UIntPtr)((UInt64)bufferLength - (UInt64)pBuffer);
-  if (bufferLength < 2 * num) {
-    goto IL_015d;
-  }
-  Byte* ptr2 = pBuffer + bufferLength - 2 * num;
-  while (true) {
-    if (Sse2::in::get_IsSupported()) {
-      Vector128<Byte> value2 = Sse2::in::LoadAlignedVector128(pBuffer);
-      Vector128<Byte> value3 = Sse2::in::LoadAlignedVector128(pBuffer + num);
-      num2 = (UInt32)Sse2::in::MoveMask(value2);
-      num3 = (UInt32)Sse2::in::MoveMask(value3);
-      if (ContainsNonAsciiByte_Sse2(num2 | num3)) {
-        break;
-      }
-    } else {
-      if (!AdvSimd::in::Arm64::in::get_IsSupported()) {
-        rt::throw_exception<PlatformNotSupportedException>();
-      }
-      Vector128<Byte> value4 = AdvSimd::in::LoadVector128(pBuffer);
-      Vector128<Byte> value5 = AdvSimd::in::LoadVector128(pBuffer + num);
-      num4 = (UInt32)GetIndexOfFirstNonAsciiByteInLane_AdvSimd(value4, bitmask);
-      num5 = (UInt32)GetIndexOfFirstNonAsciiByteInLane_AdvSimd(value5, bitmask);
-      if (ContainsNonAsciiByte_AdvSimd(num4) || ContainsNonAsciiByte_AdvSimd(num5)) {
-        break;
-      }
-    }
-    pBuffer += 2 * num;
-    if (pBuffer <= ptr2) {
-      continue;
-    }
-    goto IL_015d;
-  }
-  if (Sse2::in::get_IsSupported()) {
-    if (!ContainsNonAsciiByte_Sse2(num2)) {
-      pBuffer += num;
-      num2 = num3;
-    }
-  } else {
-    if (!AdvSimd::in::get_IsSupported()) {
-      rt::throw_exception<PlatformNotSupportedException>();
-    }
-    if (!ContainsNonAsciiByte_AdvSimd(num4)) {
-      pBuffer += num;
-      num4 = num5;
-    }
-  }
-  goto IL_024f;
-
-IL_015d:
+IL_00aa:
   if ((bufferLength & num) == 0) {
-    goto IL_01b2;
+    goto IL_00c5;
   }
-  if (Sse2::in::get_IsSupported()) {
-    num2 = (UInt32)Sse2::in::MoveMask(Sse2::in::LoadAlignedVector128(pBuffer));
-    if (!ContainsNonAsciiByte_Sse2(num2)) {
-      goto IL_01ac;
-    }
-  } else {
-    if (!AdvSimd::in::Arm64::in::get_IsSupported()) {
-      rt::throw_exception<PlatformNotSupportedException>();
-    }
-    num4 = (UInt32)GetIndexOfFirstNonAsciiByteInLane_AdvSimd(AdvSimd::in::LoadVector128(pBuffer), bitmask);
-    if (!ContainsNonAsciiByte_AdvSimd(num4)) {
-      goto IL_01ac;
-    }
+  num2 = (UInt32)Sse2::in::MoveMask(Sse2::in::LoadAlignedVector128(pBuffer));
+  if (num2 == 0) {
+    goto IL_00bf;
   }
-  goto IL_024f;
+  goto IL_0107;
 
-IL_0208:
+IL_00c5:
+  if ((UIntPtr)(void*)((UInt64)(Byte)bufferLength & (UInt64)(Int64)(UInt64)uIntPtr) != (UIntPtr)(void*)(void*)nullptr) {
+    pBuffer += (UInt64)(UIntPtr)(void*)((Int64)(IntPtr)(void*)((UInt64)bufferLength & (UInt64)(Int64)(UInt64)uIntPtr) - (Int64)num);
+    num2 = (UInt32)Sse2::in::MoveMask(Sse2::in::LoadVector128(pBuffer));
+    if (num2 != 0) {
+      goto IL_0107;
+    }
+    pBuffer += num;
+  }
+  goto IL_00ed;
+
+IL_00bf:
   pBuffer += num;
-  goto IL_020e;
-
-IL_020e:
-  return (UIntPtr)(pBuffer - (UInt64)ptr);
-
-IL_024f:
-  if (Sse2::in::get_IsSupported()) {
-    pBuffer += (UInt32)BitOperations::TrailingZeroCount(num2);
-  } else {
-    if (!AdvSimd::in::Arm64::in::get_IsSupported()) {
-      rt::throw_exception<PlatformNotSupportedException>();
-    }
-    pBuffer += num4;
-  }
-  goto IL_020e;
+  goto IL_00c5;
 }
 
 UIntPtr ASCIIUtility::GetIndexOfFirstNonAsciiChar(Char* pBuffer, UIntPtr bufferLength) {
@@ -312,21 +220,21 @@ UIntPtr ASCIIUtility::GetIndexOfFirstNonAsciiChar(Char* pBuffer, UIntPtr bufferL
 }
 
 UIntPtr ASCIIUtility::GetIndexOfFirstNonAsciiChar_Default(Char* pBuffer, UIntPtr bufferLength) {
-  Char* ptr = pBuffer;
+  Char* value = pBuffer;
   if (Vector<>::get_IsHardwareAccelerated() && bufferLength >= (UInt32)(2 * Vector<UInt16>::get_Count())) {
     UInt32 count = (UInt32)Vector<UInt16>::get_Count();
     UInt32 count2 = (UInt32)Vector<Byte>::get_Count();
     Vector<UInt16> right = Vector<UInt16>(127);
     if (Vector<>::LessThanOrEqualAll(Unsafe::ReadUnaligned<Vector<UInt16>>(pBuffer), right)) {
-      Char* ptr2 = pBuffer + bufferLength - count;
-      pBuffer = (Char*)((UInt64)((Byte*)pBuffer + count2) & (UInt64)(Int64)(IntPtr)(void*)(~(UInt64)(count2 - 1)));
+      Char* ptr = pBuffer + bufferLength - count;
+      pBuffer = (Char*)(void*)(UIntPtr)(void*)((UInt64)(Int64)(IntPtr)(void*)((UInt64)(Int64)(UInt64)(UIntPtr)pBuffer + (UInt64)count2) & (UInt64)(Int64)(IntPtr)(void*)(~(UInt64)(count2 - 1)));
       while (!Vector<>::GreaterThanAny(Unsafe::Read<Vector<UInt16>>(pBuffer), right)) {
         pBuffer += count;
-        if (pBuffer > ptr2) {
+        if (pBuffer > ptr) {
           break;
         }
       }
-      bufferLength = (UIntPtr)((UInt64)bufferLength - (UInt64)(Int64)(IntPtr)(void*)(pBuffer - ptr));
+      bufferLength = (UIntPtr)((UInt64)bufferLength - (UInt64)(Int64)(IntPtr)(void*)((UInt64)(UIntPtr)(void*)((Int64)(UInt64)(UIntPtr)pBuffer - (Int64)(UInt64)(UIntPtr)value) / 2));
     }
   }
   while (true) {
@@ -339,7 +247,7 @@ UIntPtr ASCIIUtility::GetIndexOfFirstNonAsciiChar_Default(Char* pBuffer, UIntPtr
           num = num2;
           pBuffer += 2;
         }
-        goto IL_0109;
+        goto IL_0127;
       }
       pBuffer += 4;
       bufferLength -= 4;
@@ -348,7 +256,7 @@ UIntPtr ASCIIUtility::GetIndexOfFirstNonAsciiChar_Default(Char* pBuffer, UIntPtr
     if ((bufferLength & 2) != 0) {
       num = Unsafe::ReadUnaligned<UInt32>(pBuffer);
       if (!AllCharsInUInt32AreAscii(num)) {
-        goto IL_0109;
+        goto IL_0127;
       }
       pBuffer += 2;
     }
@@ -357,13 +265,13 @@ UIntPtr ASCIIUtility::GetIndexOfFirstNonAsciiChar_Default(Char* pBuffer, UIntPtr
     }
     break;
 
-  IL_0109:
+  IL_0127:
     if (FirstCharInUInt32IsAscii(num)) {
       pBuffer++;
     }
     break;
   }
-  UIntPtr uIntPtr = (UIntPtr)((Byte*)pBuffer - (UInt64)ptr);
+  UIntPtr uIntPtr = (UIntPtr)(void*)((UInt64)(Int64)(UInt64)(UIntPtr)pBuffer - (UInt64)(Int64)(UInt64)(UIntPtr)value);
   return (UIntPtr)((UInt64)uIntPtr / 2);
 }
 
@@ -373,7 +281,7 @@ UIntPtr ASCIIUtility::GetIndexOfFirstNonAsciiChar_Sse2(Char* pBuffer, UIntPtr bu
   }
   UInt32 num = (UInt32)Unsafe::SizeOf<Vector128<Byte>>();
   UInt32 num2 = num / 2u;
-  Char* ptr = pBuffer;
+  Char* value = pBuffer;
   Vector128<UInt16> right;
   Vector128<UInt16> right2;
   Vector128<UInt16> left;
@@ -386,15 +294,15 @@ UIntPtr ASCIIUtility::GetIndexOfFirstNonAsciiChar_Sse2(Char* pBuffer, UIntPtr bu
     if ((num3 & 43690) == 0) {
       bufferLength = (UIntPtr)((UInt64)bufferLength << 1);
       if (bufferLength < 2 * num) {
-        goto IL_013e;
+        goto IL_015c;
       }
-      pBuffer = (Char*)((UInt64)((Byte*)pBuffer + num) & (UInt64)(Int64)(IntPtr)(void*)(~(UInt64)(num - 1)));
-      bufferLength = (UIntPtr)(bufferLength + (Byte*)ptr);
-      bufferLength = (UIntPtr)((UInt64)bufferLength - (UInt64)pBuffer);
+      pBuffer = (Char*)(void*)(UIntPtr)(void*)((UInt64)(Int64)(IntPtr)(void*)((UInt64)(Int64)(UInt64)(UIntPtr)pBuffer + (UInt64)num) & (UInt64)(Int64)(IntPtr)(void*)(~(UInt64)(num - 1)));
+      bufferLength = (UIntPtr)((UInt64)bufferLength + (UInt64)(Int64)(UInt64)(UIntPtr)value);
+      bufferLength = (UIntPtr)((UInt64)bufferLength - (UInt64)(Int64)(UInt64)(UIntPtr)pBuffer);
       if (bufferLength < 2 * num) {
-        goto IL_00fa;
+        goto IL_0118;
       }
-      Char* ptr2 = (Char*)((Byte*)pBuffer + bufferLength - 2 * num);
+      Char* ptr = (Char*)(void*)(UIntPtr)(void*)((UInt64)(Int64)(IntPtr)(void*)((Int64)(UInt64)(UIntPtr)pBuffer + (Int64)bufferLength) - (UInt64)(2 * num));
       Vector128<UInt16> vector;
       while (true) {
         left = Sse2::in::LoadAlignedVector128((UInt16*)pBuffer);
@@ -411,26 +319,26 @@ UIntPtr ASCIIUtility::GetIndexOfFirstNonAsciiChar_Sse2(Char* pBuffer, UIntPtr bu
           }
         }
         pBuffer += 2 * num2;
-        if (pBuffer <= ptr2) {
+        if (pBuffer <= ptr) {
           continue;
         }
-        goto IL_00fa;
+        goto IL_0118;
       }
       if (Sse41::in::get_IsSupported()) {
         if (!Sse41::in::TestZ(left, right)) {
-          goto IL_01e6;
+          goto IL_020e;
         }
       } else {
         num3 = (UInt32)Sse2::in::MoveMask(Vector128<>::AsByte(Sse2::in::AddSaturate(left, right2)));
         if ((num3 & 43690u) != 0) {
-          goto IL_01fa;
+          goto IL_0222;
         }
       }
       pBuffer += num2;
       left = vector;
-      goto IL_01e6;
+      goto IL_020e;
     }
-    goto IL_01fa;
+    goto IL_0222;
   }
   if ((bufferLength & 4) != 0) {
     Int32 size = UIntPtr::get_Size();
@@ -438,75 +346,75 @@ UIntPtr ASCIIUtility::GetIndexOfFirstNonAsciiChar_Sse2(Char* pBuffer, UIntPtr bu
     if (!AllCharsInUInt64AreAscii(num4)) {
       num4 &= 18410996206198128512;
       pBuffer = (Char*)((Byte*)pBuffer + (UInt64)(UIntPtr)(void*)((Int64)(BitOperations::TrailingZeroCount(num4) >> 3) & (Int64)(IntPtr)(void*)(~1)));
-      goto IL_01a1;
+      goto IL_01bf;
     }
     pBuffer += 4;
   }
   if ((bufferLength & 2) != 0) {
-    UInt32 value = Unsafe::ReadUnaligned<UInt32>(pBuffer);
-    if (!AllCharsInUInt32AreAscii(value)) {
-      if (FirstCharInUInt32IsAscii(value)) {
+    UInt32 value2 = Unsafe::ReadUnaligned<UInt32>(pBuffer);
+    if (!AllCharsInUInt32AreAscii(value2)) {
+      if (FirstCharInUInt32IsAscii(value2)) {
         pBuffer++;
       }
-      goto IL_01a1;
+      goto IL_01bf;
     }
     pBuffer += 2;
   }
   if ((bufferLength & 1) != 0 && *pBuffer <= u'\x007f') {
     pBuffer++;
   }
-  goto IL_01a1;
+  goto IL_01bf;
 
-IL_013e:
+IL_015c:
   pBuffer += num2;
-  goto IL_0148;
+  goto IL_0166;
 
-IL_01a1:
-  return (UIntPtr)(pBuffer - ptr);
+IL_01bf:
+  return (UIntPtr)((UInt64)(UIntPtr)(void*)((Int64)(UInt64)(UIntPtr)pBuffer - (Int64)(UInt64)(UIntPtr)value) / 2);
 
-IL_01fa:
+IL_0222:
   num3 &= 43690u;
   pBuffer = (Char*)((Byte*)pBuffer + (UInt32)BitOperations::TrailingZeroCount(num3) - 1);
-  goto IL_01a1;
+  goto IL_01bf;
 
-IL_00fa:
+IL_0118:
   if ((bufferLength & num) != 0) {
     left = Sse2::in::LoadAlignedVector128((UInt16*)pBuffer);
     if (Sse41::in::get_IsSupported()) {
       if (!Sse41::in::TestZ(left, right)) {
-        goto IL_01e6;
+        goto IL_020e;
       }
     } else {
       num3 = (UInt32)Sse2::in::MoveMask(Vector128<>::AsByte(Sse2::in::AddSaturate(left, right2)));
       if ((num3 & 43690u) != 0) {
-        goto IL_01fa;
+        goto IL_0222;
       }
     }
-    goto IL_013e;
+    goto IL_015c;
   }
-  goto IL_0148;
+  goto IL_0166;
 
-IL_0148:
+IL_0166:
   if (((Byte)bufferLength & (num - 1)) != 0) {
     pBuffer = (Char*)((Byte*)pBuffer + (bufferLength & (num - 1)) - num);
     left = Sse2::in::LoadVector128((UInt16*)pBuffer);
     if (Sse41::in::get_IsSupported()) {
       if (!Sse41::in::TestZ(left, right)) {
-        goto IL_01e6;
+        goto IL_020e;
       }
     } else {
       num3 = (UInt32)Sse2::in::MoveMask(Vector128<>::AsByte(Sse2::in::AddSaturate(left, right2)));
       if ((num3 & 43690u) != 0) {
-        goto IL_01fa;
+        goto IL_0222;
       }
     }
     pBuffer += num2;
   }
-  goto IL_01a1;
+  goto IL_01bf;
 
-IL_01e6:
+IL_020e:
   num3 = (UInt32)Sse2::in::MoveMask(Vector128<>::AsByte(Sse2::in::AddSaturate(left, right2)));
-  goto IL_01fa;
+  goto IL_0222;
 }
 
 void ASCIIUtility::NarrowFourUtf16CharsToAsciiAndWriteToBuffer(Byte& outputBuffer, UInt64 value) {
@@ -514,10 +422,6 @@ void ASCIIUtility::NarrowFourUtf16CharsToAsciiAndWriteToBuffer(Byte& outputBuffe
     Vector128<Int16> vector = Vector128<>::AsInt16(Sse2::in::X64::in::ConvertScalarToVector128UInt64(value));
     Vector128<UInt32> value2 = Vector128<>::AsUInt32(Sse2::in::PackUnsignedSaturate(vector, vector));
     Unsafe::WriteUnaligned(outputBuffer, Sse2::in::ConvertToUInt32(value2));
-  } else if (AdvSimd::in::get_IsSupported()) {
-    Vector128<Int16> value3 = Vector128<>::AsInt16(Vector128<>::CreateScalarUnsafe(value));
-    Vector64<Byte> vector2 = AdvSimd::in::ExtractNarrowingSaturateUnsignedLower(value3);
-    Unsafe::WriteUnaligned(outputBuffer, Vector64<>::ToScalar(Vector64<>::AsUInt32(vector2)));
   } else if (BitConverter::IsLittleEndian) {
     outputBuffer = (Byte)value;
     value >>= 16;
@@ -535,7 +439,6 @@ void ASCIIUtility::NarrowFourUtf16CharsToAsciiAndWriteToBuffer(Byte& outputBuffe
     value >>= 16;
     outputBuffer = (Byte)value;
   }
-
 
 }
 
@@ -677,13 +580,13 @@ UIntPtr ASCIIUtility::NarrowUtf16ToAscii_Sse2(Char* pUtf16Buffer, Byte* pAsciiBu
     goto IL_00ca;
   }
 
-  goto IL_0183;
+  goto IL_0188;
 
-IL_0183:
+IL_0188:
   return uIntPtr2;
 
 IL_00e7:
-  uIntPtr2 = (UIntPtr)(void*)((UInt64)num - (UInt64)(Int64)(IntPtr)(void*)((UInt64)pAsciiBuffer & (UInt64)(Int64)(UInt64)uIntPtr));
+  uIntPtr2 = (UIntPtr)(void*)((UInt64)num - (UInt64)(Int64)(IntPtr)(void*)((UInt64)(Int64)(UInt64)(UIntPtr)pAsciiBuffer & (UInt64)(Int64)(UInt64)uIntPtr));
   UIntPtr uIntPtr3 = elementCount - num;
   do {
     vector = Sse2::in::LoadVector128((Int16*)(pUtf16Buffer + (UInt64)uIntPtr2));
@@ -691,10 +594,10 @@ IL_00e7:
     Vector128<Int16> vector3 = Sse2::in::Or(vector, right3);
     if (Sse41::in::get_IsSupported()) {
       if (Sse41::in::TestZ(vector3, right)) {
-        goto IL_015b;
+        goto IL_0160;
       }
     } else if ((Sse2::in::MoveMask(Vector128<>::AsByte(Sse2::in::AddSaturate(Vector128<>::AsUInt16(vector3), right2))) & 43690) == 0) {
-      goto IL_015b;
+      goto IL_0160;
     }
 
     if (Sse41::in::get_IsSupported()) {
@@ -710,12 +613,12 @@ IL_00e7:
     uIntPtr2 = (UIntPtr)(void*)((UInt64)(Int64)(UInt64)uIntPtr2 + (UInt64)(num / 2u));
     break;
 
-  IL_015b:
+  IL_0160:
     vector2 = Sse2::in::PackUnsignedSaturate(vector, right3);
     Sse2::in::StoreAligned(pAsciiBuffer + (UInt64)uIntPtr2, vector2);
     uIntPtr2 = (UIntPtr)(void*)((UInt64)(Int64)(UInt64)uIntPtr2 + (UInt64)num);
   } while ((UInt64)uIntPtr2 <= (UInt64)uIntPtr3);
-  goto IL_0183;
+  goto IL_0188;
 
 IL_00ca:
   vector2 = Sse2::in::PackUnsignedSaturate(vector, vector);
@@ -725,9 +628,9 @@ IL_00ca:
 
 UIntPtr ASCIIUtility::WidenAsciiToUtf16(Byte* pAsciiBuffer, Char* pUtf16Buffer, UIntPtr elementCount) {
   UIntPtr uIntPtr = (UIntPtr)(void*)(void*)nullptr;
-  if (BitConverter::IsLittleEndian && (Sse2::in::get_IsSupported() || AdvSimd::in::Arm64::in::get_IsSupported())) {
+  if (Sse2::in::get_IsSupported()) {
     if (elementCount >= (UInt32)(2 * Unsafe::SizeOf<Vector128<Byte>>())) {
-      uIntPtr = WidenAsciiToUtf16_Intrinsified(pAsciiBuffer, pUtf16Buffer, elementCount);
+      uIntPtr = WidenAsciiToUtf16_Sse2(pAsciiBuffer, pUtf16Buffer, elementCount);
     }
   } else if (Vector<>::get_IsHardwareAccelerated()) {
     UInt32 num = (UInt32)Unsafe::SizeOf<Vector<Byte>>();
@@ -750,7 +653,7 @@ UIntPtr ASCIIUtility::WidenAsciiToUtf16(Byte* pAsciiBuffer, Char* pUtf16Buffer, 
 
   UIntPtr uIntPtr3 = (UIntPtr)(void*)((UInt64)elementCount - (UInt64)(Int64)(UInt64)uIntPtr);
   if ((UInt64)uIntPtr3 < 4) {
-    goto IL_00e0;
+    goto IL_00d2;
   }
   UIntPtr uIntPtr4 = (UIntPtr)(void*)((UInt64)(Int64)(IntPtr)(void*)((Int64)(UInt64)uIntPtr + (Int64)(UInt64)uIntPtr3) - 4);
   UInt32 num2;
@@ -764,18 +667,26 @@ UIntPtr ASCIIUtility::WidenAsciiToUtf16(Byte* pAsciiBuffer, Char* pUtf16Buffer, 
     if ((UInt64)uIntPtr <= (UInt64)uIntPtr4) {
       continue;
     }
-    goto IL_00e0;
+    goto IL_00d2;
   }
-  goto IL_0178;
+  goto IL_016a;
 
-IL_0163:
+IL_016a:
+  while (((Byte)num2 & 128) == 0) {
+    *(pUtf16Buffer + (UInt64)uIntPtr) = (Char)(Byte)num2;
+    uIntPtr = (UIntPtr)(void*)((UInt64)(Int64)(UInt64)uIntPtr + 1);
+    num2 >>= 8;
+  }
+  goto IL_0155;
+
+IL_0155:
   return uIntPtr;
 
-IL_00e0:
+IL_00d2:
   if (((UInt32)(Int32)(UInt64)uIntPtr3 & 2u) != 0) {
     num2 = Unsafe::ReadUnaligned<UInt16>(pAsciiBuffer + (UInt64)uIntPtr);
     if (!AllBytesInUInt32AreAscii(num2)) {
-      goto IL_0178;
+      goto IL_016a;
     }
     if (BitConverter::IsLittleEndian) {
       *(pUtf16Buffer + (UInt64)uIntPtr) = (Char)(Byte)num2;
@@ -793,104 +704,41 @@ IL_00e0:
       uIntPtr = (UIntPtr)(void*)((UInt64)(Int64)(UInt64)uIntPtr + 1);
     }
   }
-  goto IL_0163;
-
-IL_0178:
-  while (((Byte)num2 & 128) == 0) {
-    *(pUtf16Buffer + (UInt64)uIntPtr) = (Char)(Byte)num2;
-    uIntPtr = (UIntPtr)(void*)((UInt64)(Int64)(UInt64)uIntPtr + 1);
-    num2 >>= 8;
-  }
-  goto IL_0163;
+  goto IL_0155;
 }
 
-Boolean ASCIIUtility::ContainsNonAsciiByte(Vector128<Byte> value) {
-  if (!AdvSimd::in::Arm64::in::get_IsSupported()) {
-    rt::throw_exception<PlatformNotSupportedException>();
-  }
-  value = AdvSimd::in::Arm64::in::MaxPairwise(value, value);
-  return (Vector128<>::ToScalar(Vector128<>::AsUInt64(value)) & 9259542123273814144) != 0;
-}
-
-UIntPtr ASCIIUtility::WidenAsciiToUtf16_Intrinsified(Byte* pAsciiBuffer, Char* pUtf16Buffer, UIntPtr elementCount) {
+UIntPtr ASCIIUtility::WidenAsciiToUtf16_Sse2(Byte* pAsciiBuffer, Char* pUtf16Buffer, UIntPtr elementCount) {
   UInt32 num = (UInt32)Unsafe::SizeOf<Vector128<Byte>>();
   UIntPtr uIntPtr = (UIntPtr)(num - 1);
-  Vector128<Byte> vector;
-  Boolean flag;
-  if (Sse2::in::get_IsSupported()) {
-    vector = Sse2::in::LoadVector128(pAsciiBuffer);
-    flag = Sse2::in::MoveMask(vector) != 0;
-  } else {
-    if (!AdvSimd::in::Arm64::in::get_IsSupported()) {
-      rt::throw_exception<PlatformNotSupportedException>();
-    }
-    vector = AdvSimd::in::LoadVector128(pAsciiBuffer);
-    flag = ContainsNonAsciiByte(vector);
-  }
-  if (flag) {
+  Vector128<Byte> vector = Sse2::in::LoadVector128(pAsciiBuffer);
+  UInt32 num2 = (UInt32)Sse2::in::MoveMask(vector);
+  if ((Byte)num2 != 0) {
     return 0u;
   }
   Vector128<Byte> zero = Vector128<Byte>::get_Zero();
-  if (Sse2::in::get_IsSupported()) {
-    Vector128<Byte> source = Sse2::in::UnpackLow(vector, zero);
-    Sse2::in::Store((Byte*)pUtf16Buffer, source);
-  } else {
-    if (!AdvSimd::in::get_IsSupported()) {
-      rt::throw_exception<PlatformNotSupportedException>();
-    }
-    Vector128<Byte> source = Vector128<>::AsByte(AdvSimd::in::ZeroExtendWideningLower(Vector128<>::GetLower(vector)));
-    AdvSimd::in::Store((Byte*)pUtf16Buffer, source);
-  }
-  UIntPtr uIntPtr2 = (UIntPtr)(void*)((UInt64)(num >> 1) - (UInt64)(Int64)(IntPtr)(void*)((UInt64)(Int64)(IntPtr)(void*)((UInt64)pUtf16Buffer >> 1) & (UInt64)(Int64)(IntPtr)(void*)((UInt64)uIntPtr >> 1)));
+  Vector128<Byte> source = Sse2::in::UnpackLow(vector, zero);
+  Sse2::in::Store((Byte*)pUtf16Buffer, source);
+  UIntPtr uIntPtr2 = (UIntPtr)(void*)((UInt64)(num >> 1) - (UInt64)(Int64)(IntPtr)(void*)((UInt64)(Int64)(IntPtr)(void*)((UInt64)(UIntPtr)pUtf16Buffer >> 1) & (UInt64)(Int64)(IntPtr)(void*)((UInt64)uIntPtr >> 1)));
   UIntPtr uIntPtr3 = elementCount - num;
-  Char* ptr = pUtf16Buffer + (UInt64)uIntPtr2;
-  while (true) {
-    if (Sse2::in::get_IsSupported()) {
-      vector = Sse2::in::LoadVector128(pAsciiBuffer + (UInt64)uIntPtr2);
-      flag = Sse2::in::MoveMask(vector) != 0;
-    } else {
-      if (!AdvSimd::in::Arm64::in::get_IsSupported()) {
-        rt::throw_exception<PlatformNotSupportedException>();
-      }
-      vector = AdvSimd::in::LoadVector128(pAsciiBuffer + (UInt64)uIntPtr2);
-      flag = ContainsNonAsciiByte(vector);
-    }
-    if (!flag) {
-      if (Sse2::in::get_IsSupported()) {
-        Vector128<Byte> source2 = Sse2::in::UnpackLow(vector, zero);
-        Sse2::in::StoreAligned((Byte*)ptr, source2);
-        Vector128<Byte> source3 = Sse2::in::UnpackHigh(vector, zero);
-        Sse2::in::StoreAligned((Byte*)ptr + num, source3);
-      } else {
-        if (!AdvSimd::in::Arm64::in::get_IsSupported()) {
-          rt::throw_exception<PlatformNotSupportedException>();
-        }
-        Vector128<UInt16> value = AdvSimd::in::ZeroExtendWideningLower(Vector128<>::GetLower(vector));
-        Vector128<UInt16> value2 = AdvSimd::in::ZeroExtendWideningUpper(vector);
-        AdvSimd::in::Arm64::in::StorePair((UInt16*)ptr, value, value2);
-      }
-      uIntPtr2 = (UIntPtr)(void*)((UInt64)(Int64)(UInt64)uIntPtr2 + (UInt64)num);
+  do {
+    vector = Sse2::in::LoadVector128(pAsciiBuffer + (UInt64)uIntPtr2);
+    num2 = (UInt32)Sse2::in::MoveMask(vector);
+    if (num2 == 0) {
+      Byte* ptr = (Byte*)(pUtf16Buffer + (UInt64)uIntPtr2);
+      Sse2::in::StoreAligned(ptr, Sse2::in::UnpackLow(vector, zero));
       ptr += num;
-      if ((UInt64)uIntPtr2 <= (UInt64)uIntPtr3) {
-        continue;
-      }
-    } else if (!flag) {
-      if (Sse2::in::get_IsSupported()) {
-        Vector128<Byte> source = Sse2::in::UnpackLow(vector, zero);
-        Sse2::in::StoreAligned((Byte*)(pUtf16Buffer + (UInt64)uIntPtr2), source);
-      } else {
-        if (!AdvSimd::in::Arm64::in::get_IsSupported()) {
-          break;
-        }
-        Vector128<UInt16> source4 = AdvSimd::in::ZeroExtendWideningLower(Vector128<>::GetLower(vector));
-        AdvSimd::in::Store((UInt16*)(pUtf16Buffer + (UInt64)uIntPtr2), source4);
-      }
+      Sse2::in::StoreAligned(ptr, Sse2::in::UnpackHigh(vector, zero));
+      uIntPtr2 = (UIntPtr)(void*)((UInt64)(Int64)(UInt64)uIntPtr2 + (UInt64)num);
+      continue;
+    }
+    if ((Byte)num2 == 0) {
+      source = Sse2::in::UnpackLow(vector, zero);
+      Sse2::in::StoreAligned((Byte*)(pUtf16Buffer + (UInt64)uIntPtr2), source);
       uIntPtr2 = (UIntPtr)(void*)((UInt64)(Int64)(UInt64)uIntPtr2 + (UInt64)(num / 2u));
     }
-
-    return uIntPtr2;
-  }
-  rt::throw_exception<PlatformNotSupportedException>();
+    break;
+  } while ((UInt64)uIntPtr2 <= (UInt64)uIntPtr3);
+  return uIntPtr2;
 }
 
 void ASCIIUtility::WidenFourAsciiBytesToUtf16AndWriteToBuffer(Char& outputBuffer, UInt32 value) {
@@ -898,10 +746,6 @@ void ASCIIUtility::WidenFourAsciiBytesToUtf16AndWriteToBuffer(Char& outputBuffer
     Vector128<Byte> left = Vector128<>::AsByte(Sse2::in::ConvertScalarToVector128UInt32(value));
     Vector128<UInt64> value2 = Vector128<>::AsUInt64(Sse2::in::UnpackLow(left, Vector128<Byte>::get_Zero()));
     Unsafe::WriteUnaligned(Unsafe::As<Char, Byte>(outputBuffer), Sse2::in::X64::in::ConvertToUInt64(value2));
-  } else if (AdvSimd::in::Arm64::in::get_IsSupported()) {
-    Vector128<Byte> left2 = Vector128<>::AsByte(AdvSimd::in::DuplicateToVector128(value));
-    Vector128<UInt64> vector = Vector128<>::AsUInt64(AdvSimd::in::Arm64::in::ZipLow(left2, Vector128<Byte>::get_Zero()));
-    Unsafe::WriteUnaligned(Unsafe::As<Char, Byte>(outputBuffer), Vector128<>::ToScalar(vector));
   } else if (BitConverter::IsLittleEndian) {
     outputBuffer = (Char)(Byte)value;
     value >>= 8;
@@ -919,7 +763,6 @@ void ASCIIUtility::WidenFourAsciiBytesToUtf16AndWriteToBuffer(Char& outputBuffer
     value >>= 8;
     outputBuffer = (Char)value;
   }
-
 
 }
 

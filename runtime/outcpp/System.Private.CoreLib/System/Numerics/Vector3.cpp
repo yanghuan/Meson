@@ -37,7 +37,7 @@ Vector3 Vector3::get_UnitZ() {
 }
 
 Int32 Vector3::GetHashCode() {
-  return HashCode::Combine(X, Y, Z);
+  return HashCode::Combine(X.GetHashCode(), Y.GetHashCode(), Z.GetHashCode());
 }
 
 Boolean Vector3::Equals(Object obj) {

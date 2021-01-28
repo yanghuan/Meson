@@ -74,7 +74,7 @@ CLASS(ResourceReader) : public object {
   };
   public: void ctor(Stream stream, Dictionary<String, ResourceLocator> resCache, Boolean permitDeserialization);
   private: Object DeserializeObject(Int32 typeIndex);
-  private: Boolean InitializeBinaryFormatter();
+  private: void InitializeBinaryFormatter();
   private: template <class TInstance>
   static Func<Object, Stream, Object> CreateUntypedDelegate(MethodInfo method);
   private: static Boolean ValidateReaderType(String readerType);

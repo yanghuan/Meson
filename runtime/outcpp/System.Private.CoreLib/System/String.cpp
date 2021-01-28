@@ -6,7 +6,6 @@
 #include <System.Private.CoreLib/System/ArgumentNullException-dep.h>
 #include <System.Private.CoreLib/System/ArgumentOutOfRangeException-dep.h>
 #include <System.Private.CoreLib/System/Buffer-dep.h>
-#include <System.Private.CoreLib/System/Buffers/ArrayPool-dep.h>
 #include <System.Private.CoreLib/System/Collections/Generic/ValueListBuilder-dep.h>
 #include <System.Private.CoreLib/System/Convert-dep.h>
 #include <System.Private.CoreLib/System/ExceptionArgument.h>
@@ -14,7 +13,6 @@
 #include <System.Private.CoreLib/System/Globalization/CompareInfo-dep.h>
 #include <System.Private.CoreLib/System/Globalization/CultureInfo-dep.h>
 #include <System.Private.CoreLib/System/Globalization/Normalization-dep.h>
-#include <System.Private.CoreLib/System/Globalization/Ordinal-dep.h>
 #include <System.Private.CoreLib/System/Globalization/TextInfo-dep.h>
 #include <System.Private.CoreLib/System/IndexOutOfRangeException-dep.h>
 #include <System.Private.CoreLib/System/Int64-dep.h>
@@ -35,7 +33,6 @@
 #include <System.Private.CoreLib/System/Text/ASCIIUtility-dep.h>
 #include <System.Private.CoreLib/System/Text/NormalizationForm.h>
 #include <System.Private.CoreLib/System/Text/TrimType.h>
-#include <System.Private.CoreLib/System/Text/Unicode/Utf16Utility-dep.h>
 #include <System.Private.CoreLib/System/Text/ValueStringBuilder-dep.h>
 #include <System.Private.CoreLib/System/ThrowHelper-dep.h>
 #include <System.Private.CoreLib/System/UInt32-dep.h>
@@ -44,13 +41,11 @@
 
 namespace System::Private::CoreLib::System::StringNamespace {
 using namespace Internal::Runtime::CompilerServices;
-using namespace System::Buffers;
 using namespace System::Collections::Generic;
 using namespace System::Globalization;
 using namespace System::Numerics;
 using namespace System::Runtime::InteropServices;
 using namespace System::Text;
-using namespace System::Text::Unicode;
 
 String String___::Intern(String str) {
   if (str == nullptr) {
@@ -93,20 +88,7 @@ Int32 String___::CompareOrdinalHelper(String strA, Int32 indexA, Int32 countA, S
 }
 
 Boolean String___::EqualsOrdinalIgnoreCase(String strA, String strB) {
-  if ((Object)strA == strB) {
-    return true;
-  }
-  if (strA == nullptr || strB == nullptr) {
-    return false;
-  }
-  if (strA->get_Length() != strB->get_Length()) {
-    return false;
-  }
-  return EqualsOrdinalIgnoreCaseNoLengthCheck(strA, strB);
-}
-
-Boolean String___::EqualsOrdinalIgnoreCaseNoLengthCheck(String strA, String strB) {
-  return Ordinal::EqualsIgnoreCase(strA->GetRawStringData(), strB->GetRawStringData(), strB->get_Length());
+  return CompareInfo::in::EqualsOrdinalIgnoreCase(strA->GetRawStringData(), strB->GetRawStringData(), strB->get_Length());
 }
 
 Int32 String___::CompareOrdinalHelper(String strA, String strB) {
@@ -201,7 +183,7 @@ Int32 String___::Compare(String strA, String strB, StringComparison comparisonTy
       }
       return CompareOrdinalHelper(strA, strB);
     case StringComparison::OrdinalIgnoreCase:
-      return Ordinal::CompareStringIgnoreCase(strA->GetRawStringData(), strA->get_Length(), strB->GetRawStringData(), strB->get_Length());
+      return CompareInfo::in::CompareOrdinalIgnoreCase(strA, strB);
     default:
       rt::throw_exception<ArgumentException>(SR::get_NotSupported_StringComparison(), "comparisonType");
   }
@@ -291,7 +273,7 @@ Int32 String___::Compare(String strA, Int32 indexA, String strB, Int32 indexB, I
     case StringComparison::Ordinal:
       return CompareOrdinalHelper(strA, indexA, num, strB, indexB, num2);
     default:
-      return Ordinal::CompareStringIgnoreCase(Unsafe::Add(strA->GetRawStringData(), indexA), num, Unsafe::Add(strB->GetRawStringData(), indexB), num2);
+      return CompareInfo::in::CompareOrdinalIgnoreCase(strA, indexA, num, strB, indexB, num2);
   }
 }
 
@@ -391,7 +373,7 @@ Boolean String___::EndsWith(String value, StringComparison comparisonType) {
         return false;
       }case StringComparison::OrdinalIgnoreCase:
       if (get_Length() >= value->get_Length()) {
-        return Ordinal::CompareStringIgnoreCase(Unsafe::Add(GetRawStringData(), get_Length() - value->get_Length()), value->get_Length(), value->GetRawStringData(), value->get_Length()) == 0;
+        return CompareInfo::in::CompareOrdinalIgnoreCase((String)this, get_Length() - value->get_Length(), value->get_Length(), value, 0, value->get_Length()) == 0;
       }
       return false;
     default:
@@ -471,7 +453,7 @@ Boolean String___::Equals(String value, StringComparison comparisonType) {
       if (get_Length() != value->get_Length()) {
         return false;
       }
-      return EqualsOrdinalIgnoreCaseNoLengthCheck((String)this, value);
+      return EqualsOrdinalIgnoreCase((String)this, value);
     default:
       rt::throw_exception<ArgumentException>(SR::get_NotSupported_StringComparison(), "comparisonType");
   }
@@ -512,7 +494,7 @@ Boolean String___::Equals(String a, String b, StringComparison comparisonType) {
       if (a->get_Length() != b->get_Length()) {
         return false;
       }
-      return EqualsOrdinalIgnoreCaseNoLengthCheck(a, b);
+      return EqualsOrdinalIgnoreCase(a, b);
     default:
       rt::throw_exception<ArgumentException>(SR::get_NotSupported_StringComparison(), "comparisonType");
   }
@@ -588,75 +570,6 @@ Int32 String___::GetNonRandomizedHashCode() {
   }
 }
 
-Int32 String___::GetNonRandomizedHashCodeOrdinalIgnoreCase() {
-  auto GetNonRandomizedHashCodeOrdinalIgnoreCaseSlow = [](String str) -> Int32 {
-    Int32 num7 = str->get_Length();
-    Array<Char> array = nullptr;
-    Char as[64] = {};
-    Span<Char> span = (((UInt32)num7 >= 64u) ? ((Span<Char>)(array = ArrayPool<Char>::in::get_Shared()->Rent(num7 + 1))) : as);
-    Span<Char> destination = span;
-    Int32 num8 = Ordinal::ToUpperOrdinal(str, destination);
-    destination[num7] = u'\0';
-    UInt32 num9 = 352654597u;
-    UInt32 num10 = num9;
-    {
-      Char* ptr3 = rt::fixed(destination);
-      UInt32* ptr4 = (UInt32*)ptr3;
-      while (num7 > 2) {
-        num7 -= 4;
-        num9 = (BitOperations::RotateLeft(num9, 5) + num9) ^ (*ptr4 | 2097184u);
-        num10 = (BitOperations::RotateLeft(num10, 5) + num10) ^ (ptr4[1] | 2097184u);
-        ptr4 += 2;
-      }
-      if (num7 > 0) {
-        num10 = (BitOperations::RotateLeft(num10, 5) + num10) ^ (*ptr4 | 2097184u);
-      }
-    }
-    if (array != nullptr) {
-      ArrayPool<Char>::in::get_Shared()->Return(array);
-    }
-    return (Int32)(num9 + num10 * 1566083941);
-  };
-  UInt32 num = 352654597u;
-  UInt32 num2 = num;
-  try {
-    {
-      Char* ptr = rt::fixed(&_firstChar);
-      UInt32* ptr2 = (UInt32*)ptr;
-      Int32 num3 = get_Length();
-      while (true) {
-        if (num3 > 2) {
-          UInt32 num4 = *ptr2;
-          UInt32 num5 = ptr2[1];
-          if (Utf16Utility::AllCharsInUInt32AreAscii(num4 | num5)) {
-            num3 -= 4;
-            num = (BitOperations::RotateLeft(num, 5) + num) ^ (num4 | 2097184u);
-            num2 = (BitOperations::RotateLeft(num2, 5) + num2) ^ (num5 | 2097184u);
-            ptr2 += 2;
-            continue;
-          }
-        } else {
-          if (num3 <= 0) {
-            break;
-          }
-          UInt32 num6 = *ptr2;
-          if (Utf16Utility::AllCharsInUInt32AreAscii(num6)) {
-            num2 = (BitOperations::RotateLeft(num2, 5) + num2) ^ (num6 | 2097184u);
-            break;
-          }
-        }
-        goto IL_00ab;
-      }
-    }
-  } catch (...) {
-  } finally: {
-  }
-  return (Int32)(num + num2 * 1566083941);
-
-IL_00ab:
-  return GetNonRandomizedHashCodeOrdinalIgnoreCaseSlow((String)this);
-}
-
 Boolean String___::StartsWith(String value) {
   if (value == nullptr) {
     rt::throw_exception<ArgumentNullException>("value");
@@ -695,7 +608,7 @@ Boolean String___::StartsWith(String value, StringComparison comparisonType) {
       if (get_Length() < value->get_Length()) {
         return false;
       }
-      return Ordinal::EqualsIgnoreCase(GetRawStringData(), value->GetRawStringData(), value->get_Length());
+      return CompareInfo::in::EqualsOrdinalIgnoreCase(GetRawStringData(), value->GetRawStringData(), value->get_Length());
     default:
       rt::throw_exception<ArgumentException>(SR::get_NotSupported_StringComparison(), "comparisonType");
   }
@@ -1815,16 +1728,16 @@ String String___::ReplaceCore(ReadOnlySpan<Char> searchSpace, ReadOnlySpan<Char>
   Span<Char> initialBuffer = as;
   ValueStringBuilder valueStringBuilder = ValueStringBuilder(initialBuffer);
   valueStringBuilder.EnsureCapacity(searchSpace.get_Length());
+  Int32 num = 0;
   Boolean flag = false;
   while (true) {
-    Int32 matchLength;
-    Int32 num = compareInfo->IndexOf(searchSpace, oldValue, options, matchLength);
-    if (num < 0 || matchLength == 0) {
+    Int32 num2 = compareInfo->IndexOf(searchSpace, oldValue, &num, options, true);
+    if (num2 < 0 || num == 0) {
       break;
     }
-    valueStringBuilder.Append(searchSpace.Slice(0, num));
+    valueStringBuilder.Append(searchSpace.Slice(0, num2));
     valueStringBuilder.Append(newValue);
-    searchSpace = searchSpace.Slice(num + matchLength);
+    searchSpace = searchSpace.Slice(num2 + num);
     flag = true;
   }
   if (!flag) {
@@ -1968,37 +1881,25 @@ Array<String> String___::SplitInternal(ReadOnlySpan<Char> separators, Int32 coun
   if (count < 0) {
     rt::throw_exception<ArgumentOutOfRangeException>("count", SR::get_ArgumentOutOfRange_NegativeCount());
   }
-  CheckStringSplitOptions(options);
-  ValueListBuilder<Int32> sepListBuilder;
-  ReadOnlySpan<Int32> sepList;
-  while (true) {
-    if (count <= 1 || get_Length() == 0) {
-      String text = (String)this;
-      if ((options & StringSplitOptions::TrimEntries) != 0 && count > 0) {
-        text = text->Trim();
-      }
-      if ((options & StringSplitOptions::RemoveEmptyEntries) != 0 && text->get_Length() == 0) {
-        count = 0;
-      }
-      if (count != 0) {
-        return rt::newarr<Array<String>>(1);
-      }
-      return Array<>::in::Empty<String>();
-    }
-    if (separators.get_IsEmpty()) {
-      options &= ~StringSplitOptions::TrimEntries;
-    }
-    Int32 as[128] = {};
-    Span<Int32> initialSpan = as;
-    sepListBuilder = ValueListBuilder<Int32>(initialSpan);
-    MakeSeparatorList(separators, sepListBuilder);
-    sepList = sepListBuilder.AsSpan();
-    if (sepList.get_Length() != 0) {
-      break;
-    }
-    count = 1;
+  if (options < StringSplitOptions::None || options > StringSplitOptions::RemoveEmptyEntries) {
+    rt::throw_exception<ArgumentException>(SR::Format(SR::get_Arg_EnumIllegalVal(), options));
   }
-  Array<String> result = ((options != 0) ? SplitWithPostProcessing(sepList, rt::default__, 1, count, options) : SplitWithoutPostProcessing(sepList, rt::default__, 1, count));
+  Boolean flag = options == StringSplitOptions::RemoveEmptyEntries;
+  if (count == 0 || (flag && get_Length() == 0)) {
+    return Array<>::in::Empty<String>();
+  }
+  if (count == 1) {
+    return rt::newarr<Array<String>>(1);
+  }
+  Int32 as[128] = {};
+  Span<Int32> initialSpan = as;
+  ValueListBuilder<Int32> sepListBuilder = ValueListBuilder<Int32>(initialSpan);
+  MakeSeparatorList(separators, sepListBuilder);
+  ReadOnlySpan<Int32> sepList = sepListBuilder.AsSpan();
+  if (sepList.get_Length() == 0) {
+    return rt::newarr<Array<String>>(1);
+  }
+  Array<String> result = (flag ? SplitOmitEmptyEntries(sepList, rt::default__, 1, count) : SplitKeepEmptyEntries(sepList, rt::default__, 1, count));
   sepListBuilder.Dispose();
   return result;
 }
@@ -2025,32 +1926,21 @@ Array<String> String___::SplitInternal(String separator, Array<String> separator
   if (count < 0) {
     rt::throw_exception<ArgumentOutOfRangeException>("count", SR::get_ArgumentOutOfRange_NegativeCount());
   }
-  CheckStringSplitOptions(options);
-  Boolean flag = separator != nullptr;
-  if (!flag && (separators == nullptr || separators->get_Length() == 0)) {
+  if (options < StringSplitOptions::None || options > StringSplitOptions::RemoveEmptyEntries) {
+    rt::throw_exception<ArgumentException>(SR::Format(SR::get_Arg_EnumIllegalVal(), (Int32)options));
+  }
+  Boolean flag = options == StringSplitOptions::RemoveEmptyEntries;
+  Boolean flag2 = separator != nullptr;
+  if (!flag2 && (separators == nullptr || separators->get_Length() == 0)) {
     return SplitInternal(rt::default__, count, options);
   }
-  while (true) {
-    if (count <= 1 || get_Length() == 0) {
-      String text = (String)this;
-      if ((options & StringSplitOptions::TrimEntries) != 0 && count > 0) {
-        text = text->Trim();
-      }
-      if ((options & StringSplitOptions::RemoveEmptyEntries) != 0 && text->get_Length() == 0) {
-        count = 0;
-      }
-      if (count != 0) {
-        return rt::newarr<Array<String>>(1);
-      }
-      return Array<>::in::Empty<String>();
-    }
-    if (!flag) {
-      break;
-    }
-    if (separator->get_Length() == 0) {
-      count = 1;
-      continue;
-    }
+  if (count == 0 || (flag && get_Length() == 0)) {
+    return Array<>::in::Empty<String>();
+  }
+  if (count == 1 || (flag2 && separator->get_Length() == 0)) {
+    return rt::newarr<Array<String>>(1);
+  }
+  if (flag2) {
     return SplitInternal(separator, count, options);
   }
   Int32 as[128] = {};
@@ -2065,7 +1955,7 @@ Array<String> String___::SplitInternal(String separator, Array<String> separator
   if (sepList.get_Length() == 0) {
     return rt::newarr<Array<String>>(1);
   }
-  Array<String> result = ((options != 0) ? SplitWithPostProcessing(sepList, lengthList, 0, count, options) : SplitWithoutPostProcessing(sepList, lengthList, 0, count));
+  Array<String> result = (flag ? SplitOmitEmptyEntries(sepList, lengthList, 0, count) : SplitKeepEmptyEntries(sepList, lengthList, 0, count));
   sepListBuilder.Dispose();
   lengthListBuilder.Dispose();
   return result;
@@ -2078,21 +1968,14 @@ Array<String> String___::SplitInternal(String separator, Int32 count, StringSpli
   MakeSeparatorList(separator, sepListBuilder);
   ReadOnlySpan<Int32> sepList = sepListBuilder.AsSpan();
   if (sepList.get_Length() == 0) {
-    String text = (String)this;
-    if ((options & StringSplitOptions::TrimEntries) != 0) {
-      text = text->Trim();
-    }
-    if (text->get_Length() != 0 || (options & StringSplitOptions::RemoveEmptyEntries) == 0) {
-      return rt::newarr<Array<String>>(1);
-    }
-    return Array<>::in::Empty<String>();
+    return rt::newarr<Array<String>>(1);
   }
-  Array<String> result = ((options != 0) ? SplitWithPostProcessing(sepList, rt::default__, separator->get_Length(), count, options) : SplitWithoutPostProcessing(sepList, rt::default__, separator->get_Length(), count));
+  Array<String> result = ((options == StringSplitOptions::RemoveEmptyEntries) ? SplitOmitEmptyEntries(sepList, rt::default__, separator->get_Length(), count) : SplitKeepEmptyEntries(sepList, rt::default__, separator->get_Length(), count));
   sepListBuilder.Dispose();
   return result;
 }
 
-Array<String> String___::SplitWithoutPostProcessing(ReadOnlySpan<Int32> sepList, ReadOnlySpan<Int32> lengthList, Int32 defaultLength, Int32 count) {
+Array<String> String___::SplitKeepEmptyEntries(ReadOnlySpan<Int32> sepList, ReadOnlySpan<Int32> lengthList, Int32 defaultLength, Int32 count) {
   Int32 num = 0;
   Int32 num2 = 0;
   count--;
@@ -2114,49 +1997,38 @@ Array<String> String___::SplitWithoutPostProcessing(ReadOnlySpan<Int32> sepList,
   return array;
 }
 
-Array<String> String___::SplitWithPostProcessing(ReadOnlySpan<Int32> sepList, ReadOnlySpan<Int32> lengthList, Int32 defaultLength, Int32 count, StringSplitOptions options) {
+Array<String> String___::SplitOmitEmptyEntries(ReadOnlySpan<Int32> sepList, ReadOnlySpan<Int32> lengthList, Int32 defaultLength, Int32 count) {
   Int32 length = sepList.get_Length();
   Int32 num = ((length < count) ? (length + 1) : count);
   Array<String> array = rt::newarr<Array<String>>(num);
   Int32 num2 = 0;
   Int32 num3 = 0;
-  ReadOnlySpan<Char> span;
   for (Int32 i = 0; i < length; i++) {
-    span = MemoryExtensions::AsSpan(this, num2, sepList[i] - num2);
-    if ((options & StringSplitOptions::TrimEntries) != 0) {
-      span = MemoryExtensions::Trim(span);
-    }
-    if (!span.get_IsEmpty() || (options & StringSplitOptions::RemoveEmptyEntries) == 0) {
-      array[num3++] = span.ToString();
-    }
-    num2 = sepList[i] + (lengthList.get_IsEmpty() ? defaultLength : lengthList[i]);
-    if (num3 != count - 1) {
-      continue;
-    }
-    if ((options & StringSplitOptions::RemoveEmptyEntries) == 0) {
+    if (num2 >= get_Length()) {
       break;
     }
-    while (++i < length) {
-      span = MemoryExtensions::AsSpan(this, num2, sepList[i] - num2);
-      if ((options & StringSplitOptions::TrimEntries) != 0) {
-        span = MemoryExtensions::Trim(span);
-      }
-      if (!span.get_IsEmpty()) {
-        break;
-      }
-      num2 = sepList[i] + (lengthList.get_IsEmpty() ? defaultLength : lengthList[i]);
+    if (sepList[i] - num2 > 0) {
+      array[num3++] = Substring(num2, sepList[i] - num2);
     }
-    break;
+    num2 = sepList[i] + (lengthList.get_IsEmpty() ? defaultLength : lengthList[i]);
+    if (num3 == count - 1) {
+      while (i < length - 1 && num2 == sepList[++i]) {
+        num2 += (lengthList.get_IsEmpty() ? defaultLength : lengthList[i]);
+      }
+      break;
+    }
   }
-  span = MemoryExtensions::AsSpan(this, num2);
-  if ((options & StringSplitOptions::TrimEntries) != 0) {
-    span = MemoryExtensions::Trim(span);
+  if (num2 < get_Length()) {
+    array[num3++] = Substring(num2);
   }
-  if (!span.get_IsEmpty() || (options & StringSplitOptions::RemoveEmptyEntries) == 0) {
-    array[num3++] = span.ToString();
+  Array<String> array2 = array;
+  if (num3 != num) {
+    array2 = rt::newarr<Array<String>>(num3);
+    for (Int32 j = 0; j < num3; j++) {
+      array2[j] = array[j];
+    }
   }
-  Array<>::in::Resize(array, num3);
-  return array;
+  return array2;
 }
 
 void String___::MakeSeparatorList(ReadOnlySpan<Char> separators, ValueListBuilder<Int32>& sepListBuilder) {
@@ -2236,12 +2108,6 @@ void String___::MakeSeparatorList(Array<String> separators, ValueListBuilder<Int
         }
       }
     }
-  }
-}
-
-void String___::CheckStringSplitOptions(StringSplitOptions options) {
-  if (((UInt32)options & 4294967292u) != 0) {
-    ThrowHelper::ThrowArgumentException(ExceptionResource::Argument_InvalidFlag, ExceptionArgument::options);
   }
 }
 
@@ -2587,7 +2453,7 @@ Int32 String___::IndexOf(String value, Int32 startIndex, Int32 count, StringComp
       return CompareInfo::in::Invariant->IndexOf((String)this, value, startIndex, count, GetCaseCompareOfComparisonCulture(comparisonType));
     case StringComparison::Ordinal:
     case StringComparison::OrdinalIgnoreCase:
-      return Ordinal::IndexOf((String)this, value, startIndex, count, comparisonType == StringComparison::OrdinalIgnoreCase);
+      return CompareInfo::in::Invariant->IndexOf((String)this, value, startIndex, count, GetCompareOptionsFromOrdinalStringComparison(comparisonType));
     default:
       rt::throw_exception((value == nullptr) ? rt::newobj<ArgumentNullException>("value") : rt::newobj<ArgumentException>(SR::get_NotSupported_StringComparison(), "comparisonType"));
   }
@@ -2702,35 +2568,6 @@ Int32 String___::LastIndexOf(String value, Int32 startIndex, Int32 count, String
     default:
       rt::throw_exception((value == nullptr) ? rt::newobj<ArgumentNullException>("value") : rt::newobj<ArgumentException>(SR::get_NotSupported_StringComparison(), "comparisonType"));
   }
-}
-
-Int32 String___::_GetNonRandomizedHashCodeOrdinalIgnoreCase_g__GetNonRandomizedHashCodeOrdinalIgnoreCaseSlow52_0(String str) {
-  Int32 num = str->get_Length();
-  Array<Char> array = nullptr;
-  Char as[64] = {};
-  Span<Char> span = (((UInt32)num >= 64u) ? ((Span<Char>)(array = ArrayPool<Char>::in::get_Shared()->Rent(num + 1))) : as);
-  Span<Char> destination = span;
-  Int32 num2 = Ordinal::ToUpperOrdinal(str, destination);
-  destination[num] = u'\0';
-  UInt32 num3 = 352654597u;
-  UInt32 num4 = num3;
-  {
-    Char* ptr = rt::fixed(destination);
-    UInt32* ptr2 = (UInt32*)ptr;
-    while (num > 2) {
-      num -= 4;
-      num3 = (BitOperations::RotateLeft(num3, 5) + num3) ^ (*ptr2 | 2097184u);
-      num4 = (BitOperations::RotateLeft(num4, 5) + num4) ^ (ptr2[1] | 2097184u);
-      ptr2 += 2;
-    }
-    if (num > 0) {
-      num4 = (BitOperations::RotateLeft(num4, 5) + num4) ^ (*ptr2 | 2097184u);
-    }
-  }
-  if (array != nullptr) {
-    ArrayPool<Char>::in::get_Shared()->Return(array);
-  }
-  return (Int32)(num3 + num4 * 1566083941);
 }
 
 } // namespace System::Private::CoreLib::System::StringNamespace

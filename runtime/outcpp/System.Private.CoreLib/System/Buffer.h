@@ -25,8 +25,6 @@ class Buffer {
   private: static void __Memmove(Byte* dest, Byte* src, UIntPtr len);
   public: static void Memcpy(Byte* dest, Byte* src, Int32 len);
   public: static void Memcpy(Byte* pDest, Int32 destIndex, Array<Byte> src, Int32 srcIndex, Int32 len);
-  public: template <class T>
-  static void Memmove(T& destination, T& source, UIntPtr elementCount);
   public: static void BlockCopy(Array<> src, Int32 srcOffset, Array<> dst, Int32 dstOffset, Int32 count);
   public: static Int32 ByteLength(Array<> array);
   public: static Byte GetByte(Array<> array, Int32 index);
@@ -35,6 +33,8 @@ class Buffer {
   public: static void MemoryCopy(void* source, void* destination, Int64 destinationSizeInBytes, Int64 sourceBytesToCopy);
   public: static void MemoryCopy(void* source, void* destination, UInt64 destinationSizeInBytes, UInt64 sourceBytesToCopy);
   public: static void Memmove(Byte* dest, Byte* src, UIntPtr len);
+  public: template <class T>
+  static void Memmove(T& destination, T& source, UIntPtr elementCount);
   private: static void Memmove(Byte& dest, Byte& src, UIntPtr len);
   private: static void _Memmove(Byte* dest, Byte* src, UIntPtr len);
   private: static void _Memmove(Byte& dest, Byte& src, UIntPtr len);

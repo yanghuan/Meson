@@ -147,7 +147,7 @@ String StackFrame___::ToString() {
   } else {
     stringBuilder->Append((String)"<null>");
   }
-  stringBuilder->AppendLine();
+  stringBuilder->Append((String)"\r\n");
   return stringBuilder->ToString();
 }
 

@@ -4,6 +4,7 @@
 
 #include <System.Private.CoreLib/Interop-dep.h>
 #include <System.Private.CoreLib/System/Array-dep.h>
+#include <System.Private.CoreLib/System/AsyncCallback-dep.h>
 #include <System.Private.CoreLib/System/Boolean-dep.h>
 #include <System.Private.CoreLib/System/Byte-dep.h>
 #include <System.Private.CoreLib/System/Collections/Generic/IDictionary.h>
@@ -16,6 +17,7 @@
 #include <System.Private.CoreLib/System/Diagnostics/Tracing/EventSource-dep.h>
 #include <System.Private.CoreLib/System/Diagnostics/Tracing/IEventProvider.h>
 #include <System.Private.CoreLib/System/Guid-dep.h>
+#include <System.Private.CoreLib/System/IAsyncResult.h>
 #include <System.Private.CoreLib/System/IDisposable.h>
 #include <System.Private.CoreLib/System/Int32-dep.h>
 #include <System.Private.CoreLib/System/Int64-dep.h>

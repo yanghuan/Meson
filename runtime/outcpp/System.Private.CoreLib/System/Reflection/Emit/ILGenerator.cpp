@@ -9,7 +9,6 @@
 #include <System.Private.CoreLib/System/Exception-dep.h>
 #include <System.Private.CoreLib/System/Int16-dep.h>
 #include <System.Private.CoreLib/System/InvalidOperationException-dep.h>
-#include <System.Private.CoreLib/System/IO/TextWriter-dep.h>
 #include <System.Private.CoreLib/System/Math-dep.h>
 #include <System.Private.CoreLib/System/MemoryExtensions-dep.h>
 #include <System.Private.CoreLib/System/NotSupportedException-dep.h>
@@ -32,7 +31,6 @@
 
 namespace System::Private::CoreLib::System::Reflection::Emit::ILGeneratorNamespace {
 using namespace System::Buffers::Binary;
-using namespace System::IO;
 
 Int32 ILGenerator___::get_CurrExcStackCount() {
   return m_currExcStackCount;
@@ -740,11 +738,14 @@ void ILGenerator___::ThrowException(Type excType) {
   Emit(OpCodes::in::Throw);
 }
 
+Type ILGenerator___::GetConsoleType() {
+  return Type::in::GetType("System.Console, System.Console", true);
+}
+
 void ILGenerator___::EmitWriteLine(String value) {
   Emit(OpCodes::in::Ldstr, value);
   Array<Type> types = rt::newarr<Array<Type>>(1);
-  Type type = Type::in::GetType("System.Console, System.Console", true);
-  MethodInfo method = type->GetMethod("WriteLine", types);
+  MethodInfo method = GetConsoleType()->GetMethod("WriteLine", types);
   Emit(OpCodes::in::Call, method);
 }
 
@@ -752,8 +753,7 @@ void ILGenerator___::EmitWriteLine(LocalBuilder localBuilder) {
   if (m_methodBuilder == nullptr) {
     rt::throw_exception<ArgumentException>(SR::get_InvalidOperation_BadILGeneratorUsage());
   }
-  Type type = Type::in::GetType("System.Console, System.Console", true);
-  MethodInfo method = type->GetMethod("get_Out");
+  MethodInfo method = GetConsoleType()->GetMethod("get_Out");
   Emit(OpCodes::in::Call, method);
   Emit(OpCodes::in::Ldloc, localBuilder);
   Array<Type> array = rt::newarr<Array<Type>>(1);
@@ -762,7 +762,7 @@ void ILGenerator___::EmitWriteLine(LocalBuilder localBuilder) {
     rt::throw_exception<ArgumentException>(SR::get_NotSupported_OutputStreamUsingTypeBuilder());
   }
   array[0] = localType;
-  MethodInfo method2 = typeof<TextWriter>()->GetMethod("WriteLine", array);
+  MethodInfo method2 = method->get_ReturnType()->GetMethod("WriteLine", array);
   if (method2 == nullptr) {
     rt::throw_exception<ArgumentException>(SR::get_Argument_EmitWriteLineType(), "localBuilder");
   }
@@ -773,8 +773,7 @@ void ILGenerator___::EmitWriteLine(FieldInfo fld) {
   if (fld == nullptr) {
     rt::throw_exception<ArgumentNullException>("fld");
   }
-  Type type = Type::in::GetType("System.Console, System.Console", true);
-  MethodInfo method = type->GetMethod("get_Out");
+  MethodInfo method = GetConsoleType()->GetMethod("get_Out");
   Emit(OpCodes::in::Call, method);
   if ((fld->get_Attributes() & FieldAttributes::Static) != 0) {
     Emit(OpCodes::in::Ldsfld, fld);
@@ -788,7 +787,7 @@ void ILGenerator___::EmitWriteLine(FieldInfo fld) {
     rt::throw_exception<NotSupportedException>(SR::get_NotSupported_OutputStreamUsingTypeBuilder());
   }
   array[0] = fieldType;
-  MethodInfo method2 = typeof<TextWriter>()->GetMethod("WriteLine", array);
+  MethodInfo method2 = method->get_ReturnType()->GetMethod("WriteLine", array);
   if (method2 == nullptr) {
     rt::throw_exception<ArgumentException>(SR::get_Argument_EmitWriteLineType(), "fld");
   }

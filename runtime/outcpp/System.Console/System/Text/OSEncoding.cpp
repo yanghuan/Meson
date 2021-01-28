@@ -44,7 +44,7 @@ Int32 OSEncoding___::GetByteCount(Array<Char> chars, Int32 index, Int32 count) {
     return 0;
   }
   {
-    Char* ptr = chars;
+    Char* ptr = rt::fixed(chars);
     return WideCharToMultiByte(_codePage, ptr + index, count, nullptr, 0);
   }
 }
@@ -57,7 +57,7 @@ Int32 OSEncoding___::GetByteCount(String s) {
     return 0;
   }
   {
-    Char* ptr = s;
+    Char* ptr = rt::fixed(s);
     Char* pChars = ptr;
     return WideCharToMultiByte(_codePage, pChars, s->get_Length(), nullptr, 0);
   }
@@ -83,10 +83,10 @@ Int32 OSEncoding___::GetBytes(String s, Int32 charIndex, Int32 charCount, Array<
     rt::throw_exception<ArgumentOutOfRangeException>(SR::get_Argument_EncodingConversionOverflowBytes());
   }
   {
-    Char* ptr = s;
+    Char* ptr = rt::fixed(s);
     Char* ptr2 = ptr;
     {
-      Byte* ptr3 = &bytes[0];
+      Byte* ptr3 = rt::fixed(&bytes[0]);
       return WideCharToMultiByte(_codePage, ptr2 + charIndex, charCount, ptr3 + byteIndex, bytes->get_Length() - byteIndex);
     }
   }
@@ -112,9 +112,9 @@ Int32 OSEncoding___::GetBytes(Array<Char> chars, Int32 charIndex, Int32 charCoun
     rt::throw_exception<ArgumentOutOfRangeException>(SR::get_Argument_EncodingConversionOverflowBytes());
   }
   {
-    Char* ptr = chars;
+    Char* ptr = rt::fixed(chars);
     {
-      Byte* ptr2 = &bytes[0];
+      Byte* ptr2 = rt::fixed(&bytes[0]);
       return WideCharToMultiByte(_codePage, ptr + charIndex, charCount, ptr2 + byteIndex, bytes->get_Length() - byteIndex);
     }
   }
@@ -134,7 +134,7 @@ Int32 OSEncoding___::GetCharCount(Array<Byte> bytes, Int32 index, Int32 count) {
     return 0;
   }
   {
-    Byte* ptr = bytes;
+    Byte* ptr = rt::fixed(bytes);
     return MultiByteToWideChar(_codePage, ptr + index, count, nullptr, 0);
   }
 }
@@ -159,9 +159,9 @@ Int32 OSEncoding___::GetChars(Array<Byte> bytes, Int32 byteIndex, Int32 byteCoun
     rt::throw_exception<ArgumentOutOfRangeException>(SR::get_Argument_EncodingConversionOverflowChars());
   }
   {
-    Byte* ptr = bytes;
+    Byte* ptr = rt::fixed(bytes);
     {
-      Char* ptr2 = &chars[0];
+      Char* ptr2 = rt::fixed(&chars[0]);
       return MultiByteToWideChar(_codePage, ptr + byteIndex, byteCount, ptr2 + charIndex, chars->get_Length() - charIndex);
     }
   }

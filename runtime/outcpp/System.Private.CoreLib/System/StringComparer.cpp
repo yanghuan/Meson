@@ -15,11 +15,11 @@ namespace System::Private::CoreLib::System::StringComparerNamespace {
 using namespace System::Globalization;
 
 StringComparer StringComparer___::get_InvariantCulture() {
-  return CultureAwareComparer::in::InvariantCaseSensitiveInstance;
+  return s_invariantCulture;
 }
 
 StringComparer StringComparer___::get_InvariantCultureIgnoreCase() {
-  return CultureAwareComparer::in::InvariantIgnoreCaseInstance;
+  return s_invariantCultureIgnoreCase;
 }
 
 StringComparer StringComparer___::get_CurrentCulture() {
@@ -31,11 +31,11 @@ StringComparer StringComparer___::get_CurrentCultureIgnoreCase() {
 }
 
 StringComparer StringComparer___::get_Ordinal() {
-  return OrdinalCaseSensitiveComparer::in::Instance;
+  return s_ordinal;
 }
 
 StringComparer StringComparer___::get_OrdinalIgnoreCase() {
-  return OrdinalIgnoreCaseComparer::in::Instance;
+  return s_ordinalIgnoreCase;
 }
 
 StringComparer StringComparer___::FromComparison(StringComparison comparisonType) {
@@ -108,6 +108,13 @@ Int32 StringComparer___::GetHashCode(Object obj) {
 }
 
 void StringComparer___::ctor() {
+}
+
+void StringComparer___::cctor() {
+  s_invariantCulture = rt::newobj<CultureAwareComparer>(CultureInfo::in::get_InvariantCulture(), CompareOptions::None);
+  s_invariantCultureIgnoreCase = rt::newobj<CultureAwareComparer>(CultureInfo::in::get_InvariantCulture(), CompareOptions::IgnoreCase);
+  s_ordinal = rt::newobj<OrdinalCaseSensitiveComparer>();
+  s_ordinalIgnoreCase = rt::newobj<OrdinalIgnoreCaseComparer>();
 }
 
 } // namespace System::Private::CoreLib::System::StringComparerNamespace

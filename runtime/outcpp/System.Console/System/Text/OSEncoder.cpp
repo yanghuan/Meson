@@ -32,7 +32,7 @@ Int32 OSEncoder___::GetByteCount(Array<Char> chars, Int32 index, Int32 count, Bo
     return 0;
   }
   {
-    Char* ptr = chars;
+    Char* ptr = rt::fixed(chars);
     Char c;
     Char* chars2 = ((ptr == nullptr) ? (&c) : (ptr + index));
     return GetByteCount(chars2, count, flush);
@@ -98,9 +98,9 @@ Int32 OSEncoder___::GetBytes(Array<Char> chars, Int32 charIndex, Int32 charCount
     return 0;
   }
   {
-    Char* ptr = chars;
+    Char* ptr = rt::fixed(chars);
     {
-      Byte* ptr2 = &bytes[0];
+      Byte* ptr2 = rt::fixed(&bytes[0]);
       Char c;
       Char* chars2 = ((ptr == nullptr) ? (&c) : (ptr + charIndex));
       return GetBytes(chars2, charCount, ptr2 + byteIndex, bytes->get_Length() - byteIndex, flush);
@@ -162,9 +162,9 @@ void OSEncoder___::Convert(Array<Char> chars, Int32 charIndex, Int32 charCount, 
     return;
   }
   {
-    Char* ptr = chars;
+    Char* ptr = rt::fixed(chars);
     {
-      Byte* ptr2 = &bytes[0];
+      Byte* ptr2 = rt::fixed(&bytes[0]);
       Char c;
       Char* chars2 = ((ptr == nullptr) ? (&c) : (ptr + charIndex));
       Convert(chars2, charCount, ptr2 + byteIndex, byteCount, flush, charsUsed, bytesUsed, completed);

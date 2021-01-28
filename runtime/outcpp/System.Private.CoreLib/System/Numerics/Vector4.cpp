@@ -41,7 +41,7 @@ Vector4 Vector4::get_UnitW() {
 }
 
 Int32 Vector4::GetHashCode() {
-  return HashCode::Combine(X, Y, Z, W);
+  return HashCode::Combine(X.GetHashCode(), Y.GetHashCode(), Z.GetHashCode(), W.GetHashCode());
 }
 
 Boolean Vector4::Equals(Object obj) {
@@ -108,7 +108,7 @@ Vector4 Vector4::Clamp(Vector4 value1, Vector4 min, Vector4 max) {
 }
 
 Vector4 Vector4::Lerp(Vector4 value1, Vector4 value2, Single amount) {
-  return value1 * (1 - amount) + value2 * amount;
+  return value1 + (value2 - value1) * amount;
 }
 
 Vector4 Vector4::Transform(Vector2 position, Matrix4x4 matrix) {

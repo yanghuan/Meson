@@ -5,7 +5,6 @@
 #include <System.Private.CoreLib/System/ArgumentNullException-dep.h>
 #include <System.Private.CoreLib/System/ArgumentOutOfRangeException-dep.h>
 #include <System.Private.CoreLib/System/Buffer-dep.h>
-#include <System.Private.CoreLib/System/Environment-dep.h>
 #include <System.Private.CoreLib/System/FormatException-dep.h>
 #include <System.Private.CoreLib/System/GC-dep.h>
 #include <System.Private.CoreLib/System/ICustomFormatter.h>
@@ -378,6 +377,7 @@ void StringBuilder___::ctor(SerializationInfo info, StreamingContext context) {
   m_ChunkChars = GC::AllocateUninitializedArray<Char>(num);
   text->CopyTo(0, m_ChunkChars, 0, text->get_Length());
   m_ChunkLength = text->get_Length();
+  m_ChunkPrevious = nullptr;
 }
 
 void StringBuilder___::GetObjectDataOfISerializable(SerializationInfo info, StreamingContext context) {
@@ -517,7 +517,8 @@ StringBuilder StringBuilder___::Append(String value) {
     Array<Char> chunkChars = m_ChunkChars;
     Int32 chunkLength = m_ChunkLength;
     Int32 length = value->get_Length();
-    if ((UInt32)(chunkLength + length) < (UInt32)chunkChars->get_Length()) {
+    Int32 num = chunkLength + length;
+    if (num < chunkChars->get_Length()) {
       if (length <= 2) {
         if (length > 0) {
           chunkChars[chunkLength] = value[0];
@@ -535,7 +536,7 @@ StringBuilder StringBuilder___::Append(String value) {
           }
         }
       }
-      m_ChunkLength = chunkLength + length;
+      m_ChunkLength = num;
     } else {
       AppendHelper(value);
     }
@@ -630,12 +631,12 @@ StringBuilder StringBuilder___::AppendCore(StringBuilder value, Int32 startIndex
 }
 
 StringBuilder StringBuilder___::AppendLine() {
-  return Append(Environment::get_NewLine());
+  return Append((String)"\r\n");
 }
 
 StringBuilder StringBuilder___::AppendLine(String value) {
   Append(value);
-  return Append(Environment::get_NewLine());
+  return Append((String)"\r\n");
 }
 
 void StringBuilder___::CopyTo(Int32 sourceIndex, Array<Char> destination, Int32 destinationIndex, Int32 count) {

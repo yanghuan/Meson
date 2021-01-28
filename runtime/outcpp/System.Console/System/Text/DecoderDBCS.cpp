@@ -54,7 +54,7 @@ Int32 DecoderDBCS___::GetCharCount(Array<Byte> bytes, Int32 index, Int32 count, 
     return 0;
   }
   {
-    Byte* ptr = bytes;
+    Byte* ptr = rt::fixed(bytes);
     Byte b;
     Byte* bytes2 = ((ptr == nullptr) ? (&b) : (ptr + index));
     return GetCharCount(bytes2, count, flush);
@@ -124,9 +124,9 @@ Int32 DecoderDBCS___::GetChars(Array<Byte> bytes, Int32 byteIndex, Int32 byteCou
     return 0;
   }
   {
-    Char* ptr2 = &chars[0];
+    Char* ptr2 = rt::fixed(&chars[0]);
     {
-      Byte* ptr = bytes;
+      Byte* ptr = rt::fixed(bytes);
       Byte b;
       Byte* bytes2 = ((ptr == nullptr) ? (&b) : (ptr + byteIndex));
       return GetChars(bytes2, byteCount, ptr2 + charIndex, chars->get_Length() - charIndex, flush);
@@ -188,9 +188,9 @@ void DecoderDBCS___::Convert(Array<Byte> bytes, Int32 byteIndex, Int32 byteCount
     return;
   }
   {
-    Char* ptr2 = &chars[0];
+    Char* ptr2 = rt::fixed(&chars[0]);
     {
-      Byte* ptr = bytes;
+      Byte* ptr = rt::fixed(bytes);
       Byte b;
       Byte* bytes2 = ((ptr == nullptr) ? (&b) : (ptr + byteIndex));
       Convert(bytes2, byteCount, ptr2 + charIndex, charCount, flush, bytesUsed, charsUsed, completed);

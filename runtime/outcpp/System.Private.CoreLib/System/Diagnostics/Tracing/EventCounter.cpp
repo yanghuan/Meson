@@ -16,11 +16,7 @@ using namespace System::Threading;
 void EventCounter___::ctor(String name, Tracing::EventSource eventSource) {
   _min = Double::PositiveInfinity;
   _max = Double::NegativeInfinity;
-  Array<Double> array = rt::newarr<Array<Double>>(10);
-  for (Int32 i = 0; i < array->get_Length(); i++) {
-    array[i] = Double::NegativeInfinity;
-  }
-  _bufferedValues = array;
+  InitializeBuffer();
   Publish();
 }
 
@@ -89,6 +85,13 @@ void EventCounter___::ResetStatistics() {
     _sumSquared = 0;
     _min = Double::PositiveInfinity;
     _max = Double::NegativeInfinity;
+  }
+}
+
+void EventCounter___::InitializeBuffer() {
+  _bufferedValues = rt::newarr<Array<Double>>(10);
+  for (Int32 i = 0; i < _bufferedValues->get_Length(); i++) {
+    _bufferedValues[i] = Double::NegativeInfinity;
   }
 }
 

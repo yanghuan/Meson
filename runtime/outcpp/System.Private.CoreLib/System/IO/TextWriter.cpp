@@ -499,6 +499,7 @@ void TextWriter___::ctor() {
   CoreNewLine = s_coreNewLine;
   CoreNewLineStr = "\r\n";
   MarshalByRefObject::in::ctor();
+  _internalFormatProvider = nullptr;
 }
 
 void TextWriter___::ctor(IFormatProvider formatProvider) {
@@ -526,7 +527,7 @@ ValueTask<> TextWriter___::DisposeAsync() {
     Dispose();
     return rt::default__;
   } catch (Exception exception) {
-    return ValueTask<>::FromException(exception);
+    return ValueTask<>(Task<>::in::FromException(exception));
   }
 }
 

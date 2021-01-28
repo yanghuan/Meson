@@ -13,7 +13,7 @@ Boolean MethodTable::get_ContainsGCPointers() {
 }
 
 Boolean MethodTable::get_NonTrivialInterfaceCast() {
-  return (Flags & 1080557568) != 0;
+  return (Flags & 1078460416) != 0;
 }
 
 Boolean MethodTable::get_HasTypeEquivalence() {

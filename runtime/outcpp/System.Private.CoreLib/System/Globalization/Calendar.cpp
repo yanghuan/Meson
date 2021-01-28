@@ -37,7 +37,7 @@ Boolean Calendar___::get_IsReadOnly() {
 
 Int32 Calendar___::get_CurrentEraValue() {
   if (_currentEraValue == -1) {
-    _currentEraValue = CalendarData::in::GetCalendarCurrentEra((Calendar)this);
+    _currentEraValue = CalendarData::in::GetCalendarData(get_BaseCalendarID())->iCurrentEra;
   }
   return _currentEraValue;
 }

@@ -31,9 +31,6 @@ CLASS(CultureAwareComparer) : public StringComparer::in {
   public: Boolean Equals(Object obj);
   public: Int32 GetHashCode();
   public: void GetObjectData(SerializationInfo info, StreamingContext context);
-  public: static void cctor();
-  public: static CultureAwareComparer InvariantCaseSensitiveInstance;
-  public: static CultureAwareComparer InvariantIgnoreCaseInstance;
   private: CompareInfo _compareInfo;
   private: CompareOptions _options;
 };

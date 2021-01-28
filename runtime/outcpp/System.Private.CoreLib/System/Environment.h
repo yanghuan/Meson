@@ -1,6 +1,6 @@
 #pragma once
 
-#include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System::Collections {
 FORWARD(IDictionary)
@@ -16,6 +16,7 @@ enum class EnvironmentVariableTarget : int32_t;
 FORWARD_(Array)
 FORWARDS(Boolean)
 FORWARD(Exception)
+FORWARD_(Func)
 FORWARDS(Int32)
 FORWARDS(Int64)
 FORWARD(OperatingSystem)
@@ -80,6 +81,17 @@ class Environment {
     Create = 32768,
     DoNotVerify = 16384,
   };
+  private: class WinRTFolderPaths {
+    private: CLASS(__c) : public object {
+      public: static void cctor();
+      public: void ctor();
+      public: String _GetFolderPath_b__1_0(SpecialFolder _p0_, SpecialFolderOption _p1_);
+      public: static __c __9;
+      public: static Func<SpecialFolder, SpecialFolderOption, String> __9__1_0;
+    };
+    public: static String GetFolderPath(SpecialFolder folder, SpecialFolderOption option);
+    private: static Func<SpecialFolder, SpecialFolderOption, String> s_winRTFolderPathsGetFolderPath;
+  };
   private: class WindowsVersion {
     private: static Boolean GetIsWindows8OrAbove();
     public: static void cctor();
@@ -97,7 +109,6 @@ class Environment {
   public: static String get_CommandLine();
   public: static String get_CurrentDirectory();
   public: static void set_CurrentDirectory(String value);
-  public: static Int32 get_ProcessId();
   public: static Boolean get_Is64BitProcess();
   public: static Boolean get_Is64BitOperatingSystem();
   public: static String get_NewLine();
@@ -109,6 +120,7 @@ class Environment {
   private: static String get_CurrentDirectoryCore();
   private: static void set_CurrentDirectoryCore(String value);
   public: static Int32 get_SystemPageSize();
+  private: static Boolean get_Is64BitOperatingSystemWhen32BitProcess();
   public: static String get_MachineName();
   public: static String get_SystemDirectory();
   public: static Boolean get_UserInteractive();
@@ -142,7 +154,6 @@ class Environment {
   private: static String GetKnownFolderPath(String folderGuid, SpecialFolderOption option);
   public: static Array<String> GetLogicalDrives();
   private: static String ExpandEnvironmentVariablesCore(String name);
-  private: static Int32 GetCurrentProcessId();
   private: static OperatingSystem GetOSVersion();
   private: static String GetEnvironmentVariableCore(String variable);
   private: static void SetEnvironmentVariableCore(String variable, String value);
@@ -150,8 +161,6 @@ class Environment {
   public: static void cctor();
   private: static Int32 ProcessorCount;
   private: static Array<String> s_commandLineArgs;
-  private: static Int32 s_processId;
-  private: static Boolean s_haveProcessId;
   private: static OperatingSystem s_osVersion;
 };
 } // namespace EnvironmentNamespace

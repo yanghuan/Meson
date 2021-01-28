@@ -155,13 +155,13 @@ void Buffer::MemoryCopy(void* source, void* destination, UInt64 destinationSizeI
 }
 
 void Buffer::Memmove(Byte* dest, Byte* src, UIntPtr len) {
-  if ((UInt64)(dest - (UInt64)src) >= (UInt64)len && (UInt64)(src - (UInt64)dest) >= (UInt64)len) {
+  if ((UInt64)(UIntPtr)(void*)((Int64)(UInt64)(UIntPtr)dest - (Int64)(UInt64)(UIntPtr)src) >= (UInt64)len && (UInt64)(UIntPtr)(void*)((Int64)(UInt64)(UIntPtr)src - (Int64)(UInt64)(UIntPtr)dest) >= (UInt64)len) {
     Byte* ptr = src + len;
     Byte* ptr2 = dest + len;
     if (len > 16) {
       if (len > 64) {
         if (len > 2048) {
-          goto IL_010a;
+          goto IL_011e;
         }
         UIntPtr uIntPtr = (UIntPtr)(void*)((UInt64)len >> 6);
         do {
@@ -201,9 +201,9 @@ void Buffer::Memmove(Byte* dest, Byte* src, UIntPtr len) {
 
     return;
   }
-  goto IL_010a;
+  goto IL_011e;
 
-IL_010a:
+IL_011e:
   _Memmove(dest, src, len);
 }
 

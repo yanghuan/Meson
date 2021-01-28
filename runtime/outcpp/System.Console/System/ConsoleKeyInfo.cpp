@@ -39,8 +39,7 @@ ConsoleKeyInfo::ConsoleKeyInfo(Char keyChar, ConsoleKey key, Boolean shift, Bool
 
 Boolean ConsoleKeyInfo::Equals(Object value) {
   if (rt::is<ConsoleKeyInfo>(value)) {
-    ConsoleKeyInfo obj = (ConsoleKeyInfo)value;
-    return Equals(obj);
+    return Equals((ConsoleKeyInfo)value);
   }
   return false;
 }

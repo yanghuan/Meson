@@ -384,30 +384,6 @@ Object Marshal::CreateWrapperOfType(Object o, Type t) {
   return obj;
 }
 
-Int32 Marshal::QueryInterface(IntPtr pUnk, Guid& iid, IntPtr& ppv) {
-  if (pUnk == IntPtr::Zero) {
-    rt::throw_exception<ArgumentNullException>("pUnk");
-  }
-  {
-    Guid* ptr = rt::fixed(&iid);
-    {
-      IntPtr* ptr2 = rt::fixed(&ppv);
-    }
-  }
-}
-
-Int32 Marshal::AddRef(IntPtr pUnk) {
-  if (pUnk == IntPtr::Zero) {
-    rt::throw_exception<ArgumentNullException>("pUnk");
-  }
-}
-
-Int32 Marshal::Release(IntPtr pUnk) {
-  if (pUnk == IntPtr::Zero) {
-    rt::throw_exception<ArgumentNullException>("pUnk");
-  }
-}
-
 Object Marshal::BindToMoniker(String monikerName) {
   IBindCtx ppbc;
   CreateBindCtx(0u, ppbc);

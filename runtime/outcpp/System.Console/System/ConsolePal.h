@@ -17,7 +17,6 @@ FORWARDS(Byte)
 FORWARDS(Char)
 FORWARDS(Int32)
 FORWARD(String)
-FORWARDS_(ValueTuple)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Text {
 FORWARD(Encoding)
@@ -81,6 +80,8 @@ class ConsolePal {
   public: static void set_CursorSize(Int32 value);
   public: static Boolean get_CursorVisible();
   public: static void set_CursorVisible(Boolean value);
+  public: static Int32 get_CursorLeft();
+  public: static Int32 get_CursorTop();
   public: static String get_Title();
   public: static void set_Title(String value);
   public: static Int32 get_BufferWidth();
@@ -116,7 +117,6 @@ class ConsolePal {
   private: static Boolean IsAltKeyDown(Interop::InputRecord ir);
   public: static ConsoleKeyInfo ReadKey(Boolean intercept);
   public: static void ResetColor();
-  public: static ValueTuple<Int32, Int32> GetCursorPosition();
   public: static void Beep();
   public: static void Beep(Int32 frequency, Int32 duration);
   public: static void MoveBufferArea(Int32 sourceLeft, Int32 sourceTop, Int32 sourceWidth, Int32 sourceHeight, Int32 targetLeft, Int32 targetTop, Char sourceChar, ConsoleColor sourceForeColor, ConsoleColor sourceBackColor);

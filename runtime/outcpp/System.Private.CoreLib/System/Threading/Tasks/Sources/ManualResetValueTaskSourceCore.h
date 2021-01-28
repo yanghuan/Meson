@@ -6,6 +6,7 @@
 #include <System.Private.CoreLib/System/ValueType.h>
 
 namespace System::Private::CoreLib::System::Threading {
+FORWARD_(ContextCallback)
 FORWARD(ExecutionContext)
 FORWARD(SendOrPostCallback)
 } // namespace System::Private::CoreLib::System::Threading
@@ -27,10 +28,12 @@ struct ManualResetValueTaskSourceCore : public valueType<ManualResetValueTaskSou
     public: static void cctor();
     public: void ctor();
     public: void _OnCompleted_b__19_0(Object s);
-    public: void _InvokeSchedulerContinuation_b__23_0(Object s);
+    public: void _SignalCompletion_b__21_0(ManualResetValueTaskSourceCore<TResult>& s);
+    public: void _InvokeContinuation_b__22_0(Object s);
     public: static __c __9;
     public: static SendOrPostCallback __9__19_0;
-    public: static SendOrPostCallback __9__23_0;
+    public: static ContextCallback<ManualResetValueTaskSourceCore<TResult>> __9__21_0;
+    public: static SendOrPostCallback __9__22_0;
   };
   public: Boolean get_RunContinuationsAsynchronously() { return RunContinuationsAsynchronously; }
   public: void set_RunContinuationsAsynchronously(Boolean value) { RunContinuationsAsynchronously = value; }
@@ -43,8 +46,7 @@ struct ManualResetValueTaskSourceCore : public valueType<ManualResetValueTaskSou
   public: void OnCompleted(Action<Object> continuation, Object state, Int16 token, ValueTaskSourceOnCompletedFlags flags);
   private: void ValidateToken(Int16 token);
   private: void SignalCompletion();
-  private: void InvokeContinuationWithContext();
-  private: void InvokeSchedulerContinuation();
+  private: void InvokeContinuation();
   private: Action<Object> _continuation;
   private: Object _continuationState;
   private: ExecutionContext _executionContext;

@@ -2747,7 +2747,7 @@ Boolean DateTimeParse::ParseFormatR(ReadOnlySpan<Char> source, ParsingInfo& pars
     return false;
   }
   DayOfWeek dayOfWeek;
-  switch ((num << 24) | (num2 << 16) | (num3 << 8) | num4 | 538976256.get()) {
+  switch (((num << 24) | (num2 << 16) | (num3 << 8) | num4 | 538976256).get()) {
     case 1937075756u:
       dayOfWeek = DayOfWeek::Sunday;
       break;
@@ -2797,7 +2797,7 @@ Boolean DateTimeParse::ParseFormatR(ReadOnlySpan<Char> source, ParsingInfo& pars
     return false;
   }
   Int32 month;
-  switch ((num7 << 24) | (num8 << 16) | (num9 << 8) | num10 | 538976256.get()) {
+  switch (((num7 << 24) | (num8 << 16) | (num9 << 8) | num10 | 538976256).get()) {
     case 1784770080u:
       month = 1;
       break;

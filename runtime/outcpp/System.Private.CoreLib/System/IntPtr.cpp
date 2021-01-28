@@ -3,7 +3,6 @@
 #include <System.Private.CoreLib/Internal/Runtime/CompilerServices/Unsafe-dep.h>
 #include <System.Private.CoreLib/System/ArgumentException-dep.h>
 #include <System.Private.CoreLib/System/ArgumentNullException-dep.h>
-#include <System.Private.CoreLib/System/Byte-dep.h>
 #include <System.Private.CoreLib/System/Int64-dep.h>
 #include <System.Private.CoreLib/System/IntPtr-dep.h>
 #include <System.Private.CoreLib/System/SR-dep.h>
@@ -109,7 +108,7 @@ IntPtr IntPtr::Add(IntPtr pointer, Int32 offset) {
 }
 
 IntPtr IntPtr::op_Addition(IntPtr pointer, Int32 offset) {
-  return (IntPtr)((Byte*)pointer._value + offset);
+  return IntPtr((Int64)(IntPtr)(void*)((Int64)(IntPtr)pointer._value + (Int64)offset));
 }
 
 IntPtr IntPtr::Subtract(IntPtr pointer, Int32 offset) {
@@ -117,7 +116,7 @@ IntPtr IntPtr::Subtract(IntPtr pointer, Int32 offset) {
 }
 
 IntPtr IntPtr::op_Subtraction(IntPtr pointer, Int32 offset) {
-  return (IntPtr)((Byte*)pointer._value - offset);
+  return IntPtr((Int64)(IntPtr)(void*)((Int64)(IntPtr)pointer._value - (Int64)offset));
 }
 
 void* IntPtr::ToPointer() {
@@ -130,10 +129,10 @@ Int32 IntPtr::CompareTo(Object value) {
   }
   if (rt::is<IntPtr>(value)) {
     IntPtr intPtr = (IntPtr)value;
-    if ((Int64)_value < (Int64)intPtr) {
+    if ((Int64)(IntPtr)_value < (Int64)intPtr) {
       return -1;
     }
-    if ((Int64)_value > (Int64)intPtr) {
+    if ((Int64)(IntPtr)_value > (Int64)intPtr) {
       return 1;
     }
     return 0;

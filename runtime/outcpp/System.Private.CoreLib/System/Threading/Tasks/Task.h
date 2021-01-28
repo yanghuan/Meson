@@ -23,7 +23,7 @@ FORWARD(String)
 FORWARDS(TimeSpan)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Threading {
-FORWARD(ContextCallback)
+FORWARD_(ContextCallback)
 FORWARD(ExecutionContext)
 FORWARD(SendOrPostCallback)
 FORWARD(SynchronizationContext)
@@ -107,20 +107,20 @@ CLASS_(Task) : public object {
     public: void _AssignCancellationToken_b__49_0(Object t);
     public: void _AssignCancellationToken_b__49_1(Object t);
     public: ContingentProperties _EnsureContingentPropertiesInitialized_b__94_0();
-    public: void _ThrowAsync_b__140_0(Object state);
-    public: void _ThrowAsync_b__140_1(Object state);
-    public: Boolean _FinishSlow_b__147_0(Task<> t);
-    public: Boolean _AddTaskContinuationComplex_b__218_0(Object l);
-    public: void _cctor_b__277_0(Object obj);
+    public: void _ThrowAsync_b__139_0(Object state);
+    public: void _ThrowAsync_b__139_1(Object state);
+    public: Boolean _FinishSlow_b__146_0(Task<> t);
+    public: Boolean _AddTaskContinuationComplex_b__217_0(Object l);
+    public: void _cctor_b__276_0(Object obj);
     public: static __c __9;
     public: static Func<Dictionary<Int32, Task<>>> __9__32_0;
     public: static Action<Object> __9__49_0;
     public: static Action<Object> __9__49_1;
     public: static Func<ContingentProperties> __9__94_0;
-    public: static SendOrPostCallback __9__140_0;
-    public: static WaitCallback __9__140_1;
-    public: static Predicate<Task<>> __9__147_0;
-    public: static Predicate<Object> __9__218_0;
+    public: static SendOrPostCallback __9__139_0;
+    public: static WaitCallback __9__139_1;
+    public: static Predicate<Task<>> __9__146_0;
+    public: static Predicate<Object> __9__217_0;
   };
   private: Task<> get_ParentForDebugger();
   private: Int32 get_StateFlagsForDebugger();
@@ -193,7 +193,6 @@ CLASS_(Task) : public object {
   public: ContingentProperties EnsureContingentPropertiesInitialized();
   public: ContingentProperties EnsureContingentPropertiesInitializedUnsafe();
   private: static Boolean IsCompletedMethod(Int32 flags);
-  public: void SpinUntilCompleted();
   public: void Dispose();
   protected: void Dispose(Boolean disposing);
   public: void ScheduleAndStart(Boolean needsProtection);
@@ -371,7 +370,7 @@ CLASS_(Task) : public object {
   public: ContingentProperties m_contingentProperties;
   private: static TaskFactory<> Factory;
   public: static Task<VoidTaskResult> s_cachedCompleted;
-  private: static ContextCallback s_ecCallback;
+  private: static ContextCallback<> s_ecCallback;
 };
 CLASS(DelayPromise) : public Task<>::in {
   private: CLASS(__c) : public object {

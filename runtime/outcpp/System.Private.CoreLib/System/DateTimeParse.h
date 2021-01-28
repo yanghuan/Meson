@@ -13,6 +13,7 @@ FORWARD(StringBuilder)
 namespace System::Private::CoreLib::System {
 FORWARDS(__DTString)
 FORWARD_(Array)
+FORWARD(AsyncCallback)
 FORWARDS(Boolean)
 FORWARDS(Char)
 FORWARDS(DateTime)
@@ -21,6 +22,7 @@ FORWARDS(DateTimeResult)
 FORWARDS(DateTimeToken)
 FORWARDS(Double)
 FORWARD(Exception)
+FORWARD(IAsyncResult)
 FORWARDS(Int32)
 FORWARDS(IntPtr)
 FORWARD(Object)
@@ -104,6 +106,8 @@ class DateTimeParse {
   public: CLASS(MatchNumberDelegate) : public MulticastDelegate::in {
     public: void ctor(Object object, IntPtr method);
     public: Boolean Invoke(__DTString& str, Int32 digitLen, Int32& result);
+    public: IAsyncResult BeginInvoke(__DTString& str, Int32 digitLen, Int32& result, AsyncCallback callback, Object object);
+    public: Boolean EndInvoke(__DTString& str, Int32& result, IAsyncResult __result);
     public: static constexpr rt::TypeCode code = rt::TypeCode::Delegate;
   };
   public: static DateTime ParseExact(ReadOnlySpan<Char> s, ReadOnlySpan<Char> format, DateTimeFormatInfo dtfi, DateTimeStyles style);

@@ -1076,6 +1076,9 @@ namespace Meson.Compiler {
       var expression = switchStatement.Expression.AcceptExpression(this);
       var type = switchStatement.Expression.GetResolveResult().Type;
       if (type.Kind != TypeKind.Enum) {
+        if (expression is BinaryExpressionSyntax) {
+          expression = expression.Parenthesized();
+        }
         expression = expression.Dot(IdentifierSyntax.Get).Invation();
       }
       var switchSections = switchStatement.SwitchSections.Select(i => i.Accept<SwitchSectionSyntax>(this));

@@ -1,10 +1,10 @@
 #include "Statics-dep.h"
 
+#include <System.Private.CoreLib/Microsoft/Reflection/ReflectionExtensions-dep.h>
 #include <System.Private.CoreLib/System/ArgumentException-dep.h>
 #include <System.Private.CoreLib/System/ArgumentOutOfRangeException-dep.h>
 #include <System.Private.CoreLib/System/Boolean-dep.h>
 #include <System.Private.CoreLib/System/Char-dep.h>
-#include <System.Private.CoreLib/System/Collections/Generic/IEnumerable.h>
 #include <System.Private.CoreLib/System/Collections/Generic/KeyValuePair-dep.h>
 #include <System.Private.CoreLib/System/DateTime-dep.h>
 #include <System.Private.CoreLib/System/DateTimeOffset-dep.h>
@@ -32,6 +32,7 @@
 #include <System.Private.CoreLib/System/IntPtr-dep.h>
 #include <System.Private.CoreLib/System/NotSupportedException-dep.h>
 #include <System.Private.CoreLib/System/Nullable-dep.h>
+#include <System.Private.CoreLib/System/Object-dep.h>
 #include <System.Private.CoreLib/System/Reflection/TypeFilter-dep.h>
 #include <System.Private.CoreLib/System/Runtime/CompilerServices/CompilerGeneratedAttribute-dep.h>
 #include <System.Private.CoreLib/System/SByte-dep.h>
@@ -45,6 +46,7 @@
 #include <System.Private.CoreLib/System/UIntPtr-dep.h>
 
 namespace System::Private::CoreLib::System::Diagnostics::Tracing::StaticsNamespace {
+using namespace Microsoft::Reflection;
 using namespace System::Collections::Generic;
 using namespace System::Reflection;
 using namespace System::Runtime::CompilerServices;
@@ -122,14 +124,35 @@ TraceLoggingDataType Statics::Format64(EventFieldFormat format, TraceLoggingData
 TraceLoggingDataType Statics::FormatPtr(EventFieldFormat format, TraceLoggingDataType native) {
 }
 
+Boolean Statics::IsValueType(Type type) {
+  return ReflectionExtensions::IsValueType(type);
+}
+
+Boolean Statics::IsEnum(Type type) {
+  return ReflectionExtensions::IsEnum(type);
+}
+
+IEnumerable<PropertyInfo> Statics::GetProperties(Type type) {
+  return type->GetProperties();
+}
+
+MethodInfo Statics::GetGetMethod(PropertyInfo propInfo) {
+  return propInfo->GetGetMethod();
+}
+
 Boolean Statics::HasCustomAttribute(PropertyInfo propInfo, Type attributeType) {
-  return propInfo->IsDefined(attributeType, false);
+  Array<Object> customAttributes = propInfo->GetCustomAttributes(attributeType, false);
+  return customAttributes->get_Length() != 0;
+}
+
+Array<Type> Statics::GetGenericArguments(Type type) {
+  return type->GetGenericArguments();
 }
 
 Type Statics::FindEnumerableElementType(Type type) {
   Type type2 = nullptr;
   if (IsGenericMatch(type, typeof<IEnumerable<T>>())) {
-    type2 = type->GetGenericArguments()[0];
+    type2 = GetGenericArguments(type)[0];
   } else {
     Array<Type> array = type->FindInterfaces(&IsGenericMatch, typeof<IEnumerable<T>>());
     Array<Type> array2 = array;
@@ -138,14 +161,14 @@ Type Statics::FindEnumerableElementType(Type type) {
         type2 = nullptr;
         break;
       }
-      type2 = type3->GetGenericArguments()[0];
+      type2 = GetGenericArguments(type3)[0];
     }
   }
   return type2;
 }
 
 Boolean Statics::IsGenericMatch(Type type, Object openType) {
-  if (type->get_IsGenericType()) {
+  if (ReflectionExtensions::IsGenericType(type)) {
     return type->GetGenericTypeDefinition() == (Type)openType;
   }
   return false;
@@ -210,7 +233,7 @@ TraceLoggingTypeInfo Statics::CreateDefaultTypeInfo(Type dataType, List<Type> re
     }
     return rt::newobj<ArrayTypeInfo>(dataType, TraceLoggingTypeInfo::in::GetInstance(elementType, recursionCheck));
   }
-  if (dataType->get_IsEnum()) {
+  if (IsEnum(dataType)) {
     dataType = Enum::in::GetUnderlyingType(dataType);
   }
   if (dataType == typeof<String>()) {

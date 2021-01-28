@@ -516,7 +516,6 @@ class SR {
   public: static String get_ArgumentOutOfRange_IndexCountBuffer();
   public: static String get_ArgumentOutOfRange_IndexLength();
   public: static String get_ArgumentOutOfRange_IndexString();
-  public: static String get_ArgumentOutOfRange_InputTooLarge();
   public: static String get_ArgumentOutOfRange_InvalidEraValue();
   public: static String get_ArgumentOutOfRange_InvalidHighSurrogate();
   public: static String get_ArgumentOutOfRange_InvalidLowSurrogate();
@@ -660,8 +659,6 @@ class SR {
   public: static String get_Format_BadBoolean();
   public: static String get_Format_BadFormatSpecifier();
   public: static String get_Format_NoFormatSpecifier();
-  public: static String get_Format_BadHexChar();
-  public: static String get_Format_BadHexLength();
   public: static String get_Format_BadQuote();
   public: static String get_Format_BadTimeSpan();
   public: static String get_Format_EmptyInputString();
@@ -769,7 +766,6 @@ class SR {
   public: static String get_InvalidTimeZone_InvalidRegistryData();
   public: static String get_InvariantFailed();
   public: static String get_InvariantFailed_Cnd();
-  public: static String get_IO_NoFileTableInInMemoryAssemblies();
   public: static String get_IO_EOF_ReadBeyondEOF();
   public: static String get_IO_FileLoad();
   public: static String get_IO_FileName_Name();
@@ -922,7 +918,6 @@ class SR {
   public: static String get_RFLCT_Targ_StatFldReqTarg();
   public: static String get_RFLCT_Targ_StatMethReqTarg();
   public: static String get_RuntimeWrappedException();
-  public: static String get_StandardOleMarshalObjectGetMarshalerFailed();
   public: static String get_Security_CannotReadRegistryData();
   public: static String get_Security_RegistryPermission();
   public: static String get_SemaphoreSlim_ctor_InitialCountWrong();
@@ -957,6 +952,7 @@ class SR {
   public: static String get_SpinLock_TryReliableEnter_ArgumentException();
   public: static String get_SpinWait_SpinUntil_ArgumentNull();
   public: static String get_SpinWait_SpinUntil_TimeoutWrong();
+  public: static String get_StackTrace_InFileLineNumber();
   public: static String get_Task_ContinueWith_ESandLR();
   public: static String get_Task_ContinueWith_NotOnAnything();
   public: static String get_Task_Delay_InvalidDelay();
@@ -1011,6 +1007,7 @@ class SR {
   public: static String get_UnauthorizedAccess_RegistryKeyGeneric_Key();
   public: static String get_UnknownError_Num();
   public: static String get_Verification_Exception();
+  public: static String get_Word_At();
   public: static String get_DebugAssertBanner();
   public: static String get_DebugAssertLongMessage();
   public: static String get_DebugAssertShortMessage();
@@ -1078,14 +1075,6 @@ class SR {
   public: static String get_Arg_ContextMarshalException();
   public: static String get_Arg_AppDomainUnloadedException();
   public: static String get_SwitchExpressionException_UnmatchedValue();
-  public: static String get_Encoding_UTF7_Disabled();
-  public: static String get_IDynamicInterfaceCastable_DoesNotImplementRequested();
-  public: static String get_IDynamicInterfaceCastable_MissingImplementationAttribute();
-  public: static String get_IDynamicInterfaceCastable_NotInterface();
-  public: static String get_Arg_MustBeHalf();
-  public: static String get_Arg_MustBeRune();
-  public: static String get_BinaryFormatter_SerializationDisallowed();
-  public: static String get_NotSupported_CodeBase();
   public: static String GetResourceString(String resourceKey);
   private: static String InternalGetResourceString(String key);
   private: static Boolean UsingResourceKeys();
@@ -1101,7 +1090,6 @@ class SR {
   private: static List<String> _currentlyLoading;
   private: static Int32 _infinitelyRecursingCount;
   private: static Boolean _resourceManagerInited;
-  private: static Boolean s_usingResourceKeys;
   private: static ResourceManager s_resourceManager;
 };
 } // namespace SRNamespace

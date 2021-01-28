@@ -13,6 +13,8 @@
 
 namespace System::Private::CoreLib::System {
 FORWARD_(Array)
+FORWARD(AsyncCallback)
+FORWARD(IAsyncResult)
 FORWARDS(IntPtr)
 FORWARDS(Span, T)
 FORWARD(String)
@@ -90,6 +92,8 @@ class Interop {
     public: CLASS(ConsoleCtrlHandlerRoutine) : public MulticastDelegate::in {
       public: void ctor(Object object, IntPtr method);
       public: Boolean Invoke(Int32 controlType);
+      public: IAsyncResult BeginInvoke(Int32 controlType, AsyncCallback callback, Object object);
+      public: Boolean EndInvoke(IAsyncResult result);
       public: static constexpr rt::TypeCode code = rt::TypeCode::Delegate;
     };
     private: static BOOL GetCPInfoExW(UInt32 CodePage, UInt32 dwFlags, CPINFOEXW* lpCPInfoEx);

@@ -62,8 +62,8 @@ void ValueTask<>::ValueTaskSourceAsTask___::cctor() {
   s_completionAction = {__c::in::__9, &__c::in::_cctor_b__4_0};
 }
 
-ValueTask<> ValueTask<>::get_CompletedTask() {
-  return rt::default__;
+Task<> ValueTask<>::get_CompletedTask() {
+  return Task<>::in::get_CompletedTask();
 }
 
 Boolean ValueTask<>::get_IsCompleted() {
@@ -138,14 +138,6 @@ ValueTask<>::ValueTask(Object obj, Int16 token, Boolean continueOnCapturedContex
   _continueOnCapturedContext = continueOnCapturedContext;
 }
 
-ValueTask<> ValueTask<>::FromCanceled(CancellationToken cancellationToken) {
-  return ValueTask<>(Task<>::in::FromCanceled(cancellationToken));
-}
-
-ValueTask<> ValueTask<>::FromException(Exception exception) {
-  return ValueTask<>(Task<>::in::FromException(exception));
-}
-
 Int32 ValueTask<>::GetHashCode() {
   Object obj = _obj;
   if (obj == nullptr) {
@@ -185,7 +177,7 @@ Task<> ValueTask<>::AsTask() {
       return GetTaskForValueTaskSource(Unsafe::As<IValueTaskSource<>>(obj));
     }
   } else {
-    obj2 = Task<>::in::get_CompletedTask();
+    obj2 = get_CompletedTask();
   }
   return (Task<>)obj2;
 }
@@ -202,7 +194,7 @@ Task<> ValueTask<>::GetTaskForValueTaskSource(IValueTaskSource<> t) {
   if (status != 0) {
     try {
       t->GetResult(_token);
-      return Task<>::in::get_CompletedTask();
+      return get_CompletedTask();
     } catch (Exception ex) {
       if (status == ValueTaskSourceStatus::Canceled) {
         OperationCanceledException ex2 = rt::as<OperationCanceledException>(ex);

@@ -394,14 +394,6 @@ Single BitConverter::Int32BitsToSingle(Int32 value) {
   return *(Single*)(&value);
 }
 
-Int16 BitConverter::HalfToInt16Bits(Half value) {
-  return *(Int16*)(&value);
-}
-
-Half BitConverter::Int16BitsToHalf(Int16 value) {
-  return *(Half*)(&value);
-}
-
 void BitConverter::cctor() {
   IsLittleEndian = true;
 }

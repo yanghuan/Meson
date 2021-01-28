@@ -94,15 +94,10 @@ String WebUtility::HtmlEncode(String value) {
   if (num == -1) {
     return value;
   }
-  ValueStringBuilder valueStringBuilder;
-  if (value->get_Length() >= 80) {
-    valueStringBuilder = ValueStringBuilder(value->get_Length() + 200);
-  } else {
-    Char as[256] = {};
-    Span<Char> initialBuffer = as;
-    valueStringBuilder = ValueStringBuilder(initialBuffer);
-  }
-  ValueStringBuilder output = valueStringBuilder;
+  Char as[256] = {};
+  Span<Char> span = ((value->get_Length() >= 80) ? ((Span<Char>)nullptr) : as);
+  Span<Char> span2 = span;
+  ValueStringBuilder output = ((span2 != nullptr) ? ValueStringBuilder(span2) : ValueStringBuilder(value->get_Length() + 200));
   output.Append(input.Slice(0, num));
   HtmlEncode(input.Slice(num), output);
   return output.ToString();
@@ -122,15 +117,10 @@ void WebUtility::HtmlEncode(String value, TextWriter output) {
     output->Write(value);
     return;
   }
-  ValueStringBuilder valueStringBuilder;
-  if (value->get_Length() >= 80) {
-    valueStringBuilder = ValueStringBuilder(value->get_Length() + 200);
-  } else {
-    Char as[256] = {};
-    Span<Char> initialBuffer = as;
-    valueStringBuilder = ValueStringBuilder(initialBuffer);
-  }
-  ValueStringBuilder output2 = valueStringBuilder;
+  Char as[256] = {};
+  Span<Char> span = ((value->get_Length() >= 80) ? ((Span<Char>)nullptr) : as);
+  Span<Char> span2 = span;
+  ValueStringBuilder output2 = ((span2 != nullptr) ? ValueStringBuilder(span2) : ValueStringBuilder(value->get_Length() + 200));
   output2.Append(input.Slice(0, num));
   HtmlEncode(input.Slice(num), output2);
   output->Write(output2.AsSpan());
@@ -197,15 +187,10 @@ String WebUtility::HtmlDecode(String value) {
   if (num == -1) {
     return value;
   }
-  ValueStringBuilder valueStringBuilder;
-  if (value->get_Length() > 256) {
-    valueStringBuilder = ValueStringBuilder(value->get_Length());
-  } else {
-    Char as[256] = {};
-    Span<Char> initialBuffer = as;
-    valueStringBuilder = ValueStringBuilder(initialBuffer);
-  }
-  ValueStringBuilder output = valueStringBuilder;
+  Char as[256] = {};
+  Span<Char> span = ((value->get_Length() > 256) ? ((Span<Char>)nullptr) : as);
+  Span<Char> span2 = span;
+  ValueStringBuilder output = ((span2 != nullptr) ? ValueStringBuilder(span2) : ValueStringBuilder(value->get_Length()));
   output.Append(input.Slice(0, num));
   HtmlDecode(input.Slice(num), output);
   return output.ToString();
@@ -225,15 +210,10 @@ void WebUtility::HtmlDecode(String value, TextWriter output) {
     output->Write(value);
     return;
   }
-  ValueStringBuilder valueStringBuilder;
-  if (value->get_Length() > 256) {
-    valueStringBuilder = ValueStringBuilder(value->get_Length());
-  } else {
-    Char as[256] = {};
-    Span<Char> initialBuffer = as;
-    valueStringBuilder = ValueStringBuilder(initialBuffer);
-  }
-  ValueStringBuilder output2 = valueStringBuilder;
+  Char as[256] = {};
+  Span<Char> span = ((value->get_Length() > 256) ? ((Span<Char>)nullptr) : as);
+  Span<Char> span2 = span;
+  ValueStringBuilder output2 = ((span2 != nullptr) ? ValueStringBuilder(span2) : ValueStringBuilder(value->get_Length()));
   output2.Append(input.Slice(0, num));
   HtmlDecode(input.Slice(num), output2);
   output->Write(output2.AsSpan());
@@ -402,9 +382,9 @@ String WebUtility::UrlDecodeInternal(String value, Encoding encoding) {
         break;
       case u'%':
         if (i < length - 2) {
-          Int32 num = HexConverter::FromChar(value[i + 1]);
-          Int32 num2 = HexConverter::FromChar(value[i + 2]);
-          if ((num | num2) != 255) {
+          Int32 num = HexToInt(value[i + 1]);
+          Int32 num2 = HexToInt(value[i + 2]);
+          if (num >= 0 && num2 >= 0) {
             Byte b = (Byte)((num << 4) | num2);
             i += 2;
             urlDecoder.AddByte(b);
@@ -444,9 +424,9 @@ Array<Byte> WebUtility::UrlDecodeInternal(Array<Byte> bytes, Int32 offset, Int32
         break;
       case 37:
         if (i < count - 2) {
-          Int32 num3 = HexConverter::FromChar(bytes[num2 + 1]);
-          Int32 num4 = HexConverter::FromChar(bytes[num2 + 2]);
-          if ((num3 | num4) != 255) {
+          Int32 num3 = HexToInt((Char)bytes[num2 + 1]);
+          Int32 num4 = HexToInt((Char)bytes[num2 + 2]);
+          if (num3 >= 0 && num4 >= 0) {
             b = (Byte)((num3 << 4) | num4);
             i += 2;
           }
@@ -486,6 +466,19 @@ Int32 WebUtility::GetNextUnicodeScalarValueFromUtf16Surrogate(ReadOnlySpan<Char>
   }
   index++;
   return (c - 55296) * 1024 + (c2 - 56320) + 65536;
+}
+
+Int32 WebUtility::HexToInt(Char h) {
+  if (h < u'0' || h > u'9') {
+    if (h < u'a' || h > u'f') {
+      if (h < u'A' || h > u'F') {
+        return -1;
+      }
+      return h - 65 + 10;
+    }
+    return h - 97 + 10;
+  }
+  return h - 48;
 }
 
 Boolean WebUtility::IsUrlSafeChar(Char ch) {

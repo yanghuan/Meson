@@ -1,6 +1,7 @@
 #include "AsyncValueTaskMethodBuilder-dep.h"
 
 #include <System.Private.CoreLib/Internal/Runtime/CompilerServices/Unsafe-dep.h>
+#include <System.Private.CoreLib/System/Object-dep.h>
 #include <System.Private.CoreLib/System/Runtime/CompilerServices/AsyncMethodBuilderCore-dep.h>
 #include <System.Private.CoreLib/System/Runtime/CompilerServices/AsyncTaskCache-dep.h>
 #include <System.Private.CoreLib/System/Runtime/CompilerServices/AsyncTaskMethodBuilder-dep.h>
@@ -28,13 +29,6 @@ ValueTask<> AsyncValueTaskMethodBuilder<>::get_Task() {
     task = (Task<VoidTaskResult>)(m_task = rt::newobj<Task<VoidTaskResult>>());
   }
   return ValueTask<>(task);
-}
-
-Object AsyncValueTaskMethodBuilder<>::get_ObjectIdForDebugger() {
-  if (m_task == nullptr) {
-    m_task = (AsyncTaskCache::s_valueTaskPoolingEnabled ? ((Object)AsyncValueTaskMethodBuilder<VoidTaskResult>::CreateWeaklyTypedStateMachineBox()) : ((Object)AsyncTaskMethodBuilder<VoidTaskResult>::CreateWeaklyTypedStateMachineBox()));
-  }
-  return m_task;
 }
 
 AsyncValueTaskMethodBuilder<> AsyncValueTaskMethodBuilder<>::Create() {

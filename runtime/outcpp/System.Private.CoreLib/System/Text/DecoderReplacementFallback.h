@@ -19,8 +19,6 @@ CLASS(DecoderReplacementFallback) : public DecoderFallback::in {
   public: DecoderFallbackBuffer CreateFallbackBuffer();
   public: Boolean Equals(Object value);
   public: Int32 GetHashCode();
-  public: static void cctor();
-  public: static DecoderReplacementFallback s_default;
   private: String _strDefault;
 };
 } // namespace DecoderReplacementFallbackNamespace

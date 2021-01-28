@@ -21,6 +21,7 @@ FORWARD(CleanupWorkListElement)
 namespace StubHelpersNamespace {
 using namespace System::Runtime::InteropServices;
 class StubHelpers {
+  public: static Boolean IsQCall(IntPtr pMD);
   public: static void InitDeclaringType(IntPtr pMD);
   public: static IntPtr GetNDirectTarget(IntPtr pMD);
   public: static IntPtr GetDelegateTarget(Delegate pThis, IntPtr& pStubArg);

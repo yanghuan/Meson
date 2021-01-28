@@ -82,7 +82,7 @@ Int32 ConsolePal::WindowsConsoleStream___::ReadFileNative(IntPtr hFile, Array<By
   }
   Boolean flag;
   {
-    Byte* ptr = &bytes[0];
+    Byte* ptr = rt::fixed(&bytes[0]);
     if (useFileAPIs) {
       flag = Interop::Kernel32::ReadFile(hFile, ptr + offset, count, bytesRead, IntPtr::Zero) != 0;
     } else {
@@ -107,7 +107,7 @@ Int32 ConsolePal::WindowsConsoleStream___::WriteFileNative(IntPtr hFile, Array<B
   }
   Boolean flag;
   {
-    Byte* ptr = &bytes[0];
+    Byte* ptr = rt::fixed(&bytes[0]);
     Int32 lpNumberOfCharsWritten;
     Int32 numBytesWritten;
     flag = ((!useFileAPIs) ? Interop::Kernel32::WriteConsole(hFile, ptr + offset, count / 2, lpNumberOfCharsWritten, IntPtr::Zero) : (Boolean)(Interop::Kernel32::WriteFile(hFile, ptr + offset, count, numBytesWritten, IntPtr::Zero) != 0));
@@ -326,6 +326,14 @@ void ConsolePal::set_CursorVisible(Boolean value) {
   }
 }
 
+Int32 ConsolePal::get_CursorLeft() {
+  return GetBufferInfo().dwCursorPosition.X;
+}
+
+Int32 ConsolePal::get_CursorTop() {
+  return GetBufferInfo().dwCursorPosition.Y;
+}
+
 String ConsolePal::get_Title() {
   Char as[256] = {};
   Span<Char> initialBuffer = as;
@@ -334,7 +342,7 @@ String ConsolePal::get_Title() {
   while (true) {
     num = 0u;
     {
-      Char* title = valueStringBuilder;
+      Char* title = rt::fixed(valueStringBuilder);
       num = Interop::Kernel32::GetConsoleTitleW(title, (UInt32)valueStringBuilder.get_Capacity());
     }
     if (num == 0) {
@@ -587,11 +595,6 @@ void ConsolePal::ResetColor() {
   Interop::Kernel32::SetConsoleTextAttribute(get_OutputHandle(), _defaultColors);
 }
 
-ValueTuple<Int32, Int32> ConsolePal::GetCursorPosition() {
-  Interop::Kernel32::CONSOLE_SCREEN_BUFFER_INFO bufferInfo = GetBufferInfo();
-  return {bufferInfo.dwCursorPosition.X, bufferInfo.dwCursorPosition.Y};
-}
-
 void ConsolePal::Beep() {
   Interop::Kernel32::Beep(800, 200);
 }
@@ -646,7 +649,7 @@ void ConsolePal::MoveBufferArea(Int32 sourceLeft, Int32 sourceTop, Int32 sourceW
   readRegion.Bottom = (Int16)(sourceTop + sourceHeight - 1);
   Boolean flag;
   {
-    Interop::Kernel32::CHAR_INFO* pBuffer = array;
+    Interop::Kernel32::CHAR_INFO* pBuffer = rt::fixed(array);
     flag = Interop::Kernel32::ReadConsoleOutput(get_OutputHandle(), pBuffer, dwSize, bufferCoord, readRegion);
   }
   if (!flag) {
@@ -673,7 +676,7 @@ void ConsolePal::MoveBufferArea(Int32 sourceLeft, Int32 sourceTop, Int32 sourceW
   writeRegion.Top = (Int16)targetTop;
   writeRegion.Bottom = (Int16)(targetTop + sourceHeight);
   {
-    Interop::Kernel32::CHAR_INFO* buffer = array;
+    Interop::Kernel32::CHAR_INFO* buffer = rt::fixed(array);
     Interop::Kernel32::WriteConsoleOutput(get_OutputHandle(), buffer, dwSize, bufferCoord, writeRegion);
   }
 }

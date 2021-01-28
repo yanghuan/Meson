@@ -33,7 +33,7 @@ String Interop::Kernel32::GetMessage(Int32 errorCode, IntPtr moduleHandle) {
   Char as[256] = {};
   Span<Char> span = as;
   {
-    Char* lpBuffer = span;
+    Char* lpBuffer = rt::fixed(span);
     Int32 num2 = FormatMessage(num, moduleHandle, (UInt32)errorCode, 0, lpBuffer, span.get_Length(), IntPtr::Zero);
     if (num2 > 0) {
       return GetAndTrimString(span.Slice(0, num2));

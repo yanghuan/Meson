@@ -131,13 +131,17 @@ void Test() {
 
 using namespace System::Private::CoreLib::System;
 
-template<typename... T>
-class My_tuple { 
+struct StandardFormat : public valueType<StandardFormat> {
+  public: explicit StandardFormat(Char symbol) {}
+  public: static StandardFormat op_Implicit(Char symbol) {
+    return StandardFormat('d');
+  }
 };
 
 int main() {
-  int* p = nullptr;
-  Int32 a = (Int32)p;
+  Char c = 'a';
+  StandardFormat format(c);
+  format = c;
   return 0;
 }
 

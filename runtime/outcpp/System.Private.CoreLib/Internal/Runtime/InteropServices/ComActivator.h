@@ -6,7 +6,6 @@
 namespace System::Private::CoreLib::System {
 FORWARDS(Boolean)
 FORWARDS(Int32)
-FORWARDS(IntPtr)
 FORWARD(String)
 FORWARD(Type)
 } // namespace System::Private::CoreLib::System
@@ -32,9 +31,9 @@ class ComActivator {
     public: using interface = rt::TypeList<IClassFactory>;
     public: void ctor(Guid clsid, Type classType);
     public: static Type GetValidatedInterfaceType(Type classType, Guid& riid, Object outer);
-    public: static IntPtr GetObjectAsInterface(Object obj, Type interfaceType);
+    public: static void ValidateObjectIsMarshallableAsInterface(Object obj, Type interfaceType);
     public: static Object CreateAggregatedObject(Object pUnkOuter, Object comObject);
-    public: void CreateInstance(Object pUnkOuter, Guid& riid, IntPtr& ppvObject);
+    public: void CreateInstance(Object pUnkOuter, Guid& riid, Object& ppvObject);
     public: void LockServer(Boolean fLock);
     private: Guid _classId;
     private: Type _classType;
@@ -42,12 +41,12 @@ class ComActivator {
   private: CLASS(LicenseClassFactory) : public object {
     public: using interface = rt::TypeList<IClassFactory2, IClassFactory>;
     public: void ctor(Guid clsid, Type classType);
-    public: void CreateInstance(Object pUnkOuter, Guid& riid, IntPtr& ppvObject);
+    public: void CreateInstance(Object pUnkOuter, Guid& riid, Object& ppvObject);
     public: void LockServer(Boolean fLock);
     public: void GetLicInfo(LICINFO& licInfo);
     public: void RequestLicKey(Int32 dwReserved, String& pBstrKey);
-    public: void CreateInstanceLic(Object pUnkOuter, Object pUnkReserved, Guid& riid, String bstrKey, IntPtr& ppvObject);
-    private: void CreateInstanceInner(Object pUnkOuter, Guid& riid, String key, Boolean isDesignTime, IntPtr& ppvObject);
+    public: void CreateInstanceLic(Object pUnkOuter, Object pUnkReserved, Guid& riid, String bstrKey, Object& ppvObject);
+    private: void CreateInstanceInner(Object pUnkOuter, Guid& riid, String key, Boolean isDesignTime, Object& ppvObject);
     private: LicenseInteropProxy _licenseProxy;
     private: Guid _classId;
     private: Type _classType;

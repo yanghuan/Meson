@@ -4,6 +4,10 @@
 #include <System.Private.CoreLib/System/UInt32-dep.h>
 
 namespace System::Private::CoreLib::System::Buffers::Text::ParserHelpersNamespace {
+ReadOnlySpan<Byte> ParserHelpers::get_HexLookup() {
+  return rt::newarr<Array<Byte>>(256);
+}
+
 Boolean ParserHelpers::IsDigit(Int32 i) {
   return (UInt32)(i - 48) <= 9u;
 }

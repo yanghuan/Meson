@@ -10,6 +10,7 @@
 #include <System.Private.CoreLib/System/Threading/Interlocked-dep.h>
 #include <System.Private.CoreLib/System/Threading/Volatile-dep.h>
 #include <System.Private.CoreLib/System/Type-dep.h>
+#include <System.Private.CoreLib/System/UInt32-dep.h>
 #include <System.Private.CoreLib/System/UInt64-dep.h>
 
 namespace System::Private::CoreLib::System::Runtime::CompilerServices::CastHelpersNamespace {
@@ -56,7 +57,7 @@ CastHelpers::CastResult CastHelpers::TryGet(UIntPtr source, UIntPtr target) {
         if (num3 != reference._version) {
           break;
         }
-        return (CastResult)(UInt64)targetAndResult;
+        return (CastResult)(UInt32)targetAndResult;
       }
     }
     if (num3 == 0) {

@@ -1033,7 +1033,7 @@ Task<Int32> BufferedStream___::ReadAsync(Array<Byte> buffer, Int32 offset, Int32
 template <>
 ValueTask<Int32> BufferedStream___::ReadAsync(Memory<Byte> buffer, CancellationToken cancellationToken) {
   if (cancellationToken.get_IsCancellationRequested()) {
-    return ValueTask<>::FromCanceled<Int32>(cancellationToken);
+    return ValueTask<Int32>(Task<>::in::FromCanceled<Int32>(cancellationToken));
   }
   EnsureNotClosed();
   EnsureCanRead();
@@ -1210,7 +1210,7 @@ Task<> BufferedStream___::WriteAsync(Array<Byte> buffer, Int32 offset, Int32 cou
 template <>
 ValueTask<> BufferedStream___::WriteAsync(ReadOnlyMemory<Byte> buffer, CancellationToken cancellationToken) {
   if (cancellationToken.get_IsCancellationRequested()) {
-    return ValueTask<>::FromCanceled(cancellationToken);
+    return ValueTask<>(Task<>::in::FromCanceled<Int32>(cancellationToken));
   }
   EnsureNotClosed();
   EnsureCanWrite();

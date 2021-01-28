@@ -24,11 +24,6 @@ namespace CounterGroupNamespace {
 using namespace System::Collections::Generic;
 using namespace System::Threading;
 CLASS(CounterGroup) : public object {
-  private: CLASS(__c__DisplayClass21_0) : public object {
-    public: void ctor();
-    public: void _PollForValues_b__0();
-    public: CounterGroup counterGroup;
-  };
   public: void ctor(EventSource eventSource);
   public: void Add(DiagnosticCounter eventCounter);
   public: void Remove(DiagnosticCounter eventCounter);

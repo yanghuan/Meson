@@ -3,10 +3,6 @@
 #include <System.Private.CoreLib/System/AppContext-dep.h>
 
 namespace System::Private::CoreLib::System::LocalAppContextSwitchesNamespace {
-Boolean LocalAppContextSwitches::get_EnableUnsafeUTF7Encoding() {
-  return GetCachedSwitchValue("System.Text.Encoding.EnableUnsafeUTF7Encoding", s_enableUnsafeUTF7Encoding);
-}
-
 Boolean LocalAppContextSwitches::get_EnforceJapaneseEraYearRanges() {
   return GetCachedSwitchValue("Switch.System.Globalization.EnforceJapaneseEraYearRanges", s_enforceJapaneseEraYearRanges);
 }
@@ -52,9 +48,6 @@ Boolean LocalAppContextSwitches::GetCachedSwitchValueInternal(String switchName,
 
 Boolean LocalAppContextSwitches::GetSwitchDefaultValue(String switchName) {
   if (switchName == "Switch.System.Runtime.Serialization.SerializationGuard") {
-    return true;
-  }
-  if (switchName == "System.Runtime.Serialization.EnableUnsafeBinaryFormatterSerialization") {
     return true;
   }
   return false;
