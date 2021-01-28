@@ -62,7 +62,7 @@ Int64 ParseNumbers::StringToLong(ReadOnlySpan<Char> s, Int32 radix, Int32 flags,
     rt::throw_exception<FormatException>(SR::get_Format_ExtraJunkAtEnd());
   }
   currPos = i;
-  if (num4 == Int64::MinValue && num2 == 1 && num == 10 && (flags & 512) == 0) {
+  if (num4 == Int64::MinValue() && num2 == 1 && num == 10 && (flags & 512) == 0) {
     Number::ThrowOverflowException(TypeCode::Int64);
   }
   if (num == 10) {
@@ -127,7 +127,7 @@ Int32 ParseNumbers::StringToInt(ReadOnlySpan<Char> s, Int32 radix, Int32 flags, 
     if ((UInt32)num4 > 65535u) {
       Number::ThrowOverflowException(TypeCode::Int16);
     }
-  } else if (num4 == Int32::MinValue && num2 == 1 && num == 10 && (flags & 512) == 0) {
+  } else if (num4 == Int32::MinValue() && num2 == 1 && num == 10 && (flags & 512) == 0) {
     Number::ThrowOverflowException(TypeCode::Int32);
   }
 

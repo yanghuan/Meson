@@ -233,8 +233,8 @@ Single Matrix3x2::GetDeterminant() {
 
 Boolean Matrix3x2::Invert(Matrix3x2 matrix, Matrix3x2& result) {
   Single num = matrix.M11 * matrix.M22 - matrix.M21 * matrix.M12;
-  if (MathF::Abs(num) < Single::Epsilon) {
-    result = Matrix3x2(Single::NaN, Single::NaN, Single::NaN, Single::NaN, Single::NaN, Single::NaN);
+  if (MathF::Abs(num) < Single::Epsilon()) {
+    result = Matrix3x2(Single::NaN(), Single::NaN(), Single::NaN(), Single::NaN(), Single::NaN(), Single::NaN());
     return false;
   }
   Single num2 = 1 / num;

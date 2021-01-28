@@ -156,7 +156,7 @@ void Decimal::DecCalc::UInt64x64To128(UInt64 a, UInt64 b, DecCalc& result) {
   if (num < num2) {
     num3++;
   }
-  if (num3 > UInt32::MaxValue) {
+  if (num3 > UInt32::MaxValue()) {
     Number::ThrowOverflowException(TypeCode::Decimal);
   }
   result.set_Low64(num);
@@ -456,7 +456,7 @@ void Decimal::DecCalc::DecAddSub(DecCalc& d1, DecCalc& d2, Boolean sign) {
     if (num2 != 0) {
       goto IL_015f;
     }
-    if (num > UInt32::MaxValue) {
+    if (num > UInt32::MaxValue()) {
       goto IL_0106;
     }
     if ((Int32)num == 0) {
@@ -471,7 +471,7 @@ void Decimal::DecCalc::DecAddSub(DecCalc& d1, DecCalc& d2, Boolean sign) {
     while (num7 > 9) {
       num7 -= 9;
       num = UInt32x32To64((UInt32)num, 1000000000u);
-      if (num <= UInt32::MaxValue) {
+      if (num <= UInt32::MaxValue()) {
         continue;
       }
       goto IL_0106;
@@ -556,7 +556,7 @@ IL_015f:
     num13 >>= 32;
     num13 += UInt32x32To64(num2, b);
     num7 -= 9;
-    if (num13 > UInt32::MaxValue) {
+    if (num13 > UInt32::MaxValue()) {
       break;
     }
     num2 = (UInt32)num13;
@@ -682,7 +682,7 @@ Int64 Decimal::DecCalc::VarCyFromDec(DecCalc& pdecIn) {
     if (pdecIn.get_High() == 0) {
       UInt32 a = s_powers10[-num];
       UInt64 num2 = UInt32x32To64(a, pdecIn.get_Mid());
-      if (num2 <= UInt32::MaxValue) {
+      if (num2 <= UInt32::MaxValue()) {
         UInt64 num3 = UInt32x32To64(a, pdecIn.get_Low());
         num3 += (num2 <<= 32);
         if (num3 >= num2) {
@@ -703,7 +703,7 @@ Int64 Decimal::DecCalc::VarCyFromDec(DecCalc& pdecIn) {
   goto IL_0093;
 
 IL_006d:
-  if (num4 >= 0 || (num4 == Int64::MinValue && pdecIn.get_IsNegative())) {
+  if (num4 >= 0 || (num4 == Int64::MinValue() && pdecIn.get_IsNegative())) {
     if (pdecIn.get_IsNegative()) {
       num4 = -num4;
     }
@@ -759,7 +759,7 @@ Int32 Decimal::DecCalc::VarDecCmpSub(Decimal& d1, Decimal& d2) {
       num3 = (UInt32)num9 + (num10 << 32);
       num10 >>= 32;
       num10 += UInt32x32To64(num4, b);
-      if (num10 > UInt32::MaxValue) {
+      if (num10 > UInt32::MaxValue()) {
         return num;
       }
       num4 = (UInt32)num10;
@@ -817,7 +817,7 @@ void Decimal::DecCalc::VarDecMul(DecCalc& d1, DecCalc& d2) {
     num4 >>= 32;
     if (d2.get_High() != 0) {
       num4 += UInt32x32To64(d1.get_Low(), d2.get_High());
-      if (num4 > UInt32::MaxValue) {
+      if (num4 > UInt32::MaxValue()) {
         value.set_Mid64(num4);
         num6 = 3u;
         goto IL_0368;
@@ -833,7 +833,7 @@ void Decimal::DecCalc::VarDecMul(DecCalc& d1, DecCalc& d2) {
     num4 >>= 32;
     if (d1.get_High() != 0) {
       num4 += UInt32x32To64(d2.get_Low(), d1.get_High());
-      if (num4 > UInt32::MaxValue) {
+      if (num4 > UInt32::MaxValue()) {
         value.set_Mid64(num4);
         num6 = 3u;
         goto IL_0368;
@@ -1397,7 +1397,7 @@ void Decimal::DecCalc::VarDecModFull(DecCalc& d1, DecCalc& d2, Int32 scale) {
       num4 += UInt32x32To64(*(ptr + i), b);
       *(ptr + i) = (UInt32)num4;
     }
-    if (num4 > Int32::MaxValue) {
+    if (num4 > Int32::MaxValue()) {
       *(ptr + ++num3) = (UInt32)(num4 >> 32);
     }
     scale += 9;
@@ -1553,7 +1553,7 @@ Decimal::Decimal(Int32 value) {
   if (value >= 0) {
     flags = 0;
   } else {
-    flags = Int32::MinValue;
+    flags = Int32::MinValue();
     value = -value;
   }
   lo = value;
@@ -1572,7 +1572,7 @@ Decimal::Decimal(Int64 value) {
   if (value >= 0) {
     flags = 0;
   } else {
-    flags = Int32::MinValue;
+    flags = Int32::MinValue();
     value = -value;
   }
   lo = (Int32)value;
@@ -1655,7 +1655,7 @@ Decimal::Decimal(Int32 lo, Int32 mid, Int32 hi, Boolean isNegative, Byte scale) 
   this->hi = hi;
   flags = scale << 16;
   if (isNegative) {
-    flags |= Int32::MinValue;
+    flags |= Int32::MinValue();
   }
 }
 
@@ -1912,7 +1912,7 @@ Decimal Decimal::Multiply(Decimal d1, Decimal d2) {
 }
 
 Decimal Decimal::Negate(Decimal d) {
-  return Decimal(d, d.flags ^ Int32::MinValue);
+  return Decimal(d, d.flags ^ Int32::MinValue());
 }
 
 Decimal Decimal::Round(Decimal d) {
@@ -2188,7 +2188,7 @@ Decimal Decimal::op_UnaryPlus(Decimal d) {
 }
 
 Decimal Decimal::op_UnaryNegation(Decimal d) {
-  return Decimal(d, d.flags ^ Int32::MinValue);
+  return Decimal(d, d.flags ^ Int32::MinValue());
 }
 
 Decimal Decimal::op_Increment(Decimal d) {

@@ -37,7 +37,7 @@ Boolean Single::IsNegative(Single f) {
 }
 
 Boolean Single::IsNegativeInfinity(Single f) {
-  return f == Single::NegativeInfinity;
+  return f == Single::NegativeInfinity();
 }
 
 Boolean Single::IsNormal(Single f) {
@@ -50,7 +50,7 @@ Boolean Single::IsNormal(Single f) {
 }
 
 Boolean Single::IsPositiveInfinity(Single f) {
-  return f == Single::PositiveInfinity;
+  return f == Single::PositiveInfinity();
 }
 
 Boolean Single::IsSubnormal(Single f) {

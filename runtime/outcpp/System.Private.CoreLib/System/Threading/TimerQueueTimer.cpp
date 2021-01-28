@@ -35,13 +35,13 @@ void TimerQueueTimer___::__c___::_cctor_b__23_0(Object state) {
 void TimerQueueTimer___::ctor(TimerCallback timerCallback, Object state, UInt32 dueTime, UInt32 period, Boolean flowExecutionContext) {
   _timerCallback = timerCallback;
   _state = state;
-  _dueTime = UInt32::MaxValue;
-  _period = UInt32::MaxValue;
+  _dueTime = UInt32::MaxValue();
+  _period = UInt32::MaxValue();
   if (flowExecutionContext) {
     _executionContext = ExecutionContext::in::Capture();
   }
   _associatedTimerQueue = TimerQueue::in::get_Instances()[Thread::in::GetCurrentProcessorId() % TimerQueue::in::get_Instances()->get_Length()];
-  if (dueTime != UInt32::MaxValue) {
+  if (dueTime != UInt32::MaxValue()) {
     Change(dueTime, period);
   }
 }
@@ -53,7 +53,7 @@ Boolean TimerQueueTimer___::Change(UInt32 dueTime, UInt32 period) {
       rt::throw_exception<ObjectDisposedException>(nullptr, SR::get_ObjectDisposed_Generic());
     }
     _period = period;
-    if (dueTime == UInt32::MaxValue) {
+    if (dueTime == UInt32::MaxValue()) {
       _associatedTimerQueue->DeleteTimer((TimerQueueTimer)this);
       return true;
     }

@@ -75,8 +75,8 @@ struct SByte : public valueType<SByte, rt::TypeCode::SByte> {
   private: DateTime ToDateTimeOfIConvertible(IFormatProvider provider);
   private: Object ToTypeOfIConvertible(Type type, IFormatProvider provider);
   private: int8_t m_value;
-  public: static constexpr int8_t MaxValue = 127;
-  public: static constexpr int8_t MinValue = -128;
+  public: static constexpr SByte MaxValue() { return 127; }
+  public: static constexpr SByte MinValue() { return -128; }
   public: constexpr SByte() noexcept : m_value(0) {}
   public: constexpr SByte(int8_t value) noexcept : m_value(value) {}
   public: template <class T> requires(std::is_enum_v<T> || std::is_pointer_v<T>)

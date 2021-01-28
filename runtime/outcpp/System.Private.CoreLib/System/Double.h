@@ -90,12 +90,12 @@ struct Double : public valueType<Double, rt::TypeCode::Double> {
   private: DateTime ToDateTimeOfIConvertible(IFormatProvider provider);
   private: Object ToTypeOfIConvertible(Type type, IFormatProvider provider);
   private: double m_value;
-  public: static constexpr double MinValue = -1.7976931348623157E+308;
-  public: static constexpr double MaxValue = 1.7976931348623157E+308;
-  public: static constexpr double Epsilon = 5E-324;
-  public: static constexpr double NegativeInfinity = rt::NegativeInfinity<double>;
-  public: static constexpr double PositiveInfinity = rt::PositiveInfinity<double>;
-  public: static constexpr double NaN = rt::NaN<double>;
+  public: static constexpr Double MinValue() { return -1.7976931348623157E+308; }
+  public: static constexpr Double MaxValue() { return 1.7976931348623157E+308; }
+  public: static constexpr Double Epsilon() { return 5E-324; }
+  public: static constexpr Double NegativeInfinity() { return rt::NegativeInfinity<double>; }
+  public: static constexpr Double PositiveInfinity() { return rt::PositiveInfinity<double>; }
+  public: static constexpr Double NaN() { return rt::NaN<double>; }
   public: constexpr Double() noexcept : m_value(0) {}
   public: constexpr Double(double value) noexcept : m_value(value) {}
   public: template <class T> requires(std::is_enum_v<T> || std::is_pointer_v<T>)

@@ -39,7 +39,7 @@ Int32 HijriCalendar___::get_DaysInYearBeforeMinSupportedYear() {
 }
 
 Int32 HijriCalendar___::get_HijriAdjustment() {
-  if (_hijriAdvance == Int32::MinValue) {
+  if (_hijriAdvance == Int32::MinValue()) {
     _hijriAdvance = GetHijriDateAdjustment();
   }
   return _hijriAdvance;
@@ -73,7 +73,7 @@ void HijriCalendar___::set_TwoDigitYearMax(Int32 value) {
 }
 
 void HijriCalendar___::ctor() {
-  _hijriAdvance = Int32::MinValue;
+  _hijriAdvance = Int32::MinValue();
   Calendar::in::ctor();
 }
 
@@ -293,7 +293,7 @@ Int32 HijriCalendar___::ToFourDigitYear(Int32 year) {
 }
 
 Int32 HijriCalendar___::GetHijriDateAdjustment() {
-  if (_hijriAdvance == Int32::MinValue) {
+  if (_hijriAdvance == Int32::MinValue()) {
     _hijriAdvance = GetAdvanceHijriDate();
   }
   return _hijriAdvance;

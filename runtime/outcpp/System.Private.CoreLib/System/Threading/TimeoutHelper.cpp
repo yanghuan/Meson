@@ -9,7 +9,7 @@ UInt32 TimeoutHelper::GetTime() {
 
 Int32 TimeoutHelper::UpdateTimeOut(UInt32 startTime, Int32 originalWaitMillisecondsTimeout) {
   UInt32 num = GetTime() - startTime;
-  if (num > Int32::MaxValue) {
+  if (num > Int32::MaxValue()) {
     return 0;
   }
   Int32 num2 = originalWaitMillisecondsTimeout - (Int32)num;

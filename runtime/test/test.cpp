@@ -8,6 +8,7 @@
 
 #include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/Int32.h>
+#include <System.Private.CoreLib/System/UInt32.h>
 #include <System.Private.CoreLib/System/Int64.h>
 #include <System.Private.CoreLib/System/char.h>
 
@@ -131,17 +132,13 @@ void Test() {
 
 using namespace System::Private::CoreLib::System;
 
-struct StandardFormat : public valueType<StandardFormat> {
-  public: explicit StandardFormat(Char symbol) {}
-  public: static StandardFormat op_Implicit(Char symbol) {
-    return StandardFormat('d');
-  }
+struct TestAAA {
+  static inline constexpr int a = 10; 
 };
 
 int main() {
-  Char c = 'a';
-  StandardFormat format(c);
-  format = c;
+  Int32 a = 0;
+  UInt32 b = (UInt32)a;
   return 0;
 }
 

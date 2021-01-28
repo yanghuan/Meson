@@ -469,6 +469,9 @@ namespace Meson.Compiler {
       fieldName = GetMemberName(field);
       if (IsValueTypeInnerField(field, typeDefinition, out typeName)) {
         isPrimitiveType = true;
+        if (field.IsConst) {
+          typeName = GetFieldTypeName(field, typeDefinition, ref fieldName);
+        }
       } else {
         typeName = GetFieldTypeName(field, typeDefinition, ref fieldName);
       }
@@ -479,11 +482,22 @@ namespace Meson.Compiler {
       foreach (var field in typeDefinition.Fields.Where(IsFieldExport)) {
         bool isPrimitiveType = GetFieldNameAndType(typeDefinition, field, out var fieldName, out var typeName);
         Contract.Assert(typeName != null);
-        var constantValue = field.GetConstantValue();
-        node.Statements.Add(new FieldDefinitionSyntax(typeName, fieldName, field.IsStatic, field.Accessibility.ToTokenString()) {
-          IsConstexpr = field.IsConst,
-          ConstantValue = field.IsConst ? Utils.GetPrimitiveExpression(constantValue, isPrimitiveType) : null,
-        });
+        if (isPrimitiveType && field.IsConst) {
+          var value = Utils.GetPrimitiveExpression(field.GetConstantValue(), true);
+          var definition = new MethodDefinitionSyntax(fieldName, null, typeName) {
+            IsStatic = true,
+            IsConstexpr = true,
+            Accessibility = field.Accessibility,
+          };
+          definition.AddStatement(value.Return());
+          definition.Body.IsSingleLine = true;
+          node.Add(definition);
+        } else {
+          node.Add(new FieldDefinitionSyntax(typeName, fieldName, field.IsStatic, field.Accessibility.ToTokenString()) {
+            IsConstexpr = field.IsConst,
+            ConstantValue = field.IsConst ? Utils.GetPrimitiveExpression(field.GetConstantValue(), isPrimitiveType) : null,
+          });
+        }
       }
     }
 

@@ -20,7 +20,7 @@ Byte StandardFormat::get_Precision() {
 }
 
 Boolean StandardFormat::get_HasPrecision() {
-  return _precision != Byte::MaxValue;
+  return _precision != Byte::MaxValue();
 }
 
 Boolean StandardFormat::get_IsDefault() {
@@ -31,7 +31,7 @@ Boolean StandardFormat::get_IsDefault() {
 }
 
 StandardFormat::StandardFormat(Char symbol, Byte precision) {
-  if (precision != Byte::MaxValue && precision > 99) {
+  if (precision != Byte::MaxValue() && precision > 99) {
     ThrowHelper::ThrowArgumentOutOfRangeException_PrecisionTooLarge();
   }
   if (symbol != (Byte)symbol) {
@@ -70,7 +70,7 @@ Boolean StandardFormat::ParseHelper(ReadOnlySpan<Char> format, StandardFormat& s
   Char symbol = format[0];
   Byte precision;
   if (format.get_Length() == 1) {
-    precision = Byte::MaxValue;
+    precision = Byte::MaxValue();
   } else {
     UInt32 num = 0u;
     for (Int32 i = 1; i < format.get_Length(); i++) {

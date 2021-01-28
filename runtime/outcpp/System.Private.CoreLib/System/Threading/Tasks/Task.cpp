@@ -72,7 +72,7 @@ void DelayPromise___::ctor(Int32 millisecondsDelay) {
   }
   if (millisecondsDelay != -1) {
     TimerCallback as = __c::in::__9__1_0;
-    _timer = rt::newobj<TimerQueueTimer>(as != nullptr ? as : (__c::in::__9__1_0 = {__c::in::__9, &__c::in::_ctor_b__1_0}), (DelayPromise)this, (UInt32)millisecondsDelay, UInt32::MaxValue, false);
+    _timer = rt::newobj<TimerQueueTimer>(as != nullptr ? as : (__c::in::__9__1_0 = {__c::in::__9, &__c::in::_ctor_b__1_0}), (DelayPromise)this, (UInt32)millisecondsDelay, UInt32::MaxValue(), false);
     if (Task<>::in::get_IsCanceled()) {
       _timer->Close();
     }
@@ -1259,7 +1259,7 @@ void Task___<>::Wait() {
 
 Boolean Task___<>::Wait(TimeSpan timeout) {
   Int64 num = (Int64)timeout.get_TotalMilliseconds();
-  if (num < -1 || num > Int32::MaxValue) {
+  if (num < -1 || num > Int32::MaxValue()) {
     ThrowHelper::ThrowArgumentOutOfRangeException(ExceptionArgument::timeout);
   }
   return Wait((Int32)num, rt::default__);
@@ -1784,7 +1784,7 @@ void Task___<>::WaitAll(Array<Task<>> tasks) {
 
 Boolean Task___<>::WaitAll(Array<Task<>> tasks, TimeSpan timeout) {
   Int64 num = (Int64)timeout.get_TotalMilliseconds();
-  if (num < -1 || num > Int32::MaxValue) {
+  if (num < -1 || num > Int32::MaxValue()) {
     ThrowHelper::ThrowArgumentOutOfRangeException(ExceptionArgument::timeout);
   }
   return WaitAllCore(tasks, (Int32)num, rt::default__);
@@ -1918,7 +1918,7 @@ Int32 Task___<>::WaitAny(Array<Task<>> tasks) {
 
 Int32 Task___<>::WaitAny(Array<Task<>> tasks, TimeSpan timeout) {
   Int64 num = (Int64)timeout.get_TotalMilliseconds();
-  if (num < -1 || num > Int32::MaxValue) {
+  if (num < -1 || num > Int32::MaxValue()) {
     ThrowHelper::ThrowArgumentOutOfRangeException(ExceptionArgument::timeout);
   }
   return WaitAnyCore(tasks, (Int32)num, rt::default__);
@@ -2017,7 +2017,7 @@ Task<> Task___<>::Delay(TimeSpan delay) {
 
 Task<> Task___<>::Delay(TimeSpan delay, CancellationToken cancellationToken) {
   Int64 num = (Int64)delay.get_TotalMilliseconds();
-  if (num < -1 || num > Int32::MaxValue) {
+  if (num < -1 || num > Int32::MaxValue()) {
     ThrowHelper::ThrowArgumentOutOfRangeException(ExceptionArgument::delay, ExceptionResource::Task_Delay_InvalidDelay);
   }
   return Delay((Int32)num, cancellationToken);

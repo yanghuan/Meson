@@ -863,8 +863,8 @@ Boolean Matrix4x4::Invert(Matrix4x4 matrix, Matrix4x4& result) {
     left16 = Permute(left16, 216);
     right3 = left;
     Single num25 = Vector4::Dot(Vector128<>::AsVector4(left13), Vector128<>::AsVector4(right3));
-    if (MathF::Abs(num25) < Single::Epsilon) {
-      result = Matrix4x4(Single::NaN, Single::NaN, Single::NaN, Single::NaN, Single::NaN, Single::NaN, Single::NaN, Single::NaN, Single::NaN, Single::NaN, Single::NaN, Single::NaN, Single::NaN, Single::NaN, Single::NaN, Single::NaN);
+    if (MathF::Abs(num25) < Single::Epsilon()) {
+      result = Matrix4x4(Single::NaN(), Single::NaN(), Single::NaN(), Single::NaN(), Single::NaN(), Single::NaN(), Single::NaN(), Single::NaN(), Single::NaN(), Single::NaN(), Single::NaN(), Single::NaN(), Single::NaN(), Single::NaN(), Single::NaN(), Single::NaN());
       return false;
     }
     Vector128<Single> left17 = Vector128<>::Create(1);
@@ -910,8 +910,8 @@ Boolean Matrix4x4::Invert(Matrix4x4 matrix, Matrix4x4& result) {
     Single num9 = m5 * num2 - m6 * num4 + m8 * num6;
     Single num10 = 0 - (m5 * num3 - m6 * num5 + m7 * num6);
     Single num11 = m * num7 + m2 * num8 + m3 * num9 + m4 * num10;
-    if (MathF::Abs(num11) < Single::Epsilon) {
-      result = Matrix4x4(Single::NaN, Single::NaN, Single::NaN, Single::NaN, Single::NaN, Single::NaN, Single::NaN, Single::NaN, Single::NaN, Single::NaN, Single::NaN, Single::NaN, Single::NaN, Single::NaN, Single::NaN, Single::NaN);
+    if (MathF::Abs(num11) < Single::Epsilon()) {
+      result = Matrix4x4(Single::NaN(), Single::NaN(), Single::NaN(), Single::NaN(), Single::NaN(), Single::NaN(), Single::NaN(), Single::NaN(), Single::NaN(), Single::NaN(), Single::NaN(), Single::NaN(), Single::NaN(), Single::NaN(), Single::NaN(), Single::NaN());
       return false;
     }
     Single num12 = 1 / num11;
@@ -1259,13 +1259,13 @@ Matrix4x4 Matrix4x4::op_Subtraction(Matrix4x4 value1, Matrix4x4 value2) {
 Matrix4x4 Matrix4x4::op_Multiply(Matrix4x4 value1, Matrix4x4 value2) {
   if (Sse::in::get_IsSupported()) {
     Vector128<Single> vector = Sse::in::LoadVector128(&value1.M11);
-    Sse::in::Store(&value1.M11, Sse::in::Add(Sse::in::Add(Sse::in::Multiply(Sse::in::Shuffle(vector, vector, 0), Sse::in::LoadVector128(&value2.M11)), Sse::in::Multiply(Sse::in::Shuffle(vector, vector, 85), Sse::in::LoadVector128(&value2.M21))), Sse::in::Add(Sse::in::Multiply(Sse::in::Shuffle(vector, vector, 170), Sse::in::LoadVector128(&value2.M31)), Sse::in::Multiply(Sse::in::Shuffle(vector, vector, Byte::MaxValue), Sse::in::LoadVector128(&value2.M41)))));
+    Sse::in::Store(&value1.M11, Sse::in::Add(Sse::in::Add(Sse::in::Multiply(Sse::in::Shuffle(vector, vector, 0), Sse::in::LoadVector128(&value2.M11)), Sse::in::Multiply(Sse::in::Shuffle(vector, vector, 85), Sse::in::LoadVector128(&value2.M21))), Sse::in::Add(Sse::in::Multiply(Sse::in::Shuffle(vector, vector, 170), Sse::in::LoadVector128(&value2.M31)), Sse::in::Multiply(Sse::in::Shuffle(vector, vector, Byte::MaxValue()), Sse::in::LoadVector128(&value2.M41)))));
     vector = Sse::in::LoadVector128(&value1.M21);
-    Sse::in::Store(&value1.M21, Sse::in::Add(Sse::in::Add(Sse::in::Multiply(Sse::in::Shuffle(vector, vector, 0), Sse::in::LoadVector128(&value2.M11)), Sse::in::Multiply(Sse::in::Shuffle(vector, vector, 85), Sse::in::LoadVector128(&value2.M21))), Sse::in::Add(Sse::in::Multiply(Sse::in::Shuffle(vector, vector, 170), Sse::in::LoadVector128(&value2.M31)), Sse::in::Multiply(Sse::in::Shuffle(vector, vector, Byte::MaxValue), Sse::in::LoadVector128(&value2.M41)))));
+    Sse::in::Store(&value1.M21, Sse::in::Add(Sse::in::Add(Sse::in::Multiply(Sse::in::Shuffle(vector, vector, 0), Sse::in::LoadVector128(&value2.M11)), Sse::in::Multiply(Sse::in::Shuffle(vector, vector, 85), Sse::in::LoadVector128(&value2.M21))), Sse::in::Add(Sse::in::Multiply(Sse::in::Shuffle(vector, vector, 170), Sse::in::LoadVector128(&value2.M31)), Sse::in::Multiply(Sse::in::Shuffle(vector, vector, Byte::MaxValue()), Sse::in::LoadVector128(&value2.M41)))));
     vector = Sse::in::LoadVector128(&value1.M31);
-    Sse::in::Store(&value1.M31, Sse::in::Add(Sse::in::Add(Sse::in::Multiply(Sse::in::Shuffle(vector, vector, 0), Sse::in::LoadVector128(&value2.M11)), Sse::in::Multiply(Sse::in::Shuffle(vector, vector, 85), Sse::in::LoadVector128(&value2.M21))), Sse::in::Add(Sse::in::Multiply(Sse::in::Shuffle(vector, vector, 170), Sse::in::LoadVector128(&value2.M31)), Sse::in::Multiply(Sse::in::Shuffle(vector, vector, Byte::MaxValue), Sse::in::LoadVector128(&value2.M41)))));
+    Sse::in::Store(&value1.M31, Sse::in::Add(Sse::in::Add(Sse::in::Multiply(Sse::in::Shuffle(vector, vector, 0), Sse::in::LoadVector128(&value2.M11)), Sse::in::Multiply(Sse::in::Shuffle(vector, vector, 85), Sse::in::LoadVector128(&value2.M21))), Sse::in::Add(Sse::in::Multiply(Sse::in::Shuffle(vector, vector, 170), Sse::in::LoadVector128(&value2.M31)), Sse::in::Multiply(Sse::in::Shuffle(vector, vector, Byte::MaxValue()), Sse::in::LoadVector128(&value2.M41)))));
     vector = Sse::in::LoadVector128(&value1.M41);
-    Sse::in::Store(&value1.M41, Sse::in::Add(Sse::in::Add(Sse::in::Multiply(Sse::in::Shuffle(vector, vector, 0), Sse::in::LoadVector128(&value2.M11)), Sse::in::Multiply(Sse::in::Shuffle(vector, vector, 85), Sse::in::LoadVector128(&value2.M21))), Sse::in::Add(Sse::in::Multiply(Sse::in::Shuffle(vector, vector, 170), Sse::in::LoadVector128(&value2.M31)), Sse::in::Multiply(Sse::in::Shuffle(vector, vector, Byte::MaxValue), Sse::in::LoadVector128(&value2.M41)))));
+    Sse::in::Store(&value1.M41, Sse::in::Add(Sse::in::Add(Sse::in::Multiply(Sse::in::Shuffle(vector, vector, 0), Sse::in::LoadVector128(&value2.M11)), Sse::in::Multiply(Sse::in::Shuffle(vector, vector, 85), Sse::in::LoadVector128(&value2.M21))), Sse::in::Add(Sse::in::Multiply(Sse::in::Shuffle(vector, vector, 170), Sse::in::LoadVector128(&value2.M31)), Sse::in::Multiply(Sse::in::Shuffle(vector, vector, Byte::MaxValue()), Sse::in::LoadVector128(&value2.M41)))));
     return value1;
   }
   Matrix4x4 result;
@@ -1460,8 +1460,8 @@ Boolean Matrix4x4::_Invert_g__SseImpl59_0(Matrix4x4 matrix, Matrix4x4& result) {
   left16 = Permute(left16, 216);
   right3 = left;
   Single num = Vector4::Dot(Vector128<>::AsVector4(left13), Vector128<>::AsVector4(right3));
-  if (MathF::Abs(num) < Single::Epsilon) {
-    result = Matrix4x4(Single::NaN, Single::NaN, Single::NaN, Single::NaN, Single::NaN, Single::NaN, Single::NaN, Single::NaN, Single::NaN, Single::NaN, Single::NaN, Single::NaN, Single::NaN, Single::NaN, Single::NaN, Single::NaN);
+  if (MathF::Abs(num) < Single::Epsilon()) {
+    result = Matrix4x4(Single::NaN(), Single::NaN(), Single::NaN(), Single::NaN(), Single::NaN(), Single::NaN(), Single::NaN(), Single::NaN(), Single::NaN(), Single::NaN(), Single::NaN(), Single::NaN(), Single::NaN(), Single::NaN(), Single::NaN(), Single::NaN());
     return false;
   }
   Vector128<Single> left17 = Vector128<>::Create(1);
@@ -1508,8 +1508,8 @@ Boolean Matrix4x4::_Invert_g__SoftwareFallback59_1(Matrix4x4 matrix, Matrix4x4& 
   Single num9 = m5 * num2 - m6 * num4 + m8 * num6;
   Single num10 = 0 - (m5 * num3 - m6 * num5 + m7 * num6);
   Single num11 = m * num7 + m2 * num8 + m3 * num9 + m4 * num10;
-  if (MathF::Abs(num11) < Single::Epsilon) {
-    result = Matrix4x4(Single::NaN, Single::NaN, Single::NaN, Single::NaN, Single::NaN, Single::NaN, Single::NaN, Single::NaN, Single::NaN, Single::NaN, Single::NaN, Single::NaN, Single::NaN, Single::NaN, Single::NaN, Single::NaN);
+  if (MathF::Abs(num11) < Single::Epsilon()) {
+    result = Matrix4x4(Single::NaN(), Single::NaN(), Single::NaN(), Single::NaN(), Single::NaN(), Single::NaN(), Single::NaN(), Single::NaN(), Single::NaN(), Single::NaN(), Single::NaN(), Single::NaN(), Single::NaN(), Single::NaN(), Single::NaN(), Single::NaN());
     return false;
   }
   Single num12 = 1 / num11;

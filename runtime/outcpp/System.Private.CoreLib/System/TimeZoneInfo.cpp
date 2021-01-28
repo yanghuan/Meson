@@ -378,7 +378,7 @@ DateTimeKind TimeZoneInfo___::CachedData___::GetCorrespondingKind(TimeZoneInfo t
 TimeZoneInfo TimeZoneInfo___::CachedData___::GetCurrentOneYearLocal() {
   Interop::Kernel32::TIME_ZONE_INFORMATION lpTimeZoneInformation;
   UInt32 timeZoneInformation = Interop::Kernel32::GetTimeZoneInformation(lpTimeZoneInformation);
-  if (timeZoneInformation != UInt32::MaxValue) {
+  if (timeZoneInformation != UInt32::MaxValue()) {
     return GetLocalTimeZoneFromWin32Data(lpTimeZoneInformation, false);
   }
   return CreateCustomTimeZone("Local", TimeSpan::Zero, "Local", "Local");
@@ -1855,7 +1855,7 @@ String TimeZoneInfo___::FindIdFromTimeZoneInformation(Interop::Kernel32::TIME_ZO
 TimeZoneInfo TimeZoneInfo___::GetLocalTimeZone(CachedData cachedData) {
   Interop::Kernel32::TIME_DYNAMIC_ZONE_INFORMATION pTimeZoneInformation;
   UInt32 dynamicTimeZoneInformation = Interop::Kernel32::GetDynamicTimeZoneInformation(pTimeZoneInformation);
-  if (dynamicTimeZoneInformation == UInt32::MaxValue) {
+  if (dynamicTimeZoneInformation == UInt32::MaxValue()) {
     return CreateCustomTimeZone("Local", TimeSpan::Zero, "Local", "Local");
   }
   String timeZoneKeyName = pTimeZoneInformation.GetTimeZoneKeyName();

@@ -52,7 +52,7 @@ using namespace System::Text;
 using namespace System::Threading;
 
 Object ResourceReader___::ResourceEnumerator___::get_Key() {
-  if (_currentName == Int32::MinValue) {
+  if (_currentName == Int32::MinValue()) {
     rt::throw_exception<InvalidOperationException>(SR::get_InvalidOperation_EnumEnded());
   }
   if (!_currentIsValid) {
@@ -73,7 +73,7 @@ Int32 ResourceReader___::ResourceEnumerator___::get_DataPosition() {
 }
 
 DictionaryEntry ResourceReader___::ResourceEnumerator___::get_Entry() {
-  if (_currentName == Int32::MinValue) {
+  if (_currentName == Int32::MinValue()) {
     rt::throw_exception<InvalidOperationException>(SR::get_InvalidOperation_EnumEnded());
   }
   if (!_currentIsValid) {
@@ -102,7 +102,7 @@ DictionaryEntry ResourceReader___::ResourceEnumerator___::get_Entry() {
 }
 
 Object ResourceReader___::ResourceEnumerator___::get_Value() {
-  if (_currentName == Int32::MinValue) {
+  if (_currentName == Int32::MinValue()) {
     rt::throw_exception<InvalidOperationException>(SR::get_InvalidOperation_EnumEnded());
   }
   if (!_currentIsValid) {
@@ -121,9 +121,9 @@ void ResourceReader___::ResourceEnumerator___::ctor(ResourceReader reader) {
 }
 
 Boolean ResourceReader___::ResourceEnumerator___::MoveNext() {
-  if (_currentName == _reader->_numResources - 1 || _currentName == Int32::MinValue) {
+  if (_currentName == _reader->_numResources - 1 || _currentName == Int32::MinValue()) {
     _currentIsValid = false;
-    _currentName = Int32::MinValue;
+    _currentName = Int32::MinValue();
     return false;
   }
   _currentIsValid = true;

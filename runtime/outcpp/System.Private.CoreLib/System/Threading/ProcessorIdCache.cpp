@@ -28,8 +28,8 @@ Int32 ProcessorIdCache::GetCurrentProcessorId() {
 }
 
 Boolean ProcessorIdCache::ProcessorNumberSpeedCheck() {
-  Double num = Double::MaxValue;
-  Double num2 = Double::MaxValue;
+  Double num = Double::MaxValue();
+  Double num2 = Double::MaxValue();
   UninlinedThreadStatic();
   if (Thread::in::GetCurrentProcessorNumber() < 0) {
     s_processorIdRefreshRate = 65535;

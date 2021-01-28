@@ -625,6 +625,14 @@ namespace Meson.Compiler {
             var member = (IEntity)symbol;
             ExpressionSyntax name;
             switch (symbol.SymbolKind) {
+              case SymbolKind.Field: {
+                  var field = (IField)symbol;
+                  name = GetMemberName(member);
+                  if (field.IsConst && field.DeclaringType.IsPrimitiveValueType()) {
+                    name = name.Invation();
+                  }
+                  break;
+                }
               case SymbolKind.Property: {
                   var property = (IProperty)symbol;
                   bool isGetter = (property.Getter != null && property.Setter == null) || !(node.Parent is AssignmentExpression);

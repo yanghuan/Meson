@@ -14,8 +14,8 @@ namespace System::Private::CoreLib::System::Diagnostics::Tracing::EventCounterNa
 using namespace System::Threading;
 
 void EventCounter___::ctor(String name, Tracing::EventSource eventSource) {
-  _min = Double::PositiveInfinity;
-  _max = Double::NegativeInfinity;
+  _min = Double::PositiveInfinity();
+  _max = Double::NegativeInfinity();
   InitializeBuffer();
   Publish();
 }
@@ -83,15 +83,15 @@ void EventCounter___::ResetStatistics() {
     _count = 0;
     _sum = 0;
     _sumSquared = 0;
-    _min = Double::PositiveInfinity;
-    _max = Double::NegativeInfinity;
+    _min = Double::PositiveInfinity();
+    _max = Double::NegativeInfinity();
   }
 }
 
 void EventCounter___::InitializeBuffer() {
   _bufferedValues = rt::newarr<Array<Double>>(10);
   for (Int32 i = 0; i < _bufferedValues->get_Length(); i++) {
-    _bufferedValues[i] = Double::NegativeInfinity;
+    _bufferedValues[i] = Double::NegativeInfinity();
   }
 }
 
@@ -99,7 +99,7 @@ void EventCounter___::Enqueue(Double value) {
   Int32 num = _bufferedValuesIndex;
   Double num2;
   do {
-    num2 = Interlocked::CompareExchange(_bufferedValues[num], value, Double::NegativeInfinity);
+    num2 = Interlocked::CompareExchange(_bufferedValues[num], value, Double::NegativeInfinity());
     num++;
     if (_bufferedValues->get_Length() <= num) {
       {
@@ -108,14 +108,14 @@ void EventCounter___::Enqueue(Double value) {
       }
       num = 0;
     }
-  } while (num2 != Double::NegativeInfinity);
+  } while (num2 != Double::NegativeInfinity());
   _bufferedValuesIndex = num;
 }
 
 void EventCounter___::Flush() {
   for (Int32 i = 0; i < _bufferedValues->get_Length(); i++) {
-    Double num = Interlocked::Exchange(_bufferedValues[i], Double::NegativeInfinity);
-    if (num != Double::NegativeInfinity) {
+    Double num = Interlocked::Exchange(_bufferedValues[i], Double::NegativeInfinity());
+    if (num != Double::NegativeInfinity()) {
       OnMetricWritten(num);
     }
   }

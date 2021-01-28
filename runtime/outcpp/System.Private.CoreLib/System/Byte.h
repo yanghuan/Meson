@@ -75,8 +75,8 @@ struct Byte : public valueType<Byte, rt::TypeCode::Byte> {
   private: DateTime ToDateTimeOfIConvertible(IFormatProvider provider);
   private: Object ToTypeOfIConvertible(Type type, IFormatProvider provider);
   private: uint8_t m_value;
-  public: static constexpr uint8_t MaxValue = 255;
-  public: static constexpr uint8_t MinValue = 0;
+  public: static constexpr Byte MaxValue() { return 255; }
+  public: static constexpr Byte MinValue() { return 0; }
   public: constexpr Byte() noexcept : m_value(0) {}
   public: constexpr Byte(uint8_t value) noexcept : m_value(value) {}
   public: template <class T> requires(std::is_enum_v<T> || std::is_pointer_v<T>)

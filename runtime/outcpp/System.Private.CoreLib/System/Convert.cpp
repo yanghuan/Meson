@@ -997,14 +997,14 @@ Int32 Convert::ToInt32(Int32 value) {
 }
 
 Int32 Convert::ToInt32(Int64 value) {
-  if (value < Int32::MinValue || value > Int32::MaxValue) {
+  if (value < Int32::MinValue() || value > Int32::MaxValue()) {
     ThrowInt32OverflowException();
   }
   return (Int32)value;
 }
 
 Int32 Convert::ToInt32(UInt64 value) {
-  if (value > Int32::MaxValue) {
+  if (value > Int32::MaxValue()) {
     ThrowInt32OverflowException();
   }
   return (Int32)value;
@@ -1121,7 +1121,7 @@ UInt32 Convert::ToUInt32(Int64 value) {
 }
 
 UInt32 Convert::ToUInt32(UInt64 value) {
-  if (value > UInt32::MaxValue) {
+  if (value > UInt32::MaxValue()) {
     ThrowUInt32OverflowException();
   }
   return (UInt32)value;
@@ -2142,7 +2142,7 @@ Int32 Convert::ToBase64_CalculateAndValidateOutputLength(Int32 inputLength, Bool
     }
     num += num2 * 2;
   }
-  if (num > Int32::MaxValue) {
+  if (num > Int32::MaxValue()) {
     rt::throw_exception<OutOfMemoryException>();
   }
   return (Int32)num;

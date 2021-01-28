@@ -75,8 +75,8 @@ struct UInt16 : public valueType<UInt16, rt::TypeCode::UInt16> {
   private: DateTime ToDateTimeOfIConvertible(IFormatProvider provider);
   private: Object ToTypeOfIConvertible(Type type, IFormatProvider provider);
   private: uint16_t m_value;
-  public: static constexpr uint16_t MaxValue = 65535;
-  public: static constexpr uint16_t MinValue = 0;
+  public: static constexpr UInt16 MaxValue() { return 65535; }
+  public: static constexpr UInt16 MinValue() { return 0; }
   public: constexpr UInt16() noexcept : m_value(0) {}
   public: constexpr UInt16(uint16_t value) noexcept : m_value(value) {}
   public: template <class T> requires(std::is_enum_v<T> || std::is_pointer_v<T>)

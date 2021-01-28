@@ -1158,14 +1158,14 @@ Int32 SpanHelpers::SequenceCompareTo(Byte& first, Int32 firstLength, Byte& secon
         UInt32 num2;
         if ((UInt64)uIntPtr3 > (UInt64)uIntPtr2) {
           num2 = (UInt32)Avx2::in::MoveMask(Avx2::in::CompareEqual(LoadVector256(first, uIntPtr2), LoadVector256(second, uIntPtr2)));
-          if (num2 == UInt32::MaxValue) {
+          if (num2 == UInt32::MaxValue()) {
             uIntPtr2 = (UIntPtr)(void*)((UInt64)(Int64)(UInt64)uIntPtr2 + (UInt64)Vector256<Byte>::get_Count());
             continue;
           }
         } else {
           uIntPtr2 = uIntPtr3;
           num2 = (UInt32)Avx2::in::MoveMask(Avx2::in::CompareEqual(LoadVector256(first, uIntPtr2), LoadVector256(second, uIntPtr2)));
-          if (num2 == UInt32::MaxValue) {
+          if (num2 == UInt32::MaxValue()) {
             break;
           }
         }

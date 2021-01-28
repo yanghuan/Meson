@@ -863,7 +863,7 @@ Boolean Utf8Parser::TryParse(ReadOnlySpan<Byte> source, Single& value, Int32& by
     value = Number::NumberToSingle(number);
     return true;
   }
-  return TryParseAsSpecialFloatingPoint(source, Single::PositiveInfinity, Single::NegativeInfinity, Single::NaN, value, bytesConsumed);
+  return TryParseAsSpecialFloatingPoint(source, Single::PositiveInfinity(), Single::NegativeInfinity(), Single::NaN(), value, bytesConsumed);
 }
 
 Boolean Utf8Parser::TryParse(ReadOnlySpan<Byte> source, Double& value, Int32& bytesConsumed, Char standardFormat) {
@@ -874,7 +874,7 @@ Boolean Utf8Parser::TryParse(ReadOnlySpan<Byte> source, Double& value, Int32& by
     value = Number::NumberToDouble(number);
     return true;
   }
-  return TryParseAsSpecialFloatingPoint(source, Double::PositiveInfinity, Double::NegativeInfinity, Double::NaN, value, bytesConsumed);
+  return TryParseAsSpecialFloatingPoint(source, Double::PositiveInfinity(), Double::NegativeInfinity(), Double::NaN(), value, bytesConsumed);
 }
 
 Boolean Utf8Parser::TryParseNormalAsFloatingPoint(ReadOnlySpan<Byte> source, Number::NumberBuffer& number, Int32& bytesConsumed, Char standardFormat) {
@@ -1861,7 +1861,7 @@ Boolean Utf8Parser::TryParseInt64N(ReadOnlySpan<Byte> source, Int64& value, Int3
           }
           if ((UInt64)num4 <= 922337203685477580) {
             num4 = num4 * 10 + num3 - 48;
-            if ((UInt64)num4 <= (UInt64)(Int64::MaxValue + (-1 * num + 1) / 2)) {
+            if ((UInt64)num4 <= (UInt64)(Int64::MaxValue() + (-1 * num + 1) / 2)) {
               continue;
             }
           }
@@ -2635,7 +2635,7 @@ Boolean Utf8Parser::TryParseByteX(ReadOnlySpan<Byte> source, Byte& value, Int32&
   ReadOnlySpan<Byte> hexLookup = ParserHelpers::get_HexLookup();
   Byte index = source[0];
   Byte b = hexLookup[index];
-  if (b == Byte::MaxValue) {
+  if (b == Byte::MaxValue()) {
     bytesConsumed = 0;
     value = 0;
     return false;
@@ -2645,7 +2645,7 @@ Boolean Utf8Parser::TryParseByteX(ReadOnlySpan<Byte> source, Byte& value, Int32&
     for (Int32 i = 1; i < source.get_Length(); i++) {
       index = source[i];
       b = hexLookup[index];
-      if (b == Byte::MaxValue) {
+      if (b == Byte::MaxValue()) {
         bytesConsumed = i;
         value = (Byte)num;
         return true;
@@ -2656,7 +2656,7 @@ Boolean Utf8Parser::TryParseByteX(ReadOnlySpan<Byte> source, Byte& value, Int32&
     for (Int32 j = 1; j < 2; j++) {
       index = source[j];
       b = hexLookup[index];
-      if (b == Byte::MaxValue) {
+      if (b == Byte::MaxValue()) {
         bytesConsumed = j;
         value = (Byte)num;
         return true;
@@ -2666,7 +2666,7 @@ Boolean Utf8Parser::TryParseByteX(ReadOnlySpan<Byte> source, Byte& value, Int32&
     for (Int32 k = 2; k < source.get_Length(); k++) {
       index = source[k];
       b = hexLookup[index];
-      if (b == Byte::MaxValue) {
+      if (b == Byte::MaxValue()) {
         bytesConsumed = k;
         value = (Byte)num;
         return true;
@@ -2693,7 +2693,7 @@ Boolean Utf8Parser::TryParseUInt16X(ReadOnlySpan<Byte> source, UInt16& value, In
   ReadOnlySpan<Byte> hexLookup = ParserHelpers::get_HexLookup();
   Byte index = source[0];
   Byte b = hexLookup[index];
-  if (b == Byte::MaxValue) {
+  if (b == Byte::MaxValue()) {
     bytesConsumed = 0;
     value = 0;
     return false;
@@ -2703,7 +2703,7 @@ Boolean Utf8Parser::TryParseUInt16X(ReadOnlySpan<Byte> source, UInt16& value, In
     for (Int32 i = 1; i < source.get_Length(); i++) {
       index = source[i];
       b = hexLookup[index];
-      if (b == Byte::MaxValue) {
+      if (b == Byte::MaxValue()) {
         bytesConsumed = i;
         value = (UInt16)num;
         return true;
@@ -2714,7 +2714,7 @@ Boolean Utf8Parser::TryParseUInt16X(ReadOnlySpan<Byte> source, UInt16& value, In
     for (Int32 j = 1; j < 4; j++) {
       index = source[j];
       b = hexLookup[index];
-      if (b == Byte::MaxValue) {
+      if (b == Byte::MaxValue()) {
         bytesConsumed = j;
         value = (UInt16)num;
         return true;
@@ -2724,7 +2724,7 @@ Boolean Utf8Parser::TryParseUInt16X(ReadOnlySpan<Byte> source, UInt16& value, In
     for (Int32 k = 4; k < source.get_Length(); k++) {
       index = source[k];
       b = hexLookup[index];
-      if (b == Byte::MaxValue) {
+      if (b == Byte::MaxValue()) {
         bytesConsumed = k;
         value = (UInt16)num;
         return true;
@@ -2751,7 +2751,7 @@ Boolean Utf8Parser::TryParseUInt32X(ReadOnlySpan<Byte> source, UInt32& value, In
   ReadOnlySpan<Byte> hexLookup = ParserHelpers::get_HexLookup();
   Byte index = source[0];
   Byte b = hexLookup[index];
-  if (b == Byte::MaxValue) {
+  if (b == Byte::MaxValue()) {
     bytesConsumed = 0;
     value = 0u;
     return false;
@@ -2761,7 +2761,7 @@ Boolean Utf8Parser::TryParseUInt32X(ReadOnlySpan<Byte> source, UInt32& value, In
     for (Int32 i = 1; i < source.get_Length(); i++) {
       index = source[i];
       b = hexLookup[index];
-      if (b == Byte::MaxValue) {
+      if (b == Byte::MaxValue()) {
         bytesConsumed = i;
         value = num;
         return true;
@@ -2772,7 +2772,7 @@ Boolean Utf8Parser::TryParseUInt32X(ReadOnlySpan<Byte> source, UInt32& value, In
     for (Int32 j = 1; j < 8; j++) {
       index = source[j];
       b = hexLookup[index];
-      if (b == Byte::MaxValue) {
+      if (b == Byte::MaxValue()) {
         bytesConsumed = j;
         value = num;
         return true;
@@ -2782,7 +2782,7 @@ Boolean Utf8Parser::TryParseUInt32X(ReadOnlySpan<Byte> source, UInt32& value, In
     for (Int32 k = 8; k < source.get_Length(); k++) {
       index = source[k];
       b = hexLookup[index];
-      if (b == Byte::MaxValue) {
+      if (b == Byte::MaxValue()) {
         bytesConsumed = k;
         value = num;
         return true;
@@ -2809,7 +2809,7 @@ Boolean Utf8Parser::TryParseUInt64X(ReadOnlySpan<Byte> source, UInt64& value, In
   ReadOnlySpan<Byte> hexLookup = ParserHelpers::get_HexLookup();
   Byte index = source[0];
   Byte b = hexLookup[index];
-  if (b == Byte::MaxValue) {
+  if (b == Byte::MaxValue()) {
     bytesConsumed = 0;
     value = 0;
     return false;
@@ -2819,7 +2819,7 @@ Boolean Utf8Parser::TryParseUInt64X(ReadOnlySpan<Byte> source, UInt64& value, In
     for (Int32 i = 1; i < source.get_Length(); i++) {
       index = source[i];
       b = hexLookup[index];
-      if (b == Byte::MaxValue) {
+      if (b == Byte::MaxValue()) {
         bytesConsumed = i;
         value = num;
         return true;
@@ -2830,7 +2830,7 @@ Boolean Utf8Parser::TryParseUInt64X(ReadOnlySpan<Byte> source, UInt64& value, In
     for (Int32 j = 1; j < 16; j++) {
       index = source[j];
       b = hexLookup[index];
-      if (b == Byte::MaxValue) {
+      if (b == Byte::MaxValue()) {
         bytesConsumed = j;
         value = num;
         return true;
@@ -2840,7 +2840,7 @@ Boolean Utf8Parser::TryParseUInt64X(ReadOnlySpan<Byte> source, UInt64& value, In
     for (Int32 k = 16; k < source.get_Length(); k++) {
       index = source[k];
       b = hexLookup[index];
-      if (b == Byte::MaxValue) {
+      if (b == Byte::MaxValue()) {
         bytesConsumed = k;
         value = num;
         return true;
@@ -3005,7 +3005,7 @@ IL_02a0:
   UInt32 value;
   Int32 bytesConsumed2;
   if (!TryParseUInt32D(source.Slice(i), value, bytesConsumed2)) {
-    value = UInt32::MaxValue;
+    value = UInt32::MaxValue();
     for (i += 10; i != source.get_Length(); i++) {
       b = source[i];
       Int32 num15 = (Byte)(b - 48);
@@ -3016,13 +3016,13 @@ IL_02a0:
   }
   i += bytesConsumed2;
   if (flag) {
-    if (number.Scale < Int32::MinValue + value) {
-      number.Scale = Int32::MinValue;
+    if (number.Scale < Int32::MinValue() + value) {
+      number.Scale = Int32::MinValue();
     } else {
       number.Scale -= (Int32)value;
     }
   } else if (number.Scale > 2147483647 - (Int64)value) {
-    number.Scale = Int32::MaxValue;
+    number.Scale = Int32::MaxValue();
   } else {
     number.Scale += (Int32)value;
   }
@@ -3256,7 +3256,7 @@ Boolean Utf8Parser::TryCreateTimeSpan(Boolean isNegative, UInt32 days, UInt32 ho
       return false;
     }
     Int64 num2 = num * 10000;
-    if (num2 < Int64::MinValue + fraction) {
+    if (num2 < Int64::MinValue() + fraction) {
       timeSpan = rt::default__;
       return false;
     }
@@ -3267,7 +3267,7 @@ Boolean Utf8Parser::TryCreateTimeSpan(Boolean isNegative, UInt32 days, UInt32 ho
       return false;
     }
     Int64 num3 = num * 10000;
-    if (num3 > Int64::MaxValue - (Int64)fraction) {
+    if (num3 > Int64::MaxValue() - (Int64)fraction) {
       timeSpan = rt::default__;
       return false;
     }

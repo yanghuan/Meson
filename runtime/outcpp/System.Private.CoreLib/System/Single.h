@@ -90,12 +90,12 @@ struct Single : public valueType<Single, rt::TypeCode::Single> {
   private: DateTime ToDateTimeOfIConvertible(IFormatProvider provider);
   private: Object ToTypeOfIConvertible(Type type, IFormatProvider provider);
   private: float m_value;
-  public: static constexpr float MinValue = -3.4028235E+38;
-  public: static constexpr float Epsilon = 1E-45;
-  public: static constexpr float MaxValue = 3.4028235E+38;
-  public: static constexpr float PositiveInfinity = rt::PositiveInfinity<float>;
-  public: static constexpr float NegativeInfinity = rt::NegativeInfinity<float>;
-  public: static constexpr float NaN = rt::NaN<float>;
+  public: static constexpr Single MinValue() { return -3.4028235E+38; }
+  public: static constexpr Single Epsilon() { return 1E-45; }
+  public: static constexpr Single MaxValue() { return 3.4028235E+38; }
+  public: static constexpr Single PositiveInfinity() { return rt::PositiveInfinity<float>; }
+  public: static constexpr Single NegativeInfinity() { return rt::NegativeInfinity<float>; }
+  public: static constexpr Single NaN() { return rt::NaN<float>; }
   public: constexpr Single() noexcept : m_value(0) {}
   public: constexpr Single(float value) noexcept : m_value(value) {}
   public: template <class T> requires(std::is_enum_v<T> || std::is_pointer_v<T>)

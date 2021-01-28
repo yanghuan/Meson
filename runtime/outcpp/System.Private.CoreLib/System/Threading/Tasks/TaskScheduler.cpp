@@ -33,7 +33,7 @@ void TaskScheduler___::SystemThreadingTasks_TaskSchedulerDebugView___::ctor(Task
 }
 
 Int32 TaskScheduler___::get_MaximumConcurrencyLevel() {
-  return Int32::MaxValue;
+  return Int32::MaxValue();
 }
 
 TaskScheduler TaskScheduler___::get_Default() {

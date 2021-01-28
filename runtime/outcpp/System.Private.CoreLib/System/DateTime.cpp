@@ -509,7 +509,7 @@ Boolean DateTime::Equals(DateTime t1, DateTime t2) {
 }
 
 DateTime DateTime::FromBinary(Int64 dateData) {
-  if ((dateData & Int64::MinValue) != 0) {
+  if ((dateData & Int64::MinValue()) != 0) {
     Int64 num = dateData & 4611686018427387903;
     if (num > 4611685154427387904) {
       num -= 4611686018427387904;
@@ -592,7 +592,7 @@ Int64 DateTime::ToBinary() {
     if (num < 0) {
       num = 4611686018427387904 + num;
     }
-    return num | Int64::MinValue;
+    return num | Int64::MinValue();
   }
   return (Int64)_dateData;
 }

@@ -15,11 +15,11 @@ Int32 IntPtr::get_Size() {
 }
 
 IntPtr IntPtr::get_MaxValue() {
-  return (IntPtr)Int64::MaxValue;
+  return (IntPtr)Int64::MaxValue();
 }
 
 IntPtr IntPtr::get_MinValue() {
-  return (IntPtr)Int64::MinValue;
+  return (IntPtr)Int64::MinValue();
 }
 
 IntPtr::IntPtr(Int32 value) {

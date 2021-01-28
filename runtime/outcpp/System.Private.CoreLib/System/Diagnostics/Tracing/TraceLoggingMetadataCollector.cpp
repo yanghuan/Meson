@@ -76,13 +76,13 @@ Boolean TraceLoggingMetadataCollector___::get_BeginningBufferedArray() {
 }
 
 void TraceLoggingMetadataCollector___::ctor() {
-  bufferedArrayFieldCount = Int32::MinValue;
+  bufferedArrayFieldCount = Int32::MinValue();
   Object::in::ctor();
   impl = rt::newobj<Impl>();
 }
 
 void TraceLoggingMetadataCollector___::ctor(TraceLoggingMetadataCollector other, FieldMetadata group) {
-  bufferedArrayFieldCount = Int32::MinValue;
+  bufferedArrayFieldCount = Int32::MinValue();
   Object::in::ctor();
   impl = other->impl;
   currentGroup = group;
@@ -188,7 +188,7 @@ void TraceLoggingMetadataCollector___::EndBufferedArray() {
   if (bufferedArrayFieldCount != 1) {
     rt::throw_exception<InvalidOperationException>(SR::get_EventSource_IncorrentlyAuthoredTypeInfo());
   }
-  bufferedArrayFieldCount = Int32::MinValue;
+  bufferedArrayFieldCount = Int32::MinValue();
   impl->EndBuffered();
 }
 

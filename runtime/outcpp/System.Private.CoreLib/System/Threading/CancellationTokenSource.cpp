@@ -228,7 +228,7 @@ void CancellationTokenSource___::ctor(TimeSpan delay) {
   _threadIDExecutingCallbacks = -1;
   Object::in::ctor();
   Int64 num = (Int64)delay.get_TotalMilliseconds();
-  if (num < -1 || num > Int32::MaxValue) {
+  if (num < -1 || num > Int32::MaxValue()) {
     rt::throw_exception<ArgumentOutOfRangeException>("delay");
   }
   InitializeWithTimer((Int32)num);
@@ -249,7 +249,7 @@ void CancellationTokenSource___::InitializeWithTimer(Int32 millisecondsDelay) {
     return;
   }
   _state = 1;
-  _timer = rt::newobj<TimerQueueTimer>(s_timerCallback, (CancellationTokenSource)this, (UInt32)millisecondsDelay, UInt32::MaxValue, false);
+  _timer = rt::newobj<TimerQueueTimer>(s_timerCallback, (CancellationTokenSource)this, (UInt32)millisecondsDelay, UInt32::MaxValue(), false);
 }
 
 void CancellationTokenSource___::Cancel() {
@@ -263,7 +263,7 @@ void CancellationTokenSource___::Cancel(Boolean throwOnFirstException) {
 
 void CancellationTokenSource___::CancelAfter(TimeSpan delay) {
   Int64 num = (Int64)delay.get_TotalMilliseconds();
-  if (num < -1 || num > Int32::MaxValue) {
+  if (num < -1 || num > Int32::MaxValue()) {
     rt::throw_exception<ArgumentOutOfRangeException>("delay");
   }
   CancelAfter((Int32)num);
@@ -279,7 +279,7 @@ void CancellationTokenSource___::CancelAfter(Int32 millisecondsDelay) {
   }
   TimerQueueTimer timerQueueTimer = _timer;
   if (timerQueueTimer == nullptr) {
-    timerQueueTimer = rt::newobj<TimerQueueTimer>(s_timerCallback, (CancellationTokenSource)this, UInt32::MaxValue, UInt32::MaxValue, false);
+    timerQueueTimer = rt::newobj<TimerQueueTimer>(s_timerCallback, (CancellationTokenSource)this, UInt32::MaxValue(), UInt32::MaxValue(), false);
     TimerQueueTimer timerQueueTimer2 = Interlocked::CompareExchange(_timer, timerQueueTimer, (TimerQueueTimer)nullptr);
     if (timerQueueTimer2 != nullptr) {
       timerQueueTimer->Close();
@@ -287,7 +287,7 @@ void CancellationTokenSource___::CancelAfter(Int32 millisecondsDelay) {
     }
   }
   try {
-    timerQueueTimer->Change((UInt32)millisecondsDelay, UInt32::MaxValue);
+    timerQueueTimer->Change((UInt32)millisecondsDelay, UInt32::MaxValue());
   } catch (ObjectDisposedException) {
   }
 }

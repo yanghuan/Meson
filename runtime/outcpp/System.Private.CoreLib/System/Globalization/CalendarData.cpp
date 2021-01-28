@@ -582,7 +582,7 @@ Int32 CalendarData___::NlsGetCalendars(String localeName, Boolean useUserOverrid
       value.calendars->Add(localeInfoExInt);
     }
   }
-  Interop::Kernel32::EnumCalendarInfoExEx(EnumCalendarsCallback, localeName, UInt32::MaxValue, nullptr, 1u, Unsafe::AsPointer(value));
+  Interop::Kernel32::EnumCalendarInfoExEx(EnumCalendarsCallback, localeName, UInt32::MaxValue(), nullptr, 1u, Unsafe::AsPointer(value));
   for (Int32 i = 0; i < Math::Min(calendars->get_Length(), value.calendars->get_Count()); i++) {
     calendars[i] = (CalendarId)value.calendars[i];
   }

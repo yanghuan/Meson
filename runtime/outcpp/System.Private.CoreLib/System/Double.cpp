@@ -37,7 +37,7 @@ Boolean Double::IsNegative(Double d) {
 }
 
 Boolean Double::IsNegativeInfinity(Double d) {
-  return d == Double::NegativeInfinity;
+  return d == Double::NegativeInfinity();
 }
 
 Boolean Double::IsNormal(Double d) {
@@ -50,7 +50,7 @@ Boolean Double::IsNormal(Double d) {
 }
 
 Boolean Double::IsPositiveInfinity(Double d) {
-  return d == Double::PositiveInfinity;
+  return d == Double::PositiveInfinity();
 }
 
 Boolean Double::IsSubnormal(Double d) {

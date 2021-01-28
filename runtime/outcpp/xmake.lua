@@ -1,5 +1,5 @@
 target("outcpp")
-  set_toolset("cxxflags", "/permissive-")
+  set_toolset("cxxflags", "/permissive- /Za")
   set_targetdir("$(buildir)/vc/$(host)/$(mode)/$(arch)")
   set_objectdir("$(buildir)/vc/.objs")
   set_dependir("$(buildir)/vc/.deps")

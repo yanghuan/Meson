@@ -33,7 +33,7 @@ Boolean ReaderWriterLockSlim___::TimeoutTracker::get_IsExpired() {
 
 ReaderWriterLockSlim___::TimeoutTracker::TimeoutTracker(TimeSpan timeout) {
   Int64 num = (Int64)timeout.get_TotalMilliseconds();
-  if (num < -1 || num > Int32::MaxValue) {
+  if (num < -1 || num > Int32::MaxValue()) {
     rt::throw_exception<ArgumentOutOfRangeException>("timeout");
   }
   _total = (Int32)num;

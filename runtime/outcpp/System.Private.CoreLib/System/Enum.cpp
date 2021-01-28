@@ -276,7 +276,7 @@ Boolean Enum___::TryParse(Type enumType, String value, Boolean ignoreCase, Boole
         return flag;
       }case TypeCode::Int32:
       {
-        Boolean flag = TryParseInt32Enum(runtimeType, value, value2, Int32::MinValue, Int32::MaxValue, ignoreCase, throwOnFailure, TypeCode::Int32, result3);
+        Boolean flag = TryParseInt32Enum(runtimeType, value, value2, Int32::MinValue(), Int32::MaxValue(), ignoreCase, throwOnFailure, TypeCode::Int32, result3);
         result = (flag ? InternalBoxEnum(runtimeType, result3) : nullptr);
         return flag;
       }case TypeCode::Byte:
@@ -291,7 +291,7 @@ Boolean Enum___::TryParse(Type enumType, String value, Boolean ignoreCase, Boole
         return flag;
       }case TypeCode::UInt32:
       {
-        Boolean flag = TryParseUInt32Enum(runtimeType, value, value2, UInt32::MaxValue, ignoreCase, throwOnFailure, TypeCode::UInt32, result4);
+        Boolean flag = TryParseUInt32Enum(runtimeType, value, value2, UInt32::MaxValue(), ignoreCase, throwOnFailure, TypeCode::UInt32, result4);
         result = (flag ? InternalBoxEnum(runtimeType, result4) : nullptr);
         return flag;
       }case TypeCode::Int64:

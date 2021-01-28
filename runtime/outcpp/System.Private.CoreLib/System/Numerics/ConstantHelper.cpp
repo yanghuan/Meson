@@ -3,7 +3,7 @@
 namespace System::Private::CoreLib::System::Numerics::ConstantHelperNamespace {
 Byte ConstantHelper::GetByteWithAllBitsSet() {
   Byte result = 0;
-  result = Byte::MaxValue;
+  result = Byte::MaxValue();
   return result;
 }
 
@@ -15,7 +15,7 @@ SByte ConstantHelper::GetSByteWithAllBitsSet() {
 
 UInt16 ConstantHelper::GetUInt16WithAllBitsSet() {
   UInt16 result = 0;
-  result = UInt16::MaxValue;
+  result = UInt16::MaxValue();
   return result;
 }
 
@@ -27,7 +27,7 @@ Int16 ConstantHelper::GetInt16WithAllBitsSet() {
 
 UInt32 ConstantHelper::GetUInt32WithAllBitsSet() {
   UInt32 result = 0u;
-  result = UInt32::MaxValue;
+  result = UInt32::MaxValue();
   return result;
 }
 
@@ -39,7 +39,7 @@ Int32 ConstantHelper::GetInt32WithAllBitsSet() {
 
 UInt64 ConstantHelper::GetUInt64WithAllBitsSet() {
   UInt64 result = 0;
-  result = UInt64::MaxValue;
+  result = UInt64::MaxValue();
   return result;
 }
 

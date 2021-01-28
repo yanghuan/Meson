@@ -42,11 +42,11 @@ Int32 ThreadPoolWorkQueue___::WorkStealingQueue___::get_Count() {
 
 void ThreadPoolWorkQueue___::WorkStealingQueue___::LocalPush(Object obj) {
   Int32 num = m_tailIndex;
-  if (num == Int32::MaxValue) {
+  if (num == Int32::MaxValue()) {
     Boolean lockTaken = false;
     try {
       m_foreignLock.Enter(lockTaken);
-      if (m_tailIndex == Int32::MaxValue) {
+      if (m_tailIndex == Int32::MaxValue()) {
         m_headIndex &= m_mask;
         num = (m_tailIndex &= m_mask);
       }

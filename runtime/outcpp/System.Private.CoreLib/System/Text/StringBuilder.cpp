@@ -277,7 +277,7 @@ StringBuilder StringBuilder___::FindChunkForByte(Int32 byteIndex) {
 }
 
 void StringBuilder___::ctor() {
-  m_MaxCapacity = Int32::MaxValue;
+  m_MaxCapacity = Int32::MaxValue();
   m_ChunkChars = rt::newarr<Array<Char>>(16);
 }
 
@@ -306,7 +306,7 @@ void StringBuilder___::ctor(String value, Int32 startIndex, Int32 length, Int32 
   if (startIndex > value->get_Length() - length) {
     rt::throw_exception<ArgumentOutOfRangeException>("length", SR::get_ArgumentOutOfRange_IndexLength());
   }
-  m_MaxCapacity = Int32::MaxValue;
+  m_MaxCapacity = Int32::MaxValue();
   if (capacity == 0) {
     capacity = 16;
   }
@@ -343,7 +343,7 @@ void StringBuilder___::ctor(SerializationInfo info, StreamingContext context) {
   }
   Int32 num = 0;
   String text = nullptr;
-  Int32 num2 = Int32::MaxValue;
+  Int32 num2 = Int32::MaxValue();
   Boolean flag = false;
   SerializationInfoEnumerator enumerator = info->GetEnumerator();
   while (enumerator->MoveNext()) {

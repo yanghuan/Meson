@@ -984,7 +984,7 @@ StringRuneEnumerator String___::EnumerateRunes() {
 }
 
 Int32 String___::wcslen(Char* ptr) {
-  Int32 num = SpanHelpers::IndexOf(*ptr, u'\0', Int32::MaxValue);
+  Int32 num = SpanHelpers::IndexOf(*ptr, u'\0', Int32::MaxValue());
   if (num < 0) {
     ThrowMustBeNullTerminatedString();
   }
@@ -992,7 +992,7 @@ Int32 String___::wcslen(Char* ptr) {
 }
 
 Int32 String___::strlen(Byte* ptr) {
-  Int32 num = SpanHelpers::IndexOf(*ptr, 0, Int32::MaxValue);
+  Int32 num = SpanHelpers::IndexOf(*ptr, 0, Int32::MaxValue());
   if (num < 0) {
     ThrowMustBeNullTerminatedString();
   }
@@ -1319,7 +1319,7 @@ String String___::Concat(Array<String> values) {
       num += text->get_Length();
     }
   }
-  if (num > Int32::MaxValue) {
+  if (num > Int32::MaxValue()) {
     rt::throw_exception<OutOfMemoryException>();
   }
   Int32 num2 = (Int32)num;
@@ -1549,7 +1549,7 @@ String String___::JoinCore(Char* separator, Int32 separatorLength, Array<String>
     return (String)obj;
   }
   Int64 num = (Int64)(count - 1) * (Int64)separatorLength;
-  if (num > Int32::MaxValue) {
+  if (num > Int32::MaxValue()) {
     rt::throw_exception<OutOfMemoryException>();
   }
   Int32 num2 = (Int32)num;
@@ -1832,7 +1832,7 @@ String String___::Replace(String oldValue, String newValue) {
 
 String String___::ReplaceHelper(Int32 oldValueLength, String newValue, ReadOnlySpan<Int32> indices) {
   Int64 num = get_Length() + (Int64)(newValue->get_Length() - oldValueLength) * (Int64)indices.get_Length();
-  if (num > Int32::MaxValue) {
+  if (num > Int32::MaxValue()) {
     rt::throw_exception<OutOfMemoryException>();
   }
   String text = FastAllocateString((Int32)num);
@@ -1854,7 +1854,7 @@ String String___::ReplaceHelper(Int32 oldValueLength, String newValue, ReadOnlyS
 }
 
 Array<String> String___::Split(Char separator, StringSplitOptions options) {
-  return SplitInternal(ReadOnlySpan<Char>(separator, 1), Int32::MaxValue, options);
+  return SplitInternal(ReadOnlySpan<Char>(separator, 1), Int32::MaxValue(), options);
 }
 
 Array<String> String___::Split(Char separator, Int32 count, StringSplitOptions options) {
@@ -1862,7 +1862,7 @@ Array<String> String___::Split(Char separator, Int32 count, StringSplitOptions o
 }
 
 Array<String> String___::Split(Array<Char> separator) {
-  return SplitInternal(separator, Int32::MaxValue, StringSplitOptions::None);
+  return SplitInternal(separator, Int32::MaxValue(), StringSplitOptions::None);
 }
 
 Array<String> String___::Split(Array<Char> separator, Int32 count) {
@@ -1870,7 +1870,7 @@ Array<String> String___::Split(Array<Char> separator, Int32 count) {
 }
 
 Array<String> String___::Split(Array<Char> separator, StringSplitOptions options) {
-  return SplitInternal(separator, Int32::MaxValue, options);
+  return SplitInternal(separator, Int32::MaxValue(), options);
 }
 
 Array<String> String___::Split(Array<Char> separator, Int32 count, StringSplitOptions options) {
@@ -1906,7 +1906,7 @@ Array<String> String___::SplitInternal(ReadOnlySpan<Char> separators, Int32 coun
 
 Array<String> String___::Split(String separator, StringSplitOptions options) {
   String as = separator;
-  return SplitInternal(as != nullptr ? as : Empty, nullptr, Int32::MaxValue, options);
+  return SplitInternal(as != nullptr ? as : Empty, nullptr, Int32::MaxValue(), options);
 }
 
 Array<String> String___::Split(String separator, Int32 count, StringSplitOptions options) {
@@ -1915,7 +1915,7 @@ Array<String> String___::Split(String separator, Int32 count, StringSplitOptions
 }
 
 Array<String> String___::Split(Array<String> separator, StringSplitOptions options) {
-  return SplitInternal(nullptr, separator, Int32::MaxValue, options);
+  return SplitInternal(nullptr, separator, Int32::MaxValue(), options);
 }
 
 Array<String> String___::Split(Array<String> separator, Int32 count, StringSplitOptions options) {

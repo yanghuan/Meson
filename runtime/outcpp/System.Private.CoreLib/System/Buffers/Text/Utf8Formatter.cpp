@@ -300,7 +300,7 @@ Boolean Utf8Formatter::TryFormat(Decimal value, Span<Byte> destination, Int32& b
     case u'G':
     case u'g':
       {
-        if (format.get_Precision() != Byte::MaxValue) {
+        if (format.get_Precision() != Byte::MaxValue()) {
           rt::throw_exception<NotSupportedException>(SR::get_Argument_GWithPrecisionNotSupported());
         }
         Byte as[31] = {};
@@ -318,7 +318,7 @@ Boolean Utf8Formatter::TryFormat(Decimal value, Span<Byte> destination, Int32& b
         Byte* digits2 = as;
         Number::NumberBuffer number2 = Number::NumberBuffer(Number::NumberBufferKind::Decimal, digits2, 31);
         Number::DecimalToNumber(value, number2);
-        Byte b2 = (Byte)((format.get_Precision() == Byte::MaxValue) ? 2 : format.get_Precision());
+        Byte b2 = (Byte)((format.get_Precision() == Byte::MaxValue()) ? 2 : format.get_Precision());
         Number::RoundNumber(number2, number2.Scale + b2, false);
         return TryFormatDecimalF(number2, destination, bytesWritten, b2);
       }case u'E':
@@ -328,7 +328,7 @@ Boolean Utf8Formatter::TryFormat(Decimal value, Span<Byte> destination, Int32& b
         Byte* digits = as;
         Number::NumberBuffer number = Number::NumberBuffer(Number::NumberBufferKind::Decimal, digits, 31);
         Number::DecimalToNumber(value, number);
-        Byte b = (Byte)((format.get_Precision() == Byte::MaxValue) ? 6 : format.get_Precision());
+        Byte b = (Byte)((format.get_Precision() == Byte::MaxValue()) ? 6 : format.get_Precision());
         Number::RoundNumber(number, b + 1, false);
         return TryFormatDecimalE(number, destination, bytesWritten, b, (Byte)format.get_Symbol());
       }default:
@@ -629,7 +629,7 @@ Boolean Utf8Formatter::TryFormat(UInt64 value, Span<Byte> destination, Int32& by
 
 template <>
 Boolean Utf8Formatter::TryFormat(Int64 value, Span<Byte> destination, Int32& bytesWritten, StandardFormat format) {
-  return TryFormatInt64(value, UInt64::MaxValue, destination, bytesWritten, format);
+  return TryFormatInt64(value, UInt64::MaxValue(), destination, bytesWritten, format);
 }
 
 Boolean Utf8Formatter::TryFormatInt64(Int64 value, UInt64 mask, Span<Byte> destination, Int32& bytesWritten, StandardFormat format) {
@@ -728,7 +728,7 @@ Boolean Utf8Formatter::TryFormatUInt64(UInt64 value, Span<Byte> destination, Int
 
 Boolean Utf8Formatter::TryFormatUInt64D(UInt64 value, Byte precision, Span<Byte> destination, Boolean insertNegationSign, Int32& bytesWritten) {
   Int32 num = FormattingHelpers::CountDigits(value);
-  Int32 num2 = ((precision != Byte::MaxValue) ? precision : 0) - num;
+  Int32 num2 = ((precision != Byte::MaxValue()) ? precision : 0) - num;
   if (num2 < 0) {
     num2 = 0;
   }
@@ -784,7 +784,7 @@ Boolean Utf8Formatter::TryFormatUInt64MultipleDigits(UInt64 value, Span<Byte> de
 Boolean Utf8Formatter::TryFormatUInt64N(UInt64 value, Byte precision, Span<Byte> destination, Boolean insertNegationSign, Int32& bytesWritten) {
   Int32 num = FormattingHelpers::CountDigits(value);
   Int32 num2 = (num - 1) / 3;
-  Int32 num3 = ((precision == Byte::MaxValue) ? 2 : precision);
+  Int32 num3 = ((precision == Byte::MaxValue()) ? 2 : precision);
   Int32 num4 = num + num2;
   if (num3 > 0) {
     num4 += num3 + 1;
@@ -811,7 +811,7 @@ Boolean Utf8Formatter::TryFormatUInt64N(UInt64 value, Byte precision, Span<Byte>
 
 Boolean Utf8Formatter::TryFormatUInt64X(UInt64 value, Byte precision, Boolean useLower, Span<Byte> destination, Int32& bytesWritten) {
   Int32 num = FormattingHelpers::CountHexDigits(value);
-  Int32 num2 = ((precision == Byte::MaxValue) ? num : Math::Max(precision, num));
+  Int32 num2 = ((precision == Byte::MaxValue()) ? num : Math::Max(precision, num));
   if (destination.get_Length() < num2) {
     bytesWritten = 0;
     return false;
@@ -858,9 +858,11 @@ Boolean Utf8Formatter::TryFormat(TimeSpan value, Span<Byte> destination, Int32& 
       goto IL_0082;
     }
   }
-  UInt64 modulo;
-  num2 = FormattingHelpers::DivMod((UInt64)Math::Abs(value.get_Ticks()), 10000000, modulo);
-  valueWithoutTrailingZeros = (UInt32)modulo;
+  {
+    UInt64 modulo;
+    num2 = FormattingHelpers::DivMod((UInt64)Math::Abs(value.get_Ticks()), 10000000, modulo);
+    valueWithoutTrailingZeros = (UInt32)modulo;
+  }
   goto IL_0082;
 
 IL_0082:

@@ -177,7 +177,7 @@ void CounterGroup___::OnTimer() {
 void CounterGroup___::PollForValues() {
   AutoResetEvent autoResetEvent = nullptr;
   while (true) {
-    Int32 num = Int32::MaxValue;
+    Int32 num = Int32::MaxValue();
     {
       rt::lock(s_counterGroupLock);
       autoResetEvent = s_pollingThreadSleepEvent;
@@ -191,7 +191,7 @@ void CounterGroup___::PollForValues() {
         num = Math::Min(num, val);
       }
     }
-    if (num == Int32::MaxValue) {
+    if (num == Int32::MaxValue()) {
       num = -1;
     }
     if (autoResetEvent != nullptr) {

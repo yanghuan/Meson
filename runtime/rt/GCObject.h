@@ -227,7 +227,7 @@ namespace rt {
   static constexpr bool IsInterfacesContains = IsInterfacesContainsType<Interfaces, I, ((int)std::tuple_size_v<Interfaces>) - 1>::value;
 
   template <class To, class From>
-  static constexpr bool IsInterfaceConvertible = CodeOf<To> == TypeCode::Interface && IsInterfacesContains<InterfaceOf<From>, To>;
+  static constexpr bool IsInterfaceConvertible = IsInterface<To> && IsInterfacesContains<InterfaceOf<From>, To>;
 
   template <class To, class From>
   static constexpr bool IsConvertible = std::is_same_v<To, From> || IsDerived<To, From> || IsArrayConvertible<To, From>::value || IsInterfaceConvertible<To, From>;
@@ -397,11 +397,18 @@ namespace rt {
       return R();
     }
 
-    template <class R, class T1 = T> requires(IsRef<R> && IsConvertible<T1, typename RefElementType<R>::type>)
+    /*
+    template <class R, class T1 = T> requires(IsRef<R> && IsConvertible<T1, typename R::in>)
     explicit operator R() {
       //TODO 
       return R();
     }
+
+    template <class R, class T1 = T> requires(IsRef<R> && IsInterface<typename R::in> && IsInterface<T1>)
+    explicit operator R() {
+      //TODO 
+      return R();
+    }*/
     
     template <class Size, class T1 = T> requires(IsString<T1>)
     auto operator [](const Size& index) {
@@ -841,12 +848,6 @@ namespace rt {
       return static_cast<T*>(this)->get();
     }
 
-    template <class R> requires(std::is_same_v<R, decltype(R::op_Implicit(T()))>)
-    operator R() {
-      auto p = static_cast<T*>(this);
-      return R::op_Implicit(*p);
-    }
-
     template <class R> requires(IsArithmetic<R>)
     explicit operator R() const {
       return static_cast<std::remove_reference_t<decltype(R().get())>>(static_cast<const T*>(this)->get());
@@ -867,7 +868,24 @@ namespace rt {
       auto p = static_cast<const T*>(this);
       return reinterpret_cast<R*>(static_cast<intptr_t>(p->get()));
     }
-  };
+    
+    /*
+    template <class R, class T1 = T> requires(std::is_same_v<R, decltype(T1::op_Implicit(T1()))>)
+    operator R() {
+      return T::op_Implicit(*static_cast<T*>(this));
+    }*/
+
+    template <class R, class T1 = T> requires(std::is_same_v<R, decltype(R::op_Implicit(T1()))>)
+    operator R() {
+      return R::op_Implicit(*static_cast<T*>(this));
+    }
+
+    template <class R, class T1 = T> requires(IsRef<R> && IsInterfaceConvertible<typename R::in, T1>)
+    operator R() const noexcept {
+      //TODO
+      return R();
+    }
+  };  
 
   template <class T, class Base>
   struct ValueOperator<T, Base, TypeCode::Struct> : public Base  {
@@ -920,7 +938,7 @@ namespace rt {
       return R::op_Implicit(*static_cast<T*>(this));
     }
 
-    template <class R, class T1 = T> requires(IsRef<R> && IsInterfaceConvertible<typename RefElementType<R>::type, T1>)
+    template <class R, class T1 = T> requires(IsRef<R> && IsInterfaceConvertible<typename R::in, T1>)
     operator R() const noexcept {
       //TODO
       return R();

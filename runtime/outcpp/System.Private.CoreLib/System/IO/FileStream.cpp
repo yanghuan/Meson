@@ -1837,7 +1837,7 @@ SafeFileHandle FileStream___::OpenHandle(FileMode mode, FileShare share, FileOpt
 
 SafeFileHandle FileStream___::CreateFileOpenHandle(FileMode mode, FileShare share, FileOptions options) {
   Interop::Kernel32::SECURITY_ATTRIBUTES secAttrs = GetSecAttrs(share);
-  Int32 dwDesiredAccess = (((_access & FileAccess::Read) == FileAccess::Read) ? Int32::MinValue : 0) | (((_access & FileAccess::Write) == FileAccess::Write) ? 1073741824 : 0);
+  Int32 dwDesiredAccess = (((_access & FileAccess::Read) == FileAccess::Read) ? Int32::MinValue() : 0) | (((_access & FileAccess::Write) == FileAccess::Write) ? 1073741824 : 0);
   share &= ~FileShare::Inheritable;
   if (mode == FileMode::Append) {
     mode = FileMode::OpenOrCreate;

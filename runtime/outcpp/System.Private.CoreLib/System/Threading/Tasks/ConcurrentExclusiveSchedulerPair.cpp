@@ -277,10 +277,10 @@ void ConcurrentExclusiveSchedulerPair___::ctor(TaskScheduler taskScheduler, Int3
     m_maxConcurrencyLevel = maximumConcurrencyLevel;
   }
   if (m_maxConcurrencyLevel == -1) {
-    m_maxConcurrencyLevel = Int32::MaxValue;
+    m_maxConcurrencyLevel = Int32::MaxValue();
   }
   if (m_maxItemsPerTask == -1) {
-    m_maxItemsPerTask = Int32::MaxValue;
+    m_maxItemsPerTask = Int32::MaxValue();
   }
   m_exclusiveTaskScheduler = rt::newobj<ConcurrentExclusiveTaskScheduler>((ConcurrentExclusiveSchedulerPair)this, 1, ProcessingMode::ProcessingExclusiveTask);
   m_concurrentTaskScheduler = rt::newobj<ConcurrentExclusiveTaskScheduler>((ConcurrentExclusiveSchedulerPair)this, m_maxConcurrencyLevel, ProcessingMode::ProcessingConcurrentTasks);

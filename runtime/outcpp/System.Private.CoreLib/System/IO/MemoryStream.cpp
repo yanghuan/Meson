@@ -80,7 +80,7 @@ void MemoryStream___::set_Position(Int64 value) {
     rt::throw_exception<ArgumentOutOfRangeException>("value", SR::get_ArgumentOutOfRange_NeedNonNegNum());
   }
   EnsureNotClosed();
-  if (value > Int32::MaxValue) {
+  if (value > Int32::MaxValue()) {
     rt::throw_exception<ArgumentOutOfRangeException>("value", SR::get_ArgumentOutOfRange_StreamLength());
   }
   _position = _origin + (Int32)value;
@@ -415,7 +415,7 @@ Task<> MemoryStream___::CopyToAsync(Func<ReadOnlyMemory<Byte>, Object, Cancellat
 
 Int64 MemoryStream___::Seek(Int64 offset, SeekOrigin loc) {
   EnsureNotClosed();
-  if (offset > Int32::MaxValue) {
+  if (offset > Int32::MaxValue()) {
     rt::throw_exception<ArgumentOutOfRangeException>("offset", SR::get_ArgumentOutOfRange_StreamLength());
   }
   switch (loc) {
@@ -450,11 +450,11 @@ Int64 MemoryStream___::Seek(Int64 offset, SeekOrigin loc) {
 }
 
 void MemoryStream___::SetLength(Int64 value) {
-  if (value < 0 || value > Int32::MaxValue) {
+  if (value < 0 || value > Int32::MaxValue()) {
     rt::throw_exception<ArgumentOutOfRangeException>("value", SR::get_ArgumentOutOfRange_StreamLength());
   }
   EnsureWriteable();
-  if (value > Int32::MaxValue - _origin) {
+  if (value > Int32::MaxValue() - _origin) {
     rt::throw_exception<ArgumentOutOfRangeException>("value", SR::get_ArgumentOutOfRange_StreamLength());
   }
   Int32 num = _origin + (Int32)value;

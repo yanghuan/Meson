@@ -16,7 +16,7 @@ Int32 UIntPtr::get_Size() {
 }
 
 UIntPtr UIntPtr::get_MaxValue() {
-  return (UIntPtr)UInt64::MaxValue;
+  return (UIntPtr)UInt64::MaxValue();
 }
 
 UIntPtr UIntPtr::get_MinValue() {

@@ -66,7 +66,7 @@ Boolean IPv6AddressHelper::IsLoopback(ReadOnlySpan<UInt16> numbers) {
     if (numbers[5] != 0 || numbers[6] != 0 || numbers[7] != 1) {
       if (numbers[6] == 32512 && numbers[7] == 1) {
         if (numbers[5] != 0) {
-          return numbers[5] == UInt16::MaxValue;
+          return numbers[5] == UInt16::MaxValue();
         }
         return true;
       }
@@ -218,10 +218,10 @@ ValueTuple<Int32, Int32> IPv6AddressHelper::FindCompressionRange(ReadOnlySpan<UI
 
 Boolean IPv6AddressHelper::ShouldHaveIpv4Embedded(ReadOnlySpan<UInt16> numbers) {
   if (numbers[0] == 0 && numbers[1] == 0 && numbers[2] == 0 && numbers[3] == 0 && numbers[6] != 0) {
-    if (numbers[4] == 0 && (numbers[5] == 0 || numbers[5] == UInt16::MaxValue)) {
+    if (numbers[4] == 0 && (numbers[5] == 0 || numbers[5] == UInt16::MaxValue())) {
       return true;
     }
-    if (numbers[4] == UInt16::MaxValue && numbers[5] == 0) {
+    if (numbers[4] == UInt16::MaxValue() && numbers[5] == 0) {
       return true;
     }
   }

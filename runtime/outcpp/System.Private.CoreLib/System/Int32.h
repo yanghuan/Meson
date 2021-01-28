@@ -70,8 +70,8 @@ struct Int32 : public valueType<Int32, rt::TypeCode::Int32> {
   private: DateTime ToDateTimeOfIConvertible(IFormatProvider provider);
   private: Object ToTypeOfIConvertible(Type type, IFormatProvider provider);
   private: int32_t m_value;
-  public: static constexpr int32_t MaxValue = 2147483647;
-  public: static constexpr int32_t MinValue = -2147483648;
+  public: static constexpr Int32 MaxValue() { return 2147483647; }
+  public: static constexpr Int32 MinValue() { return -2147483648; }
   public: constexpr Int32() noexcept : m_value(0) {}
   public: constexpr Int32(int32_t value) noexcept : m_value(value) {}
   public: template <class T> requires(std::is_enum_v<T> || std::is_pointer_v<T>)

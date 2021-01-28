@@ -50,7 +50,7 @@ EventDescriptor::EventDescriptor(Int32 id, Byte version, Byte channel, Byte leve
     rt::throw_exception<ArgumentOutOfRangeException>("id", SR::get_ArgumentOutOfRange_NeedNonNegNum());
   }
   if (id > 65535) {
-    rt::throw_exception<ArgumentOutOfRangeException>("id", SR::Format(SR::get_ArgumentOutOfRange_NeedValidId(), 1, UInt16::MaxValue));
+    rt::throw_exception<ArgumentOutOfRangeException>("id", SR::Format(SR::get_ArgumentOutOfRange_NeedValidId(), 1, UInt16::MaxValue()));
   }
   m_traceloggingId = 0;
   m_id = (UInt16)id;
@@ -63,7 +63,7 @@ EventDescriptor::EventDescriptor(Int32 id, Byte version, Byte channel, Byte leve
     rt::throw_exception<ArgumentOutOfRangeException>("task", SR::get_ArgumentOutOfRange_NeedNonNegNum());
   }
   if (task > 65535) {
-    rt::throw_exception<ArgumentOutOfRangeException>("task", SR::Format(SR::get_ArgumentOutOfRange_NeedValidId(), 1, UInt16::MaxValue));
+    rt::throw_exception<ArgumentOutOfRangeException>("task", SR::Format(SR::get_ArgumentOutOfRange_NeedValidId(), 1, UInt16::MaxValue()));
   }
   m_task = (UInt16)task;
 }

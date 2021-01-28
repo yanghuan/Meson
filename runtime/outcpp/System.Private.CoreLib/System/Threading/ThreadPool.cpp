@@ -311,14 +311,14 @@ Boolean ThreadPool::BindHandle(SafeHandle osHandle) {
 }
 
 RegisteredWaitHandle ThreadPool::RegisterWaitForSingleObject(WaitHandle waitObject, WaitOrTimerCallback callBack, Object state, UInt32 millisecondsTimeOutInterval, Boolean executeOnlyOnce) {
-  if (millisecondsTimeOutInterval > Int32::MaxValue && millisecondsTimeOutInterval != UInt32::MaxValue) {
+  if (millisecondsTimeOutInterval > Int32::MaxValue() && millisecondsTimeOutInterval != UInt32::MaxValue()) {
     rt::throw_exception<ArgumentOutOfRangeException>("millisecondsTimeOutInterval", SR::get_ArgumentOutOfRange_LessEqualToIntegerMaxVal());
   }
   return RegisterWaitForSingleObject(waitObject, callBack, state, millisecondsTimeOutInterval, executeOnlyOnce, true);
 }
 
 RegisteredWaitHandle ThreadPool::UnsafeRegisterWaitForSingleObject(WaitHandle waitObject, WaitOrTimerCallback callBack, Object state, UInt32 millisecondsTimeOutInterval, Boolean executeOnlyOnce) {
-  if (millisecondsTimeOutInterval > Int32::MaxValue && millisecondsTimeOutInterval != UInt32::MaxValue) {
+  if (millisecondsTimeOutInterval > Int32::MaxValue() && millisecondsTimeOutInterval != UInt32::MaxValue()) {
     rt::throw_exception<ArgumentOutOfRangeException>("millisecondsTimeOutInterval", SR::get_ArgumentOutOfRange_NeedNonNegOrNegative1());
   }
   return RegisterWaitForSingleObject(waitObject, callBack, state, millisecondsTimeOutInterval, executeOnlyOnce, false);
@@ -342,7 +342,7 @@ RegisteredWaitHandle ThreadPool::RegisterWaitForSingleObject(WaitHandle waitObje
   if (millisecondsTimeOutInterval < -1) {
     rt::throw_exception<ArgumentOutOfRangeException>("millisecondsTimeOutInterval", SR::get_ArgumentOutOfRange_NeedNonNegOrNegative1());
   }
-  if (millisecondsTimeOutInterval > Int32::MaxValue) {
+  if (millisecondsTimeOutInterval > Int32::MaxValue()) {
     rt::throw_exception<ArgumentOutOfRangeException>("millisecondsTimeOutInterval", SR::get_ArgumentOutOfRange_LessEqualToIntegerMaxVal());
   }
   return RegisterWaitForSingleObject(waitObject, callBack, state, (UInt32)millisecondsTimeOutInterval, executeOnlyOnce, true);
@@ -352,7 +352,7 @@ RegisteredWaitHandle ThreadPool::UnsafeRegisterWaitForSingleObject(WaitHandle wa
   if (millisecondsTimeOutInterval < -1) {
     rt::throw_exception<ArgumentOutOfRangeException>("millisecondsTimeOutInterval", SR::get_ArgumentOutOfRange_NeedNonNegOrNegative1());
   }
-  if (millisecondsTimeOutInterval > Int32::MaxValue) {
+  if (millisecondsTimeOutInterval > Int32::MaxValue()) {
     rt::throw_exception<ArgumentOutOfRangeException>("millisecondsTimeOutInterval", SR::get_ArgumentOutOfRange_LessEqualToIntegerMaxVal());
   }
   return RegisterWaitForSingleObject(waitObject, callBack, state, (UInt32)millisecondsTimeOutInterval, executeOnlyOnce, false);
@@ -363,7 +363,7 @@ RegisteredWaitHandle ThreadPool::RegisterWaitForSingleObject(WaitHandle waitObje
   if (num < -1) {
     rt::throw_exception<ArgumentOutOfRangeException>("timeout", SR::get_ArgumentOutOfRange_NeedNonNegOrNegative1());
   }
-  if (num > Int32::MaxValue) {
+  if (num > Int32::MaxValue()) {
     rt::throw_exception<ArgumentOutOfRangeException>("timeout", SR::get_ArgumentOutOfRange_LessEqualToIntegerMaxVal());
   }
   return RegisterWaitForSingleObject(waitObject, callBack, state, (UInt32)num, executeOnlyOnce, true);
@@ -374,7 +374,7 @@ RegisteredWaitHandle ThreadPool::UnsafeRegisterWaitForSingleObject(WaitHandle wa
   if (num < -1) {
     rt::throw_exception<ArgumentOutOfRangeException>("timeout", SR::get_ArgumentOutOfRange_NeedNonNegOrNegative1());
   }
-  if (num > Int32::MaxValue) {
+  if (num > Int32::MaxValue()) {
     rt::throw_exception<ArgumentOutOfRangeException>("timeout", SR::get_ArgumentOutOfRange_LessEqualToIntegerMaxVal());
   }
   return RegisterWaitForSingleObject(waitObject, callBack, state, (UInt32)num, executeOnlyOnce, false);

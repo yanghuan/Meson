@@ -64,7 +64,7 @@ Char InternalEncoderBestFitFallbackBuffer___::GetNextChar() {
   if (_iCount < 0) {
     return u'\0';
   }
-  if (_iCount == Int32::MaxValue) {
+  if (_iCount == Int32::MaxValue()) {
     _iCount = -1;
     return u'\0';
   }

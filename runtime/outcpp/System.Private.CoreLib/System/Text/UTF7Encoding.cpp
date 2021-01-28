@@ -541,7 +541,7 @@ Int32 UTF7Encoding___::GetMaxByteCount(Int32 charCount) {
     rt::throw_exception<ArgumentOutOfRangeException>("charCount", SR::get_ArgumentOutOfRange_NeedNonNegNum());
   }
   Int64 num = (Int64)charCount * 3 + 2;
-  if (num > Int32::MaxValue) {
+  if (num > Int32::MaxValue()) {
     rt::throw_exception<ArgumentOutOfRangeException>("charCount", SR::get_ArgumentOutOfRange_GetByteCountOverflow());
   }
   return (Int32)num;

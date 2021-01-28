@@ -190,7 +190,7 @@ Decimal UnmanagedMemoryAccessor___::ReadDecimal(Int64 position) {
   if (((UInt32)num & 2130771967u) != 0 || (num & 16711680) > 1835008) {
     rt::throw_exception<ArgumentException>(SR::get_Arg_BadDecimal());
   }
-  Boolean isNegative = (num & Int32::MinValue) != 0;
+  Boolean isNegative = (num & Int32::MinValue()) != 0;
   Byte scale = (Byte)(num >> 16);
   return Decimal(lo, mid, hi, isNegative, scale);
 }

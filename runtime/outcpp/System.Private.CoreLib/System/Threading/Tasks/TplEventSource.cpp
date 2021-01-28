@@ -211,7 +211,7 @@ void TplEventSource___::IncompleteAsyncMethod(String stateMachineDescription) {
 
 Guid TplEventSource___::CreateGuidForTaskID(Int32 taskID) {
   UInt32 s_currentPid = EventSource::in::s_currentPid;
-  return Guid(taskID, 1, 0, (Byte)s_currentPid, (Byte)(s_currentPid >> 8), (Byte)(s_currentPid >> 16), (Byte)(s_currentPid >> 24), Byte::MaxValue, 220, 215, 181);
+  return Guid(taskID, 1, 0, (Byte)s_currentPid, (Byte)(s_currentPid >> 8), (Byte)(s_currentPid >> 16), (Byte)(s_currentPid >> 24), Byte::MaxValue(), 220, 215, 181);
 }
 
 void TplEventSource___::cctor() {

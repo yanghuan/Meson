@@ -27,11 +27,11 @@ WaitHandle ManualResetEventSlim___::get_WaitHandle() {
 }
 
 Boolean ManualResetEventSlim___::get_IsSet() {
-  return ExtractStatePortion(m_combinedState, Int32::MinValue) != 0;
+  return ExtractStatePortion(m_combinedState, Int32::MinValue()) != 0;
 }
 
 void ManualResetEventSlim___::set_IsSet(Boolean value) {
-  UpdateStateAtomically((value ? 1 : 0) << 31, Int32::MinValue);
+  UpdateStateAtomically((value ? 1 : 0) << 31, Int32::MinValue());
 }
 
 Int32 ManualResetEventSlim___::get_SpinCount() {
@@ -71,7 +71,7 @@ void ManualResetEventSlim___::ctor(Boolean initialState, Int32 spinCount) {
 }
 
 void ManualResetEventSlim___::Initialize(Boolean initialState, Int32 spinCount) {
-  m_combinedState = (initialState ? Int32::MinValue : 0);
+  m_combinedState = (initialState ? Int32::MinValue() : 0);
   get_SpinCount((Environment::get_IsSingleProcessor() ? 1 : spinCount));
 }
 
@@ -143,7 +143,7 @@ void ManualResetEventSlim___::Wait(CancellationToken cancellationToken) {
 
 Boolean ManualResetEventSlim___::Wait(TimeSpan timeout) {
   Int64 num = (Int64)timeout.get_TotalMilliseconds();
-  if (num < -1 || num > Int32::MaxValue) {
+  if (num < -1 || num > Int32::MaxValue()) {
     rt::throw_exception<ArgumentOutOfRangeException>("timeout");
   }
   return Wait((Int32)num, CancellationToken::get_None());
@@ -151,7 +151,7 @@ Boolean ManualResetEventSlim___::Wait(TimeSpan timeout) {
 
 Boolean ManualResetEventSlim___::Wait(TimeSpan timeout, CancellationToken cancellationToken) {
   Int64 num = (Int64)timeout.get_TotalMilliseconds();
-  if (num < -1 || num > Int32::MaxValue) {
+  if (num < -1 || num > Int32::MaxValue()) {
     rt::throw_exception<ArgumentOutOfRangeException>("timeout");
   }
   return Wait((Int32)num, cancellationToken);

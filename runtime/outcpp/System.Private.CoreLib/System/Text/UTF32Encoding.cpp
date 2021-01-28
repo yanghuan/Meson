@@ -622,7 +622,7 @@ Int32 UTF32Encoding___::GetMaxByteCount(Int32 charCount) {
     num *= Encoding::in::get_EncoderFallback()->get_MaxCharCount();
   }
   num *= 4;
-  if (num > Int32::MaxValue) {
+  if (num > Int32::MaxValue()) {
     rt::throw_exception<ArgumentOutOfRangeException>("charCount", SR::get_ArgumentOutOfRange_GetByteCountOverflow());
   }
   return (Int32)num;
@@ -637,7 +637,7 @@ Int32 UTF32Encoding___::GetMaxCharCount(Int32 byteCount) {
     num *= Encoding::in::get_DecoderFallback()->get_MaxCharCount();
     num /= 2;
   }
-  if (num > Int32::MaxValue) {
+  if (num > Int32::MaxValue()) {
     rt::throw_exception<ArgumentOutOfRangeException>("byteCount", SR::get_ArgumentOutOfRange_GetCharCountOverflow());
   }
   return num;

@@ -74,7 +74,7 @@ void Timer___::ctor(TimerCallback callback, Object state, Int64 dueTime, Int64 p
 }
 
 void Timer___::ctor(TimerCallback callback) {
-  TimerSetup(callback, (Timer)this, UInt32::MaxValue, UInt32::MaxValue);
+  TimerSetup(callback, (Timer)this, UInt32::MaxValue(), UInt32::MaxValue());
 }
 
 void Timer___::TimerSetup(TimerCallback callback, Object state, UInt32 dueTime, UInt32 period, Boolean flowExecutionContext) {

@@ -146,8 +146,8 @@ SerializationInfoEnumerator SerializationInfo___::GetEnumerator() {
 
 void SerializationInfo___::ExpandArrays() {
   Int32 num = _count * 2;
-  if (num < _count && Int32::MaxValue > _count) {
-    num = Int32::MaxValue;
+  if (num < _count && Int32::MaxValue() > _count) {
+    num = Int32::MaxValue();
   }
   Array<String> array = rt::newarr<Array<String>>(num);
   Array<Object> array2 = rt::newarr<Array<Object>>(num);

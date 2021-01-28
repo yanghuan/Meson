@@ -844,11 +844,11 @@ void StreamReader___::DetectEncoding() {
   }
   _detectEncoding = false;
   Boolean flag = false;
-  if (_byteBuffer[0] == 254 && _byteBuffer[1] == Byte::MaxValue) {
+  if (_byteBuffer[0] == 254 && _byteBuffer[1] == Byte::MaxValue()) {
     _encoding = Encoding::in::get_BigEndianUnicode();
     CompressBuffer(2);
     flag = true;
-  } else if (_byteBuffer[0] == Byte::MaxValue && _byteBuffer[1] == 254) {
+  } else if (_byteBuffer[0] == Byte::MaxValue() && _byteBuffer[1] == 254) {
     if (_byteLen < 4 || _byteBuffer[2] != 0 || _byteBuffer[3] != 0) {
       _encoding = Encoding::in::get_Unicode();
       CompressBuffer(2);
@@ -862,7 +862,7 @@ void StreamReader___::DetectEncoding() {
     _encoding = Encoding::in::get_UTF8();
     CompressBuffer(3);
     flag = true;
-  } else if (_byteLen >= 4 && _byteBuffer[0] == 0 && _byteBuffer[1] == 0 && _byteBuffer[2] == 254 && _byteBuffer[3] == Byte::MaxValue) {
+  } else if (_byteLen >= 4 && _byteBuffer[0] == 0 && _byteBuffer[1] == 0 && _byteBuffer[2] == 254 && _byteBuffer[3] == Byte::MaxValue()) {
     _encoding = rt::newobj<UTF32Encoding>(true, true);
     CompressBuffer(4);
     flag = true;

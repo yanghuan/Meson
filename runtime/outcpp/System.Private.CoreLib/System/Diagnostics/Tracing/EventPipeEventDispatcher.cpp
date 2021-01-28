@@ -130,7 +130,7 @@ void EventPipeEventDispatcher___::DispatchEventsToEventListeners() {
 }
 
 DateTime EventPipeEventDispatcher___::TimeStampToDateTime(Int64 timeStamp) {
-  if (timeStamp == Int64::MaxValue) {
+  if (timeStamp == Int64::MaxValue()) {
     return DateTime::MaxValue;
   }
   Int64 num = (Int64)((Double)(timeStamp - m_syncTimeQPC) * 10000000 / (Double)m_timeQPCFrequency) + m_syncTimeUtc.get_Ticks();

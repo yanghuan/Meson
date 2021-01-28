@@ -70,8 +70,8 @@ struct UInt32 : public valueType<UInt32, rt::TypeCode::UInt32> {
   private: DateTime ToDateTimeOfIConvertible(IFormatProvider provider);
   private: Object ToTypeOfIConvertible(Type type, IFormatProvider provider);
   private: uint32_t m_value;
-  public: static constexpr uint32_t MaxValue = 4294967295u;
-  public: static constexpr uint32_t MinValue = 0u;
+  public: static constexpr UInt32 MaxValue() { return 4294967295u; }
+  public: static constexpr UInt32 MinValue() { return 0u; }
   public: constexpr UInt32() noexcept : m_value(0) {}
   public: constexpr UInt32(uint32_t value) noexcept : m_value(value) {}
   public: template <class T> requires(std::is_enum_v<T> || std::is_pointer_v<T>)

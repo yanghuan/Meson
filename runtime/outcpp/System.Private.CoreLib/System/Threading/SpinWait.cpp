@@ -59,7 +59,7 @@ void SpinWait::SpinOnceCore(Int32 sleep1Threshold) {
     }
     Thread::in::SpinWait(num2);
   }
-  _count = ((_count == Int32::MaxValue) ? 10 : (_count + 1));
+  _count = ((_count == Int32::MaxValue()) ? 10 : (_count + 1));
 }
 
 void SpinWait::Reset() {
@@ -72,7 +72,7 @@ void SpinWait::SpinUntil(Func<Boolean> condition) {
 
 Boolean SpinWait::SpinUntil(Func<Boolean> condition, TimeSpan timeout) {
   Int64 num = (Int64)timeout.get_TotalMilliseconds();
-  if (num < -1 || num > Int32::MaxValue) {
+  if (num < -1 || num > Int32::MaxValue()) {
     rt::throw_exception<ArgumentOutOfRangeException>("timeout", timeout, SR::get_SpinWait_SpinUntil_TimeoutWrong());
   }
   return SpinUntil(condition, (Int32)num);

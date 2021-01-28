@@ -17,7 +17,7 @@ void Random___::ctor(Int32 Seed) {
   _seedArray = rt::newarr<Array<Int32>>(56);
   Object::in::ctor();
   Int32 num = 0;
-  Int32 num2 = ((Seed == Int32::MinValue) ? Int32::MaxValue : Math::Abs(Seed));
+  Int32 num2 = ((Seed == Int32::MinValue()) ? Int32::MaxValue() : Math::Abs(Seed));
   Int32 num3 = 161803398 - num2;
   _seedArray[55] = num3;
   Int32 num4 = 1;
@@ -28,7 +28,7 @@ void Random___::ctor(Int32 Seed) {
     _seedArray[num] = num4;
     num4 = num3 - num4;
     if (num4 < 0) {
-      num4 += Int32::MaxValue;
+      num4 += Int32::MaxValue();
     }
     num3 = _seedArray[num];
   }
@@ -40,7 +40,7 @@ void Random___::ctor(Int32 Seed) {
       }
       _seedArray[k] -= _seedArray[1 + num5];
       if (_seedArray[k] < 0) {
-        _seedArray[k] += Int32::MaxValue;
+        _seedArray[k] += Int32::MaxValue();
       }
     }
   }
@@ -62,11 +62,11 @@ Int32 Random___::InternalSample() {
     inextp = 1;
   }
   Int32 num = _seedArray[inext] - _seedArray[inextp];
-  if (num == Int32::MaxValue) {
+  if (num == Int32::MaxValue()) {
     num--;
   }
   if (num < 0) {
-    num += Int32::MaxValue;
+    num += Int32::MaxValue();
   }
   _seedArray[inext] = num;
   _inext = inext;
@@ -112,7 +112,7 @@ Int32 Random___::Next(Int32 minValue, Int32 maxValue) {
     rt::throw_exception<ArgumentOutOfRangeException>("minValue", SR::Format(SR::get_Argument_MinMaxValue(), "minValue", "maxValue"));
   }
   Int64 num = (Int64)maxValue - (Int64)minValue;
-  if (num <= Int32::MaxValue) {
+  if (num <= Int32::MaxValue()) {
     return (Int32)(Sample() * (Double)num) + minValue;
   }
   return (Int32)((Int64)(GetSampleForLargeRange() * (Double)num) + minValue);

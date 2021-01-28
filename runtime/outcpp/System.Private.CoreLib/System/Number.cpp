@@ -257,7 +257,7 @@ void Number::BigInteger::DivRem(BigInteger& lhs, BigInteger& rhs, BigInteger& qu
       }
     }
     UInt64 num15 = num13 / num6;
-    if (num15 > UInt32::MaxValue) {
+    if (num15 > UInt32::MaxValue()) {
       num15 = 4294967295;
     }
     while (DivideGuessTooBig(num15, num13, num14, num6, num7)) {
@@ -581,7 +581,7 @@ void Number::BigInteger::SetUInt32(BigInteger& result, UInt32 value) {
 }
 
 void Number::BigInteger::SetUInt64(BigInteger& result, UInt64 value) {
-  if (value <= UInt32::MaxValue) {
+  if (value <= UInt32::MaxValue()) {
     SetUInt32(result, (UInt32)value);
     return;
   }
@@ -2145,7 +2145,7 @@ void Number::NumberToStringFormat(ValueStringBuilder& sb, NumberBuffer& number, 
   while (true) {
     num3 = 0;
     num4 = -1;
-    num5 = Int32::MaxValue;
+    num5 = Int32::MaxValue();
     num6 = 0;
     flag = false;
     Int32 num7 = -1;
@@ -2163,7 +2163,7 @@ void Number::NumberToStringFormat(ValueStringBuilder& sb, NumberBuffer& number, 
             num3++;
             continue;
           case u'0':
-            if (num5 == Int32::MaxValue) {
+            if (num5 == Int32::MaxValue()) {
               num5 = num3;
             }
             num3++;
@@ -3318,7 +3318,7 @@ IL_017b:
     i++;
     flag = num2 > 214748364;
     num2 = num2 * 10 + num - 48;
-    flag = flag || (UInt32)num2 > Int32::MaxValue + ((UInt32)num4 >> 31);
+    flag = flag || (UInt32)num2 > Int32::MaxValue() + ((UInt32)num4 >> 31);
     if ((UInt32)i >= (UInt32)value.get_Length()) {
       goto IL_024b;
     }
@@ -3488,7 +3488,7 @@ IL_017c:
     i++;
     flag = num2 > 922337203685477580;
     num2 = num2 * 10 + num - 48;
-    flag = flag || (UInt64)num2 > (UInt64)(Int64::MaxValue + (Int64)((UInt32)num4 >> 31));
+    flag = flag || (UInt64)num2 > (UInt64)(Int64::MaxValue() + (Int64)((UInt32)num4 >> 31));
     if ((UInt32)i >= (UInt32)value.get_Length()) {
       goto IL_0260;
     }
@@ -3839,7 +3839,7 @@ Number::ParsingStatus Number::TryParseUInt32HexNumberStyle(ReadOnlySpan<Char> va
 
 IL_0098:
   ReadOnlySpan<Byte> charToHexLookup;
-  if ((UInt32)num < (UInt32)charToHexLookup.get_Length() && charToHexLookup[num] != Byte::MaxValue) {
+  if ((UInt32)num < (UInt32)charToHexLookup.get_Length() && charToHexLookup[num] != Byte::MaxValue()) {
     goto IL_00b8;
   }
   goto IL_019c;
@@ -3870,14 +3870,14 @@ IL_00b8:
     goto IL_0183;
   }
   num = value[i];
-  if ((UInt32)num < (UInt32)charToHexLookup.get_Length() && charToHexLookup[num] != Byte::MaxValue) {
+  if ((UInt32)num < (UInt32)charToHexLookup.get_Length() && charToHexLookup[num] != Byte::MaxValue()) {
     while (true) {
       i++;
       if ((UInt32)i >= (UInt32)value.get_Length()) {
         break;
       }
       num = value[i];
-      if ((UInt32)num < (UInt32)charToHexLookup.get_Length() && charToHexLookup[num] != Byte::MaxValue) {
+      if ((UInt32)num < (UInt32)charToHexLookup.get_Length() && charToHexLookup[num] != Byte::MaxValue()) {
         continue;
       }
       goto IL_017c;
@@ -3894,7 +3894,7 @@ IL_0048:
   flag = false;
   num2 = 0u;
   charToHexLookup = get_CharToHexLookup();
-  if ((UInt32)num < (UInt32)charToHexLookup.get_Length() && charToHexLookup[num] != Byte::MaxValue) {
+  if ((UInt32)num < (UInt32)charToHexLookup.get_Length() && charToHexLookup[num] != Byte::MaxValue()) {
     if (num != 48) {
       goto IL_00b8;
     }
@@ -4160,7 +4160,7 @@ Number::ParsingStatus Number::TryParseUInt64HexNumberStyle(ReadOnlySpan<Char> va
 
 IL_0099:
   ReadOnlySpan<Byte> charToHexLookup;
-  if ((UInt32)num < (UInt32)charToHexLookup.get_Length() && charToHexLookup[num] != Byte::MaxValue) {
+  if ((UInt32)num < (UInt32)charToHexLookup.get_Length() && charToHexLookup[num] != Byte::MaxValue()) {
     goto IL_00b9;
   }
   goto IL_01a3;
@@ -4191,14 +4191,14 @@ IL_00b9:
     goto IL_0188;
   }
   num = value[i];
-  if ((UInt32)num < (UInt32)charToHexLookup.get_Length() && charToHexLookup[num] != Byte::MaxValue) {
+  if ((UInt32)num < (UInt32)charToHexLookup.get_Length() && charToHexLookup[num] != Byte::MaxValue()) {
     while (true) {
       i++;
       if ((UInt32)i >= (UInt32)value.get_Length()) {
         break;
       }
       num = value[i];
-      if ((UInt32)num < (UInt32)charToHexLookup.get_Length() && charToHexLookup[num] != Byte::MaxValue) {
+      if ((UInt32)num < (UInt32)charToHexLookup.get_Length() && charToHexLookup[num] != Byte::MaxValue()) {
         continue;
       }
       goto IL_0181;
@@ -4215,7 +4215,7 @@ IL_0048:
   flag = false;
   num2 = 0;
   charToHexLookup = get_CharToHexLookup();
-  if ((UInt32)num < (UInt32)charToHexLookup.get_Length() && charToHexLookup[num] != Byte::MaxValue) {
+  if ((UInt32)num < (UInt32)charToHexLookup.get_Length() && charToHexLookup[num] != Byte::MaxValue()) {
     if (num != 48) {
       goto IL_00b9;
     }
@@ -4392,28 +4392,28 @@ Boolean Number::TryParseDouble(ReadOnlySpan<Char> value, NumberStyles styles, Nu
   if (!TryStringToNumber(value, styles, number, info)) {
     ReadOnlySpan<Char> span = MemoryExtensions::Trim(value);
     if (MemoryExtensions::EqualsOrdinalIgnoreCase(span, info->get_PositiveInfinitySymbol())) {
-      result = Double::PositiveInfinity;
+      result = Double::PositiveInfinity();
     } else if (MemoryExtensions::EqualsOrdinalIgnoreCase(span, info->get_NegativeInfinitySymbol())) {
-      result = Double::NegativeInfinity;
+      result = Double::NegativeInfinity();
     } else if (MemoryExtensions::EqualsOrdinalIgnoreCase(span, info->get_NaNSymbol())) {
-      result = Double::NaN;
+      result = Double::NaN();
     } else if (MemoryExtensions::StartsWith(span, info->get_PositiveSign(), StringComparison::OrdinalIgnoreCase)) {
       span = span.Slice(info->get_PositiveSign()->get_Length());
       if (MemoryExtensions::EqualsOrdinalIgnoreCase(span, info->get_PositiveInfinitySymbol())) {
-        result = Double::PositiveInfinity;
+        result = Double::PositiveInfinity();
       } else {
         if (!MemoryExtensions::EqualsOrdinalIgnoreCase(span, info->get_NaNSymbol())) {
           result = 0;
           return false;
         }
-        result = Double::NaN;
+        result = Double::NaN();
       }
     } else {
       if (!MemoryExtensions::StartsWith(span, info->get_NegativeSign(), StringComparison::OrdinalIgnoreCase) || !MemoryExtensions::EqualsOrdinalIgnoreCase(span.Slice(info->get_NegativeSign()->get_Length()), info->get_NaNSymbol())) {
         result = 0;
         return false;
       }
-      result = Double::NaN;
+      result = Double::NaN();
     }
 
 
@@ -4431,28 +4431,28 @@ Boolean Number::TryParseSingle(ReadOnlySpan<Char> value, NumberStyles styles, Nu
   if (!TryStringToNumber(value, styles, number, info)) {
     ReadOnlySpan<Char> span = MemoryExtensions::Trim(value);
     if (MemoryExtensions::EqualsOrdinalIgnoreCase(span, info->get_PositiveInfinitySymbol())) {
-      result = Single::PositiveInfinity;
+      result = Single::PositiveInfinity();
     } else if (MemoryExtensions::EqualsOrdinalIgnoreCase(span, info->get_NegativeInfinitySymbol())) {
-      result = Single::NegativeInfinity;
+      result = Single::NegativeInfinity();
     } else if (MemoryExtensions::EqualsOrdinalIgnoreCase(span, info->get_NaNSymbol())) {
-      result = Single::NaN;
+      result = Single::NaN();
     } else if (MemoryExtensions::StartsWith(span, info->get_PositiveSign(), StringComparison::OrdinalIgnoreCase)) {
       span = span.Slice(info->get_PositiveSign()->get_Length());
       if (!info->get_PositiveInfinitySymbol()->StartsWith(info->get_PositiveSign(), StringComparison::OrdinalIgnoreCase) && MemoryExtensions::EqualsOrdinalIgnoreCase(span, info->get_PositiveInfinitySymbol())) {
-        result = Single::PositiveInfinity;
+        result = Single::PositiveInfinity();
       } else {
         if (info->get_NaNSymbol()->StartsWith(info->get_PositiveSign(), StringComparison::OrdinalIgnoreCase) || !MemoryExtensions::EqualsOrdinalIgnoreCase(span, info->get_NaNSymbol())) {
           result = 0;
           return false;
         }
-        result = Single::NaN;
+        result = Single::NaN();
       }
     } else {
       if (!MemoryExtensions::StartsWith(span, info->get_NegativeSign(), StringComparison::OrdinalIgnoreCase) || info->get_NaNSymbol()->StartsWith(info->get_NegativeSign(), StringComparison::OrdinalIgnoreCase) || !MemoryExtensions::EqualsOrdinalIgnoreCase(span.Slice(info->get_NegativeSign()->get_Length()), info->get_NaNSymbol())) {
         result = 0;
         return false;
       }
-      result = Single::NaN;
+      result = Single::NaN();
     }
 
 
@@ -4542,7 +4542,7 @@ Double Number::NumberToDouble(NumberBuffer& number) {
   if (number.DigitsCount == 0 || number.Scale < -324) {
     num = 0;
   } else if (number.Scale > 309) {
-    num = Double::PositiveInfinity;
+    num = Double::PositiveInfinity();
   } else {
     UInt64 value = NumberToFloatingPointBits(number, FloatingPointInfo::Double);
     num = BitConverter::Int64BitsToDouble((Int64)value);
@@ -4559,7 +4559,7 @@ Single Number::NumberToSingle(NumberBuffer& number) {
   if (number.DigitsCount == 0 || number.Scale < -45) {
     num = 0;
   } else if (number.Scale > 39) {
-    num = Single::PositiveInfinity;
+    num = Single::PositiveInfinity();
   } else {
     UInt32 value = (UInt32)NumberToFloatingPointBits(number, FloatingPointInfo::Single);
     num = BitConverter::Int32BitsToSingle((Int32)value);

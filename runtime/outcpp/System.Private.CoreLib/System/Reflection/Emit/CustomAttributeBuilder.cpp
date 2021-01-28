@@ -301,7 +301,7 @@ void CustomAttributeBuilder___::EmitValue(BinaryWriter writer, Type type, Object
   }
   if (type == typeof<String>()) {
     if (value == nullptr) {
-      writer->Write(Byte::MaxValue);
+      writer->Write(Byte::MaxValue());
     } else {
       EmitString(writer, (String)value);
     }
@@ -309,7 +309,7 @@ void CustomAttributeBuilder___::EmitValue(BinaryWriter writer, Type type, Object
   }
   if (type == typeof<Type>()) {
     if (value == nullptr) {
-      writer->Write(Byte::MaxValue);
+      writer->Write(Byte::MaxValue());
       return;
     }
     String text = TypeNameBuilder::in::ToString((Type)value, TypeNameBuilder::in::Format::AssemblyQualifiedName);
@@ -321,7 +321,7 @@ void CustomAttributeBuilder___::EmitValue(BinaryWriter writer, Type type, Object
   }
   if (type->get_IsArray()) {
     if (value == nullptr) {
-      writer->Write(UInt32::MaxValue);
+      writer->Write(UInt32::MaxValue());
       return;
     }
     Array<> array = (Array<>)value;

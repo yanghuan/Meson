@@ -465,8 +465,8 @@ Boolean TimeSpan::op_GreaterThanOrEqual(TimeSpan t1, TimeSpan t2) {
 
 void TimeSpan::cctor() {
   Zero = TimeSpan(0);
-  MaxValue = TimeSpan(Int64::MaxValue);
-  MinValue = TimeSpan(Int64::MinValue);
+  MaxValue = TimeSpan(Int64::MaxValue());
+  MinValue = TimeSpan(Int64::MinValue());
 }
 
 } // namespace System::Private::CoreLib::System::TimeSpanNamespace

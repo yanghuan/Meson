@@ -351,7 +351,7 @@ StringBuilder DateTimeFormat::FormatCustomized(DateTime dateTime, ReadOnlySpan<C
 }
 
 void DateTimeFormat::FormatCustomizedTimeZone(DateTime dateTime, TimeSpan offset, Int32 tokenLen, Boolean timeOnly, StringBuilder result) {
-  if (offset.get_Ticks() == Int64::MinValue) {
+  if (offset.get_Ticks() == Int64::MinValue()) {
     offset = ((timeOnly && dateTime.get_Ticks() < 864000000000) ? TimeZoneInfo::in::GetLocalUtcOffset(DateTime::get_Now(), TimeZoneInfoOptions::NoThrowOnInvalidTime) : ((dateTime.get_Kind() != DateTimeKind::Utc) ? TimeZoneInfo::in::GetLocalUtcOffset(dateTime, TimeZoneInfoOptions::NoThrowOnInvalidTime) : rt::default__));
   }
   if (offset.get_Ticks() >= 0) {
@@ -371,7 +371,7 @@ void DateTimeFormat::FormatCustomizedTimeZone(DateTime dateTime, TimeSpan offset
 }
 
 void DateTimeFormat::FormatCustomizedRoundripTimeZone(DateTime dateTime, TimeSpan offset, StringBuilder result) {
-  if (offset.get_Ticks() == Int64::MinValue) {
+  if (offset.get_Ticks() == Int64::MinValue()) {
     switch (dateTime.get_Kind()) {
       case DateTimeKind::Local:
         break;
@@ -449,7 +449,7 @@ String DateTimeFormat::ExpandPredefinedFormat(ReadOnlySpan<Char> format, DateTim
     case u'R':
     case u'r':
     case u'u':
-      if (offset.get_Ticks() != Int64::MinValue) {
+      if (offset.get_Ticks() != Int64::MinValue()) {
         dateTime -= offset;
       }
       dtfi = DateTimeFormatInfo::in::get_InvariantInfo();
@@ -458,7 +458,7 @@ String DateTimeFormat::ExpandPredefinedFormat(ReadOnlySpan<Char> format, DateTim
       dtfi = DateTimeFormatInfo::in::get_InvariantInfo();
       break;
     case u'U':
-      if (offset.get_Ticks() != Int64::MinValue) {
+      if (offset.get_Ticks() != Int64::MinValue()) {
         rt::throw_exception<FormatException>(SR::get_Format_InvalidString());
       }
       dtfi = (DateTimeFormatInfo)dtfi->Clone();
@@ -472,7 +472,7 @@ String DateTimeFormat::ExpandPredefinedFormat(ReadOnlySpan<Char> format, DateTim
 }
 
 String DateTimeFormat::Format(DateTime dateTime, String format, IFormatProvider provider) {
-  return Format(dateTime, format, provider, TimeSpan(Int64::MinValue));
+  return Format(dateTime, format, provider, TimeSpan(Int64::MinValue()));
 }
 
 String DateTimeFormat::Format(DateTime dateTime, String format, IFormatProvider provider, TimeSpan offset) {
@@ -500,7 +500,7 @@ String DateTimeFormat::Format(DateTime dateTime, String format, IFormatProvider 
 }
 
 Boolean DateTimeFormat::TryFormat(DateTime dateTime, Span<Char> destination, Int32& charsWritten, ReadOnlySpan<Char> format, IFormatProvider provider) {
-  return TryFormat(dateTime, destination, charsWritten, format, provider, TimeSpan(Int64::MinValue));
+  return TryFormat(dateTime, destination, charsWritten, format, provider, TimeSpan(Int64::MinValue()));
 }
 
 Boolean DateTimeFormat::TryFormat(DateTime dateTime, Span<Char> destination, Int32& charsWritten, ReadOnlySpan<Char> format, IFormatProvider provider, TimeSpan offset) {
@@ -544,7 +544,7 @@ StringBuilder DateTimeFormat::FormatStringBuilder(DateTime dateTime, ReadOnlySpa
           break;
       }
     }
-    format = ((offset.get_Ticks() != Int64::MinValue) ? ((ReadOnlySpan<Char>)(flag ? "yyyy'-'MM'-'ddTHH':'mm':'ss zzz" : dtfi->get_DateTimeOffsetPattern())) : ((ReadOnlySpan<Char>)(flag ? "s" : "G")));
+    format = ((offset.get_Ticks() != Int64::MinValue()) ? ((ReadOnlySpan<Char>)(flag ? "yyyy'-'MM'-'ddTHH':'mm':'ss zzz" : dtfi->get_DateTimeOffsetPattern())) : ((ReadOnlySpan<Char>)(flag ? "s" : "G")));
   }
   if (format.get_Length() == 1) {
     format = ExpandPredefinedFormat(format, dateTime, dtfi, offset);
@@ -555,7 +555,7 @@ StringBuilder DateTimeFormat::FormatStringBuilder(DateTime dateTime, ReadOnlySpa
 Boolean DateTimeFormat::TryFormatO(DateTime dateTime, TimeSpan offset, Span<Char> destination, Int32& charsWritten) {
   Int32 num = 27;
   DateTimeKind dateTimeKind = DateTimeKind::Local;
-  if (offset.get_Ticks() == Int64::MinValue) {
+  if (offset.get_Ticks() == Int64::MinValue()) {
     dateTimeKind = dateTime.get_Kind();
     switch (dateTimeKind) {
       case DateTimeKind::Local:
@@ -627,7 +627,7 @@ Boolean DateTimeFormat::TryFormatR(DateTime dateTime, TimeSpan offset, Span<Char
     charsWritten = 0;
     return false;
   }
-  if (offset.get_Ticks() != Int64::MinValue) {
+  if (offset.get_Ticks() != Int64::MinValue()) {
     dateTime -= offset;
   }
   Int32 year;

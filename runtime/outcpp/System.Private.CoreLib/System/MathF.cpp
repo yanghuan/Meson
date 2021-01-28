@@ -20,7 +20,7 @@ Single MathF::BitDecrement(Single x) {
     if (num != 2139095040) {
       return x;
     }
-    return Single::MaxValue;
+    return Single::MaxValue();
   }
   if (num == 0) {
     return -1E-45;
@@ -35,10 +35,10 @@ Single MathF::BitIncrement(Single x) {
     if (num != -8388608) {
       return x;
     }
-    return Single::MinValue;
+    return Single::MinValue();
   }
-  if (num == Int32::MinValue) {
-    return Single::Epsilon;
+  if (num == Int32::MinValue()) {
+    return Single::Epsilon();
   }
   num += ((num >= 0) ? 1 : (-1));
   return BitConverter::Int32BitsToSingle(num);
@@ -48,7 +48,7 @@ Single MathF::CopySign(Single x, Single y) {
   Int32 num = BitConverter::SingleToInt32Bits(x);
   Int32 num2 = BitConverter::SingleToInt32Bits(y);
   if ((num ^ num2) < 0) {
-    return BitConverter::Int32BitsToSingle(num ^ Int32::MinValue);
+    return BitConverter::Int32BitsToSingle(num ^ Int32::MinValue());
   }
   return x;
 }
@@ -62,7 +62,7 @@ Single MathF::IEEERemainder(Single x, Single y) {
   }
   Single num = x % y;
   if (Single::IsNaN(num)) {
-    return Single::NaN;
+    return Single::NaN();
   }
   if (num == 0 && Single::IsNegative(x)) {
     return -0;
@@ -90,10 +90,10 @@ Single MathF::Log(Single x, Single y) {
     return y;
   }
   if (y == 1) {
-    return Single::NaN;
+    return Single::NaN();
   }
   if (x != 1 && (y == 0 || Single::IsPositiveInfinity(y))) {
-    return Single::NaN;
+    return Single::NaN();
   }
   return Log(x) / Log(y);
 }

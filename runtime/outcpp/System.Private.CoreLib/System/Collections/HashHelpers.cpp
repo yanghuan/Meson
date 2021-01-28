@@ -39,7 +39,7 @@ Int32 HashHelpers::GetPrime(Int32 min) {
       return num;
     }
   }
-  for (Int32 j = min | 1; j < Int32::MaxValue; j += 2) {
+  for (Int32 j = min | 1; j < Int32::MaxValue(); j += 2) {
     if (IsPrime(j) && (j - 1) % 101 != 0) {
       return j;
     }
@@ -56,7 +56,7 @@ Int32 HashHelpers::ExpandPrime(Int32 oldSize) {
 }
 
 UInt64 HashHelpers::GetFastModMultiplier(UInt32 divisor) {
-  return UInt64::MaxValue / (UInt64)divisor + 1;
+  return UInt64::MaxValue() / (UInt64)divisor + 1;
 }
 
 UInt32 HashHelpers::FastMod(UInt32 value, UInt32 divisor, UInt64 multiplier) {

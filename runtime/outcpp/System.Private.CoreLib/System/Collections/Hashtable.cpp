@@ -761,7 +761,7 @@ void Hashtable___::Insert(Object key, Object nvalue, Boolean add) {
       return;
     }
     if (num3 == -1 && _buckets[num4].hash_coll >= 0) {
-      _buckets[num4].hash_coll |= Int32::MinValue;
+      _buckets[num4].hash_coll |= Int32::MinValue();
       _occupancy++;
     }
     num4 = (Int32)((num4 + incr) % (Int64)(UInt32)_buckets->get_Length());
@@ -784,7 +784,7 @@ void Hashtable___::putEntry(Array<bucket> newBuckets, Object key, Object nvalue,
   Int32 num2 = (Int32)((UInt32)hashcode % (UInt32)newBuckets->get_Length());
   while (newBuckets[num2].key != nullptr && newBuckets[num2].key != _buckets) {
     if (newBuckets[num2].hash_coll >= 0) {
-      newBuckets[num2].hash_coll |= Int32::MinValue;
+      newBuckets[num2].hash_coll |= Int32::MinValue();
       _occupancy++;
     }
     num2 = (Int32)((num2 + num) % (Int64)(UInt32)newBuckets->get_Length());
@@ -808,7 +808,7 @@ void Hashtable___::Remove(Object key) {
     bucket = _buckets[num3];
     if ((bucket.hash_coll & 2147483647) == num && KeyEquals(bucket.key, key)) {
       _isWriterInProgress = true;
-      _buckets[num3].hash_coll &= Int32::MinValue;
+      _buckets[num3].hash_coll &= Int32::MinValue();
       if (_buckets[num3].hash_coll != 0) {
         _buckets[num3].key = _buckets;
       } else {

@@ -70,7 +70,7 @@ Int32 WaitHandle___::ToTimeoutMilliseconds(TimeSpan timeout) {
   if (num < -1) {
     rt::throw_exception<ArgumentOutOfRangeException>("timeout", SR::get_ArgumentOutOfRange_NeedNonNegOrNegative1());
   }
-  if (num > Int32::MaxValue) {
+  if (num > Int32::MaxValue()) {
     rt::throw_exception<ArgumentOutOfRangeException>("timeout", SR::get_ArgumentOutOfRange_LessEqualToIntegerMaxVal());
   }
   return (Int32)num;

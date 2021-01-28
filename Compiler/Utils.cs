@@ -533,6 +533,10 @@ namespace Meson.Compiler {
       return innerValueTypeNames_.GetOrDefault(type.FullName);
     }
 
+    public static bool IsPrimitiveValueType(this IType type) {
+      return type.GetValueTypeInnerName() != null;
+    }
+
     public static LiteralExpressionSyntax GetPrimitiveTypeDefaultValue(this ITypeDefinition type) {
       switch (type.KnownTypeCode) {
         case KnownTypeCode.Boolean:
@@ -631,11 +635,11 @@ namespace Meson.Compiler {
         case TypeCode.Single: {
             string s;
             if (value is float.NaN) {
-              s = isInPrimitiveType ? "rt::NaN<float>" : "Single::NaN";
+              s = isInPrimitiveType ? "rt::NaN<float>" : "Single::NaN()";
             } else if (value is float.NegativeInfinity) {
-              s = isInPrimitiveType ? "rt::NegativeInfinity<float>" : "Single::NegativeInfinity";
+              s = isInPrimitiveType ? "rt::NegativeInfinity<float>" : "Single::NegativeInfinity()";
             } else if (value is float.PositiveInfinity) {
-              s = isInPrimitiveType ? "rt::PositiveInfinity<float>" : "Single::PositiveInfinity";
+              s = isInPrimitiveType ? "rt::PositiveInfinity<float>" : "Single::PositiveInfinity()";
             } else {
               s = value.ToString();
             }
@@ -644,11 +648,11 @@ namespace Meson.Compiler {
         case TypeCode.Double: {
             string s;
             if (value is double.NaN) {
-              s = isInPrimitiveType ? "rt::NaN<double>" : "Double::NaN";
+              s = isInPrimitiveType ? "rt::NaN<double>" : "Double::NaN()";
             } else if (value is double.NegativeInfinity) {
-              s = isInPrimitiveType ? "rt::NegativeInfinity<double>" : "Double::NegativeInfinity";
+              s = isInPrimitiveType ? "rt::NegativeInfinity<double>" : "Double::NegativeInfinity()";
             } else if (value is double.PositiveInfinity) {
-              s = isInPrimitiveType ? "rt::PositiveInfinity<double>" : "Double::PositiveInfinity";
+              s = isInPrimitiveType ? "rt::PositiveInfinity<double>" : "Double::PositiveInfinity()";
             } else {
               s = value.ToString();
             }

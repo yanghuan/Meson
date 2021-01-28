@@ -4,6 +4,11 @@
 
 namespace Test::Test::ProgramNamespace {
 void Program___::Main(Array<String> args) {
+  if (args->get_Length() > 2) {
+    while (true) {
+      args->ToString();
+    }
+  }
 }
 
 void Program___::ctor() {

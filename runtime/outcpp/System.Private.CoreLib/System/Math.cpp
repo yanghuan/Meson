@@ -98,7 +98,7 @@ Double Math::BitDecrement(Double x) {
     if (num != 9218868437227405312) {
       return x;
     }
-    return Double::MaxValue;
+    return Double::MaxValue();
   }
   if (num == 0) {
     return -5E-324;
@@ -113,10 +113,10 @@ Double Math::BitIncrement(Double x) {
     if (num != -4503599627370496) {
       return x;
     }
-    return Double::MinValue;
+    return Double::MinValue();
   }
-  if (num == Int64::MinValue) {
-    return Double::Epsilon;
+  if (num == Int64::MinValue()) {
+    return Double::Epsilon();
   }
   num += ((num >= 0) ? 1 : (-1));
   return BitConverter::Int64BitsToDouble(num);
@@ -126,7 +126,7 @@ Double Math::CopySign(Double x, Double y) {
   Int64 num = BitConverter::DoubleToInt64Bits(x);
   Int64 num2 = BitConverter::DoubleToInt64Bits(y);
   if ((num ^ num2) < 0) {
-    return BitConverter::Int64BitsToDouble(num ^ Int64::MinValue);
+    return BitConverter::Int64BitsToDouble(num ^ Int64::MinValue());
   }
   return x;
 }
@@ -315,7 +315,7 @@ Double Math::IEEERemainder(Double x, Double y) {
   }
   Double num = x % y;
   if (Double::IsNaN(num)) {
-    return Double::NaN;
+    return Double::NaN();
   }
   if (num == 0 && Double::IsNegative(x)) {
     return -0;
@@ -343,10 +343,10 @@ Double Math::Log(Double a, Double newBase) {
     return newBase;
   }
   if (newBase == 1) {
-    return Double::NaN;
+    return Double::NaN();
   }
   if (a != 1 && (newBase == 0 || Double::IsPositiveInfinity(newBase))) {
-    return Double::NaN;
+    return Double::NaN();
   }
   return Log(a) / Log(newBase);
 }

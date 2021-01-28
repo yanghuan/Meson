@@ -160,7 +160,7 @@ Int64 IPv4AddressHelper::ParseNonCanonical(Char* name, Int32 start, Int32& end, 
 
 
       num2 = num2 * num + num4;
-      if (num2 > UInt32::MaxValue) {
+      if (num2 > UInt32::MaxValue()) {
         return -1;
       }
       flag = true;
@@ -188,7 +188,7 @@ Int64 IPv4AddressHelper::ParseNonCanonical(Char* name, Int32 start, Int32& end, 
   *(ptr + num3) = num2;
   switch (num3.get()) {
     case 0:
-      if (*ptr > UInt32::MaxValue) {
+      if (*ptr > UInt32::MaxValue()) {
         return -1;
       }
       return *ptr;

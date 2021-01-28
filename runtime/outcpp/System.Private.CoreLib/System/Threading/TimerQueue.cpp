@@ -78,7 +78,7 @@ void TimerQueue___::FireNextTimers() {
     rt::lock((TimerQueue)this);
     _isTimerScheduled = false;
     Boolean flag = false;
-    UInt32 num = UInt32::MaxValue;
+    UInt32 num = UInt32::MaxValue();
     Int64 tickCount = get_TickCount64();
     TimerQueueTimer timerQueueTimer2 = _shortTimers;
     for (Int32 i = 0; i < 2; i++) {
@@ -87,7 +87,7 @@ void TimerQueue___::FireNextTimers() {
         Int64 num2 = tickCount - timerQueueTimer2->_startTicks;
         Int64 num3 = timerQueueTimer2->_dueTime - num2;
         if (num3 <= 0) {
-          if (timerQueueTimer2->_period != UInt32::MaxValue) {
+          if (timerQueueTimer2->_period != UInt32::MaxValue()) {
             timerQueueTimer2->_startTicks = tickCount;
             Int64 num4 = num2 - timerQueueTimer2->_dueTime;
             timerQueueTimer2->_dueTime = ((num4 >= timerQueueTimer2->_period) ? 1u : (timerQueueTimer2->_period - (UInt32)(Int32)num4));
@@ -145,7 +145,7 @@ Boolean TimerQueue___::UpdateTimer(TimerQueueTimer timer, UInt32 dueTime, UInt32
   Int64 tickCount = get_TickCount64();
   Int64 num = tickCount + dueTime;
   Boolean flag = _currentAbsoluteThreshold - num >= 0;
-  if (timer->_dueTime == UInt32::MaxValue) {
+  if (timer->_dueTime == UInt32::MaxValue()) {
     timer->_short = flag;
     LinkTimer(timer);
     ActiveCount++;
@@ -156,7 +156,7 @@ Boolean TimerQueue___::UpdateTimer(TimerQueueTimer timer, UInt32 dueTime, UInt32
   }
 
   timer->_dueTime = dueTime;
-  timer->_period = ((period == 0) ? UInt32::MaxValue : period);
+  timer->_period = ((period == 0) ? UInt32::MaxValue() : period);
   timer->_startTicks = tickCount;
   return EnsureTimerFiresBy(dueTime);
 }
@@ -195,13 +195,13 @@ void TimerQueue___::UnlinkTimer(TimerQueueTimer timer) {
 }
 
 void TimerQueue___::DeleteTimer(TimerQueueTimer timer) {
-  if (timer->_dueTime != UInt32::MaxValue) {
+  if (timer->_dueTime != UInt32::MaxValue()) {
     ActiveCount--;
     UnlinkTimer(timer);
     timer->_prev = nullptr;
     timer->_next = nullptr;
-    timer->_dueTime = UInt32::MaxValue;
-    timer->_period = UInt32::MaxValue;
+    timer->_dueTime = UInt32::MaxValue();
+    timer->_period = UInt32::MaxValue();
     timer->_startTicks = 0;
     timer->_short = false;
   }

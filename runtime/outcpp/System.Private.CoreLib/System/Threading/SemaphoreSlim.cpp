@@ -108,7 +108,7 @@ void SemaphoreSlim___::Wait(CancellationToken cancellationToken) {
 
 Boolean SemaphoreSlim___::Wait(TimeSpan timeout) {
   Int64 num = (Int64)timeout.get_TotalMilliseconds();
-  if (num < -1 || num > Int32::MaxValue) {
+  if (num < -1 || num > Int32::MaxValue()) {
     rt::throw_exception<ArgumentOutOfRangeException>("timeout", timeout, SR::get_SemaphoreSlim_Wait_TimeoutWrong());
   }
   return Wait((Int32)timeout.get_TotalMilliseconds(), CancellationToken::get_None());
@@ -116,7 +116,7 @@ Boolean SemaphoreSlim___::Wait(TimeSpan timeout) {
 
 Boolean SemaphoreSlim___::Wait(TimeSpan timeout, CancellationToken cancellationToken) {
   Int64 num = (Int64)timeout.get_TotalMilliseconds();
-  if (num < -1 || num > Int32::MaxValue) {
+  if (num < -1 || num > Int32::MaxValue()) {
     rt::throw_exception<ArgumentOutOfRangeException>("timeout", timeout, SR::get_SemaphoreSlim_Wait_TimeoutWrong());
   }
   return Wait((Int32)timeout.get_TotalMilliseconds(), cancellationToken);
@@ -240,7 +240,7 @@ Task<Boolean> SemaphoreSlim___::WaitAsync(TimeSpan timeout) {
 
 Task<Boolean> SemaphoreSlim___::WaitAsync(TimeSpan timeout, CancellationToken cancellationToken) {
   Int64 num = (Int64)timeout.get_TotalMilliseconds();
-  if (num < -1 || num > Int32::MaxValue) {
+  if (num < -1 || num > Int32::MaxValue()) {
     rt::throw_exception<ArgumentOutOfRangeException>("timeout", timeout, SR::get_SemaphoreSlim_Wait_TimeoutWrong());
   }
   return WaitAsync((Int32)timeout.get_TotalMilliseconds(), cancellationToken);
