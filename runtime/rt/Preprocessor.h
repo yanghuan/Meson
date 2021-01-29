@@ -103,7 +103,7 @@
   template<class ...T>\
   using n = rt::ref<ns::name<T...>>;
 
-#define FORWARD_(name, ...) FORWARD_MULTI(name, NAME(name), BOOST_PP_CAT(name, Namespace))
+#define FORWARD_(name) FORWARD_MULTI(name, NAME(name), BOOST_PP_CAT(name, Namespace))
 
 #define FORWARDN_MULTI(n, name, seq) \
   BOOST_PP_TUPLE_ENUM(TEMPLATE(seq))\
