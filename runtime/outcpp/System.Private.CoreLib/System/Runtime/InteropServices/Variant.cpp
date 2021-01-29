@@ -255,7 +255,7 @@ Object Variant::ToObject() {
 void Variant::Clear() {
   VarEnum variantType = get_VariantType();
   if ((variantType & VarEnum::VT_BYREF) != 0) {
-    get_VariantType(VarEnum::VT_EMPTY);
+    set_VariantType(VarEnum::VT_EMPTY);
   } else if ((variantType & VarEnum::VT_ARRAY) != 0 || variantType == VarEnum::VT_BSTR || variantType == VarEnum::VT_UNKNOWN || variantType == VarEnum::VT_DISPATCH || variantType == VarEnum::VT_VARIANT || variantType == VarEnum::VT_RECORD) {
     {
       Variant* ptr = rt::fixed(&*this);
@@ -263,7 +263,7 @@ void Variant::Clear() {
       Interop::OleAut32::VariantClear((IntPtr)value);
     }
   } else {
-    get_VariantType(VarEnum::VT_EMPTY);
+    set_VariantType(VarEnum::VT_EMPTY);
   }
 
 }

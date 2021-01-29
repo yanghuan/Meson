@@ -1942,7 +1942,7 @@ void ArrayList___::EnsureCapacity(Int32 min) {
     if (num < min) {
       num = min;
     }
-    get_Capacity(num);
+    set_Capacity(num);
   }
 }
 
@@ -2222,7 +2222,7 @@ Array<> ArrayList___::ToArray(Type type) {
 }
 
 void ArrayList___::TrimToSize() {
-  get_Capacity(_size);
+  set_Capacity(_size);
 }
 
 } // namespace System::Private::CoreLib::System::Collections::ArrayListNamespace

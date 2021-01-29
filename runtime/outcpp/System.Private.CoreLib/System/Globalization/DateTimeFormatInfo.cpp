@@ -718,7 +718,7 @@ void DateTimeFormatInfo___::ctor(CultureData cultureData, Calendar cal) {
   formatFlags = DateTimeFormatFlags::NotInitialized;
   Object::in::ctor();
   _cultureData = cultureData;
-  get_Calendar(cal);
+  set_Calendar(cal);
 }
 
 void DateTimeFormatInfo___::InitializeOverridableProperties(CultureData cultureData, CalendarId calendarId) {

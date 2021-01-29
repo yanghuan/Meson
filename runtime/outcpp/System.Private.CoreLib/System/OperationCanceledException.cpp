@@ -24,15 +24,15 @@ void OperationCanceledException___::ctor(String message, Exception innerExceptio
 }
 
 void OperationCanceledException___::ctor(CancellationToken token) {
-  get_CancellationToken(token);
+  set_CancellationToken(token);
 }
 
 void OperationCanceledException___::ctor(String message, CancellationToken token) {
-  get_CancellationToken(token);
+  set_CancellationToken(token);
 }
 
 void OperationCanceledException___::ctor(String message, Exception innerException, CancellationToken token) {
-  get_CancellationToken(token);
+  set_CancellationToken(token);
 }
 
 void OperationCanceledException___::ctor(SerializationInfo info, StreamingContext context) {

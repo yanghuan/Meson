@@ -567,7 +567,7 @@ void Task___<>::ctor(Delegate action, Object state, Task<> parent, CancellationT
     EnsureContingentPropertiesInitializedUnsafe()->m_parent = parent;
   }
   TaskConstructorCore(action, state, cancellationToken, creationOptions, internalOptions, scheduler);
-  get_CapturedContext(ExecutionContext::in::Capture());
+  set_CapturedContext(ExecutionContext::in::Capture());
 }
 
 void Task___<>::TaskConstructorCore(Delegate action, Object state, CancellationToken cancellationToken, TaskCreationOptions creationOptions, InternalTaskOptions internalOptions, TaskScheduler scheduler) {

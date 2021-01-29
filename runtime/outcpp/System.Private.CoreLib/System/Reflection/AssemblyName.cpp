@@ -179,7 +179,7 @@ AssemblyName AssemblyName___::GetFileInformationCore(String assemblyFile) {
 }
 
 void AssemblyName___::SetProcArchIndex(PortableExecutableKinds pek, ImageFileMachine ifm) {
-  get_ProcessorArchitecture(CalculateProcArchIndex(pek, ifm, _flags));
+  set_ProcessorArchitecture(CalculateProcArchIndex(pek, ifm, _flags));
 }
 
 ProcessorArchitecture AssemblyName___::CalculateProcArchIndex(PortableExecutableKinds pek, ImageFileMachine ifm, AssemblyNameFlags flags) {

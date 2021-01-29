@@ -1892,7 +1892,7 @@ Object RuntimeType___::CreateInstanceDefaultCtorSlow(Boolean publicOnly, Boolean
     rt::throw_exception<MissingMethodException>(SR::Format(SR::get_Arg_NoDefCTor(), (RuntimeType)this));
   }
   if (canBeCached && fillCache) {
-    get_GenericCache(rt::newobj<ActivatorCache>(ctor));
+    set_GenericCache(rt::newobj<ActivatorCache>(ctor));
   }
   return result;
 }

@@ -259,6 +259,11 @@ namespace Meson.Compiler {
     }
 
     private static bool IsGetIdentifier(IdentifierExpression identifierExpression) {
+      if (identifierExpression.Parent is AssignmentExpression assignment) {
+        if (assignment.Left == identifierExpression) {
+          return false;
+        }
+      }
       return true;
     }
 

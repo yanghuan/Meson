@@ -50,7 +50,7 @@ void StringInfo___::ctor() {
 }
 
 void StringInfo___::ctor(String value) {
-  get_String(value);
+  set_String(value);
 }
 
 Boolean StringInfo___::Equals(Object value) {

@@ -397,18 +397,18 @@ namespace rt {
       return R();
     }
 
-    /*
     template <class R, class T1 = T> requires(IsRef<R> && IsConvertible<T1, typename R::in>)
     explicit operator R() {
       //TODO 
       return R();
     }
 
+    
     template <class R, class T1 = T> requires(IsRef<R> && IsInterface<typename R::in> && IsInterface<T1>)
     explicit operator R() {
       //TODO 
       return R();
-    }*/
+    }
     
     template <class Size, class T1 = T> requires(IsString<T1>)
     auto operator [](const Size& index) {

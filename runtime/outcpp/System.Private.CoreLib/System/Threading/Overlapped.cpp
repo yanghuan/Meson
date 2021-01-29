@@ -35,7 +35,7 @@ Int32 Overlapped___::get_EventHandle() {
 }
 
 void Overlapped___::set_EventHandle(Int32 value) {
-  get_EventHandleIntPtr(IntPtr(value));
+  set_EventHandleIntPtr(IntPtr(value));
 }
 
 IntPtr Overlapped___::get_EventHandleIntPtr() {

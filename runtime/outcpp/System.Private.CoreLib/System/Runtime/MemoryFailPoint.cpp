@@ -144,8 +144,8 @@ Boolean MemoryFailPoint___::CheckForAvailableMemory(UInt64& availPageFile, UInt6
 }
 
 void MemoryFailPoint___::CheckForFreeAddressSpace(UInt64 size, Boolean shouldThrow) {
-  UInt64 num2 = (UInt64)(get_LastKnownFreeAddressSpace((Int64)MemFreeAfterAddress(nullptr, size)));
-  get_LastTimeCheckingAddressSpace(Environment::get_TickCount());
+  UInt64 num2 = (UInt64)(set_LastKnownFreeAddressSpace((Int64)MemFreeAfterAddress(nullptr, size)));
+  set_LastTimeCheckingAddressSpace(Environment::get_TickCount());
   if (num2 < size && shouldThrow) {
     rt::throw_exception<InsufficientMemoryException>(SR::get_InsufficientMemory_MemFailPoint_VAFrag());
   }

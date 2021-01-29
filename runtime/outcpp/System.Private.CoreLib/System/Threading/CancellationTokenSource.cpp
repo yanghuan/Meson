@@ -395,7 +395,7 @@ void CancellationTokenSource___::NotifyCancellation(Boolean throwOnFirstExceptio
 }
 
 void CancellationTokenSource___::ExecuteCallbackHandlers(Boolean throwOnFirstException) {
-  get_ThreadIDExecutingCallbacks(Environment::get_CurrentManagedThreadId());
+  set_ThreadIDExecutingCallbacks(Environment::get_CurrentManagedThreadId());
   Array<CallbackPartition> array = Interlocked::Exchange(_callbackPartitions, (Array<CallbackPartition>)nullptr);
   if (array == nullptr) {
     Interlocked::Exchange(_state, 3);
@@ -434,7 +434,7 @@ void CancellationTokenSource___::ExecuteCallbackHandlers(Boolean throwOnFirstExc
           if (callbacks->SynchronizationContext != nullptr) {
             SendOrPostCallback as = __c::in::__9__44_0;
             callbacks->SynchronizationContext->Send(as != nullptr ? as : (__c::in::__9__44_0 = {__c::in::__9, &__c::in::_ExecuteCallbackHandlers_b__44_0}), callbacks);
-            get_ThreadIDExecutingCallbacks(Environment::get_CurrentManagedThreadId());
+            set_ThreadIDExecutingCallbacks(Environment::get_CurrentManagedThreadId());
           } else {
             callbacks->ExecuteCallback();
           }

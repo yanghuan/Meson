@@ -183,7 +183,7 @@ Boolean MemoryStream___::EnsureCapacity(Int32 value) {
     if ((UInt32)(_capacity * 2) > 2147483591u) {
       num = Math::Max(value, 2147483591);
     }
-    get_Capacity(num);
+    set_Capacity(num);
     return true;
   }
   return false;

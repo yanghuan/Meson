@@ -28,7 +28,7 @@ namespace Meson.Compiler {
 
     public bool IsMulti => types_.Count > 1;
     public bool HasRef => types_.Exists(i => i.IsRefType());
-    private ITypeDefinition Root => types_.First();
+    public ITypeDefinition Root => types_.First();
     public IdentifierSyntax GetMemberName(ISymbol symbol) => Generator.GetMemberName(symbol);
 
     private void Visit() {

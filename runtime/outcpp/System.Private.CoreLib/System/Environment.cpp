@@ -127,7 +127,7 @@ void Environment::set_CurrentDirectory(String value) {
   if (value->get_Length() == 0) {
     rt::throw_exception<ArgumentException>(SR::get_Argument_PathEmpty(), "value");
   }
-  get_CurrentDirectoryCore(value);
+  set_CurrentDirectoryCore(value);
 }
 
 Boolean Environment::get_Is64BitProcess() {

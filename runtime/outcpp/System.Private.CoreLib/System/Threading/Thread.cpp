@@ -141,7 +141,7 @@ IPrincipal Thread___::get_CurrentPrincipal() {
   AsyncLocal<IPrincipal> asyncLocal = s_asyncLocalPrincipal;
   IPrincipal principal = ((asyncLocal != nullptr) ? asyncLocal->get_Value() : nullptr);
   if (principal == nullptr) {
-    principal = (get_CurrentPrincipal(AppDomain::in::get_CurrentDomain()->GetThreadPrincipal()));
+    principal = (set_CurrentPrincipal(AppDomain::in::get_CurrentDomain()->GetThreadPrincipal()));
   }
   return principal;
 }
