@@ -108,7 +108,6 @@ void SecurityElement___::ctor(String tag) {
     rt::throw_exception<ArgumentException>(SR::Format(SR::get_Argument_InvalidElementTag(), tag));
   }
   _tag = tag;
-  _text = nullptr;
 }
 
 void SecurityElement___::ctor(String tag, String text) {

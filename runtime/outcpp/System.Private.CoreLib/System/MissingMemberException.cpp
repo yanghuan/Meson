@@ -2,7 +2,6 @@
 
 #include <System.Private.CoreLib/System/Exception-dep.h>
 #include <System.Private.CoreLib/System/SR-dep.h>
-#include <System.Private.CoreLib/System/Type-dep.h>
 
 namespace System::Private::CoreLib::System::MissingMemberExceptionNamespace {
 String MissingMemberException___::get_Message() {

@@ -2,10 +2,12 @@
 
 #include <System.Private.CoreLib/Internal/Runtime/CompilerServices/Unsafe-dep.h>
 #include <System.Private.CoreLib/System/BitConverter-dep.h>
+#include <System.Private.CoreLib/System/Byte-dep.h>
 #include <System.Private.CoreLib/System/Int16-dep.h>
 #include <System.Private.CoreLib/System/IntPtr-dep.h>
 #include <System.Private.CoreLib/System/Numerics/BitOperations-dep.h>
 #include <System.Private.CoreLib/System/Numerics/Vector-dep.h>
+#include <System.Private.CoreLib/System/Runtime/Intrinsics/Arm/AdvSimd-dep.h>
 #include <System.Private.CoreLib/System/Runtime/Intrinsics/Vector128-dep.h>
 #include <System.Private.CoreLib/System/Runtime/Intrinsics/X86/Sse2-dep.h>
 #include <System.Private.CoreLib/System/Runtime/Intrinsics/X86/Sse41-dep.h>
@@ -18,6 +20,7 @@ namespace System::Private::CoreLib::System::Text::Unicode::Utf16UtilityNamespace
 using namespace Internal::Runtime::CompilerServices;
 using namespace System::Numerics;
 using namespace System::Runtime::Intrinsics;
+using namespace System::Runtime::Intrinsics::Arm;
 using namespace System::Runtime::Intrinsics::X86;
 
 Boolean Utf16Utility::AllCharsInUInt32AreAscii(UInt32 value) {
@@ -59,18 +62,21 @@ Boolean Utf16Utility::UInt32ContainsAnyUppercaseAsciiChar(UInt32 value) {
 }
 
 Boolean Utf16Utility::UInt32OrdinalIgnoreCaseAscii(UInt32 valueA, UInt32 valueB) {
-  UInt32 num = valueA ^ valueB;
-  UInt32 num2 = valueA + 16777472 - 4259905;
-  UInt32 num3 = (valueA | 2097184) + 8388736 - 8061051;
-  UInt32 num4 = num2 | num3;
-  return (((num4 >> 2) | 4292870111u) & num) == 0;
+  UInt32 num = (valueA ^ valueB) << 2;
+  UInt32 num2 = valueA + 327685;
+  num2 |= 10485920u;
+  num2 += 1703962;
+  num2 |= 4286578559u;
+  return (num & num2) == 0;
 }
 
 Boolean Utf16Utility::UInt64OrdinalIgnoreCaseAscii(UInt64 valueA, UInt64 valueB) {
-  UInt64 num = valueA + 36029346783166592 - 18296152663326785;
-  UInt64 num2 = (valueA | 9007336695791648) + 72058693566333184 - 34621950424449147;
-  UInt64 num3 = (36029346783166592 & num & num2) >> 2;
-  return (valueA | num3) == (valueB | num3);
+  UInt64 num = (valueA ^ valueB) << 2;
+  UInt64 num2 = valueA + 1407396358717445;
+  num2 |= 45036683478958240;
+  num2 += 7318461065330714;
+  num2 |= 18410714726926385023;
+  return (num & num2) == 0;
 }
 
 Char* Utf16Utility::GetPointerToFirstInvalidChar(Char* pInputBuffer, Int32 inputLength, Int64& utf8CodeUnitCountAdjustment, Int32& scalarCountAdjustment) {
@@ -90,16 +96,28 @@ Char* Utf16Utility::GetPointerToFirstInvalidChar(Char* pInputBuffer, Int32 input
       Vector128<UInt16> right = Vector128<>::Create((UInt16)(Int32)43008);
       Vector128<Int16> right2 = Vector128<>::Create((Int16)(Int32)(-30720));
       Vector128<UInt16> zero = Vector128<UInt16>::get_Zero();
+      Vector128<Byte> bitMask = (BitConverter::IsLittleEndian ? Vector128<>::AsByte(Vector128<>::Create(9241421688590303745)) : Vector128<>::AsByte(Vector128<>::Create(72624976668147840)));
       do {
-        Vector128<UInt16> vector2 = Sse2::in::LoadVector128((UInt16*)pInputBuffer);
-        Vector128<UInt16> left = ((!Sse41::in::get_IsSupported()) ? Sse2::in::AndNot(Vector128<>::AsUInt16(Sse2::in::CompareGreaterThan(Vector128<>::AsInt16(vector), Vector128<>::AsInt16(vector2))), vector) : Sse41::in::Min(vector2, vector));
-        Vector128<UInt16> right3 = Sse2::in::Subtract(zero, Sse2::in::ShiftRightLogical(vector2, 11));
-        UInt32 value = (UInt32)Sse2::in::MoveMask(Vector128<>::AsByte(Sse2::in::Or(left, right3)));
+        Vector128<UInt16> vector2 = ((!AdvSimd::in::Arm64::in::get_IsSupported()) ? Sse2::in::LoadVector128((UInt16*)pInputBuffer) : AdvSimd::in::LoadVector128((UInt16*)pInputBuffer));
+        Vector128<UInt16> left = (AdvSimd::in::Arm64::in::get_IsSupported() ? AdvSimd::in::Min(vector2, vector) : ((!Sse41::in::get_IsSupported()) ? Sse2::in::AndNot(Vector128<>::AsUInt16(Sse2::in::CompareGreaterThan(Vector128<>::AsInt16(vector), Vector128<>::AsInt16(vector2))), vector) : Sse41::in::Min(vector2, vector)));
+        UInt32 value;
+        if (AdvSimd::in::get_IsSupported()) {
+          Vector128<UInt16> right3 = AdvSimd::in::Subtract(zero, AdvSimd::in::ShiftRightLogical(vector2, 11));
+          value = GetNonAsciiBytes(Vector128<>::AsByte(AdvSimd::in::Or(left, right3)), bitMask);
+        } else {
+          Vector128<UInt16> right3 = Sse2::in::Subtract(zero, Sse2::in::ShiftRightLogical(vector2, 11));
+          value = (UInt32)Sse2::in::MoveMask(Vector128<>::AsByte(Sse2::in::Or(left, right3)));
+        }
         UInt32 num4 = (UInt32)BitOperations::PopCount(value);
-        vector2 = Sse2::in::Add(vector2, right);
-        value = (UInt32)Sse2::in::MoveMask(Vector128<>::AsByte(Sse2::in::CompareLessThan(Vector128<>::AsInt16(vector2), right2)));
+        if (AdvSimd::in::Arm64::in::get_IsSupported()) {
+          vector2 = AdvSimd::in::Add(vector2, right);
+          value = GetNonAsciiBytes(Vector128<>::AsByte(AdvSimd::in::CompareLessThan(Vector128<>::AsInt16(vector2), right2)), bitMask);
+        } else {
+          vector2 = Sse2::in::Add(vector2, right);
+          value = (UInt32)Sse2::in::MoveMask(Vector128<>::AsByte(Sse2::in::CompareLessThan(Vector128<>::AsInt16(vector2), right2)));
+        }
         if (value != 0) {
-          UInt32 num5 = (UInt32)Sse2::in::MoveMask(Vector128<>::AsByte(Sse2::in::ShiftRightLogical(vector2, 3)));
+          UInt32 num5 = (UInt32)((!AdvSimd::in::Arm64::in::get_IsSupported()) ? Sse2::in::MoveMask(Vector128<>::AsByte(Sse2::in::ShiftRightLogical(vector2, 3))) : ((Int32)GetNonAsciiBytes(Vector128<>::AsByte(AdvSimd::in::ShiftRightLogical(vector2, 3)), bitMask)));
           UInt32 num6 = num5 & value;
           UInt32 num7 = (num5 ^ 21845u) & value;
           num7 <<= 2;
@@ -157,7 +175,7 @@ Char* Utf16Utility::GetPointerToFirstInvalidChar(Char* pInputBuffer, Int32 input
             num10++;
             continue;
           }
-          goto IL_03c1;
+          goto IL_0497;
         }
         if (right9[Vector<UInt16>::get_Count() - 1] != 0) {
           pInputBuffer--;
@@ -175,14 +193,14 @@ Char* Utf16Utility::GetPointerToFirstInvalidChar(Char* pInputBuffer, Int32 input
       if (inputLength >= Vector<UInt16>::get_Count()) {
         continue;
       }
-      goto IL_03c1;
+      goto IL_0497;
     }
-    goto IL_03c5;
+    goto IL_049b;
   }
 
-  goto IL_03c1;
+  goto IL_0497;
 
-IL_03c1:
+IL_0497:
   while (inputLength > 0) {
     UInt32 num11 = *pInputBuffer;
     if (num11 > 127) {
@@ -205,12 +223,21 @@ IL_03c1:
     pInputBuffer++;
     inputLength--;
   }
-  goto IL_03c5;
+  goto IL_049b;
 
-IL_03c5:
+IL_049b:
   utf8CodeUnitCountAdjustment = num2;
   scalarCountAdjustment = num3;
   return pInputBuffer;
+}
+
+UInt32 Utf16Utility::GetNonAsciiBytes(Vector128<Byte> value, Vector128<Byte> bitMask128) {
+  Vector128<Byte> left = Vector128<>::AsByte(AdvSimd::in::ShiftRightArithmetic(Vector128<>::AsSByte(value), 7));
+  Vector128<Byte> vector = AdvSimd::in::And(left, bitMask128);
+  vector = AdvSimd::in::Arm64::in::AddPairwise(vector, vector);
+  vector = AdvSimd::in::Arm64::in::AddPairwise(vector, vector);
+  vector = AdvSimd::in::Arm64::in::AddPairwise(vector, vector);
+  return Vector128<>::ToScalar(Vector128<>::AsUInt16(vector));
 }
 
 } // namespace System::Private::CoreLib::System::Text::Unicode::Utf16UtilityNamespace

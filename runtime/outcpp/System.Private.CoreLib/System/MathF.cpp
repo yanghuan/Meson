@@ -6,10 +6,19 @@
 #include <System.Private.CoreLib/System/Double-dep.h>
 #include <System.Private.CoreLib/System/Math-dep.h>
 #include <System.Private.CoreLib/System/MidpointRounding.h>
+#include <System.Private.CoreLib/System/Numerics/VectorMath-dep.h>
+#include <System.Private.CoreLib/System/Runtime/Intrinsics/Arm/AdvSimd-dep.h>
+#include <System.Private.CoreLib/System/Runtime/Intrinsics/Vector128-dep.h>
+#include <System.Private.CoreLib/System/Runtime/Intrinsics/X86/Sse-dep.h>
 #include <System.Private.CoreLib/System/SR-dep.h>
 #include <System.Private.CoreLib/System/UInt32-dep.h>
 
 namespace System::Private::CoreLib::System::MathFNamespace {
+using namespace System::Numerics;
+using namespace System::Runtime::Intrinsics;
+using namespace System::Runtime::Intrinsics::Arm;
+using namespace System::Runtime::Intrinsics::X86;
+
 Single MathF::Abs(Single x) {
   return Math::Abs(x);
 }
@@ -45,12 +54,17 @@ Single MathF::BitIncrement(Single x) {
 }
 
 Single MathF::CopySign(Single x, Single y) {
-  Int32 num = BitConverter::SingleToInt32Bits(x);
-  Int32 num2 = BitConverter::SingleToInt32Bits(y);
-  if ((num ^ num2) < 0) {
-    return BitConverter::Int32BitsToSingle(num ^ Int32::MinValue());
+  auto SoftwareFallback = [](Single x, Single y) -> Single {
+    Int32 num = BitConverter::SingleToInt32Bits(x);
+    Int32 num2 = BitConverter::SingleToInt32Bits(y);
+    num &= 2147483647;
+    num2 &= Int32::MinValue();
+    return BitConverter::Int32BitsToSingle(num | num2);
+  };
+  if (Sse::in::get_IsSupported() || AdvSimd::in::get_IsSupported()) {
+    return Vector128<>::ToScalar(VectorMath::ConditionalSelectBitwise(Vector128<>::CreateScalarUnsafe(-0), Vector128<>::CreateScalarUnsafe(y), Vector128<>::CreateScalarUnsafe(x)));
   }
-  return x;
+  return SoftwareFallback(x, y);
 }
 
 Single MathF::IEEERemainder(Single x, Single y) {
@@ -213,6 +227,14 @@ Single MathF::Truncate(Single x) {
 
 void MathF::cctor() {
   roundPower10Single = rt::newarr<Array<Single>>(7);
+}
+
+Single MathF::_CopySign_g__SoftwareFallback36_0(Single x, Single y) {
+  Int32 num = BitConverter::SingleToInt32Bits(x);
+  Int32 num2 = BitConverter::SingleToInt32Bits(y);
+  num &= 2147483647;
+  num2 &= Int32::MinValue();
+  return BitConverter::Int32BitsToSingle(num | num2);
 }
 
 } // namespace System::Private::CoreLib::System::MathFNamespace

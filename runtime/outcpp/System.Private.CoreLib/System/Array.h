@@ -269,7 +269,7 @@ CLASS_(Array) : public object {
   static void _Sort_g__GenericSort127_0(Array<> keys, Array<> items, Int32 adjustedIndex, Int32 length);
 };
 CLASS_(Array, T) : public rt::Array<T, Array<>::in> {
-  public: using interface = rt::TypeList<IList_<T>, IReadOnlyList<T>, IReadOnlyCollection<T>>;
+  public: using interface = rt::TypeList<IList_<T>, IReadOnlyList<T>, IReadOnlyCollection<T>, ICloneable, IList, ICollection, IEnumerable, IStructuralComparable, IStructuralEquatable>;
 };
 } // namespace ArrayNamespace
 template <class ...T>

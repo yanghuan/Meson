@@ -3,11 +3,14 @@
 #include <System.Private.CoreLib/Internal/Runtime/CompilerServices/Unsafe-dep.h>
 #include <System.Private.CoreLib/System/ArgumentOutOfRangeException-dep.h>
 #include <System.Private.CoreLib/System/Globalization/CultureInfo-dep.h>
+#include <System.Private.CoreLib/System/HashCode-dep.h>
 #include <System.Private.CoreLib/System/Math-dep.h>
 #include <System.Private.CoreLib/System/MathF-dep.h>
 #include <System.Private.CoreLib/System/Numerics/Matrix4x4-dep.h>
 #include <System.Private.CoreLib/System/Numerics/Vector4-dep.h>
 #include <System.Private.CoreLib/System/Numerics/VectorMath-dep.h>
+#include <System.Private.CoreLib/System/PlatformNotSupportedException-dep.h>
+#include <System.Private.CoreLib/System/Runtime/Intrinsics/Arm/AdvSimd-dep.h>
 #include <System.Private.CoreLib/System/Runtime/Intrinsics/X86/Avx-dep.h>
 #include <System.Private.CoreLib/System/Runtime/Intrinsics/X86/Sse-dep.h>
 #include <System.Private.CoreLib/System/UInt32-dep.h>
@@ -15,6 +18,7 @@
 namespace System::Private::CoreLib::System::Numerics::Matrix4x4Namespace {
 using namespace Internal::Runtime::CompilerServices;
 using namespace System::Globalization;
+using namespace System::Runtime::Intrinsics::Arm;
 using namespace System::Runtime::Intrinsics::X86;
 
 Matrix4x4 Matrix4x4::get_Identity() {
@@ -143,324 +147,163 @@ Matrix4x4 Matrix4x4::CreateConstrainedBillboard(Vector3 objectPosition, Vector3 
 }
 
 Matrix4x4 Matrix4x4::CreateTranslation(Vector3 position) {
-  Matrix4x4 result;
-  result.M11 = 1;
-  result.M12 = 0;
-  result.M13 = 0;
-  result.M14 = 0;
-  result.M21 = 0;
-  result.M22 = 1;
-  result.M23 = 0;
-  result.M24 = 0;
-  result.M31 = 0;
-  result.M32 = 0;
-  result.M33 = 1;
-  result.M34 = 0;
-  result.M41 = position.X;
-  result.M42 = position.Y;
-  result.M43 = position.Z;
-  result.M44 = 1;
-  return result;
+  Matrix4x4 identity = _identity;
+  identity.M41 = position.X;
+  identity.M42 = position.Y;
+  identity.M43 = position.Z;
+  return identity;
 }
 
 Matrix4x4 Matrix4x4::CreateTranslation(Single xPosition, Single yPosition, Single zPosition) {
-  Matrix4x4 result;
-  result.M11 = 1;
-  result.M12 = 0;
-  result.M13 = 0;
-  result.M14 = 0;
-  result.M21 = 0;
-  result.M22 = 1;
-  result.M23 = 0;
-  result.M24 = 0;
-  result.M31 = 0;
-  result.M32 = 0;
-  result.M33 = 1;
-  result.M34 = 0;
-  result.M41 = xPosition;
-  result.M42 = yPosition;
-  result.M43 = zPosition;
-  result.M44 = 1;
-  return result;
+  Matrix4x4 identity = _identity;
+  identity.M41 = xPosition;
+  identity.M42 = yPosition;
+  identity.M43 = zPosition;
+  return identity;
 }
 
 Matrix4x4 Matrix4x4::CreateScale(Single xScale, Single yScale, Single zScale) {
-  Matrix4x4 result;
-  result.M11 = xScale;
-  result.M12 = 0;
-  result.M13 = 0;
-  result.M14 = 0;
-  result.M21 = 0;
-  result.M22 = yScale;
-  result.M23 = 0;
-  result.M24 = 0;
-  result.M31 = 0;
-  result.M32 = 0;
-  result.M33 = zScale;
-  result.M34 = 0;
-  result.M41 = 0;
-  result.M42 = 0;
-  result.M43 = 0;
-  result.M44 = 1;
-  return result;
+  Matrix4x4 identity = _identity;
+  identity.M11 = xScale;
+  identity.M22 = yScale;
+  identity.M33 = zScale;
+  return identity;
 }
 
 Matrix4x4 Matrix4x4::CreateScale(Single xScale, Single yScale, Single zScale, Vector3 centerPoint) {
+  Matrix4x4 identity = _identity;
   Single m = centerPoint.X * (1 - xScale);
   Single m2 = centerPoint.Y * (1 - yScale);
   Single m3 = centerPoint.Z * (1 - zScale);
-  Matrix4x4 result;
-  result.M11 = xScale;
-  result.M12 = 0;
-  result.M13 = 0;
-  result.M14 = 0;
-  result.M21 = 0;
-  result.M22 = yScale;
-  result.M23 = 0;
-  result.M24 = 0;
-  result.M31 = 0;
-  result.M32 = 0;
-  result.M33 = zScale;
-  result.M34 = 0;
-  result.M41 = m;
-  result.M42 = m2;
-  result.M43 = m3;
-  result.M44 = 1;
-  return result;
+  identity.M11 = xScale;
+  identity.M22 = yScale;
+  identity.M33 = zScale;
+  identity.M41 = m;
+  identity.M42 = m2;
+  identity.M43 = m3;
+  return identity;
 }
 
 Matrix4x4 Matrix4x4::CreateScale(Vector3 scales) {
-  Matrix4x4 result;
-  result.M11 = scales.X;
-  result.M12 = 0;
-  result.M13 = 0;
-  result.M14 = 0;
-  result.M21 = 0;
-  result.M22 = scales.Y;
-  result.M23 = 0;
-  result.M24 = 0;
-  result.M31 = 0;
-  result.M32 = 0;
-  result.M33 = scales.Z;
-  result.M34 = 0;
-  result.M41 = 0;
-  result.M42 = 0;
-  result.M43 = 0;
-  result.M44 = 1;
-  return result;
+  Matrix4x4 identity = _identity;
+  identity.M11 = scales.X;
+  identity.M22 = scales.Y;
+  identity.M33 = scales.Z;
+  return identity;
 }
 
 Matrix4x4 Matrix4x4::CreateScale(Vector3 scales, Vector3 centerPoint) {
+  Matrix4x4 identity = _identity;
   Single m = centerPoint.X * (1 - scales.X);
   Single m2 = centerPoint.Y * (1 - scales.Y);
   Single m3 = centerPoint.Z * (1 - scales.Z);
-  Matrix4x4 result;
-  result.M11 = scales.X;
-  result.M12 = 0;
-  result.M13 = 0;
-  result.M14 = 0;
-  result.M21 = 0;
-  result.M22 = scales.Y;
-  result.M23 = 0;
-  result.M24 = 0;
-  result.M31 = 0;
-  result.M32 = 0;
-  result.M33 = scales.Z;
-  result.M34 = 0;
-  result.M41 = m;
-  result.M42 = m2;
-  result.M43 = m3;
-  result.M44 = 1;
-  return result;
+  identity.M11 = scales.X;
+  identity.M22 = scales.Y;
+  identity.M33 = scales.Z;
+  identity.M41 = m;
+  identity.M42 = m2;
+  identity.M43 = m3;
+  return identity;
 }
 
 Matrix4x4 Matrix4x4::CreateScale(Single scale) {
-  Matrix4x4 result;
-  result.M11 = scale;
-  result.M12 = 0;
-  result.M13 = 0;
-  result.M14 = 0;
-  result.M21 = 0;
-  result.M22 = scale;
-  result.M23 = 0;
-  result.M24 = 0;
-  result.M31 = 0;
-  result.M32 = 0;
-  result.M33 = scale;
-  result.M34 = 0;
-  result.M41 = 0;
-  result.M42 = 0;
-  result.M43 = 0;
-  result.M44 = 1;
-  return result;
+  Matrix4x4 identity = _identity;
+  identity.M11 = scale;
+  identity.M22 = scale;
+  identity.M33 = scale;
+  return identity;
 }
 
 Matrix4x4 Matrix4x4::CreateScale(Single scale, Vector3 centerPoint) {
+  Matrix4x4 identity = _identity;
   Single m = centerPoint.X * (1 - scale);
   Single m2 = centerPoint.Y * (1 - scale);
   Single m3 = centerPoint.Z * (1 - scale);
-  Matrix4x4 result;
-  result.M11 = scale;
-  result.M12 = 0;
-  result.M13 = 0;
-  result.M14 = 0;
-  result.M21 = 0;
-  result.M22 = scale;
-  result.M23 = 0;
-  result.M24 = 0;
-  result.M31 = 0;
-  result.M32 = 0;
-  result.M33 = scale;
-  result.M34 = 0;
-  result.M41 = m;
-  result.M42 = m2;
-  result.M43 = m3;
-  result.M44 = 1;
-  return result;
+  identity.M11 = scale;
+  identity.M22 = scale;
+  identity.M33 = scale;
+  identity.M41 = m;
+  identity.M42 = m2;
+  identity.M43 = m3;
+  return identity;
 }
 
 Matrix4x4 Matrix4x4::CreateRotationX(Single radians) {
+  Matrix4x4 identity = _identity;
   Single num = MathF::Cos(radians);
   Single num2 = MathF::Sin(radians);
-  Matrix4x4 result;
-  result.M11 = 1;
-  result.M12 = 0;
-  result.M13 = 0;
-  result.M14 = 0;
-  result.M21 = 0;
-  result.M22 = num;
-  result.M23 = num2;
-  result.M24 = 0;
-  result.M31 = 0;
-  result.M32 = 0 - num2;
-  result.M33 = num;
-  result.M34 = 0;
-  result.M41 = 0;
-  result.M42 = 0;
-  result.M43 = 0;
-  result.M44 = 1;
-  return result;
+  identity.M22 = num;
+  identity.M23 = num2;
+  identity.M32 = 0 - num2;
+  identity.M33 = num;
+  return identity;
 }
 
 Matrix4x4 Matrix4x4::CreateRotationX(Single radians, Vector3 centerPoint) {
+  Matrix4x4 identity = _identity;
   Single num = MathF::Cos(radians);
   Single num2 = MathF::Sin(radians);
   Single m = centerPoint.Y * (1 - num) + centerPoint.Z * num2;
   Single m2 = centerPoint.Z * (1 - num) - centerPoint.Y * num2;
-  Matrix4x4 result;
-  result.M11 = 1;
-  result.M12 = 0;
-  result.M13 = 0;
-  result.M14 = 0;
-  result.M21 = 0;
-  result.M22 = num;
-  result.M23 = num2;
-  result.M24 = 0;
-  result.M31 = 0;
-  result.M32 = 0 - num2;
-  result.M33 = num;
-  result.M34 = 0;
-  result.M41 = 0;
-  result.M42 = m;
-  result.M43 = m2;
-  result.M44 = 1;
-  return result;
+  identity.M22 = num;
+  identity.M23 = num2;
+  identity.M32 = 0 - num2;
+  identity.M33 = num;
+  identity.M42 = m;
+  identity.M43 = m2;
+  return identity;
 }
 
 Matrix4x4 Matrix4x4::CreateRotationY(Single radians) {
+  Matrix4x4 identity = _identity;
   Single num = MathF::Cos(radians);
   Single num2 = MathF::Sin(radians);
-  Matrix4x4 result;
-  result.M11 = num;
-  result.M12 = 0;
-  result.M13 = 0 - num2;
-  result.M14 = 0;
-  result.M21 = 0;
-  result.M22 = 1;
-  result.M23 = 0;
-  result.M24 = 0;
-  result.M31 = num2;
-  result.M32 = 0;
-  result.M33 = num;
-  result.M34 = 0;
-  result.M41 = 0;
-  result.M42 = 0;
-  result.M43 = 0;
-  result.M44 = 1;
-  return result;
+  identity.M11 = num;
+  identity.M13 = 0 - num2;
+  identity.M31 = num2;
+  identity.M33 = num;
+  return identity;
 }
 
 Matrix4x4 Matrix4x4::CreateRotationY(Single radians, Vector3 centerPoint) {
+  Matrix4x4 identity = _identity;
   Single num = MathF::Cos(radians);
   Single num2 = MathF::Sin(radians);
   Single m = centerPoint.X * (1 - num) - centerPoint.Z * num2;
   Single m2 = centerPoint.Z * (1 - num) + centerPoint.X * num2;
-  Matrix4x4 result;
-  result.M11 = num;
-  result.M12 = 0;
-  result.M13 = 0 - num2;
-  result.M14 = 0;
-  result.M21 = 0;
-  result.M22 = 1;
-  result.M23 = 0;
-  result.M24 = 0;
-  result.M31 = num2;
-  result.M32 = 0;
-  result.M33 = num;
-  result.M34 = 0;
-  result.M41 = m;
-  result.M42 = 0;
-  result.M43 = m2;
-  result.M44 = 1;
-  return result;
+  identity.M11 = num;
+  identity.M13 = 0 - num2;
+  identity.M31 = num2;
+  identity.M33 = num;
+  identity.M41 = m;
+  identity.M43 = m2;
+  return identity;
 }
 
 Matrix4x4 Matrix4x4::CreateRotationZ(Single radians) {
+  Matrix4x4 identity = _identity;
   Single num = MathF::Cos(radians);
   Single num2 = MathF::Sin(radians);
-  Matrix4x4 result;
-  result.M11 = num;
-  result.M12 = num2;
-  result.M13 = 0;
-  result.M14 = 0;
-  result.M21 = 0 - num2;
-  result.M22 = num;
-  result.M23 = 0;
-  result.M24 = 0;
-  result.M31 = 0;
-  result.M32 = 0;
-  result.M33 = 1;
-  result.M34 = 0;
-  result.M41 = 0;
-  result.M42 = 0;
-  result.M43 = 0;
-  result.M44 = 1;
-  return result;
+  identity.M11 = num;
+  identity.M12 = num2;
+  identity.M21 = 0 - num2;
+  identity.M22 = num;
+  return identity;
 }
 
 Matrix4x4 Matrix4x4::CreateRotationZ(Single radians, Vector3 centerPoint) {
+  Matrix4x4 identity = _identity;
   Single num = MathF::Cos(radians);
   Single num2 = MathF::Sin(radians);
   Single m = centerPoint.X * (1 - num) + centerPoint.Y * num2;
   Single m2 = centerPoint.Y * (1 - num) - centerPoint.X * num2;
-  Matrix4x4 result;
-  result.M11 = num;
-  result.M12 = num2;
-  result.M13 = 0;
-  result.M14 = 0;
-  result.M21 = 0 - num2;
-  result.M22 = num;
-  result.M23 = 0;
-  result.M24 = 0;
-  result.M31 = 0;
-  result.M32 = 0;
-  result.M33 = 1;
-  result.M34 = 0;
-  result.M41 = m;
-  result.M42 = m2;
-  result.M43 = 0;
-  result.M44 = 1;
-  return result;
+  identity.M11 = num;
+  identity.M12 = num2;
+  identity.M21 = 0 - num2;
+  identity.M22 = num;
+  identity.M41 = m;
+  identity.M42 = m2;
+  return identity;
 }
 
 Matrix4x4 Matrix4x4::CreateFromAxisAngle(Vector3 axis, Single angle) {
@@ -475,24 +318,17 @@ Matrix4x4 Matrix4x4::CreateFromAxisAngle(Vector3 axis, Single angle) {
   Single num6 = x * y;
   Single num7 = x * z;
   Single num8 = y * z;
-  Matrix4x4 result;
-  result.M11 = num3 + num2 * (1 - num3);
-  result.M12 = num6 - num2 * num6 + num * z;
-  result.M13 = num7 - num2 * num7 - num * y;
-  result.M14 = 0;
-  result.M21 = num6 - num2 * num6 - num * z;
-  result.M22 = num4 + num2 * (1 - num4);
-  result.M23 = num8 - num2 * num8 + num * x;
-  result.M24 = 0;
-  result.M31 = num7 - num2 * num7 + num * y;
-  result.M32 = num8 - num2 * num8 - num * x;
-  result.M33 = num5 + num2 * (1 - num5);
-  result.M34 = 0;
-  result.M41 = 0;
-  result.M42 = 0;
-  result.M43 = 0;
-  result.M44 = 1;
-  return result;
+  Matrix4x4 identity = _identity;
+  identity.M11 = num3 + num2 * (1 - num3);
+  identity.M12 = num6 - num2 * num6 + num * z;
+  identity.M13 = num7 - num2 * num7 - num * y;
+  identity.M21 = num6 - num2 * num6 - num * z;
+  identity.M22 = num4 + num2 * (1 - num4);
+  identity.M23 = num8 - num2 * num8 + num * x;
+  identity.M31 = num7 - num2 * num7 + num * y;
+  identity.M32 = num8 - num2 * num8 - num * x;
+  identity.M33 = num5 + num2 * (1 - num5);
+  return identity;
 }
 
 Matrix4x4 Matrix4x4::CreatePerspectiveFieldOfView(Single fieldOfView, Single aspectRatio, Single nearPlaneDistance, Single farPlaneDistance) {
@@ -570,83 +406,67 @@ Matrix4x4 Matrix4x4::CreatePerspectiveOffCenter(Single left, Single right, Singl
 }
 
 Matrix4x4 Matrix4x4::CreateOrthographic(Single width, Single height, Single zNearPlane, Single zFarPlane) {
-  Matrix4x4 result;
-  result.M11 = 2 / width;
-  result.M12 = (result.M13 = (result.M14 = 0));
-  result.M22 = 2 / height;
-  result.M21 = (result.M23 = (result.M24 = 0));
-  result.M33 = 1 / (zNearPlane - zFarPlane);
-  result.M31 = (result.M32 = (result.M34 = 0));
-  result.M41 = (result.M42 = 0);
-  result.M43 = zNearPlane / (zNearPlane - zFarPlane);
-  result.M44 = 1;
-  return result;
+  Matrix4x4 identity = _identity;
+  identity.M11 = 2 / width;
+  identity.M22 = 2 / height;
+  identity.M33 = 1 / (zNearPlane - zFarPlane);
+  identity.M43 = zNearPlane / (zNearPlane - zFarPlane);
+  return identity;
 }
 
 Matrix4x4 Matrix4x4::CreateOrthographicOffCenter(Single left, Single right, Single bottom, Single top, Single zNearPlane, Single zFarPlane) {
-  Matrix4x4 result;
-  result.M11 = 2 / (right - left);
-  result.M12 = (result.M13 = (result.M14 = 0));
-  result.M22 = 2 / (top - bottom);
-  result.M21 = (result.M23 = (result.M24 = 0));
-  result.M33 = 1 / (zNearPlane - zFarPlane);
-  result.M31 = (result.M32 = (result.M34 = 0));
-  result.M41 = (left + right) / (left - right);
-  result.M42 = (top + bottom) / (bottom - top);
-  result.M43 = zNearPlane / (zNearPlane - zFarPlane);
-  result.M44 = 1;
-  return result;
+  Matrix4x4 identity = _identity;
+  identity.M11 = 2 / (right - left);
+  identity.M22 = 2 / (top - bottom);
+  identity.M33 = 1 / (zNearPlane - zFarPlane);
+  identity.M41 = (left + right) / (left - right);
+  identity.M42 = (top + bottom) / (bottom - top);
+  identity.M43 = zNearPlane / (zNearPlane - zFarPlane);
+  return identity;
 }
 
 Matrix4x4 Matrix4x4::CreateLookAt(Vector3 cameraPosition, Vector3 cameraTarget, Vector3 cameraUpVector) {
   Vector3 vector = Vector3::Normalize(cameraPosition - cameraTarget);
   Vector3 vector2 = Vector3::Normalize(Vector3::Cross(cameraUpVector, vector));
   Vector3 vector3 = Vector3::Cross(vector, vector2);
-  Matrix4x4 result;
-  result.M11 = vector2.X;
-  result.M12 = vector3.X;
-  result.M13 = vector.X;
-  result.M14 = 0;
-  result.M21 = vector2.Y;
-  result.M22 = vector3.Y;
-  result.M23 = vector.Y;
-  result.M24 = 0;
-  result.M31 = vector2.Z;
-  result.M32 = vector3.Z;
-  result.M33 = vector.Z;
-  result.M34 = 0;
-  result.M41 = 0 - Vector3::Dot(vector2, cameraPosition);
-  result.M42 = 0 - Vector3::Dot(vector3, cameraPosition);
-  result.M43 = 0 - Vector3::Dot(vector, cameraPosition);
-  result.M44 = 1;
-  return result;
+  Matrix4x4 identity = _identity;
+  identity.M11 = vector2.X;
+  identity.M12 = vector3.X;
+  identity.M13 = vector.X;
+  identity.M21 = vector2.Y;
+  identity.M22 = vector3.Y;
+  identity.M23 = vector.Y;
+  identity.M31 = vector2.Z;
+  identity.M32 = vector3.Z;
+  identity.M33 = vector.Z;
+  identity.M41 = 0 - Vector3::Dot(vector2, cameraPosition);
+  identity.M42 = 0 - Vector3::Dot(vector3, cameraPosition);
+  identity.M43 = 0 - Vector3::Dot(vector, cameraPosition);
+  return identity;
 }
 
 Matrix4x4 Matrix4x4::CreateWorld(Vector3 position, Vector3 forward, Vector3 up) {
   Vector3 vector = Vector3::Normalize(-forward);
   Vector3 vector2 = Vector3::Normalize(Vector3::Cross(up, vector));
   Vector3 vector3 = Vector3::Cross(vector, vector2);
-  Matrix4x4 result;
-  result.M11 = vector2.X;
-  result.M12 = vector2.Y;
-  result.M13 = vector2.Z;
-  result.M14 = 0;
-  result.M21 = vector3.X;
-  result.M22 = vector3.Y;
-  result.M23 = vector3.Z;
-  result.M24 = 0;
-  result.M31 = vector.X;
-  result.M32 = vector.Y;
-  result.M33 = vector.Z;
-  result.M34 = 0;
-  result.M41 = position.X;
-  result.M42 = position.Y;
-  result.M43 = position.Z;
-  result.M44 = 1;
-  return result;
+  Matrix4x4 identity = _identity;
+  identity.M11 = vector2.X;
+  identity.M12 = vector2.Y;
+  identity.M13 = vector2.Z;
+  identity.M21 = vector3.X;
+  identity.M22 = vector3.Y;
+  identity.M23 = vector3.Z;
+  identity.M31 = vector.X;
+  identity.M32 = vector.Y;
+  identity.M33 = vector.Z;
+  identity.M41 = position.X;
+  identity.M42 = position.Y;
+  identity.M43 = position.Z;
+  return identity;
 }
 
 Matrix4x4 Matrix4x4::CreateFromQuaternion(Quaternion quaternion) {
+  Matrix4x4 identity = _identity;
   Single num = quaternion.X * quaternion.X;
   Single num2 = quaternion.Y * quaternion.Y;
   Single num3 = quaternion.Z * quaternion.Z;
@@ -656,24 +476,16 @@ Matrix4x4 Matrix4x4::CreateFromQuaternion(Quaternion quaternion) {
   Single num7 = quaternion.Y * quaternion.W;
   Single num8 = quaternion.Y * quaternion.Z;
   Single num9 = quaternion.X * quaternion.W;
-  Matrix4x4 result;
-  result.M11 = 1 - 2 * (num2 + num3);
-  result.M12 = 2 * (num4 + num5);
-  result.M13 = 2 * (num6 - num7);
-  result.M14 = 0;
-  result.M21 = 2 * (num4 - num5);
-  result.M22 = 1 - 2 * (num3 + num);
-  result.M23 = 2 * (num8 + num9);
-  result.M24 = 0;
-  result.M31 = 2 * (num6 + num7);
-  result.M32 = 2 * (num8 - num9);
-  result.M33 = 1 - 2 * (num2 + num);
-  result.M34 = 0;
-  result.M41 = 0;
-  result.M42 = 0;
-  result.M43 = 0;
-  result.M44 = 1;
-  return result;
+  identity.M11 = 1 - 2 * (num2 + num3);
+  identity.M12 = 2 * (num4 + num5);
+  identity.M13 = 2 * (num6 - num7);
+  identity.M21 = 2 * (num4 - num5);
+  identity.M22 = 1 - 2 * (num3 + num);
+  identity.M23 = 2 * (num8 + num9);
+  identity.M31 = 2 * (num6 + num7);
+  identity.M32 = 2 * (num8 - num9);
+  identity.M33 = 1 - 2 * (num2 + num);
+  return identity;
 }
 
 Matrix4x4 Matrix4x4::CreateFromYawPitchRoll(Single yaw, Single pitch, Single roll) {
@@ -688,24 +500,21 @@ Matrix4x4 Matrix4x4::CreateShadow(Vector3 lightDirection, Plane plane) {
   Single num3 = 0 - plane2.Normal.Y;
   Single num4 = 0 - plane2.Normal.Z;
   Single num5 = 0 - plane2.D;
-  Matrix4x4 result;
-  result.M11 = num2 * lightDirection.X + num;
-  result.M21 = num3 * lightDirection.X;
-  result.M31 = num4 * lightDirection.X;
-  result.M41 = num5 * lightDirection.X;
-  result.M12 = num2 * lightDirection.Y;
-  result.M22 = num3 * lightDirection.Y + num;
-  result.M32 = num4 * lightDirection.Y;
-  result.M42 = num5 * lightDirection.Y;
-  result.M13 = num2 * lightDirection.Z;
-  result.M23 = num3 * lightDirection.Z;
-  result.M33 = num4 * lightDirection.Z + num;
-  result.M43 = num5 * lightDirection.Z;
-  result.M14 = 0;
-  result.M24 = 0;
-  result.M34 = 0;
-  result.M44 = num;
-  return result;
+  Matrix4x4 identity = _identity;
+  identity.M11 = num2 * lightDirection.X + num;
+  identity.M21 = num3 * lightDirection.X;
+  identity.M31 = num4 * lightDirection.X;
+  identity.M41 = num5 * lightDirection.X;
+  identity.M12 = num2 * lightDirection.Y;
+  identity.M22 = num3 * lightDirection.Y + num;
+  identity.M32 = num4 * lightDirection.Y;
+  identity.M42 = num5 * lightDirection.Y;
+  identity.M13 = num2 * lightDirection.Z;
+  identity.M23 = num3 * lightDirection.Z;
+  identity.M33 = num4 * lightDirection.Z + num;
+  identity.M43 = num5 * lightDirection.Z;
+  identity.M44 = num;
+  return identity;
 }
 
 Matrix4x4 Matrix4x4::CreateReflection(Plane value) {
@@ -716,24 +525,20 @@ Matrix4x4 Matrix4x4::CreateReflection(Plane value) {
   Single num = -2 * x;
   Single num2 = -2 * y;
   Single num3 = -2 * z;
-  Matrix4x4 result;
-  result.M11 = num * x + 1;
-  result.M12 = num2 * x;
-  result.M13 = num3 * x;
-  result.M14 = 0;
-  result.M21 = num * y;
-  result.M22 = num2 * y + 1;
-  result.M23 = num3 * y;
-  result.M24 = 0;
-  result.M31 = num * z;
-  result.M32 = num2 * z;
-  result.M33 = num3 * z + 1;
-  result.M34 = 0;
-  result.M41 = num * value.D;
-  result.M42 = num2 * value.D;
-  result.M43 = num3 * value.D;
-  result.M44 = 1;
-  return result;
+  Matrix4x4 identity = _identity;
+  identity.M11 = num * x + 1;
+  identity.M12 = num2 * x;
+  identity.M13 = num3 * x;
+  identity.M21 = num * y;
+  identity.M22 = num2 * y + 1;
+  identity.M23 = num3 * y;
+  identity.M31 = num * z;
+  identity.M32 = num2 * z;
+  identity.M33 = num3 * z + 1;
+  identity.M41 = num * value.D;
+  identity.M42 = num2 * value.D;
+  identity.M43 = num3 * value.D;
+  return identity;
 }
 
 Single Matrix4x4::GetDeterminant() {
@@ -766,11 +571,17 @@ Vector128<Single> Matrix4x4::Permute(Vector128<Single> value, Byte control) {
   if (Avx::in::get_IsSupported()) {
     return Avx::in::Permute(value, control);
   }
-  return Sse::in::Shuffle(value, value, control);
+  if (Sse::in::get_IsSupported()) {
+    return Sse::in::Shuffle(value, value, control);
+  }
+  rt::throw_exception<PlatformNotSupportedException>();
 }
 
 Boolean Matrix4x4::Invert(Matrix4x4 matrix, Matrix4x4& result) {
   auto SseImpl = [](Matrix4x4 matrix, Matrix4x4& result) -> Boolean {
+    if (!Sse::in::get_IsSupported()) {
+      rt::throw_exception<PlatformNotSupportedException>();
+    }
     Vector128<Single> left = Sse::in::LoadVector128(&matrix.M11);
     Vector128<Single> right = Sse::in::LoadVector128(&matrix.M21);
     Vector128<Single> left2 = Sse::in::LoadVector128(&matrix.M31);
@@ -1087,15 +898,30 @@ Matrix4x4 Matrix4x4::Transform(Matrix4x4 value, Quaternion rotation) {
 }
 
 Matrix4x4 Matrix4x4::Transpose(Matrix4x4 matrix) {
+  if (AdvSimd::in::Arm64::in::get_IsSupported()) {
+    Vector128<Single> left = AdvSimd::in::LoadVector128(&matrix.M11);
+    Vector128<Single> right = AdvSimd::in::LoadVector128(&matrix.M31);
+    Vector128<Single> left2 = AdvSimd::in::Arm64::in::ZipLow(left, right);
+    Vector128<Single> left3 = AdvSimd::in::Arm64::in::ZipHigh(left, right);
+    Vector128<Single> left4 = AdvSimd::in::LoadVector128(&matrix.M21);
+    Vector128<Single> right2 = AdvSimd::in::LoadVector128(&matrix.M41);
+    Vector128<Single> right3 = AdvSimd::in::Arm64::in::ZipLow(left4, right2);
+    Vector128<Single> right4 = AdvSimd::in::Arm64::in::ZipHigh(left4, right2);
+    AdvSimd::in::Store(&matrix.M11, AdvSimd::in::Arm64::in::ZipLow(left2, right3));
+    AdvSimd::in::Store(&matrix.M21, AdvSimd::in::Arm64::in::ZipHigh(left2, right3));
+    AdvSimd::in::Store(&matrix.M31, AdvSimd::in::Arm64::in::ZipLow(left3, right4));
+    AdvSimd::in::Store(&matrix.M41, AdvSimd::in::Arm64::in::ZipHigh(left3, right4));
+    return matrix;
+  }
   if (Sse::in::get_IsSupported()) {
-    Vector128<Single> left = Sse::in::LoadVector128(&matrix.M11);
-    Vector128<Single> right = Sse::in::LoadVector128(&matrix.M21);
-    Vector128<Single> left2 = Sse::in::LoadVector128(&matrix.M31);
-    Vector128<Single> right2 = Sse::in::LoadVector128(&matrix.M41);
-    Vector128<Single> vector = Sse::in::UnpackLow(left, right);
-    Vector128<Single> vector2 = Sse::in::UnpackLow(left2, right2);
-    Vector128<Single> vector3 = Sse::in::UnpackHigh(left, right);
-    Vector128<Single> vector4 = Sse::in::UnpackHigh(left2, right2);
+    Vector128<Single> left5 = Sse::in::LoadVector128(&matrix.M11);
+    Vector128<Single> right5 = Sse::in::LoadVector128(&matrix.M21);
+    Vector128<Single> left6 = Sse::in::LoadVector128(&matrix.M31);
+    Vector128<Single> right6 = Sse::in::LoadVector128(&matrix.M41);
+    Vector128<Single> vector = Sse::in::UnpackLow(left5, right5);
+    Vector128<Single> vector2 = Sse::in::UnpackLow(left6, right6);
+    Vector128<Single> vector3 = Sse::in::UnpackHigh(left5, right5);
+    Vector128<Single> vector4 = Sse::in::UnpackHigh(left6, right6);
     Sse::in::Store(&matrix.M11, Sse::in::MoveLowToHigh(vector, vector2));
     Sse::in::Store(&matrix.M21, Sse::in::MoveHighToLow(vector2, vector));
     Sse::in::Store(&matrix.M31, Sse::in::MoveLowToHigh(vector3, vector4));
@@ -1123,12 +949,20 @@ Matrix4x4 Matrix4x4::Transpose(Matrix4x4 matrix) {
 }
 
 Matrix4x4 Matrix4x4::Lerp(Matrix4x4 matrix1, Matrix4x4 matrix2, Single amount) {
-  if (Sse::in::get_IsSupported()) {
+  if (AdvSimd::in::get_IsSupported()) {
     Vector128<Single> t = Vector128<>::Create(amount);
-    Sse::in::Store(&matrix1.M11, VectorMath::Lerp(Sse::in::LoadVector128(&matrix1.M11), Sse::in::LoadVector128(&matrix2.M11), t));
-    Sse::in::Store(&matrix1.M21, VectorMath::Lerp(Sse::in::LoadVector128(&matrix1.M21), Sse::in::LoadVector128(&matrix2.M21), t));
-    Sse::in::Store(&matrix1.M31, VectorMath::Lerp(Sse::in::LoadVector128(&matrix1.M31), Sse::in::LoadVector128(&matrix2.M31), t));
-    Sse::in::Store(&matrix1.M41, VectorMath::Lerp(Sse::in::LoadVector128(&matrix1.M41), Sse::in::LoadVector128(&matrix2.M41), t));
+    AdvSimd::in::Store(&matrix1.M11, VectorMath::Lerp(AdvSimd::in::LoadVector128(&matrix1.M11), AdvSimd::in::LoadVector128(&matrix2.M11), t));
+    AdvSimd::in::Store(&matrix1.M21, VectorMath::Lerp(AdvSimd::in::LoadVector128(&matrix1.M21), AdvSimd::in::LoadVector128(&matrix2.M21), t));
+    AdvSimd::in::Store(&matrix1.M31, VectorMath::Lerp(AdvSimd::in::LoadVector128(&matrix1.M31), AdvSimd::in::LoadVector128(&matrix2.M31), t));
+    AdvSimd::in::Store(&matrix1.M41, VectorMath::Lerp(AdvSimd::in::LoadVector128(&matrix1.M41), AdvSimd::in::LoadVector128(&matrix2.M41), t));
+    return matrix1;
+  }
+  if (Sse::in::get_IsSupported()) {
+    Vector128<Single> t2 = Vector128<>::Create(amount);
+    Sse::in::Store(&matrix1.M11, VectorMath::Lerp(Sse::in::LoadVector128(&matrix1.M11), Sse::in::LoadVector128(&matrix2.M11), t2));
+    Sse::in::Store(&matrix1.M21, VectorMath::Lerp(Sse::in::LoadVector128(&matrix1.M21), Sse::in::LoadVector128(&matrix2.M21), t2));
+    Sse::in::Store(&matrix1.M31, VectorMath::Lerp(Sse::in::LoadVector128(&matrix1.M31), Sse::in::LoadVector128(&matrix2.M31), t2));
+    Sse::in::Store(&matrix1.M41, VectorMath::Lerp(Sse::in::LoadVector128(&matrix1.M41), Sse::in::LoadVector128(&matrix2.M41), t2));
     return matrix1;
   }
   Matrix4x4 result;
@@ -1172,6 +1006,13 @@ Matrix4x4 Matrix4x4::Multiply(Matrix4x4 value1, Single value2) {
 }
 
 Matrix4x4 Matrix4x4::op_UnaryNegation(Matrix4x4 value) {
+  if (AdvSimd::in::get_IsSupported()) {
+    AdvSimd::in::Store(&value.M11, AdvSimd::in::Negate(AdvSimd::in::LoadVector128(&value.M11)));
+    AdvSimd::in::Store(&value.M21, AdvSimd::in::Negate(AdvSimd::in::LoadVector128(&value.M21)));
+    AdvSimd::in::Store(&value.M31, AdvSimd::in::Negate(AdvSimd::in::LoadVector128(&value.M31)));
+    AdvSimd::in::Store(&value.M41, AdvSimd::in::Negate(AdvSimd::in::LoadVector128(&value.M41)));
+    return value;
+  }
   if (Sse::in::get_IsSupported()) {
     Vector128<Single> zero = Vector128<Single>::get_Zero();
     Sse::in::Store(&value.M11, Sse::in::Subtract(zero, Sse::in::LoadVector128(&value.M11)));
@@ -1201,6 +1042,13 @@ Matrix4x4 Matrix4x4::op_UnaryNegation(Matrix4x4 value) {
 }
 
 Matrix4x4 Matrix4x4::op_Addition(Matrix4x4 value1, Matrix4x4 value2) {
+  if (AdvSimd::in::get_IsSupported()) {
+    AdvSimd::in::Store(&value1.M11, AdvSimd::in::Add(AdvSimd::in::LoadVector128(&value1.M11), AdvSimd::in::LoadVector128(&value2.M11)));
+    AdvSimd::in::Store(&value1.M21, AdvSimd::in::Add(AdvSimd::in::LoadVector128(&value1.M21), AdvSimd::in::LoadVector128(&value2.M21)));
+    AdvSimd::in::Store(&value1.M31, AdvSimd::in::Add(AdvSimd::in::LoadVector128(&value1.M31), AdvSimd::in::LoadVector128(&value2.M31)));
+    AdvSimd::in::Store(&value1.M41, AdvSimd::in::Add(AdvSimd::in::LoadVector128(&value1.M41), AdvSimd::in::LoadVector128(&value2.M41)));
+    return value1;
+  }
   if (Sse::in::get_IsSupported()) {
     Sse::in::Store(&value1.M11, Sse::in::Add(Sse::in::LoadVector128(&value1.M11), Sse::in::LoadVector128(&value2.M11)));
     Sse::in::Store(&value1.M21, Sse::in::Add(Sse::in::LoadVector128(&value1.M21), Sse::in::LoadVector128(&value2.M21)));
@@ -1229,6 +1077,13 @@ Matrix4x4 Matrix4x4::op_Addition(Matrix4x4 value1, Matrix4x4 value2) {
 }
 
 Matrix4x4 Matrix4x4::op_Subtraction(Matrix4x4 value1, Matrix4x4 value2) {
+  if (AdvSimd::in::get_IsSupported()) {
+    AdvSimd::in::Store(&value1.M11, AdvSimd::in::Subtract(AdvSimd::in::LoadVector128(&value1.M11), AdvSimd::in::LoadVector128(&value2.M11)));
+    AdvSimd::in::Store(&value1.M21, AdvSimd::in::Subtract(AdvSimd::in::LoadVector128(&value1.M21), AdvSimd::in::LoadVector128(&value2.M21)));
+    AdvSimd::in::Store(&value1.M31, AdvSimd::in::Subtract(AdvSimd::in::LoadVector128(&value1.M31), AdvSimd::in::LoadVector128(&value2.M31)));
+    AdvSimd::in::Store(&value1.M41, AdvSimd::in::Subtract(AdvSimd::in::LoadVector128(&value1.M41), AdvSimd::in::LoadVector128(&value2.M41)));
+    return value1;
+  }
   if (Sse::in::get_IsSupported()) {
     Sse::in::Store(&value1.M11, Sse::in::Subtract(Sse::in::LoadVector128(&value1.M11), Sse::in::LoadVector128(&value2.M11)));
     Sse::in::Store(&value1.M21, Sse::in::Subtract(Sse::in::LoadVector128(&value1.M21), Sse::in::LoadVector128(&value2.M21)));
@@ -1257,6 +1112,35 @@ Matrix4x4 Matrix4x4::op_Subtraction(Matrix4x4 value1, Matrix4x4 value2) {
 }
 
 Matrix4x4 Matrix4x4::op_Multiply(Matrix4x4 value1, Matrix4x4 value2) {
+  if (AdvSimd::in::Arm64::in::get_IsSupported()) {
+    Matrix4x4 value3;
+    Unsafe::SkipInit<Matrix4x4>(value3);
+    Vector128<Single> right = AdvSimd::in::LoadVector128(&value1.M11);
+    Vector128<Single> addend = AdvSimd::in::MultiplyBySelectedScalar(AdvSimd::in::LoadVector128(&value2.M11), right, 0);
+    Vector128<Single> addend2 = AdvSimd::in::MultiplyBySelectedScalar(AdvSimd::in::LoadVector128(&value2.M21), right, 1);
+    Vector128<Single> left = AdvSimd::in::Arm64::in::FusedMultiplyAddBySelectedScalar(addend, AdvSimd::in::LoadVector128(&value2.M31), right, 2);
+    Vector128<Single> right2 = AdvSimd::in::Arm64::in::FusedMultiplyAddBySelectedScalar(addend2, AdvSimd::in::LoadVector128(&value2.M41), right, 3);
+    AdvSimd::in::Store(&value3.M11, AdvSimd::in::Add(left, right2));
+    Vector128<Single> right3 = AdvSimd::in::LoadVector128(&value1.M21);
+    addend = AdvSimd::in::MultiplyBySelectedScalar(AdvSimd::in::LoadVector128(&value2.M11), right3, 0);
+    addend2 = AdvSimd::in::MultiplyBySelectedScalar(AdvSimd::in::LoadVector128(&value2.M21), right3, 1);
+    left = AdvSimd::in::Arm64::in::FusedMultiplyAddBySelectedScalar(addend, AdvSimd::in::LoadVector128(&value2.M31), right3, 2);
+    right2 = AdvSimd::in::Arm64::in::FusedMultiplyAddBySelectedScalar(addend2, AdvSimd::in::LoadVector128(&value2.M41), right3, 3);
+    AdvSimd::in::Store(&value3.M21, AdvSimd::in::Add(left, right2));
+    Vector128<Single> right4 = AdvSimd::in::LoadVector128(&value1.M31);
+    addend = AdvSimd::in::MultiplyBySelectedScalar(AdvSimd::in::LoadVector128(&value2.M11), right4, 0);
+    addend2 = AdvSimd::in::MultiplyBySelectedScalar(AdvSimd::in::LoadVector128(&value2.M21), right4, 1);
+    left = AdvSimd::in::Arm64::in::FusedMultiplyAddBySelectedScalar(addend, AdvSimd::in::LoadVector128(&value2.M31), right4, 2);
+    right2 = AdvSimd::in::Arm64::in::FusedMultiplyAddBySelectedScalar(addend2, AdvSimd::in::LoadVector128(&value2.M41), right4, 3);
+    AdvSimd::in::Store(&value3.M31, AdvSimd::in::Add(left, right2));
+    Vector128<Single> right5 = AdvSimd::in::LoadVector128(&value1.M41);
+    addend = AdvSimd::in::MultiplyBySelectedScalar(AdvSimd::in::LoadVector128(&value2.M11), right5, 0);
+    addend2 = AdvSimd::in::MultiplyBySelectedScalar(AdvSimd::in::LoadVector128(&value2.M21), right5, 1);
+    left = AdvSimd::in::Arm64::in::FusedMultiplyAddBySelectedScalar(addend, AdvSimd::in::LoadVector128(&value2.M31), right5, 2);
+    right2 = AdvSimd::in::Arm64::in::FusedMultiplyAddBySelectedScalar(addend2, AdvSimd::in::LoadVector128(&value2.M41), right5, 3);
+    AdvSimd::in::Store(&value3.M41, AdvSimd::in::Add(left, right2));
+    return value3;
+  }
   if (Sse::in::get_IsSupported()) {
     Vector128<Single> vector = Sse::in::LoadVector128(&value1.M11);
     Sse::in::Store(&value1.M11, Sse::in::Add(Sse::in::Add(Sse::in::Multiply(Sse::in::Shuffle(vector, vector, 0), Sse::in::LoadVector128(&value2.M11)), Sse::in::Multiply(Sse::in::Shuffle(vector, vector, 85), Sse::in::LoadVector128(&value2.M21))), Sse::in::Add(Sse::in::Multiply(Sse::in::Shuffle(vector, vector, 170), Sse::in::LoadVector128(&value2.M31)), Sse::in::Multiply(Sse::in::Shuffle(vector, vector, Byte::MaxValue()), Sse::in::LoadVector128(&value2.M41)))));
@@ -1289,12 +1173,20 @@ Matrix4x4 Matrix4x4::op_Multiply(Matrix4x4 value1, Matrix4x4 value2) {
 }
 
 Matrix4x4 Matrix4x4::op_Multiply(Matrix4x4 value1, Single value2) {
-  if (Sse::in::get_IsSupported()) {
+  if (AdvSimd::in::get_IsSupported()) {
     Vector128<Single> right = Vector128<>::Create(value2);
-    Sse::in::Store(&value1.M11, Sse::in::Multiply(Sse::in::LoadVector128(&value1.M11), right));
-    Sse::in::Store(&value1.M21, Sse::in::Multiply(Sse::in::LoadVector128(&value1.M21), right));
-    Sse::in::Store(&value1.M31, Sse::in::Multiply(Sse::in::LoadVector128(&value1.M31), right));
-    Sse::in::Store(&value1.M41, Sse::in::Multiply(Sse::in::LoadVector128(&value1.M41), right));
+    AdvSimd::in::Store(&value1.M11, AdvSimd::in::Multiply(AdvSimd::in::LoadVector128(&value1.M11), right));
+    AdvSimd::in::Store(&value1.M21, AdvSimd::in::Multiply(AdvSimd::in::LoadVector128(&value1.M21), right));
+    AdvSimd::in::Store(&value1.M31, AdvSimd::in::Multiply(AdvSimd::in::LoadVector128(&value1.M31), right));
+    AdvSimd::in::Store(&value1.M41, AdvSimd::in::Multiply(AdvSimd::in::LoadVector128(&value1.M41), right));
+    return value1;
+  }
+  if (Sse::in::get_IsSupported()) {
+    Vector128<Single> right2 = Vector128<>::Create(value2);
+    Sse::in::Store(&value1.M11, Sse::in::Multiply(Sse::in::LoadVector128(&value1.M11), right2));
+    Sse::in::Store(&value1.M21, Sse::in::Multiply(Sse::in::LoadVector128(&value1.M21), right2));
+    Sse::in::Store(&value1.M31, Sse::in::Multiply(Sse::in::LoadVector128(&value1.M31), right2));
+    Sse::in::Store(&value1.M41, Sse::in::Multiply(Sse::in::LoadVector128(&value1.M41), right2));
     return value1;
   }
   Matrix4x4 result;
@@ -1318,6 +1210,12 @@ Matrix4x4 Matrix4x4::op_Multiply(Matrix4x4 value1, Single value2) {
 }
 
 Boolean Matrix4x4::op_Equality(Matrix4x4 value1, Matrix4x4 value2) {
+  if (AdvSimd::in::Arm64::in::get_IsSupported()) {
+    if (VectorMath::Equal(AdvSimd::in::LoadVector128(&value1.M11), AdvSimd::in::LoadVector128(&value2.M11)) && VectorMath::Equal(AdvSimd::in::LoadVector128(&value1.M21), AdvSimd::in::LoadVector128(&value2.M21)) && VectorMath::Equal(AdvSimd::in::LoadVector128(&value1.M31), AdvSimd::in::LoadVector128(&value2.M31))) {
+      return VectorMath::Equal(AdvSimd::in::LoadVector128(&value1.M41), AdvSimd::in::LoadVector128(&value2.M41));
+    }
+    return false;
+  }
   if (Sse::in::get_IsSupported()) {
     if (VectorMath::Equal(Sse::in::LoadVector128(&value1.M11), Sse::in::LoadVector128(&value2.M11)) && VectorMath::Equal(Sse::in::LoadVector128(&value1.M21), Sse::in::LoadVector128(&value2.M21)) && VectorMath::Equal(Sse::in::LoadVector128(&value1.M31), Sse::in::LoadVector128(&value2.M31))) {
       return VectorMath::Equal(Sse::in::LoadVector128(&value1.M41), Sse::in::LoadVector128(&value2.M41));
@@ -1331,6 +1229,12 @@ Boolean Matrix4x4::op_Equality(Matrix4x4 value1, Matrix4x4 value2) {
 }
 
 Boolean Matrix4x4::op_Inequality(Matrix4x4 value1, Matrix4x4 value2) {
+  if (AdvSimd::in::Arm64::in::get_IsSupported()) {
+    if (!VectorMath::NotEqual(AdvSimd::in::LoadVector128(&value1.M11), AdvSimd::in::LoadVector128(&value2.M11)) && !VectorMath::NotEqual(AdvSimd::in::LoadVector128(&value1.M21), AdvSimd::in::LoadVector128(&value2.M21)) && !VectorMath::NotEqual(AdvSimd::in::LoadVector128(&value1.M31), AdvSimd::in::LoadVector128(&value2.M31))) {
+      return VectorMath::NotEqual(AdvSimd::in::LoadVector128(&value1.M41), AdvSimd::in::LoadVector128(&value2.M41));
+    }
+    return true;
+  }
   if (Sse::in::get_IsSupported()) {
     if (!VectorMath::NotEqual(Sse::in::LoadVector128(&value1.M11), Sse::in::LoadVector128(&value2.M11)) && !VectorMath::NotEqual(Sse::in::LoadVector128(&value1.M21), Sse::in::LoadVector128(&value2.M21)) && !VectorMath::NotEqual(Sse::in::LoadVector128(&value1.M31), Sse::in::LoadVector128(&value2.M31))) {
       return VectorMath::NotEqual(Sse::in::LoadVector128(&value1.M41), Sse::in::LoadVector128(&value2.M41));
@@ -1360,7 +1264,24 @@ String Matrix4x4::ToString() {
 }
 
 Int32 Matrix4x4::GetHashCode() {
-  return M11.GetHashCode() + M12.GetHashCode() + M13.GetHashCode() + M14.GetHashCode() + M21.GetHashCode() + M22.GetHashCode() + M23.GetHashCode() + M24.GetHashCode() + M31.GetHashCode() + M32.GetHashCode() + M33.GetHashCode() + M34.GetHashCode() + M41.GetHashCode() + M42.GetHashCode() + M43.GetHashCode() + M44.GetHashCode();
+  HashCode hashCode;
+  hashCode.Add(M11);
+  hashCode.Add(M12);
+  hashCode.Add(M13);
+  hashCode.Add(M14);
+  hashCode.Add(M21);
+  hashCode.Add(M22);
+  hashCode.Add(M23);
+  hashCode.Add(M24);
+  hashCode.Add(M31);
+  hashCode.Add(M32);
+  hashCode.Add(M33);
+  hashCode.Add(M34);
+  hashCode.Add(M41);
+  hashCode.Add(M42);
+  hashCode.Add(M43);
+  hashCode.Add(M44);
+  return hashCode.ToHashCode();
 }
 
 void Matrix4x4::cctor() {
@@ -1368,6 +1289,9 @@ void Matrix4x4::cctor() {
 }
 
 Boolean Matrix4x4::_Invert_g__SseImpl59_0(Matrix4x4 matrix, Matrix4x4& result) {
+  if (!Sse::in::get_IsSupported()) {
+    rt::throw_exception<PlatformNotSupportedException>();
+  }
   Vector128<Single> left = Sse::in::LoadVector128(&matrix.M11);
   Vector128<Single> right = Sse::in::LoadVector128(&matrix.M21);
   Vector128<Single> left2 = Sse::in::LoadVector128(&matrix.M31);

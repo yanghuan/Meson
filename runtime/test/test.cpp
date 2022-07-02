@@ -11,6 +11,7 @@
 #include <System.Private.CoreLib/System/UInt32.h>
 #include <System.Private.CoreLib/System/Int64.h>
 #include <System.Private.CoreLib/System/char.h>
+#include <System.Private.CoreLib/System/Array-dep.h>
 
 #if 0
 #include <System.Private.CoreLib/System/IFormatProvider.h>
@@ -131,14 +132,14 @@ void Test() {
 #endif
 
 using namespace System::Private::CoreLib::System;
+using namespace System::Private::CoreLib::System::Collections;
 
-struct TestAAA {
-  static inline constexpr int a = 10; 
-};
 
 int main() {
-  Int32 a = 0;
-  UInt32 b = (UInt32)a;
+  Array<Object> a = nullptr;
+  ICollection c = a;
+
+
   return 0;
 }
 

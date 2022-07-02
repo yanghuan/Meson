@@ -61,6 +61,7 @@ CLASS(JapaneseCalendar) : public Calendar::in {
   private: static Array<EraInfo> s_japaneseEraInfo;
   public: static Calendar s_defaultInstance;
   public: GregorianCalendarHelper _helper;
+  private: static Array<String> s_abbreviatedEnglishEraNames;
 };
 } // namespace JapaneseCalendarNamespace
 using JapaneseCalendar = JapaneseCalendarNamespace::JapaneseCalendar;

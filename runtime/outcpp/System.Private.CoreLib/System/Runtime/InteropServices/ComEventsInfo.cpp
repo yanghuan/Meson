@@ -3,7 +3,6 @@
 #include <System.Private.CoreLib/System/Runtime/InteropServices/ComEventsInfo-dep.h>
 #include <System.Private.CoreLib/System/Runtime/InteropServices/ComEventsSink-dep.h>
 #include <System.Private.CoreLib/System/Runtime/InteropServices/Marshal-dep.h>
-#include <System.Private.CoreLib/System/Type-dep.h>
 
 namespace System::Private::CoreLib::System::Runtime::InteropServices::ComEventsInfoNamespace {
 void ComEventsInfo___::ctor(Object rcw) {

@@ -11,7 +11,6 @@ namespace System::Private::CoreLib::System::Globalization {
 enum class IcuLocaleDataParts : int32_t;
 namespace IcuLocaleDataNamespace {
 class IcuLocaleData {
-  public: static String LCIDToLocaleName(Int32 culture);
   public: static Int32 GetLocaleDataNumericPart(String cultureName, IcuLocaleDataParts part);
   public: static String GetThreeLetterWindowsLanguageName(String cultureName);
   public: static String GetLocaleDataMappedCulture(String cultureName, IcuLocaleDataParts part);

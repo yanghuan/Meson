@@ -2,7 +2,6 @@
 
 #include <System.Private.CoreLib/System/ArgumentNullException-dep.h>
 #include <System.Private.CoreLib/System/NotImplementedException-dep.h>
-#include <System.Private.CoreLib/System/Type-dep.h>
 
 namespace System::Private::CoreLib::System::WeakReferenceNamespace {
 Boolean WeakReference___<>::get_TrackResurrection() {

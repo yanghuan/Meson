@@ -103,7 +103,14 @@ void Contract::AssertMustUseRewriter(ContractFailureKind kind, String contractKi
   Assembly assembly2 = nullptr;
   for (Int32 i = 0; i < stackTrace->get_FrameCount(); i++) {
     MethodBase method = stackTrace->GetFrame(i)->GetMethod();
-    Assembly assembly3 = (((Object)method != nullptr) ? method->get_DeclaringType() : nullptr)->get_Assembly();
+    Object obj;
+    if ((Object)method == nullptr) {
+      obj = nullptr;
+    } else {
+      Type declaringType = method->get_DeclaringType();
+      obj = (((Object)declaringType != nullptr) ? declaringType->get_Assembly() : nullptr);
+    }
+    Assembly assembly3 = (Assembly)obj;
     if (assembly3 != nullptr && assembly3 != assembly) {
       assembly2 = assembly3;
       break;

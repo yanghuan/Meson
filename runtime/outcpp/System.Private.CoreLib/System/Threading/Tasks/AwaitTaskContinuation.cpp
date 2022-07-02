@@ -12,7 +12,6 @@
 #include <System.Private.CoreLib/System/Threading/Tasks/TaskScheduler-dep.h>
 #include <System.Private.CoreLib/System/Threading/Tasks/TplEventSource-dep.h>
 #include <System.Private.CoreLib/System/Threading/ThreadPool-dep.h>
-#include <System.Private.CoreLib/System/Type-dep.h>
 
 namespace System::Private::CoreLib::System::Threading::Tasks::AwaitTaskContinuationNamespace {
 using namespace System::Diagnostics::Tracing;
@@ -95,11 +94,11 @@ void AwaitTaskContinuation___::ExecuteOfIThreadPoolWorkItem() {
   }
 }
 
-ContextCallback<> AwaitTaskContinuation___::GetInvokeActionCallback() {
+ContextCallback AwaitTaskContinuation___::GetInvokeActionCallback() {
   return s_invokeContextCallback;
 }
 
-void AwaitTaskContinuation___::RunCallback(ContextCallback<> callback, Object state, Task<>& currentTask) {
+void AwaitTaskContinuation___::RunCallback(ContextCallback callback, Object state, Task<>& currentTask) {
   Task<> task = currentTask;
   try {
     if (task != nullptr) {

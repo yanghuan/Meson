@@ -6,7 +6,6 @@
 #include <System.Private.CoreLib/System/CultureAwareComparer-dep.h>
 #include <System.Private.CoreLib/System/Object-dep.h>
 #include <System.Private.CoreLib/System/SR-dep.h>
-#include <System.Private.CoreLib/System/Type-dep.h>
 #include <System.Private.CoreLib/System/UInt32-dep.h>
 
 namespace System::Private::CoreLib::System::CultureAwareComparerNamespace {
@@ -77,6 +76,11 @@ void CultureAwareComparer___::GetObjectData(SerializationInfo info, StreamingCon
   info->AddValue("_compareInfo", _compareInfo);
   info->AddValue("_options", _options);
   info->AddValue("_ignoreCase", (_options & CompareOptions::IgnoreCase) != 0);
+}
+
+void CultureAwareComparer___::cctor() {
+  InvariantCaseSensitiveInstance = rt::newobj<CultureAwareComparer>(CompareInfo::in::Invariant, CompareOptions::None);
+  InvariantIgnoreCaseInstance = rt::newobj<CultureAwareComparer>(CompareInfo::in::Invariant, CompareOptions::IgnoreCase);
 }
 
 } // namespace System::Private::CoreLib::System::CultureAwareComparerNamespace

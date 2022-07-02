@@ -208,11 +208,13 @@ namespace Meson.Compiler {
         };
         var baseType = IdentifierSyntax.Meson.TwoColon(((IdentifierSyntax)type.Name).Generic(IdentifierSyntax.T, node.Name.Generic().WithIn()));
         array.Bases.Add(new BaseSyntax(baseType));
-        AddInterfaces(type, array, new IType[] {
+        var interfaces = new List<IType>() {
           Generator.GetKnownType(KnownTypeCode.IListOfT),
           Generator.GetKnownType(KnownTypeCode.IReadOnlyListOfT),
           Generator.GetKnownType(KnownTypeCode.IReadOnlyCollectionOfT),
-        });
+        };
+        interfaces.AddRange(type.DirectBaseTypes.Skip(1));
+        AddInterfaces(type, array, interfaces);
         parent_.Add(array);
       }
       VisitMembers(type, node);

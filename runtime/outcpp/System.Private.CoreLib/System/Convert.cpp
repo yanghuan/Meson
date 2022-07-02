@@ -8,7 +8,9 @@
 #include <System.Private.CoreLib/System/DBNull-dep.h>
 #include <System.Private.CoreLib/System/Enum-dep.h>
 #include <System.Private.CoreLib/System/FormatException-dep.h>
+#include <System.Private.CoreLib/System/GC-dep.h>
 #include <System.Private.CoreLib/System/Globalization/CultureInfo-dep.h>
+#include <System.Private.CoreLib/System/HexConverter-dep.h>
 #include <System.Private.CoreLib/System/IConvertible.h>
 #include <System.Private.CoreLib/System/IFormattable.h>
 #include <System.Private.CoreLib/System/InvalidCastException-dep.h>
@@ -2345,6 +2347,60 @@ Int32 Convert::FromBase64_ComputeResultLength(Char* inputPtr, Int32 inputLength)
       break;
   }
   return num / 4 * 3 + num2;
+}
+
+Array<Byte> Convert::FromHexString(String s) {
+  if (s == nullptr) {
+    rt::throw_exception<ArgumentNullException>("s");
+  }
+  return FromHexString(MemoryExtensions::AsSpan(s));
+}
+
+Array<Byte> Convert::FromHexString(ReadOnlySpan<Char> chars) {
+  if (chars.get_Length() == 0) {
+    return Array<>::in::Empty<Byte>();
+  }
+  if ((UInt32)chars.get_Length() % 2u != 0) {
+    rt::throw_exception<FormatException>(SR::get_Format_BadHexLength());
+  }
+  Array<Byte> array = GC::AllocateUninitializedArray<Byte>(chars.get_Length() >> 1);
+  if (!HexConverter::TryDecodeFromUtf16(chars, array)) {
+    rt::throw_exception<FormatException>(SR::get_Format_BadHexChar());
+  }
+  return array;
+}
+
+String Convert::ToHexString(Array<Byte> inArray) {
+  if (inArray == nullptr) {
+    rt::throw_exception<ArgumentNullException>("inArray");
+  }
+  return ToHexString(ReadOnlySpan<Byte>(inArray));
+}
+
+String Convert::ToHexString(Array<Byte> inArray, Int32 offset, Int32 length) {
+  if (inArray == nullptr) {
+    rt::throw_exception<ArgumentNullException>("inArray");
+  }
+  if (length < 0) {
+    rt::throw_exception<ArgumentOutOfRangeException>("length", SR::get_ArgumentOutOfRange_Index());
+  }
+  if (offset < 0) {
+    rt::throw_exception<ArgumentOutOfRangeException>("offset", SR::get_ArgumentOutOfRange_GenericPositive());
+  }
+  if (offset > inArray->get_Length() - length) {
+    rt::throw_exception<ArgumentOutOfRangeException>("offset", SR::get_ArgumentOutOfRange_OffsetLength());
+  }
+  return ToHexString(ReadOnlySpan<Byte>(inArray, offset, length));
+}
+
+String Convert::ToHexString(ReadOnlySpan<Byte> bytes) {
+  if (bytes.get_Length() == 0) {
+    return String::in::Empty;
+  }
+  if (bytes.get_Length() > 1073741823) {
+    rt::throw_exception<ArgumentOutOfRangeException>("bytes", SR::get_ArgumentOutOfRange_InputTooLarge());
+  }
+  return HexConverter::ToString(bytes);
 }
 
 void Convert::cctor() {

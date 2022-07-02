@@ -209,10 +209,6 @@ Array<EraInfo> JapaneseCalendar___::IcuGetJapaneseEras() {
   if (!CalendarData::in::EnumCalendarInfo("ja-JP", CalendarId::JAPAN, CalendarDataType::EraNames, calendarData)) {
     return nullptr;
   }
-  Array<String> calendarData2;
-  if (!CalendarData::in::EnumCalendarInfo("en", CalendarId::JAPAN, CalendarDataType::AbbrevEraNames, calendarData2)) {
-    return nullptr;
-  }
   List<EraInfo> list = rt::newobj<List<EraInfo>>();
   Int32 num = 9999;
   Int32 latestJapaneseEra = Interop::Globalization::GetLatestJapaneseEra();
@@ -224,11 +220,23 @@ Array<EraInfo> JapaneseCalendar___::IcuGetJapaneseEras() {
     if (dateTime < s_calendarMinValue) {
       break;
     }
-    list->Add(rt::newobj<EraInfo>(num2, dateTime.get_Year(), dateTime.get_Month(), dateTime.get_Day(), dateTime.get_Year() - 1, 1, num - dateTime.get_Year() + 1, calendarData[num2], GetAbbreviatedEraName(calendarData, num2), calendarData2[num2]));
+    list->Add(rt::newobj<EraInfo>(num2, dateTime.get_Year(), dateTime.get_Month(), dateTime.get_Day(), dateTime.get_Year() - 1, 1, num - dateTime.get_Year() + 1, calendarData[num2], GetAbbreviatedEraName(calendarData, num2), ""));
     num = dateTime.get_Year();
   }
+  Array<String> calendarData2;
+  if (!CalendarData::in::EnumCalendarInfo("ja", CalendarId::JAPAN, CalendarDataType::AbbrevEraNames, calendarData2)) {
+    calendarData2 = s_abbreviatedEnglishEraNames;
+  }
+  if (calendarData2[calendarData2->get_Length() - 1]->get_Length() == 0 || calendarData2[calendarData2->get_Length() - 1][0] > u'\x007f') {
+    calendarData2 = s_abbreviatedEnglishEraNames;
+  }
+  Int32 num3 = ((calendarData2 == s_abbreviatedEnglishEraNames) ? (list->get_Count() - 1) : (calendarData2->get_Length() - 1));
   for (Int32 i = 0; i < list->get_Count(); i++) {
     list[i]->era = list->get_Count() - i;
+    if (num3 < calendarData2->get_Length()) {
+      list[i]->englishEraName = calendarData2[num3];
+    }
+    num3--;
   }
   return list->ToArray();
 }
@@ -326,6 +334,7 @@ EraInfo JapaneseCalendar___::GetEraFromValue(String value, String data) {
 
 void JapaneseCalendar___::cctor() {
   s_calendarMinValue = DateTime(1868, 9, 8);
+  s_abbreviatedEnglishEraNames = rt::newarr<Array<String>>(5);
 }
 
 } // namespace System::Private::CoreLib::System::Globalization::JapaneseCalendarNamespace

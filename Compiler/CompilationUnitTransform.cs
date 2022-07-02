@@ -37,7 +37,7 @@ namespace Meson.Compiler {
       classNamespace.Add(headUsingsSyntax);
 
       var srcUsingsSyntax = new StatementListSyntax();
-      if (root_.Kind != TypeKind.Enum && root_.Kind != TypeKind.Interface) {
+      if (IsSrcExists) {
         CompilationUnit.AddSrcStatement(srcUsingsSyntax);
       }
 
@@ -52,7 +52,7 @@ namespace Meson.Compiler {
         AddForwards(rootNamespace, info.Forwards);
         rootNamespace.Add(classNamespace);
         AddTypeUsingDeclaration(rootNamespace, classNamespace, typeDefinition, types);
-        if (root_.Kind != TypeKind.Interface) {
+        if (IsSrcExists) {
           CompilationUnit.AddReferencesIncludes(root_.Name, info.SrcIncludes.OrderBy(i => i));
           CompilationUnit.AddSrcReferencesIncludes(srcReferences_.Select(i => i.GetReferenceIncludeString(true)).OrderBy(i => i));
           srcUsingsSyntax.AddRange(srcReferences_.Where(i => !root_.IsNamespaceContain(i)).Select(i => i.GetFullNamespace(true, root_, true)).Distinct().OrderBy(i => i).Select(i => new UsingNamespaceOrTypeSyntax(i)));
@@ -63,6 +63,21 @@ namespace Meson.Compiler {
         CheckRefactorNames(headUsingsSyntax, info.ImportTypes);
       }
       CompilationUnit.AddNamespaceClose();
+    }
+
+    private bool IsSrcExists {
+      get {
+        if (root_.Kind == TypeKind.Enum) {
+          return false;
+        }
+
+        if (root_.Kind == TypeKind.Interface) {
+          bool hasBody = root_.Methods.Any(i => i.HasBody);
+          return hasBody;
+        }
+
+        return true;
+      }
     }
 
     private void FillCurrentImportTypes(HashSet<ITypeDefinition> importTypes) {

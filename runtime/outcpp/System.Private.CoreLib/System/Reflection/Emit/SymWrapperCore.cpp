@@ -4,7 +4,6 @@
 #include <System.Private.CoreLib/System/NotSupportedException-dep.h>
 #include <System.Private.CoreLib/System/Reflection/Emit/SymWrapperCore-dep.h>
 #include <System.Private.CoreLib/System/Runtime/InteropServices/Marshal-dep.h>
-#include <System.Private.CoreLib/System/Type-dep.h>
 
 namespace System::Private::CoreLib::System::Reflection::Emit::SymWrapperCoreNamespace {
 using namespace System::Runtime::InteropServices;

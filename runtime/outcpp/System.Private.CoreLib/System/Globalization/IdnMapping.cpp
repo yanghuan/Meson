@@ -8,11 +8,10 @@
 #include <System.Private.CoreLib/System/Globalization/CharUnicodeInfo-dep.h>
 #include <System.Private.CoreLib/System/Globalization/GlobalizationMode-dep.h>
 #include <System.Private.CoreLib/System/Globalization/IdnMapping-dep.h>
+#include <System.Private.CoreLib/System/Globalization/Ordinal-dep.h>
 #include <System.Private.CoreLib/System/Globalization/StrongBidiCategory.h>
 #include <System.Private.CoreLib/System/Int64-dep.h>
 #include <System.Private.CoreLib/System/Math-dep.h>
-#include <System.Private.CoreLib/System/MemoryExtensions-dep.h>
-#include <System.Private.CoreLib/System/ReadOnlySpan-dep.h>
 #include <System.Private.CoreLib/System/Runtime/InteropServices/Marshal-dep.h>
 #include <System.Private.CoreLib/System/SR-dep.h>
 #include <System.Private.CoreLib/System/StringComparison.h>
@@ -145,10 +144,10 @@ Int32 IdnMapping___::GetHashCode() {
 }
 
 String IdnMapping___::GetStringForOutput(String originalString, Char* input, Int32 inputLength, Char* output, Int32 outputLength) {
-  if (originalString->get_Length() != inputLength || !MemoryExtensions::SequenceEqual(ReadOnlySpan<Char>(input, inputLength), ReadOnlySpan<Char>(output, outputLength))) {
-    return rt::newstr<String>(output, 0, outputLength);
+  if (originalString->get_Length() == inputLength && inputLength == outputLength && Ordinal::EqualsIgnoreCase(*input, *output, inputLength)) {
+    return originalString;
   }
-  return originalString;
+  return rt::newstr<String>(output, 0, outputLength);
 }
 
 String IdnMapping___::GetAsciiInvariant(String unicode, Int32 index, Int32 count) {
@@ -344,8 +343,8 @@ String IdnMapping___::PunycodeEncode(String unicode) {
 }
 
 Boolean IdnMapping___::IsDot(Char c) {
-  if (c != u'.' && c != u'。' && c != u'．') {
-    return c == u'｡';
+  if (c != u'.' && c != u'\u3002' && c != u'\uff0e') {
+    return c == u'\uff61';
   }
   return true;
 }

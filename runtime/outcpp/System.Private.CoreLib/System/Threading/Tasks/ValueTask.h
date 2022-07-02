@@ -8,6 +8,7 @@
 
 namespace System::Private::CoreLib::System {
 FORWARD_(Action)
+FORWARD(Exception)
 FORWARD(IEquatable, T)
 FORWARDS(Int32)
 FORWARD(String)
@@ -15,6 +16,9 @@ FORWARD(String)
 namespace System::Private::CoreLib::System::Threading::Tasks::Sources {
 FORWARD_(IValueTaskSource)
 } // namespace System::Private::CoreLib::System::Threading::Tasks::Sources
+namespace System::Private::CoreLib::System::Threading {
+FORWARDS(CancellationToken)
+} // namespace System::Private::CoreLib::System::Threading
 namespace System::Private::CoreLib::System::Runtime::CompilerServices {
 FORWARDS_(ConfiguredValueTaskAwaitable)
 FORWARDS_(ValueTaskAwaiter)
@@ -42,7 +46,7 @@ struct ValueTask<> : public valueType<ValueTask<>> {
     private: IValueTaskSource<> _source;
     private: Int16 _token;
   };
-  public: static Task<> get_CompletedTask();
+  public: static ValueTask<> get_CompletedTask();
   public: Boolean get_IsCompleted();
   public: Boolean get_IsCompletedSuccessfully();
   public: Boolean get_IsFaulted();
@@ -50,6 +54,14 @@ struct ValueTask<> : public valueType<ValueTask<>> {
   public: explicit ValueTask(Task<> task);
   public: explicit ValueTask(IValueTaskSource<> source, Int16 token);
   private: explicit ValueTask(Object obj, Int16 token, Boolean continueOnCapturedContext);
+  public: template <class TResult>
+  static ValueTask<TResult> FromResult(TResult result);
+  public: static ValueTask<> FromCanceled(CancellationToken cancellationToken);
+  public: template <class TResult>
+  static ValueTask<TResult> FromCanceled(CancellationToken cancellationToken);
+  public: static ValueTask<> FromException(Exception exception);
+  public: template <class TResult>
+  static ValueTask<TResult> FromException(Exception exception);
   public: Int32 GetHashCode();
   public: Boolean Equals(Object obj);
   public: Boolean Equals(ValueTask<> other);

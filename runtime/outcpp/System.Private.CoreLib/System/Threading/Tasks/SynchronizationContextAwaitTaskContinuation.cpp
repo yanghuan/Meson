@@ -70,8 +70,8 @@ Action<> SynchronizationContextAwaitTaskContinuation___::GetActionLogDelegate(In
   return {__c__DisplayClass6_, &__c__DisplayClass6_0::in::_GetActionLogDelegate_b__0};
 }
 
-ContextCallback<> SynchronizationContextAwaitTaskContinuation___::GetPostActionCallback() {
-  ContextCallback<> as = s_postActionCallback;
+ContextCallback SynchronizationContextAwaitTaskContinuation___::GetPostActionCallback() {
+  ContextCallback as = s_postActionCallback;
   return as != nullptr ? as : (s_postActionCallback = &PostAction);
 }
 

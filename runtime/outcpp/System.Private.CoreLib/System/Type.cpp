@@ -54,11 +54,11 @@ void Type___::__c___::cctor() {
 void Type___::__c___::ctor() {
 }
 
-Boolean Type___::__c___::_cctor_b__272_0(MemberInfo m, Object c) {
+Boolean Type___::__c___::_cctor_b__273_0(MemberInfo m, Object c) {
   return FilterNameImpl(m, c, StringComparison::Ordinal);
 }
 
-Boolean Type___::__c___::_cctor_b__272_1(MemberInfo m, Object c) {
+Boolean Type___::__c___::_cctor_b__273_1(MemberInfo m, Object c) {
   return FilterNameImpl(m, c, StringComparison::OrdinalIgnoreCase);
 }
 
@@ -458,6 +458,13 @@ Boolean Type___::IsContextfulImpl() {
 
 Boolean Type___::IsMarshalByRefImpl() {
   return false;
+}
+
+Boolean Type___::IsAssignableTo(Type targetType) {
+  if ((Object)targetType == nullptr) {
+    return false;
+  }
+  return targetType->IsAssignableFrom((Type)this);
 }
 
 Boolean Type___::IsValueTypeImpl() {
@@ -1268,8 +1275,8 @@ void Type___::cctor() {
   EmptyTypes = Array<>::in::Empty<Type>();
   Missing = Missing::in::Value;
   FilterAttribute = &FilterAttributeImpl;
-  FilterName = {__c::in::__9, &__c::in::_cctor_b__272_0};
-  FilterNameIgnoreCase = {__c::in::__9, &__c::in::_cctor_b__272_1};
+  FilterName = {__c::in::__9, &__c::in::_cctor_b__273_0};
+  FilterNameIgnoreCase = {__c::in::__9, &__c::in::_cctor_b__273_1};
 }
 
 } // namespace System::Private::CoreLib::System::TypeNamespace

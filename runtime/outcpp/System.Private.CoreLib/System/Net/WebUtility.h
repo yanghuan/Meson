@@ -65,7 +65,6 @@ class WebUtility {
   public: static Array<Byte> UrlDecodeToBytes(Array<Byte> encodedValue, Int32 offset, Int32 count);
   private: static void ConvertSmpToUtf16(UInt32 smpChar, Char& leadingSurrogate, Char& trailingSurrogate);
   private: static Int32 GetNextUnicodeScalarValueFromUtf16Surrogate(ReadOnlySpan<Char> input, Int32& index);
-  private: static Int32 HexToInt(Char h);
   private: static Boolean IsUrlSafeChar(Char ch);
   private: static Boolean ValidateUrlEncodingParameters(Array<Byte> bytes, Int32 offset, Int32 count);
   private: static Int32 IndexOfHtmlDecodingChars(ReadOnlySpan<Char> input);

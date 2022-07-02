@@ -3,6 +3,9 @@
 #include <System.Private.CoreLib/System/Runtime/CompilerServices/AsyncTaskMethodBuilder.h>
 #include <System.Private.CoreLib/System/ValueType.h>
 
+namespace System::Private::CoreLib::System::Threading::Tasks {
+FORWARD_(Task)
+} // namespace System::Private::CoreLib::System::Threading::Tasks
 namespace System::Private::CoreLib::System {
 FORWARD(Exception)
 FORWARD(Object)
@@ -14,7 +17,9 @@ namespace System::Private::CoreLib::System::Runtime::CompilerServices {
 FORWARD(IAsyncStateMachine)
 namespace AsyncVoidMethodBuilderNamespace {
 using namespace System::Threading;
+using namespace System::Threading::Tasks;
 struct AsyncVoidMethodBuilder : public valueType<AsyncVoidMethodBuilder> {
+  private: Task<> get_Task();
   public: Object get_ObjectIdForDebugger();
   public: static AsyncVoidMethodBuilder Create();
   public: template <class TStateMachine>

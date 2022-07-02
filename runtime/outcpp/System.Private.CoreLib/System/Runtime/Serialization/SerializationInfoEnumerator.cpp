@@ -42,7 +42,6 @@ void SerializationInfoEnumerator___::ctor(Array<String> members, Array<Object> i
   _types = types;
   _numItems = numItems - 1;
   _currItem = -1;
-  _current = false;
 }
 
 Boolean SerializationInfoEnumerator___::MoveNext() {

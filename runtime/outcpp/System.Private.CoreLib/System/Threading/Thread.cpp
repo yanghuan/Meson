@@ -276,11 +276,7 @@ ApartmentState Thread___::GetApartmentState() {
 }
 
 Boolean Thread___::TrySetApartmentStateUnchecked(ApartmentState state) {
-  return SetApartmentStateHelper(state, false);
-}
-
-Boolean Thread___::SetApartmentStateHelper(ApartmentState state, Boolean fireMDAOnMismatch) {
-  ApartmentState apartmentState = (ApartmentState)SetApartmentStateNative((Int32)state, fireMDAOnMismatch);
+  ApartmentState apartmentState = (ApartmentState)SetApartmentStateNative((Int32)state);
   if (state == ApartmentState::Unknown && apartmentState == ApartmentState::MTA) {
     return true;
   }

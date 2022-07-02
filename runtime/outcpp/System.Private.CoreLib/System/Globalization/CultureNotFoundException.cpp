@@ -2,7 +2,6 @@
 
 #include <System.Private.CoreLib/System/Globalization/CultureInfo-dep.h>
 #include <System.Private.CoreLib/System/SR-dep.h>
-#include <System.Private.CoreLib/System/Type-dep.h>
 
 namespace System::Private::CoreLib::System::Globalization::CultureNotFoundExceptionNamespace {
 Nullable<Int32> CultureNotFoundException___::get_InvalidCultureId() {

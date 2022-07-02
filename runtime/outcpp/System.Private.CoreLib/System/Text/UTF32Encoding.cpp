@@ -13,7 +13,6 @@
 #include <System.Private.CoreLib/System/Text/EncoderFallbackBuffer-dep.h>
 #include <System.Private.CoreLib/System/Text/EncoderReplacementFallback-dep.h>
 #include <System.Private.CoreLib/System/Text/UTF32Encoding-dep.h>
-#include <System.Private.CoreLib/System/Type-dep.h>
 #include <System.Private.CoreLib/System/UInt32-dep.h>
 
 namespace System::Private::CoreLib::System::Text::UTF32EncodingNamespace {

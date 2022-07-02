@@ -19,7 +19,6 @@
 #include <System.Private.CoreLib/System/Text/Unicode/Utf8Utility-dep.h>
 #include <System.Private.CoreLib/System/Text/UTF8Encoding-dep.h>
 #include <System.Private.CoreLib/System/ThrowHelper-dep.h>
-#include <System.Private.CoreLib/System/Type-dep.h>
 #include <System.Private.CoreLib/System/UInt32-dep.h>
 #include <System.Private.CoreLib/System/UInt64-dep.h>
 

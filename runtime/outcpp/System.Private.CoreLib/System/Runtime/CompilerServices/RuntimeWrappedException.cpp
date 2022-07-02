@@ -1,7 +1,5 @@
 #include "RuntimeWrappedException-dep.h"
 
-#include <System.Private.CoreLib/System/Type-dep.h>
-
 namespace System::Private::CoreLib::System::Runtime::CompilerServices::RuntimeWrappedExceptionNamespace {
 Object RuntimeWrappedException___::get_WrappedException() {
   return _wrappedException;

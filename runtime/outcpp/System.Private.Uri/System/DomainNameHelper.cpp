@@ -95,7 +95,7 @@ Boolean DomainNameHelper::IsValidByIri(Char* name, Int32 pos, Int32& returnedEnd
     ptr2 = ptr;
     num = 0;
     Boolean flag = false;
-    for (; ptr2 < ptr3 && *ptr2 != u'.' && *ptr2 != u'。' && *ptr2 != u'．' && *ptr2 != u'｡'; ptr2++) {
+    for (; ptr2 < ptr3 && *ptr2 != u'.' && *ptr2 != u'\u3002' && *ptr2 != u'\uff0e' && *ptr2 != u'\uff61'; ptr2++) {
       num++;
       if (*ptr2 > u'ÿ') {
         num++;
@@ -194,7 +194,7 @@ String DomainNameHelper::UnicodeEquivalent(Char* hostname, Int32 start, Int32 en
         flag = false;
         allAscii = false;
       }
-      if (c == u'.' || c == u'。' || c == u'．' || c == u'｡') {
+      if (c == u'.' || c == u'\u3002' || c == u'\uff0e' || c == u'\uff61') {
         flag4 = true;
         break;
       }

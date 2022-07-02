@@ -4,7 +4,6 @@
 #include <System.Private.CoreLib/System/ArgumentNullException-dep.h>
 #include <System.Private.CoreLib/System/Enum-dep.h>
 #include <System.Private.CoreLib/System/SR-dep.h>
-#include <System.Private.CoreLib/System/Type-dep.h>
 
 namespace System::Private::CoreLib::System::Resources::NeutralResourcesLanguageAttributeNamespace {
 void NeutralResourcesLanguageAttribute___::ctor(String cultureName) {

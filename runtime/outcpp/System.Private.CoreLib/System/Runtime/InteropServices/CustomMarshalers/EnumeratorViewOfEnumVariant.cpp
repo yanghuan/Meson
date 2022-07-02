@@ -39,6 +39,8 @@ void EnumeratorViewOfEnumVariant___::Reset() {
   if (num < 0) {
     Marshal::ThrowExceptionForHR(num);
   }
+  _fetchedLastObject = false;
+  _current = nullptr;
 }
 
 Object EnumeratorViewOfEnumVariant___::GetUnderlyingObject() {

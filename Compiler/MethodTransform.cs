@@ -850,13 +850,8 @@ namespace Meson.Compiler {
     }
 
     public SyntaxNode VisitTypeOfExpression(TypeOfExpression typeOfExpression) {
-      var typeTypeName = GetTypeName(Generator.TypeTypeDefinition);
       var typeName = typeOfExpression.Type.AcceptExpression(this);
       ExpressionSyntax typeOf = IdentifierSyntax.Typeof;
-      if (typeTypeName is MemberAccessExpressionSyntax memberAccess) {
-        memberAccess.Name = typeOf;
-        typeOf = memberAccess;
-      }
       return typeOf.Generic(typeName).Invation();
     }
 

@@ -36,8 +36,8 @@ Int32 BitOperations::LeadingZeroCount(UInt32 value) {
   if (value == 0) {
     return 32;
   }
-  if (X86Base::get_IsSupported()) {
-    return (Int32)(31 ^ X86Base::BitScanReverse(value));
+  if (X86Base::in::get_IsSupported()) {
+    return (Int32)(31 ^ X86Base::in::BitScanReverse(value));
   }
   return 31 ^ Log2SoftwareFallback(value);
 }
@@ -49,9 +49,9 @@ Int32 BitOperations::LeadingZeroCount(UInt64 value) {
   if (ArmBase::in::Arm64::in::get_IsSupported()) {
     return ArmBase::in::Arm64::in::LeadingZeroCount(value);
   }
-  if (X86Base::X64::get_IsSupported()) {
+  if (X86Base::in::X64::in::get_IsSupported()) {
     if (value != 0) {
-      return 63 ^ (Int32)X86Base::X64::BitScanReverse(value);
+      return 63 ^ (Int32)X86Base::in::X64::in::BitScanReverse(value);
     }
     return 64;
   }
@@ -70,8 +70,8 @@ Int32 BitOperations::Log2(UInt32 value) {
   if (ArmBase::in::get_IsSupported()) {
     return 31 ^ ArmBase::in::LeadingZeroCount(value);
   }
-  if (X86Base::get_IsSupported()) {
-    return (Int32)X86Base::BitScanReverse(value);
+  if (X86Base::in::get_IsSupported()) {
+    return (Int32)X86Base::in::BitScanReverse(value);
   }
   return Log2SoftwareFallback(value);
 }
@@ -84,8 +84,8 @@ Int32 BitOperations::Log2(UInt64 value) {
   if (ArmBase::in::Arm64::in::get_IsSupported()) {
     return 63 ^ ArmBase::in::Arm64::in::LeadingZeroCount(value);
   }
-  if (X86Base::X64::get_IsSupported()) {
-    return (Int32)X86Base::X64::BitScanReverse(value);
+  if (X86Base::in::X64::in::get_IsSupported()) {
+    return (Int32)X86Base::in::X64::in::BitScanReverse(value);
   }
   UInt32 num = (UInt32)(value >> 32);
   if (num == 0) {
@@ -114,7 +114,7 @@ Int32 BitOperations::PopCount(UInt32 value) {
     return (Int32)Popcnt::in::PopCount(value);
   }
   if (AdvSimd::in::Arm64::in::get_IsSupported()) {
-    Vector64<UInt64> vector = Vector64<>::Create((UInt64)value);
+    Vector64<UInt32> vector = Vector64<>::CreateScalar(value);
     Vector64<Byte> vector2 = AdvSimd::in::Arm64::in::AddAcross(AdvSimd::in::PopCount(Vector64<>::AsByte(vector)));
     return Vector64<>::ToScalar(vector2);
   }
@@ -153,8 +153,8 @@ Int32 BitOperations::TrailingZeroCount(UInt32 value) {
   if (value == 0) {
     return 32;
   }
-  if (X86Base::get_IsSupported()) {
-    return (Int32)X86Base::BitScanForward(value);
+  if (X86Base::in::get_IsSupported()) {
+    return (Int32)X86Base::in::BitScanForward(value);
   }
   return Unsafe::AddByteOffset(MemoryMarshal::GetReference(get_TrailingZeroCountDeBruijn()), (IntPtr)(Int32)((value & (0 - value)) * 125613361 >> 27));
 }
@@ -170,9 +170,9 @@ Int32 BitOperations::TrailingZeroCount(UInt64 value) {
   if (ArmBase::in::Arm64::in::get_IsSupported()) {
     return ArmBase::in::Arm64::in::LeadingZeroCount(ArmBase::in::Arm64::in::ReverseElementBits(value));
   }
-  if (X86Base::X64::get_IsSupported()) {
+  if (X86Base::in::X64::in::get_IsSupported()) {
     if (value != 0) {
-      return (Int32)X86Base::X64::BitScanForward(value);
+      return (Int32)X86Base::in::X64::in::BitScanForward(value);
     }
     return 64;
   }

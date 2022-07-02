@@ -6,7 +6,6 @@
 #include <System.Private.CoreLib/System/NotSupportedException-dep.h>
 #include <System.Private.CoreLib/System/SR-dep.h>
 #include <System.Private.CoreLib/System/String-dep.h>
-#include <System.Private.CoreLib/System/Type-dep.h>
 #include <System.Private.CoreLib/System/UnitySerializationHolder-dep.h>
 
 namespace System::Private::CoreLib::System::UnitySerializationHolderNamespace {

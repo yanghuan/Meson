@@ -8,6 +8,9 @@
 
 namespace System::Private::CoreLib::System::Runtime::Serialization {
 FORWARD(IDeserializationCallback)
+FORWARD(ISerializable)
+FORWARD(SerializationInfo)
+FORWARDS(StreamingContext)
 } // namespace System::Private::CoreLib::System::Runtime::Serialization
 namespace System::Private::CoreLib::System {
 enum class MidpointRounding : int32_t;
@@ -39,7 +42,7 @@ namespace DecimalNamespace {
 using namespace System::Globalization;
 using namespace System::Runtime::Serialization;
 struct Decimal : public valueType<Decimal> {
-  public: using interface = rt::TypeList<IFormattable, IComparable<>, IConvertible, IComparable<Decimal>, IEquatable<Decimal>, IDeserializationCallback, ISpanFormattable>;
+  public: using interface = rt::TypeList<IFormattable, IComparable<>, IConvertible, IComparable<Decimal>, IEquatable<Decimal>, ISpanFormattable, ISerializable, IDeserializationCallback>;
   private: struct DecCalc : public valueType<DecCalc> {
     private: struct Buf24 : public valueType<Buf24> {
       public: UInt64 get_Low64();
@@ -135,7 +138,7 @@ struct Decimal : public valueType<Decimal> {
     private: UInt32 uhi;
     private: UInt32 ulo;
     private: UInt32 umid;
-    private: UInt64 ulomidLE;
+    private: UInt64 ulomid;
     private: static Array<UInt32> s_powers10;
     private: static Array<UInt64> s_ulongPowers10;
     private: static Array<Double> s_doublePowers10;
@@ -154,6 +157,8 @@ struct Decimal : public valueType<Decimal> {
   public: explicit Decimal(UInt64 value);
   public: explicit Decimal(Single value);
   public: explicit Decimal(Double value);
+  private: explicit Decimal(SerializationInfo info, StreamingContext context);
+  private: void GetObjectDataOfISerializable(SerializationInfo info, StreamingContext context);
   public: static Decimal FromOACurrency(Int64 cy);
   public: static Int64 ToOACurrency(Decimal value);
   private: static Boolean IsValid(Int32 flags);
@@ -276,10 +281,9 @@ struct Decimal : public valueType<Decimal> {
   public: static UInt32 DecDivMod1E9(Decimal& value);
   public: static void cctor();
   public: explicit Decimal() {}
-  private: Int32 flags;
-  private: Int32 hi;
-  private: Int32 lo;
-  private: Int32 mid;
+  private: Int32 _flags;
+  private: UInt32 _hi32;
+  private: UInt64 _lo64;
 };
 } // namespace DecimalNamespace
 using Decimal = DecimalNamespace::Decimal;

@@ -4,7 +4,6 @@
 #include <System.Private.CoreLib/System/Reflection/Emit/OpCode-dep.h>
 #include <System.Private.CoreLib/System/Reflection/Emit/OpCodeValues.h>
 #include <System.Private.CoreLib/System/Threading/Volatile-dep.h>
-#include <System.Private.CoreLib/System/Type-dep.h>
 #include <System.Private.CoreLib/System/UInt16-dep.h>
 
 namespace System::Private::CoreLib::System::Reflection::Emit::OpCodeNamespace {

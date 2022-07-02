@@ -51,6 +51,7 @@ class CharUnicodeInfo {
   public: static Double GetNumericValue(Char ch);
   public: static Double GetNumericValue(Int32 codePoint);
   public: static Double GetNumericValue(String s, Int32 index);
+  public: static Double GetNumericValueInternal(String s, Int32 index);
   private: static Double GetNumericValueNoBoundsCheck(UInt32 codePoint);
   public: static UnicodeCategory GetUnicodeCategory(Char ch);
   public: static UnicodeCategory GetUnicodeCategory(Int32 codePoint);

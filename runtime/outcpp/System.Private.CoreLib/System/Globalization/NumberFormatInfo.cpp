@@ -10,7 +10,6 @@
 #include <System.Private.CoreLib/System/Globalization/UnicodeCategory.h>
 #include <System.Private.CoreLib/System/InvalidOperationException-dep.h>
 #include <System.Private.CoreLib/System/SR-dep.h>
-#include <System.Private.CoreLib/System/Type-dep.h>
 #include <System.Private.CoreLib/System/UInt32-dep.h>
 
 namespace System::Private::CoreLib::System::Globalization::NumberFormatInfoNamespace {

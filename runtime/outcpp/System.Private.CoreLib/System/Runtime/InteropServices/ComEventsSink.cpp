@@ -9,7 +9,6 @@
 #include <System.Private.CoreLib/System/Runtime/InteropServices/Marshal-dep.h>
 #include <System.Private.CoreLib/System/Runtime/InteropServices/VarEnum.h>
 #include <System.Private.CoreLib/System/Span-dep.h>
-#include <System.Private.CoreLib/System/Type-dep.h>
 
 namespace System::Private::CoreLib::System::Runtime::InteropServices::ComEventsSinkNamespace {
 using namespace System::Runtime::InteropServices::ComTypes;

@@ -43,7 +43,6 @@
 #include <System.Private.CoreLib/System/Threading/Tasks/TaskStatus.h>
 #include <System.Private.CoreLib/System/Threading/Tasks/TaskToApm-dep.h>
 #include <System.Private.CoreLib/System/Threading/ThreadPoolBoundHandle-dep.h>
-#include <System.Private.CoreLib/System/Type-dep.h>
 #include <System.Private.CoreLib/System/UInt64-dep.h>
 #include <System.Private.CoreLib/System/UnauthorizedAccessException-dep.h>
 
@@ -793,7 +792,7 @@ ValueTask<Int32> FileStream___::ReadAsync(Memory<Byte> buffer, CancellationToken
     return Stream::in::ReadAsync(buffer, cancellationToken);
   }
   if (cancellationToken.get_IsCancellationRequested()) {
-    return ValueTask<Int32>(Task<>::in::FromCanceled<Int32>(cancellationToken));
+    return ValueTask<>::FromCanceled<Int32>(cancellationToken);
   }
   if (get_IsClosed()) {
     rt::throw_exception(Error::GetFileNotOpen());
@@ -879,7 +878,7 @@ ValueTask<> FileStream___::WriteAsync(ReadOnlyMemory<Byte> buffer, CancellationT
     return Stream::in::WriteAsync(buffer, cancellationToken);
   }
   if (cancellationToken.get_IsCancellationRequested()) {
-    return ValueTask<>(Task<>::in::FromCanceled<Int32>(cancellationToken));
+    return ValueTask<>::FromCanceled(cancellationToken);
   }
   if (get_IsClosed()) {
     rt::throw_exception(Error::GetFileNotOpen());
@@ -1887,7 +1886,6 @@ void FileStream___::VerifyHandleIsSync(SafeFileHandle handle) {
 }
 
 void FileStream___::cctor() {
-  s_cachedSerializationSwitch = 0;
   s_ioCallback = &FileStreamCompletionSource::in::IOCallback;
 }
 

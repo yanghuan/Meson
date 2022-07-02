@@ -547,27 +547,37 @@ namespace Meson.Compiler {
     }
 
     private static string DecodeCharacter(char ch) {
-      switch (ch) {
-        case '\0':
-          return "\\0";
-        case '\a':
-          return "\\a";
-        case '\b':
-          return "\\b";
-        case '\f':
-          return "\\f";
-        case '\n':
-          return "\\n";
-        case '\r':
-          return "\\r";
-        case '\v':
-          return "\\v";
-        case '\\':
-          return "\\\\";
-        case '\'':
-          return "\\'";
+      if (ch < 128) {
+        switch (ch) {
+          case '\0':
+            return "\\0";
+          case '\a':
+            return "\\a";
+          case '\b':
+            return "\\b";
+          case '\f':
+            return "\\f";
+          case '\n':
+            return "\\n";
+          case '\r':
+            return "\\r";
+          case '\v':
+            return "\\v";
+          case '\\':
+            return "\\\\";
+          case '\'':
+            return "\\'";
+          default:
+            return ch.ToString();
+        }
+      } else {
+        if (char.IsLetter(ch)) {
+          return ch.ToString();
+        }
+
+        int c = ch;
+        return $"\\u{c:x}";
       }
-      return ch.ToString();
     }
 
     private static string DecodeCharacters(string s) {

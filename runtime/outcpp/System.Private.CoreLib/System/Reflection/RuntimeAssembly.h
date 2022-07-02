@@ -90,8 +90,8 @@ CLASS(RuntimeAssembly) : public Assembly::in {
   public: Boolean get_IsDynamic();
   public: void ctor();
   public: IntPtr GetUnderlyingNativeHandle();
-  private: static void GetCodeBase(QCallAssembly assembly, Boolean copiedName, StringHandleOnStack retString);
-  public: String GetCodeBase(Boolean copiedName);
+  private: static Boolean GetCodeBase(QCallAssembly assembly, StringHandleOnStack retString);
+  public: String GetCodeBase();
   public: RuntimeAssembly GetNativeHandle();
   public: AssemblyName GetName(Boolean copiedName);
   private: static void GetFullName(QCallAssembly assembly, StringHandleOnStack retString);

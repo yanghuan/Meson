@@ -13,7 +13,7 @@ namespace System::Private::CoreLib::System::Threading::Tasks {
 FORWARDS(VoidTaskResult)
 } // namespace System::Private::CoreLib::System::Threading::Tasks
 namespace System::Private::CoreLib::System::Threading {
-FORWARD_(ContextCallback)
+FORWARD(ContextCallback)
 FORWARD(ExecutionContext)
 FORWARD(Thread)
 } // namespace System::Private::CoreLib::System::Threading
@@ -56,7 +56,7 @@ struct AsyncTaskMethodBuilder<TResult> : public valueType<AsyncTaskMethodBuilder
     private: IAsyncStateMachine GetStateMachineObjectOfIAsyncStateMachineBox();
     public: void ctor();
     public: static void cctor();
-    private: static ContextCallback<> s_callback;
+    private: static ContextCallback s_callback;
     private: Action<> _moveNextAction;
     public: TStateMachine StateMachine;
     public: ExecutionContext Context;

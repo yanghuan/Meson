@@ -7,6 +7,7 @@
 #include <System.Private.CoreLib/System/GC-dep.h>
 #include <System.Private.CoreLib/System/Int64-dep.h>
 #include <System.Private.CoreLib/System/Runtime/CompilerServices/MethodTable-dep.h>
+#include <System.Private.CoreLib/System/Runtime/CompilerServices/PortableTailCallFrame-dep.h>
 #include <System.Private.CoreLib/System/Runtime/CompilerServices/QCallTypeHandle-dep.h>
 #include <System.Private.CoreLib/System/Runtime/CompilerServices/RawArrayData-dep.h>
 #include <System.Private.CoreLib/System/Runtime/CompilerServices/RawData-dep.h>
@@ -94,6 +95,27 @@ IntPtr RuntimeHelpers::AllocateTypeAssociatedMemory(Type type, Int32 size) {
     rt::throw_exception<ArgumentOutOfRangeException>("size");
   }
   return AllocateTypeAssociatedMemoryInternal(QCallTypeHandle(type2), (UInt32)size);
+}
+
+void RuntimeHelpers::DispatchTailCalls(IntPtr callersRetAddrSlot, rt::fp<void (*)(IntPtr, IntPtr, IntPtr*)> callTarget, IntPtr retVal) {
+  IntPtr value;
+  TailCallTls* tailCallInfo = GetTailCallInfo(callersRetAddrSlot, &value);
+  PortableTailCallFrame* frame = tailCallInfo->Frame;
+  if (value == frame->TailCallAwareReturnAddress) {
+    frame->NextCall = callTarget;
+    return;
+  }
+  PortableTailCallFrame portableTailCallFrame;
+  portableTailCallFrame.Prev = frame;
+  try {
+    tailCallInfo->Frame = &portableTailCallFrame;
+  } catch (...) {
+  } finally: {
+    tailCallInfo->Frame = frame;
+    if (tailCallInfo->ArgBuffer != IntPtr::Zero && *(Int32*)(void*)tailCallInfo->ArgBuffer == 1) {
+      *(Int32*)(void*)tailCallInfo->ArgBuffer = 2;
+    }
+  }
 }
 
 Object RuntimeHelpers::GetUninitializedObject(Type type) {

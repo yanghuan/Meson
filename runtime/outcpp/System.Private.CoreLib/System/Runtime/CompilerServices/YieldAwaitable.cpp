@@ -12,7 +12,6 @@
 #include <System.Private.CoreLib/System/Threading/Tasks/TaskScheduler-dep.h>
 #include <System.Private.CoreLib/System/Threading/Tasks/TplEventSource-dep.h>
 #include <System.Private.CoreLib/System/Threading/ThreadPool-dep.h>
-#include <System.Private.CoreLib/System/Type-dep.h>
 
 namespace System::Private::CoreLib::System::Runtime::CompilerServices::YieldAwaitableNamespace {
 using namespace System::Diagnostics::Tracing;

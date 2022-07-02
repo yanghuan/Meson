@@ -8,7 +8,7 @@ FORWARD(SerializationInfo)
 FORWARDS(StreamingContext)
 } // namespace System::Private::CoreLib::System::Runtime::Serialization
 namespace System::Private::CoreLib::System::Threading {
-FORWARD_(ContextCallback)
+FORWARD(ContextCallback)
 namespace CompressedStackNamespace {
 using namespace System::Runtime::Serialization;
 CLASS(CompressedStack) : public object {
@@ -18,7 +18,7 @@ CLASS(CompressedStack) : public object {
   public: static CompressedStack Capture();
   public: CompressedStack CreateCopy();
   public: static CompressedStack GetCompressedStack();
-  public: static void Run(CompressedStack compressedStack, ContextCallback<> callback, Object state);
+  public: static void Run(CompressedStack compressedStack, ContextCallback callback, Object state);
 };
 } // namespace CompressedStackNamespace
 using CompressedStack = CompressedStackNamespace::CompressedStack;

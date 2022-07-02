@@ -19,6 +19,7 @@ namespace System::Private::CoreLib::System::Runtime::InteropServices::CustomMars
 namespace EnumeratorViewOfEnumVariantNamespace {
 using namespace System::Collections;
 using namespace System::Runtime::InteropServices::ComTypes;
+using IEnumerator = Collections::IEnumerator;
 CLASS(EnumeratorViewOfEnumVariant) : public object {
   public: using interface = rt::TypeList<ICustomAdapter, IEnumerator>;
   public: Object get_Current();

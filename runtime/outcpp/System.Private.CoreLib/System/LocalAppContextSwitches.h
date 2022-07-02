@@ -8,6 +8,7 @@ FORWARDS(Int32)
 FORWARD(String)
 namespace LocalAppContextSwitchesNamespace {
 class LocalAppContextSwitches {
+  public: static Boolean get_EnableUnsafeUTF7Encoding();
   public: static Boolean get_EnforceJapaneseEraYearRanges();
   public: static Boolean get_FormatJapaneseFirstYearAsANumber();
   public: static Boolean get_EnforceLegacyJapaneseDateParsing();
@@ -16,6 +17,7 @@ class LocalAppContextSwitches {
   public: static Boolean GetCachedSwitchValue(String switchName, Int32& cachedSwitchValue);
   private: static Boolean GetCachedSwitchValueInternal(String switchName, Int32& cachedSwitchValue);
   private: static Boolean GetSwitchDefaultValue(String switchName);
+  private: static Int32 s_enableUnsafeUTF7Encoding;
   private: static Int32 s_enforceJapaneseEraYearRanges;
   private: static Int32 s_formatJapaneseFirstYearAsANumber;
   private: static Int32 s_enforceLegacyJapaneseDateParsing;

@@ -26,24 +26,24 @@ void TypeInfo___::_GetDeclaredMethods_d__10___::DisposeOfIDisposable() {
 
 Boolean TypeInfo___::_GetDeclaredMethods_d__10___::MoveNext() {
   Int32 num = __1__state;
-  TypeInfo typeInfo = __4__this;
+  TypeInfo type = __4__this;
   if (num != 0) {
     if (num != 1) {
       return false;
     }
     __1__state = -1;
-    goto IL_006d;
+    goto IL_006b;
   }
   __1__state = -1;
-  __7__wrap1 = typeInfo->GetMethods(BindingFlags::DeclaredOnly | BindingFlags::Instance | BindingFlags::Static | BindingFlags::Public | BindingFlags::NonPublic);
+  __7__wrap1 = _GetDeclaredMethods_g__GetDeclaredOnlyMethods10_0(type);
   __7__wrap2 = 0;
-  goto IL_007b;
+  goto IL_0079;
 
-IL_006d:
+IL_006b:
   __7__wrap2++;
-  goto IL_007b;
+  goto IL_0079;
 
-IL_007b:
+IL_0079:
   if (__7__wrap2 < __7__wrap1->get_Length()) {
     MethodInfo methodInfo = __7__wrap1[__7__wrap2];
     if (methodInfo->get_Name() == name) {
@@ -51,7 +51,7 @@ IL_007b:
       __1__state = 1;
       return true;
     }
-    goto IL_006d;
+    goto IL_006b;
   }
   __7__wrap1 = nullptr;
   return false;
@@ -95,13 +95,13 @@ void TypeInfo___::_get_DeclaredNestedTypes_d__22___::DisposeOfIDisposable() {
 
 Boolean TypeInfo___::_get_DeclaredNestedTypes_d__22___::MoveNext() {
   Int32 num = __1__state;
-  TypeInfo typeInfo = __4__this;
+  TypeInfo type = __4__this;
   switch (num.get()) {
     default:
       return false;
     case 0:
       __1__state = -1;
-      __7__wrap1 = typeInfo->GetNestedTypes(BindingFlags::DeclaredOnly | BindingFlags::Instance | BindingFlags::Static | BindingFlags::Public | BindingFlags::NonPublic);
+      __7__wrap1 = _get_DeclaredNestedTypes_g__GetDeclaredOnlyNestedTypes22_0(type);
       __7__wrap2 = 0;
       break;
     case 1:
@@ -110,8 +110,8 @@ Boolean TypeInfo___::_get_DeclaredNestedTypes_d__22___::MoveNext() {
       break;
   }
   if (__7__wrap2 < __7__wrap1->get_Length()) {
-    Type type = __7__wrap1[__7__wrap2];
-    __2__current = IntrospectionExtensions::GetTypeInfo(type);
+    Type type2 = __7__wrap1[__7__wrap2];
+    __2__current = IntrospectionExtensions::GetTypeInfo(type2);
     __1__state = 1;
     return true;
   }
@@ -166,8 +166,11 @@ IEnumerable<MethodInfo> TypeInfo___::get_DeclaredMethods() {
 }
 
 IEnumerable<TypeInfo> TypeInfo___::get_DeclaredNestedTypes() {
-  Array<Type> nestedTypes = GetNestedTypes(BindingFlags::DeclaredOnly | BindingFlags::Instance | BindingFlags::Static | BindingFlags::Public | BindingFlags::NonPublic);
-  for (Type&& type : *nestedTypes) {
+  auto GetDeclaredOnlyNestedTypes = [](Type type) -> Array<Type> {
+    return type->GetNestedTypes(BindingFlags::DeclaredOnly | BindingFlags::Instance | BindingFlags::Static | BindingFlags::Public | BindingFlags::NonPublic);
+  };
+  Array<Type> array = GetDeclaredOnlyNestedTypes((TypeInfo)this);
+  for (Type&& type2 : *array) {
   }
 }
 
@@ -215,8 +218,11 @@ PropertyInfo TypeInfo___::GetDeclaredProperty(String name) {
 }
 
 IEnumerable<MethodInfo> TypeInfo___::GetDeclaredMethods(String name) {
-  Array<MethodInfo> methods = GetMethods(BindingFlags::DeclaredOnly | BindingFlags::Instance | BindingFlags::Static | BindingFlags::Public | BindingFlags::NonPublic);
-  for (MethodInfo&& methodInfo : *methods) {
+  auto GetDeclaredOnlyMethods = [](Type type) -> Array<MethodInfo> {
+    return type->GetMethods(BindingFlags::DeclaredOnly | BindingFlags::Instance | BindingFlags::Static | BindingFlags::Public | BindingFlags::NonPublic);
+  };
+  Array<MethodInfo> array = GetDeclaredOnlyMethods((TypeInfo)this);
+  for (MethodInfo&& methodInfo : *array) {
     if (methodInfo->get_Name() == name) {
     }
   }
@@ -255,6 +261,14 @@ String TypeInfo___::GetRankString(Int32 rank) {
     return "[" + rt::newstr<String>(u',', rank - 1) + "]";
   }
   return "[*]";
+}
+
+Array<MethodInfo> TypeInfo___::_GetDeclaredMethods_g__GetDeclaredOnlyMethods10_0(Type type) {
+  return type->GetMethods(BindingFlags::DeclaredOnly | BindingFlags::Instance | BindingFlags::Static | BindingFlags::Public | BindingFlags::NonPublic);
+}
+
+Array<Type> TypeInfo___::_get_DeclaredNestedTypes_g__GetDeclaredOnlyNestedTypes22_0(Type type) {
+  return type->GetNestedTypes(BindingFlags::DeclaredOnly | BindingFlags::Instance | BindingFlags::Static | BindingFlags::Public | BindingFlags::NonPublic);
 }
 
 } // namespace System::Private::CoreLib::System::Reflection::TypeInfoNamespace

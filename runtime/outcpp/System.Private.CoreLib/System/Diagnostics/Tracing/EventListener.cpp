@@ -15,7 +15,6 @@
 #include <System.Private.CoreLib/System/InvalidOperationException-dep.h>
 #include <System.Private.CoreLib/System/SR-dep.h>
 #include <System.Private.CoreLib/System/Threading/Interlocked-dep.h>
-#include <System.Private.CoreLib/System/Type-dep.h>
 #include <System.Private.CoreLib/System/WeakReference-dep.h>
 
 namespace System::Private::CoreLib::System::Diagnostics::Tracing::EventListenerNamespace {

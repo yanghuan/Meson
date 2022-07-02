@@ -7,7 +7,6 @@
 #include <System.Private.CoreLib/System/MemoryExtensions-dep.h>
 #include <System.Private.CoreLib/System/ObjectDisposedException-dep.h>
 #include <System.Private.CoreLib/System/SR-dep.h>
-#include <System.Private.CoreLib/System/Type-dep.h>
 
 namespace System::Private::CoreLib::System::IO::StringReaderNamespace {
 void StringReader___::ctor(String s) {
@@ -157,7 +156,7 @@ ValueTask<Int32> StringReader___::ReadBlockAsync(Memory<Char> buffer, Cancellati
   if (!cancellationToken.get_IsCancellationRequested()) {
     return ValueTask<Int32>(ReadBlock(buffer.get_Span()));
   }
-  return ValueTask<Int32>(Task<>::in::FromCanceled<Int32>(cancellationToken));
+  return ValueTask<>::FromCanceled<Int32>(cancellationToken);
 }
 
 Task<Int32> StringReader___::ReadAsync(Array<Char> buffer, Int32 index, Int32 count) {
@@ -178,7 +177,7 @@ ValueTask<Int32> StringReader___::ReadAsync(Memory<Char> buffer, CancellationTok
   if (!cancellationToken.get_IsCancellationRequested()) {
     return ValueTask<Int32>(Read(buffer.get_Span()));
   }
-  return ValueTask<Int32>(Task<>::in::FromCanceled<Int32>(cancellationToken));
+  return ValueTask<>::FromCanceled<Int32>(cancellationToken);
 }
 
 } // namespace System::Private::CoreLib::System::IO::StringReaderNamespace

@@ -60,7 +60,7 @@ Object ComparerHelpers::CreateDefaultEqualityComparer(Type type) {
   RuntimeType runtimeType = (RuntimeType)type;
   if (type == typeof<Byte>()) {
     obj = rt::newobj<ByteEqualityComparer>();
-  } else if (typeof<IEquatable<T>>()->MakeGenericType(type)->IsAssignableFrom(type)) {
+  } else if (type->IsAssignableTo(typeof<IEquatable<T>>()->MakeGenericType(type))) {
     obj = RuntimeTypeHandle::CreateInstanceForAnotherGenericParameter((RuntimeType)typeof<GenericEqualityComparer<Int32>>(), runtimeType);
   } else if (type->get_IsGenericType()) {
     if (type->GetGenericTypeDefinition() == typeof<Nullable<T>>()) {

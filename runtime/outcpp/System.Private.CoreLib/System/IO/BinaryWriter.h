@@ -66,6 +66,7 @@ CLASS(BinaryWriter) : public object {
   public: void Write(UInt64 value);
   public: void Write(Single value);
   public: void Write(String value);
+  private: void WriteWhenEncodingIsNotUtf8(String value, Int32 len);
   public: void Write(ReadOnlySpan<Byte> buffer);
   public: void Write(ReadOnlySpan<Char> chars);
   public: void Write7BitEncodedInt(Int32 value);

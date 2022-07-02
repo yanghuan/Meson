@@ -14,7 +14,7 @@ enum class MdSigCallingConvention : uint8_t {
   Field = 6,
   LocalSig = 7,
   Property = 8,
-  Unmgd = 9,
+  Unmanaged = 9,
   GenericInst = 10,
   Generic = 16,
   HasThis = 32,

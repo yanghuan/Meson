@@ -1,7 +1,6 @@
 #include "TypeInitializationException-dep.h"
 
 #include <System.Private.CoreLib/System/Exception-dep.h>
-#include <System.Private.CoreLib/System/Type-dep.h>
 
 namespace System::Private::CoreLib::System::TypeInitializationExceptionNamespace {
 String TypeInitializationException___::get_TypeName() {

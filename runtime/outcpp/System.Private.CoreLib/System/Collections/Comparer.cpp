@@ -7,7 +7,6 @@
 #include <System.Private.CoreLib/System/IComparable.h>
 #include <System.Private.CoreLib/System/SR-dep.h>
 #include <System.Private.CoreLib/System/String-dep.h>
-#include <System.Private.CoreLib/System/Type-dep.h>
 
 namespace System::Private::CoreLib::System::Collections::ComparerNamespace {
 using namespace System::Globalization;

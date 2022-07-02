@@ -3,7 +3,6 @@
 #include <System.Private.CoreLib/System/Environment-dep.h>
 #include <System.Private.CoreLib/System/Exception-dep.h>
 #include <System.Private.CoreLib/System/SR-dep.h>
-#include <System.Private.CoreLib/System/Type-dep.h>
 
 namespace System::Private::CoreLib::System::Runtime::CompilerServices::SwitchExpressionExceptionNamespace {
 String SwitchExpressionException___::get_Message() {

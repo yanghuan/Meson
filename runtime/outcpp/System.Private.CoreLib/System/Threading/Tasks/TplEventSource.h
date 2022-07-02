@@ -17,6 +17,9 @@ namespace System::Private::CoreLib::System::Runtime::CompilerServices {
 FORWARD(IAsyncStateMachineBox)
 } // namespace System::Private::CoreLib::System::Runtime::CompilerServices
 namespace System::Private::CoreLib::System::Threading::Tasks {
+enum class AsyncCausalityStatus : int32_t;
+enum class CausalityRelation : int32_t;
+enum class CausalitySynchronousWork : int32_t;
 namespace TplEventSourceNamespace {
 using namespace System::Diagnostics::Tracing;
 using namespace System::Runtime::CompilerServices;
@@ -39,6 +42,11 @@ CLASS(TplEventSource) : public EventSource::in {
   public: void TaskWaitContinuationComplete(Int32 TaskID);
   public: void TaskWaitContinuationStarted(Int32 TaskID);
   public: void AwaitTaskContinuationScheduled(Int32 OriginatingTaskSchedulerID, Int32 OriginatingTaskID, Int32 ContinueWithTaskId);
+  public: void TraceOperationBegin(Int32 TaskID, String OperationName, Int64 RelatedContext);
+  public: void TraceOperationRelation(Int32 TaskID, CausalityRelation Relation);
+  public: void TraceOperationEnd(Int32 TaskID, AsyncCausalityStatus Status);
+  public: void TraceSynchronousWorkBegin(Int32 TaskID, CausalitySynchronousWork Work);
+  public: void TraceSynchronousWorkEnd(CausalitySynchronousWork Work);
   public: void RunningContinuationList(Int32 TaskID, Int32 Index, Object Object);
   public: void RunningContinuationList(Int32 TaskID, Int32 Index, Int64 Object);
   public: void DebugFacilityMessage(String Facility, String Message);

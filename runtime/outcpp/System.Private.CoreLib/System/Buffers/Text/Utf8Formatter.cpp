@@ -858,11 +858,9 @@ Boolean Utf8Formatter::TryFormat(TimeSpan value, Span<Byte> destination, Int32& 
       goto IL_0082;
     }
   }
-  {
-    UInt64 modulo;
-    num2 = FormattingHelpers::DivMod((UInt64)Math::Abs(value.get_Ticks()), 10000000, modulo);
-    valueWithoutTrailingZeros = (UInt32)modulo;
-  }
+  UInt64 modulo;
+  num2 = FormattingHelpers::DivMod((UInt64)Math::Abs(value.get_Ticks()), 10000000, modulo);
+  valueWithoutTrailingZeros = (UInt32)modulo;
   goto IL_0082;
 
 IL_0082:

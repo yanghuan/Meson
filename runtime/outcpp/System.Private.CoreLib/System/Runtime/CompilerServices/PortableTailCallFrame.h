@@ -8,7 +8,7 @@ namespace PortableTailCallFrameNamespace {
 struct PortableTailCallFrame : public valueType<PortableTailCallFrame> {
   public: PortableTailCallFrame* Prev;
   public: IntPtr TailCallAwareReturnAddress;
-  public: IntPtr NextCall;
+  public: rt::fp<void (*)(IntPtr, IntPtr, IntPtr*)> NextCall;
 };
 } // namespace PortableTailCallFrameNamespace
 using PortableTailCallFrame = PortableTailCallFrameNamespace::PortableTailCallFrame;

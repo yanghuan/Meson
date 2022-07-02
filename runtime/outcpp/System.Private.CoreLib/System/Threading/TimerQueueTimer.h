@@ -10,7 +10,7 @@ namespace System::Private::CoreLib::System::Threading::Tasks {
 FORWARDS_(ValueTask)
 } // namespace System::Private::CoreLib::System::Threading::Tasks
 namespace System::Private::CoreLib::System::Threading {
-FORWARD_(ContextCallback)
+FORWARD(ContextCallback)
 FORWARD(ExecutionContext)
 FORWARD(IThreadPoolWorkItem)
 FORWARD(TimerCallback)
@@ -49,7 +49,7 @@ CLASS(TimerQueueTimer) : public object {
   private: Int32 _callbacksRunning;
   private: Boolean _canceled;
   private: Object _notifyWhenNoCallbacksRunning;
-  private: static ContextCallback<> s_callCallbackInContext;
+  private: static ContextCallback s_callCallbackInContext;
 };
 } // namespace TimerQueueTimerNamespace
 using TimerQueueTimer = TimerQueueTimerNamespace::TimerQueueTimer;

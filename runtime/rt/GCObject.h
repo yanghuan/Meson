@@ -889,12 +889,12 @@ namespace rt {
 
   template <class T, class Base>
   struct ValueOperator<T, Base, TypeCode::Struct> : public Base  {
-    template <class T1, class T2 = T> requires(AlwaysTrue<decltype(T2::op_Equality(T2(), T1()))>) 
+    template <class T1, class T2 = T> //requires(AlwaysTrue<decltype(T2::op_Equality(T2(), T1()))>) 
     auto operator ==(const T1& other) {
       return T::op_Equality(*static_cast<T*>(this), other);
     }
 
-    template <class T1, class T2 = T> requires(AlwaysTrue<decltype(T2::op_Inequality(T2(), T1()))>) 
+    template <class T1, class T2 = T> //requires(AlwaysTrue<decltype(T2::op_Inequality(T2(), T1()))>) 
     auto operator !=(const T1& other) {
       return T::op_Inequality(*static_cast<T*>(this), other);
     }

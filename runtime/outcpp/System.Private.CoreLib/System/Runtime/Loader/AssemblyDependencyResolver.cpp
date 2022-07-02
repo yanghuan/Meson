@@ -72,7 +72,7 @@ void AssemblyDependencyResolver___::ctor(String componentAssemblyPath) {
   _assemblyPaths = rt::newobj<Dictionary<String, String>>(StringComparer::in::get_OrdinalIgnoreCase());
   Array<String> array2 = array;
   for (String&& text : *array2) {
-    _assemblyPaths->Add(Path::GetFileNameWithoutExtension(text), text);
+    _assemblyPaths->TryAdd(Path::GetFileNameWithoutExtension(text), text);
   }
   _nativeSearchPaths = SplitPathsList(__c__DisplayClass6_->nativeSearchPathsList);
   _resourceSearchPaths = SplitPathsList(__c__DisplayClass6_->resourceSearchPathsList);

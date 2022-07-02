@@ -20,6 +20,8 @@ CLASS(OrdinalIgnoreCaseComparer) : public OrdinalComparer::in {
   public: Boolean Equals(String x, String y);
   public: Int32 GetHashCode(String obj);
   public: void GetObjectData(SerializationInfo info, StreamingContext context);
+  public: static void cctor();
+  public: static OrdinalIgnoreCaseComparer Instance;
 };
 } // namespace OrdinalIgnoreCaseComparerNamespace
 using OrdinalIgnoreCaseComparer = OrdinalIgnoreCaseComparerNamespace::OrdinalIgnoreCaseComparer;

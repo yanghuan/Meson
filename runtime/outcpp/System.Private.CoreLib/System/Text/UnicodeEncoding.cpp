@@ -15,7 +15,6 @@
 #include <System.Private.CoreLib/System/Text/EncoderFallbackBuffer-dep.h>
 #include <System.Private.CoreLib/System/Text/EncoderReplacementFallback-dep.h>
 #include <System.Private.CoreLib/System/Text/UnicodeEncoding-dep.h>
-#include <System.Private.CoreLib/System/Type-dep.h>
 #include <System.Private.CoreLib/System/UInt64-dep.h>
 
 namespace System::Private::CoreLib::System::Text::UnicodeEncodingNamespace {
