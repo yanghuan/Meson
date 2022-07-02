@@ -43,7 +43,11 @@ namespace Meson.Compiler {
       }
 
       if (type.DeclaringType == null && type.Name[0] == '<') {
-        return false;
+        if (type.Name == "<Module>") {
+          return false;
+        }
+
+        return true;
       }
 
       if (type.DeclaringType == null && ignoreDefinitionTypes_.Contains(type.FullName)) {

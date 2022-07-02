@@ -851,8 +851,12 @@ namespace Meson.Compiler {
 
     public SyntaxNode VisitTypeOfExpression(TypeOfExpression typeOfExpression) {
       var typeName = typeOfExpression.Type.AcceptExpression(this);
-      ExpressionSyntax typeOf = IdentifierSyntax.Typeof;
-      return typeOf.Generic(typeName).Invation();
+      if (typeName is GenericIdentifierSyntax genericType && typeOfExpression.Type.ToString().EndsWith("<>")) {
+        for (int i = 0; i < genericType.GenericArguments.Count; ++i) {
+          genericType.GenericArguments[i] = IdentifierSyntax.TypeVoid;
+        }
+      }
+      return IdentifierSyntax.Typeof.Generic(typeName).Invation();
     }
 
     public SyntaxNode VisitTypeReferenceExpression(TypeReferenceExpression typeReferenceExpression) {

@@ -186,6 +186,10 @@ namespace Meson.Compiler {
               var field = (IField)symbol;
               if (field.TryGetBackingFieldName(out string backingFieldName)) {
                 symbolName = backingFieldName;
+              } else if (field.IsReadOnly && field.IsStatic) {
+                if (char.IsDigit(symbolName[0])) {
+                  symbolName = '_' + symbolName;
+                }
               }
               break;
             }

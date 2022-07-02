@@ -31,8 +31,10 @@ namespace Meson.Compiler {
       VisitCompilationUnit(types);
     }
 
+    private string RootCheckedName => root_.Name.CheckBadName();
+
     private void VisitCompilationUnit(IEnumerable<ITypeDefinition> types) {
-      var (rootNamespace, classNamespace) = CompilationUnit.AddNamespace(root_.GetFullNamespace(), root_.Name);
+      var (rootNamespace, classNamespace) = CompilationUnit.AddNamespace(root_.GetFullNamespace(), RootCheckedName);
       var headUsingsSyntax = new StatementListSyntax();
       classNamespace.Add(headUsingsSyntax);
 
@@ -53,7 +55,7 @@ namespace Meson.Compiler {
         rootNamespace.Add(classNamespace);
         AddTypeUsingDeclaration(rootNamespace, classNamespace, typeDefinition, types);
         if (IsSrcExists) {
-          CompilationUnit.AddReferencesIncludes(root_.Name, info.SrcIncludes.OrderBy(i => i));
+          CompilationUnit.AddReferencesIncludes(RootCheckedName, info.SrcIncludes.OrderBy(i => i));
           CompilationUnit.AddSrcReferencesIncludes(srcReferences_.Select(i => i.GetReferenceIncludeString(true)).OrderBy(i => i));
           srcUsingsSyntax.AddRange(srcReferences_.Where(i => !root_.IsNamespaceContain(i)).Select(i => i.GetFullNamespace(true, root_, true)).Distinct().OrderBy(i => i).Select(i => new UsingNamespaceOrTypeSyntax(i)));
           if (!srcUsingsSyntax.IsEmpty) {
@@ -110,7 +112,7 @@ namespace Meson.Compiler {
     }
 
     private void AddTypeUsingDeclaration(NamespaceSyntax rootNamespace, NamespaceSyntax classNamespace, TypeDefinitionTransform typeDefinition, IEnumerable<ITypeDefinition> types) {
-      IdentifierSyntax name = root_.Name;
+      IdentifierSyntax name = RootCheckedName;
       ExpressionSyntax type = classNamespace.Name.TwoColon(name);
       TemplateSyntax template;
       if (root_.IsArrayType() || typeDefinition.IsMulti) {

@@ -157,7 +157,7 @@ namespace Meson.Compiler {
         parts = parts.Concat(reference.Namespace.Split('.'));
       }
       string extra = isReference && (reference.Kind != TypeKind.Enum && reference.Kind != TypeKind.Interface) ? kDependExtra : string.Empty;
-      return $"{string.Join('/', parts)}/{reference.Name}{extra}.h";
+      return $"{string.Join('/', parts)}/{reference.Name.CheckBadName()}{extra}.h";
     }
 
     public static IEnumerable<string> GetAllNamespaces(this string ns, string separator) {
@@ -887,7 +887,7 @@ namespace Meson.Compiler {
       if (Tokens.IsReservedWord(name)) {
         name += '一';
         return true;
-      } else if (name.StartsWith('<')) {
+      } else if (name.StartsWith('<') || name.StartsWith("__")) {
         StringBuilder sb = new StringBuilder(name.Length);
         foreach (char ch in name) {
           switch (ch) {
@@ -899,6 +899,7 @@ namespace Meson.Compiler {
               break;
             case '.':
             case '|':
+            case '=':
               break;
             default:
               sb.Append(ch);

@@ -1,6 +1,6 @@
 #include "Hashtable-dep.h"
 
-#include <System.Private.CoreLib/<PrivateImplementationDetails>-dep.h>
+#include <System.Private.CoreLib/_PrivateImplementationDetails_-dep.h>
 #include <System.Private.CoreLib/System/ArgumentException-dep.h>
 #include <System.Private.CoreLib/System/ArgumentNullException-dep.h>
 #include <System.Private.CoreLib/System/ArgumentOutOfRangeException-dep.h>

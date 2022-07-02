@@ -11,7 +11,7 @@ Type Nullable<>::GetUnderlyingType(Type nullableType) {
   }
   if (nullableType->get_IsGenericType() && !nullableType->get_IsGenericTypeDefinition()) {
     Type genericTypeDefinition = nullableType->GetGenericTypeDefinition();
-    if ((Object)genericTypeDefinition == typeof<Nullable<T>>()) {
+    if ((Object)genericTypeDefinition == typeof<Nullable<rt::Void>>()) {
       return nullableType->GetGenericArguments()[0];
     }
   }

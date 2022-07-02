@@ -1194,7 +1194,7 @@ void EventSource___::LogEventArgsMismatches(Int32 eventId, Array<Object> args) {
   for (Int32 i = 0; i < args->get_Length(); i++) {
     Type parameterType = parameters[i]->get_ParameterType();
     Object obj = args[i];
-    if ((obj != nullptr && !parameterType->IsAssignableFrom(obj->GetType())) || (obj == nullptr && parameterType->get_IsValueType() && (!parameterType->get_IsGenericType() || !(parameterType->GetGenericTypeDefinition() == typeof<Nullable<T>>())))) {
+    if ((obj != nullptr && !parameterType->IsAssignableFrom(obj->GetType())) || (obj == nullptr && parameterType->get_IsValueType() && (!parameterType->get_IsGenericType() || !(parameterType->GetGenericTypeDefinition() == typeof<Nullable<rt::Void>>())))) {
       ReportOutOfBandMessage(SR::Format(SR::get_EventSource_VarArgsParameterMismatch(), eventId, parameters[i]->get_Name()));
       break;
     }

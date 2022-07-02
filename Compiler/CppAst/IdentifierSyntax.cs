@@ -34,6 +34,7 @@ namespace Meson.Compiler.CppAst {
     public static readonly IdentifierSyntax Typeof = "typeof";
     public static readonly IdentifierSyntax Using = "rt::Using";
     public static readonly IdentifierSyntax Default = "rt::default__";
+    public static readonly IdentifierSyntax TypeVoid = "rt::Void";
     public static readonly IdentifierSyntax IsEnumType = "std::is_enum_v";
     public static readonly IdentifierSyntax IsPointerType = "std::is_pointer_v";
     public static readonly IdentifierSyntax IsBoolType = "rt::IsBool";

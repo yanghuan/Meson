@@ -2,7 +2,6 @@
 
 #include <System.Private.CoreLib/System/AppContext-dep.h>
 #include <System.Private.CoreLib/System/Resources/MissingManifestResourceException-dep.h>
-#include <System.Private.CoreLib/System/Type-dep.h>
 #include <System.Private.Uri/FxResources/System/Private/Uri/SR-dep.h>
 
 namespace System::Private::Uri::System::SRNamespace {

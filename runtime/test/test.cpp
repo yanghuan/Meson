@@ -135,12 +135,16 @@ using namespace System::Private::CoreLib::System;
 using namespace System::Private::CoreLib::System::Collections;
 
 
-int main() {
-  Array<Object> a = nullptr;
-  ICollection c = a;
 
 
-  return 0;
+void f(Double a) {
+
 }
 
+
+int main() {
+  Single a = 200;
+  f(a);
+  return 0;
+}
 

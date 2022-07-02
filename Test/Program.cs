@@ -12,8 +12,19 @@ namespace Test {
   }
 
    unsafe class Program {
+    static void f(Single a) {
+
+    }
+
+   static void f(Double a) {
+
+    }
+
+
+
+
     static void Main(string[] args) {
-      Console.WriteLine("hello,word");
+      Console.WriteLine(("<hello,word>")[1..^1]);
 
       int aa = char.MaxValue;
       Console.WriteLine($"\\u{aa:x}");
@@ -29,6 +40,7 @@ namespace Test {
     AAA:
 
       Console.WriteLine($"\\u{aa:x}");
+      f(31.14f);
     }
   }
 }

@@ -44,7 +44,7 @@ namespace Meson.Compiler {
     }
 
     private string GetOutFile(string suffix, string extra = "") {
-      return Path.Combine(OutDir, $"{rootType_.Name}{extra}.{suffix}");
+      return Path.Combine(OutDir, $"{rootType_.Name.CheckBadName()}{extra}.{suffix}");
     }
 
     private string HeadFileName => GetOutFile("h");

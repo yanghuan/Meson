@@ -118,7 +118,7 @@ void FieldBuilder___::SetOffset(Int32 iOffset) {
 
 void FieldBuilder___::SetConstant(Object defaultValue) {
   m_typeBuilder->ThrowIfCreated();
-  if (defaultValue == nullptr && m_fieldType->get_IsValueType() && (!m_fieldType->get_IsGenericType() || !(m_fieldType->GetGenericTypeDefinition() == typeof<Nullable<T>>()))) {
+  if (defaultValue == nullptr && m_fieldType->get_IsValueType() && (!m_fieldType->get_IsGenericType() || !(m_fieldType->GetGenericTypeDefinition() == typeof<Nullable<rt::Void>>()))) {
     rt::throw_exception<ArgumentException>(SR::get_Argument_ConstantNull());
   }
   TypeBuilder::in::SetConstantValue(m_typeBuilder->GetModuleBuilder(), GetToken().get_Token(), m_fieldType, defaultValue);

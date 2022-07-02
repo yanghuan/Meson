@@ -4,7 +4,6 @@
 #include <System.Private.CoreLib/System/Collections/Generic/GenericEqualityComparer-dep.h>
 #include <System.Private.CoreLib/System/Collections/Generic/NonRandomizedStringEqualityComparer-dep.h>
 #include <System.Private.CoreLib/System/StringComparer-dep.h>
-#include <System.Private.CoreLib/System/Type-dep.h>
 
 namespace System::Private::CoreLib::System::Collections::Generic::NonRandomizedStringEqualityComparerNamespace {
 void OrdinalComparer___::ctor(IEqualityComparer<String> wrappedComparer) {

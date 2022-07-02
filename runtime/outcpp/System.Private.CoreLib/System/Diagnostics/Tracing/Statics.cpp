@@ -128,10 +128,10 @@ Boolean Statics::HasCustomAttribute(PropertyInfo propInfo, Type attributeType) {
 
 Type Statics::FindEnumerableElementType(Type type) {
   Type type2 = nullptr;
-  if (IsGenericMatch(type, typeof<IEnumerable<T>>())) {
+  if (IsGenericMatch(type, typeof<IEnumerable<rt::Void>>())) {
     type2 = type->GetGenericArguments()[0];
   } else {
-    Array<Type> array = type->FindInterfaces(&IsGenericMatch, typeof<IEnumerable<T>>());
+    Array<Type> array = type->FindInterfaces(&IsGenericMatch, typeof<IEnumerable<rt::Void>>());
     Array<Type> array2 = array;
     for (Type&& type3 : *array2) {
       if (type2 != nullptr) {
@@ -276,7 +276,7 @@ TraceLoggingTypeInfo Statics::CreateDefaultTypeInfo(Type dataType, List<Type> re
   if (dataType == typeof<EmptyStruct>()) {
     return rt::newobj<NullTypeInfo>();
   }
-  if (IsGenericMatch(dataType, typeof<Nullable<T>>())) {
+  if (IsGenericMatch(dataType, typeof<Nullable<rt::Void>>())) {
     return rt::newobj<NullableTypeInfo>(dataType, recursionCheck);
   }
   Type type = FindEnumerableElementType(dataType);
