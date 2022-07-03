@@ -230,6 +230,8 @@ CLASS(Type) : public MemberInfo::in {
   public: Type MakeArrayType(Int32 rank);
   public: Type MakeByRefType();
   public: Type MakeGenericType(Array<Type> typeArguments);
+  public: template <class... Args> 
+  Type MakeGenericType(Args&&... args) { return MakeGenericType(rt::newarr<Array<Type>>(1, std::forward<Args>(args)...)); };
   public: Type MakePointerType();
   public: static Type MakeGenericSignatureType(Type genericTypeDefinition, Array<Type> typeArguments);
   public: static Type MakeGenericMethodParameter(Int32 position);

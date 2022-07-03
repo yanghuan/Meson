@@ -833,6 +833,7 @@ Boolean Utf8Formatter::TryFormatUInt64X(UInt64 value, Byte precision, Boolean us
 
 template <>
 Boolean Utf8Formatter::TryFormat(TimeSpan value, Span<Byte> destination, Int32& bytesWritten, StandardFormat format) {
+  UInt64 modulo = 0;
   Char c = FormattingHelpers::GetSymbolOrDefault(format, u'c');
   switch (c.get()) {
     case u'T':
@@ -858,7 +859,7 @@ Boolean Utf8Formatter::TryFormat(TimeSpan value, Span<Byte> destination, Int32& 
       goto IL_0082;
     }
   }
-  UInt64 modulo;
+
   num2 = FormattingHelpers::DivMod((UInt64)Math::Abs(value.get_Ticks()), 10000000, modulo);
   valueWithoutTrailingZeros = (UInt32)modulo;
   goto IL_0082;

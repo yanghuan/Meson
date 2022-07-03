@@ -95,7 +95,12 @@
         "any": "cpp",
         "resumable": "cpp",
         "ranges": "cpp",
-        "memory_resource": "cpp"
+        "memory_resource": "cpp",
+        "format": "cpp",
+        "clocale": "cpp",
+        "bit": "cpp",
+        "source_location": "cpp",
+        "stop_token": "cpp"
     },
     "git.ignoreLimitWarning": true
 }

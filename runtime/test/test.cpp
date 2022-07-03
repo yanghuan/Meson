@@ -143,6 +143,9 @@ void f(Double a) {
 
 
 int main() {
+  Array<Int32>::newarr(10);
+
+
   Single a = 200;
   f(a);
   return 0;

@@ -881,7 +881,8 @@ void Hashtable___::OnDeserialization(Object sender) {
   SerializationInfoEnumerator enumerator = value->GetEnumerator();
   while (enumerator->MoveNext()) {
     String name = enumerator->get_Name();
-    switch (<PrivateImplementationDetails>::in::ComputeStringHash(name).get()) {
+    UInt32 hash = 123;
+    switch (_PrivateImplementationDetails_::in::ComputeStringHash(name).get()) {
       case 3483216242u:
         if (name == "LoadFactor") {
           _loadFactor = value->GetSingle("LoadFactor");

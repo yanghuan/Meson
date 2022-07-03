@@ -75,7 +75,7 @@ Int32 CultureAwareComparer___::GetHashCode() {
 void CultureAwareComparer___::GetObjectData(SerializationInfo info, StreamingContext context) {
   info->AddValue("_compareInfo", _compareInfo);
   info->AddValue("_options", _options);
-  info->AddValue("_ignoreCase", (_options & CompareOptions::IgnoreCase) != 0);
+  info->AddValue("_ignoreCase", (Boolean)((_options & CompareOptions::IgnoreCase) != 0));
 }
 
 void CultureAwareComparer___::cctor() {

@@ -44,6 +44,8 @@ namespace rt {
   template <class T>
   class ref;
 
+  struct Void {};
+
   struct TypeMetadata {
   };
 
@@ -360,6 +362,11 @@ namespace rt {
     template <class T1> requires(IsEquatable<T, T1>)
     bool operator ==(const ref<T1>& right) const noexcept {
       return p_ == reinterpret_cast<void*>(right.p_);
+    }
+
+    template <class T1 = T> requires(IsString<T1>)
+    bool operator ==(const char* str) const noexcept {
+      return false;
     }
 
     template <class T1> requires(IsEquatable<T, T1>)
@@ -739,6 +746,13 @@ namespace rt {
     }
 
     template <class T1> requires(IsNumerical<T1>) 
+    T operator &=(const T1& other) {
+      auto p = static_cast<T*>(this);
+      p->get() &= GetPrimitiveValue(other);
+      return *p;
+    }
+
+    template <class T1> requires(IsNumerical<T1>) 
     T operator >>=(const T1& other) {
       auto p = static_cast<T*>(this);
       p->get() >>= GetPrimitiveValue(other);
@@ -898,7 +912,43 @@ namespace rt {
     auto operator !=(const T1& other) {
       return T::op_Inequality(*static_cast<T*>(this), other);
     }
-    
+
+    template <class T1, class T2 = T> 
+    auto operator +(const T1& other) {
+      return T::op_Addition(*static_cast<T*>(this), other);
+    }
+
+    template <class T1, class T2 = T> 
+    auto operator -(const T1& other) {
+      return T::op_Subtraction(*static_cast<T*>(this), other);
+    }
+
+    template <class T1, class T2 = T> 
+    auto operator <(const T1& other) {
+      return T::op_LessThan(*static_cast<T*>(this), other);
+    }
+
+    template <class T1, class T2 = T> 
+    auto operator <=(const T1& other) {
+      return T::op_LessThanOrEqual(*static_cast<T*>(this), other);
+    }
+
+    template <class T1, class T2 = T> 
+    auto operator >(const T1& other) {
+      return T::op_GreaterThan(*static_cast<T*>(this), other);
+    }
+
+    template <class T1, class T2 = T> 
+    auto operator >=(const T1& other) {
+      return T::op_GreaterThanOrEqual(*static_cast<T*>(this), other);
+    }
+
+    template <class T1, class T2 = T> 
+    T operator +=(const T1& other) {
+      auto v = T::op_Addition(*static_cast<T*>(this), other);
+      return *static_cast<T*>(this) = v;
+    }
+
 #if defined(__clang__)
     template <class R, class T1 = T> requires(std::is_same_v<R, decltype(T1::op_Implicit(T1()))>)
     operator R() {
@@ -910,6 +960,11 @@ namespace rt {
       return T::op_Implicit(*static_cast<T*>(this));
     }
 #endif
+
+    template <class R> requires(IsInterfaceConvertible<typename R::in, T>)
+    operator R() {
+      return R();
+    }
 
     template <class R, class T1 = T> requires(std::is_same_v<R, decltype(T1::op_Explicit(T1()))>)
     explicit operator R() {
@@ -1208,8 +1263,8 @@ inline constexpr auto operator +(T a, T b) {
   return (T)((int)a + (int)b);
 }
 
-template <class T> requires(std::is_enum_v<T>) 
-inline constexpr auto operator -(T a, T b) { 
+template <class T, class T1> requires(std::is_enum_v<T>) 
+inline constexpr auto operator -(T a, T1 b) { 
   return (T)((int)a - (int)b);
 }
 
